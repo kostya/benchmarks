@@ -12,9 +12,9 @@ echo Nimrod
 ../xtime.rb ./brainfuck_nim bench.b
 echo Scala
 ../xtime.rb scala BrainFuck bench.b
-echo V8 Javascript
+echo Javascript V8
 ../xtime.rb d8 brainfuck.d8.js
-echo Node
+echo Javascript Node
 ../xtime.rb nodejs brainfuck.js bench.b
 echo Python Pypy
 ../xtime.rb pypy brainfuck.py bench.b
