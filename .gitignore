@@ -1,0 +1,9 @@
+brainfuck_*
+.crystal
+*.swp
+*.class
+*.yml
+nimcache
+*.o
+*.a
+*.so
