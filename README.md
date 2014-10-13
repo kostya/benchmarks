@@ -1,1 +1,1 @@
-# Some benchmark of different languages
+# Some benchmarks of different languages
