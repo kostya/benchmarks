@@ -17,10 +17,10 @@ echo V8 Javascript
 echo Node
 ../xtime.rb nodejs brainfuck.js bench.b
 echo Python Pypy
-../xtime.rb /home/kostya/python/pypy/pypy-c brainfuck.py bench.b
+../xtime.rb pypy brainfuck.py bench.b
 echo Python
 ../xtime.rb python brainfuck.py bench.b
 echo Ruby
 ../xtime.rb ruby brainfuck.rb bench.b
 echo Ruby Topaz
-../xtime.rb /home/kostya/python/topaz/bin/topaz brainfuck.rb bench.b
+../xtime.rb topaz brainfuck.rb bench.b
