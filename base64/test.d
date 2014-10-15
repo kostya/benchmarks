@@ -21,6 +21,7 @@ int main(string[] args){
   writeln("encode: ", s, ", ", (Clock.currTime() - t).total!"msecs"() / 1000.0);
 
   s = 0;
+  t = Clock.currTime();
   for (int i = 0; i < TRIES; i++) {
     s += Base64.decode(str2).length;
   }
