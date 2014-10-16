@@ -22,3 +22,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 
 * [Brainfuck](https://github.com/kostya/benchmarks/tree/master/brainfuck)
 * [Base64](https://github.com/kostya/benchmarks/tree/master/base64)
+* [Json](https://github.com/kostya/benchmarks/tree/master/json)
