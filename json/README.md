@@ -13,6 +13,6 @@ To run all: `sh run.sh`
 | --------------- | ------- | ---------- |
 | Crystal Pull    | 1.48    | 1.2        |
 | Crystal         | 1.96    | 814.3      |
-| Ruby            | 8.19    | 1644.3     |
 | Javascript Node | 5.24    | 624.2      |
+| Ruby            | 8.19    | 1644.3     |
 
