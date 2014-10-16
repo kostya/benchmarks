@@ -8,3 +8,5 @@ nimcache
 *.o
 *.a
 *.so
+*.json
+*.swp
