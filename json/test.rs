@@ -8,7 +8,7 @@ pub struct Coordinate {
     x: f64,
     y: f64,
     z: f64,
-    t: (i32, i32, i32, String) 
+    t: (i32, i32, i32, String)
 }
 
 #[deriving(Decodable, Encodable)]
@@ -29,7 +29,7 @@ fn main() {
   for coordinate in decoded.coordinates.iter() {
     x += coordinate.x;
     y += coordinate.y;
-    z += coordinate.z;    
+    z += coordinate.z;
   }
 
   let len = decoded.coordinates.len() as f64;

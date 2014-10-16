@@ -86,20 +86,9 @@ func (p Program) Run() {
   }
 }
 
-func FileRead(filename string) (result string, err error) {
-  file, err := os.Open(filename)
-  if err != nil { return }
-
-  Code, err := ioutil.ReadAll(file)
-  if err != nil { return }
-
-  result = string(Code)
-  return
-}
-
 func main() {
-  Code, err := FileRead(os.Args[1])
+  Code, err := ioutil.ReadFile(os.Args[1])
   if err != nil { panic(fmt.Sprintf("%v", err)) }
 
-  NewProgram(Code).Run()
+  NewProgram(string(Code)).Run()
 }

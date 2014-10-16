@@ -13,4 +13,4 @@ for coord in parsed['coordinates']:
 l = len(parsed['coordinates'])
 print(x / l)
 print(y / l)
-print(z / l) 
+print(z / l)

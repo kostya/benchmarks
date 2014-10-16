@@ -1,7 +1,7 @@
 echo Crystal
 ../xtime.rb ./json_cr
 echo Crystal Pull
-../xtime.rb ./json_pull_cr 
+../xtime.rb ./json_pull_cr
 echo Crystal Schema
 ../xtime.rb ./json_schema_cr
 echo Javascript Node
