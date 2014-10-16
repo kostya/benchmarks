@@ -5,16 +5,15 @@ use serialize::json;
 
 #[deriving(Decodable, Encodable)]
 pub struct Coordinate {
-    x: f64,
-    y: f64,
-    z: f64,
-    t: (i32, i32, i32, String)
+  x: f64,
+  y: f64,
+  z: f64
 }
 
 #[deriving(Decodable, Encodable)]
 pub struct TestStruct  {
-    info: String,
-    coordinates: Vec<Coordinate>
+  info: String,
+  coordinates: Vec<Coordinate>
 }
 
 fn main() {

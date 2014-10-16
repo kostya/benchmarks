@@ -5,7 +5,6 @@ import "io/ioutil"
 
 type Coordinate struct {
     X, Y, Z float64
-    t interface{}
 }
 
 type TestStruct struct {
@@ -32,5 +31,5 @@ func main() {
   }
 
   len := float64(len(dat.Coordinates))
-  fmt.Printf("%.4f\n%.4f\n%.4f\n", x / len, y / len, z / len)
+  fmt.Printf("%.8f\n%.8f\n%.8f\n", x / len, y / len, z / len)
 }

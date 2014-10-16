@@ -17,6 +17,6 @@ int main(string[] args) {
     z += coord["z"].floating;
   }
 
-  printf("%.2f\n%.2f\n%.2f", x / coordinates.length, y / coordinates.length, z / coordinates.length);
+  printf("%.8f\n%.8f\n%.8f\n", x / coordinates.length, y / coordinates.length, z / coordinates.length);
   return 0;
 }

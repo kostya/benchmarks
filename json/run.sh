@@ -17,7 +17,7 @@ echo D
 echo Nimrod
 ../xtime.rb ./json_nim
 echo Scala
-../xtime.rb scala TestJson
+../xtime.rb scala -J-Xmx2024m TestJson
 echo Python Pypy
 ../xtime.rb pypy test.py
 echo Python
