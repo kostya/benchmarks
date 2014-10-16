@@ -11,8 +11,6 @@ res = coordinates.inject({:x => 0.0, :y => 0.0, :z => 0.0}) do |r, e|
   r
 end
 
-p coordinates.length
-p res
 p res[:x] / coordinates.length
 p res[:y] / coordinates.length
 p res[:z] / coordinates.length
