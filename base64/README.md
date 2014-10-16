@@ -12,7 +12,7 @@ To run all: `sh run.sh`
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
 | Ruby            | 2.73    | 125.3      |
-| Crystal         | 3.37    | 82.4       |
+| Crystal         | 3.27    | 54.1       |
 | Nimrod          | 4.24    | 52.4       |
 | Ruby Rbx        | 4.29    | 30.7       |
 | C++             | 5.69    | 65.5       |
