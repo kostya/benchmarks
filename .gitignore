@@ -1,5 +1,6 @@
 brainfuck_*
 base64_*
+json_*
 .crystal
 *.swp
 *.class
