@@ -22,3 +22,5 @@ echo Python Pypy
 ../xtime.rb pypy test.py
 echo Python
 ../xtime.rb python test.py
+echo C++
+../xtime.rb json_cpp
