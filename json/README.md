@@ -11,6 +11,7 @@ To run all: `sh run.sh`
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
+| Crystal Schema  | 1.18    | 256.1      |
 | Crystal Pull    | 1.48    | 1.2        |
 | Crystal         | 1.96    | 814.3      |
 | Javascript Node | 5.24    | 624.2      |
