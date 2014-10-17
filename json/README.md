@@ -22,6 +22,8 @@ To run all: `sh run.sh`
 | Ruby            | 10.35   | 2113.2     |
 | Javascript Node | 11.01   | 923.4      |
 | C++             | 16.44   | 2915.2     |
+| Ruby JRuby      | 25.78   | 2712.6     |
 | D               | 34.44   | 926.6      |
+| Ruby Rbx        | 67.13   | 30.1       |
 | Scala           | 343.13  | 2373.0     |
 
