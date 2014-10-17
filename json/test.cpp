@@ -8,7 +8,7 @@
 using namespace std;
 
 void read_file(string filename, stringstream &buffer){
-  std::ifstream file("./1.json");
+  std::ifstream file(filename);
   if ( file )
   {
     buffer << file.rdbuf();

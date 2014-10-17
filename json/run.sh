@@ -16,11 +16,11 @@ echo D
 ../xtime.rb ./json_d
 echo Nimrod
 ../xtime.rb ./json_nim
-echo Scala
-../xtime.rb scala -J-Xmx2024m TestJson
 echo Python Pypy
 ../xtime.rb pypy test.py
 echo Python
 ../xtime.rb python test.py
 echo C++
 ../xtime.rb json_cpp
+echo Scala
+../xtime.rb scala -J-Xmx3024m TestJson

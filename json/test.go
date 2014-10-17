@@ -4,12 +4,11 @@ import "fmt"
 import "io/ioutil"
 
 type Coordinate struct {
-    X, Y, Z float64
+  X, Y, Z float64
 }
 
 type TestStruct struct {
-    Info string
-    Coordinates []Coordinate
+  Coordinates []Coordinate
 }
 
 func main() {

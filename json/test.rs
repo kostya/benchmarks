@@ -12,7 +12,6 @@ pub struct Coordinate {
 
 #[deriving(Decodable, Encodable)]
 pub struct TestStruct  {
-  info: String,
   coordinates: Vec<Coordinate>
 }
 

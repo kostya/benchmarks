@@ -8,8 +8,7 @@ x = []
     'y' => rand,
     'z' => rand,
     'name' => ('a'..'z').to_a.shuffle[0..5].join + ' ' + rand(10000).to_s,
-    'opts' => {},
-    'some' => [1, '1']
+    'opts' => {'1' => [1, true]},
   }
   x << h
 end
