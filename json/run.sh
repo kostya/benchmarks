@@ -5,7 +5,7 @@ echo Crystal Pull
 echo Crystal Schema
 ../xtime.rb ./json_schema_cr
 echo Javascript Node
-../xtime.rb node test.js
+../xtime.rb nodejs test.js
 echo Ruby
 ../xtime.rb ruby test.rb
 echo Rust
@@ -21,6 +21,6 @@ echo Python Pypy
 echo Python
 ../xtime.rb python test.py
 echo C++
-../xtime.rb json_cpp
+../xtime.rb ./json_cpp
 echo Scala
 ../xtime.rb scala -J-Xmx3024m TestJson

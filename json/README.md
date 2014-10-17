@@ -11,9 +11,17 @@ To run all: `sh run.sh`
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
-| Crystal Schema  | 1.18    | 256.1      |
-| Crystal Pull    | 1.48    | 1.2        |
-| Crystal         | 1.96    | 814.3      |
-| Javascript Node | 5.24    | 624.2      |
-| Ruby            | 8.19    | 1644.3     |
+| Crystal Schema  | 1.40    | 290.9      |
+| Crystal Pull    | 1.75    | 1.2        |
+| Crystal         | 2.31    | 1078.8     |
+| Nimrod          | 3.05    | 1328.3     |
+| Python Pypy     | 4.56    | 1365.4     |
+| Rust            | 5.27    | 1549.1     |
+| Go              | 5.94    | 430.6      |
+| Python          | 9.85    | 1409.1     |
+| Ruby            | 10.35   | 2113.2     |
+| Javascript Node | 11.01   | 923.4      |
+| C++             | 16.44   | 2915.2     |
+| D               | 34.44   | 926.6      |
+| Scala           | 343.13  | 2373.0     |
 

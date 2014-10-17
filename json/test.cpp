@@ -8,7 +8,7 @@
 using namespace std;
 
 void read_file(string filename, stringstream &buffer){
-  std::ifstream file(filename);
+  std::ifstream file(filename.c_str());
   if ( file )
   {
     buffer << file.rdbuf();
