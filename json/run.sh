@@ -20,7 +20,9 @@ echo Python Pypy
 ../xtime.rb pypy test.py
 echo Python
 ../xtime.rb python test.py
-echo C++
-../xtime.rb ./json_cpp
+echo C++ Boost
+../xtime.rb ./json_boost_cpp
+echo C++ Rapid
+../xtime.rb ./json_rapid_cpp
 echo Scala
 ../xtime.rb scala -J-Xmx3024m TestJson
