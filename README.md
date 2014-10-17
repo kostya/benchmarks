@@ -17,6 +17,8 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]
 * ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-linux]
 * Python 2.7.6
+* rubinius 2.2.10 (2.1.0 bf61ae2e 2014-06-27 JI) [x86_64-linux-gnu]
+* jruby 1.7.16 (1.9.3p392) 2014-09-25 575b395 on Java HotSpot(TM) 64-Bit Server VM 1.7.0_67-b01 +jit [linux-amd64]
 
 # Benchmarks
 
