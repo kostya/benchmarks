@@ -22,7 +22,7 @@ To run all: `sh run.sh`
 | Python Pypy     | 6.91    | 89.2       |
 | Scala           | 10.71   | 154.0      |
 | Ruby Topaz      | 81.41   | 206.2      |
+| Ruby            | 338.40  | 82.8       |
 | Python          | 447.39  | 74.0       |
 | Ruby JRuby      | 412.61  | 574.9      |
 | Ruby Rbx        | 591.70  | 325.0      |
-| Ruby            | 1039.25 | 500.6      |
