@@ -14,8 +14,8 @@ impl Tape {
   fn new() -> Tape { Tape { pos: 0u, tape: vec![0] } }
   fn get(&self) -> int { self.tape[self.pos] }
   fn getc(&self) -> char { self.get() as u8 as char }
-  fn inc(&mut self) { let x = self.tape.get_mut(self.pos); *x += 1; }
-  fn dec(&mut self) { let x = self.tape.get_mut(self.pos); *x -= 1; }
+  fn inc(&mut self) { let x = self.tape.get_mut(self.pos); *x.unwrap() += 1; }
+  fn dec(&mut self) { let x = self.tape.get_mut(self.pos); *x.unwrap() -= 1; }
   fn advance(&mut self) { self.pos += 1; if self.tape.len() <= self.pos { self.tape.push(0) } }
   fn devance(&mut self) { if self.pos > 0 { self.pos -= 1; } }
 }

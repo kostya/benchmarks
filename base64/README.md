@@ -12,15 +12,15 @@ To run all: `sh run.sh`
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
 | Ruby            | 2.73    | 125.3      |
-| Crystal         | 3.27    | 54.1       |
-| Nimrod          | 4.24    | 52.4       |
+| Crystal         | 3.37    | 106.2      |
+| Nimrod          | 4.20    | 52.4       |
 | Ruby Rbx        | 4.29    | 30.7       |
 | C++             | 5.69    | 65.5       |
-| D               | 6.23    | 45.0       |
+| D               | 6.05    | 43.9       |
 | Python          | 7.62    | 52.6       |
-| Javascript Node | 7.80    | 777.1      |
-| Rust            | 8.02    | 42.9       |
+| Rust            | 7.84    | 42.9       |
+| Javascript Node | 7.93    | 777.1      |
 | Python Pypy     | 8.22    | 114.6      |
 | Ruby JRuby      | 16.57   | 480.9      |
-| Scala           | 35.52   | 301.2      |
-| Go              | 37.90   | 116.8      |
+| Scala           | 35.06   | 301.2      |
+| Go              | 38.33   | 116.8      |

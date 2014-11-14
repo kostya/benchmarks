@@ -1,4 +1,4 @@
-crystal matmul.cr --release -o matmul_cr
+crystal build matmul.cr --release -o matmul_cr
 go build -o matmul_go matmul.go
 gcc -O3 -o matmul_c matmul.c
 scalac -optimize matmul.scala

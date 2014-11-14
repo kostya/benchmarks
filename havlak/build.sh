@@ -1,4 +1,4 @@
-crystal havlak.cr --release -o havlak_cr
+crystal build havlak.cr --release -o havlak_cr
 go build -o havlak_go havlak.go
 g++ -O3 -o havlak_cpp havlak.cpp
 scalac -optimize havlak.scala

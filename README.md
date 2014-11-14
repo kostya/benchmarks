@@ -16,13 +16,13 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 # Versions:
 
 * gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
-* Nimrod Compiler Version 0.9.5 (2014-05-25) [Linux: amd64]
-* `Crystal 0.5.1 [g8ffdf23] (Thu Oct 16 22:15:32 UTC 2014)`
-* go version go1.3.1 linux/amd64
-* DMD64 D Compiler v2.066.0
+* Nimrod Compiler Version 0.9.6 (2014-10-12) [Linux: amd64]
+* `Crystal 0.5.3 [eac061b] (Thu Nov  6 21:29:19 UTC 2014)`
+* go version go1.3.3 linux/amd64
+* DMD64 D Compiler v2.066.1
 * V8 version 3.29.62 (candidate)
-* rustc 0.13.0-nightly (adb44f53d 2014-10-12 00:07:15 +0000)
-* Scala code runner version 2.11.1
+* rustc 0.13.0-nightly (5745e4195 2014-11-12 22:57:16 +0000)
+* Scala compiler version 2.11.4 -- Copyright 2002-2013, LAMP/EPFL
 * Nodejs v0.10.25
 * PyPy 2.4.0 with GCC 4.6.3
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]

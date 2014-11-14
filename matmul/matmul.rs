@@ -4,7 +4,7 @@ fn newmat(x: uint, y: uint) -> Vec<Vec<f64>> {
   let mut r = Vec::new();
   for _ in range(0, x) {
     let mut c = Vec::new();
-    for j in range(0, y) { c.push(0_f64); }
+    for _ in range(0, y) { c.push(0_f64); }
     r.push(c);
   }
   r
@@ -16,7 +16,7 @@ fn matgen(n: uint) -> Vec<Vec<f64>> {
   for i in range(0, n) {
     for j in range(0, n) {
       let val = tmp * (i as f64 - j as f64) * (i as f64 + j as f64);
-      *a.get_mut(i).get_mut(j) = val; // Wtf, rust O_o
+      *a.get_mut(i).unwrap().get_mut(j).unwrap() = val; // Wtf, rust O_o
     }
   }
   a
@@ -30,7 +30,7 @@ fn matmul(a: Vec<Vec<f64>>, b: Vec<Vec<f64>>) -> Vec<Vec<f64>> {
   let mut b2 = newmat(n, p);
   for i in range(0, n) {
     for j in range(0, p) {
-      *b2.get_mut(j).get_mut(i) = b[i][j];
+      *b2.get_mut(j).unwrap().get_mut(i).unwrap() = b[i][j];
     }
   }
 
@@ -43,7 +43,7 @@ fn matmul(a: Vec<Vec<f64>>, b: Vec<Vec<f64>>) -> Vec<Vec<f64>> {
       for k in range(0, n) {
         s += ai[k] * b2j[k];
       }
-      *c.get_mut(i).get_mut(j) = s;
+      *c.get_mut(i).unwrap().get_mut(j).unwrap() = s;
     }
   }
 

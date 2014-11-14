@@ -11,14 +11,14 @@ To run all: `sh run.sh`
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
-| C++             | 5.18    | 1.1        |
-| Nimrod          | 5.35    | 0.6        |
-| Crystal         | 6.98    | 0.9        |
-| Go              | 7.47    | 1.0        |
-| D               | 9.40    | 0.9        |
+| Nimrod          | 4.88    | 0.6        |
+| C++             | 5.08    | 1.1        |
+| Crystal         | 6.78    | 0.9        |
+| Go              | 7.87    | 1.0        |
 | Javascript V8   | 9.41    | 8.1        |
-| Rust            | 9.91    | 5.0        |
-| Scala           | 11.79   | 1.6        |
+| D               | 9.42    | 0.9        |
+| Rust            | 9.54    | 5.0        |
+| Scala           | 11.99   | 1.6        |
 | Javascript Node | 17.72   | 9.5        |
 | Python Pypy     | 20.12   | 20.8       |
 | Ruby JRuby      | 100.86  | 96.5       |
