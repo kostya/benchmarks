@@ -12,3 +12,4 @@ if [ ! -d rapidjson ]; then
   git clone --depth 1 https://github.com/miloyip/rapidjson.git
 fi
 g++ -O3 test_rapid.cpp -o json_rapid_cpp -Irapidjson/include
+g++ -O3 test_libjson.cpp -o json_libjson_cpp -ljson

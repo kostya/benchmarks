@@ -18,6 +18,7 @@ To run all: `sh run.sh`
 | Nimrod          | 3.53    | 1377.3     |
 | Python Pypy     | 4.99    | 1365.4     |
 | Rust            | 5.24    | 1519.1     |
+| C++ LibJson     | 5.49    | 2796.3     |
 | Go              | 5.97    | 428.6      |
 | Python          | 9.85    | 1409.1     |
 | Ruby            | 10.54   | 2086.2     |
