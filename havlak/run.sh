@@ -10,5 +10,7 @@ echo D
 ../xtime.rb ./havlak_d
 echo Python Pypy
 ../xtime.rb pypy havlak.py
+echo Nimrod
+../xtime.rb ./havlak_nim
 echo Python
 ../xtime.rb python havlak.py
