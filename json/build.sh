@@ -13,3 +13,4 @@ if [ ! -d rapidjson ]; then
 fi
 g++ -O3 test_rapid.cpp -o json_rapid_cpp -Irapidjson/include
 g++ -O3 test_libjson.cpp -o json_libjson_cpp -ljson
+julia -e 'Pkg.add("JSON")'

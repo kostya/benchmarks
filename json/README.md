@@ -21,6 +21,7 @@ To run all: `sh run.sh`
 | C++ LibJson     | 5.49    | 2796.3     |
 | Go              | 5.97    | 428.6      |
 | Python          | 9.85    | 1409.1     |
+| Julia           | 10.48   | 2342.9     |
 | Ruby            | 10.54   | 2086.2     |
 | Javascript Node | 11.61   | 926.4      |
 | C++ Boost       | 16.44   | 2915.2     |
@@ -28,4 +29,3 @@ To run all: `sh run.sh`
 | D               | 35.39   | 926.6      |
 | Ruby Rbx        | 67.13   | 4681.0     |
 | Scala           | 343.13  | 2373.0     |
-

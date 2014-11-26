@@ -26,5 +26,7 @@ echo C++ Rapid
 ../xtime.rb ./json_rapid_cpp
 echo C++ LibJson
 ../xtime.rb ./json_libjson_cpp
+echo Julia
+../xtime.rb julia test.jl
 echo Scala
 ../xtime.rb scala -J-Xmx3024m TestJson
