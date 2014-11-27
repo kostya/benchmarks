@@ -19,21 +19,21 @@ void read_file(string filename, stringstream &buffer){
 int main() {
   std::stringstream ss;
   read_file("./1.json", ss);
-  string str = ss.str();
-  json_object* jobj = json_tokener_parse(str.c_str());
+  string text = ss.str();
+  json_object* jobj = json_tokener_parse(text.c_str());
   json_object* coordinates = json_object_object_get(jobj, "coordinates");
 
-  int arraylen = json_object_array_length(coordinates);
+  int len = json_object_array_length(coordinates);
   double x = 0, y = 0, z = 0;
 
-  for (int i = 0; i < arraylen; i++)  {
+  for (int i = 0; i < len; i++)  {
     json_object* coord = json_object_array_get_idx(coordinates, i);
     x += json_object_get_double(json_object_object_get(coord, "x"));
     y += json_object_get_double(json_object_object_get(coord, "y"));
     z += json_object_get_double(json_object_object_get(coord, "z"));
   }
 
-  printf("%.8f\n", x / arraylen);
-  printf("%.8f\n", y / arraylen);
-  printf("%.8f\n", z / arraylen);
+  printf("%.8f\n", x / len);
+  printf("%.8f\n", y / len);
+  printf("%.8f\n", z / len);
 }

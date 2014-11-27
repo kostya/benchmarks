@@ -1,12 +1,10 @@
 import JSON
 
 text = open(readall, "1.json")
-j = JSON.parse(text)
-coordinates = j["coordinates"]
-
-x = 0
-y = 0
-z = 0
+jobj = JSON.parse(text)
+coordinates = jobj["coordinates"]
+len = length(coordinates)
+x = y = z = 0
 
 for coord in coordinates
   x += coord["x"]
@@ -14,7 +12,6 @@ for coord in coordinates
   z += coord["z"]
 end
 
-l = length(coordinates)
-println(x / l)
-println(y / l)
-println(z / l)
+println(x / len)
+println(y / len)
+println(z / len)

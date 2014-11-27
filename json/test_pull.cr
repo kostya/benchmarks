@@ -1,6 +1,6 @@
 require "json"
 
-count = 0
+len = 0
 x = y = z = 0
 
 File.open("1.json") do |file|
@@ -9,7 +9,7 @@ File.open("1.json") do |file|
   pull = Json::PullParser.new(io)
   pull.on_key!("coordinates") do
     pull.read_array do
-      count += 1
+      len += 1
       pull.read_object do |key|
         case key
         when "x" then x += pull.read_float
@@ -22,6 +22,6 @@ File.open("1.json") do |file|
   end
 end
 
-p x / count
-p y / count
-p z / count
+p x / len
+p y / len
+p z / len

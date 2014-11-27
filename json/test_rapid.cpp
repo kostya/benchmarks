@@ -23,25 +23,23 @@ int main() {
     std::stringstream ss;
     read_file("./1.json", ss);
 
-    string str = ss.str();
-    Document d;
-    d.Parse(str.c_str());
+    string text = ss.str();
+    Document jobj; jobj.Parse(text.c_str());
 
-    double x = 0.0;
-    double y = 0.0;
-    double z = 0.0;
-    const Value &coordinates = d["coordinates"];
+    const Value &coordinates = jobj["coordinates"];
+    int len = coordinates.Size();
+    double x = 0, y = 0, z = 0;
 
-    for (SizeType i = 0; i < coordinates.Size(); i++) {
+    for (SizeType i = 0; i < len; i++) {
       const Value &coord = coordinates[i];
       x += coord["x"].GetDouble();
       y += coord["y"].GetDouble();
       z += coord["z"].GetDouble();
     }
 
-    std::cout << x / coordinates.Size() << std::endl;
-    std::cout << y / coordinates.Size() << std::endl;
-    std::cout << z / coordinates.Size() << std::endl;
+    std::cout << x / len << std::endl;
+    std::cout << y / len << std::endl;
+    std::cout << z / len << std::endl;
 
     return 0;
 }

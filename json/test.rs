@@ -18,19 +18,19 @@ pub struct TestStruct  {
 fn main() {
   let bytes = File::open(&Path::new("./1.json".as_slice())).read_to_end().unwrap();
   let text = str::from_utf8(bytes.as_slice()).unwrap();
-  let decoded: TestStruct = json::decode(text).unwrap();
+  let jobj: TestStruct = json::decode(text).unwrap();
 
+  let len = jobj.coordinates.len() as f64;
   let mut x = 0_f64;
   let mut y = 0_f64;
   let mut z = 0_f64;
 
-  for coordinate in decoded.coordinates.iter() {
-    x += coordinate.x;
-    y += coordinate.y;
-    z += coordinate.z;
+  for coord in jobj.coordinates.iter() {
+    x += coord.x;
+    y += coord.y;
+    z += coord.z;
   }
 
-  let len = decoded.coordinates.len() as f64;
   println!("{}", x / len);
   println!("{}", y / len);
   println!("{}", z / len);

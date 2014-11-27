@@ -18,25 +18,24 @@ void read_file(string filename, stringstream &buffer){
 
 int main()
 {
-  std::stringstream ss;
-  read_file("./1.json", ss);
+  std::stringstream text;
+  read_file("./1.json", text);
 
-  boost::property_tree::ptree pt;
-  boost::property_tree::read_json(ss, pt);
-  double x, y, z;
-  x = y = z = 0.0;
-  int count = 0;
+  boost::property_tree::ptree jobj;
+  boost::property_tree::read_json(text, jobj);
+  double x = 0, y = 0, z = 0;
+  int len = 0;
 
-  BOOST_FOREACH(boost::property_tree::ptree::value_type &v, pt.get_child("coordinates"))
+  BOOST_FOREACH(boost::property_tree::ptree::value_type &coord, jobj.get_child("coordinates"))
   {
-    count += 1;
-    x += v.second.get<double>("x");
-    y += v.second.get<double>("y");
-    z += v.second.get<double>("z");
+    len += 1;
+    x += coord.second.get<double>("x");
+    y += coord.second.get<double>("y");
+    z += coord.second.get<double>("z");
   }
 
-  printf("%.8f\n", x / count);
-  printf("%.8f\n", y / count);
-  printf("%.8f\n", z / count);
+  printf("%.8f\n", x / len);
+  printf("%.8f\n", y / len);
+  printf("%.8f\n", z / len);
   return 0;
 }
