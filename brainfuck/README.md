@@ -24,5 +24,6 @@ To run all: `sh run.sh`
 | Ruby JRuby      | 100.86  | 96.5       |
 | Ruby Topaz      | 112.91  | 36.0       |
 | Ruby            | 226.86  | 8.0        |
+| Julia           | 354.55  | 57.0       |
 | Python          | 452.44  | 4.9        |
 | Ruby Rbx        | 472.08  | 45.0       |

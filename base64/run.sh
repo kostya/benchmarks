@@ -10,6 +10,8 @@ echo D
 ../xtime.rb ./base64_d
 echo Nimrod
 ../xtime.rb ./base64_nim
+echo Julia
+../xtime.rb julia test.jl
 echo Scala
 ../xtime.rb scala Base64
 echo Javascript Node

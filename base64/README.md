@@ -22,5 +22,6 @@ To run all: `sh run.sh`
 | Javascript Node | 7.93    | 777.1      |
 | Python Pypy     | 8.22    | 114.6      |
 | Ruby JRuby      | 16.57   | 480.9      |
+| Julia           | 19.08   | 155.7      |
 | Scala           | 35.06   | 301.2      |
 | Go              | 38.33   | 116.8      |

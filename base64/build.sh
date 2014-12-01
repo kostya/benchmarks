@@ -5,3 +5,4 @@ scalac -optimize test.scala
 rustc --opt-level 3 test.rs -o base64_rs
 dmd -ofbase64_d -O -release test.d
 nimrod c -o:base64_nim -d:release --verbosity:0 --hints:off test.nim
+julia -e 'Pkg.add("Codecs")'

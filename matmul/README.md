@@ -1,7 +1,7 @@
 Matrix multiplication
 ---------------------
 
-Most implementations copyied from https://github.com/attractivechaos/plb, added Scala, Crystal, Rust, Nimrod.
+Most implementations copyied from https://github.com/attractivechaos/plb, added Scala, Crystal, Rust, Nimrod, Julia.
 
 To compile all: `sh build.sh`
 
@@ -11,6 +11,7 @@ To run all: `sh run.sh`
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
+| Julia           | 3.29    | 97.7       |
 | C               | 3.64    | 69.2       |
 | Java            | 3.68    | 134.3      |
 | D               | 3.75    | 71.8       |
