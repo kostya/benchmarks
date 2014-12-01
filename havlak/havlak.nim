@@ -211,7 +211,7 @@ proc findLoops(self: var HavlakLoopFinder): int =
   var nodes           = newSeq[ref UnionFindNode]()
 
   for i in 1..size:
-    nonBackPreds.add initSet[int]()
+    nonBackPreds.add initSet[int](1)
     backPreds.add newSeq[int]()
     nodes.add newUnionFindNode()
 
