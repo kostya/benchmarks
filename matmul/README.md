@@ -18,7 +18,7 @@ To run all: `sh run.sh`
 | Rust            | 3.79    | 100.9      |
 | Nimrod          | 3.79    | 135.4      |
 | Crystal         | 3.87    | 72.1       |
-| Go              | 4.79    | 74.5       |
+| Go              | 4.77    | 75.6       |
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.10    | 89.2       |
 | Scala           | 10.26   | 154.0      |

@@ -14,7 +14,7 @@ To run all: `sh run.sh`
 | Nimrod          | 4.88    | 0.6        |
 | C++             | 5.08    | 1.1        |
 | Crystal         | 6.78    | 0.9        |
-| Go              | 7.87    | 1.0        |
+| Go              | 7.57    | 1.0        |
 | Javascript V8   | 9.41    | 8.1        |
 | D               | 9.42    | 0.9        |
 | Rust            | 9.54    | 5.0        |
