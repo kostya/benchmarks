@@ -11,7 +11,7 @@ To run all: `sh run.sh`
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
-| Crystal         | 15.78   | 486.3      |
+| Crystal         | 15.66   | 390.9      |
 | Nimrod          | 16.72   | 900.7      |
 | C++             | 17.72   | 174.5      |
 | Scala           | 33.38   | 341.0      |
