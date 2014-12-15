@@ -1,7 +1,7 @@
 require "json"
 
 text = File.read("1.json")
-jobj = Json.parse(text) as Hash
+jobj = JSON.parse(text) as Hash
 coordinates = jobj["coordinates"] as Array
 len = coordinates.length
 x = y = z = 0

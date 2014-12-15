@@ -2,9 +2,9 @@ require "json"
 
 struct Coordinate
   json_mapping({
-    x: {type: Float64},
-    y: {type: Float64},
-    z: {type: Float64},
+    x: Float64,
+    y: Float64,
+    z: Float64,
   })
 end
 
