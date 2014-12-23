@@ -16,6 +16,8 @@ echo Java
 ../xtime.rb java matmul 1500
 echo Javascript V8
 ../xtime.rb d8 matmul.js -- 1500
+echo Julia Native
+../xtime.rb julia matmul-native.jl 1500
 echo Julia
 ../xtime.rb julia matmul.jl 1500
 echo Python Pypy

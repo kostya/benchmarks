@@ -11,7 +11,7 @@ To run all: `sh run.sh`
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
-| Julia           | 3.29    | 97.7       |
+| Julia Native    | 0.69    | 119.6      |
 | C               | 3.64    | 69.2       |
 | Java            | 3.68    | 134.3      |
 | D               | 3.75    | 71.8       |
@@ -22,6 +22,7 @@ To run all: `sh run.sh`
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.10    | 89.2       |
 | Scala           | 10.26   | 154.0      |
+| Julia           | 27.74   | 159.7      |
 | Ruby Topaz      | 81.41   | 206.2      |
 | Ruby            | 338.40  | 82.8       |
 | Python          | 447.39  | 74.0       |
