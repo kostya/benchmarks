@@ -4,6 +4,8 @@ echo Go
 ../xtime.rb ./base64_go
 echo Cpp
 ../xtime.rb ./base64_cpp
+echo C
+../xtime.rb ./base64_c
 echo Rust
 ../xtime.rb ./base64_rs
 echo D

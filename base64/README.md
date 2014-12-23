@@ -11,6 +11,7 @@ To run all: `sh run.sh`
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
+| C               | 2.70    | 32.3       |
 | Ruby            | 2.73    | 125.3      |
 | Crystal         | 3.35    | 82.4       |
 | Nimrod          | 4.20    | 52.4       |
