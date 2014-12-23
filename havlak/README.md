@@ -1,7 +1,7 @@
 Havlak loop finder
 ------------------
 
-Original benchmark https://code.google.com/p/multi-language-bench/, some code remastered, added Crystal, D.
+Original benchmark https://code.google.com/p/multi-language-bench/, some code remastered, added Crystal, D, Nimrod.
 
 To compile all: `sh build.sh`
 
