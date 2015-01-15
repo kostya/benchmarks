@@ -11,7 +11,7 @@ To run all: `sh run.sh`
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
-| Nimrod          | 4.88    | 0.6        |
+| Nim             | 4.75    | 0.6        |
 | C++             | 5.08    | 1.1        |
 | Crystal         | 6.76    | 0.9        |
 | Go              | 7.57    | 1.0        |

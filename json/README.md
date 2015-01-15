@@ -15,7 +15,7 @@ To run all: `sh run.sh`
 | Crystal Schema  | 1.39    | 292.3      |
 | Crystal Pull    | 1.75    | 1.2        |
 | Crystal         | 2.27    | 1085.8     |
-| Nimrod          | 3.53    | 1377.3     |
+| Nim             | 3.56    | 1377.3     |
 | Python Pypy     | 4.99    | 1365.4     |
 | Rust            | 5.24    | 1519.1     |
 | C++ LibJson     | 5.49    | 2796.3     |

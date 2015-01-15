@@ -14,7 +14,7 @@ echo Go
 ../xtime.rb ./json_go
 echo D
 ../xtime.rb ./json_d
-echo Nimrod
+echo Nim
 ../xtime.rb ./json_nim
 echo Python Pypy
 ../xtime.rb pypy test.py

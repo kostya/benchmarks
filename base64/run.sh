@@ -10,7 +10,7 @@ echo Rust
 ../xtime.rb ./base64_rs
 echo D
 ../xtime.rb ./base64_d
-echo Nimrod
+echo Nim
 ../xtime.rb ./base64_nim
 echo Julia
 ../xtime.rb julia test.jl

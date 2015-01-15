@@ -8,7 +8,7 @@ echo Rust
 ../xtime.rb ./matmul_rs 1500
 echo D
 ../xtime.rb ./matmul_d 1500
-echo Nimrod
+echo Nim
 ../xtime.rb ./matmul_nim 1500
 echo Scala
 ../xtime.rb scala MatMul 1500

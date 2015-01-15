@@ -16,7 +16,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 # Versions:
 
 * gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
-* Nimrod Compiler Version 0.9.6 (2014-10-12) [Linux: amd64]
+* Nim Compiler Version 0.10.2 (2014-12-29) [Linux: amd64]
 * `Crystal 0.5.5 [d814c6c] (Fri Dec 12 22:50:10 UTC 2014)`
 * go version go1.4 linux/amd64
 * DMD64 D Compiler v2.066.1

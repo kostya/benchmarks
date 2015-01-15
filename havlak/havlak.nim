@@ -23,7 +23,7 @@ type
     to: ref BasicBlock
 
   Cfg = object
-    basicBlockMap: TTable[int, ref BasicBlock]
+    basicBlockMap: Table[int, ref BasicBlock]
     edgeList: seq[BasicBlockEdge]
     startNode: ref BasicBlock
 
@@ -185,7 +185,7 @@ proc NewHavlakLoopFinder(cfg: Cfg, lsg: Lsg): HavlakLoopFinder =
 proc isAncestor(w: int, v: int, last: seq[int]): bool =
   w <= v and v <= last[w]
 
-proc dfs(currentNode: ref BasicBlock, nodes: var seq[ref UnionFindNode], number: var TTable[ref BasicBlock, int], last: var seq[int], current: int): int =
+proc dfs(currentNode: ref BasicBlock, nodes: var seq[ref UnionFindNode], number: var Table[ref BasicBlock, int], last: var seq[int], current: int): int =
   nodes[current].initNode(currentNode, current)
   number[currentNode] = current
 
@@ -202,7 +202,7 @@ proc findLoops(self: var HavlakLoopFinder): int =
   if startNode == nil: return 0
   var size = self.cfg.getNumNodes
 
-  var nonBackPreds    = newSeq[TSet[int]]()
+  var nonBackPreds    = newSeq[HashSet[int]]()
   var backPreds       = newSeq[seq[int]]()
   var number          = initTable[ref BasicBlock, int]()
   var header          = newSeq[int](size)
@@ -213,7 +213,7 @@ proc findLoops(self: var HavlakLoopFinder): int =
   for i in 1..size:
     nonBackPreds.add initSet[int](1)
     backPreds.add newSeq[int]()
-    nodes.add newUnionFindNode()
+    nodes.add NewUnionFindNode()
 
   # Step a:
   #   - initialize all nodes as unvisited.
@@ -368,14 +368,14 @@ proc NewLoopTesterApp(): LoopTesterApp =
 
 proc buildDiamond(self: var LoopTesterApp, start: int): int =
   var bb0 = start
-  var x1 = newBasicBlockEdge(self.cfg, bb0, bb0 + 1)
-  var x2 = newBasicBlockEdge(self.cfg, bb0, bb0 + 2)
-  var x3 = newBasicBlockEdge(self.cfg, bb0 + 1, bb0 + 3)
-  var x4 = newBasicBlockEdge(self.cfg, bb0 + 2, bb0 + 3)
+  var x1 = NewBasicBlockEdge(self.cfg, bb0, bb0 + 1)
+  var x2 = NewBasicBlockEdge(self.cfg, bb0, bb0 + 2)
+  var x3 = NewBasicBlockEdge(self.cfg, bb0 + 1, bb0 + 3)
+  var x4 = NewBasicBlockEdge(self.cfg, bb0 + 2, bb0 + 3)
   result = bb0 + 3
 
 proc buildConnect(self: var LoopTesterApp, start1: int, end1: int) =
-  var x1 = newBasicBlockEdge(self.cfg, start1, end1)
+  var x1 = NewBasicBlockEdge(self.cfg, start1, end1)
 
 proc buildStraight(self: var LoopTesterApp, start: int, n: int): int =
   for i in 0..n-1:
@@ -395,7 +395,7 @@ proc buildBaseLoop(self: var LoopTesterApp, from1: int): int =
   result = self.buildStraight(footer, 1)
 
 proc run(self: var LoopTesterApp) =
-  echo "Welcome to LoopTesterApp, Nimrod edition"
+  echo "Welcome to LoopTesterApp, Nim edition"
   echo "Constructing Simple CFG..."
 
   var x1 = self.cfg.createNode(0)
@@ -406,7 +406,7 @@ proc run(self: var LoopTesterApp) =
   echo "15000 dummy loops"
 
   for i in 1..15000:
-    var h = NewHavlakLoopFinder(self.cfg, newLsg())
+    var h = NewHavlakLoopFinder(self.cfg, NewLsg())
     var res = h.findLoops
 
   echo "Constructing CFG..."

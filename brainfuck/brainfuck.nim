@@ -33,7 +33,7 @@ proc get(self: Tape): int =
 type
   Program = object
     code: string
-    bracket_map: TTable[int, int]
+    bracket_map: Table[int, int]
 
 proc newProgram(code: string): Program =
   result.bracket_map = initTable[int, int]()
@@ -76,7 +76,7 @@ proc run(prog: Program) =
         write stdout, tape.get.chr
         flushFile(stdout)
       else:
-        # this line needed O_o
+        echo "Wtf this line is needed? O_o"
     pc += 1
 
 block:

@@ -8,7 +8,7 @@ echo Rust
 ../xtime.rb ./brainfuck_rs bench.b
 echo D
 ../xtime.rb ./brainfuck_d bench.b
-echo Nimrod
+echo Nim
 ../xtime.rb ./brainfuck_nim bench.b
 echo Scala
 ../xtime.rb scala BrainFuck bench.b
