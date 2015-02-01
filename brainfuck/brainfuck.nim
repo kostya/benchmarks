@@ -79,6 +79,5 @@ proc run(prog: Program) =
         echo "Wtf this line is needed? O_o"
     pc += 1
 
-block:
-  newProgram(readFile(paramStr(1))).run
+newProgram(readFile(paramStr(1))).run
 

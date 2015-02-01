@@ -440,6 +440,5 @@ proc run(self: var LoopTesterApp) =
     sum += hlf.findLoops
   echo "\nFound ", loops, " loops (including artificial root node) (", sum, ")"
 
-block:
-  var l = NewLoopTesterApp()
-  l.run
+var l = NewLoopTesterApp()
+l.run
