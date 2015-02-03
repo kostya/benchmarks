@@ -75,10 +75,8 @@ proc run(prog: Program) =
       of '.':
         write stdout, tape.get.chr
         flushFile(stdout)
-      else:
-        echo "Wtf this line is needed? O_o"
+      else: discard
     pc += 1
 
-block:
-  newProgram(readFile(paramStr(1))).run
+newProgram(readFile(paramStr(1))).run
 

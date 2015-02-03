@@ -8,8 +8,10 @@ echo Rust
 ../xtime.rb ./brainfuck_rs bench.b
 echo D
 ../xtime.rb ./brainfuck_d bench.b
-echo Nim
-../xtime.rb ./brainfuck_nim bench.b
+echo Nim Gcc
+../xtime.rb ./brainfuck_nim_gcc bench.b
+echo Nim Clang
+../xtime.rb ./brainfuck_nim_clang bench.b
 echo Scala
 ../xtime.rb scala BrainFuck bench.b
 echo Javascript V8
