@@ -22,9 +22,10 @@ To run all: `sh run.sh`
 | Scala           | 11.99   | 1.6        |
 | Javascript Node | 17.72   | 9.5        |
 | Python Pypy     | 20.12   | 20.8       |
-| Ruby JRuby      | 100.86  | 96.5       |
+| Ruby JRuby      | 96.20   | 97.0       |
 | Ruby Topaz      | 112.91  | 36.0       |
 | Ruby            | 226.86  | 8.0        |
+| Ruby JRuby9k    | 241.16  | 256.6      |
 | Julia           | 354.55  | 57.0       |
 | Python          | 452.44  | 4.9        |
 | Ruby Rbx        | 472.08  | 45.0       |

@@ -27,4 +27,5 @@ To run all: `sh run.sh`
 | Ruby            | 338.40  | 82.8       |
 | Python          | 447.39  | 74.0       |
 | Ruby JRuby      | 412.61  | 574.9      |
+| Ruby JRuby9k    | 467.99  | 602.3      |
 | Ruby Rbx        | 591.70  | 325.0      |
