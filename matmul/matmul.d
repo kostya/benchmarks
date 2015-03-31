@@ -1,7 +1,7 @@
 // Originally written by Attractive Chaos; distributed under the MIT license (D V.2 code)
 // Contributed by leonardo and then modified by Attractive Chaos to remove D 2.0 features
 
-import std.stdio, std.string, std.conv;
+import std.numeric, std.stdio, std.string, std.conv;
 
 double[][] matGen(in int n) {
   double tmp = 1.0 / n / n;
@@ -24,12 +24,8 @@ double[][] matMul(in double[][] a, in double[][] b) {
   auto x = new double[][](m, p);
 
   foreach (i, arow; a)
-    foreach (j, crow; c) {
-      double s = 0.0;
-      foreach (k, arowk; arow)
-        s += arowk * crow[k];
-      x[i][j] = s;
-    }
+    foreach (j, crow; c)
+      x[i][j] = dotProduct(arow, crow);
 
   return x;
 }
