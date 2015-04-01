@@ -14,5 +14,5 @@ Thread.new do
 end
 
 Process.waitall
-puts "%.2fs, %.1fMb" % [Time.now - t, mm / 1024.0]
+STDERR.puts "%.2fs, %.1fMb" % [Time.now - t, mm / 1024.0]
 
