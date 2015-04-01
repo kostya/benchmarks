@@ -16,7 +16,7 @@ To run all: `sh run.sh`
 | Crystal         | 3.35    | 82.4       |
 | Nim             | 4.13    | 52.4       |
 | Ruby Rbx        | 4.29    | 30.7       |
-| C++ Openssl     | 5.69    | 65.5       |
+| C++ Openssl     | 5.45    | 65.2       |
 | D               | 6.18    | 89.1       |
 | Python          | 7.62    | 52.6       |
 | Rust            | 7.84    | 42.9       |
