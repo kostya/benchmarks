@@ -44,9 +44,8 @@ int main() {
   const int STR_SIZE = 10000000;
   const int TRIES = 100;
 
-  std::string str = "";
+  const std::string str(STR_SIZE, 'a');
   std::string str2 = "";
-  for (int i = 0; i < STR_SIZE; i++) { str += "a"; }
 
   int s = 0;
   clock_t t = clock();
