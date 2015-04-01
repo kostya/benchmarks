@@ -17,6 +17,7 @@ To run all: `sh run.sh`
 | Crystal         | 6.76    | 0.9        |
 | Go              | 7.57    | 1.0        |
 | D               | 8.16    | 0.9        |
+| D Gdc           | 8.53    | 1.0        |
 | Javascript V8   | 9.41    | 8.1        |
 | Rust            | 9.54    | 5.0        |
 | Scala           | 11.99   | 1.6        |

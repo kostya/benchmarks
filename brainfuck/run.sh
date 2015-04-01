@@ -8,6 +8,8 @@ echo Rust
 ../xtime.rb ./brainfuck_rs bench.b
 echo D
 ../xtime.rb ./brainfuck_d bench.b
+echo D Gdc
+../xtime.rb ./brainfuck_d_gdc bench.b
 echo Nim Gcc
 ../xtime.rb ./brainfuck_nim_gcc bench.b
 echo Nim Clang
