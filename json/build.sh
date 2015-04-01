@@ -1,3 +1,7 @@
+if [ ! -f 1.json ]; then
+  ruby generate_json.rb
+fi
+
 crystal build test.cr --release -o json_cr
 crystal build test_pull.cr --release -o json_pull_cr
 crystal build test_schema.cr --release -o json_schema_cr
