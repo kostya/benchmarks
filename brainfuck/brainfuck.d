@@ -12,6 +12,7 @@ class Tape {
     tape ~= 0;
   }
 
+final:
   int get() { return tape[pos]; }
   void inc() { tape[pos]++; }
   void dec() { tape[pos]--; }
