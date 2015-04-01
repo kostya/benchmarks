@@ -11,7 +11,7 @@ class BasicBlock {
   this(int _name) { name = _name; }
 }
 
-class BasicBlockEdge {
+struct BasicBlockEdge {
   BasicBlock from;
   BasicBlock to;
 
@@ -344,6 +344,18 @@ class HavlakLoopFinder {
 
 }
 
+int findHavlakLoops(CFG cfg, LSG lsg)
+{
+    scope h = new HavlakLoopFinder(cfg, lsg);
+    return h.findLoops;
+}
+
+int findHavlakLoops(CFG cfg)
+{
+    scope lsg = new LSG();
+    return findHavlakLoops(cfg, lsg);
+}
+
 class LoopTesterApp {
   CFG cfg;
   LSG lsg;
@@ -398,8 +410,7 @@ class LoopTesterApp {
 
     printf("15000 dummy loops\n");
     foreach(_; 0..15000) {
-      auto h = new HavlakLoopFinder(cfg, new LSG());
-      h.findLoops;
+      findHavlakLoops(cfg);
     }
 
     printf("Constructing CFG...\n");
@@ -426,8 +437,7 @@ class LoopTesterApp {
 
     printf("Performing Loop Recognition\n1 Iteration\n");
 
-    auto h = new HavlakLoopFinder(cfg, new LSG());
-    int loops = h.findLoops;
+    int loops = findHavlakLoops(cfg);
 
     printf("Another 50 iterations...\n");
 
@@ -435,8 +445,7 @@ class LoopTesterApp {
     foreach (_; 0..50) {
       printf(".");
       stdout.flush();
-      auto hlf = new HavlakLoopFinder(cfg, new LSG());
-      sum += hlf.findLoops;
+      sum += findHavlakLoops(cfg);
     }
     printf("\nFound %d loops (including artificial root node) (%d)\n", loops, sum);
   }
