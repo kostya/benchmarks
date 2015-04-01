@@ -16,8 +16,8 @@ To run all: `sh run.sh`
 | C++             | 5.08    | 1.1        |
 | Crystal         | 6.76    | 0.9        |
 | Go              | 7.57    | 1.0        |
+| D               | 8.16    | 0.9        |
 | Javascript V8   | 9.41    | 8.1        |
-| D               | 9.42    | 0.9        |
 | Rust            | 9.54    | 5.0        |
 | Scala           | 11.99   | 1.6        |
 | Javascript Node | 17.72   | 9.5        |

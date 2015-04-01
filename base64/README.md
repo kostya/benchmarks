@@ -17,7 +17,7 @@ To run all: `sh run.sh`
 | Nim             | 4.13    | 52.4       |
 | Ruby Rbx        | 4.29    | 30.7       |
 | C++ Openssl     | 5.69    | 65.5       |
-| D               | 6.05    | 43.9       |
+| D               | 6.18    | 89.1       |
 | Python          | 7.62    | 52.6       |
 | Rust            | 7.84    | 42.9       |
 | Javascript Node | 7.93    | 777.1      |
