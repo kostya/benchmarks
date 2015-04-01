@@ -14,6 +14,7 @@ To run all: `sh run.sh`
 | Nim Clang       | 2.55    | 0.7        |
 | Nim Gcc         | 4.75    | 0.6        |
 | C++             | 5.08    | 1.1        |
+| D Ldc           | 6.61    | 0.9        |
 | Crystal         | 6.76    | 0.9        |
 | Go              | 7.57    | 1.0        |
 | D               | 8.16    | 0.9        |

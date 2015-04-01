@@ -10,6 +10,8 @@ echo D
 ../xtime.rb ./havlak_d
 echo D Gdc
 ../xtime.rb ./havlak_d_gdc
+echo D Ldc
+../xtime.rb ./havlak_d_ldc
 echo Python Pypy
 ../xtime.rb pypy havlak.py
 echo Nim

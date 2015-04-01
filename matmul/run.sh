@@ -10,6 +10,8 @@ echo D
 ../xtime.rb ./matmul_d 1500
 echo D Gdc
 ../xtime.rb ./matmul_d_gdc 1500
+echo D Ldc
+../xtime.rb ./matmul_d_ldc 1500
 echo Nim
 ../xtime.rb ./matmul_nim 1500
 echo Scala

@@ -12,6 +12,7 @@ To run all: `sh run.sh`
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
 | Julia Native    | 0.69    | 119.6      |
+| D Ldc           | 2.01    | 68.9       |
 | D               | 2.30    | 71.3       |
 | D Gdc           | 2.32    | 73.3       |
 | C               | 3.64    | 69.2       |

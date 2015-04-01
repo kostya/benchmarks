@@ -12,6 +12,8 @@ echo D
 ../xtime.rb ./base64_d
 echo D Gdc
 ../xtime.rb ./base64_d_gdc
+echo D Ldc
+../xtime.rb ./base64_d_ldc
 echo Nim
 ../xtime.rb ./base64_nim
 echo Julia

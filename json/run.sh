@@ -16,6 +16,8 @@ echo D
 ../xtime.rb ./json_d
 echo D Gdc
 ../xtime.rb ./json_d_gdc
+echo D Ldc
+../xtime.rb ./json_d_ldc
 echo Nim
 ../xtime.rb ./json_nim
 echo Python Pypy
