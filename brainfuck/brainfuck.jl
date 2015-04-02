@@ -90,6 +90,10 @@ type Program
   end
 end
 
-text = open(readall, ARGS[1])
-p = Program(text)
-p.run()
+function main()
+  text = open(readall, ARGS[1])
+  p = Program(text)
+  p.run()
+end
+
+main()

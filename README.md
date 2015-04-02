@@ -34,5 +34,5 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * jruby 1.7.19 (1.9.3p551) 2015-01-29 20786bd on Java HotSpot(TM) 64-Bit Server VM 1.7.0_67-b01 +jit [linux-amd64]
 * jruby 9.0.0.0.pre1 (2.2.0p0) 2015-01-20 d537cab Java HotSpot(TM) 64-Bit Server VM 24.65-b04 on 1.7.0_67-b01 +jit [linux-amd64]
 * Java HotSpot(TM) 64-Bit Server VM (build 24.65-b04, mixed mode)
-* julia version 0.3.1
+* julia version 0.3.7
 * clang version 3.5-1ubuntu1 (trunk) (based on LLVM 3.5)

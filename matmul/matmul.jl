@@ -20,15 +20,19 @@ function mul(a, b)
   [ mul_line(n, a[i,:], b2[j,:]) for i=1:m, j=1:p ]
 end
 
-n = 100
-if length(ARGS) >= 1
-  n = int(ARGS[1])
+function main()
+  n = 100
+  if length(ARGS) >= 1
+    n = int(ARGS[1])
+  end
+  t = time()
+  n = int(n / 2 * 2)
+  a = matgen(n)
+  b = matgen(n)
+  c = mul(a, b)
+  v = int(n/2) + 1
+  println(c[v, v])
+  println(time() - t)
 end
-t = time()
-n = int(n / 2 * 2)
-a = matgen(n)
-b = matgen(n)
-c = mul(a, b)
-v = int(n/2) + 1
-println(c[v, v])
-println(time() - t)
+
+main()

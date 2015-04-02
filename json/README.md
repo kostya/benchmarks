@@ -21,7 +21,7 @@ To run all: `sh run.sh`
 | C++ LibJson     | 5.49    | 2796.3     |
 | Go              | 6.27    | 420.9      |
 | Python          | 9.85    | 1409.1     |
-| Julia           | 10.48   | 2342.9     |
+| Julia           | 10.21   | 2335.9     |
 | Ruby            | 10.54   | 2086.2     |
 | D               | 10.58   | 1316.6     |
 | Javascript Node | 11.61   | 926.4      |

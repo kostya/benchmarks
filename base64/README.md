@@ -26,6 +26,6 @@ To run all: `sh run.sh`
 | Python Pypy     | 8.22    | 114.6      |
 | Ruby JRuby      | 16.76   | 496.6      |
 | Ruby JRuby9k    | 17.72   | 417.1      |
-| Julia           | 19.08   | 155.7      |
+| Julia           | 18.42   | 159.3      |
 | Go              | 21.24   | 94.2       |
 | Scala           | 35.06   | 301.2      |
