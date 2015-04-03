@@ -21,7 +21,7 @@ To run all: `sh run.sh`
 | C++ Openssl     | 5.45    | 65.2       |
 | D               | 6.18    | 89.1       |
 | Python          | 7.62    | 52.6       |
-| Rust            | 7.84    | 42.9       |
+| Rust            | 7.40    | 42.9       |
 | Javascript Node | 7.93    | 777.1      |
 | Python Pypy     | 8.22    | 114.6      |
 | Ruby JRuby      | 16.76   | 496.6      |
