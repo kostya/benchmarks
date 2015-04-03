@@ -17,8 +17,8 @@ To run all: `sh run.sh`
 | Crystal         | 2.27    | 1085.8     |
 | Nim             | 3.32    | 1344.3     |
 | Python Pypy     | 4.99    | 1365.4     |
-| Rust            | 5.24    | 1519.1     |
 | C++ LibJson     | 5.49    | 2796.3     |
+| Rust            | 5.93    | 2957.5     |
 | Go              | 6.27    | 420.9      |
 | Python          | 9.85    | 1409.1     |
 | Julia           | 10.21   | 2335.9     |
