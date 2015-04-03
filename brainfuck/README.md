@@ -21,7 +21,7 @@ To run all: `sh run.sh`
 | D Gdc           | 8.53    | 1.0        |
 | Javascript V8   | 9.41    | 8.1        |
 | Scala           | 11.99   | 1.6        |
-| Rust            | 16.15   | 4.9        |
+| Rust            | 17.00   | 4.9        |
 | Javascript Node | 17.72   | 9.5        |
 | Python Pypy     | 20.12   | 20.8       |
 | Ruby JRuby      | 96.20   | 97.0       |
@@ -44,7 +44,7 @@ To run all: `sh run.sh`
 | Go              | 52.29   | 1.5        |
 | Cpp             | 56.63   | 1.1        |
 | D Gdc           | 71.20   | 1.5        |
-| Rust            | 85.05   | 4.9        |
+| Rust            | 81.81   | 4.9        |
 | Scala           | 105.57  | 1.6        |
 | Javascript Node | 206.88  | 11.3       |
 | Python Pypy     | 206.20  | 31.8       |
