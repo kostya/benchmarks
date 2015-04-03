@@ -23,7 +23,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * gdc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
 * LDC - the LLVM D compiler (0.15.2-beta1):
 * V8 version 3.29.62 (candidate)
-* rustc 0.13.0-nightly (5745e4195 2014-11-12 22:57:16 +0000)
+* rustc 1.0.0-nightly (d17d6e7f1 2015-04-02) (built 2015-04-03)
 * Scala compiler version 2.11.4 -- Copyright 2002-2013, LAMP/EPFL
 * Nodejs v0.10.25
 * PyPy 2.4.0 with GCC 4.6.3

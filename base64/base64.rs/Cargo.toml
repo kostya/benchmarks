@@ -1,0 +1,8 @@
+[package]
+name = "base64_rs"
+version = "0.0.1"
+
+[dependencies]
+rustc-serialize = "0.3"
+time = "*"
+
