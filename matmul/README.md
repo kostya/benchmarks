@@ -18,10 +18,10 @@ To run all: `sh run.sh`
 | C               | 3.64    | 69.2       |
 | Java            | 3.68    | 134.3      |
 | Nim             | 3.73    | 131.8      |
-| Rust            | 3.79    | 100.9      |
 | Crystal         | 3.84    | 72.1       |
 | Go              | 4.77    | 75.6       |
 | Javascript V8   | 6.87    | 81.5       |
+| Rust            | 7.01    | 101.0      |
 | Python Pypy     | 7.10    | 89.2       |
 | Scala           | 10.26   | 154.0      |
 | Julia           | 27.05   | 128.4      |
