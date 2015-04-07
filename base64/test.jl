@@ -11,7 +11,7 @@ function main()
   t = time()
   s = 0
   for i in range(0, tries)
-    str2 = bytestring(encode(Base64, str))
+    str2 = ASCIIString(encode(Base64, str))
     s += length(str2)
   end
   print(s, ", ", time() - t, "\n")
@@ -20,7 +20,7 @@ function main()
   t = time()
   s = 0
   for i in range(0, tries)
-    s += length(bytestring(decode(Base64, str2)))
+    s += length(ASCIIString(decode(Base64, str2)))
   end
   print(s, ", ", time() - t, "\n")
 end
