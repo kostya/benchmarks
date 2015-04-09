@@ -3,7 +3,7 @@ import std.stdio;
 import std.file;
 
 int main(string[] args) {
-  string text = readText("./1.json");
+  string text = cast(string)read("./1.json");
   auto jobj = parseJSON(text).object;
   auto coordinates = jobj["coordinates"].array;
   ulong len = coordinates.length;
