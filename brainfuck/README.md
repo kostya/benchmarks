@@ -20,6 +20,7 @@ To run all: `sh run.sh`
 | D               | 8.16    | 0.9        |
 | D Gdc           | 8.53    | 1.0        |
 | Javascript V8   | 9.41    | 8.1        |
+| Julia           | 9.96    | 66.4       |
 | Scala           | 11.99   | 1.6        |
 | Rust            | 17.00   | 4.9        |
 | Javascript Node | 17.72   | 9.5        |
@@ -28,7 +29,6 @@ To run all: `sh run.sh`
 | Ruby Topaz      | 112.91  | 36.0       |
 | Ruby            | 226.86  | 8.0        |
 | Ruby JRuby9k    | 241.16  | 256.6      |
-| Julia           | 353.46  | 57.0       |
 | Python          | 452.44  | 4.9        |
 | Ruby Rbx        | 472.08  | 45.0       |
 
