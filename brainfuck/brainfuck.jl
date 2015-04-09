@@ -1,99 +1,90 @@
 type Tape
-  tape::Array
+  tape::Array{Int, 1}
   pos::Int
-  inc::Function
-  dec::Function
-  get::Function
-  advance::Function
-  devance::Function
 
   function Tape()
-    this = new()
-    this.tape = Array(Int, 1)
-    this.pos = 1
-    this.inc = function ()
-      this.tape[this.pos] += 1
-    end
-    this.dec = function ()
-      this.tape[this.pos] -= 1
-    end
-    this.get = function ()
-      this.tape[this.pos]
-    end
-    this.advance = function ()
-      this.pos += 1
-      if this.pos > length(this.tape)
-        push!(this.tape, 0)
-      end
-    end
-    this.devance = function ()
-      if this.pos > 1
-        this.pos -= 1
-      end
-    end
-    return this
+    new(Array(Int, 1), 1)
   end
 end
 
+inc(this::Tape) = (this.tape[this.pos] += 1)
+dec(this::Tape) = (this.tape[this.pos] -= 1)
+get(this::Tape) = this.tape[this.pos]
+
+function advance(this::Tape)
+  this.pos += 1
+  if this.pos > length(this.tape)
+    push!(this.tape, 0)
+  end
+  return nothing
+end
+
+function devance(this::Tape)
+  if this.pos > 1
+    this.pos -= 1
+  end
+  return nothing
+end
+
+validbfsymbol(x) = in(x, ['>', '<', '+', '-', '.', ',', '[', ']'])
+
 type Program
-  code::String
-  bracket_map::Dict
-  run::Function
+  code::ASCIIString
+  bracket_map::Dict{Int, Int}
 
   function Program(text)
-    this = new()
-    SYMBOLS = ['>' '<' '+' '-' '.' ',' '[' ']']
-    this.code = filter(x -> in(x, SYMBOLS), text)
-    this.bracket_map = Dict{Int, Int}()
+    code = filter(validbfsymbol, text)
+    bracket_map = Dict{Int, Int}()
     stack = Int[]
     pc = 1
-    for ch in this.code
+    for ch in code
       if ch == '['
         push!(stack, pc)
       elseif ch == ']' && length(stack) > 0
         right = pop!(stack)
-        this.bracket_map[pc] = right
-        this.bracket_map[right] = pc
+        bracket_map[pc] = right
+        bracket_map[right] = pc
       end
       pc += 1
     end
+    return new(code, bracket_map)
+  end
+end
 
-    this.run = function ()
-      tape = Tape()
-      pc = 1
-      while pc <= length(this.code)
-        ch = this.code[pc]
-        if ch == '+'
-          tape.inc()
-        elseif ch == '-'
-          tape.dec()
-        elseif ch == '>'
-          tape.advance()
-        elseif ch == '<'
-          tape.devance()
-        elseif ch == '['
-          if tape.get() == 0
-            pc = this.bracket_map[pc]
-          end
-        elseif ch == ']'
-          if tape.get() != 0
-            pc = this.bracket_map[pc]
-          end
-        elseif ch == '.'
-          print(char(tape.get()))
-        end
-        pc += 1
+function run(this::Program)
+  code = this.code
+  bracket_map = this.bracket_map
+  tape = Tape()
+  pc = 1
+  while pc <= length(code)
+    ch = code[pc]
+    if ch == '+'
+      inc(tape)
+    elseif ch == '-'
+      dec(tape)
+    elseif ch == '>'
+      advance(tape)
+    elseif ch == '<'
+      devance(tape)
+    elseif ch == '['
+      if get(tape) == 0
+        pc = bracket_map[pc]
       end
+    elseif ch == ']'
+      if get(tape) != 0
+        pc = bracket_map[pc]
+      end
+    elseif ch == '.'
+      print(char(get(tape)))
     end
-
-    return this
+    pc += 1
   end
 end
 
 function main()
   text = open(readall, ARGS[1])
   p = Program(text)
-  p.run()
+  run(p)
 end
 
 main()
