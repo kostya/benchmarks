@@ -19,8 +19,8 @@ To run all: `sh run.sh`
 | Go              | 7.57    | 1.0        |
 | D               | 8.16    | 0.9        |
 | D Gdc           | 8.53    | 1.0        |
+| Julia           | 9.00    | 56.0       |
 | Javascript V8   | 9.41    | 8.1        |
-| Julia           | 9.96    | 66.4       |
 | Scala           | 11.99   | 1.6        |
 | Rust            | 17.00   | 4.9        |
 | Javascript Node | 17.72   | 9.5        |
@@ -44,6 +44,7 @@ To run all: `sh run.sh`
 | Go              | 52.29   | 1.5        |
 | Cpp             | 56.63   | 1.1        |
 | D Gdc           | 71.20   | 1.5        |
+| Julia           | 76.39   | 56.1       |
 | Rust            | 81.81   | 4.9        |
 | Scala           | 105.57  | 1.6        |
 | Javascript Node | 206.88  | 11.3       |
