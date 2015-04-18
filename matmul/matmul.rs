@@ -16,7 +16,7 @@ fn matgen(n: usize) -> Vec<Vec<f64>> {
   for i in 0..n {
     for j in 0..n {
       let val = tmp * (i as f64 - j as f64) * (i as f64 + j as f64);
-      *a.get_mut(i).unwrap().get_mut(j).unwrap() = val; // Wtf, rust O_o
+      a[i][j] = val;
     }
   }
   a
@@ -30,7 +30,7 @@ fn matmul(a: Vec<Vec<f64>>, b: Vec<Vec<f64>>) -> Vec<Vec<f64>> {
   let mut b2 = newmat(n, p);
   for i in 0..n {
     for j in 0..p {
-      *b2.get_mut(j).unwrap().get_mut(i).unwrap() = b[i][j];
+      b2[j][i] = b[i][j];
     }
   }
 
@@ -43,7 +43,7 @@ fn matmul(a: Vec<Vec<f64>>, b: Vec<Vec<f64>>) -> Vec<Vec<f64>> {
       for k in 0..n {
         s += ai[k] * b2j[k];
       }
-      *c.get_mut(i).unwrap().get_mut(j).unwrap() = s;
+      c[i][j] = s;
     }
   }
 
