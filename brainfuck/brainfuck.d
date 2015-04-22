@@ -2,15 +2,11 @@ import std.algorithm;
 import std.stdio;
 import std.file;
 import std.array;
+import std.conv;
 
-class Tape {
+struct Tape {
   int pos;
-  int[] tape;
-
-  this() {
-    pos = 0;
-    tape ~= 0;
-  }
+  int[] tape = [0];
 
 final:
   int get() { return tape[pos]; }
@@ -22,11 +18,14 @@ final:
 
 class Program {
   string code;
-  int[int] bracket_map;
+  int[] bracket_map;
 
   this(string text) {
     int[] leftstack;
     int pc = 0;
+    
+    // Reserve some space
+    bracket_map.length = text.length;
 
     for (int i = 0; i < text.length; i++) {
       char c = text[i];
@@ -48,7 +47,7 @@ class Program {
   }
 
   void run() {
-    Tape tape = new Tape();
+    Tape tape = Tape();
     for (int pc = 0; pc < code.length; pc++) {
       switch (code[pc]) {
         case '+':
@@ -70,7 +69,7 @@ class Program {
           if (tape.get() != 0) pc = bracket_map[pc];
           break;
         case '.':
-          printf("%c", tape.get());
+          write(tape.get().to!char);
           stdout.flush();
           break;
         default:
@@ -82,7 +81,7 @@ class Program {
 
 int main(string[] args){
   string text = readText(args[1]);
-  Program p = new Program(text);
+  auto p = new Program(text);
   p.run();
   return 0;
 }
