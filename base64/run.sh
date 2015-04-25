@@ -28,3 +28,5 @@ echo Python
 ../xtime.rb python test.py
 echo Ruby
 ../xtime.rb ruby test.rb
+echo Mono
+../xtime.rb mono -O=all --gc=sgen test.exe
