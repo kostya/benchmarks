@@ -28,6 +28,7 @@ To run all: `sh run.sh`
 | C++ Boost       | 16.44   | 2915.2     |
 | D Gdc           | 17.68   | 1008.4     |
 | Ruby JRuby9k    | 18.89   | 1996.8     |
+| C# Mono         | 25.58   | 4853.7     |
 | Ruby JRuby      | 25.78   | 2712.6     |
 | D Ldc           | 27.23   | 919.6      |
 | Ruby Rbx        | 67.13   | 4681.0     |

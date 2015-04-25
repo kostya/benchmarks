@@ -24,6 +24,8 @@ echo Julia Native
 ../xtime.rb julia matmul-native.jl 1500
 echo Julia
 ../xtime.rb julia matmul.jl 1500
+echo Mono
+../xtime.rb mono -O=all --gc=sgen matmul.exe 1500
 echo Python Pypy
 ../xtime.rb pypy matmul.py 1500
 echo Python

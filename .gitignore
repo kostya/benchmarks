@@ -12,3 +12,5 @@ nimcache
 *.json
 *.swp
 todo
+*.exe
+*.dll
