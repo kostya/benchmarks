@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Test
 {
-    public struct Tape
+    public class Tape
     {
         int pos;
         List<int> tape;
