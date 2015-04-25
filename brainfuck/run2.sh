@@ -22,3 +22,5 @@ echo Javascript Node
 ../xtime.rb nodejs brainfuck.js mandel.b > /dev/null
 echo Python Pypy
 ../xtime.rb pypy brainfuck.py mandel.b > /dev/null
+echo Mono
+../xtime.rb mono -O=all --gc=sgen brainfuck.exe mandel.b > /dev/null

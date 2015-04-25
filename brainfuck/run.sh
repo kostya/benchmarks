@@ -32,3 +32,5 @@ echo Ruby
 ../xtime.rb ruby brainfuck.rb bench.b
 echo Ruby Topaz
 ../xtime.rb topaz brainfuck.rb bench.b
+echo Mono
+../xtime.rb mono -O=all --gc=sgen brainfuck.exe bench.b
