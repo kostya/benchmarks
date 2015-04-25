@@ -32,3 +32,5 @@ echo Ruby Topaz
 ../xtime.rb topaz matmul.rb 1500
 echo Ruby
 ../xtime.rb ruby matmul.rb 1500
+echo Mono
+../xtime.rb mono -O=all --gc=sgen matmul.exe 1500
