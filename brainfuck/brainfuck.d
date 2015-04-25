@@ -2,6 +2,7 @@ import std.algorithm;
 import std.stdio;
 import std.file;
 import std.array;
+import std.conv;
 
 class Tape {
   int pos;
@@ -48,7 +49,7 @@ class Program {
   }
 
   void run() {
-    Tape tape = new Tape();
+    auto tape = new Tape();
     for (int pc = 0; pc < code.length; pc++) {
       switch (code[pc]) {
         case '+':
@@ -70,7 +71,7 @@ class Program {
           if (tape.get() != 0) pc = bracket_map[pc];
           break;
         case '.':
-          printf("%c", tape.get());
+          write(tape.get().to!char);
           stdout.flush();
           break;
         default:
@@ -82,7 +83,7 @@ class Program {
 
 int main(string[] args){
   string text = readText(args[1]);
-  Program p = new Program(text);
+  auto p = new Program(text);
   p.run();
   return 0;
 }
