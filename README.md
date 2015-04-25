@@ -36,3 +36,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Java HotSpot(TM) 64-Bit Server VM (build 24.65-b04, mixed mode)
 * julia version 0.3.7
 * clang version 3.5-1ubuntu1 (trunk) (based on LLVM 3.5)
+* Mono JIT compiler version 3.2.8 (Debian 3.2.8+dfsg-4ubuntu1)
