@@ -20,3 +20,7 @@ fi
 g++ -O3 test_rapid.cpp -o json_rapid_cpp -Irapidjson/include
 g++ -O3 test_libjson.cpp -o json_libjson_cpp -ljson
 julia -e 'Pkg.add("JSON")'
+# mono
+nuget install Newtonsoft.Json
+cp Newtonsoft.Json.*/lib/net45/Newtonsoft.Json.dll .
+mcs -debug- -optimize+ -r:Newtonsoft.Json.dll test.cs

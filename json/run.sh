@@ -34,3 +34,5 @@ echo Julia
 ../xtime.rb julia test.jl
 echo Scala
 ../xtime.rb scala -J-Xmx3024m TestJson
+echo Mono
+../xtime.rb mono -O=all --gc=sgen test.exe
