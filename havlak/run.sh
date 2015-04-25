@@ -18,3 +18,5 @@ echo Nim
 ../xtime.rb ./havlak_nim
 echo Python
 ../xtime.rb python havlak.py
+echo Mono
+../xtime.rb mono -O=all --gc=sgen havlak.exe
