@@ -4,14 +4,9 @@ import std.file;
 import std.array;
 import std.conv;
 
-class Tape {
-  int pos;
-  int[] tape;
-
-  this() {
-    pos = 0;
-    tape ~= 0;
-  }
+struct Tape {
+  int pos = 0;
+  int[] tape = [0];
 
 final:
   int get() { return tape[pos]; }
@@ -49,7 +44,7 @@ class Program {
   }
 
   void run() {
-    auto tape = new Tape();
+    auto tape = Tape();
     for (int pc = 0; pc < code.length; pc++) {
       switch (code[pc]) {
         case '+':
