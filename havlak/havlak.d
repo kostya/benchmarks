@@ -3,18 +3,19 @@ import std.algorithm: canFind;
 import std.array;
 import std.stdio;
 
-class BasicBlock {
+final class BasicBlock {
   BasicBlock[] inEdges;
   BasicBlock[] outEdges;
   int name;
 
-  this(int _name) { name = _name; }
+  this(int _name) pure @safe { name = _name; }
 }
 
 struct BasicBlockEdge {
   BasicBlock from;
   BasicBlock to;
 
+  @safe pure:
   this(CFG cfg, int fromName, int toName) {
     from = cfg.createNode(fromName);
     to = cfg.createNode(toName);
@@ -24,11 +25,12 @@ struct BasicBlockEdge {
   }
 }
 
-class CFG {
+final class CFG {
   BasicBlock[int] basicBlockMap;
   BasicBlockEdge[] edgeList;
   BasicBlock startNode;
 
+  pure @safe:
   BasicBlock createNode(int name) {
     BasicBlock node = basicBlockMap.get(name, null);
 
@@ -46,7 +48,7 @@ class CFG {
 }
 
 
-class SimpleLoop {
+final class SimpleLoop {
   bool[BasicBlock] basicBlocks;
   bool[SimpleLoop] children;
   bool isRoot;
@@ -57,6 +59,7 @@ class SimpleLoop {
   SimpleLoop parent;
   BasicBlock header;
 
+  pure @safe:
   this() {
     parent = null;
     header = null;
@@ -88,10 +91,11 @@ class SimpleLoop {
 
 static int loopCounter = 0;
 
-class LSG {
+final class LSG {
   SimpleLoop[] loops;
   SimpleLoop root;
 
+  @safe:
   this() {
     root = createNewLoop();
     root.setNestingLevel(0);
@@ -105,28 +109,16 @@ class LSG {
     return s;
   }
 
+  @safe pure:
   void addLoop(SimpleLoop loop) { loops ~= loop; }
   int getNumLoops() { return to!int(loops.length); }
 }
 
-class UnionFindNode {
+final class UnionFindNode {
   UnionFindNode parent;
   BasicBlock bb;
   SimpleLoop loop;
   int dfsNumber;
-
-  this() {
-    bb = null;
-    parent = null;
-    loop = null;
-    dfsNumber = 0;
-  }
-
-  void initNode(BasicBlock _bb, int dfs) {
-    parent = this;
-    bb = _bb;
-    dfsNumber = dfs;
-  }
 
   UnionFindNode findSet() {
     UnionFindNode[] nodeList;
@@ -142,12 +134,26 @@ class UnionFindNode {
     return node;
   }
 
+  @safe pure nothrow:
+  this() {
+    bb = null;
+    parent = null;
+    loop = null;
+    dfsNumber = 0;
+  }
+
+  void initNode(BasicBlock _bb, int dfs) {
+    parent = this;
+    bb = _bb;
+    dfsNumber = dfs;
+  }
+
   void union_parent(UnionFindNode ufn) {
     parent = ufn;
   }
 }
 
-class HavlakLoopFinder {
+final class HavlakLoopFinder {
   CFG cfg;
   LSG lsg;
 
@@ -161,28 +167,31 @@ class HavlakLoopFinder {
   enum BB_LAST = 6;
   enum MAXNONBACKPREDS = (32 * 1024);
 
-  this(CFG _cfg, LSG _lsg) {
-    cfg = _cfg;
-    lsg = _lsg;
-  }
-
-  bool isAncestor(int w, int v, int[] last) {
-    return (w <= v) && (v <= last[w]);
-  }
-
-  int DSF(BasicBlock currentNode, UnionFindNode[] nodes, int[BasicBlock] number, int []last, int current) {
-    nodes[current].initNode(currentNode, current);
-    number[currentNode] = current;
-    int lastid = current;
-
-    foreach(target; currentNode.outEdges) {
-      if (number[target] == UNVISITED) {
-        lastid = DSF(target, nodes, number, last, lastid + 1);
-      }
+  @safe pure nothrow
+  {
+    this(CFG _cfg, LSG _lsg) {
+        cfg = _cfg;
+        lsg = _lsg;
     }
 
-    last[number[currentNode]] = lastid;
-    return lastid;
+    bool isAncestor(int w, int v, int[] last) {
+        return (w <= v) && (v <= last[w]);
+    }
+
+    int DSF(BasicBlock currentNode, UnionFindNode[] nodes, int[BasicBlock] number, int []last, int current) {
+        nodes[current].initNode(currentNode, current);
+        number[currentNode] = current;
+        int lastid = current;
+
+        foreach(target; currentNode.outEdges) {
+        if (number[target] == UNVISITED) {
+            lastid = DSF(target, nodes, number, last, lastid + 1);
+        }
+        }
+
+        last[number[currentNode]] = lastid;
+        return lastid;
+    }
   }
 
   int findLoops() {
@@ -341,13 +350,12 @@ class HavlakLoopFinder {
 
     return lsg.getNumLoops();
   }
-
 }
 
 int findHavlakLoops(CFG cfg, LSG lsg)
 {
     scope h = new HavlakLoopFinder(cfg, lsg);
-    return h.findLoops;
+    return h.findLoops();
 }
 
 int findHavlakLoops(CFG cfg)
@@ -356,47 +364,50 @@ int findHavlakLoops(CFG cfg)
     return findHavlakLoops(cfg, lsg);
 }
 
-class LoopTesterApp {
+final class LoopTesterApp {
   CFG cfg;
   LSG lsg;
 
-  this() {
+  this() @safe {
     cfg = new CFG();
     lsg = new LSG();
   }
 
-  int buildDiamond(int start) {
-    int bb0 = start;
-    new BasicBlockEdge(cfg, bb0, bb0 + 1);
-    new BasicBlockEdge(cfg, bb0, bb0 + 2);
-    new BasicBlockEdge(cfg, bb0 + 1, bb0 + 3);
-    new BasicBlockEdge(cfg, bb0 + 2, bb0 + 3);
-    return bb0 + 3;
-  }
-
-  void buildConnect(int _start, int _end) {
-    new BasicBlockEdge(cfg, _start, _end);
-  }
-
-  int buildStraight(int start, int n) {
-    foreach(i; 0..n) {
-      buildConnect(start + i, start + i + 1);
+  @safe pure
+  {
+    int buildDiamond(int start) {
+        int bb0 = start;
+        BasicBlockEdge(cfg, bb0, bb0 + 1);
+        BasicBlockEdge(cfg, bb0, bb0 + 2);
+        BasicBlockEdge(cfg, bb0 + 1, bb0 + 3);
+        BasicBlockEdge(cfg, bb0 + 2, bb0 + 3);
+        return bb0 + 3;
     }
-    return start + n;
-  }
 
-  int buildBaseLoop(int from) {
-    auto header   = buildStraight(from, 1);
-    auto diamond1 = buildDiamond(header);
-    auto d11      = buildStraight(diamond1, 1);
-    auto diamond2 = buildDiamond(d11);
-    auto footer   = buildStraight(diamond2, 1);
+    void buildConnect(int _start, int _end) {
+        BasicBlockEdge(cfg, _start, _end);
+    }
 
-    buildConnect(diamond2, d11);
-    buildConnect(diamond1, header);
+    int buildStraight(int start, int n) {
+        foreach(i; 0..n) {
+        buildConnect(start + i, start + i + 1);
+        }
+        return start + n;
+    }
 
-    buildConnect(footer, from);
-    return buildStraight(footer, 1);
+    int buildBaseLoop(int from) {
+        auto header   = buildStraight(from, 1);
+        auto diamond1 = buildDiamond(header);
+        auto d11      = buildStraight(diamond1, 1);
+        auto diamond2 = buildDiamond(d11);
+        auto footer   = buildStraight(diamond2, 1);
+
+        buildConnect(diamond2, d11);
+        buildConnect(diamond1, header);
+
+        buildConnect(footer, from);
+        return buildStraight(footer, 1);
+    }
   }
 
   void run() {
