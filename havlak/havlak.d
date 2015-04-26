@@ -151,15 +151,15 @@ class HavlakLoopFinder {
   CFG cfg;
   LSG lsg;
 
-  static int UNVISITED = -1;
-  static int BB_TOP = 0;
-  static int BB_NONHEADER = 1;
-  static int BB_REDUCIBLE = 2;
-  static int BB_SELF = 3;
-  static int BB_IRREDUCIBLE = 4;
-  static int BB_DEAD = 5;
-  static int BB_LAST = 6;
-  static int MAXNONBACKPREDS = (32 * 1024);
+  enum UNVISITED = -1;
+  enum BB_TOP = 0;
+  enum BB_NONHEADER = 1;
+  enum BB_REDUCIBLE = 2;
+  enum BB_SELF = 3;
+  enum BB_IRREDUCIBLE = 4;
+  enum BB_DEAD = 5;
+  enum BB_LAST = 6;
+  enum MAXNONBACKPREDS = (32 * 1024);
 
   this(CFG _cfg, LSG _lsg) {
     cfg = _cfg;
@@ -400,20 +400,20 @@ class LoopTesterApp {
   }
 
   void run() {
-    printf("Welcome to LoopTesterApp, D edition\n");
-    printf("Constructing Simple CFG...\n");
+    writeln("Welcome to LoopTesterApp, D edition");
+    writeln("Constructing Simple CFG...");
 
     cfg.createNode(0);
     buildBaseLoop(0);
     cfg.createNode(1);
     buildConnect(0, 2);
 
-    printf("15000 dummy loops\n");
+    writeln("15000 dummy loops");
     foreach(_; 0..15000) {
       findHavlakLoops(cfg);
     }
 
-    printf("Constructing CFG...\n");
+    writeln("Constructing CFG...");
     int n = 2;
 
     foreach(parlooptrees; 0..10) {
@@ -435,19 +435,19 @@ class LoopTesterApp {
       buildConnect(n, 1);
     }
 
-    printf("Performing Loop Recognition\n1 Iteration\n");
+    writeln("Performing Loop Recognition\n1 Iteration");
 
     int loops = findHavlakLoops(cfg);
 
-    printf("Another 50 iterations...\n");
+    writeln("Another 50 iterations...");
 
     int sum = 0;
     foreach (_; 0..50) {
-      printf(".");
+      write(".");
       stdout.flush();
       sum += findHavlakLoops(cfg);
     }
-    printf("\nFound %d loops (including artificial root node) (%d)\n", loops, sum);
+    writefln("\nFound %d loops (including artificial root node) (%d)", loops, sum);
   }
 }
 
