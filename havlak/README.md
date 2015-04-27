@@ -19,6 +19,7 @@ To run all: `sh run.sh`
 | D Ldc           | 30.57   | 231.6      |
 | Scala           | 33.38   | 341.0      |
 | Go              | 44.56   | 424.9      |
+| C# Mono         | 46.89   | 717.0      |
 | Python Pypy     | 69.46   | 730.2      |
 | Python          | 396.54  | 724.0      |
 
