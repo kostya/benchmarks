@@ -22,7 +22,7 @@ To run all: `sh run.sh`
 | Julia           | 9.00    | 56.0       |
 | Javascript V8   | 9.41    | 8.1        |
 | Scala           | 11.99   | 1.6        |
-| C# Mono         | 12.23   | 11.7       |
+| C# Mono         | 12.01   | 10.4       |
 | Go Gcc          | 13.60   | 10.0       |
 | Rust            | 14.56   | 4.9        |
 | Javascript Node | 17.72   | 9.5        |
@@ -48,8 +48,8 @@ To run all: `sh run.sh`
 | D Gdc           | 71.20   | 1.5        |
 | Rust            | 74.43   | 4.9        |
 | Julia           | 76.39   | 56.1       |
+| C# Mono         | 83.58   | 10.4       |
 | Go Gcc          | 85.67   | 10.7       |
-| C# Mono         | 87.69   | 13.1       |
 | Scala           | 105.57  | 1.6        |
 | Javascript Node | 206.88  | 11.3       |
 | Python Pypy     | 206.20  | 31.8       |

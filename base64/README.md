@@ -27,7 +27,7 @@ To run all: `sh run.sh`
 | Ruby JRuby      | 16.76   | 496.6      |
 | Julia           | 16.86   | 163.9      |
 | Ruby JRuby9k    | 17.72   | 417.1      |
-| C# Mono         | 18.17   | 123.0      |
+| C# Mono         | 18.11   | 119.7      |
 | Go              | 21.24   | 94.2       |
 | Scala           | 35.06   | 301.2      |
 | Go Gcc          | 39.56   | 185.5      |

@@ -29,8 +29,8 @@ To run all: `sh run.sh`
 | D Gdc           | 17.68   | 1008.4     |
 | Go Gcc          | 18.69   | 494.4      |
 | Ruby JRuby9k    | 18.89   | 1996.8     |
-| C# Mono         | 25.58   | 4853.7     |
 | Ruby JRuby      | 25.78   | 2712.6     |
 | D Ldc           | 27.23   | 919.6      |
+| C# Mono         | 32.82   | 4420.4     |
 | Ruby Rbx        | 67.13   | 4681.0     |
 | Scala           | 343.13  | 2373.0     |
