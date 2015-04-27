@@ -15,3 +15,4 @@ todo
 *.exe
 *.dll
 bin_*
+target
