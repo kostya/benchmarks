@@ -1,5 +1,6 @@
 crystal build havlak.cr --release -o havlak_cr
 go build -o havlak_go havlak.go
+gccgo -O3 -g -o havlak_go_gccgo havlak.go
 g++ -O3 -o havlak_cpp havlak.cpp
 scalac -optimize havlak.scala
 rustc --opt-level 3 havlak.rs -o havlak_rs

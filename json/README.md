@@ -27,6 +27,7 @@ To run all: `sh run.sh`
 | Javascript Node | 11.61   | 926.4      |
 | C++ Boost       | 16.44   | 2915.2     |
 | D Gdc           | 17.68   | 1008.4     |
+| Go Gcc          | 18.69   | 494.4      |
 | Ruby JRuby9k    | 18.89   | 1996.8     |
 | C# Mono         | 25.58   | 4853.7     |
 | Ruby JRuby      | 25.78   | 2712.6     |

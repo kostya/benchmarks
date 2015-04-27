@@ -12,6 +12,8 @@ echo Rust
 ../xtime.rb ./json_rs
 echo Go
 ../xtime.rb ./json_go
+echo GccGo
+../xtime.rb ./json_go_gccgo
 echo D
 ../xtime.rb ./json_d
 echo D Gdc

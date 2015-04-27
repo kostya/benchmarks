@@ -19,6 +19,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Nim Compiler Version 0.10.2 (2014-12-29) [Linux: amd64]
 * `Crystal 0.5.5 [d814c6c] (Fri Dec 12 22:50:10 UTC 2014)`
 * go version go1.4 linux/amd64
+* gccgo (Ubuntu 4.9.1-0ubuntu1) 4.9.1
 * DMD64 D Compiler v2.067.0
 * gdc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
 * LDC - the LLVM D compiler (0.15.2-beta1):

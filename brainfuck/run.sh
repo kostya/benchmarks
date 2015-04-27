@@ -2,6 +2,8 @@ echo Crystal
 ../xtime.rb ./brainfuck_cr bench.b
 echo Go
 ../xtime.rb ./brainfuck_go bench.b
+echo GccGo
+../xtime.rb ./brainfuck_go_gccgo bench.b
 echo Cpp
 ../xtime.rb ./brainfuck_cpp bench.b
 echo Rust

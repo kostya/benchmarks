@@ -1,5 +1,6 @@
 crystal build test.cr --release -o base64_cr
 go build -o base64_go test.go
+gccgo -O3 -g -o base64_go_gccgo test.go
 g++ -O3 -o base64_cpp test.cpp -lcrypto
 gcc -O3 -std=c99 -o base64_c test.c
 scalac -optimize test.scala

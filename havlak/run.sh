@@ -2,6 +2,8 @@ echo Cpp
 ../xtime.rb ./havlak_cpp
 echo Go
 ../xtime.rb ./havlak_go
+echo GccGo
+../xtime.rb ./havlak_go_gccgo
 echo Crystal
 ../xtime.rb ./havlak_cr
 echo Scala

@@ -2,6 +2,8 @@ echo Crystal
 ../xtime.rb ./brainfuck_cr mandel.b > /dev/null
 echo Go
 ../xtime.rb ./brainfuck_go mandel.b > /dev/null
+echo GccGo
+../xtime.rb ./brainfuck_go_gccgo mandel.b > /dev/null
 echo Cpp
 ../xtime.rb ./brainfuck_cpp mandel.b > /dev/null
 echo Rust

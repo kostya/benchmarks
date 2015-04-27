@@ -2,6 +2,8 @@ echo Crystal
 ../xtime.rb ./matmul_cr 1500
 echo Go
 ../xtime.rb ./matmul_go 1500
+echo GccGo
+../xtime.rb ./matmul_go_gccgo 1500
 echo C
 ../xtime.rb ./matmul_c 1500
 echo Rust

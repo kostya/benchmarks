@@ -2,6 +2,8 @@ echo Crystal
 ../xtime.rb ./base64_cr
 echo Go
 ../xtime.rb ./base64_go
+echo GccGo
+../xtime.rb ./base64_go_gccgo
 echo Cpp
 ../xtime.rb ./base64_cpp
 echo C

@@ -20,6 +20,7 @@ To run all: `sh run.sh`
 | Rust            | 3.72    | 101.0      |
 | Nim             | 3.73    | 131.8      |
 | Crystal         | 3.84    | 72.1       |
+| Go Gcc          | 3.90    | 84.5       |
 | Go              | 4.77    | 75.6       |
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.10    | 89.2       |

@@ -1,5 +1,6 @@
 crystal build matmul.cr --release -o matmul_cr
 go build -o matmul_go matmul.go
+gccgo -O3 -g -o matmul_go_gccgo matmul.go
 gcc -O3 -o matmul_c matmul.c
 scalac -optimize matmul.scala
 rustc -C opt-level=3 matmul.rs -o matmul_rs
