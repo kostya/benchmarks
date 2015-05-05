@@ -11,8 +11,8 @@ To run all: `sh run.sh`
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
-| Nim Clang       | 2.55    | 0.7        |
-| Nim Gcc         | 4.75    | 0.6        |
+| Nim Clang       | 3.02    | 0.7        |
+| Nim Gcc         | 4.32    | 0.6        |
 | C++             | 5.08    | 1.1        |
 | D Ldc           | 6.61    | 0.9        |
 | Crystal         | 7.06    | 1.1        |
