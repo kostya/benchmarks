@@ -19,7 +19,7 @@ To run all: `sh run.sh`
 | Java            | 3.68    | 134.3      |
 | Rust            | 3.72    | 101.0      |
 | Nim             | 3.73    | 131.8      |
-| Crystal         | 3.84    | 72.1       |
+| Crystal         | 3.82    | 72.2       |
 | Go Gcc          | 3.90    | 84.5       |
 | Go              | 4.77    | 75.6       |
 | Javascript V8   | 6.87    | 81.5       |

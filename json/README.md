@@ -12,9 +12,9 @@ To run all: `sh run.sh`
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
 | C++ Rapid       | 0.79    | 687.1      |
-| Crystal Schema  | 1.39    | 292.3      |
-| Crystal Pull    | 1.75    | 1.2        |
-| Crystal         | 2.27    | 1085.8     |
+| Crystal Schema  | 1.48    | 294.5      |
+| Crystal Pull    | 1.60    | 1.4        |
+| Crystal         | 2.27    | 1091.4     |
 | Nim             | 3.32    | 1344.3     |
 | Python Pypy     | 4.99    | 1365.4     |
 | C++ LibJson     | 5.49    | 2796.3     |
