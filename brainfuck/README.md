@@ -21,10 +21,10 @@ To run all: `sh run.sh`
 | D Gdc           | 8.53    | 1.0        |
 | Julia           | 9.00    | 56.0       |
 | Javascript V8   | 9.41    | 8.1        |
+| Rust            | 10.11   | 4.9        |
 | Scala           | 11.99   | 1.6        |
 | C# Mono         | 12.01   | 10.4       |
 | Go Gcc          | 13.60   | 10.0       |
-| Rust            | 14.52   | 4.9        |
 | Javascript Node | 17.72   | 9.5        |
 | Python Pypy     | 20.12   | 20.8       |
 | Ruby JRuby      | 96.20   | 97.0       |
@@ -45,8 +45,8 @@ To run all: `sh run.sh`
 | D               | 49.73   | 1.2        |
 | Go              | 52.29   | 1.5        |
 | Cpp             | 56.63   | 1.1        |
+| Rust            | 58.40   | 4.9        |
 | D Gdc           | 71.20   | 1.5        |
-| Rust            | 76.04   | 4.9        |
 | Julia           | 76.39   | 56.1       |
 | C# Mono         | 83.58   | 10.4       |
 | Go Gcc          | 85.67   | 10.7       |
