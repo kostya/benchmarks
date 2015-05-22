@@ -12,6 +12,7 @@ To run all: `sh run.sh`
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
 | C++ Rapid       | 0.79    | 687.1      |
+| C++ Gason       | 0.83    | 582.2      |
 | Crystal Schema  | 1.48    | 294.5      |
 | Crystal Pull    | 1.60    | 1.4        |
 | Crystal         | 2.27    | 1091.4     |

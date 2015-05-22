@@ -30,6 +30,8 @@ echo C++ Boost
 ../xtime.rb ./json_boost_cpp
 echo C++ Rapid
 ../xtime.rb ./json_rapid_cpp
+echo C++ Gason
+../xtime.rb ./json_gason_cpp
 echo C++ LibJson
 ../xtime.rb ./json_libjson_cpp
 echo Julia
