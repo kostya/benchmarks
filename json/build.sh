@@ -19,6 +19,12 @@ if [ ! -d rapidjson ]; then
   git clone --depth 1 https://github.com/miloyip/rapidjson.git
 fi
 g++ -O3 test_rapid.cpp -o json_rapid_cpp -Irapidjson/include
+
+if [ ! -d gason ]; then
+  git clone --depth 1 https://github.com/vivkin/gason.git
+fi
+g++ -std=c++11 test_gason.cpp -I gason/src/ gason/src/gason.cpp -o json_gason_cpp -O3
+
 g++ -O3 test_libjson.cpp -o json_libjson_cpp -ljson
 julia -e 'Pkg.add("JSON")'
 # mono
