@@ -25,7 +25,7 @@ To run all: `sh run.sh`
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.10    | 89.2       |
 | Scala           | 10.26   | 154.0      |
-| C# Mono         | 15.18   | 80.9       |
+| C# Mono         | 15.17   | 83.6       |
 | Julia           | 27.05   | 128.4      |
 | Ruby Topaz      | 81.41   | 206.2      |
 | Ruby            | 338.40  | 82.8       |

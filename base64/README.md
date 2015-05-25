@@ -24,10 +24,10 @@ To run all: `sh run.sh`
 | Rust            | 7.53    | 41.0       |
 | Javascript Node | 7.93    | 777.1      |
 | Python Pypy     | 8.22    | 114.6      |
+| C# Mono         | 9.01    | 71.7       |
 | Ruby JRuby      | 16.76   | 496.6      |
 | Julia           | 16.86   | 163.9      |
 | Ruby JRuby9k    | 17.72   | 417.1      |
-| C# Mono         | 18.11   | 119.7      |
 | Go              | 21.24   | 94.2       |
 | Scala           | 35.06   | 301.2      |
 | Go Gcc          | 39.56   | 185.5      |
