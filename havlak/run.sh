@@ -16,8 +16,10 @@ echo D Ldc
 ../xtime.rb ./havlak_d_ldc
 echo Python Pypy
 ../xtime.rb pypy havlak.py
-echo Nim
-../xtime.rb ./havlak_nim
+echo Nim Gcc
+../xtime.rb ./havlak_nim_gcc
+echo Nim Clang
+../xtime.rb ./havlak_nim_clang
 echo Python
 ../xtime.rb python havlak.py
 echo Mono

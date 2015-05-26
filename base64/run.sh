@@ -16,8 +16,10 @@ echo D Gdc
 ../xtime.rb ./base64_d_gdc
 echo D Ldc
 ../xtime.rb ./base64_d_ldc
-echo Nim
-../xtime.rb ./base64_nim
+echo Nim Gcc
+../xtime.rb ./base64_nim_gcc
+echo Nim Clang
+../xtime.rb ./base64_nim_clang
 echo Julia
 ../xtime.rb julia test.jl
 echo Scala

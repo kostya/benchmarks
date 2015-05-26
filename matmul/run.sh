@@ -14,8 +14,10 @@ echo D Gdc
 ../xtime.rb ./matmul_d_gdc 1500
 echo D Ldc
 ../xtime.rb ./matmul_d_ldc 1500
-echo Nim
-../xtime.rb ./matmul_nim 1500
+echo Nim Gcc
+../xtime.rb ./matmul_nim_gcc 1500
+echo Nim Clang
+../xtime.rb ./matmul_nim_clang 1500
 echo Scala
 ../xtime.rb scala MatMul 1500
 echo Java

@@ -9,7 +9,8 @@ cargo build --manifest-path json.rs/Cargo.toml --release && cp ./json.rs/target/
 dmd -ofjson_d -O -release -inline test.d
 gdc -o json_d_gdc -O3 -frelease -finline test.d
 ldc2 -ofjson_d_ldc -O5 -release -inline test.d
-nim c -o:json_nim -d:release --cc:clang --verbosity:0 test.nim
+nim c -o:json_nim_gcc -d:release --cc:gcc --verbosity:0 test.nim
+nim c -o:json_nim_clang -d:release --cc:clang --verbosity:0 test.nim
 scalac -optimize test.scala
 go build -o json_go test.go
 gccgo -O3 -g -o json_go_gccgo test.go

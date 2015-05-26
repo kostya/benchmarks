@@ -7,7 +7,8 @@ scalac -optimize test.scala
 dmd -ofbase64_d -O -release -inline test.d
 gdc -o base64_d_gdc -O3 -frelease -finline test.d
 ldc2 -ofbase64_d_ldc -O5 -release -inline test.d
-nim c -o:base64_nim -d:release --verbosity:0 test.nim
+nim c -o:base64_nim_gcc -d:release --cc:gcc --verbosity:0 test.nim
+nim c -o:base64_nim_clang -d:release --cc:clang --verbosity:0 test.nim
 julia -e 'Pkg.add("Codecs")'
 cargo build --manifest-path base64.rs/Cargo.toml --release && cp ./base64.rs/target/release/base64 ./base64_rs
 mcs -debug- -optimize+ test.cs

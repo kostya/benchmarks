@@ -20,8 +20,10 @@ echo D Gdc
 ../xtime.rb ./json_d_gdc
 echo D Ldc
 ../xtime.rb ./json_d_ldc
-echo Nim
-../xtime.rb ./json_nim
+echo Nim Gcc
+../xtime.rb ./json_nim_gcc
+echo Nim Clang
+../xtime.rb ./json_nim_clang
 echo Python Pypy
 ../xtime.rb pypy test.py
 echo Python
