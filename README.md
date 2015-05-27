@@ -2,9 +2,8 @@ Some benchmarks of different languages
 --------------------------------------
 
 # Brainfuck
------------
 
-* [code](https://github.com/kostya/benchmarks/tree/master/brainfuck)
+[Brainfuck](https://github.com/kostya/benchmarks/tree/master/brainfuck)
 
 ### bench.b
 
@@ -55,9 +54,8 @@ Some benchmarks of different languages
 
 
 # Base64
---------
 
-* [Base64](https://github.com/kostya/benchmarks/tree/master/base64)
+[Base64](https://github.com/kostya/benchmarks/tree/master/base64)
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
@@ -84,9 +82,8 @@ Some benchmarks of different languages
 | Go Gcc          | 39.56   | 185.5      |
 
 # Json
-------
 
-* [Json](https://github.com/kostya/benchmarks/tree/master/json)
+[Json](https://github.com/kostya/benchmarks/tree/master/json)
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
@@ -117,9 +114,8 @@ Some benchmarks of different languages
 | Scala           | 343.13  | 2373.0     |
 
 # Matmul
---------
 
-* [Matmul](https://github.com/kostya/benchmarks/tree/master/matmul)
+[Matmul](https://github.com/kostya/benchmarks/tree/master/matmul)
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
@@ -148,9 +144,8 @@ Some benchmarks of different languages
 | Ruby Rbx        | 591.70  | 325.0      |
 
 # Havlak
---------
 
-* [Havlak](https://github.com/kostya/benchmarks/tree/master/havlak)
+[Havlak](https://github.com/kostya/benchmarks/tree/master/havlak)
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
