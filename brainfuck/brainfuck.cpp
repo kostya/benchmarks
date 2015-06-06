@@ -85,13 +85,12 @@ public:
 };
 
 string read_file(string filename){
-  string text;
   ifstream textstream(filename.c_str());
   textstream.seekg(0, ios_base::end);
   const int lenght = textstream.tellg();
   textstream.seekg(0);
-  string buf(lenght, ' ');
-  textstream.read(&buf[0], lenght);
+  string text(lenght, ' ');
+  textstream.read(&text[0], lenght);
   textstream.close();
   return text;
 }
