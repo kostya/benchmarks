@@ -3,6 +3,22 @@
 #include <map>
 #include <fstream>
 
+#ifndef USE_CODE_VECTOR
+#define USE_CODE_VECTOR 1
+#endif
+
+#ifndef USE_FLAT_MAP
+#define USE_FLAT_MAP 1
+#endif
+
+#ifndef USE_CONST_SIZE
+#define USE_CONST_SIZE 1
+#endif
+
+#ifndef USE_COMPACT_OPCODES
+#define USE_COMPACT_OPCODES 1
+#endif
+
 using namespace std;
 
 class Tape {
@@ -23,8 +39,28 @@ public:
 };
 
 class Program {
+#if USE_CODE_VECTOR
+  vector<char> code;
+#else
   string code;
+#endif
+#if USE_FLAT_MAP
+  vector<int> bracket_map;
+#else
   map<int, int> bracket_map;
+#endif
+
+#if USE_COMPACT_OPCODES
+  enum OP {
+      INC,
+      DEC,
+      ADV,
+      DEV,
+      JFW,
+      JBW,
+      PRI,
+  };
+#endif
 
 public:
   Program(string text) {
@@ -44,18 +80,67 @@ public:
           int left = leftstack[leftstack.size() - 1];
           leftstack.pop_back();
           int right = pc;
+#if USE_FLAT_MAP
+          bracket_map.resize(max(bracket_map.size(), size_t(left) + 1));
+          bracket_map.resize(max(bracket_map.size(), size_t(right) + 1));
+#endif
           bracket_map[left] = right;
           bracket_map[right] = left;
         }
 
       pc++;
+#if USE_COMPACT_OPCODES
+      switch(c)
+      {
+      case '+': code.push_back(INC); break;
+      case '-': code.push_back(DEC); break;
+      case '>': code.push_back(ADV); break;
+      case '<': code.push_back(DEV); break;
+      case '[': code.push_back(JFW); break;
+      case ']': code.push_back(JBW); break;
+      case '.': code.push_back(PRI); break;
+      }
+#else
+#if USE_CODE_VECTOR
+      code.push_back(c);
+#else
       code += str;
+#endif
+#endif
     }
   }
 
   void run() {
     Tape tape;
+#if USE_CONST_SIZE
+#   if USE_CODE_VECTOR
+    const int sz = code.size();
+#   else
+    const int sz = code.length();
+#   endif
+#endif
+
+#if USE_CONST_SIZE
+    for (int pc = 0; pc < sz; pc++) {
+#else
+#   if USE_CODE_VECTOR
+    for (int pc = 0; pc < code.size(); pc++) {
+#   else
     for (int pc = 0; pc < code.length(); pc++) {
+#   endif
+#endif
+
+#if USE_COMPACT_OPCODES
+      switch(code[pc]) {
+        case INC: tape.inc(); break;
+        case DEC: tape.dec(); break;
+        case ADV: tape.advance(); break;
+        case DEV: tape.devance(); break;
+        case JFW: if (tape.get() == 0) pc = bracket_map[pc]; break;
+        case JBW: if (tape.get() != 0) pc = bracket_map[pc]; break;
+        case PRI: printf("%c", tape.get()); fflush(stdout); break;
+      }
+#else
       switch (code[pc]) {
         case '+':
           tape.inc();
@@ -80,6 +165,7 @@ public:
           fflush(stdout);
           break;
       }
+#endif
     }
   }
 };
