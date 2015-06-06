@@ -38,7 +38,7 @@ namespace Test
             for (int i = 0; i < text.Length; i++)
             {
                 char c = text[i];
-                if (!"[]<>+-,.".Any(a => a == c)) continue;
+                if ("[]<>+-,.".IndexOf(c) == -1) continue;
 
                 if (c == '[') leftstack.Push(pc);
                 else
