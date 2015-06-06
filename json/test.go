@@ -1,7 +1,10 @@
 package main
-import "encoding/json"
-import "fmt"
-import "io/ioutil"
+
+import (
+  "encoding/json"
+  "fmt"
+  "io/ioutil"
+)
 
 type Coordinate struct {
   X, Y, Z float64
@@ -12,11 +15,15 @@ type TestStruct struct {
 }
 
 func main() {
-  Text, err := ioutil.ReadFile("./1.json")
-  if err != nil { panic(err) }
+  f, err := os.Open("./1.json")
+  if err != nil {
+    panic(err)
+  }
 
-  jobj := TestStruct{}
-  if err := json.Unmarshal([]byte(Text), &jobj); err != nil { panic(err) }
+  err = json.NewDecoder(f).Decode(&jobj)
+  if err != nil {
+    panic(err)
+  }
 
   x := 0.0
   y := 0.0
@@ -30,5 +37,7 @@ func main() {
   }
 
   len := float64(len(jobj.Coordinates))
+  fmt.Printf("%.8f\n%.8f\n%.8f\n", x/len, y/len, z/len)
+}
   fmt.Printf("%.8f\n%.8f\n%.8f\n", x / len, y / len, z / len)
 }
