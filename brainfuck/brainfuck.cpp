@@ -85,12 +85,12 @@ public:
 };
 
 string read_file(string filename){
-  string text;
-  string line;
   ifstream textstream(filename.c_str());
-  while (getline(textstream, line)) {
-    text += line + "\n";
-  }
+  textstream.seekg(0, ios_base::end);
+  const int lenght = textstream.tellg();
+  textstream.seekg(0);
+  string text(lenght, ' ');
+  textstream.read(&text[0], lenght);
   textstream.close();
   return text;
 }
