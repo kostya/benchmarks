@@ -26,24 +26,31 @@ class Tape
   end
 end
 
+class Op
+  attr_accessor :char, :jump
+  def initialize(char, jump)
+    @char = char
+    @jump = jump
+  end
+end
+
 class Program
   def initialize(text)
-    @chars = []
-    @bracket_map = {}
-    leftstack = []
-    pc = 0
+    @code = []
     text.each_char do |char|
-      if "[]<>+-,.".include?(char)
-        @chars << char
-        if char == '['
-          leftstack << pc
-        elsif char == ']' && !leftstack.empty?
-          left = leftstack.pop
-          right = pc
-          @bracket_map[left] = right
-          @bracket_map[right] = left
-        end
-        pc += 1
+      @code << Op.new(char, 0) if "[]<>+-,.".include?(char)
+    end
+
+    leftstack = []
+    @code.each_with_index do |op, pc|
+      char = op.char
+      if char == '['
+        leftstack << pc
+      elsif char == ']' && !leftstack.empty?
+        left = leftstack.pop
+        right = pc
+        @code[left].jump = right
+        @code[right].jump = left
       end
     end
   end
@@ -51,14 +58,16 @@ class Program
   def run
     tape = Tape.new
     pc = 0
-    while pc < @chars.length
-      case @chars[pc]
+    len = @code.size
+    while pc < len
+      op = @code[pc]
+      case op.char
         when '+'; tape.inc
         when '-'; tape.dec
         when '>'; tape.advance
         when '<'; tape.devance
-        when '['; pc = @bracket_map[pc] if tape.get == 0
-        when ']'; pc = @bracket_map[pc] if tape.get != 0
+        when '['; pc = op.jump if tape.get == 0
+        when ']'; pc = op.jump if tape.get != 0
         when '.'; print(tape.get.chr)
       end
       pc += 1

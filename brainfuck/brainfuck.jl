@@ -29,31 +29,34 @@ end
 validbfsymbol(x) = in(x, ['>', '<', '+', '-', '.', ',', '[', ']'])
 
 type Program
-  code::ASCIIString
-  bracket_map::Dict{Int, Int}
+  code::Array{Char}
+  maps::Array{Int}
 
   function Program(text)
-    code = filter(validbfsymbol, text)
-    bracket_map = Dict{Int, Int}()
+    text = filter(validbfsymbol, text)
     stack = Int[]
+    code = Char[]
+    maps = Int[]
     pc = 1
-    for ch in code
+    for ch in text
+      push!(code, ch)
+      push!(maps, 0)
       if ch == '['
         push!(stack, pc)
       elseif ch == ']' && length(stack) > 0
-        right = pop!(stack)
-        bracket_map[pc] = right
-        bracket_map[right] = pc
+        left = pop!(stack)
+        maps[left] = pc
+        maps[pc] = left
       end
       pc += 1
     end
-    return new(code, bracket_map)
+    return new(code, maps)
   end
 end
 
 function run(this::Program)
   code = this.code
-  bracket_map = this.bracket_map
+  maps = this.maps
   tape = Tape()
   pc = 1
   while pc <= length(code)
@@ -68,11 +71,11 @@ function run(this::Program)
       devance(tape)
     elseif ch == '['
       if get(tape) == 0
-        pc = bracket_map[pc]
+        pc = maps[pc]
       end
     elseif ch == ']'
       if get(tape) != 0
-        pc = bracket_map[pc]
+        pc = maps[pc]
       end
     elseif ch == '.'
       print(char(get(tape)))

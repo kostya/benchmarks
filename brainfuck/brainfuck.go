@@ -42,34 +42,37 @@ func (t *Tape) Get() int {
 	return t.tape[t.pos]
 }
 
+type Op struct {
+	Char byte
+	Jump int
+}
+
 type Program struct {
-	Code       string
-	BracketMap map[int]int
+	Code []Op
 }
 
 func NewProgram(text string) (p Program) {
-	p.BracketMap = make(map[int]int)
+	p.Code = make([]Op, 0)
 	var leftstack []int
 
-	pc := 0
-
 	for i := 0; i < len(text); i++ {
-		ch := text[i]
-		chs := string(ch)
-		if strings.Contains("[].,+-<>", chs) {
-			p.Code += chs
-			if ch == '[' {
-				leftstack = append(leftstack, pc)
-			}
-			if ch == ']' && len(leftstack) > 0 {
-				lasti := len(leftstack) - 1
-				left := leftstack[lasti]
-				leftstack = leftstack[:lasti]
-				right := pc
-				p.BracketMap[left] = right
-				p.BracketMap[right] = left
-			}
-			pc += 1
+		if strings.Contains("[].,+-<>", string(text[i])) {
+			p.Code = append(p.Code, Op{text[i], 0})
+		}
+	}
+
+	for pc := 0; pc < len(p.Code); pc++ {
+		ch := p.Code[pc].Char
+		if ch == '[' {
+			leftstack = append(leftstack, pc)
+		}
+		if ch == ']' && len(leftstack) > 0 {
+			lasti := len(leftstack) - 1
+			left := leftstack[lasti]
+			leftstack = leftstack[:lasti]
+			right := pc
+			p.Code[left].Jump = right
+			p.Code[right].Jump = left
 		}
 	}
 	return
@@ -77,9 +80,11 @@ func NewProgram(text string) (p Program) {
 
 func (p Program) Run() {
 	tape := NewTape()
+	len := len(p.Code)
 
-	for pc := 0; pc < len(p.Code); pc += 1 {
-		switch p.Code[pc] {
+	for pc := 0; pc < len; pc += 1 {
+		op := p.Code[pc]
+		switch op.Char {
 		case '+':
 			tape.Inc()
 		case '-':
@@ -90,11 +95,11 @@ func (p Program) Run() {
 			tape.Devance()
 		case '[':
 			if tape.Get() == 0 {
-				pc = p.BracketMap[pc]
+				pc = op.Jump
 			}
 		case ']':
 			if tape.Get() != 0 {
-				pc = p.BracketMap[pc]
+				pc = op.Jump
 			}
 		case '.':
 			fmt.Printf("%c", tape.Get())

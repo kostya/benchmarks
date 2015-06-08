@@ -26,24 +26,22 @@ class Tape
   end
 end
 
+record Op, char, jump
+
 class Program
   def initialize(text)
-    @chars = [] of Char
-    @bracket_map = {} of Int32 => Int32
+    @code = [] of Op
     leftstack = [] of Int32
-    pc = 0
-    text.each_char do |char|
-      if "[]<>+-,.".includes?(char)
-        @chars << char
-        if char == '['
-          leftstack << pc
-        elsif char == ']' && !leftstack.empty?
-          left = leftstack.pop
-          right = pc
-          @bracket_map[left] = right
-          @bracket_map[right] = left
-        end
-        pc += 1
+    text.each_char { |char| @code << Op.new(char, 0) if "[]<>+-,.".includes?(char) }
+    @code.each_with_index do |op, pc|
+      char = op.char
+      if char == '['
+        leftstack << pc
+      elsif char == ']' && !leftstack.empty?
+        left = leftstack.pop
+        right = pc
+        @code[left] = Op.new(@code[left].char, right)
+        @code[right] = Op.new(char, left)
       end
     end
   end
@@ -51,14 +49,15 @@ class Program
   def run
     tape = Tape.new
     pc = 0
-    while pc < @chars.length
-      case @chars[pc]
+    while pc < @code.length
+      op = @code[pc]
+      case op.char
         when '+'; tape.inc
         when '-'; tape.dec
         when '>'; tape.advance
         when '<'; tape.devance
-        when '['; pc = @bracket_map[pc] if tape.get == 0
-        when ']'; pc = @bracket_map[pc] if tape.get != 0
+        when '['; pc = op.jump if tape.get == 0
+        when ']'; pc = op.jump if tape.get != 0
         when '.'; print!(tape.get.chr)
       end
       pc += 1

@@ -21,37 +21,36 @@ final:
   void devance() { if (pos > 0) { pos--; } }
 };
 
+struct Op {
+  char ch;
+  int jump;
+}
+
 class Program {
-  string code;
-  int[int] bracket_map;
+  Op[] code;
 
   this(string text) {
     int[] leftstack;
-    int pc = 0;
-
-    for (int i = 0; i < text.length; i++) {
-      char c = text[i];
-      if (!canFind("[]<>+-,.", c)) continue;
-
+    for (int i = 0; i < text.length; i++) if (canFind("[]<>+-,.", text[i])) code ~= Op(text[i], 0);
+    for (int pc = 0; pc < code.length; pc++) {
+      char c = code[pc].ch;
       if (c == '[') leftstack ~= pc;
       else
         if (c == ']' && leftstack.length != 0) {
           int left = leftstack[leftstack.length - 1];
           leftstack.popBack();
           int right = pc;
-          bracket_map[left] = right;
-          bracket_map[right] = left;
+          code[left].jump = right;
+          code[right].jump = left;
         }
-
-      pc++;
-      code ~= c;
     }
   }
 
   void run() {
     auto tape = new Tape();
     for (int pc = 0; pc < code.length; pc++) {
-      switch (code[pc]) {
+      auto op = code[pc];
+      switch (op.ch) {
         case '+':
           tape.inc();
           break;
@@ -65,10 +64,10 @@ class Program {
           tape.devance();
           break;
         case '[':
-          if (tape.get() == 0) pc = bracket_map[pc];
+          if (tape.get() == 0) pc = op.jump;
           break;
         case ']':
-          if (tape.get() != 0) pc = bracket_map[pc];
+          if (tape.get() != 0) pc = op.jump;
           break;
         case '.':
           write(tape.get().to!char);

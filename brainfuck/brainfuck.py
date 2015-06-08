@@ -20,29 +20,31 @@ class Tape(object):
 
 class Program(object):
     def __init__(self, text):
-        self.code = ""
-        self.bracket_map = {}
+        self.code = []
         leftstack = []
 
-        pc = 0
         for char in text:
             if char in ('[', ']', '<', '>', '+', '-', ',', '.'):
-                self.code += char
-                if char == '[':
-                    leftstack.append(pc)
-                elif char == ']' and len(leftstack) > 0:
-                    left = leftstack.pop()
-                    right = pc
-                    self.bracket_map[left] = right
-                    self.bracket_map[right] = left
-                pc += 1
+                self.code.append((char, 0))
+
+        for pc, op in enumerate(self.code):
+            char = op[0]
+            if char == '[':
+                leftstack.append(pc)
+            elif char == ']' and len(leftstack) > 0:
+                left = leftstack.pop()
+                right = pc
+                self.code[left] = (self.code[left][0], right)
+                self.code[right] = (char, left)
 
     def run(self):
         pc = 0
         tape = Tape()
+        length = len(self.code)
 
-        while pc < len(self.code):
-            char = self.code[pc]
+        while pc < length:
+            op = self.code[pc]
+            char = op[0]
             if char == "+":
                 tape.inc()
             elif char == "-":
@@ -52,9 +54,9 @@ class Program(object):
             elif char == "<":
                 tape.devance()
             elif char == "[" and tape.get() == 0:
-                pc = self.bracket_map[pc]
+                pc = op[1]
             elif char == "]" and tape.get() != 0:
-                pc = self.bracket_map[pc]
+                pc = op[1]
             elif char == ".":
                 sys.stdout.write(chr(tape.get()))
                 sys.stdout.flush()

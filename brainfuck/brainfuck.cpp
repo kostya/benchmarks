@@ -22,41 +22,35 @@ public:
   void devance() { if (pos > 0) pos--; }
 };
 
+typedef pair<char, int> Op;
+
 class Program {
-  string code;
-  map<int, int> bracket_map;
+  vector<Op> code;
 
 public:
   Program(string text) {
     vector<int> leftstack;
-    string symbols = "[]<>+-,.";
-
-    int pc = 0;
-    for (int i = 0; i < text.size(); i++) {
-      char c = text[i];
-      string str = string(1, c);
-
-      if (symbols.find(str) == string::npos) continue;
-
+    for (int i = 0; i < text.size(); i++) if (string("[]<>+-,.").find(string(1, text[i])) != string::npos) code.push_back(Op(text[i], 0));
+    for (int pc = 0; pc < code.size(); pc++) {
+      char c = code[pc].first;
       if (c == '[') leftstack.push_back(pc);
       else
         if (c == ']' && leftstack.size() != 0) {
           int left = leftstack[leftstack.size() - 1];
           leftstack.pop_back();
           int right = pc;
-          bracket_map[left] = right;
-          bracket_map[right] = left;
+          code[left].second = right;
+          code[right].second = left;
         }
-
-      pc++;
-      code += str;
     }
   }
 
   void run() {
     Tape tape;
-    for (int pc = 0; pc < code.length(); pc++) {
-      switch (code[pc]) {
+    int len = code.size();
+    for (int pc = 0; pc < len; pc++) {
+      Op &op = code[pc];
+      switch (op.first) {
         case '+':
           tape.inc();
           break;
@@ -70,10 +64,10 @@ public:
           tape.devance();
           break;
         case '[':
-            if (tape.get() == 0) pc = bracket_map[pc];
+            if (tape.get() == 0) pc = op.second;
           break;
         case ']':
-          if (tape.get() != 0) pc = bracket_map[pc];
+          if (tape.get() != 0) pc = op.second;
           break;
         case '.':
           printf("%c", tape.get());

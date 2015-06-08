@@ -11,46 +11,40 @@ var Tape = function() {
 var Brainfuck = function(text) {
 	var me = this;
 	me.code = "";
-	me.bracket_map = function(text) {
-		var leftstack = [];
-		var bm = {};
+	me.maps = [];
 
-		for (var i = 0, pc = 0; i < text.length; i++) {
-			var c = text.charAt(i);
-			if ("+-<>[].,".indexOf(c) === -1) continue;
-			if (c === '[') leftstack.push(pc);
-			if (c === ']' && leftstack.length > 0) {
-				var left = leftstack.pop();
-				bm[left] = pc;
-				bm[pc] = left;
- 			}
- 			me.code += c;
- 			pc++;
+	var leftstack = [];
+	for (var i = 0, pc = 0; i < text.length; i++) if ("+-<>[].,".indexOf(text.charAt(i)) != -1) { me.code += text.charAt(i); me.maps.push(0); }
+	for (var pc = 0; pc < me.code.length; pc++) {
+		c = me.code[pc][0];
+		if (c === '[') leftstack.push(pc);
+		if (c === ']' && leftstack.length > 0) {
+			var left = leftstack.pop();
+			me.maps[left] = pc;
+			me.maps[pc] = left;
 		}
-		return bm;
-	}(text);
+	}
 
 	me.run = function() {
-		var pc = 0;
 		var tape = new Tape();
 		var code = this.code;
-		var bm = this.bracket_map;
+		var maps = this.maps;
+		var length = this.code.length;
 
-		for (var pc = 0; pc < code.length; pc++)
+		for (var pc = 0; pc < length; pc++)
 			switch(code[pc]) {
 				case '+': tape.inc(); break;
 				case '-': tape.dec(); break;
 				case '>': tape.advance(); break;
 				case '<': tape.devance(); break;
-				case '[': if (tape.get() == 0) pc = bm[pc]; break;
-				case ']': if (tape.get() != 0) pc = bm[pc]; break;
+				case '[': if (tape.get() == 0) pc = maps[pc]; break;
+				case ']': if (tape.get() != 0) pc = maps[pc]; break;
 				case '.': process.stdout.write(String.fromCharCode(tape.get()));
 				default:
 			}
 	};
-
 }
 
-var text = require('fs').readFileSync(process.argv[2]).toString(); 
+var text = require('fs').readFileSync(process.argv[2]).toString();
 var brainfuck = new Brainfuck(text);
 brainfuck.run();

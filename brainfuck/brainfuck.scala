@@ -10,23 +10,22 @@ class Tape() {
 }
 
 class Program(text: String) {
-  var code = ""
-  var bracket_map = Map[Int, Int]()
-
+  var code = Array[Tuple2[Char, Int]]()
   parse_code(text)
 
   def parse_code(text: String) {
     var leftstack = List[Int]()
+    for (ch <- text if ("[].,+-<>" contains ch)) { code :+= (ch, 0) }
     var pc = 0
-    for (ch <- text if ("[].,+-<>" contains ch)) {
-      code :+= ch
+    for (op <- code) {
+      var ch = op._1
       if (ch == '[') { leftstack :+= pc }
       else if (ch == ']' && leftstack.size != 0) {
         val left = leftstack.last
         leftstack = leftstack.init
         val right = pc
-        bracket_map += (left -> right)
-        bracket_map += (right -> left)
+        code(left) = (code(left)._1, right)
+        code(right) = (ch, left)
       }
       pc += 1
     }
@@ -35,14 +34,16 @@ class Program(text: String) {
   def run = {
     var pc = 0
     var tape = new Tape()
-    while ( pc < code.length ) {
-      code(pc) match {
+    var length = code.length
+    while ( pc < length ) {
+      var op = code(pc)
+      op._1 match {
         case '+' => tape.inc
         case '-' => tape.dec
         case '>' => tape.advance
         case '<' => tape.devance
-        case '[' => if (tape.get == 0) pc = bracket_map(pc)
-        case ']' => if (tape.get != 0) pc = bracket_map(pc)
+        case '[' => if (tape.get == 0) pc = op._2
+        case ']' => if (tape.get != 0) pc = op._2
         case '.' => print(tape.get.toChar)
       }
       pc += 1
