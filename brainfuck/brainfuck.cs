@@ -24,22 +24,34 @@ namespace Test
         public void Devance() { if (pos > 0) { pos--; } }
     }
 
+    public struct Op
+    {
+        public char ch;
+        public int jump;
+        public Op(char ch1, int jump1)
+        {
+            ch = ch1;
+            jump = jump1;
+        }
+    }
+
     class Program
     {
-        string code;
-        Dictionary<int, int> bracket_map = new Dictionary<int, int>();
+        List<Op> code;
 
         Program(string text)
         {
-            var sb = new StringBuilder();
             Stack<int> leftstack = new Stack<int>();
-            int pc = 0;
+            code = new List<Op>();
 
-            for (int i = 0; i < text.Length; i++)
-            {
-                char c = text[i];
-                if ("[]<>+-,.".IndexOf(c) == -1) continue;
-
+            for (int i = 0; i < text.Length; i++) {
+                if ("[]<>+-,.".IndexOf(text[i]) != -1) {
+                    Op op = new Op(text[i], 0);
+                    code.Add(op);
+                }
+            }
+            for (int pc = 0; pc < code.Count; pc++) {
+                char c = code[pc].ch;
                 if (c == '[') leftstack.Push(pc);
                 else
                 {
@@ -47,24 +59,20 @@ namespace Test
                     {
                         int left = leftstack.Pop();
                         int right = pc;
-                        bracket_map[left] = right;
-                        bracket_map[right] = left;
+                        code[left] = new Op(code[left].ch, right);
+                        code[right] = new Op(c, left);
                     }
                 }
-
-                pc++;
-                sb.Append(c);
             }
-
-            code = sb.ToString();
         }
 
         void Run()
         {
             Tape tape = new Tape();
-            for (int pc = 0; pc < code.Length; ++pc)
+            for (int pc = 0; pc < code.Count; ++pc)
             {
-                switch (code[pc])
+                Op op = code[pc];
+                switch (op.ch)
                 {
                 case '+':
                     tape.Inc();
@@ -79,10 +87,10 @@ namespace Test
                     tape.Devance();
                     break;
                 case '[':
-                    if (tape.Get() == 0) pc = bracket_map[pc];
+                    if (tape.Get() == 0) pc = op.jump;
                     break;
                 case ']':
-                    if (tape.Get() != 0) pc = bracket_map[pc];
+                    if (tape.Get() != 0) pc = op.jump;
                     break;
                 case '.':
                     Console.Write((char)tape.Get());
