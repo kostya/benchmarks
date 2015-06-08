@@ -1,6 +1,6 @@
 function matgen(n)
   tmp = 1.0 / n / n
-  [ float32(tmp * (i - j) * (i + j - 2)) for i=1:n, j=1:n ]
+  [ float64(tmp * (i - j) * (i + j - 2)) for i=1:n, j=1:n ]
 end
 
 function main()

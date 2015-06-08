@@ -1,10 +1,10 @@
 function matgen(n)
   tmp = 1.0 / n / n
-  [ float32(tmp * (i - j) * (i + j - 2)) for i=1:n, j=1:n ]
+  [ float64(tmp * (i - j) * (i + j - 2)) for i=1:n, j=1:n ]
 end
 
 function mul_line(n, linea, lineb)
-  s = float32(0)
+  s = float64(0)
   for i=1:n
     s += linea[i] * lineb[i]
   end
