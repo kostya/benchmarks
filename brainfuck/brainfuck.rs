@@ -1,10 +1,20 @@
 use std::fs::File;
-use std::path::Path;
+use std::path::PathBuf;
 use std::io::prelude::*;
 use std::vec::Vec;
 use std::io;
 use std::env;
-use std::collections::HashMap;
+
+pub enum Instruction {
+  MoveRight, // `>`
+  MoveLeft, // `<`
+  Increment, // `+`
+  Decrement, // `-`
+  Output, // `.`
+  JumpToLeft(usize), // `[`
+  JumpToRight(usize), // `]`
+}
+
 
 struct Tape {
   pos: usize,
@@ -22,48 +32,74 @@ impl Tape {
 }
 
 struct Program {
-  code: Vec<char>,
-  bracket_map: HashMap<usize, usize>
+  code: Vec<Instruction>,
 }
 
 impl Program {
   fn new(content: String) -> Program {
-    let mut code: Vec<char> = Vec::new();
-    let mut bracket_map = HashMap::new();
-    let mut leftstack = Vec::new();
-    let mut pc = 0;
+    let mut code = Vec::new();
+    // Vec of positions of `[` waiting for a `]`
+    let mut waiting_opening_jumps = Vec::new();
 
     for c in content.chars() {
-      match c {
-        '+' | '-' | '.' | ',' | '<' | '>' => (),
-        '[' => { leftstack.push(pc); },
-        ']' => match leftstack.pop() {
-          Some(left) => { bracket_map.insert(left, pc); bracket_map.insert(pc, left); }
-          None => ()
+      let instruction = match c {
+        '>' => Instruction::MoveRight,
+        '<' => Instruction::MoveLeft,
+        '+' => Instruction::Increment,
+        '-' => Instruction::Decrement,
+        '.' => Instruction::Output,
+        '[' => {
+          // Store the position of this `[`.
+          waiting_opening_jumps.push(code.len());
+          // This 0usize will be updated when matching `]` is found.
+          Instruction::JumpToLeft(0usize)
         },
-        _ => { continue; }
-      }
-      code.push(c);
-      pc += 1;
+        ']' => {
+          match waiting_opening_jumps.pop() {
+            Some(left_jump) => {
+              // Add the position of this `]` to the JumpToLeft added earlier.
+              code[left_jump] = Instruction::JumpToLeft(code.len());
+              // Construct JumpToRight using the position of the earlier `[`.
+              Instruction::JumpToRight(left_jump)
+            },
+            None => panic!("Expected matching `[` before `]`, found lone `]` first."),
+          }
+        },
+        _ => continue,
+      };
+      code.push(instruction);
     }
-    Program{ code: code, bracket_map: bracket_map }
+
+    if !waiting_opening_jumps.is_empty() {
+      panic!("Unbalanced `[`. Expected matching `]`, found end of file.");
+    }
+
+    Program { code: code }
   }
 
   fn run(&self) {
-    let mut pc: usize = 0;
+    let mut pc = 0usize;
     let len = self.code.len();
     let mut tape = Tape::new();
 
     while pc < len {
       match self.code[pc] {
-        '+' => tape.inc(),
-        '-' => tape.dec(),
-        '>' => tape.advance(),
-        '<' => tape.devance(),
-        '[' => { if tape.get() == 0 { pc = self.bracket_map[&pc]; } },
-        ']' => { if tape.get() != 0 { pc = self.bracket_map[&pc]; } },
-        '.' => { print!("{}", tape.getc()); io::stdout().flush().unwrap() },
-        _ => ()
+        Instruction::Increment => tape.inc(),
+        Instruction::Decrement => tape.dec(),
+        Instruction::MoveRight => tape.advance(),
+        Instruction::MoveLeft => tape.devance(),Instruction::JumpToLeft(target_position) => {
+          if tape.get() == 0 {
+            pc = target_position;
+            continue;
+          }
+        },
+        Instruction::JumpToRight(target_position) => {
+          if tape.get() != 0 {
+            pc = target_position;
+            continue;
+          }
+        },
+        Instruction::Output => { print!("{}", tape.getc()); io::stdout().flush().unwrap(); },
       }
       pc += 1;
     }
@@ -71,10 +107,12 @@ impl Program {
 }
 
 fn main() {
-  let arg1 = env::args().nth(1).unwrap();
-  let path = Path::new(&arg1);
-  let mut s = String::new();
+  let path = PathBuf::from(env::args_os().nth(1).unwrap());
+
   let mut file = File::open(&path).unwrap();
-  file.read_to_string(&mut s).unwrap();
-  Program::new(s).run()
+
+  let mut contents = String::new();
+  file.read_to_string(&mut contents).unwrap();
+
+  Program::new(contents).run();
 }
