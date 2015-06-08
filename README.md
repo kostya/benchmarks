@@ -11,6 +11,7 @@ Some benchmarks of different languages
 | --------------- | ------- | ---------- |
 | Nim Clang       | 2.96    | 0.7        |
 | Nim Gcc         | 4.15    | 0.6        |
+| Rust            | 4.73    | 4.9        |
 | C++             | 5.08    | 1.1        |
 | D Ldc           | 6.61    | 0.9        |
 | Crystal         | 7.06    | 1.1        |
@@ -19,7 +20,6 @@ Some benchmarks of different languages
 | D Gdc           | 8.53    | 1.0        |
 | Julia           | 9.00    | 56.0       |
 | Javascript V8   | 9.41    | 8.1        |
-| Rust            | 10.11   | 4.9        |
 | Scala           | 11.99   | 1.6        |
 | Go Gcc          | 13.60   | 10.0       |
 | Javascript Node | 17.72   | 9.5        |
@@ -39,11 +39,11 @@ Some benchmarks of different languages
 | Nim Clang       | 27.98   | 1.0        |
 | D Ldc           | 43.30   | 0.9        |
 | Crystal         | 43.32   | 1.1        |
+| Rust            | 47.57   | 4.9        |
 | D               | 49.73   | 1.2        |
 | Nim Gcc         | 50.01   | 0.9        |
 | Go              | 52.29   | 1.5        |
 | Cpp             | 56.63   | 1.1        |
-| Rust            | 58.40   | 4.9        |
 | D Gdc           | 71.20   | 1.5        |
 | Julia           | 76.39   | 56.1       |
 | Go Gcc          | 85.67   | 10.7       |
@@ -63,6 +63,7 @@ Some benchmarks of different languages
 | C               | 2.70    | 32.3       |
 | Ruby            | 2.73    | 125.3      |
 | D Ldc           | 3.27    | 44.1       |
+| Rust            | 3.65    | 42.9       |
 | Crystal         | 3.68    | 82.7       |
 | Ruby Rbx        | 4.29    | 30.7       |
 | Nim Gcc         | 4.60    | 52.7       |
@@ -70,7 +71,6 @@ Some benchmarks of different languages
 | C++ Openssl     | 5.45    | 65.2       |
 | D               | 6.18    | 89.1       |
 | Python          | 7.62    | 52.6       |
-| Rust            | 7.53    | 41.0       |
 | Javascript Node | 7.93    | 777.1      |
 | Python Pypy     | 8.22    | 114.6      |
 | C# Mono         | 9.01    | 71.7       |
@@ -95,7 +95,7 @@ Some benchmarks of different languages
 | Nim Clang       | 3.30    | 1280.3     |
 | Nim Gcc         | 3.57    | 1284.0     |
 | Python Pypy     | 4.99    | 1365.4     |
-| Rust            | 5.38    | 2989.1     |
+| Rust            | 5.48    | 2915.1     |
 | C++ LibJson     | 5.49    | 2796.3     |
 | Go              | 6.27    | 420.9      |
 | Python          | 9.85    | 1409.1     |
@@ -125,8 +125,8 @@ Some benchmarks of different languages
 | D Gdc           | 2.32    | 73.3       |
 | C               | 3.64    | 69.2       |
 | Java            | 3.68    | 134.3      |
+| Rust            | 3.70    | 76.9       |
 | Nim Clang       | 3.71    | 141.1      |
-| Rust            | 3.72    | 101.0      |
 | Nim Gcc         | 3.74    | 132.1      |
 | Crystal         | 3.82    | 72.2       |
 | Go Gcc          | 3.90    | 84.5       |

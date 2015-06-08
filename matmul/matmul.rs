@@ -1,13 +1,8 @@
 use std::env;
 
 fn newmat(x: usize, y: usize) -> Vec<Vec<f64>> {
-  let mut r = Vec::with_capacity(x);
-  for _ in 0..x {
-    let mut c = Vec::with_capacity(y);
-    for _ in 0..y { c.push(0_f64); }
-    r.push(c);
-  }
-  r
+  let inner = vec![0 as f64; y];
+  vec![inner; x]
 }
 
 fn matgen(n: usize) -> Vec<Vec<f64>> {
