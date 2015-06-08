@@ -36,7 +36,7 @@ struct Program {
 }
 
 impl Program {
-  fn new(text: String) -> Program {   
+  fn new(text: String) -> Program {
     let mut leftstack = Vec::new();
     let mut content = String::new();
     let mut code = Vec::new();

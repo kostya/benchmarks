@@ -26,31 +26,28 @@ class Tape
   end
 end
 
-class Op
-  attr_accessor :char, :jump
-  def initialize(char, jump)
-    @char = char
-    @jump = jump
-  end
-end
-
 class Program
   def initialize(text)
     @code = []
+    @maps = []
+
     text.each_char do |char|
-      @code << Op.new(char, 0) if "[]<>+-,.".include?(char)
+      if "[]<>+-,.".include?(char)
+        @code << char
+        @maps << 0
+      end
     end
 
     leftstack = []
-    @code.each_with_index do |op, pc|
-      char = op.char
+    @code.each_with_index do |char, pc|
+      char = char
       if char == '['
         leftstack << pc
       elsif char == ']' && !leftstack.empty?
         left = leftstack.pop
         right = pc
-        @code[left].jump = right
-        @code[right].jump = left
+        @maps[left] = right
+        @maps[right] = left
       end
     end
   end
@@ -60,14 +57,13 @@ class Program
     pc = 0
     len = @code.size
     while pc < len
-      op = @code[pc]
-      case op.char
+      case @code[pc]
         when '+'; tape.inc
         when '-'; tape.dec
         when '>'; tape.advance
         when '<'; tape.devance
-        when '['; pc = op.jump if tape.get == 0
-        when ']'; pc = op.jump if tape.get != 0
+        when '['; pc = @maps[pc] if tape.get == 0
+        when ']'; pc = @maps[pc] if tape.get != 0
         when '.'; print(tape.get.chr)
       end
       pc += 1
