@@ -4,7 +4,7 @@ use std::io::prelude::*;
 use std::vec::Vec;
 use std::io;
 use std::env;
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 struct Tape {
   pos: usize,
@@ -23,13 +23,13 @@ impl Tape {
 
 struct Program {
   code: Vec<char>,
-  bracket_map: HashMap<usize, usize>
+  bracket_map: BTreeMap<usize, usize>
 }
 
 impl Program {
   fn new(content: String) -> Program {
     let mut code: Vec<char> = Vec::new();
-    let mut bracket_map = HashMap::new();
+    let mut bracket_map = BTreeMap::new();
     let mut leftstack = Vec::new();
     let mut pc = 0;
 
