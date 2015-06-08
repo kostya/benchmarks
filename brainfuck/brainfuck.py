@@ -21,11 +21,13 @@ class Tape(object):
 class Program(object):
     def __init__(self, text):
         self.code = []
+        self.maps = []
         leftstack = []
 
         for char in text:
             if char in ('[', ']', '<', '>', '+', '-', ',', '.'):
-                self.code.append((char, 0))
+                self.code.append(char)
+                self.maps.append(0)
 
         for pc, op in enumerate(self.code):
             char = op[0]
@@ -34,8 +36,8 @@ class Program(object):
             elif char == ']' and len(leftstack) > 0:
                 left = leftstack.pop()
                 right = pc
-                self.code[left] = (self.code[left][0], right)
-                self.code[right] = (char, left)
+                self.maps[left] = right
+                self.maps[right] = left
 
     def run(self):
         pc = 0
@@ -43,8 +45,7 @@ class Program(object):
         length = len(self.code)
 
         while pc < length:
-            op = self.code[pc]
-            char = op[0]
+            char = self.code[pc]
             if char == "+":
                 tape.inc()
             elif char == "-":
@@ -54,9 +55,9 @@ class Program(object):
             elif char == "<":
                 tape.devance()
             elif char == "[" and tape.get() == 0:
-                pc = op[1]
+                pc = self.maps[pc]
             elif char == "]" and tape.get() != 0:
-                pc = op[1]
+                pc = self.maps[pc]
             elif char == ".":
                 sys.stdout.write(chr(tape.get()))
                 sys.stdout.flush()
