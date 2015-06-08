@@ -6,3 +6,5 @@ version = "0.0.1"
 rustc-serialize = "*"
 time = "*"
 
+[profile.release]
+lto = true

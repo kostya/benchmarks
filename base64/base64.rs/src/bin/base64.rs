@@ -3,30 +3,26 @@ use rustc_serialize::base64::{ToBase64, FromBase64, STANDARD};
 extern crate time;
 use time::precise_time_ns;
 
+const STR_SIZE: usize = 10000000;
+const TRIES: usize = 100;
+
 fn main() {
-  let str_size = 10000000;
-  let tries = 100;
+  let input = vec![b'a'; STR_SIZE];
+  let mut output = String::new();
 
-  let mut str: String = "".to_string();
-  let mut str2: String = "".to_string();
-  for _ in 0..str_size { str.push_str("a"); }
-  let bytes = str.as_bytes();
-  
-  let mut t = precise_time_ns();
-  let mut s = 0;
-
-  for _ in 0..tries {
-    str2 = bytes.to_base64(STANDARD);
-    s += str2.len();
+  let mut time_start = precise_time_ns();
+  let mut sum = 0;
+  for _ in 0..TRIES {
+    output = input.to_base64(STANDARD);
+    sum += output.len();
   }
-  println!("encode: {}, {}", s, ((precise_time_ns() - t) as f64) / 1e9);
+  println!("encode: {}, {}", sum, ((precise_time_ns() - time_start) as f64) / 1e9);
 
-  s = 0;
-  t = precise_time_ns();
-  for _ in 0..tries {
-    s += str2.from_base64().unwrap().len();
+  sum = 0;
+  time_start = precise_time_ns();
+  for _ in 0..TRIES {
+    sum += output.from_base64().unwrap().len();
   }
-
-  println!("decode: {}, {}", s, ((precise_time_ns() - t) as f64) / 1e9);
+  println!("decode: {}, {}", sum, ((precise_time_ns() - time_start) as f64) / 1e9);
 }
 
