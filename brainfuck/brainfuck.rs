@@ -5,16 +5,16 @@ use std::vec::Vec;
 use std::io;
 use std::env;
 
-pub enum Instruction {
-  MoveRight, // `>`
-  MoveLeft, // `<`
-  Increment, // `+`
-  Decrement, // `-`
-  Output, // `.`
-  JumpToLeft(usize), // `[`
-  JumpToRight(usize), // `]`
+pub enum Op {
+  Nop,
+  Right, // `>`
+  Left, // `<`
+  Inc, // `+`
+  Dec, // `-`
+  Out, // `.`
+  JumpLeft(usize), // `[`
+  JumpRight(usize), // `]`
 }
-
 
 struct Tape {
   pos: usize,
@@ -32,48 +32,40 @@ impl Tape {
 }
 
 struct Program {
-  code: Vec<Instruction>,
+  code: Vec<Op>,
 }
 
 impl Program {
-  fn new(content: String) -> Program {
+  fn new(text: String) -> Program {   
+    let mut leftstack = Vec::new();
+    let mut content = String::new();
     let mut code = Vec::new();
-    // Vec of positions of `[` waiting for a `]`
-    let mut waiting_opening_jumps = Vec::new();
 
-    for c in content.chars() {
-      let instruction = match c {
-        '>' => Instruction::MoveRight,
-        '<' => Instruction::MoveLeft,
-        '+' => Instruction::Increment,
-        '-' => Instruction::Decrement,
-        '.' => Instruction::Output,
-        '[' => {
-          // Store the position of this `[`.
-          waiting_opening_jumps.push(code.len());
-          // This 0usize will be updated when matching `]` is found.
-          Instruction::JumpToLeft(0usize)
-        },
+    for c in text.chars() { if "+-<>[].,".contains(c) { content.push(c); code.push(Op::Nop); } }
+    for (pc, c) in content.chars().enumerate() {
+      let op = match c {
+        '>' => Op::Right,
+        '<' => Op::Left,
+        '+' => Op::Inc,
+        '-' => Op::Dec,
+        '.' => Op::Out,
+        '[' => { leftstack.push(pc); Op::JumpLeft(0usize) },
         ']' => {
-          match waiting_opening_jumps.pop() {
+          match leftstack.pop() {
             Some(left_jump) => {
-              // Add the position of this `]` to the JumpToLeft added earlier.
-              code[left_jump] = Instruction::JumpToLeft(code.len());
-              // Construct JumpToRight using the position of the earlier `[`.
-              Instruction::JumpToRight(left_jump)
+              code[left_jump] = Op::JumpLeft(pc);
+              Op::JumpRight(left_jump)
             },
             None => panic!("Expected matching `[` before `]`, found lone `]` first."),
           }
         },
-        _ => continue,
+        _ => Op::Nop,
       };
-      code.push(instruction);
+
+      code[pc] = op;
     }
 
-    if !waiting_opening_jumps.is_empty() {
-      panic!("Unbalanced `[`. Expected matching `]`, found end of file.");
-    }
-
+    if !leftstack.is_empty() { panic!("Unbalanced `[`. Expected matching `]`, found end of file."); }
     Program { code: code }
   }
 
@@ -84,22 +76,14 @@ impl Program {
 
     while pc < len {
       match self.code[pc] {
-        Instruction::Increment => tape.inc(),
-        Instruction::Decrement => tape.dec(),
-        Instruction::MoveRight => tape.advance(),
-        Instruction::MoveLeft => tape.devance(),Instruction::JumpToLeft(target_position) => {
-          if tape.get() == 0 {
-            pc = target_position;
-            continue;
-          }
-        },
-        Instruction::JumpToRight(target_position) => {
-          if tape.get() != 0 {
-            pc = target_position;
-            continue;
-          }
-        },
-        Instruction::Output => { print!("{}", tape.getc()); io::stdout().flush().unwrap(); },
+        Op::Inc => tape.inc(),
+        Op::Dec => tape.dec(),
+        Op::Right => tape.advance(),
+        Op::Left => tape.devance(),
+        Op::JumpLeft(jump) => { if tape.get() == 0 { pc = jump; } },
+        Op::JumpRight(jump) => { if tape.get() != 0 { pc = jump; } },
+        Op::Out => { print!("{}", tape.getc()); io::stdout().flush().unwrap(); },
+        Op::Nop => unreachable!()
       }
       pc += 1;
     }
@@ -108,11 +92,8 @@ impl Program {
 
 fn main() {
   let path = PathBuf::from(env::args_os().nth(1).unwrap());
-
   let mut file = File::open(&path).unwrap();
-
   let mut contents = String::new();
   file.read_to_string(&mut contents).unwrap();
-
   Program::new(contents).run();
 }
