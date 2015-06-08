@@ -1,10 +1,20 @@
 use std::fs::File;
-use std::path::Path;
+use std::path::PathBuf;
 use std::io::prelude::*;
 use std::vec::Vec;
 use std::io;
 use std::env;
-use std::collections::BTreeMap;
+
+pub enum Op {
+  Nop,
+  Right, // `>`
+  Left, // `<`
+  Inc, // `+`
+  Dec, // `-`
+  Out, // `.`
+  JumpLeft(usize), // `[`
+  JumpRight(usize), // `]`
+}
 
 struct Tape {
   pos: usize,
@@ -22,48 +32,58 @@ impl Tape {
 }
 
 struct Program {
-  code: Vec<char>,
-  bracket_map: BTreeMap<usize, usize>
+  code: Vec<Op>,
 }
 
 impl Program {
-  fn new(content: String) -> Program {
-    let mut code: Vec<char> = Vec::new();
-    let mut bracket_map = BTreeMap::new();
+  fn new(text: String) -> Program {   
     let mut leftstack = Vec::new();
-    let mut pc = 0;
+    let mut content = String::new();
+    let mut code = Vec::new();
 
-    for c in content.chars() {
-      match c {
-        '+' | '-' | '.' | ',' | '<' | '>' => (),
-        '[' => { leftstack.push(pc); },
-        ']' => match leftstack.pop() {
-          Some(left) => { bracket_map.insert(left, pc); bracket_map.insert(pc, left); }
-          None => ()
+    for c in text.chars() { if "+-<>[].,".contains(c) { content.push(c); code.push(Op::Nop); } }
+    for (pc, c) in content.chars().enumerate() {
+      let op = match c {
+        '>' => Op::Right,
+        '<' => Op::Left,
+        '+' => Op::Inc,
+        '-' => Op::Dec,
+        '.' => Op::Out,
+        '[' => { leftstack.push(pc); Op::JumpLeft(0usize) },
+        ']' => {
+          match leftstack.pop() {
+            Some(left_jump) => {
+              code[left_jump] = Op::JumpLeft(pc);
+              Op::JumpRight(left_jump)
+            },
+            None => panic!("Expected matching `[` before `]`, found lone `]` first."),
+          }
         },
-        _ => { continue; }
-      }
-      code.push(c);
-      pc += 1;
+        _ => Op::Nop,
+      };
+
+      code[pc] = op;
     }
-    Program{ code: code, bracket_map: bracket_map }
+
+    if !leftstack.is_empty() { panic!("Unbalanced `[`. Expected matching `]`, found end of file."); }
+    Program { code: code }
   }
 
   fn run(&self) {
-    let mut pc: usize = 0;
+    let mut pc = 0usize;
     let len = self.code.len();
     let mut tape = Tape::new();
 
     while pc < len {
       match self.code[pc] {
-        '+' => tape.inc(),
-        '-' => tape.dec(),
-        '>' => tape.advance(),
-        '<' => tape.devance(),
-        '[' => { if tape.get() == 0 { pc = self.bracket_map[&pc]; } },
-        ']' => { if tape.get() != 0 { pc = self.bracket_map[&pc]; } },
-        '.' => { print!("{}", tape.getc()); io::stdout().flush().unwrap() },
-        _ => ()
+        Op::Inc => tape.inc(),
+        Op::Dec => tape.dec(),
+        Op::Right => tape.advance(),
+        Op::Left => tape.devance(),
+        Op::JumpLeft(jump) => { if tape.get() == 0 { pc = jump; } },
+        Op::JumpRight(jump) => { if tape.get() != 0 { pc = jump; } },
+        Op::Out => { print!("{}", tape.getc()); io::stdout().flush().unwrap(); },
+        Op::Nop => unreachable!()
       }
       pc += 1;
     }
@@ -71,10 +91,9 @@ impl Program {
 }
 
 fn main() {
-  let arg1 = env::args().nth(1).unwrap();
-  let path = Path::new(&arg1);
-  let mut s = String::new();
+  let path = PathBuf::from(env::args_os().nth(1).unwrap());
   let mut file = File::open(&path).unwrap();
-  file.read_to_string(&mut s).unwrap();
-  Program::new(s).run()
+  let mut contents = String::new();
+  file.read_to_string(&mut contents).unwrap();
+  Program::new(contents).run();
 }
