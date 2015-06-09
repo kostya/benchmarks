@@ -26,6 +26,8 @@ echo Javascript Node
 ../xtime.rb nodejs brainfuck.js bench.b
 echo Julia
 ../xtime.rb julia brainfuck.jl bench.b
+echo Mono
+../xtime.rb mono -O=all --gc=sgen brainfuck.exe bench.b
 echo Python Pypy
 ../xtime.rb pypy brainfuck.py bench.b
 echo Python
@@ -34,5 +36,3 @@ echo Ruby
 ../xtime.rb ruby brainfuck.rb bench.b
 echo Ruby Topaz
 ../xtime.rb topaz brainfuck.rb bench.b
-echo Mono
-../xtime.rb mono -O=all --gc=sgen brainfuck.exe bench.b
