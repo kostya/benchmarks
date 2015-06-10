@@ -5,7 +5,7 @@ fi
 crystal build test.cr --release -o json_cr
 crystal build test_pull.cr --release -o json_pull_cr
 crystal build test_schema.cr --release -o json_schema_cr
-cargo build --manifest-path json.rs/Cargo.toml --release && cp ./json.rs/target/release/json ./json_rs
+cargo build --manifest-path json.rs/Cargo.toml --release && cp ./json.rs/target/release/json-rs ./json_rs
 dmd -ofjson_d -O -release -inline test.d
 gdc -o json_d_gdc -O3 -frelease -finline test.d
 ldc2 -ofjson_d_ldc -O5 -release -inline test.d

@@ -92,12 +92,12 @@ Some benchmarks of different languages
 | C++ Rapid       | 0.79    | 687.1      |
 | C++ Gason       | 0.83    | 582.2      |
 | Crystal Schema  | 1.48    | 294.5      |
+| Rust            | 1.53    | 228.8      |
 | Crystal Pull    | 1.60    | 1.4        |
 | Crystal         | 2.27    | 1091.4     |
 | Nim Clang       | 3.30    | 1280.3     |
 | Nim Gcc         | 3.57    | 1284.0     |
 | Python Pypy     | 4.99    | 1365.4     |
-| Rust            | 5.48    | 2915.1     |
 | C++ LibJson     | 5.49    | 2796.3     |
 | Go              | 6.27    | 420.9      |
 | Python          | 9.85    | 1409.1     |
