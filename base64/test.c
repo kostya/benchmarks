@@ -23,44 +23,40 @@ void init_decode_table() {
     if (ch >= '0' && ch <= '9') code = ch + 0x04; 
     if (ch == '+' || ch == '-') code = 0x3E;
     if (ch == '/' || ch == '_') code = 0x3F;
-    if (ch == '=') code = -3;
-    if (ch == '\r' || ch == '\n') code = -2;
     decode_table[i] = code;
   }
 }
 
-void decode(int size, const char* str, int* out_size, char** output) {
+#define next_char(x) char x = decode_table[(unsigned char)*str++]; if (x < 0) return 1;
+
+int decode(int size, const char* str, int* out_size, char** output) {
   *output = (char*) malloc( decode_size(size) );
   char *out = *output;
-  uint buf = 0;
-  const char* ends = str + size;
-  int mod = 0;
-  while (str != ends) {
-    char ch = *str++;
-    char dec = decode_table[(unsigned char)ch];
-    if (dec < 0) {
-      if (dec == -2) continue;
-      if (dec == -3) break;
-      continue; // ignore bad symbol
-    }
-    buf  = (buf | dec) << 6;
-    mod += 1;
-    if (mod == 4) {
-      mod = 0;
-      *out++ = (char)(buf >> 22);
-      *out++ = (char)(buf >> 14);
-      *out++ = (char)(buf >> 6);
-    }    
+  while (size > 0 && (str[size - 1] == '\n' || str[size - 1] == '\r' || str[size - 1] == '=')) size--;
+  const char* ends = str + size - 4;
+  while (str <= ends) {
+    next_char(a); next_char(b); next_char(c); next_char(d);
+
+    *out++ = (char)(a << 2 | b >> 4);
+    *out++ = (char)(b << 4 | c >> 2);
+    *out++ = (char)(c << 6 | d >> 0);
+
+    while ((*str == '\n' || *str == '\r') && str <= ends) str++;
   }
 
-  if (mod == 2) *out++ = (char)(buf >> 10);
-  else if (mod == 3) {
-    *out++ = (char)(buf >> 16);
-    *out++ = (char)(buf >> 8);
+  int mod = (str - ends) % 4;
+  if (mod == 2) {
+    next_char(a); next_char(b);
+    *out++ = (char)(a << 2 | b >> 4);
+  } else if (mod == 3) {
+    next_char(a); next_char(b); next_char(c);
+    *out++ = (char)(a << 2 | b >> 4);
+    *out++ = (char)(b << 4 | c >> 2);
   }
 
   *out = '\0';
   *out_size = out - *output;
+  return 0;
 }
 
 void encode(int size, const char* str, int* out_size, char** output) {
@@ -126,7 +122,9 @@ int main() {
   for (int i = 0; i < TRIES; i++) {
     char *str3;
     int str3_size;
-    decode(str2_size, str2, &str3_size, &str3);
+    if (decode(str2_size, str2, &str3_size, &str3) != 0) {
+      printf("error when decoding");
+    }
     s += str3_size;
     free(str3);
   }
