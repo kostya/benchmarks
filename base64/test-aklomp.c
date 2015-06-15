@@ -16,7 +16,7 @@ int main() {
   for (int i = 0; i < TRIES; i++) { 
     char *str2 = (char*) malloc( (int)(STR_SIZE/3.0*4) + 6 ); 
     size_t str2_size;
-    base64_encode(str, STR_SIZE, str2, &str2_size, BASE64_FORCE_SSSE3);
+    base64_encode(str, STR_SIZE, str2, &str2_size, 0);
     s += str2_size;
     free(str2); 
   }
@@ -32,7 +32,7 @@ int main() {
     char *str3 = (char*) malloc( (int)(STR_SIZE) + 60 );
     size_t str3_size;
     
-    int res = base64_decode(str2, str2_size, str3, &str3_size, BASE64_FORCE_SSSE3);
+    int res = base64_decode(str2, str2_size, str3, &str3_size, 0);
     str3[str3_size] = '\0';
     s += str3_size;
     free(str3);

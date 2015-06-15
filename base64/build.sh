@@ -16,5 +16,4 @@ mcs -debug- -optimize+ test.cs
 if [ ! -d aklomp-base64 ]; then
   git clone --depth 1 https://github.com/aklomp/base64.git aklomp-base64
 fi
-echo '#define HAVE_SSSE3 0' > aklomp-base64/lib/config.h & gcc --std=c99 -O3 test-aklomp.c -I aklomp-base64/include/ `find aklomp-base64/lib/*.c` -o base64_c_ak
-echo '#define HAVE_SSSE3 1' > aklomp-base64/lib/config.h & gcc -mtune=msse3 --std=c99 -O3 test-aklomp.c -I aklomp-base64/include/ `find aklomp-base64/lib/*.c` -o base64_c_ak_sse3
+echo '' > aklomp-base64/lib/config.h && gcc --std=c99 -O3 test-aklomp.c -I aklomp-base64/include/ `find aklomp-base64/lib/*.c` -o base64_c_ak
