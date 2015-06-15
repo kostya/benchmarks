@@ -9,7 +9,9 @@ echo Cpp
 echo C
 ../xtime.rb ./base64_c
 echo C aklomp
-../xtime.rb ./base64_c_ak
+../xtime.rb ./base64_c_ak_plain
+echo C aklomp SSSE3
+../xtime.rb ./base64_c_ak_ssse
 echo Rust
 ../xtime.rb ./base64_rs
 echo D
