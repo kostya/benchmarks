@@ -61,8 +61,8 @@ Some benchmarks of different languages
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
+| C               | 2.10    | 32.2       |
 | D Gdc           | 2.48    | 44.3       |
-| C               | 2.70    | 32.3       |
 | Ruby            | 2.73    | 125.3      |
 | D Ldc           | 3.27    | 44.1       |
 | Rust            | 3.65    | 42.9       |
