@@ -8,6 +8,8 @@ echo Cpp
 ../xtime.rb ./base64_cpp
 echo C
 ../xtime.rb ./base64_c
+echo C aklomp
+../xtime.rb ./base64_c_ak
 echo Rust
 ../xtime.rb ./base64_rs
 echo D
