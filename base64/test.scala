@@ -1,9 +1,9 @@
 object Base64 {
-  val enc = new sun.misc.BASE64Encoder()
-  val dec = new sun.misc.BASE64Decoder()
+  val enc = java.util.Base64.getEncoder
+  val dec = java.util.Base64.getDecoder
 
-  def encode(str: String) = enc.encode(str.getBytes())
-  def decode(str: String) = dec.decodeBuffer(str)
+  def encode(str: String) = enc.encodeToString(str.getBytes())
+  def decode(str: String) = dec.decode(str)
 
   def main(args: Array[String]): Unit = {
     val STR_SIZE = 10000000
