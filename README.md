@@ -78,11 +78,11 @@ Some benchmarks of different languages
 | Javascript Node | 7.93    | 777.1      |
 | Python Pypy     | 8.22    | 114.6      |
 | C# Mono         | 9.01    | 71.7       |
+| Scala           | 11.0    | 1.5        |
 | Ruby JRuby9K    | 12.16   | 530.6      |
 | Ruby JRuby      | 12.65   | 514.9      |
 | Julia           | 16.86   | 163.9      |
 | Go              | 21.24   | 94.2       |
-| Scala           | 31.08   | 297.2      |
 | Go Gcc          | 39.56   | 185.5      |
 
 # Json
