@@ -21,6 +21,7 @@ object Base64 {
     println("encode: " + s + ", " + (System.nanoTime - t)/1e9)
 
     s = 0
+    t = System.nanoTime
     for (_ <- 1 to TRIES) {
       val str3 = decode(str2)
       s += str3.length

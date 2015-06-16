@@ -20,15 +20,15 @@ Some benchmarks of different languages
 | D Gdc           | 8.53    | 1.0        |
 | Julia           | 9.00    | 56.0       |
 | Javascript V8   | 9.41    | 8.1        |
-| Scala           | 11.99   | 1.6        |
+| Scala           | 11.63   | 114.0      |
 | Go Gcc          | 13.60   | 10.0       |
 | Javascript Node | 17.72   | 9.5        |
 | C# Mono         | 18.08   | 15.4       |
 | Python Pypy     | 20.12   | 20.8       |
-| Ruby JRuby      | 96.20   | 97.0       |
+| Ruby JRuby      | 87.05   | 124.1      |
 | Ruby Topaz      | 112.91  | 36.0       |
+| Ruby JRuby9K    | 160.15  | 297.2      |
 | Ruby            | 226.86  | 8.0        |
-| Ruby JRuby9k    | 241.16  | 256.6      |
 | Python          | 452.44  | 4.9        |
 | Ruby Rbx        | 472.08  | 45.0       |
 
@@ -49,7 +49,7 @@ Some benchmarks of different languages
 | D Gdc           | 71.20   | 1.5        |
 | Julia           | 76.39   | 56.1       |
 | Go Gcc          | 85.67   | 10.7       |
-| Scala           | 105.57  | 1.6        |
+| Scala           | 96.73   | 126.0      |
 | C# Mono         | 118.72  | 13.6       |
 | Javascript Node | 206.88  | 11.3       |
 | Python Pypy     | 206.20  | 31.8       |
@@ -78,11 +78,11 @@ Some benchmarks of different languages
 | Javascript Node | 7.93    | 777.1      |
 | Python Pypy     | 8.22    | 114.6      |
 | C# Mono         | 9.01    | 71.7       |
-| Ruby JRuby      | 16.76   | 496.6      |
+| Ruby JRuby9K    | 12.16   | 530.6      |
+| Ruby JRuby      | 12.65   | 514.9      |
 | Julia           | 16.86   | 163.9      |
-| Ruby JRuby9k    | 17.72   | 417.1      |
 | Go              | 21.24   | 94.2       |
-| Scala           | 35.06   | 301.2      |
+| Scala           | 31.08   | 297.2      |
 | Go Gcc          | 39.56   | 185.5      |
 
 # Json
@@ -108,14 +108,14 @@ Some benchmarks of different languages
 | Ruby            | 10.54   | 2086.2     |
 | Javascript Node | 11.61   | 926.4      |
 | C++ Boost       | 16.44   | 2915.2     |
+| Ruby JRuby9K    | 16.53   | 2050.5     |
 | D Gdc           | 17.68   | 1008.4     |
 | Go Gcc          | 18.69   | 494.4      |
-| Ruby JRuby9k    | 18.89   | 1996.8     |
+| Ruby JRuby      | 21.98   | 2761.1     |
 | C# Mono         | 25.74   | 3757.9     |
-| Ruby JRuby      | 25.78   | 2712.6     |
 | D Ldc           | 27.23   | 919.6      |
 | Ruby Rbx        | 67.13   | 4681.0     |
-| Scala           | 343.13  | 2373.0     |
+| Scala           | 356.09  | 2789.0     |
 
 # Matmul
 
@@ -128,7 +128,7 @@ Some benchmarks of different languages
 | D               | 2.30    | 71.3       |
 | D Gdc           | 2.32    | 73.3       |
 | C               | 3.64    | 69.2       |
-| Java            | 3.68    | 134.3      |
+| Java            | 3.64    | 136.3      |
 | Rust            | 3.70    | 76.9       |
 | Nim Clang       | 3.71    | 141.1      |
 | Nim Gcc         | 3.74    | 132.1      |
@@ -137,14 +137,14 @@ Some benchmarks of different languages
 | Go              | 4.77    | 75.6       |
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.10    | 89.2       |
-| Scala           | 10.26   | 154.0      |
+| Scala           | 10.14   | 154.0      |
 | C# Mono         | 15.17   | 83.6       |
 | Julia           | 30.87   | 362.8      |
 | Ruby Topaz      | 81.41   | 206.2      |
 | Ruby            | 338.40  | 82.8       |
 | Python          | 447.39  | 74.0       |
-| Ruby JRuby      | 412.61  | 574.9      |
-| Ruby JRuby9k    | 467.99  | 602.3      |
+| Ruby JRuby      | 416.12  | 582.4      |
+| Ruby JRuby9k    | 467.59  | 608.3      |
 | Ruby Rbx        | 591.70  | 325.0      |
 
 # Havlak
@@ -161,7 +161,7 @@ Some benchmarks of different languages
 | D Ldc           | 25.15   | 214.9      |
 | D Gdc           | 25.75   | 230.6      |
 | Go Gcc          | 30.36   | 436.7      |
-| Scala           | 33.38   | 341.0      |
+| Scala           | 32.13   | 363.0      |
 | C# Mono         | 40.54   | 270.0      |
 | Go              | 44.56   | 424.9      |
 | Python Pypy     | 69.46   | 730.2      |
@@ -185,16 +185,16 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * LDC - the LLVM D compiler (0.15.2-beta1):
 * V8 version 3.29.62 (candidate)
 * rustc 1.2.0-nightly (0cc99f9cc 2015-05-17) (built 2015-05-18)
-* Scala compiler version 2.11.4 -- Copyright 2002-2013, LAMP/EPFL
+* Scala version 2.11.6 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_45)
 * Nodejs v0.10.25
 * PyPy 2.4.0 with GCC 4.6.3
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]
 * ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-linux]
 * Python 2.7.6
 * rubinius 2.2.10 (2.1.0 bf61ae2e 2014-06-27 JI) [x86_64-linux-gnu]
-* jruby 1.7.19 (1.9.3p551) 2015-01-29 20786bd on Java HotSpot(TM) 64-Bit Server VM 1.7.0_67-b01 +jit [linux-amd64]
-* jruby 9.0.0.0.pre1 (2.2.0p0) 2015-01-20 d537cab Java HotSpot(TM) 64-Bit Server VM 24.65-b04 on 1.7.0_67-b01 +jit [linux-amd64]
-* Java HotSpot(TM) 64-Bit Server VM (build 24.65-b04, mixed mode)
+* jruby 1.7.20 (1.9.3p551) 2015-05-04 3086e6a on Java HotSpot(TM) 64-Bit Server VM 1.8.0_45-b14 +jit [linux-amd64]
+* jruby 9.0.0.0.pre2 (2.2.2) 2015-04-28 2755ae0 Java HotSpot(TM) 64-Bit Server VM 25.45-b02 on 1.8.0_45-b14 +jit [linux-amd64]
+* java version "1.8.0_45" Java HotSpot(TM) 64-Bit Server VM (build 25.45-b02, mixed mode)
 * julia version 0.3.7
 * clang version 3.5-1ubuntu1 (trunk) (based on LLVM 3.5)
 * Mono JIT compiler version 4.0.1 (tarball Tue May 12 15:39:23 UTC 2015)
