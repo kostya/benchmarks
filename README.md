@@ -78,7 +78,7 @@ Some benchmarks of different languages
 | Javascript Node | 7.93    | 777.1      |
 | Python Pypy     | 8.22    | 114.6      |
 | C# Mono         | 9.01    | 71.7       |
-| Scala           | 11.0    | 1.5        |
+| Scala           | 11.0    | 292.5      |
 | Ruby JRuby9K    | 12.16   | 530.6      |
 | Ruby JRuby      | 12.65   | 514.9      |
 | Julia           | 16.86   | 163.9      |
