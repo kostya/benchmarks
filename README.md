@@ -62,9 +62,8 @@ Some benchmarks of different languages
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
 | C aklomp SSSE3  | 1.09    | 32.3       |
-| C aklomp        | 1.85    | 32.3       |
+| C               | 1.85    | 32.2       |
 | Crystal         | 2.08    | 68.7       |
-| C               | 2.10    | 32.2       |
 | D Gdc           | 2.48    | 44.3       |
 | Ruby            | 2.73    | 125.3      |
 | D Ldc           | 3.27    | 44.1       |

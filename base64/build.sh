@@ -13,14 +13,6 @@ julia -e 'Pkg.add("Codecs")'
 cargo build --manifest-path base64.rs/Cargo.toml --release && cp ./base64.rs/target/release/base64 ./base64_rs
 mcs -debug- -optimize+ test.cs
 
-if [ ! -d aklomp-base64 ]; then
-  git clone --depth 1 https://github.com/aklomp/base64.git aklomp-base64
-  cd aklomp-base64
-  make
-  cd -
-fi
-gcc --std=c99 -O3 test-aklomp.c -I aklomp-base64/include/ aklomp-base64/lib/libbase64.o -o base64_c_ak_plain
-
 if [ ! -d aklomp-base64-ssse ]; then
   git clone --depth 1 https://github.com/aklomp/base64.git aklomp-base64-ssse
   cd aklomp-base64-ssse

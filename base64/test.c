@@ -1,6 +1,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "time.h"
+#include <stdint.h>
 
 typedef unsigned int uint;
 const char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -34,14 +35,16 @@ int decode(int size, const char* str, int* out_size, char** output) {
   char *out = *output;
   while (size > 0 && (str[size - 1] == '\n' || str[size - 1] == '\r' || str[size - 1] == '=')) size--;
   const char* ends = str + size - 4;
-  while (str <= ends) {
+  while (1) {
+    if (str > ends) break;
+    while (*str == '\n' || *str == '\r') str++;
+
+    if (str > ends) break;
     next_char(a); next_char(b); next_char(c); next_char(d);
 
     *out++ = (char)(a << 2 | b >> 4);
     *out++ = (char)(b << 4 | c >> 2);
     *out++ = (char)(c << 6 | d >> 0);
-
-    while ((*str == '\n' || *str == '\r') && str <= ends) str++;
   }
 
   int mod = (str - ends) % 4;
@@ -65,13 +68,12 @@ void encode(int size, const char* str, int* out_size, char** output) {
   const char* ends = str + (size - size % 3);
   uint n;
   while (str != ends) {
-    n = (uint)*str++ << 16;
-    n |= (uint)*str++ << 8;
-    n |= (uint)*str++;
-    *out++ = chars[(n >> 18) & 63];
-    *out++ = chars[(n >> 12) & 63];
-    *out++ = chars[(n >> 6) & 63];
-    *out++ = chars[(n >> 0) & 63];
+    uint32_t n = __builtin_bswap32(*(uint32_t*)str);
+    *out++ = chars[(n >> 26) & 63];
+    *out++ = chars[(n >> 20) & 63];
+    *out++ = chars[(n >> 14) & 63];
+    *out++ = chars[(n >> 8) & 63];
+    str += 3;
   }
   int pd = size % 3;
   if  (pd == 1) {
