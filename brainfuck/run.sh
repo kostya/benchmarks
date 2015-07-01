@@ -36,3 +36,7 @@ echo Ruby
 ../xtime.rb ruby brainfuck.rb bench.b
 echo Ruby Topaz
 ../xtime.rb topaz brainfuck.rb bench.b
+echo OOC
+../xtime.rb ./brainfuck_ooc bench.b
+echo Felix
+../xtime.rb ./brainfuck_flx bench.b

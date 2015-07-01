@@ -1,0 +1,71 @@
+include "stl/stl_vector";
+include "stl/stl_map";
+
+struct Tape {
+    tape: Stl_Vector[int]::stl_vector;
+    pos: size;
+    proc inc() = { self*.tape.[self*.pos] = self*.tape.[self*.pos] + 1; }
+    proc dec() = { self*.tape.[self*.pos] = self*.tape.[self*.pos] - 1; }
+    proc advance() = {
+        self*.pos = self*.pos + 1;
+        if self*.pos.size >= self*.tape.len call push_back(self*.tape, 0);
+    }
+    proc devance() = { self*.pos = self*.pos - 1; }
+    fun get() => self.tape.[self.pos];
+}
+
+ctor Tape() = {
+    tape := #Stl_Vector[int]::create;
+    push_back(tape, 0);
+    return Tape(tape, 0.size);
+}
+
+struct Program {
+    bracket_map: Stl_Map[int,int]::stl_map;
+    pcode: Stl_Vector[char]::stl_vector;
+}
+
+ctor Program(text: string) = {
+    bracket_map := #Stl_Map[int,int]::create;
+    pcode := #Stl_Vector[char]::create;
+    leftstack := #list[int];
+    var pc = 0;
+    valid := "[]<>+-,.";
+    for chr in text do
+        match find(valid, chr) with
+        | Some p =>
+            push_back(pcode, chr);
+            match p with
+            | 0 => leftstack = pc + leftstack;
+            | 1 =>
+                bracket_map.[leftstack.head] = pc;
+                bracket_map.[pc] = leftstack.head;
+                leftstack = leftstack.tail;
+            | _ => ;
+            endmatch;
+            pc++;
+        | _ => ;
+        endmatch;
+    done
+    return Program(bracket_map, pcode);
+}
+
+proc run(p: Program) = {
+    var tape = #Tape;
+    var pc = 0;
+    while pc < p.pcode.len.int do
+        match p.pcode.[pc.size].ord with
+        | 43 => #(&tape.inc);
+        | 45 => #(&tape.dec);
+        | 60 => #(&tape.devance);
+        | 62 => #(&tape.advance);
+        | 91 => if #(tape.get) == 0 do pc = p.bracket_map.[pc]; done
+        | 93 => if #(tape.get) != 0 do pc = p.bracket_map.[pc]; done
+        | 46 => print $ char $ #(tape.get); stdout.fflush;
+        endmatch;
+        pc++;
+    done
+}
+
+p := Program(load $ System::argv 1);
+p.run;

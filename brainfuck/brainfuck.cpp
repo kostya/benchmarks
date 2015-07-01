@@ -34,9 +34,8 @@ public:
     int pc = 0;
     for (int i = 0; i < text.size(); i++) {
       char c = text[i];
-      string str = string(1, c);
 
-      if (symbols.find(str) == string::npos) continue;
+      if (symbols.find(c) == string::npos) continue;
 
       if (c == '[') leftstack.push_back(pc);
       else
@@ -49,7 +48,7 @@ public:
         }
 
       pc++;
-      code += str;
+      code.push_back(c);
     }
   }
 
@@ -70,7 +69,7 @@ public:
           tape.devance();
           break;
         case '[':
-            if (tape.get() == 0) pc = bracket_map[pc];
+          if (tape.get() == 0) pc = bracket_map[pc];
           break;
         case ']':
           if (tape.get() != 0) pc = bracket_map[pc];
