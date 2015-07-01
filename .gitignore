@@ -16,3 +16,6 @@ todo
 *.dll
 bin_*
 target
+rock_tmp
+.libs
+*.txt

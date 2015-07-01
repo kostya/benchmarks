@@ -10,6 +10,7 @@ Some benchmarks of different languages
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
 | Nim Clang       | 2.96    | 0.7        |
+| Felix           | 4.07    | 1.3        |
 | Nim Gcc         | 4.15    | 0.6        |
 | Rust            | 4.73    | 4.9        |
 | C++             | 5.08    | 1.1        |
@@ -25,6 +26,7 @@ Some benchmarks of different languages
 | Javascript Node | 17.72   | 9.5        |
 | C# Mono         | 18.08   | 15.4       |
 | Python Pypy     | 20.12   | 20.8       |
+| OOC             | 48.86   | 1.3        |
 | Ruby JRuby      | 87.05   | 124.1      |
 | Ruby Topaz      | 112.91  | 36.0       |
 | Ruby JRuby9K    | 160.15  | 297.2      |
@@ -39,6 +41,7 @@ Some benchmarks of different languages
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
 | Nim Clang       | 27.98   | 1.0        |
+| Felix           | 40.06   | 3.7        |
 | D Ldc           | 43.30   | 0.9        |
 | Crystal         | 43.60   | 1.2        |
 | Rust            | 47.57   | 4.9        |
@@ -197,3 +200,5 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * julia version 0.3.7
 * clang version 3.5-1ubuntu1 (trunk) (based on LLVM 3.5)
 * Mono JIT compiler version 4.0.1 (tarball Tue May 12 15:39:23 UTC 2015)
+* rock 0.9.10-head codename sapphire, built on Wed Jul  1 20:09:58 2015
+* Felix version 15.04.03
