@@ -16,14 +16,12 @@ function advance(this::Tape)
   if this.pos > length(this.tape)
     push!(this.tape, 0)
   end
-  return nothing
 end
 
 function devance(this::Tape)
   if this.pos > 1
     this.pos -= 1
   end
-  return nothing
 end
 
 validbfsymbol(x) = in(x, ['>', '<', '+', '-', '.', ',', '[', ']'])
