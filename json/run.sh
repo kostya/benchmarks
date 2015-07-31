@@ -6,8 +6,6 @@ echo Crystal Schema
 ../xtime.rb ./json_schema_cr
 echo Javascript Node
 ../xtime.rb nodejs test.js
-echo Ruby
-../xtime.rb ruby test.rb
 echo Rust
 ../xtime.rb ./json_rs
 echo Go
@@ -40,5 +38,9 @@ echo Julia
 ../xtime.rb julia test.jl
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen test.exe
+echo Ruby
+../xtime.rb ruby test.rb
+echo Ruby YAJL
+../xtime.rb ruby test-yajl.rb
 echo Scala
 ../xtime.rb scala -J-Xmx3024m TestJson

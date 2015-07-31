@@ -104,11 +104,12 @@ Some benchmarks of different languages
 | Python Pypy     | 4.99    | 1365.4     |
 | C++ LibJson     | 5.49    | 2796.3     |
 | Go              | 6.27    | 420.9      |
+| Ruby YAJL       | 8.23    | 1085.5     |
 | Python          | 9.85    | 1409.1     |
 | D               | 9.87    | 1316.6     |
 | Julia           | 10.21   | 2335.9     |
-| Ruby            | 10.54   | 2086.2     |
 | Javascript Node | 11.61   | 926.4      |
+| Ruby            | 12.67   | 2013.9     |
 | C++ Boost       | 16.44   | 2915.2     |
 | Ruby JRuby9K    | 16.53   | 2050.5     |
 | D Gdc           | 17.68   | 1008.4     |
