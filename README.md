@@ -15,7 +15,7 @@ Some benchmarks of different languages
 | Rust            | 4.73    | 4.9        |
 | C++             | 5.08    | 1.1        |
 | D Ldc           | 6.61    | 0.9        |
-| Crystal         | 7.03    | 1.2        |
+| Crystal         | 6.73    | 1.2        |
 | Go              | 7.57    | 1.0        |
 | D               | 8.16    | 0.9        |
 | D Gdc           | 8.53    | 1.0        |
@@ -43,10 +43,10 @@ Some benchmarks of different languages
 | Nim Clang       | 27.98   | 1.0        |
 | Felix           | 40.06   | 3.7        |
 | D Ldc           | 43.30   | 0.9        |
-| Crystal         | 43.60   | 1.2        |
 | Rust            | 47.57   | 4.9        |
 | D               | 49.73   | 1.2        |
 | Nim Gcc         | 50.01   | 0.9        |
+| Crystal         | 50.11   | 1.4        |
 | Go              | 52.29   | 1.5        |
 | Cpp             | 56.63   | 1.1        |
 | D Gdc           | 71.20   | 1.5        |
@@ -134,8 +134,8 @@ Some benchmarks of different languages
 | Rust            | 3.70    | 76.9       |
 | Nim Clang       | 3.71    | 141.1      |
 | Nim Gcc         | 3.74    | 132.1      |
-| Crystal         | 3.82    | 72.2       |
 | Go Gcc          | 3.90    | 84.5       |
+| Crystal         | 4.66    | 72.1       |
 | Go              | 4.77    | 75.6       |
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.10    | 89.2       |
@@ -155,7 +155,7 @@ Some benchmarks of different languages
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
-| Crystal         | 16.22   | 426.6      |
+| Crystal         | 15.75   | 415.6      |
 | Nim Gcc         | 17.26   | 913.0      |
 | Nim Clang       | 17.82   | 874.4      |
 | C++             | 17.72   | 174.5      |
@@ -179,7 +179,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 
 * gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
 * Nim Compiler Version 0.11.2 (2015-05-04) [Linux: amd64]
-* `Crystal 0.7.4 [42efdbf] (Wed Jun 24 01:02:21 UTC 2015)`
+* `Crystal 0.7.5 [2a33a87] (Thu Jul 30 17:24:52 UTC 2015)`
 * go version go1.4 linux/amd64
 * gccgo (Ubuntu 4.9.1-0ubuntu1) 4.9.1
 * DMD64 D Compiler v2.067.0
