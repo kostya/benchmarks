@@ -12,12 +12,12 @@ Some benchmarks of different languages
 | Nim Clang       | 2.96    | 0.7        |
 | Felix           | 4.07    | 1.3        |
 | Nim Gcc         | 4.15    | 0.6        |
-| Rust            | 4.73    | 4.9        |
 | C++             | 5.08    | 1.1        |
+| Rust            | 5.39    | 4.9        |
+| D               | 6.57    | 1.0        |
 | D Ldc           | 6.61    | 0.9        |
 | Crystal         | 6.73    | 1.2        |
 | Go              | 7.57    | 1.0        |
-| D               | 8.16    | 0.9        |
 | D Gdc           | 8.53    | 1.0        |
 | Julia           | 9.00    | 56.0       |
 | Javascript V8   | 9.41    | 8.1        |
@@ -43,6 +43,7 @@ Some benchmarks of different languages
 | Nim Clang       | 27.98   | 1.0        |
 | Felix           | 40.06   | 3.7        |
 | D Ldc           | 43.30   | 0.9        |
+| D               | 45.29   | 1.2        |
 | Rust            | 47.57   | 4.9        |
 | D               | 49.73   | 1.2        |
 | Nim Gcc         | 50.01   | 0.9        |
@@ -106,9 +107,9 @@ Some benchmarks of different languages
 | Go              | 6.27    | 420.9      |
 | Ruby YAJL       | 8.23    | 1085.5     |
 | Python          | 9.85    | 1409.1     |
-| D               | 9.87    | 1316.6     |
 | Julia           | 10.21   | 2335.9     |
 | Javascript Node | 11.61   | 926.4      |
+| D               | 12.42   | 1417.1     |
 | Ruby            | 12.67   | 2013.9     |
 | C++ Boost       | 16.44   | 2915.2     |
 | Ruby JRuby9K    | 16.53   | 2050.5     |
@@ -160,9 +161,9 @@ Some benchmarks of different languages
 | Nim Gcc         | 17.26   | 913.0      |
 | Nim Clang       | 17.82   | 874.4      |
 | C++             | 17.72   | 174.5      |
-| D               | 24.97   | 370.2      |
 | D Ldc           | 25.15   | 214.9      |
 | D Gdc           | 25.75   | 230.6      |
+| D               | 28.90   | 418.2      |
 | Go Gcc          | 30.36   | 436.7      |
 | Scala           | 32.13   | 363.0      |
 | C# Mono         | 40.54   | 270.0      |
@@ -183,7 +184,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * `Crystal 0.7.5 [2a33a87] (Thu Jul 30 17:24:52 UTC 2015)`
 * go version go1.4 linux/amd64
 * gccgo (Ubuntu 4.9.1-0ubuntu1) 4.9.1
-* DMD64 D Compiler v2.067.0
+* DMD64 D Compiler v2.068.0
 * gdc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
 * LDC - the LLVM D compiler (0.15.2-beta1):
 * V8 version 3.29.62 (candidate)
