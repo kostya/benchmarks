@@ -45,7 +45,6 @@ Some benchmarks of different languages
 | D Ldc           | 43.30   | 0.9        |
 | D               | 45.29   | 1.2        |
 | Rust            | 47.57   | 4.9        |
-| D               | 49.73   | 1.2        |
 | Nim Gcc         | 50.01   | 0.9        |
 | Crystal         | 50.11   | 1.4        |
 | Go              | 52.29   | 1.5        |
