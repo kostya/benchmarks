@@ -12,8 +12,8 @@ Some benchmarks of different languages
 | Nim Clang       | 2.96    | 0.7        |
 | Felix           | 4.07    | 1.3        |
 | Nim Gcc         | 4.15    | 0.6        |
+| Rust            | 4.73    | 4.9        |
 | C++             | 5.08    | 1.1        |
-| Rust            | 5.39    | 4.9        |
 | D               | 6.57    | 1.0        |
 | D Ldc           | 6.61    | 0.9        |
 | Crystal         | 6.73    | 1.2        |
