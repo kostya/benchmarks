@@ -12,7 +12,7 @@ Some benchmarks of different languages
 | Nim Clang       | 2.96    | 0.7        |
 | Felix           | 4.07    | 1.3        |
 | Nim Gcc         | 4.15    | 0.6        |
-| Rust            | 4.73    | 4.9        |
+| Rust            | 4.84    | 4.9        |
 | C++             | 5.08    | 1.1        |
 | D               | 6.57    | 1.0        |
 | D Ldc           | 6.61    | 0.9        |
@@ -42,9 +42,9 @@ Some benchmarks of different languages
 | --------------- | ------- | ---------- |
 | Nim Clang       | 27.98   | 1.0        |
 | Felix           | 40.06   | 3.7        |
+| Rust            | 42.87   | 4.9        |
 | D Ldc           | 43.30   | 0.9        |
 | D               | 45.29   | 1.2        |
-| Rust            | 47.57   | 4.9        |
 | Nim Gcc         | 50.01   | 0.9        |
 | Crystal         | 50.11   | 1.4        |
 | Go              | 52.29   | 1.5        |
@@ -70,7 +70,7 @@ Some benchmarks of different languages
 | D Gdc           | 2.48    | 44.3       |
 | Ruby            | 2.73    | 125.3      |
 | D Ldc           | 3.27    | 44.1       |
-| Rust            | 3.65    | 42.9       |
+| Rust            | 4.17    | 42.9       |
 | Ruby Rbx        | 4.29    | 30.7       |
 | Nim Gcc         | 4.60    | 52.7       |
 | Nim Clang       | 4.67    | 52.7       |
@@ -95,8 +95,8 @@ Some benchmarks of different languages
 | --------------- | ------- | ---------- |
 | C++ Rapid       | 0.79    | 687.1      |
 | C++ Gason       | 0.83    | 582.2      |
+| Rust            | 1.26    | 234.7      |
 | Crystal Schema  | 1.28    | 293.2      |
-| Rust            | 1.53    | 228.8      |
 | Crystal Pull    | 1.75    | 1.2        |
 | Crystal         | 2.34    | 1061.4     |
 | Nim Clang       | 3.30    | 1280.3     |
@@ -187,7 +187,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * gdc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
 * LDC - the LLVM D compiler (0.15.2-beta1):
 * V8 version 3.29.62 (candidate)
-* rustc 1.2.0-nightly (0cc99f9cc 2015-05-17) (built 2015-05-18)
+* rustc 1.4.0-nightly (7e13faee1 2015-08-19)
 * Scala version 2.11.6 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_45)
 * Nodejs v0.10.25
 * PyPy 2.4.0 with GCC 4.6.3

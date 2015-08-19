@@ -2,9 +2,9 @@
 #![plugin(serde_macros)]
 
 extern crate serde;
+extern crate serde_json;
 
 use serde::{Deserialize, Deserializer, de};
-use serde::json;
 use std::fs::File;
 use std::io::Read;
 use std::path::Path;
@@ -35,7 +35,7 @@ fn main() {
   let mut file = File::open(&path).unwrap();
   file.read_to_end(&mut s).unwrap();
 
-  let jobj: TestStruct = json::de::from_slice(&s).unwrap();
+  let jobj: TestStruct = serde_json::de::from_slice(&s).unwrap();
 
   let len = jobj.coordinates.len() as f64;
   let mut x = 0_f64;
