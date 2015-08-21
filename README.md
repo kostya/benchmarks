@@ -17,7 +17,7 @@ Some benchmarks of different languages
 | D               | 6.57    | 1.0        |
 | D Ldc           | 6.61    | 0.9        |
 | Crystal         | 6.73    | 1.2        |
-| Go              | 7.57    | 1.0        |
+| Go              | 7.29    | 1.3        |
 | D Gdc           | 8.53    | 1.0        |
 | Julia           | 9.00    | 56.0       |
 | Javascript V8   | 9.41    | 8.1        |
@@ -47,7 +47,7 @@ Some benchmarks of different languages
 | D               | 45.29   | 1.2        |
 | Nim Gcc         | 50.01   | 0.9        |
 | Crystal         | 50.11   | 1.4        |
-| Go              | 52.29   | 1.5        |
+| Go              | 52.56   | 7.6        |
 | Cpp             | 56.63   | 1.1        |
 | D Gdc           | 71.20   | 1.5        |
 | Julia           | 76.39   | 56.1       |
@@ -81,10 +81,10 @@ Some benchmarks of different languages
 | Python Pypy     | 8.22    | 114.6      |
 | C# Mono         | 9.01    | 71.7       |
 | Scala           | 11.0    | 292.5      |
+| Go              | 12.15   | 96.2       |
 | Ruby JRuby9K    | 12.16   | 530.6      |
 | Ruby JRuby      | 12.65   | 514.9      |
 | Julia           | 16.86   | 163.9      |
-| Go              | 21.24   | 94.2       |
 | Go Gcc          | 39.56   | 185.5      |
 
 # Json
@@ -103,7 +103,7 @@ Some benchmarks of different languages
 | Nim Gcc         | 3.57    | 1284.0     |
 | Python Pypy     | 4.99    | 1365.4     |
 | C++ LibJson     | 5.49    | 2796.3     |
-| Go              | 6.27    | 420.9      |
+| Go              | 6.07    | 479.4      |
 | Ruby YAJL       | 8.23    | 1085.5     |
 | Python          | 9.85    | 1409.1     |
 | Julia           | 10.21   | 2335.9     |
@@ -137,7 +137,7 @@ Some benchmarks of different languages
 | Nim Gcc         | 3.74    | 132.1      |
 | Go Gcc          | 3.90    | 84.5       |
 | Crystal         | 4.66    | 72.1       |
-| Go              | 4.77    | 75.6       |
+| Go              | 4.76    | 73.3       |
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.10    | 89.2       |
 | Scala           | 10.14   | 154.0      |
@@ -165,8 +165,8 @@ Some benchmarks of different languages
 | D               | 28.90   | 418.2      |
 | Go Gcc          | 30.36   | 436.7      |
 | Scala           | 32.13   | 363.0      |
+| Go              | 35.78   | 392.9      |
 | C# Mono         | 40.54   | 270.0      |
-| Go              | 44.56   | 424.9      |
 | Python Pypy     | 69.46   | 730.2      |
 | Python          | 396.54  | 724.0      |
 
@@ -181,7 +181,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
 * Nim Compiler Version 0.11.2 (2015-05-04) [Linux: amd64]
 * `Crystal 0.7.5 [2a33a87] (Thu Jul 30 17:24:52 UTC 2015)`
-* go version go1.4 linux/amd64
+* go version go1.5 linux/amd64
 * gccgo (Ubuntu 4.9.1-0ubuntu1) 4.9.1
 * DMD64 D Compiler v2.068.0
 * gdc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
