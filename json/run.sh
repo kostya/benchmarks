@@ -6,8 +6,12 @@ echo Crystal Schema
 ../xtime.rb ./json_schema_cr
 echo Javascript Node
 ../xtime.rb nodejs test.js
-echo Rust
-../xtime.rb ./json_rs
+echo Rust Pull
+../xtime.rb ./json_pull_rs
+echo Rust Struct
+../xtime.rb ./json_struct_rs
+echo Rust Value
+../xtime.rb ./json_value_rs
 echo Go
 ../xtime.rb ./json_go
 echo GccGo
