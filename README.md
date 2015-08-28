@@ -19,7 +19,7 @@ Some benchmarks of different languages
 | Crystal         | 6.73    | 1.2        |
 | Go              | 7.29    | 1.3        |
 | D Gdc           | 8.53    | 1.0        |
-| Julia           | 9.00    | 56.0       |
+| Julia           | 9.25    | 59.0       |
 | Javascript V8   | 9.41    | 8.1        |
 | Scala           | 11.63   | 114.0      |
 | Go Gcc          | 13.60   | 10.0       |
@@ -50,8 +50,8 @@ Some benchmarks of different languages
 | Go              | 52.56   | 7.6        |
 | Cpp             | 56.63   | 1.1        |
 | D Gdc           | 71.20   | 1.5        |
-| Julia           | 76.39   | 56.1       |
 | Go Gcc          | 85.67   | 10.7       |
+| Julia           | 94.33   | 56.9       |
 | Scala           | 96.73   | 126.0      |
 | C# Mono         | 118.72  | 13.6       |
 | Javascript Node | 206.88  | 11.3       |
@@ -84,7 +84,7 @@ Some benchmarks of different languages
 | Go              | 12.15   | 96.2       |
 | Ruby JRuby9K    | 12.16   | 530.6      |
 | Ruby JRuby      | 12.65   | 514.9      |
-| Julia           | 16.86   | 163.9      |
+| Julia           | 14.76   | 380.2      |
 | Go Gcc          | 39.56   | 185.5      |
 
 # Json
@@ -106,7 +106,7 @@ Some benchmarks of different languages
 | Go              | 6.07    | 479.4      |
 | Ruby YAJL       | 8.23    | 1085.5     |
 | Python          | 9.85    | 1409.1     |
-| Julia           | 10.21   | 2335.9     |
+| Julia           | 10.27   | 2353.9     |
 | Javascript Node | 11.61   | 926.4      |
 | D               | 12.42   | 1417.1     |
 | Ruby            | 12.67   | 2013.9     |
@@ -142,7 +142,7 @@ Some benchmarks of different languages
 | Python Pypy     | 7.10    | 89.2       |
 | Scala           | 10.14   | 154.0      |
 | C# Mono         | 15.17   | 83.6       |
-| Julia           | 30.87   | 362.8      |
+| Julia           | 35.02   | 326.8      |
 | Ruby Topaz      | 81.41   | 206.2      |
 | Ruby            | 338.40  | 82.8       |
 | Python          | 447.39  | 74.0       |
@@ -198,7 +198,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * jruby 1.7.20 (1.9.3p551) 2015-05-04 3086e6a on Java HotSpot(TM) 64-Bit Server VM 1.8.0_45-b14 +jit [linux-amd64]
 * jruby 9.0.0.0.pre2 (2.2.2) 2015-04-28 2755ae0 Java HotSpot(TM) 64-Bit Server VM 25.45-b02 on 1.8.0_45-b14 +jit [linux-amd64]
 * java version "1.8.0_45" Java HotSpot(TM) 64-Bit Server VM (build 25.45-b02, mixed mode)
-* julia version 0.3.7
+* julia version 0.3.11
 * clang version 3.5-1ubuntu1 (trunk) (based on LLVM 3.5)
 * Mono JIT compiler version 4.0.1 (tarball Tue May 12 15:39:23 UTC 2015)
 * rock 0.9.10-head codename sapphire, built on Wed Jul  1 20:09:58 2015
