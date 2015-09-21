@@ -3,7 +3,7 @@ require "json"
 text = File.read("1.json")
 jobj = JSON.parse(text) as Hash
 coordinates = jobj["coordinates"] as Array
-len = coordinates.length
+len = coordinates.size
 x = y = z = 0
 
 coordinates.each do |e|

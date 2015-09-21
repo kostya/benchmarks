@@ -4,9 +4,7 @@ len = 0
 x = y = z = 0
 
 File.open("1.json") do |file|
-  io = BufferedIO.new(file)
-
-  pull = JSON::PullParser.new(io)
+  pull = JSON::PullParser.new(file)
   pull.on_key!("coordinates") do
     pull.read_array do
       len += 1

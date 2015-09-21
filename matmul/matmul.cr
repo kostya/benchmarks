@@ -1,7 +1,7 @@
 def matmul(a, b)
-  m = a.length
-  n = a[0].length
-  p = b[0].length
+  m = a.size
+  n = a[0].size
+  p = b[0].size
   # transpose
   b2 = Array.new(n) { Array.new(p, 0.0) }
   (0 ... n).each do |i|
