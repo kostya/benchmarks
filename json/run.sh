@@ -12,10 +12,12 @@ echo Go
 ../xtime.rb ./json_go
 echo GccGo
 ../xtime.rb ./json_go_gccgo
-echo D
+echo D DMD
 ../xtime.rb ./json_d
 echo D Gdc
 ../xtime.rb ./json_d_gdc
+echo D Gdc fast
+../xtime.rb ./json_d_fast
 echo D Ldc
 ../xtime.rb ./json_d_ldc
 echo Nim Gcc
