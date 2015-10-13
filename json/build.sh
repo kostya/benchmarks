@@ -16,6 +16,11 @@ go build -o json_go test.go
 gccgo -O3 -g -o json_go_gccgo test.go
 g++ -O3 test_boost.cpp -o json_boost_cpp
 
+if [ ! -d fast ]; then
+  git clone --depth 1 --branch v0.3.0 https://github.com/mleise/fast.git
+fi
+gdc -o json_d_gdc_fast -O3 -frelease -fno-bounds-check test_fast.d fast/source/fast/cstring.d fast/source/fast/buffer.d fast/source/fast/helpers.d fast/source/fast/json.d fast/source/fast/parsing.d fast/source/fast/intmath.d
+
 if [ ! -d rapidjson ]; then
   git clone --depth 1 https://github.com/miloyip/rapidjson.git
 fi
