@@ -18,7 +18,7 @@ Some benchmarks of different languages
 | D Ldc           | 6.61    | 0.9        |
 | Go              | 7.29    | 1.3        |
 | Crystal         | 8.43    | 1.2        |
-| D Gdc           | 8.53    | 1.0        |
+| D Gdc           | 8.87    | 1.0        |
 | Julia           | 9.25    | 59.0       |
 | Javascript V8   | 9.41    | 8.1        |
 | Scala           | 11.63   | 114.0      |
@@ -49,7 +49,7 @@ Some benchmarks of different languages
 | Crystal         | 51.64   | 1.2        |
 | Go              | 52.56   | 7.6        |
 | Cpp             | 56.63   | 1.1        |
-| D Gdc           | 71.20   | 1.5        |
+| D Gdc           | 70.12   | 1.5        |
 | Go Gcc          | 85.67   | 10.7       |
 | Julia           | 94.33   | 56.9       |
 | Scala           | 96.73   | 126.0      |
@@ -67,8 +67,8 @@ Some benchmarks of different languages
 | C aklomp SSSE3  | 1.09    | 32.3       |
 | C               | 1.85    | 32.2       |
 | Crystal         | 2.22    | 87.8       |
-| D Gdc           | 2.48    | 44.3       |
 | Ruby            | 2.73    | 125.3      |
+| D Gdc           | 3.16    | 45.2       |
 | D Ldc           | 3.27    | 44.1       |
 | Rust            | 4.17    | 42.9       |
 | Ruby Rbx        | 4.29    | 30.7       |
@@ -112,10 +112,10 @@ Some benchmarks of different languages
 | Ruby            | 12.67   | 2013.9     |
 | C++ Boost       | 16.44   | 2915.2     |
 | Ruby JRuby9K    | 16.53   | 2050.5     |
-| D Gdc           | 17.68   | 1008.4     |
 | Go Gcc          | 18.69   | 494.4      |
 | Ruby JRuby      | 21.98   | 2761.1     |
 | C# Mono         | 25.74   | 3757.9     |
+| D Gdc           | 25.86   | 926.1      |
 | D Ldc           | 27.23   | 919.6      |
 | Ruby Rbx        | 67.13   | 4681.0     |
 | Scala           | 356.09  | 2789.0     |
@@ -129,7 +129,7 @@ Some benchmarks of different languages
 | Julia Native    | 0.15    | 69.9       |
 | D Ldc           | 2.01    | 68.9       |
 | D               | 2.30    | 71.3       |
-| D Gdc           | 2.32    | 73.3       |
+| D Gdc           | 2.33    | 73.0       |
 | C               | 3.64    | 69.2       |
 | Java            | 3.64    | 136.3      |
 | Rust            | 3.70    | 76.9       |
@@ -161,9 +161,9 @@ Some benchmarks of different languages
 | Nim Clang       | 17.82   | 874.4      |
 | C++             | 17.72   | 174.5      |
 | D Ldc           | 25.15   | 214.9      |
-| D Gdc           | 25.75   | 230.6      |
 | D               | 28.90   | 418.2      |
 | Go Gcc          | 30.36   | 436.7      |
+| D Gdc           | 31.79   | 197.6      |
 | Scala           | 32.13   | 363.0      |
 | Go              | 35.78   | 392.9      |
 | C# Mono         | 40.54   | 270.0      |
@@ -184,7 +184,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * go version go1.5 linux/amd64
 * gccgo (Ubuntu 4.9.1-0ubuntu1) 4.9.1
 * DMD64 D Compiler v2.068.0
-* gdc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
+* gdc (crosstool-NG crosstool-ng-1.20.0-232-gc746732 - 20150830-2.066.1-dadb5a3784) 5.2.0
 * LDC - the LLVM D compiler (0.15.2-beta1):
 * V8 version 3.29.62 (candidate)
 * rustc 1.4.0-nightly (7e13faee1 2015-08-19)
