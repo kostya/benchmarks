@@ -17,7 +17,7 @@ echo D DMD
 echo D Gdc
 ../xtime.rb ./json_d_gdc
 echo D Gdc fast
-../xtime.rb ./json_d_fast
+../xtime.rb ./json_d_gdc_fast
 echo D Ldc
 ../xtime.rb ./json_d_ldc
 echo Nim Gcc

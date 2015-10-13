@@ -9,4 +9,5 @@ rm -rf Newtonsoft.Json*
 rm -rf rapidjson
 rm -rf gason
 rm -rf json.rs/target
+rm -rf fast
 rm json.rs/Cargo.lock

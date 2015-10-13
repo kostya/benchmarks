@@ -93,6 +93,7 @@ Some benchmarks of different languages
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
+| D Gdc Fast      | 0.34    | 226.7      |
 | C++ Rapid       | 0.79    | 687.1      |
 | C++ Gason       | 0.83    | 582.2      |
 | Rust            | 1.26    | 234.7      |
