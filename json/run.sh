@@ -46,3 +46,5 @@ echo Ruby YAJL
 ../xtime.rb ruby test-yajl.rb
 echo Scala
 ../xtime.rb scala -J-Xmx3024m TestJson
+echo q
+../xtime.rb q test.q -q
