@@ -103,6 +103,7 @@ Some benchmarks of different languages
 | Nim Clang       | 3.30    | 1280.3     |
 | Nim Gcc         | 3.57    | 1284.0     |
 | Python Pypy     | 4.99    | 1365.4     |
+| Q               | 5.18    | 684.0      |
 | C++ LibJson     | 5.49    | 2796.3     |
 | Go              | 6.07    | 479.4      |
 | Ruby YAJL       | 8.23    | 1085.5     |
@@ -204,3 +205,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Mono JIT compiler version 4.0.1 (tarball Tue May 12 15:39:23 UTC 2015)
 * rock 0.9.10-head codename sapphire, built on Wed Jul  1 20:09:58 2015
 * Felix version 15.04.03
+* Q KDB+ 3.3 2015.09.02 Copyright (C) 1993-2015 Kx Systems
