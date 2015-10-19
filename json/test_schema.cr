@@ -1,7 +1,7 @@
 require "json"
 
 struct Coordinate
-  json_mapping({
+  JSON.mapping({
     x: Float64,
     y: Float64,
     z: Float64,
@@ -9,7 +9,7 @@ struct Coordinate
 end
 
 class Coordinates
-  json_mapping({
+  JSON.mapping({
     coordinates: {type: Array(Coordinate)}
   })
 end

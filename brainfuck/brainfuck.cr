@@ -59,7 +59,7 @@ class Program
         when '<'; tape.devance
         when '['; pc = @bracket_map[pc] if tape.get == 0
         when ']'; pc = @bracket_map[pc] if tape.get != 0
-        when '.'; print!(tape.get.chr)
+        when '.'; print(tape.get.chr)
       end
       pc += 1
     end
