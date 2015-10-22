@@ -156,6 +156,7 @@ Some benchmarks of different languages
 | Ruby JRuby      | 416.12  | 582.4      |
 | Ruby JRuby9k    | 467.59  | 608.3      |
 | Ruby Rbx        | 591.70  | 325.0      |
+| Perl            | 666.46  | 604.1      |
 
 # Havlak
 
