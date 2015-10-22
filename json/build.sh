@@ -44,3 +44,6 @@ wget -qO - https://cpanmin.us | perl - -L perllib Cpanel::JSON::XS JSON::Tiny Fi
 
 # haskell
 cd json-hs; make; cd ..
+
+# clojure
+cd json-clj && lein uberjar && cd ..

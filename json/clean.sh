@@ -11,3 +11,4 @@ rm -rf gason
 rm -rf json.rs/target
 rm -rf fast
 rm -rf perllib
+rm -rf json-clj/target
