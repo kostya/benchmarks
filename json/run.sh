@@ -48,3 +48,5 @@ echo Scala
 ../xtime.rb scala -J-Xmx3024m TestJson
 echo q
 ../xtime.rb q test.q -q
+echo Haskell
+../xtime.rb ./json-hs-bin

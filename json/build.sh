@@ -39,3 +39,5 @@ cp Newtonsoft.Json.*/lib/net45/Newtonsoft.Json.dll .
 mcs -debug- -optimize+ -r:Newtonsoft.Json.dll test.cs
 
 gem install yajl-ruby
+# haskell
+cd json-hs; make; cd ..
