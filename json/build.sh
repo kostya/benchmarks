@@ -25,6 +25,7 @@ if [ ! -d rapidjson ]; then
   git clone --depth 1 https://github.com/miloyip/rapidjson.git
 fi
 g++ -O3 test_rapid.cpp -o json_rapid_cpp -Irapidjson/include
+g++ -O3 test_rapid_sax.cpp -o json_rapid_sax_cpp -Irapidjson/include
 
 if [ ! -d gason ]; then
   git clone --depth 1 https://github.com/vivkin/gason.git
