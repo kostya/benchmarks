@@ -70,6 +70,7 @@ Some benchmarks of different languages
 | Ruby            | 2.73    | 125.3      |
 | D Gdc           | 3.16    | 45.2       |
 | D Ldc           | 3.27    | 44.1       |
+| Perl XS         | 3.63    | 47.9       |
 | Rust            | 4.17    | 42.9       |
 | Ruby Rbx        | 4.29    | 30.7       |
 | Nim Gcc         | 4.60    | 52.7       |
@@ -85,6 +86,7 @@ Some benchmarks of different languages
 | Ruby JRuby9K    | 12.16   | 530.6      |
 | Ruby JRuby      | 12.65   | 514.9      |
 | Julia           | 14.76   | 380.2      |
+| Perl            | 33.30   | 99.7       |
 | Go Gcc          | 39.56   | 185.5      |
 
 # Json
@@ -100,6 +102,7 @@ Some benchmarks of different languages
 | Crystal Schema  | 1.57    | 296.2      |
 | Crystal         | 2.55    | 1059.4     |
 | Crystal Pull    | 2.63    | 1.2        |
+| Perl XS         | 2.68    | 888.4      |
 | Nim Clang       | 3.30    | 1280.3     |
 | Nim Gcc         | 3.57    | 1284.0     |
 | Python Pypy     | 4.99    | 1365.4     |
@@ -119,6 +122,7 @@ Some benchmarks of different languages
 | C# Mono         | 25.74   | 3757.9     |
 | D Gdc           | 25.86   | 926.1      |
 | D Ldc           | 27.23   | 919.6      |
+| Perl            | 46.02   | 1635.4     |
 | Ruby Rbx        | 67.13   | 4681.0     |
 | Scala           | 356.09  | 2789.0     |
 
@@ -206,3 +210,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * rock 0.9.10-head codename sapphire, built on Wed Jul  1 20:09:58 2015
 * Felix version 15.04.03
 * Q KDB+ 3.3 2015.09.02 Copyright (C) 1993-2015 Kx Systems
+* perl 5, version 18, subversion 2 (v5.18.2) built for x86_64-linux-gnu-thread-multi

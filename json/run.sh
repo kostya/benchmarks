@@ -48,3 +48,7 @@ echo Scala
 ../xtime.rb scala -J-Xmx3024m TestJson
 echo q
 ../xtime.rb q test.q -q
+echo Perl
+../xtime.rb perl -Iperllib/lib/perl5 test.pl
+echo Perl XS
+../xtime.rb perl -Iperllib/lib/perl5 test-xs.pl
