@@ -212,3 +212,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Felix version 15.04.03
 * Q KDB+ 3.3 2015.09.02 Copyright (C) 1993-2015 Kx Systems
 * perl 5, version 18, subversion 2 (v5.18.2) built for x86_64-linux-gnu-thread-multi
+* The Glorious Glasgow Haskell Compilation System, version 7.10.2
