@@ -39,5 +39,8 @@ cp Newtonsoft.Json.*/lib/net45/Newtonsoft.Json.dll .
 mcs -debug- -optimize+ -r:Newtonsoft.Json.dll test.cs
 
 gem install yajl-ruby
+
+wget -qO - https://cpanmin.us | perl - -L perllib Cpanel::JSON::XS JSON::Tiny File::Slurper
+
 # haskell
 cd json-hs; make; cd ..

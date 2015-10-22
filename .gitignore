@@ -19,3 +19,4 @@ target
 rock_tmp
 .libs
 *.txt
+perllib

@@ -11,3 +11,4 @@ rm -rf gason
 rm -rf json.rs/target
 rm -rf fast
 rm json.rs/Cargo.lock
+rm -rf perllib

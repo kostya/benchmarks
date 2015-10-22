@@ -7,3 +7,4 @@ rm -rf nimcache
 rm -rf base64.rs/target
 rm -rf aklomp-base64*
 rm base64.rs/Cargo.lock
+rm -rf perllib

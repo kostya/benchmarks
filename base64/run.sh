@@ -36,3 +36,7 @@ echo Ruby
 ../xtime.rb ruby test.rb
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen test.exe
+echo Perl
+../xtime.rb perl -Iperllib/lib/perl5 test.pl
+echo Perl XS
+../xtime.rb perl test-xs.pl
