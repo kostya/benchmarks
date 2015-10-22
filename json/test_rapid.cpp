@@ -1,30 +1,17 @@
 #include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
+#include "rapidjson/filereadstream.h"
+#include <cstdio>
 #include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
 
 using namespace std;
-
-void read_file(string filename, stringstream &buffer){
-  ifstream f(filename.c_str());
-  if (f)
-  {
-    buffer << f.rdbuf();
-    f.close();
-  }
-}
-
 using namespace rapidjson;
 
 int main() {
-    std::stringstream ss;
-    read_file("./1.json", ss);
-
-    string text = ss.str();
-    Document jobj; jobj.Parse(text.c_str());
+    FILE* fp = std::fopen("./1.json", "r");
+    char buffer[65536];
+    FileReadStream frs(fp, buffer, sizeof(buffer));
+    Document jobj; 
+    jobj.ParseStream(frs);
 
     const Value &coordinates = jobj["coordinates"];
     int len = coordinates.Size();
@@ -40,6 +27,8 @@ int main() {
     std::cout << x / len << std::endl;
     std::cout << y / len << std::endl;
     std::cout << z / len << std::endl;
+
+    fclose(fp);
 
     return 0;
 }
