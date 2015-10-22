@@ -54,3 +54,5 @@ echo Perl XS
 ../xtime.rb perl -Iperllib/lib/perl5 test-xs.pl
 echo Haskell
 ../xtime.rb ./json_hs
+echo Clojure
+../xtime.rb java -cp clj-libs/clojure-1.7.0-slim.jar:clj-libs/cheshire-5.5.0.jar:clj-libs/jackson-core-2.5.3.jar:clj-libs/jackson-dataformat-smile-2.5.3.jar:clj-libs/jackson-dataformat-cbor-2.5.3.jar clojure.main test.clj
