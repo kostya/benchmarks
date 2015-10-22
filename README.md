@@ -96,8 +96,9 @@ Some benchmarks of different languages
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
 | D Gdc Fast      | 0.34    | 226.7      |
-| C++ Rapid       | 0.79    | 687.1      |
+| C++ Rapid SAX   | 0.72    | 1.0        |
 | C++ Gason       | 0.83    | 582.2      |
+| C++ Rapid       | 0.94    | 243.6      |
 | Rust            | 1.26    | 234.7      |
 | Crystal Schema  | 1.57    | 296.2      |
 | Crystal         | 2.55    | 1059.4     |
