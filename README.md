@@ -110,6 +110,7 @@ Some benchmarks of different languages
 | C++ LibJson     | 5.49    | 2796.3     |
 | Go              | 6.07    | 479.4      |
 | Ruby YAJL       | 8.23    | 1085.5     |
+| Haskell         | 8.31    | 70.5       |
 | Python          | 9.85    | 1409.1     |
 | Julia           | 10.27   | 2353.9     |
 | Javascript Node | 11.61   | 926.4      |
