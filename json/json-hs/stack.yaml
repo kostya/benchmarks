@@ -6,14 +6,10 @@ resolver: lts-3.7
 # Local packages, usually specified by relative directory name
 packages:
 - '.'
-- location:
-    git: https://github.com/bos/aeson
-    commit: a04c6271ac87c142ddad0db2f4bd9efb4d2bf836
-  extra-dep: true
 
 # Packages to be pulled from upstream that are not in the resolver (e.g., acme-missiles-0.3)
 extra-deps:
-- attoparsec-0.13.0.1
+- json-stream-0.3.2.2
 
 # Override default flag values for local packages and extra-deps
 flags: {}

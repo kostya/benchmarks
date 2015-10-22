@@ -16,10 +16,14 @@ executable json-hs
   hs-source-dirs:      src
   main-is:             Main.hs
   default-language:    Haskell2010
-  build-depends:       base >= 4.7 && < 5
-                     , aeson
+  build-depends:       aeson
+                     , base >= 4.7 && < 5
                      , bytestring
+                     , deepseq
+                     , json-stream
+                     , unordered-containers
+                     , vector
   ghc-options:       -O2
-                     -funbox-strict-fields
                      -Wall
                      -Werror
+                     -funbox-strict-fields
