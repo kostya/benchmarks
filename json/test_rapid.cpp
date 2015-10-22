@@ -14,7 +14,7 @@ int main() {
     jobj.ParseStream(frs);
 
     const Value &coordinates = jobj["coordinates"];
-    int len = coordinates.Size();
+    SizeType len = coordinates.Size();
     double x = 0, y = 0, z = 0;
 
     for (SizeType i = 0; i < len; i++) {
