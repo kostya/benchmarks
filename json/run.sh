@@ -53,4 +53,4 @@ echo Perl
 echo Perl XS
 ../xtime.rb perl -Iperllib/lib/perl5 test-xs.pl
 echo Haskell
-../xtime.rb ./json-hs-bin
+../xtime.rb ./json_hs
