@@ -9,3 +9,15 @@ serde_macros = "*"
 
 [profile.release]
 lto = true
+
+[[bin]]
+name = "json-value-rs"
+path = "src/json_value.rs"
+
+[[bin]]
+name = "json-struct-rs"
+path = "src/json_struct.rs"
+
+[[bin]]
+name = "json-pull-rs"
+path = "src/json_pull.rs"

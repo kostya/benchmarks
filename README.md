@@ -99,13 +99,15 @@ Some benchmarks of different languages
 | C++ Rapid SAX   | 0.72    | 1.0        |
 | C++ Gason       | 0.83    | 582.2      |
 | C++ Rapid       | 0.94    | 243.6      |
-| Rust            | 1.26    | 234.7      |
+| Rust Struct     | 1.33    | 232.9      |
+| Rust Pull       | 1.35    | 208.7      |
 | Crystal Schema  | 1.57    | 296.2      |
 | Crystal         | 2.55    | 1059.4     |
 | Crystal Pull    | 2.63    | 1.2        |
 | Perl XS         | 2.68    | 888.4      |
 | Nim Clang       | 3.30    | 1280.3     |
 | Nim Gcc         | 3.57    | 1284.0     |
+| Rust Value      | 4.04    | 3164.8     |
 | Python Pypy     | 4.99    | 1365.4     |
 | Q               | 5.18    | 684.0      |
 | C++ LibJson     | 5.49    | 2796.3     |
@@ -197,7 +199,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * gdc (crosstool-NG crosstool-ng-1.20.0-232-gc746732 - 20150830-2.066.1-dadb5a3784) 5.2.0
 * LDC - the LLVM D compiler (0.15.2-beta1):
 * V8 version 3.29.62 (candidate)
-* rustc 1.4.0-nightly (7e13faee1 2015-08-19)
+* rustc 1.5.0-nightly (7beebbe56 2015-10-22)
 * Scala version 2.11.6 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_45)
 * Nodejs v0.10.25
 * PyPy 2.4.0 with GCC 4.6.3
