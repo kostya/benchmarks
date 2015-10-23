@@ -2,3 +2,4 @@ fast
 rapidjson
 Newtonsoft.Json*
 gason
+json-clj/lib

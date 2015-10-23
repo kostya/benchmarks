@@ -55,5 +55,5 @@ echo Perl XS
 echo Haskell
 ../xtime.rb ./json_hs
 echo Clojure
-../xtime.rb java -server -jar json-clj/target/test.jar
+../xtime.rb java -server -jar test.jar
 

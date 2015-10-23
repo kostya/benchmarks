@@ -20,3 +20,5 @@ rock_tmp
 .libs
 *.txt
 perllib
+*.jar
+.lein-deps-sum
