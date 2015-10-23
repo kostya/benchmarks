@@ -12,8 +12,8 @@ Some benchmarks of different languages
 | Nim Clang       | 2.96    | 0.7        |
 | Felix           | 4.07    | 1.3        |
 | Nim Gcc         | 4.15    | 0.6        |
-| Rust            | 4.84    | 4.9        |
 | C++             | 5.08    | 1.1        |
+| Rust            | 5.46    | 4.9        |
 | D               | 6.57    | 1.0        |
 | D Ldc           | 6.61    | 0.9        |
 | Crystal         | 6.97    | 1.3        |
@@ -42,9 +42,9 @@ Some benchmarks of different languages
 | --------------- | ------- | ---------- |
 | Nim Clang       | 27.98   | 1.0        |
 | Felix           | 40.06   | 3.7        |
-| Rust            | 42.87   | 4.9        |
 | D Ldc           | 43.30   | 0.9        |
 | D               | 45.29   | 1.2        |
+| Rust            | 46.34   | 4.9        |
 | Crystal         | 48.62   | 1.3        |
 | Nim Gcc         | 50.01   | 0.9        |
 | Go              | 52.56   | 7.6        |
@@ -71,7 +71,7 @@ Some benchmarks of different languages
 | D Gdc           | 3.16    | 45.2       |
 | D Ldc           | 3.27    | 44.1       |
 | Perl XS         | 3.63    | 47.9       |
-| Rust            | 4.17    | 42.9       |
+| Rust            | 4.25    | 42.9       |
 | Ruby Rbx        | 4.29    | 30.7       |
 | Nim Gcc         | 4.60    | 52.7       |
 | Nim Clang       | 4.67    | 52.7       |
@@ -143,11 +143,11 @@ Some benchmarks of different languages
 | D Gdc           | 2.33    | 73.0       |
 | C               | 3.64    | 69.2       |
 | Java            | 3.64    | 136.3      |
-| Rust            | 3.70    | 76.9       |
 | Nim Clang       | 3.71    | 141.1      |
 | Nim Gcc         | 3.74    | 132.1      |
 | Crystal         | 3.83    | 72.2       |
 | Go Gcc          | 3.90    | 84.5       |
+| Rust            | 4.61    | 76.9       |
 | Go              | 4.76    | 73.3       |
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.10    | 89.2       |
