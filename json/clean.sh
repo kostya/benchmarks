@@ -3,6 +3,7 @@ rm *.class
 rm *.o
 rm *.exe
 rm *.dll
+rm *.jar
 rm -rf .crystal
 rm -rf nimcache
 rm -rf Newtonsoft.Json*
@@ -11,3 +12,5 @@ rm -rf gason
 rm -rf json.rs/target
 rm -rf fast
 rm -rf perllib
+rm -rf json-clj/target
+rm json-clj/test.jar

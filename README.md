@@ -110,6 +110,7 @@ Some benchmarks of different languages
 | Q               | 5.18    | 684.0      |
 | C++ LibJson     | 5.49    | 2796.3     |
 | Go              | 6.07    | 479.4      |
+| Clojure         | 6.65    | 1143.4     |
 | Ruby YAJL       | 8.23    | 1085.5     |
 | Haskell         | 8.31    | 70.5       |
 | Python          | 9.85    | 1409.1     |

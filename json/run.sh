@@ -56,3 +56,6 @@ echo Perl XS
 ../xtime.rb perl -Iperllib/lib/perl5 test-xs.pl
 echo Haskell
 ../xtime.rb ./json_hs
+echo Clojure
+../xtime.rb java -server -jar test.jar
+
