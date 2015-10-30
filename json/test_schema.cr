@@ -10,7 +10,7 @@ end
 
 class Coordinates
   JSON.mapping({
-    coordinates: {type: Array(Coordinate)}
+    coordinates: {type: Array(Coordinate)},
   })
 end
 

@@ -13,7 +13,7 @@ File.open("1.json") do |file|
         when "x" then x += pull.read_float
         when "y" then y += pull.read_float
         when "z" then z += pull.read_float
-        else               pull.skip
+        else          pull.skip
         end
       end
     end
