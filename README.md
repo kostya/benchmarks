@@ -23,9 +23,9 @@ Some benchmarks of different languages
 | Javascript V8   | 9.41    | 8.1        |
 | Scala           | 11.63   | 114.0      |
 | Go Gcc          | 13.60   | 10.0       |
+| Python Pypy     | 13.94   | 55.4       |
 | Javascript Node | 17.72   | 9.5        |
 | C# Mono         | 18.08   | 15.4       |
-| Python Pypy     | 20.12   | 20.8       |
 | OOC             | 48.86   | 1.3        |
 | Ruby JRuby      | 87.05   | 124.1      |
 | Ruby Topaz      | 112.91  | 36.0       |
@@ -54,8 +54,8 @@ Some benchmarks of different languages
 | Julia           | 94.33   | 56.9       |
 | Scala           | 96.73   | 126.0      |
 | C# Mono         | 118.72  | 13.6       |
+| Python Pypy     | 126.46  | 64.5       |
 | Javascript Node | 206.88  | 11.3       |
-| Python Pypy     | 206.20  | 31.8       |
 
 
 # Base64
@@ -77,9 +77,9 @@ Some benchmarks of different languages
 | Nim Clang       | 4.67    | 52.7       |
 | C++ Openssl     | 5.45    | 65.2       |
 | D               | 6.18    | 89.1       |
+| Python Pypy     | 7.32    | 582.3      |
 | Python          | 7.62    | 52.6       |
 | Javascript Node | 7.93    | 777.1      |
-| Python Pypy     | 8.22    | 114.6      |
 | C# Mono         | 9.01    | 71.7       |
 | Scala           | 11.0    | 292.5      |
 | Go              | 12.15   | 96.2       |
@@ -108,7 +108,7 @@ Some benchmarks of different languages
 | Nim Clang       | 3.30    | 1280.3     |
 | Nim Gcc         | 3.57    | 1284.0     |
 | Rust Value      | 4.04    | 3164.8     |
-| Python Pypy     | 4.99    | 1365.4     |
+| Python Pypy     | 4.81    | 1553.0     |
 | Q               | 5.18    | 684.0      |
 | C++ LibJson     | 5.49    | 2796.3     |
 | Go              | 6.07    | 479.4      |
@@ -150,7 +150,7 @@ Some benchmarks of different languages
 | Rust            | 4.61    | 76.9       |
 | Go              | 4.76    | 73.3       |
 | Javascript V8   | 6.87    | 81.5       |
-| Python Pypy     | 7.10    | 89.2       |
+| Python Pypy     | 7.68    | 122.6      |
 | Scala           | 10.14   | 154.0      |
 | C# Mono         | 15.17   | 83.6       |
 | Julia           | 35.02   | 326.8      |
@@ -179,7 +179,7 @@ Some benchmarks of different languages
 | Scala           | 32.13   | 363.0      |
 | Go              | 35.78   | 392.9      |
 | C# Mono         | 40.54   | 270.0      |
-| Python Pypy     | 69.46   | 730.2      |
+| Python Pypy     | 45.51   | 625.9      |
 | Python          | 396.54  | 724.0      |
 
 
@@ -202,7 +202,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * rustc 1.5.0-nightly (7beebbe56 2015-10-22)
 * Scala version 2.11.6 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_45)
 * Nodejs v0.10.25
-* PyPy 2.4.0 with GCC 4.6.3
+* PyPy 4.0.0 with GCC 4.8.4
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]
 * ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-linux]
 * Python 2.7.6
