@@ -51,3 +51,6 @@ cd json-hs; make; cd ..
 
 # clojure
 cd json-clj; lein uberjar; cd ..; cp json-clj/test.jar ./
+
+# python/python3/pypy
+pip install ujson
