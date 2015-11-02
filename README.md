@@ -109,8 +109,10 @@ Some benchmarks of different languages
 | Nim Gcc         | 3.57    | 1284.0     |
 | Rust Value      | 4.04    | 3164.8     |
 | Python Pypy     | 4.81    | 1553.0     |
+| Python ujson    | 5.07    | 1352.9     |
 | Q               | 5.18    | 684.0      |
 | C++ LibJson     | 5.49    | 2796.3     |
+| Python3         | 5.92    | 1037.8     |
 | Go              | 6.07    | 479.4      |
 | Clojure         | 6.65    | 1143.4     |
 | Ruby YAJL       | 8.23    | 1085.5     |
@@ -206,6 +208,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]
 * ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-linux]
 * Python 2.7.6
+* Python 3.4.0
 * rubinius 2.2.10 (2.1.0 bf61ae2e 2014-06-27 JI) [x86_64-linux-gnu]
 * jruby 1.7.20 (1.9.3p551) 2015-05-04 3086e6a on Java HotSpot(TM) 64-Bit Server VM 1.8.0_45-b14 +jit [linux-amd64]
 * jruby 9.0.0.0.pre2 (2.2.2) 2015-04-28 2755ae0 Java HotSpot(TM) 64-Bit Server VM 25.45-b02 on 1.8.0_45-b14 +jit [linux-amd64]
