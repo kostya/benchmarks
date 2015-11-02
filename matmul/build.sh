@@ -11,3 +11,17 @@ nim c -o:matmul_nim_gcc --cc:gcc -d:release --verbosity:0 matmul.nim
 nim c -o:matmul_nim_clang --cc:clang -d:release --verbosity:0 matmul.nim
 javac matmul.java
 mcs -debug- -optimize+ matmul.cs
+
+# numpy for matrix mult in python
+# apt-get install python-numpy or brew install numpy is usually better
+# pip is platform independent though but slower because it's not linked
+# to fast C/Fortran libs by default
+if [ "$(uname)" == "Darwin" ]; then
+    brew install numpy
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    sudo apt-get install -y python-numpy
+elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+    pip install numpy
+else
+    pip install numpy
+fi
