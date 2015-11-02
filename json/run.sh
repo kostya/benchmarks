@@ -5,7 +5,7 @@ echo Crystal Pull
 echo Crystal Schema
 ../xtime.rb ./json_schema_cr
 echo Javascript Node
-../xtime.rb nodejs test.js
+../xtime.rb node test.js
 echo Rust Pull
 ../xtime.rb ./json_pull_rs
 echo Rust Struct

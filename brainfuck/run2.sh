@@ -21,7 +21,7 @@ echo Nim Clang
 echo Scala
 ../xtime.rb scala BrainFuck mandel.b > /dev/null
 echo Javascript Node
-../xtime.rb nodejs brainfuck.js mandel.b > /dev/null
+../xtime.rb node brainfuck.js mandel.b > /dev/null
 echo Python Pypy
 ../xtime.rb pypy brainfuck.py mandel.b > /dev/null
 echo Mono

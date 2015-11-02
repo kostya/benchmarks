@@ -27,7 +27,7 @@ echo Julia
 echo Scala
 ../xtime.rb scala Base64
 echo Javascript Node
-../xtime.rb nodejs test.js
+../xtime.rb node test.js
 echo Python Pypy
 ../xtime.rb pypy test.py
 echo Python

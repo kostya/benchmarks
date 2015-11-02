@@ -23,7 +23,7 @@ echo Scala
 echo Javascript V8
 ../xtime.rb d8 brainfuck.d8.js
 echo Javascript Node
-../xtime.rb nodejs brainfuck.js bench.b
+../xtime.rb node brainfuck.js bench.b
 echo Julia
 ../xtime.rb julia brainfuck.jl bench.b
 echo Mono

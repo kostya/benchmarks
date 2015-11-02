@@ -18,13 +18,13 @@ Some benchmarks of different languages
 | D Ldc           | 6.61    | 0.9        |
 | Crystal         | 6.97    | 1.3        |
 | Go              | 7.29    | 1.3        |
+| Javascript Node | 8.74    | 15.0       |
 | D Gdc           | 8.87    | 1.0        |
 | Julia           | 9.25    | 59.0       |
 | Javascript V8   | 9.41    | 8.1        |
 | Scala           | 11.63   | 114.0      |
 | Go Gcc          | 13.60   | 10.0       |
 | Python Pypy     | 13.94   | 55.4       |
-| Javascript Node | 17.72   | 9.5        |
 | C# Mono         | 18.08   | 15.4       |
 | OOC             | 48.86   | 1.3        |
 | Ruby JRuby      | 87.05   | 124.1      |
@@ -51,11 +51,11 @@ Some benchmarks of different languages
 | Cpp             | 56.63   | 1.1        |
 | D Gdc           | 70.12   | 1.5        |
 | Go Gcc          | 85.67   | 10.7       |
+| Javascript Node | 92.65   | 15.8       |
 | Julia           | 94.33   | 56.9       |
 | Scala           | 96.73   | 126.0      |
 | C# Mono         | 118.72  | 13.6       |
 | Python Pypy     | 126.46  | 64.5       |
-| Javascript Node | 206.88  | 11.3       |
 
 
 # Base64
@@ -73,13 +73,13 @@ Some benchmarks of different languages
 | Perl XS         | 3.63    | 47.9       |
 | Rust            | 4.25    | 42.9       |
 | Ruby Rbx        | 4.29    | 30.7       |
+| Javascript Node | 4.38    | 628.4      |
 | Nim Gcc         | 4.60    | 52.7       |
 | Nim Clang       | 4.67    | 52.7       |
 | C++ Openssl     | 5.45    | 65.2       |
 | D               | 6.18    | 89.1       |
 | Python Pypy     | 7.32    | 582.3      |
 | Python          | 7.62    | 52.6       |
-| Javascript Node | 7.93    | 777.1      |
 | C# Mono         | 9.01    | 71.7       |
 | Scala           | 11.0    | 292.5      |
 | Go              | 12.15   | 96.2       |
@@ -105,6 +105,7 @@ Some benchmarks of different languages
 | Crystal         | 2.55    | 1059.4     |
 | Crystal Pull    | 2.63    | 1.2        |
 | Perl XS         | 2.68    | 888.4      |
+| Javascript Node | 2.80    | 829.9      |
 | Nim Clang       | 3.30    | 1280.3     |
 | Nim Gcc         | 3.57    | 1284.0     |
 | Rust Value      | 4.04    | 3164.8     |
@@ -119,7 +120,6 @@ Some benchmarks of different languages
 | Haskell         | 8.31    | 70.5       |
 | Python          | 9.85    | 1409.1     |
 | Julia           | 10.27   | 2353.9     |
-| Javascript Node | 11.61   | 926.4      |
 | D               | 12.42   | 1417.1     |
 | Ruby            | 12.67   | 2013.9     |
 | C++ Boost       | 16.44   | 2915.2     |
@@ -203,7 +203,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * V8 version 3.29.62 (candidate)
 * rustc 1.5.0-nightly (7beebbe56 2015-10-22)
 * Scala version 2.11.6 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_45)
-* Nodejs v0.10.25
+* Nodejs v5.0.0
 * PyPy 4.0.0 with GCC 4.8.4
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]
 * ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-linux]
