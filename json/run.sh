@@ -32,6 +32,10 @@ echo Python Pypy
 ../xtime.rb pypy test.py
 echo Python
 ../xtime.rb python test.py
+echo Python3
+../xtime.rb python3 test.py
+echo Python ujson
+../xtime.rb python test_ujson.py
 echo C++ Boost
 ../xtime.rb ./json_boost_cpp
 echo C++ Rapid
@@ -62,4 +66,3 @@ echo Haskell
 ../xtime.rb ./json_hs
 echo Clojure
 ../xtime.rb java -server -jar test.jar
-
