@@ -36,6 +36,8 @@ echo Python3
 ../xtime.rb python3 test.py
 echo Python ujson
 ../xtime.rb python test_ujson.py
+echo Python3 ujson
+../xtime.rb python3 test_ujson.py
 echo C++ Boost
 ../xtime.rb ./json_boost_cpp
 echo C++ Rapid

@@ -54,3 +54,4 @@ cd json-clj; lein uberjar; cd ..; cp json-clj/test.jar ./
 
 # python/python3/pypy
 pip install ujson
+pip3 install ujson
