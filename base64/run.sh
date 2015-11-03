@@ -32,6 +32,8 @@ echo Python Pypy
 ../xtime.rb pypy test.py
 echo Python
 ../xtime.rb python test.py
+echo Python3
+../xtime.rb python3 test.py
 echo Ruby
 ../xtime.rb ruby test.rb
 echo Mono
