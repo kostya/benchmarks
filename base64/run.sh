@@ -40,3 +40,5 @@ echo Perl
 ../xtime.rb perl -Iperllib/lib/perl5 test.pl
 echo Perl XS
 ../xtime.rb perl test-xs.pl
+echo Tcl
+../xtime.rb tclsh test.tcl
