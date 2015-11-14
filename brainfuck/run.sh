@@ -40,3 +40,5 @@ echo OOC
 ../xtime.rb ./brainfuck_ooc bench.b
 echo Felix
 ../xtime.rb ./brainfuck_flx bench.b
+echo Tcl
+../xtime.rb tclsh brainfuck.tcl bench.b
