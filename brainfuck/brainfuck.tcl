@@ -2,75 +2,13 @@ package require Tcl 8.6
 
 namespace eval ::brainfuck {}
 
-::oo::class create ::brainfuck::Tape {
-    constructor {} {
-        my variable data
-        my variable pos
-
-        set data [lrepeat 40000 0]
-        set pos 0
-    }
-
-    method get {} {
-        my variable data
-        my variable pos
-
-        return [lindex $data $pos]
-    }
-
-    method set value {
-        my variable data
-        my variable pos
-
-        lset data $pos $value
-    }
-
-    method > {} {
-        my variable pos
-        incr pos
-    }
-
-    method < {} {
-        my variable pos
-        incr pos -1
-    }
-
-    method + {} {
-        set value [my get]
-        incr value
-        my set $value
-    }
-
-    method - {} {
-        set value [my get]
-        incr value -1
-        my set $value
-    }
-
-    method . {} {
-        set value [my get]
-        puts -nonewline [format %c $value]
-    }
-
-    method , {} {
-        # Noncompliant implementation.
-        set input [read stdin 1]
-        my set [scan $input %c]
-    }
-}
-::oo::define ::brainfuck::Tape export < > + - . ,
-
 ::oo::class create ::brainfuck::Interpreter {
     constructor {} {
         my variable tape
+        my variable pos
 
-        set tape [::brainfuck::Tape new]
-    }
-
-    destructor {
-        my variable tape
-
-        $tape destroy
+        set tape [lrepeat 30000 0]
+        set pos 0
     }
 
     # Return a dictionary that matches each opening bracket to a closing bracket
@@ -103,6 +41,7 @@ namespace eval ::brainfuck {}
 
     method interpret source {
         my variable tape
+        my variable pos
 
         set counter 0 ;# Program counter.
 
@@ -115,19 +54,42 @@ namespace eval ::brainfuck {}
             set op [lindex $program $counter]
             switch -exact -- $op {
                 [ {
-                    if {[$tape get] == 0} {
+                    if {[lindex $tape $pos] == 0} {
                         set counter [dict get $bracketIndex $counter]
                     }
                 }
                 ] {
-                    if {[$tape get] != 0} {
+                    if {[lindex $tape $pos] != 0} {
                         set counter [dict get $bracketIndex $counter]
                     }
                 }
+                > {
+                    incr pos
+                }
+                < {
+                    incr pos -1
+                }
+                + {
+                    set value [lindex $tape $pos]
+                    incr value
+                    lset tape $pos $value
+                }
+                - {
+                    set value [lindex $tape $pos]
+                    incr value -1
+                    lset tape $pos $value
+                }
+                . {
+                    set value [lindex $tape $pos]
+                    puts -nonewline [format %c $value]
+                }
+                , {
+                    # Noncompliant implementation.
+                    set input [read stdin 1]
+                    lset tape $pos [scan $input %c]
+                }
                 default {
-                    if {$op in {< > + - . ,}} {
-                        $tape $op
-                    }
+                    # Ignore.
                 }
             }
             incr counter
