@@ -11,3 +11,6 @@ nim c -o:matmul_nim_gcc --cc:gcc -d:release --verbosity:0 matmul.nim
 nim c -o:matmul_nim_clang --cc:clang -d:release --verbosity:0 matmul.nim
 javac matmul.java
 mcs -debug- -optimize+ matmul.cs
+
+# To use math::linearalgebra in Tcl install the package 'tcllib'.
+# sudo apt-get install tcllib
