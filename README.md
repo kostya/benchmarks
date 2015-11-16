@@ -31,6 +31,7 @@ Some benchmarks of different languages
 | Ruby Topaz      | 112.91  | 36.0       |
 | Ruby JRuby9K    | 160.15  | 297.2      |
 | Ruby            | 226.86  | 8.0        |
+| Tcl             | 262.20  | 2.7        |
 | Python          | 452.44  | 4.9        |
 | Ruby Rbx        | 472.08  | 45.0       |
 
@@ -78,6 +79,7 @@ Some benchmarks of different languages
 | Nim Clang       | 4.67    | 52.7       |
 | C++ Openssl     | 5.45    | 65.2       |
 | D               | 6.18    | 89.1       |
+| Tcl             | 7.20    | 66.0       |
 | Python Pypy     | 7.32    | 582.3      |
 | Python          | 7.62    | 52.6       |
 | C# Mono         | 9.01    | 71.7       |
@@ -163,6 +165,7 @@ Some benchmarks of different languages
 | Ruby JRuby9k    | 467.59  | 608.3      |
 | Ruby Rbx        | 591.70  | 325.0      |
 | Perl            | 666.46  | 604.1      |
+| Tcl             | 1066.66 | 279.9      |
 
 # Havlak
 
@@ -221,3 +224,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Q KDB+ 3.3 2015.09.02 Copyright (C) 1993-2015 Kx Systems
 * perl 5, version 18, subversion 2 (v5.18.2) built for x86_64-linux-gnu-thread-multi
 * The Glorious Glasgow Haskell Compilation System, version 7.10.2
+* Tcl 8.6
