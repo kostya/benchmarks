@@ -32,11 +32,19 @@ class matmul {
 		int n = 100;
 		if (args.length >= 1) n = Integer.parseInt(args[0]);
 		n = n / 2 * 2;
+
 		matmul m = new matmul();
+
+		double[][] t = m.matmul(m.matgen(500), m.matgen(500));
+		System.out.println("warnup: " + t[1][1]);
+
+		long start_time = System.currentTimeMillis();
+
 		double[][] a, b, x;
 		a = m.matgen(n);
 		b = m.matgen(n);
 		x = m.matmul(a, b);
 		System.out.println(x[n/2][n/2]);
+		System.out.println("time: " + (System.currentTimeMillis()-start_time)/1e3+"s");
 	}
 }

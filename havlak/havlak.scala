@@ -646,6 +646,8 @@ object LoopTesterApp {
 
     println("Another 50 iterations...")
 
+    val start_time = System.nanoTime
+
     var sum = 0
     for (i <- 0 until 50) {
       print(".")
@@ -654,5 +656,6 @@ object LoopTesterApp {
     }
 
     println("\nFound " + loops + " loops (including artificial root node) (" + sum + "), " + lsg.calculateNestingLevel + "\n")
+    println("time: "+(System.nanoTime-start_time)/1e9+"s")
   }
 }

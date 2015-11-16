@@ -11,6 +11,13 @@ object Base64 {
     val str = "a" * STR_SIZE
     var str2 = ""
 
+    // warnup
+    for (_ <- 1 to 100) {
+      val str2 = encode("a" * 10000)
+      val str3 = decode(str2)
+    }
+    //
+
     var t = System.nanoTime
 
     var s = 0

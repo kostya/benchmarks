@@ -19,10 +19,10 @@ Some benchmarks of different languages
 | Crystal         | 6.97    | 1.3        |
 | Go              | 7.29    | 1.3        |
 | Javascript Node | 8.74    | 15.0       |
+| Scala           | 8.80    | 121.1      |
 | D Gdc           | 8.87    | 1.0        |
 | Julia           | 9.25    | 59.0       |
 | Javascript V8   | 9.41    | 8.1        |
-| Scala           | 11.63   | 114.0      |
 | Go Gcc          | 13.60   | 10.0       |
 | Python Pypy     | 13.94   | 55.4       |
 | Javascript Jx   | 17.14   | 11.0       |
@@ -56,7 +56,7 @@ Some benchmarks of different languages
 | Go Gcc          | 85.67   | 10.7       |
 | Javascript Node | 92.65   | 15.8       |
 | Julia           | 94.33   | 56.9       |
-| Scala           | 96.73   | 126.0      |
+| Scala           | 96.54   | 126.0      |
 | C# Mono         | 118.72  | 13.6       |
 | Python Pypy     | 126.46  | 64.5       |
 | Javascript Jx   | 192.23  | 12.4       |
@@ -88,7 +88,7 @@ Some benchmarks of different languages
 | Python          | 7.62    | 52.6       |
 | Python3         | 8.16    | 47.5       |
 | C# Mono         | 9.01    | 71.7       |
-| Scala           | 11.0    | 292.5      |
+| Scala           | 10.69   | 292.5      |
 | Go              | 12.15   | 96.2       |
 | Ruby JRuby9K    | 12.16   | 530.6      |
 | Ruby JRuby      | 12.65   | 514.9      |
@@ -122,9 +122,9 @@ Some benchmarks of different languages
 | Python ujson    | 5.07    | 1352.9     |
 | Q               | 5.18    | 684.0      |
 | C++ LibJson     | 5.49    | 2796.3     |
+| Clojure         | 5.81    | 1148.5     |
 | Python3         | 5.92    | 1037.8     |
 | Go              | 6.07    | 479.4      |
-| Clojure         | 6.65    | 1143.4     |
 | Ruby YAJL       | 8.23    | 1085.5     |
 | Haskell         | 8.31    | 70.5       |
 | Python          | 9.85    | 1409.1     |
@@ -141,7 +141,7 @@ Some benchmarks of different languages
 | D Ldc           | 27.23   | 919.6      |
 | Perl            | 46.02   | 1635.4     |
 | Ruby Rbx        | 67.13   | 4681.0     |
-| Scala           | 356.09  | 2789.0     |
+| Scala           | 360.95  | 2789.0     |
 
 # Matmul
 
@@ -154,8 +154,9 @@ Some benchmarks of different languages
 | D               | 2.30    | 71.3       |
 | D Gdc           | 2.33    | 73.0       |
 | Python Numpy    | 3.08    | 65.3       |
+| Java            | 3.50    | 136.2      |
+| Scala           | 3.62    | 136.2      |
 | C               | 3.64    | 69.2       |
-| Java            | 3.64    | 136.3      |
 | Nim Clang       | 3.70    | 142.3      |
 | Nim Gcc         | 3.76    | 152.7      |
 | Crystal         | 3.83    | 72.2       |
@@ -166,7 +167,6 @@ Some benchmarks of different languages
 | Javascript Jx   | 5.92    | 83.8       |
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.68    | 122.6      |
-| Scala           | 10.14   | 154.0      |
 | C# Mono         | 15.17   | 83.6       |
 | Julia           | 35.02   | 326.8      |
 | Ruby Topaz      | 81.41   | 206.2      |
@@ -192,7 +192,7 @@ Some benchmarks of different languages
 | D               | 28.90   | 418.2      |
 | Go Gcc          | 30.36   | 436.7      |
 | D Gdc           | 31.79   | 197.6      |
-| Scala           | 32.13   | 363.0      |
+| Scala           | 32.18   | 363.0      |
 | Go              | 35.78   | 392.9      |
 | C# Mono         | 40.54   | 270.0      |
 | Python Pypy     | 45.51   | 625.9      |

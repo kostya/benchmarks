@@ -46,10 +46,16 @@ object MatMul {
 
     n = n / 2 * 2;
 
+    val t = matmul(matgen(500), matgen(500))
+    println("warnup: " + t(1)(1))
+
+    val start_time = System.nanoTime
+
     val a = matgen(n)
     val b = matgen(n)
     val x = matmul(a, b)
 
-    println(x(n/2)(n/2));
+    println(x(n/2)(n/2))
+    println("time: "+(System.nanoTime-start_time)/1e9+"s")
   }
 }

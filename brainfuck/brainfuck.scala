@@ -60,9 +60,20 @@ object BrainFuck {
 
   def main(args: Array[String]): Unit = {
     val text = scala.io.Source.fromFile(args(0)).mkString
+
+    //warmup
+    print("warmup\n")
+    time {
+      val prog = new Program(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++")
+      prog.run
+    }
+    //
+
+    print("run\n")
     time {
       val prog = new Program(text)
       prog.run
     }
+
   }
 }
