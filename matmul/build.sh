@@ -11,3 +11,7 @@ nim c -o:matmul_nim_gcc --cc:gcc -d:release --verbosity:0 matmul.nim
 nim c -o:matmul_nim_clang --cc:clang -d:release --verbosity:0 matmul.nim
 javac matmul.java
 mcs -debug- -optimize+ matmul.cs
+
+# numpy for matrix mult in python
+# brew install numpy
+# sudo apt-get install -y python-numpy

@@ -34,6 +34,8 @@ echo Python Pypy
 ../xtime.rb pypy matmul.py 1500
 echo Python
 ../xtime.rb python matmul.py 1500
+echo Python NumPy
+../xtime.rb python matmul-numpy.py 1500
 echo Ruby Topaz
 ../xtime.rb topaz matmul.rb 1500
 echo Ruby
