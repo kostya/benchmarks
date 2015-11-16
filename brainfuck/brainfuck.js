@@ -51,6 +51,6 @@ var Brainfuck = function(text) {
 
 }
 
-var text = require('fs').readFileSync(process.argv[2]).toString(); 
+var text = require('fs').readFileSync(process.argv[2].toString()).toString(); 
 var brainfuck = new Brainfuck(text);
 brainfuck.run();

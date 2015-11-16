@@ -23,7 +23,11 @@ echo Scala
 echo Java
 ../xtime.rb java matmul 1500
 echo Javascript V8
-../xtime.rb d8 matmul.js -- 1500
+../xtime.rb d8 matmul.d8.js -- 1500
+echo Javascript Jx
+../xtime.rb jx matmul.js 1500
+echo Javascript Node
+../xtime.rb node matmul.js 1500
 echo Julia Native
 ../xtime.rb julia matmul-native.jl 1500
 echo Julia

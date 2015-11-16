@@ -25,6 +25,7 @@ Some benchmarks of different languages
 | Scala           | 11.63   | 114.0      |
 | Go Gcc          | 13.60   | 10.0       |
 | Python Pypy     | 13.94   | 55.4       |
+| Javascript Jx   | 17.14   | 11.0       |
 | C# Mono         | 18.08   | 15.4       |
 | OOC             | 48.86   | 1.3        |
 | Ruby JRuby      | 87.05   | 124.1      |
@@ -58,6 +59,7 @@ Some benchmarks of different languages
 | Scala           | 96.73   | 126.0      |
 | C# Mono         | 118.72  | 13.6       |
 | Python Pypy     | 126.46  | 64.5       |
+| Javascript Jx   | 192.23  | 12.4       |
 
 
 # Base64
@@ -80,6 +82,7 @@ Some benchmarks of different languages
 | Nim Clang       | 4.67    | 52.7       |
 | C++ Openssl     | 5.45    | 65.2       |
 | D               | 6.18    | 89.1       |
+| Javascript Jx   | 6.97    | 710.6      |
 | Tcl             | 7.20    | 66.0       |
 | Python Pypy     | 7.32    | 582.3      |
 | Python          | 7.62    | 52.6       |
@@ -109,6 +112,7 @@ Some benchmarks of different languages
 | Crystal         | 2.55    | 1059.4     |
 | Crystal Pull    | 2.63    | 1.2        |
 | Perl XS         | 2.68    | 888.4      |
+| Javascript Jx   | 2.73    | 706.8      |
 | Javascript Node | 2.80    | 829.9      |
 | Nim Clang       | 3.37    | 849.6      |
 | Nim Gcc         | 3.49    | 903.5      |
@@ -158,6 +162,8 @@ Some benchmarks of different languages
 | Go Gcc          | 3.90    | 84.5       |
 | Rust            | 4.61    | 76.9       |
 | Go              | 4.76    | 73.3       |
+| Javascript Node | 5.88    | 85.9       |
+| Javascript Jx   | 5.92    | 83.8       |
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.68    | 122.6      |
 | Scala           | 10.14   | 154.0      |
@@ -231,3 +237,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * The Glorious Glasgow Haskell Compilation System, version 7.10.2
 * Tcl 8.6
 * jq version 1.3
+* JXCore v0.10.40

@@ -41,9 +41,9 @@ matgen = function (n) {
 }
 
 var n = 100;
-if (process.argv[2]) n = parseInt(process.argv[2]);
+if (arguments[0]) n = parseInt(arguments[0]);
 
 var a = matgen(n);
 var b = matgen(n);
 var c = matrix.mul(a, b, n);
-console.log(c[(n/2)][(n / 2)]);
+print(c[(n/2)][(n / 2)]);
