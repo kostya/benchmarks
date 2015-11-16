@@ -125,6 +125,7 @@ Some benchmarks of different languages
 | Julia           | 10.27   | 2353.9     |
 | D               | 12.42   | 1417.1     |
 | Ruby            | 12.67   | 2013.9     |
+| JQ              | 14.92   | 1714.5     |
 | C++ Boost       | 16.44   | 2915.2     |
 | Ruby JRuby9K    | 16.53   | 2050.5     |
 | Go Gcc          | 18.69   | 494.4      |
@@ -225,3 +226,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Q KDB+ 3.3 2015.09.02 Copyright (C) 1993-2015 Kx Systems
 * perl 5, version 18, subversion 2 (v5.18.2) built for x86_64-linux-gnu-thread-multi
 * The Glorious Glasgow Haskell Compilation System, version 7.10.2
+* jq version 1.3
