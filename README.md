@@ -33,6 +33,7 @@ Some benchmarks of different languages
 | Ruby            | 226.86  | 8.0        |
 | Python          | 452.44  | 4.9        |
 | Ruby Rbx        | 472.08  | 45.0       |
+| Python3         | 480.78  | 5.5        |
 
 ### mandel.b
 
@@ -80,6 +81,7 @@ Some benchmarks of different languages
 | D               | 6.18    | 89.1       |
 | Python Pypy     | 7.32    | 582.3      |
 | Python          | 7.62    | 52.6       |
+| Python3         | 8.16    | 47.5       |
 | C# Mono         | 9.01    | 71.7       |
 | Scala           | 11.0    | 292.5      |
 | Go              | 12.15   | 96.2       |
@@ -109,6 +111,7 @@ Some benchmarks of different languages
 | Nim Clang       | 3.30    | 1280.3     |
 | Nim Gcc         | 3.57    | 1284.0     |
 | Rust Value      | 4.04    | 3164.8     |
+| Python3 ujson   | 4.15    | 1303.2     |
 | Python Pypy     | 4.81    | 1553.0     |
 | Python ujson    | 5.07    | 1352.9     |
 | Q               | 5.18    | 684.0      |
@@ -143,6 +146,7 @@ Some benchmarks of different languages
 | D Ldc           | 2.01    | 68.9       |
 | D               | 2.30    | 71.3       |
 | D Gdc           | 2.33    | 73.0       |
+| Python Numpy    | 3.08    | 65.3       |
 | C               | 3.64    | 69.2       |
 | Java            | 3.64    | 136.3      |
 | Nim Clang       | 3.71    | 141.1      |
@@ -208,7 +212,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]
 * ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-linux]
 * Python 2.7.6
-* Python 3.4.0
+* Python 3.4.3
 * rubinius 2.2.10 (2.1.0 bf61ae2e 2014-06-27 JI) [x86_64-linux-gnu]
 * jruby 1.7.20 (1.9.3p551) 2015-05-04 3086e6a on Java HotSpot(TM) 64-Bit Server VM 1.8.0_45-b14 +jit [linux-amd64]
 * jruby 9.0.0.0.pre2 (2.2.2) 2015-04-28 2755ae0 Java HotSpot(TM) 64-Bit Server VM 25.45-b02 on 1.8.0_45-b14 +jit [linux-amd64]
