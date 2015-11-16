@@ -42,3 +42,5 @@ echo Ruby
 ../xtime.rb ruby matmul.rb 1500
 echo Perl
 ../xtime.rb perl matmul.pl 1500
+echo Tcl
+../xtime.rb tclsh matmul.tcl 1500
