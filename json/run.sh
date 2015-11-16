@@ -68,3 +68,5 @@ echo Haskell
 ../xtime.rb ./json_hs
 echo Clojure
 ../xtime.rb java -server -jar test.jar
+echo jq
+../xtime.rb jq -r '.coordinates | length as $len | (map(.x) | add) / $len, (map(.y) | add) / $len, (map(.z) | add) / $len' 1.json
