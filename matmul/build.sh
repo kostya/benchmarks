@@ -15,3 +15,6 @@ mcs -debug- -optimize+ matmul.cs
 # numpy for matrix mult in python
 # brew install numpy
 # sudo apt-get install -y python-numpy
+
+# To use math::linearalgebra in Tcl install the package 'tcllib'.
+# sudo apt-get install tcllib
