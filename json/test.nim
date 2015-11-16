@@ -1,7 +1,6 @@
 import json
 
-let text = readFile("./1.json")
-let jobj = parseJson(text)
+let jobj = parseFile("1.json")
 
 let coordinates = jobj["coordinates"].elems
 let len = float(coordinates.len)
