@@ -33,7 +33,7 @@ proc NewCfg(): Cfg =
 
 proc createNode(self: var Cfg, name: int): ref BasicBlock =
   var node: ref BasicBlock
-  node = self.basicBlockMap[name]
+  node = self.basicBlockMap.getOrDefault(name)
   if node == nil:
     node = NewBasicBlock(name)
     self.basicBlockMap.add name, node
