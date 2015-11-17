@@ -185,8 +185,8 @@ Some benchmarks of different languages
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
 | Crystal         | 15.87   | 398.1      |
-| Nim Gcc         | 17.26   | 913.0      |
-| Nim Clang       | 17.82   | 874.4      |
+| Nim Clang       | 17.36   | 907.0      |
+| Nim Gcc         | 17.51   | 889.1      |
 | C++             | 17.72   | 174.5      |
 | D Ldc           | 25.15   | 214.9      |
 | D               | 28.90   | 418.2      |
