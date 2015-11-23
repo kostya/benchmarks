@@ -55,3 +55,6 @@ cd json-clj; lein uberjar; cd ..; cp json-clj/test.jar ./
 # python/python3/pypy
 pip install ujson
 pip3 install ujson
+
+# java
+cd json-java; mvn clean install; cp target/java-json-1.0-jar-with-dependencies.jar ../java-json.jar; cd ..
