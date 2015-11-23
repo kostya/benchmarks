@@ -14,5 +14,4 @@ rm -rf fast
 rm -rf perllib
 rm -rf json-clj/target
 rm json-clj/test.jar
-rm java-json.jar
 rm -rf json-java/target
