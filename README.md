@@ -108,6 +108,7 @@ Some benchmarks of different languages
 | C++ Rapid       | 0.94    | 243.6      |
 | Rust Struct     | 1.33    | 232.9      |
 | Rust Pull       | 1.35    | 208.7      |
+| Java            | 1.48    | 518.3      |
 | Crystal Schema  | 1.57    | 296.2      |
 | Crystal         | 2.55    | 1059.4     |
 | Crystal Pull    | 2.63    | 1.2        |
