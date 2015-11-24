@@ -7,7 +7,7 @@ mm = 0
 Thread.new do
   mm = mem(pid)
   while true
-    sleep 0.3
+    sleep 0.1
     m = mem(pid)
     mm = m if m > mm
   end
