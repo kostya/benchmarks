@@ -191,10 +191,10 @@ Some benchmarks of different languages
 | C++             | 17.72   | 174.5      |
 | D Ldc           | 25.15   | 214.9      |
 | D               | 28.90   | 418.2      |
-| Go Gcc          | 30.36   | 436.7      |
 | D Gdc           | 31.79   | 197.6      |
 | Scala           | 32.18   | 363.0      |
-| Go              | 35.78   | 392.9      |
+| Go Gcc          | 32.94   | 365.7      |
+| Go              | 35.34   | 347.1      |
 | C# Mono         | 40.54   | 270.0      |
 | Python Pypy     | 45.51   | 625.9      |
 | Python          | 396.54  | 724.0      |
