@@ -135,7 +135,7 @@ Some benchmarks of different languages
 | JQ              | 14.92   | 1714.5     |
 | C++ Boost       | 16.44   | 2915.2     |
 | Ruby JRuby9K    | 16.53   | 2050.5     |
-| Go Gcc          | 18.69   | 494.4      |
+| Go Gcc          | 17.64   | 473.1      |
 | Ruby JRuby      | 21.98   | 2761.1     |
 | C# Mono         | 25.74   | 3757.9     |
 | D Gdc           | 25.86   | 926.1      |
