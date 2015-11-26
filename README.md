@@ -119,13 +119,13 @@ Some benchmarks of different languages
 | Nim Gcc         | 3.49    | 903.5      |
 | Rust Value      | 4.04    | 3164.8     |
 | Python3 ujson   | 4.15    | 1303.2     |
+| Go              | 4.62    | 273.1      |
 | Python Pypy     | 4.81    | 1553.0     |
 | Python ujson    | 5.07    | 1352.9     |
 | Q               | 5.18    | 684.0      |
 | C++ LibJson     | 5.49    | 2796.3     |
 | Clojure         | 5.81    | 1148.5     |
 | Python3         | 5.92    | 1037.8     |
-| Go              | 6.07    | 479.4      |
 | Ruby YAJL       | 8.23    | 1085.5     |
 | Haskell         | 8.31    | 70.5       |
 | Python          | 9.85    | 1409.1     |
