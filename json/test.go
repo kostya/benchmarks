@@ -26,12 +26,9 @@ func main() {
 		panic(err)
 	}
 
-	x := 0.0
-	y := 0.0
-	z := 0.0
-
-	for i := 0; i < len(jobj.Coordinates); i += 1 {
-		coord := jobj.Coordinates[i]
+	x, y, z := 0.0, 0.0, 0.0
+	
+	for _, coord := range jobj.Coordinates {
 		x += coord.X
 		y += coord.Y
 		z += coord.Z
