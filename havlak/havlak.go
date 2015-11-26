@@ -1,153 +1,80 @@
-// Copyright 2011 Google Inc.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-//======================================================
-// Scaffold Code
-//======================================================
 package main
 
 import "container/list"
 import "fmt"
 
 type BasicBlock struct {
-	name     int
-	inEdges  list.List
-	outEdges list.List
+	Name     int
+	InEdges  []*BasicBlock
+	OutEdges []*BasicBlock
 }
 
 func NewBasicBlock(name int) *BasicBlock {
-	return &BasicBlock{name: name}
+	return &BasicBlock{Name: name}
 }
 
 func (bb *BasicBlock) Dump() {
-	fmt.Printf("BB#%03d: ", bb.Name())
-	if bb.NumPred() > 0 {
+	fmt.Printf("BB#%03d: ", bb.Name)
+	if len(bb.InEdges) > 0 {
 		fmt.Printf("in : ")
-		for iter := bb.InEdges().Front(); iter != nil; iter = iter.Next() {
-			fmt.Printf("BB#%03d ", iter.Value.(*BasicBlock).Name())
+		for _, iter := range bb.InEdges {
+			fmt.Printf("BB#%03d ", iter.Name)
 		}
 	}
-	if bb.NumSucc() > 0 {
+	if len(bb.OutEdges) > 0 {
 		fmt.Print("out: ")
-		for iter := bb.OutEdges().Front(); iter != nil; iter = iter.Next() {
-			fmt.Printf("BB#%03d ", iter.Value.(*BasicBlock).Name())
+		for _, iter := range bb.OutEdges {
+			fmt.Printf("BB#%03d ", iter.Name)
 		}
 	}
 	fmt.Printf("\n")
 }
 
-func (bb *BasicBlock) Name() int {
-	return bb.name
-}
-
-func (bb *BasicBlock) InEdges() *list.List {
-	return &bb.inEdges
-}
-
-func (bb *BasicBlock) OutEdges() *list.List {
-	return &bb.outEdges
-}
-
-func (bb *BasicBlock) NumPred() int {
-	return bb.inEdges.Len()
-}
-
-func (bb *BasicBlock) NumSucc() int {
-	return bb.outEdges.Len()
-}
-
-func (bb *BasicBlock) AddInEdge(from *BasicBlock) {
-	bb.inEdges.PushBack(from)
-}
-
-func (bb *BasicBlock) AddOutEdge(to *BasicBlock) {
-	bb.outEdges.PushBack(to)
-}
-
 //-----------------------------------------------------------
 
 type CFG struct {
-	bb        map[int]*BasicBlock
-	startNode *BasicBlock
+	Bb        map[int]*BasicBlock
+	StartNode *BasicBlock
 }
 
 func NewCFG() *CFG {
-	return &CFG{bb: make(map[int]*BasicBlock)}
-}
-
-func (cfg *CFG) BasicBlocks() map[int]*BasicBlock {
-	return cfg.bb
-}
-
-func (cfg *CFG) NumNodes() int {
-	return len(cfg.bb)
+	return &CFG{Bb: make(map[int]*BasicBlock)}
 }
 
 func (cfg *CFG) CreateNode(node int) *BasicBlock {
-	if bblock := cfg.bb[node]; bblock != nil {
+	if bblock := cfg.Bb[node]; bblock != nil {
 		return bblock
 	}
 	bblock := NewBasicBlock(node)
-	cfg.bb[node] = bblock
+	cfg.Bb[node] = bblock
 
-	if cfg.NumNodes() == 1 {
-		cfg.startNode = bblock
+	if len(cfg.Bb) == 1 {
+		cfg.StartNode = bblock
 	}
 
 	return bblock
 }
 
 func (cfg *CFG) Dump() {
-	for _, n := range cfg.bb {
+	for _, n := range cfg.Bb {
 		n.Dump()
 	}
-}
-
-func (cfg *CFG) StartBasicBlock() *BasicBlock {
-	return cfg.startNode
-}
-
-func (cfg *CFG) Dst(edge *BasicBlockEdge) *BasicBlock {
-	return edge.Dst()
-}
-
-func (cfg *CFG) Src(edge *BasicBlockEdge) *BasicBlock {
-	return edge.Src()
 }
 
 //-----------------------------------------------------------
 
 type BasicBlockEdge struct {
-	to   *BasicBlock
-	from *BasicBlock
-}
-
-func (edge *BasicBlockEdge) Dst() *BasicBlock {
-	return edge.to
-}
-
-func (edge *BasicBlockEdge) Src() *BasicBlock {
-	return edge.from
+	To   *BasicBlock
+	From *BasicBlock
 }
 
 func NewBasicBlockEdge(cfg *CFG, from int, to int) *BasicBlockEdge {
 	self := new(BasicBlockEdge)
-	self.to = cfg.CreateNode(to)
-	self.from = cfg.CreateNode(from)
+	self.To = cfg.CreateNode(to)
+	self.From = cfg.CreateNode(from)
 
-	self.from.AddOutEdge(self.to)
-	self.to.AddInEdge(self.from)
+	self.From.OutEdges = append(self.From.OutEdges,self.To)
+	self.To.InEdges = append(self.To.InEdges, self.From)
 
 	return self
 }
@@ -168,14 +95,14 @@ type SimpleLoop struct {
 	// No set, use map to bool
 	basicBlocks map[*BasicBlock]bool
 	children    map[*SimpleLoop]bool
-	parent      *SimpleLoop
+	Parent      *SimpleLoop
 	header      *BasicBlock
 
-	isRoot       bool
-	isReducible  bool
-	counter      int
-	nestingLevel int
-	depthLevel   int
+	IsRoot       bool
+	IsReducible  bool
+	Counter      int
+	NestingLevel int
+	DepthLevel   int
 }
 
 func (loop *SimpleLoop) AddNode(bb *BasicBlock) {
@@ -193,22 +120,22 @@ func (loop *SimpleLoop) Dump(indent int) {
 
 	// No ? operator ?
 	fmt.Printf("loop-%d nest: %d depth %d ",
-		loop.counter, loop.nestingLevel, loop.depthLevel)
-	if !loop.isReducible {
+		loop.Counter, loop.NestingLevel, loop.DepthLevel)
+	if !loop.IsReducible {
 		fmt.Printf("(Irreducible) ")
 	}
 
 	// must have > 0
 	if len(loop.children) > 0 {
 		fmt.Printf("Children: ")
-		for ll, _ := range loop.Children() {
-			fmt.Printf("loop-%d", ll.Counter())
+		for ll, _ := range loop.children {
+			fmt.Printf("loop-%d", ll.Counter)
 		}
 	}
 	if len(loop.basicBlocks) > 0 {
 		fmt.Printf("(")
 		for bb, _ := range loop.basicBlocks {
-			fmt.Printf("BB#%03d ", bb.Name())
+			fmt.Printf("BB#%03d ", bb.Name)
 			if loop.header == bb {
 				fmt.Printf("*")
 			}
@@ -218,58 +145,9 @@ func (loop *SimpleLoop) Dump(indent int) {
 	fmt.Printf("\n")
 }
 
-func (loop *SimpleLoop) Children() map[*SimpleLoop]bool {
-	return loop.children
-}
-
-func (loop *SimpleLoop) Parent() *SimpleLoop {
-	return loop.parent
-}
-
-func (loop *SimpleLoop) NestingLevel() int {
-	return loop.nestingLevel
-}
-
-func (loop *SimpleLoop) DepthLevel() int {
-	return loop.depthLevel
-}
-
-func (loop *SimpleLoop) Counter() int {
-	return loop.counter
-}
-
-func (loop *SimpleLoop) IsRoot() bool {
-	return loop.isRoot
-}
-
-func (loop *SimpleLoop) SetParent(parent *SimpleLoop) {
-	loop.parent = parent
-	loop.parent.AddChildLoop(loop)
-}
-
 func (loop *SimpleLoop) SetHeader(bb *BasicBlock) {
 	loop.AddNode(bb)
 	loop.header = bb
-}
-
-func (loop *SimpleLoop) SetIsRoot() {
-	loop.isRoot = true
-}
-
-func (loop *SimpleLoop) SetNestingLevel(level int) {
-	loop.nestingLevel = level
-}
-
-func (loop *SimpleLoop) SetDepthLevel(level int) {
-	loop.depthLevel = level
-}
-
-func (loop *SimpleLoop) SetIsReducible(isReducible bool) {
-	loop.isReducible = isReducible
-}
-
-func (loop *SimpleLoop) SetCounter(value int) {
-	loop.counter = value
 }
 
 //------------------------------------
@@ -299,14 +177,14 @@ func max(x, y int) int {
 var loopCounter = 0
 
 type LSG struct {
-	root  *SimpleLoop
-	loops list.List
+	Root  *SimpleLoop
+	Loops []*SimpleLoop
 }
 
 func NewLSG() *LSG {
 	lsg := new(LSG)
 	root := lsg.NewLoop()
-	root.SetNestingLevel(0)
+	root.NestingLevel = 0
 
 	return lsg
 }
@@ -315,20 +193,16 @@ func (lsg *LSG) NewLoop() *SimpleLoop {
 	loop := new(SimpleLoop)
 	loop.basicBlocks = make(map[*BasicBlock]bool)
 	loop.children = make(map[*SimpleLoop]bool)
-	loop.parent = nil
+	loop.Parent = nil
 	loop.header = nil
 
-	loop.SetCounter(loopCounter)
+	loop.Counter = loopCounter
 	loopCounter++
 	return loop
 }
 
-func (lsg *LSG) AddLoop(loop *SimpleLoop) {
-	lsg.loops.PushBack(loop)
-}
-
 func (lsg *LSG) Dump() {
-	lsg.dump(lsg.root, 0)
+	lsg.dump(lsg.Root, 0)
 }
 
 func (lsg *LSG) dump(loop *SimpleLoop, indent int) {
@@ -340,34 +214,25 @@ func (lsg *LSG) dump(loop *SimpleLoop, indent int) {
 }
 
 func (lsg *LSG) CalculateNestingLevel() {
-	for ll := lsg.loops.Front(); ll != nil; ll = ll.Next() {
-		sl := ll.Value.(*SimpleLoop)
-		if sl.IsRoot() {
+	for _, ll := range lsg.Loops {
+		if ll.IsRoot {
 			continue
 		}
-		if sl.Parent() == nil {
-			sl.SetParent(lsg.root)
+		if ll.Parent == nil {
+			ll.Parent = lsg.Root
+			ll.Parent.AddChildLoop(ll)
 		}
 	}
-	lsg.calculateNestingLevel(lsg.root, 0)
+	lsg.calculateNestingLevel(lsg.Root, 0)
 }
 
 func (lsg *LSG) calculateNestingLevel(loop *SimpleLoop, depth int) {
-	loop.SetDepthLevel(depth)
+	loop.DepthLevel = depth
 	for ll, _ := range loop.children {
 		lsg.calculateNestingLevel(ll, depth+1)
 
-		ll.SetNestingLevel(max(loop.NestingLevel(),
-			ll.NestingLevel()+1))
+		ll.NestingLevel = max(loop.NestingLevel, ll.NestingLevel+1)
 	}
-}
-
-func (lsg *LSG) NumLoops() int {
-	return lsg.loops.Len()
-}
-
-func (lsg *LSG) Root() *SimpleLoop {
-	return lsg.root
 }
 
 // Basic Blocks and Loops are being classified as regular, irreducible,
@@ -389,19 +254,19 @@ const (
 // corresponding functionality are implemented with this class
 //
 type UnionFindNode struct {
-	parent    *UnionFindNode
-	bb        *BasicBlock
-	loop      *SimpleLoop
-	dfsNumber int
+	Parent    *UnionFindNode
+	Bb        *BasicBlock
+	Loop      *SimpleLoop
+	DfsNumber int
 }
 
 // Init explicitly initializes UnionFind nodes.
 //
 func (u *UnionFindNode) Init(bb *BasicBlock, dfsNumber int) {
-	u.parent = u
-	u.bb = bb
-	u.dfsNumber = dfsNumber
-	u.loop = nil
+	u.Parent = u
+	u.Bb = bb
+	u.DfsNumber = dfsNumber
+	u.Loop = nil
 }
 
 // FindSet implements the Find part of the Union/Find Algorithm
@@ -411,19 +276,21 @@ func (u *UnionFindNode) Init(bb *BasicBlock, dfsNumber int) {
 // result in significant traversals).
 //
 func (u *UnionFindNode) FindSet() *UnionFindNode {
-	nodeList := list.New()
+	nodeList := []*UnionFindNode{}
 	node := u
 
-	for ; node != node.Parent(); node = node.Parent() {
-		if node.Parent() != node.Parent().Parent() {
-			nodeList.PushBack(node)
+	var p *UnionFindNode
+	for ; node != node.Parent; node = node.Parent {
+		p = node.Parent
+		if p != p.Parent {
+			nodeList = append(nodeList, node)
 		}
 
 	}
 
 	// Path Compression, all nodes' parents point to the 1st level parent.
-	for ll := nodeList.Front(); ll != nil; ll = ll.Next() {
-		ll.Value.(*UnionFindNode).SetParent(node.Parent())
+	for _, ll := range nodeList {
+		ll.Parent = node.Parent
 	}
 
 	return node
@@ -432,29 +299,7 @@ func (u *UnionFindNode) FindSet() *UnionFindNode {
 // Union relies on path compression.
 //
 func (u *UnionFindNode) Union(B *UnionFindNode) {
-	u.SetParent(B)
-}
-
-// Getters/Setters
-//
-func (u *UnionFindNode) Parent() *UnionFindNode {
-	return u.parent
-}
-func (u *UnionFindNode) Bb() *BasicBlock {
-	return u.bb
-}
-func (u *UnionFindNode) Loop() *SimpleLoop {
-	return u.loop
-}
-func (u *UnionFindNode) DfsNumber() int {
-	return u.dfsNumber
-}
-
-func (u *UnionFindNode) SetParent(parent *UnionFindNode) {
-	u.parent = parent
-}
-func (u *UnionFindNode) SetLoop(loop *SimpleLoop) {
-	u.loop = loop
+	u.Parent = B
 }
 
 // Constants
@@ -488,9 +333,9 @@ func isAncestor(w, v int, last []int) bool {
 // Go comment: moving the assignment of el into the if
 //    provided for improved scoping!
 //
-func listContainsNode(l *list.List, u *UnionFindNode) bool {
-	for ll := l.Front(); ll != nil; ll = ll.Next() {
-		if el := ll.Value.(*UnionFindNode); el == u {
+func listContainsNode(l []*UnionFindNode, u *UnionFindNode) bool {
+	for _, el := range l {
+		if el == u {
 			return true
 		}
 	}
@@ -504,9 +349,9 @@ func DFS(currentNode *BasicBlock, nodes []*UnionFindNode, number map[*BasicBlock
 	number[currentNode] = current
 
 	lastid := current
-	for ll := currentNode.OutEdges().Front(); ll != nil; ll = ll.Next() {
-		if target := ll.Value.(*BasicBlock); number[target] == unvisited {
-			lastid = DFS(target, nodes, number, last, lastid+1)
+	for _, ll := range currentNode.OutEdges {
+		if number[ll] == unvisited {
+			lastid = DFS(ll, nodes, number, last, lastid+1)
 		}
 	}
 	last[number[currentNode]] = lastid
@@ -521,11 +366,11 @@ func DFS(currentNode *BasicBlock, nodes []*UnionFindNode, number map[*BasicBlock
 // paper (which, in turn, is similar to the one used by Tarjan).
 //
 func FindLoops(cfgraph *CFG, lsgraph *LSG) {
-	if cfgraph.StartBasicBlock() == nil {
+	if cfgraph.StartNode == nil {
 		return
 	}
 
-	size := cfgraph.NumNodes()
+	size := len(cfgraph.Bb)
 
 	nonBackPreds := make([]map[int]bool, size)
 	backPreds := make([]list.List, size)
@@ -545,12 +390,12 @@ func FindLoops(cfgraph *CFG, lsgraph *LSG) {
 	//   - depth-first traversal and numbering.
 	//   - unreached BB's are marked as dead.
 	//
-	for i, bb := range cfgraph.BasicBlocks() {
+	for i, bb := range cfgraph.Bb {
 		number[bb] = unvisited
 		nonBackPreds[i] = make(map[int]bool)
 	}
 
-	DFS(cfgraph.StartBasicBlock(), nodes, number, last, 0)
+	DFS(cfgraph.StartNode, nodes, number, last, 0)
 
 	// Step b:
 	//   - iterate over all nodes.
@@ -566,25 +411,24 @@ func FindLoops(cfgraph *CFG, lsgraph *LSG) {
 		header[w] = 0
 		types[w] = bbNonHeader
 
-		nodeW := nodes[w].Bb()
+		nodeW := nodes[w].Bb
 		if nodeW == nil {
 			types[w] = bbDead
 			continue // dead BB
 		}
 
-		if nodeW.NumPred() > 0 {
-			for ll := nodeW.InEdges().Front(); ll != nil; ll = ll.Next() {
-				nodeV := ll.Value.(*BasicBlock)
-				v := number[nodeV]
-				if v == unvisited {
-					continue // dead node
-				}
 
-				if isAncestor(w, v, last) {
-					backPreds[w].PushBack(v)
-				} else {
-					nonBackPreds[w][v] = true
-				}
+		for _, nodeV := range nodeW.InEdges {
+
+			v := number[nodeV]
+			if v == unvisited {
+				continue // dead node
+			}
+
+			if isAncestor(w, v, last) {
+				backPreds[w].PushBack(v)
+			} else {
+				nonBackPreds[w][v] = true
 			}
 		}
 	}
@@ -606,9 +450,9 @@ func FindLoops(cfgraph *CFG, lsgraph *LSG) {
 	//
 	for w := size - 1; w >= 0; w-- {
 		// this is 'P' in Havlak's paper
-		nodePool := list.New()
+		nodePool := []*UnionFindNode{}
 
-		nodeW := nodes[w].Bb()
+		nodeW := nodes[w].Bb
 		if nodeW == nil {
 			continue // dead BB
 		}
@@ -617,7 +461,7 @@ func FindLoops(cfgraph *CFG, lsgraph *LSG) {
 		for ll := backPreds[w].Front(); ll != nil; ll = ll.Next() {
 			v := ll.Value.(int)
 			if v != w {
-				nodePool.PushBack(nodes[v].FindSet())
+				nodePool = append(nodePool, nodes[v].FindSet())
 			} else {
 				types[w] = bbSelf
 			}
@@ -625,22 +469,21 @@ func FindLoops(cfgraph *CFG, lsgraph *LSG) {
 
 		// Copy nodePool to workList.
 		//
-		workList := list.New()
-		for ll := nodePool.Front(); ll != nil; ll = ll.Next() {
+		workList := []*UnionFindNode{}
+		for _, v := range nodePool {
 			// workaround for gccgo problem, suggested by Ian
-			v := ll.Value.(*UnionFindNode)
-			workList.PushBack(v)
+			workList = append(workList, v)
 		}
 
-		if nodePool.Len() != 0 {
+		if len(nodePool) != 0 {
 			types[w] = bbReducible
 		}
 
 		// work the list...
 		//
-		for workList.Len() > 0 {
-			x := workList.Front().Value.(*UnionFindNode)
-			workList.Remove(workList.Front())
+		for len(workList) > 0 {
+			x := workList[0]
+			workList = workList[1:]
 
 			// Step e:
 			//
@@ -654,23 +497,23 @@ func FindLoops(cfgraph *CFG, lsgraph *LSG) {
 			// The algorithm has degenerated. Break and
 			// return in this case.
 			//
-			nonBackSize := len(nonBackPreds[x.DfsNumber()])
+			nonBackSize := len(nonBackPreds[x.DfsNumber])
 			if nonBackSize > maxNonBackPreds {
 				return
 			}
 
-			for iter, _ := range nonBackPreds[x.DfsNumber()] {
+			for iter := range nonBackPreds[x.DfsNumber] {
 				y := nodes[iter]
 				ydash := y.FindSet()
 
-				if !isAncestor(w, ydash.DfsNumber(), last) {
+				if !isAncestor(w, ydash.DfsNumber, last) {
 					types[w] = bbIrreducible
-					nonBackPreds[w][ydash.DfsNumber()] = true
+					nonBackPreds[w][ydash.DfsNumber] = true
 				} else {
-					if ydash.DfsNumber() != w {
+					if ydash.DfsNumber != w {
 						if !listContainsNode(nodePool, ydash) {
-							workList.PushBack(ydash)
-							nodePool.PushBack(ydash)
+							workList = append(workList, ydash)
+							nodePool = append(workList, ydash)
 						}
 					}
 				}
@@ -680,11 +523,11 @@ func FindLoops(cfgraph *CFG, lsgraph *LSG) {
 		// Collapse/Unionize nodes in a SCC to a single node
 		// For every SCC found, create a loop descriptor and link it in.
 		//
-		if (nodePool.Len() > 0) || (types[w] == bbSelf) {
+		if (len(nodePool) > 0) || (types[w] == bbSelf) {
 			loop := lsgraph.NewLoop()
 
 			loop.SetHeader(nodeW)
-			loop.SetIsReducible(types[w] != bbIrreducible)
+			loop.IsReducible = types[w] != bbIrreducible
 
 			// At this point, one can set attributes to the loop, such as:
 			//
@@ -698,23 +541,24 @@ func FindLoops(cfgraph *CFG, lsgraph *LSG) {
 			// whether this loop is reducible:
 			//    type[w] != BasicBlockClass.bbIrreducible
 			//
-			nodes[w].SetLoop(loop)
+			nodes[w].Loop = loop
 
-			for ll := nodePool.Front(); ll != nil; ll = ll.Next() {
-				node := ll.Value.(*UnionFindNode)
+			for _, node := range nodePool {
+
 				// Add nodes to loop descriptor.
-				header[node.DfsNumber()] = w
+				header[node.DfsNumber] = w
 				node.Union(nodes[w])
 
 				// Nested loops are not added, but linked together.
-				if node.Loop() != nil {
-					node.Loop().SetParent(loop)
+				if node.Loop != nil {
+					node.Loop.Parent = loop
+					node.Loop.Parent.AddChildLoop(node.Loop)
 				} else {
-					loop.AddNode(node.Bb())
+					loop.AddNode(node.Bb)
 				}
 			}
 
-			lsgraph.AddLoop(loop)
+			lsgraph.Loops = append(lsgraph.Loops, loop)
 		} // nodePool.size
 	} // Step c
 
@@ -723,7 +567,7 @@ func FindLoops(cfgraph *CFG, lsgraph *LSG) {
 // External entry point.
 func FindHavlakLoops(cfgraph *CFG, lsgraph *LSG) int {
 	FindLoops(cfgraph, lsgraph)
-	return lsgraph.NumLoops()
+	return len(lsgraph.Loops)
 }
 
 //======================================================
@@ -814,5 +658,5 @@ func main() {
 		s += FindHavlakLoops(cfgraph, NewLSG())
 	}
 
-	fmt.Printf("\nFound %d loops (including artificial root node) (%d)\n", lsgraph.NumLoops(), s)
+	fmt.Printf("\nFound %d loops (including artificial root node) (%d)\n", len(lsgraph.Loops), s)
 }
