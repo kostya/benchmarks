@@ -89,9 +89,9 @@ Some benchmarks of different languages
 | Python3         | 8.16    | 47.5       |
 | C# Mono         | 9.01    | 71.7       |
 | Scala           | 10.69   | 292.5      |
-| Go              | 12.15   | 96.2       |
 | Ruby JRuby9K    | 12.16   | 530.6      |
 | Ruby JRuby      | 12.65   | 514.9      |
+| Go              | 13.27   | 106.2      |
 | Julia           | 14.76   | 380.2      |
 | Perl            | 33.30   | 99.7       |
 | Go Gcc          | 39.56   | 185.5      |
