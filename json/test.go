@@ -7,7 +7,7 @@ import (
 )
 
 type Coordinate struct {
-	X, Y, Z float64
+	X, Y, Z float32
 }
 
 type TestStruct struct {
@@ -26,17 +26,14 @@ func main() {
 		panic(err)
 	}
 
-	x := 0.0
-	y := 0.0
-	z := 0.0
-
-	for i := 0; i < len(jobj.Coordinates); i += 1 {
-		coord := jobj.Coordinates[i]
+	x, y, z := 0.0, 0.0, 0.0
+	
+	for _, coord := range jobj.Coordinates {
 		x += coord.X
 		y += coord.Y
 		z += coord.Z
 	}
 
-	len := float64(len(jobj.Coordinates))
+	len := float32(len(jobj.Coordinates))
 	fmt.Printf("%.8f\n%.8f\n%.8f\n", x/len, y/len, z/len)
 }
