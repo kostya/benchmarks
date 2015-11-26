@@ -1,61 +1,27 @@
 package main
 
-import "fmt"
-import "strings"
-import "os"
-import "io/ioutil"
-
-type Tape struct {
-	tape []int
-	pos  int
-}
-
-func NewTape() *Tape {
-	t := &Tape{pos: 0}
-	t.tape = make([]int, 1)
-	t.Advance()
-	return t
-}
-
-func (t *Tape) Inc() {
-	t.tape[t.pos] += 1
-}
-
-func (t *Tape) Dec() {
-	t.tape[t.pos] -= 1
-}
-
-func (t *Tape) Advance() {
-	t.pos += 1
-	if t.pos >= len(t.tape) {
-		t.tape = append(t.tape, 0)
-	}
-}
-
-func (t *Tape) Devance() {
-	if t.pos > 0 {
-		t.pos -= 1
-	}
-}
-
-func (t *Tape) Get() int {
-	return t.tape[t.pos]
-}
+import (
+	"fmt"
+	"strings"
+	"os"
+	)
 
 type Program struct {
 	Code       string
 	BracketMap map[int]int
 }
 
-func NewProgram(text string) (p Program) {
-	p.BracketMap = make(map[int]int)
+func NewProgram(reader *os.File) (p Program) {
 	var leftstack []int
 
 	pc := 0
 
-	for i := 0; i < len(text); i++ {
-		ch := text[i]
-		chs := string(ch)
+	ch := make([]byte, 1)
+	var chs string
+	var err error
+	err = reader.Read(ch)
+	for err == nil {
+		chs = string(ch)
 		if strings.Contains("[].,+-<>", chs) {
 			p.Code += chs
 			if ch == '[' {
@@ -63,50 +29,53 @@ func NewProgram(text string) (p Program) {
 			}
 			if ch == ']' && len(leftstack) > 0 {
 				lasti := len(leftstack) - 1
-				left := leftstack[lasti]
-				leftstack = leftstack[:lasti]
-				right := pc
-				p.BracketMap[left] = right
-				p.BracketMap[right] = left
+				leftstack, p.BracketMap[left], p.BracketMap[right] = leftstack[:lasti], pc, leftstack[lasti]
 			}
 			pc += 1
 		}
+		err = reader.Read(ch)
 	}
 	return
 }
 
 func (p Program) Run() {
-	tape := NewTape()
+	tape := make([]int, 1, 100)
+	pos := 1
 
 	for pc := 0; pc < len(p.Code); pc += 1 {
 		switch p.Code[pc] {
 		case '+':
-			tape.Inc()
+			tape[pos] += 1
 		case '-':
-			tape.Dec()
+			tape[pos] -= 1
 		case '>':
-			tape.Advance()
+			pos += 1
+			if pos >= len(tape) {
+				tape = append(tape, 0)
+			}
 		case '<':
-			tape.Devance()
+			if pos > 0 {
+				pos -= 1
+			}
 		case '[':
-			if tape.Get() == 0 {
+			if tape[pos] == 0 {
 				pc = p.BracketMap[pc]
 			}
 		case ']':
-			if tape.Get() != 0 {
+			if tape[pos] != 0 {
 				pc = p.BracketMap[pc]
 			}
 		case '.':
-			fmt.Printf("%c", tape.Get())
+			fmt.Printf("%c", tape[pos])
 		}
 	}
 }
 
 func main() {
-	Code, err := ioutil.ReadFile(os.Args[1])
+	Code, err := os.Open(os.Args[1])
 	if err != nil {
 		panic(fmt.Sprintf("%v", err))
 	}
 
-	NewProgram(string(Code)).Run()
+	NewProgram(Code).Run()
 }
