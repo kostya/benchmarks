@@ -119,8 +119,10 @@ public class brainfuck {
     public static void main( String[] args ) throws IOException {
         byte[] code = Files.readAllBytes( Paths.get( args[0] ) );
 
+        long start_time = System.currentTimeMillis();
         Program program = new Program( code );
         program.run( new Tape() );
+        System.out.println("time: " + (System.currentTimeMillis()-start_time)/1e3+"s");
     }
 }
 
