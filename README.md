@@ -12,6 +12,7 @@ Some benchmarks of different languages
 | Nim Clang       | 3.21    | 0.7        |
 | Felix           | 4.07    | 1.3        |
 | Nim Gcc         | 4.52    | 0.6        |
+| Java            | 4.94    | 147.6      |
 | C++             | 5.08    | 1.1        |
 | Rust            | 5.46    | 4.9        |
 | D               | 6.57    | 1.0        |
@@ -51,6 +52,7 @@ Some benchmarks of different languages
 | Crystal         | 48.62   | 1.3        |
 | Nim Gcc         | 50.45   | 0.9        |
 | Go              | 52.56   | 7.6        |
+| Java            | 55.14   | 69.9       |
 | Cpp             | 56.63   | 1.1        |
 | D Gdc           | 70.12   | 1.5        |
 | Go Gcc          | 85.67   | 10.7       |

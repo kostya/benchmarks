@@ -28,4 +28,6 @@ echo Mono
 ../xtime.rb mono -O=all --gc=sgen brainfuck.exe mandel.b > /dev/null
 echo Felix
 ../xtime.rb ./brainfuck_flx mandel.b > /dev/null
+echo Java
+../xtime.rb java brainfuck mandel.b > /dev/null
 

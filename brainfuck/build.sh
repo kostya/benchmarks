@@ -12,3 +12,4 @@ nim c -o:brainfuck_nim_gcc -d:release --cc:gcc --verbosity:0 brainfuck.nim
 mcs -debug- -optimize+ brainfuck.cs
 rock -o=brainfuck_ooc -v -O3 brainfuck.ooc
 flx --usage=hyperlight -c --static -o brainfuck_flx brainfuck.flx
+javac brainfuck.java
