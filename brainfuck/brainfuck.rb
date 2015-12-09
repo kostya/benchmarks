@@ -51,7 +51,8 @@ class Program
   def run
     tape = Tape.new
     pc = 0
-    while pc < @chars.length
+    len = @chars.length
+    while pc < len
       case @chars[pc]
         when '+'; tape.inc
         when '-'; tape.dec
