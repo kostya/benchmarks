@@ -34,7 +34,7 @@ class Program
     pc = 0
     text.each_char do |char|
       if "[]<>+-,.".include?(char)
-        @chars << char
+        @chars << char.ord
         if char == '['
           leftstack << pc
         elsif char == ']' && !leftstack.empty?
@@ -54,13 +54,13 @@ class Program
     len = @chars.length
     while pc < len
       case @chars[pc]
-        when '+'; tape.inc
-        when '-'; tape.dec
-        when '>'; tape.advance
-        when '<'; tape.devance
-        when '['; pc = @bracket_map[pc] if tape.get == 0
-        when ']'; pc = @bracket_map[pc] if tape.get != 0
-        when '.'; print(tape.get.chr)
+        when 43; tape.inc
+        when 45; tape.dec
+        when 62; tape.advance
+        when 60; tape.devance
+        when 91; pc = @bracket_map[pc] if tape.get == 0
+        when 93; pc = @bracket_map[pc] if tape.get != 0
+        when 46; print(tape.get.chr)
       end
       pc += 1
     end
