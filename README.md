@@ -152,7 +152,7 @@ Some benchmarks of different languages
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
-| Julia Native    | 0.15    | 69.9       |
+| Julia Native    | 0.15    | 135.2      |
 | D Ldc           | 2.01    | 68.9       |
 | D               | 2.30    | 71.3       |
 | D Gdc           | 2.33    | 73.0       |
@@ -171,7 +171,7 @@ Some benchmarks of different languages
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.68    | 122.6      |
 | C# Mono         | 15.17   | 83.6       |
-| Julia           | 35.02   | 326.8      |
+| Julia           | 31.34   | 375.8      |
 | Ruby Topaz      | 81.41   | 206.2      |
 | Ruby            | 338.40  | 82.8       |
 | Python          | 447.39  | 74.0       |
