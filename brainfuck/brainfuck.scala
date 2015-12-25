@@ -11,7 +11,7 @@ class Tape() {
 
 class Program(text: String) {
   var code = ""
-  var bracket_map = Map[Int, Int]()
+  var bracket_map = scala.collection.immutable.IntMap[Int]()
 
   parse_code(text)
 
