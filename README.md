@@ -15,12 +15,12 @@ Some benchmarks of different languages
 | Java            | 4.94    | 147.6      |
 | C++             | 5.08    | 1.1        |
 | Rust            | 5.46    | 4.9        |
+| Scala           | 5.90    | 116.3      |
 | D               | 6.57    | 1.0        |
 | D Ldc           | 6.61    | 0.9        |
 | Crystal         | 6.97    | 1.3        |
 | Go              | 7.29    | 1.3        |
 | Javascript Node | 8.74    | 15.0       |
-| Scala           | 8.80    | 121.1      |
 | D Gdc           | 8.87    | 1.0        |
 | Julia           | 9.25    | 59.0       |
 | Javascript V8   | 9.41    | 8.1        |
@@ -54,6 +54,7 @@ Some benchmarks of different languages
 | Go              | 52.56   | 7.6        |
 | Java            | 55.14   | 69.9       |
 | Cpp             | 56.63   | 1.1        |
+| Scala           | 64.37   | 126.4      |
 | D Gdc           | 70.12   | 1.5        |
 | Go Gcc          | 85.67   | 10.7       |
 | Javascript Node | 92.65   | 15.8       |
