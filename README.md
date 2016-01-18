@@ -59,7 +59,6 @@ Some benchmarks of different languages
 | Go Gcc          | 85.67   | 10.7       |
 | Javascript Node | 92.65   | 15.8       |
 | Julia           | 94.33   | 56.9       |
-| Scala           | 96.54   | 126.0      |
 | C# Mono         | 118.72  | 13.6       |
 | Python Pypy     | 126.46  | 64.5       |
 | Javascript Jx   | 192.23  | 12.4       |
