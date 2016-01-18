@@ -5,31 +5,43 @@ class Tape() {
   def get = tape(pos)
   def inc = tape(pos) += 1
   def dec = tape(pos) -= 1
-  def advance = { pos += 1; if (tape.size <= pos) { tape :+= 0 } }
+  def advance = { pos += 1; if (tape.length <= pos) { tape :+= 0 } }
   def devance = { if (pos > 0) { pos -= 1 } }
 }
 
 class Program(text: String) {
-  var code = ""
-  var bracket_map = Map[Int, Int]()
+  var code = Array.empty[Char]
+  var bracket_map = collection.mutable.HashMap.empty[Int, Int]
 
   parse_code(text)
 
   def parse_code(text: String) {
-    var leftstack = List[Int]()
+    val leftstack = collection.mutable.ArrayStack.empty[Int]
     var pc = 0
-    for (ch <- text if ("[].,+-<>" contains ch)) {
-      code :+= ch
-      if (ch == '[') { leftstack :+= pc }
-      else if (ch == ']' && leftstack.size != 0) {
-        val left = leftstack.last
-        leftstack = leftstack.init
-        val right = pc
-        bracket_map += (left -> right)
-        bracket_map += (right -> left)
+    for (ch <- text)
+      ch match {
+
+        case '.' | ',' | '+' | '-' | '<' | '>' =>
+          code :+= ch
+          pc += 1
+
+        case '[' =>
+          leftstack push pc
+          code :+= ch
+          pc += 1
+
+        case ']' =>
+          if (leftstack.nonEmpty) {
+            val left = leftstack.pop()
+            val right = pc
+            bracket_map.update(left, right)
+            bracket_map.update(right, left)
+          }
+          code :+= ch
+          pc += 1
+
+        case _ =>
       }
-      pc += 1
-    }
   }
 
   def run = {
@@ -37,10 +49,10 @@ class Program(text: String) {
     var tape = new Tape()
     while ( pc < code.length ) {
       code(pc) match {
-        case '+' => tape.inc
-        case '-' => tape.dec
         case '>' => tape.advance
         case '<' => tape.devance
+        case '+' => tape.inc
+        case '-' => tape.dec
         case '[' => if (tape.get == 0) pc = bracket_map(pc)
         case ']' => if (tape.get != 0) pc = bracket_map(pc)
         case '.' => print(tape.get.toChar)
