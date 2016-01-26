@@ -26,6 +26,8 @@ echo Julia
 ../xtime.rb julia test.jl
 echo Scala
 ../xtime.rb scala Base64
+echo Java
+../xtime.rb java -XX:+AggressiveOpts Base64Java
 echo Javascript Node
 ../xtime.rb node test.js
 echo Javascript Jx

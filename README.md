@@ -90,6 +90,7 @@ Some benchmarks of different languages
 | Python          | 7.62    | 52.6       |
 | Python3         | 8.16    | 47.5       |
 | C# Mono         | 9.01    | 71.7       |
+| Java            | 9.06    | 971.2      |
 | Scala           | 10.69   | 292.5      |
 | Ruby JRuby9K    | 12.16   | 530.6      |
 | Ruby JRuby      | 12.65   | 514.9      |
