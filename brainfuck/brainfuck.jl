@@ -85,4 +85,13 @@ function main()
   run(p)
 end
 
-@time main()
+function test()
+  for i in 1:2    # First time it's also JIT compiling!
+    x = @timed main()
+    if i == 2
+      println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+    end
+  end
+end
+
+test()
