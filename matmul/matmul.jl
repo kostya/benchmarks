@@ -23,16 +23,16 @@ end
 function main()
   n = 100
   if length(ARGS) >= 1
-    n = int(ARGS[1])
+    n = parse(Int, ARGS[1])
   end
   t = time()
-  n = int(n / 2 * 2)
+  n = round(Int, n / 2 * 2)
   a = matgen(n)
   b = matgen(n)
   c = mul(a, b)
-  v = int(n/2) + 1
+  v = round(Int, n/2) + 1
   println(c[v, v])
   println(time() - t)
 end
 
-main()
+@time main()

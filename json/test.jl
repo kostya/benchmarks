@@ -18,4 +18,4 @@ function main()
   println(z / len)
 end
 
-main()
+@time main()

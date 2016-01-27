@@ -25,4 +25,4 @@ function main()
   print(s, ", ", time() - t, "\n")
 end
 
-main()
+@time main()

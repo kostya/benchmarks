@@ -16,13 +16,13 @@ Some benchmarks of different languages
 | C++             | 5.08    | 1.1        |
 | Rust            | 5.46    | 4.9        |
 | Scala           | 5.90    | 116.3      |
+| Julia           | 6.49    | 116.9      |
 | D               | 6.57    | 1.0        |
 | D Ldc           | 6.61    | 0.9        |
 | Crystal         | 6.97    | 1.3        |
 | Go              | 7.29    | 1.3        |
 | Javascript Node | 8.74    | 15.0       |
 | D Gdc           | 8.87    | 1.0        |
-| Julia           | 9.25    | 59.0       |
 | Javascript V8   | 9.41    | 8.1        |
 | Go Gcc          | 13.60   | 10.0       |
 | Python Pypy     | 13.94   | 55.4       |
@@ -56,9 +56,9 @@ Some benchmarks of different languages
 | Cpp             | 56.63   | 1.1        |
 | Scala           | 64.37   | 126.4      |
 | D Gdc           | 70.12   | 1.5        |
+| Julia           | 83.02   | 119.3      |
 | Go Gcc          | 85.67   | 10.7       |
 | Javascript Node | 92.65   | 15.8       |
-| Julia           | 94.33   | 56.9       |
 | C# Mono         | 118.72  | 13.6       |
 | Python Pypy     | 126.46  | 64.5       |
 | Javascript Jx   | 192.23  | 12.4       |
@@ -82,6 +82,7 @@ Some benchmarks of different languages
 | Javascript Node | 4.38    | 628.4      |
 | Nim Gcc         | 4.57    | 52.7       |
 | Nim Clang       | 4.67    | 52.7       |
+| Julia           | 4.78    | 173.6      |
 | C++ Openssl     | 5.45    | 65.2       |
 | D               | 6.18    | 89.1       |
 | Javascript Jx   | 6.97    | 710.6      |
@@ -95,7 +96,6 @@ Some benchmarks of different languages
 | Ruby JRuby9K    | 12.16   | 530.6      |
 | Ruby JRuby      | 12.65   | 514.9      |
 | Go              | 13.27   | 106.2      |
-| Julia           | 14.76   | 380.2      |
 | Perl            | 33.30   | 99.7       |
 | Go Gcc          | 39.56   | 185.5      |
 
@@ -132,7 +132,7 @@ Some benchmarks of different languages
 | Ruby YAJL       | 8.23    | 1085.5     |
 | Haskell         | 8.31    | 70.5       |
 | Python          | 9.85    | 1409.1     |
-| Julia           | 10.27   | 2353.9     |
+| Julia           | 12.39   | 2637.4     |
 | D               | 12.42   | 1417.1     |
 | Ruby            | 12.67   | 2013.9     |
 | JQ              | 14.92   | 1714.5     |
@@ -153,7 +153,7 @@ Some benchmarks of different languages
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
-| Julia Native    | 0.15    | 135.2      |
+| Julia Native    | 0.56    | 186.1      |
 | D Ldc           | 2.01    | 68.9       |
 | D               | 2.30    | 71.3       |
 | D Gdc           | 2.33    | 73.0       |
@@ -172,7 +172,7 @@ Some benchmarks of different languages
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.68    | 122.6      |
 | C# Mono         | 15.17   | 83.6       |
-| Julia           | 31.34   | 375.8      |
+| Julia           | 21.85   | 196.4      |
 | Ruby Topaz      | 81.41   | 206.2      |
 | Ruby            | 338.40  | 82.8       |
 | Python          | 447.39  | 74.0       |
@@ -231,7 +231,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * jruby 1.7.20 (1.9.3p551) 2015-05-04 3086e6a on Java HotSpot(TM) 64-Bit Server VM 1.8.0_45-b14 +jit [linux-amd64]
 * jruby 9.0.0.0.pre2 (2.2.2) 2015-04-28 2755ae0 Java HotSpot(TM) 64-Bit Server VM 25.45-b02 on 1.8.0_45-b14 +jit [linux-amd64]
 * java version "1.8.0_45" Java HotSpot(TM) 64-Bit Server VM (build 25.45-b02, mixed mode)
-* julia version 0.3.11
+* julia version 0.4.3
 * clang version 3.5-1ubuntu1 (trunk) (based on LLVM 3.5)
 * Mono JIT compiler version 4.0.1 (tarball Tue May 12 15:39:23 UTC 2015)
 * rock 0.9.10-head codename sapphire, built on Wed Jul  1 20:09:58 2015
