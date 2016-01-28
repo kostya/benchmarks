@@ -79,19 +79,15 @@ function run(this::Program)
   end
 end
 
-function main()
-  text = open(readall, ARGS[1])
-  p = Program(text)
-  run(p)
+function main(text)
+  run(Program(text))
 end
 
-function test()
-  for i in 1:2    # First time it's also JIT compiling!
-    x = @timed main()
-    if i == 2
-      println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
-    end
-  end
-end
+println(STDERR, "warming")
+main(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++")
 
-test()
+println(STDERR, "bench")
+text = open(readall, ARGS[1])
+x = @timed main(text)
+println(STDERR, "Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+
