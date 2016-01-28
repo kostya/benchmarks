@@ -3,7 +3,7 @@ type Tape
   pos::Int
 
   function Tape()
-    new(Array(Int, 1), 1)
+    new(zeros(Int, 1), 1)
   end
 end
 
@@ -79,10 +79,15 @@ function run(this::Program)
   end
 end
 
-function main()
-  text = open(readall, ARGS[1])
-  p = Program(text)
-  run(p)
+function main(text)
+  run(Program(text))
 end
 
-@time main()
+println(STDERR, "warming")
+main(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++")
+
+println(STDERR, "bench")
+text = open(readall, ARGS[1])
+x = @timed main(text)
+println(STDERR, "Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+

@@ -18,4 +18,5 @@ function main()
   println(z / len)
 end
 
-@time main()
+x = @timed main()
+println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")

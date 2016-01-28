@@ -16,7 +16,7 @@ Some benchmarks of different languages
 | C++             | 5.08    | 1.1        |
 | Rust            | 5.46    | 4.9        |
 | Scala           | 5.90    | 116.3      |
-| Julia           | 6.49    | 116.9      |
+| Julia           | 6.35    | 98.8       |
 | D               | 6.57    | 1.0        |
 | D Ldc           | 6.61    | 0.9        |
 | Crystal         | 6.97    | 1.3        |
@@ -56,7 +56,7 @@ Some benchmarks of different languages
 | Cpp             | 56.63   | 1.1        |
 | Scala           | 64.37   | 126.4      |
 | D Gdc           | 70.12   | 1.5        |
-| Julia           | 83.02   | 119.3      |
+| Julia           | 85.25   | 98.0       |
 | Go Gcc          | 85.67   | 10.7       |
 | Javascript Node | 92.65   | 15.8       |
 | C# Mono         | 118.72  | 13.6       |
@@ -82,7 +82,7 @@ Some benchmarks of different languages
 | Javascript Node | 4.38    | 628.4      |
 | Nim Gcc         | 4.57    | 52.7       |
 | Nim Clang       | 4.67    | 52.7       |
-| Julia           | 4.78    | 173.6      |
+| Julia           | 4.41    | 190.0      |
 | C++ Openssl     | 5.45    | 65.2       |
 | D               | 6.18    | 89.1       |
 | Javascript Jx   | 6.97    | 710.6      |
@@ -153,7 +153,7 @@ Some benchmarks of different languages
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
-| Julia Native    | 0.56    | 186.1      |
+| Julia Native    | 0.11    | 148.3      |
 | D Ldc           | 2.01    | 68.9       |
 | D               | 2.30    | 71.3       |
 | D Gdc           | 2.33    | 73.0       |
@@ -172,7 +172,7 @@ Some benchmarks of different languages
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.68    | 122.6      |
 | C# Mono         | 15.17   | 83.6       |
-| Julia           | 21.85   | 196.4      |
+| Julia           | 20.98   | 187.4      |
 | Ruby Topaz      | 81.41   | 206.2      |
 | Ruby            | 338.40  | 82.8       |
 | Python          | 447.39  | 74.0       |

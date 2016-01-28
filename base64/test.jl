@@ -1,9 +1,7 @@
 using Codecs
 
-function main()
+function main(tries)
   str_size = 10_000_000
-  tries = 100
-
   str = repeat("a", str_size)
   str2 = ""
 
@@ -25,4 +23,9 @@ function main()
   print(s, ", ", time() - t, "\n")
 end
 
-@time main()
+println(STDERR, "warming")
+main(5)
+
+println(STDERR, "bench")
+x = @timed main(100)
+println(STDERR, "Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
