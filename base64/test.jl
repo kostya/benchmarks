@@ -1,9 +1,7 @@
 using Codecs
 
-function main()
+function main(tries)
   str_size = 10_000_000
-  tries = 100
-
   str = repeat("a", str_size)
   str2 = ""
 
@@ -25,13 +23,9 @@ function main()
   print(s, ", ", time() - t, "\n")
 end
 
-function test()
-  for i in 1:2    # First time it's also JIT compiling!
-    x = @timed main()
-    if i == 2
-      println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
-    end
-  end
-end
+println(STDERR, "warming")
+main(5)
 
-test()
+println(STDERR, "bench")
+x = @timed main(100)
+println(STDERR, "Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
