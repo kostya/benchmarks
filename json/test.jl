@@ -18,5 +18,9 @@ function main()
   println(z / len)
 end
 
-x = @timed main()
-println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+function test()
+  x = @timed main()
+  println(STDERR, "Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+end
+
+test()
