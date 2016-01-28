@@ -16,7 +16,7 @@ Some benchmarks of different languages
 | C++             | 5.08    | 1.1        |
 | Rust            | 5.46    | 4.9        |
 | Scala           | 5.90    | 116.3      |
-| Julia           | 6.49    | 116.9      |
+| Julia           | 6.35    | 98.8       |
 | D               | 6.57    | 1.0        |
 | D Ldc           | 6.61    | 0.9        |
 | Crystal         | 6.97    | 1.3        |
@@ -56,7 +56,7 @@ Some benchmarks of different languages
 | Cpp             | 56.63   | 1.1        |
 | Scala           | 64.37   | 126.4      |
 | D Gdc           | 70.12   | 1.5        |
-| Julia           | 83.02   | 119.3      |
+| Julia           | 85.25   | 98.0       |
 | Go Gcc          | 85.67   | 10.7       |
 | Javascript Node | 92.65   | 15.8       |
 | C# Mono         | 118.72  | 13.6       |
