@@ -3,7 +3,7 @@ type Tape
   pos::Int
 
   function Tape()
-    new(Array(Int, 1), 1)
+    new(zeros(Int, 1), 1)
   end
 end
 
