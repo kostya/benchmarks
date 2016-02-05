@@ -14,7 +14,7 @@ Some benchmarks of different languages
 | Nim Gcc         | 4.52    | 0.6        |
 | Java            | 4.94    | 147.6      |
 | C++             | 5.08    | 1.1        |
-| Rust            | 5.46    | 4.9        |
+| Rust            | 5.15    | 4.9        |
 | Scala           | 5.90    | 116.3      |
 | Julia           | 6.35    | 98.8       |
 | D               | 6.57    | 1.0        |
@@ -48,9 +48,9 @@ Some benchmarks of different languages
 | Felix           | 40.06   | 3.7        |
 | D Ldc           | 43.30   | 0.9        |
 | D               | 45.29   | 1.2        |
-| Rust            | 46.34   | 4.9        |
 | Crystal         | 48.62   | 1.3        |
 | Nim Gcc         | 50.45   | 0.9        |
+| Rust            | 52.33   | 4.9        |
 | Go              | 52.56   | 7.6        |
 | Java            | 55.14   | 69.9       |
 | Cpp             | 56.63   | 1.1        |
@@ -77,7 +77,7 @@ Some benchmarks of different languages
 | D Gdc           | 3.16    | 45.2       |
 | D Ldc           | 3.27    | 44.1       |
 | Perl XS         | 3.63    | 47.9       |
-| Rust            | 4.25    | 42.9       |
+| Rust            | 3.83    | 42.8       |
 | Ruby Rbx        | 4.29    | 30.7       |
 | Javascript Node | 4.38    | 628.4      |
 | Nim Gcc         | 4.57    | 52.7       |
@@ -118,9 +118,9 @@ Some benchmarks of different languages
 | Perl XS         | 2.68    | 888.4      |
 | Javascript Jx   | 2.73    | 706.8      |
 | Javascript Node | 2.80    | 829.9      |
+| Rust Value      | 3.23    | 1970.6     |
 | Nim Clang       | 3.37    | 849.6      |
 | Nim Gcc         | 3.49    | 903.5      |
-| Rust Value      | 4.04    | 3164.8     |
 | Python3 ujson   | 4.15    | 1303.2     |
 | Go              | 4.62    | 273.1      |
 | Python Pypy     | 4.81    | 1553.0     |
@@ -165,7 +165,7 @@ Some benchmarks of different languages
 | Nim Gcc         | 3.76    | 152.7      |
 | Crystal         | 3.83    | 72.2       |
 | Go Gcc          | 3.90    | 84.5       |
-| Rust            | 4.61    | 76.9       |
+| Rust            | 4.63    | 76.9       |
 | Go              | 4.76    | 73.3       |
 | Javascript Node | 5.88    | 85.9       |
 | Javascript Jx   | 5.92    | 83.8       |
@@ -219,7 +219,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * gdc (crosstool-NG crosstool-ng-1.20.0-232-gc746732 - 20150830-2.066.1-dadb5a3784) 5.2.0
 * LDC - the LLVM D compiler (0.15.2-beta1):
 * V8 version 3.29.62 (candidate)
-* rustc 1.5.0-nightly (7beebbe56 2015-10-22)
+* rustc 1.8.0-nightly (4b615854f 2016-01-26)
 * Scala version 2.11.6 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_45)
 * Nodejs v5.0.0
 * PyPy 4.0.0 with GCC 4.8.4
