@@ -165,6 +165,7 @@ Some benchmarks of different languages
 | Nim Gcc         | 3.76    | 152.7      |
 | Crystal         | 3.83    | 72.2       |
 | Go Gcc          | 3.90    | 84.5       |
+| Swift           | 4.48    | 110.8      |
 | Rust            | 4.63    | 76.9       |
 | Go              | 4.76    | 73.3       |
 | Javascript Node | 5.88    | 85.9       |
@@ -242,3 +243,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Tcl 8.6
 * jq version 1.3
 * JXCore v0.10.40
+* Swift version 2.2-dev (LLVM ae2eb212e4, Clang ef4c02f431, Swift 634acb40a1)

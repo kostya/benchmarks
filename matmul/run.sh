@@ -48,3 +48,5 @@ echo Perl
 ../xtime.rb perl matmul.pl 1500
 echo Tcl
 ../xtime.rb tclsh matmul.tcl 1500
+echo Swift
+../xtime.rb swift -O matmul.swift 1500
