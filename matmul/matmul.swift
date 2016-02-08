@@ -1,6 +1,5 @@
 // Written by Kajal Sinha; distributed under the MIT license
-import Foundation
-
+import Glibc
 
 func matgen(n: Int) -> [[Double]]{
     var a = [[Double]](count: n, repeatedValue: [Double](count: n, repeatedValue : 0))
@@ -42,7 +41,6 @@ func  matmul(a : [[Double]], b : [[Double]]) ->[[Double]] {
 
 var n = 100;
 
-
 if Process.argc != 2 {
     print("Usage: ./matmulswift {arg}")
     exit(1)
@@ -58,5 +56,3 @@ var b = matgen(n);
 var x = matmul(a, b: b)
 //print("done")
 print(x[n/2][n/2])
-
-
