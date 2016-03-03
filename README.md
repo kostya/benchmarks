@@ -135,6 +135,7 @@ Some benchmarks of different languages
 | Julia           | 11.89   | 2622.4     |
 | D               | 12.42   | 1417.1     |
 | Ruby            | 12.67   | 2013.9     |
+| Scala           | 14.11   | 1408.2     |
 | JQ              | 14.92   | 1714.5     |
 | C++ Boost       | 16.44   | 2915.2     |
 | Ruby JRuby9K    | 16.53   | 2050.5     |
@@ -145,7 +146,6 @@ Some benchmarks of different languages
 | D Ldc           | 27.23   | 919.6      |
 | Perl            | 46.02   | 1635.4     |
 | Ruby Rbx        | 67.13   | 4681.0     |
-| Scala           | 360.95  | 2789.0     |
 
 # Matmul
 

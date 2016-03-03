@@ -10,7 +10,7 @@ object JsonTest {
   implicit val formats = DefaultFormats
 
   def main(args: Array[String]) {
-//    val start_time = System.nanoTime
+    val start_time = System.nanoTime
 
     val fileStream = new FileInputStream("./1.json")
     val json = parse(fileStream)
@@ -30,6 +30,6 @@ object JsonTest {
     println(y / len)
     println(z / len)
 
-//    println("time: "+(System.nanoTime-start_time)/1e9+"s")
+    println("time: "+(System.nanoTime-start_time)/1e9+"s")
   }
 }
