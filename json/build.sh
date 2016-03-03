@@ -14,7 +14,6 @@ gdc -o json_d_gdc -O3 -frelease -finline test.d
 ldc2 -ofjson_d_ldc -O5 -release -inline test.d
 nim c -o:json_nim_gcc -d:release --cc:gcc --verbosity:0 test.nim
 nim c -o:json_nim_clang -d:release --cc:clang --verbosity:0 test.nim
-scalac -optimize test.scala
 go build -o json_go test.go
 gccgo -O3 -g -o json_go_gccgo test.go
 g++ -O3 test_boost.cpp -o json_boost_cpp
@@ -58,3 +57,6 @@ pip3 install ujson
 
 # java
 cd json-java; mvn clean install; cp target/java-json-1.0-jar-with-dependencies.jar ../java-json.jar; cd ..
+
+#scala
+cd json-scala; sbt clean assembly; cp target/scala-2.11/benchmark-json-scala-assembly-1.0.jar ../scala-json.jar; cd ..
