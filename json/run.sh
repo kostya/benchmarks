@@ -59,7 +59,7 @@ echo Ruby
 echo Ruby YAJL
 ../xtime.rb ruby test-yajl.rb
 echo Scala
-../xtime.rb scala -J-Xmx3024m TestJson
+../xtime.rb java -server -jar scala-json.jar
 echo q
 ../xtime.rb q test.q -q
 echo Perl
