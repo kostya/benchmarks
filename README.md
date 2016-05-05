@@ -22,7 +22,7 @@ Some benchmarks of different languages
 | Crystal         | 6.97    | 1.3        |
 | Go              | 7.11    | 1.0        |
 | D Gdc           | 8.87    | 1.0        |
-| Javascript Node | 9.00    | 14.7       |
+| Javascript Node | 9.02    | 15.6       |
 | Javascript V8   | 9.41    | 8.1        |
 | Go Gcc          | 13.60   | 10.0       |
 | Python Pypy     | 13.94   | 55.4       |
@@ -58,7 +58,7 @@ Some benchmarks of different languages
 | D Gdc           | 70.12   | 1.5        |
 | Julia           | 85.25   | 98.0       |
 | Go Gcc          | 85.67   | 10.7       |
-| Javascript Node | 97.86   | 15.8       |
+| Javascript Node | 89.57   | 16.4       |
 | C# Mono         | 118.72  | 13.6       |
 | Python Pypy     | 126.46  | 64.5       |
 | Javascript Jx   | 192.23  | 12.4       |
@@ -79,7 +79,7 @@ Some benchmarks of different languages
 | Perl XS         | 3.63    | 47.9       |
 | Rust            | 3.83    | 42.8       |
 | Ruby Rbx        | 4.29    | 30.7       |
-| Javascript Node | 4.54    | 609.9      |
+| Javascript Node | 4.57    | 683.4      |
 | Nim Gcc         | 4.57    | 52.7       |
 | Nim Clang       | 4.67    | 52.7       |
 | Julia           | 4.41    | 190.0      |
@@ -116,8 +116,8 @@ Some benchmarks of different languages
 | Crystal         | 2.55    | 1059.4     |
 | Crystal Pull    | 2.63    | 1.2        |
 | Perl XS         | 2.68    | 888.4      |
+| Javascript Node | 2.69    | 865.6      |
 | Javascript Jx   | 2.73    | 706.8      |
-| Javascript Node | 2.78    | 849.5      |
 | Rust Value      | 3.23    | 1970.6     |
 | Nim Clang       | 3.37    | 849.6      |
 | Nim Gcc         | 3.49    | 903.5      |
@@ -168,7 +168,7 @@ Some benchmarks of different languages
 | Swift           | 4.48    | 110.8      |
 | Rust            | 4.63    | 76.9       |
 | Go              | 4.85    | 73.9       |
-| Javascript Node | 5.83    | 86.6       |
+| Javascript Node | 5.75    | 86.6       |
 | Javascript Jx   | 5.92    | 83.8       |
 | Javascript V8   | 6.87    | 81.5       |
 | Python Pypy     | 7.68    | 122.6      |
@@ -222,7 +222,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * V8 version 3.29.62 (candidate)
 * rustc 1.8.0-nightly (4b615854f 2016-01-26)
 * Scala version 2.11.6 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_45)
-* Nodejs v5.7.0
+* Nodejs v6.0.0
 * PyPy 4.0.0 with GCC 4.8.4
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]
 * ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-linux]
