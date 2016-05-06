@@ -19,7 +19,7 @@ Some benchmarks of different languages
 | Julia           | 6.35    | 98.8       |
 | D               | 6.57    | 1.0        |
 | D Ldc           | 6.61    | 0.9        |
-| Crystal         | 6.97    | 1.3        |
+| Crystal         | 6.78    | 1.2        |
 | Go              | 7.11    | 1.0        |
 | D Gdc           | 8.87    | 1.0        |
 | Javascript Node | 9.02    | 15.6       |
@@ -48,7 +48,7 @@ Some benchmarks of different languages
 | Felix           | 40.06   | 3.7        |
 | D Ldc           | 43.30   | 0.9        |
 | D               | 45.29   | 1.2        |
-| Crystal         | 48.62   | 1.3        |
+| Crystal         | 49.11   | 1.2        |
 | Nim Gcc         | 50.45   | 0.9        |
 | Rust            | 52.33   | 4.9        |
 | Go              | 52.27   | 7.4        |
@@ -72,7 +72,7 @@ Some benchmarks of different languages
 | --------------- | ------- | ---------- |
 | C aklomp SSSE3  | 1.09    | 32.3       |
 | C               | 1.85    | 32.2       |
-| Crystal         | 2.21    | 85.8       |
+| Crystal         | 2.24    | 137.5       |
 | Ruby            | 2.73    | 125.3      |
 | D Gdc           | 3.16    | 45.2       |
 | D Ldc           | 3.27    | 44.1       |
@@ -112,14 +112,14 @@ Some benchmarks of different languages
 | Rust Struct     | 1.33    | 232.9      |
 | Rust Pull       | 1.35    | 208.7      |
 | Java            | 1.48    | 518.3      |
-| Crystal Schema  | 1.57    | 296.2      |
-| Crystal         | 2.55    | 1059.4     |
-| Crystal Pull    | 2.63    | 1.2        |
+| Crystal Schema  | 1.85    | 337.2      |
+| Crystal         | 2.66    | 1118.2     |
 | Perl XS         | 2.68    | 888.4      |
 | Javascript Node | 2.69    | 865.6      |
 | Javascript Jx   | 2.73    | 706.8      |
 | Rust Value      | 3.23    | 1970.6     |
 | Nim Clang       | 3.37    | 849.6      |
+| Crystal Pull    | 3.43    | 1.3        |
 | Nim Gcc         | 3.49    | 903.5      |
 | Python3 ujson   | 4.15    | 1303.2     |
 | Python Pypy     | 4.81    | 1553.0     |
@@ -163,7 +163,7 @@ Some benchmarks of different languages
 | C               | 3.64    | 69.2       |
 | Nim Clang       | 3.70    | 142.3      |
 | Nim Gcc         | 3.76    | 152.7      |
-| Crystal         | 3.83    | 72.2       |
+| Crystal         | 3.88    | 72.1       |
 | Go Gcc          | 3.90    | 84.5       |
 | Swift           | 4.48    | 110.8      |
 | Rust            | 4.63    | 76.9       |
@@ -189,7 +189,7 @@ Some benchmarks of different languages
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
-| Crystal         | 15.87   | 398.1      |
+| Crystal         | 15.43   | 445.2      |
 | Nim Clang       | 17.36   | 907.0      |
 | Nim Gcc         | 17.51   | 889.1      |
 | C++             | 17.72   | 174.5      |
@@ -213,7 +213,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 
 * gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
 * Nim Compiler Version 0.12.0 (2015-10-27) [Linux: amd64]
-* `Crystal 0.10.0 [9d59a34] (Wed Dec 23 17:24:02 UTC 2015)`
+* `Crystal 0.16.0 [fc89c1a] (Thu May  5 17:06:08 UTC 2016)`
 * go version go1.6 linux/amd64
 * gccgo (Ubuntu 4.9.1-0ubuntu1) 4.9.1
 * DMD64 D Compiler v2.068.0
