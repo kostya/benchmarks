@@ -23,12 +23,13 @@ final:
 
 class Program {
   string code;
-  int[int] bracket_map;
+  int[] bracket_map;
 
   this(string text) {
     int[] leftstack;
     int pc = 0;
 
+    bracket_map.length = 10;
     for (int i = 0; i < text.length; i++) {
       char c = text[i];
       if (!canFind("[]<>+-,.", c)) continue;
@@ -45,6 +46,8 @@ class Program {
 
       pc++;
       code ~= c;
+      if (pc >= bracket_map.length)
+        bracket_map.length *= 2;
     }
   }
 
