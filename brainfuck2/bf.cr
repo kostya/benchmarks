@@ -1,4 +1,9 @@
-record Op, op : Symbol, val : Int32 | Array(Op)
+module Op
+  record Inc, val : Int32
+  record Move, val : Int32
+  record Print
+  alias T = Inc | Move | Print | Array(Op::T)
+end
 
 class Tape
   def initialize
@@ -25,31 +30,31 @@ end
 
 def run(program, tape)
   program.each do |op|
-    case op.op
-    when :inc
-      tape.inc(op.val.as(Int32))
-    when :move
-      tape.move(op.val.as(Int32))
-    when :loop
+    case op
+    when Op::Inc
+      tape.inc(op.val)
+    when Op::Move
+      tape.move(op.val)
+    when Array(Op::T)
       while tape.get != 0
-        run(op.val.as(Array), tape)
+        run(op, tape)
       end
-    when :print
+    when Op::Print
       print(tape.get.chr)
     end
   end
 end
 
 def parse(iterator)
-  res = [] of Op
+  res = [] of Op::T
   iterator.each do |c|
     op = case c
-         when '+'; Op.new(:inc, 1)
-         when '-'; Op.new(:inc, -1)
-         when '>'; Op.new(:move, 1)
-         when '<'; Op.new(:move, -1)
-         when '.'; Op.new(:print, 0)
-         when '['; Op.new(:loop, parse(iterator))
+         when '+'; Op::Inc.new(1)
+         when '-'; Op::Inc.new(-1)
+         when '>'; Op::Move.new(1)
+         when '<'; Op::Move.new(-1)
+         when '.'; Op::Print.new
+         when '['; parse(iterator)
          when ']'; break
          end
     res << op if op
