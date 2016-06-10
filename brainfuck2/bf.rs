@@ -38,7 +38,6 @@ fn run(program: &[Op], tape: &mut Tape) {
             },
             Print => {
               print!("{}", tape.getc());
-              //io::stdout().flush().unwrap();
               io::Write::flush(&mut io::stdout()).unwrap();
             }
         }
