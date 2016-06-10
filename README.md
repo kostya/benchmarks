@@ -65,7 +65,7 @@ Some benchmarks of different languages
 
 # Brainfuck2
 
-[Brainfuck](https://github.com/kostya/benchmarks/tree/master/brainfuck2)
+[Brainfuck2](https://github.com/kostya/benchmarks/tree/master/brainfuck2)
 
 ### bench.b
 
