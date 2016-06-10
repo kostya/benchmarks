@@ -63,6 +63,23 @@ Some benchmarks of different languages
 | Python Pypy     | 126.46  | 64.5       |
 | Javascript Jx   | 192.23  | 12.4       |
 
+# Brainfuck2
+
+[Brainfuck](https://github.com/kostya/benchmarks/tree/master/brainfuck2)
+
+### bench.b
+
+| Language        | Time,s  | Memory, Mb |
+| --------------- | ------- | ---------- |
+| C++ Gcc         | 1.87    | 1.0        |
+| Rust            | 2.42    | 4.9        |
+| Crystal         | 3.15    | 1.3        |
+| Ruby Topaz      | 60.16   | 36.1       |
+| Ruby Rbx        | 123.72  | 15.0       |
+| Ruby Jruby      | 124.08  | 272.2      |
+| Ruby Jruby9k    | 132.73  | 285.8      |
+| Ruby            | 186.1   | 7.2        |
+
 
 # Base64
 
