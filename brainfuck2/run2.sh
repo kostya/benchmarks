@@ -4,3 +4,5 @@ echo Cpp
 ../xtime.rb ./bin_cpp mandel.b > /dev/null
 echo Rust
 ../xtime.rb ./bin_rs mandel.b > /dev/null
+echo Scala
+../xtime.rb scala BrainFuck mandel.b > /dev/null
