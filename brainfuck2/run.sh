@@ -8,3 +8,7 @@ echo Scala
 ../xtime.rb scala BrainFuck bench.b
 echo C#
 ../xtime.rb mono -O=all --gc=sgen bf.exe bench.b
+echo Javascript V8
+../xtime.rb d8 bf.d8.js
+echo Javascript Node
+../xtime.rb node bf.js bench.b

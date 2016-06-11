@@ -22,13 +22,10 @@ class Tape() {
 class Program(text: String) {
   var ops = parse(text.iterator)
 
-  run(ops, new Tape())
-
   def parse(iterator: Iterator[Char]) : Array[Op] = {
     var res = Array[Op]()
     while (iterator.hasNext) {
-      val c = iterator.next()
-      val op = c match {
+      val op = iterator.next() match {
         case '+' => new Inc(1)
         case '-' => new Inc(-1)
         case '>' => new Move(1)
@@ -48,11 +45,13 @@ class Program(text: String) {
     res
   }
 
-  def run(program: Array[Op], tape: Tape) {
+  def run = _run(ops, new Tape())
+
+  def _run(program: Array[Op], tape: Tape) {
     for (op <- program) op match {
       case Inc(x) => tape.inc(x)
       case Move(x) => tape.move(x)
-      case Loop(loop) => while (tape.get != 0) run(loop, tape)
+      case Loop(loop) => while (tape.get != 0) _run(loop, tape)
       case Print() => print(tape.get.toChar)
     }
   }
@@ -73,13 +72,13 @@ object BrainFuck {
     //warmup
     print("warmup\n")
     time {
-      new Program(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++")
+      new Program(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++").run
     }
     //
 
     print("run\n")
     time {
-      new Program(text)
+      new Program(text).run
     }
 
   }

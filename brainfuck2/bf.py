@@ -48,6 +48,7 @@ def parse(iterator):
             res.append(Op(LOOP, parse(iterator)))
         elif c == "]":
             break
+
     return res
 
 def run(program, tape):
@@ -55,7 +56,8 @@ def run(program, tape):
         if op.op == INC: tape.inc(op.val)
         elif op.op == MOVE: tape.move(op.val)
         elif op.op == LOOP: 
-            while tape.get != 0: run(op.val, tape)
+            while tape.get != 0:
+                run(op.val, tape)
         elif op.op == PRINT:
             sys.stdout.write(chr(tape.get()))
             sys.stdout.flush()

@@ -13,7 +13,7 @@ struct Op {
   op_type op;
   int val;
   Ops loop;
-  Op(Ops v) : op(LOOP), loop(v){}
+  Op(Ops v) : op(LOOP), loop(v) {}
   Op(op_type _op, int v = 0) : op(_op), val(v) {}
 };
 
@@ -64,10 +64,7 @@ void run(Ops &program, Tape &tape) {
       case INC: tape.inc(op.val); break;
       case MOVE: tape.move(op.val); break;
       case LOOP: while (tape.get() != 0) run(op.loop, tape); break;
-      case PRINT: 
-        printf("%c", tape.get());
-        fflush(stdout);
-        break;
+      case PRINT: printf("%c", tape.get()); fflush(stdout); break;
     }
   }
 }
