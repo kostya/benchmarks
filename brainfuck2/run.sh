@@ -6,3 +6,5 @@ echo Rust
 ../xtime.rb ./bin_rs bench.b
 echo Scala
 ../xtime.rb scala BrainFuck bench.b
+echo C#
+../xtime.rb mono -O=all --gc=sgen bf.exe bench.b
