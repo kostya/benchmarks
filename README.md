@@ -149,6 +149,7 @@ Some benchmarks of different languages
 | Ruby YAJL       | 8.23    | 1085.5     |
 | Haskell         | 8.31    | 70.5       |
 | Python          | 9.85    | 1409.1     |
+| C#              | 10.57   | 812.1      |
 | Julia           | 11.89   | 2622.4     |
 | D               | 12.42   | 1417.1     |
 | Ruby            | 12.67   | 2013.9     |
