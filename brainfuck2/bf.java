@@ -66,10 +66,9 @@ public class bf {
 
     public static class Program {
         private List<Op> ops;
-        CharacterIterator it;
 
         public Program(String code) {
-            it = new CharacterIterator(code);
+            CharacterIterator it = new CharacterIterator(code);
             ops = parse(it);
         }
 
