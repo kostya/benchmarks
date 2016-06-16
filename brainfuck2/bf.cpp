@@ -39,35 +39,53 @@ public:
   }
 };
 
-Ops parse(string::iterator *iterator, string::iterator end) {
-  Ops res;
-  while (*iterator != end) {
-    char c = **iterator;
-    *iterator += 1;
-    switch (c) {      
-      case '+': res.push_back(Op(INC, 1)); break;
-      case '-': res.push_back(Op(INC, -1)); break;
-      case '>': res.push_back(Op(MOVE, 1)); break;
-      case '<': res.push_back(Op(MOVE, -1)); break;
-      case '.': res.push_back(Op(PRINT)); break;
-      case '[': res.push_back(Op(parse(iterator, end))); break;
-      case ']': return res;
-    }
-  }
-  return res;
-}
+class Program {
+  Ops ops;
 
-void run(Ops &program, Tape &tape) {
-  for (Ops::iterator it = program.begin(); it != program.end(); it++) {
-    Op &op = *it;
-    switch (op.op) {
-      case INC: tape.inc(op.val); break;
-      case MOVE: tape.move(op.val); break;
-      case LOOP: while (tape.get() != 0) run(op.loop, tape); break;
-      case PRINT: printf("%c", tape.get()); fflush(stdout); break;
+public:
+
+  Program(string code) {
+    string::iterator iterator = code.begin();
+    ops = parse(&iterator, code.end());
+  }
+
+  void run() {
+    Tape tape;
+    _run(ops, tape);
+  }
+
+private:
+
+  Ops parse(string::iterator *iterator, string::iterator end) {
+    Ops res;
+    while (*iterator != end) {
+      char c = **iterator;
+      *iterator += 1;
+      switch (c) {      
+        case '+': res.push_back(Op(INC, 1)); break;
+        case '-': res.push_back(Op(INC, -1)); break;
+        case '>': res.push_back(Op(MOVE, 1)); break;
+        case '<': res.push_back(Op(MOVE, -1)); break;
+        case '.': res.push_back(Op(PRINT)); break;
+        case '[': res.push_back(Op(parse(iterator, end))); break;
+        case ']': return res;
+      }
+    }
+    return res;
+  }
+
+  void _run(Ops &program, Tape &tape) {
+    for (Ops::iterator it = program.begin(); it != program.end(); it++) {
+      Op &op = *it;
+      switch (op.op) {
+        case INC: tape.inc(op.val); break;
+        case MOVE: tape.move(op.val); break;
+        case LOOP: while (tape.get() != 0) _run(op.loop, tape); break;
+        case PRINT: printf("%c", tape.get()); fflush(stdout); break;
+      }
     }
   }
-}
+};
 
 string read_file(string filename){
   ifstream textstream(filename.c_str());
@@ -82,10 +100,8 @@ string read_file(string filename){
 
 int main(int argc, char** argv){
   string text = read_file(string(argv[1]));
-  Tape tape;
-  string::iterator iterator = text.begin();
-  Ops program = parse(&iterator, text.end());
-  run(program, tape);
+  Program p(text);
+  p.run();
   return 0;
 }
 
