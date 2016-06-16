@@ -72,6 +72,18 @@ func (t *Tape) Get() int {
   return t.tape[t.pos]
 }
 
+type Program struct {
+  Ops []Op
+}
+
+func NewProgram(code string) *Program {
+  return &Program{Ops: parse(NewStringIterator(code))}
+}
+
+func (p *Program) Run() {
+  _run(p.Ops, NewTape())
+}
+
 func parse(si *StringIterator) []Op {
   res := make([]Op, 0)
   for true {
@@ -92,12 +104,12 @@ func parse(si *StringIterator) []Op {
   return res
 }
 
-func run(program []Op, tape *Tape) {
+func _run(program []Op, tape *Tape) {
   for _, op := range(program) {
     switch op.O {
       case INC: tape.Inc(op.V)
       case MOVE: tape.Move(op.V)
-      case LOOP: for tape.Get() != 0 { run(op.Loop, tape) }
+      case LOOP: for tape.Get() != 0 { _run(op.Loop, tape) }
       case PRINT: fmt.Printf("%c", tape.Get())
     }
   }
@@ -109,5 +121,5 @@ func main() {
     panic(fmt.Sprintf("%v", err))
   }
 
-  run(parse(NewStringIterator(string(Code))), NewTape())
+  NewProgram(string(Code)).Run()
 }

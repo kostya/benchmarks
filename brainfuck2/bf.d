@@ -39,43 +39,55 @@ final:
   void move(int x) { pos += x; if (tape.length <= pos) tape ~= 0; }
 };
 
-void run(Op[] program, Tape tape) {
-  foreach (op; program) {
-    switch (op.op) {
-      case OpT.INC: tape.inc(op.v); break;
-      case OpT.MOVE: tape.move(op.v); break;
-      case OpT.LOOP: while (tape.get() != 0) run(op.loop, tape); break;
-      case OpT.PRINT: write(tape.get().to!char); stdout.flush(); break;
-      default: break;
-    }
+class Program {
+  Op[] ops;
+
+  this(string code) {
+    ops = parse(new StringIterator(code));
   }
-}
 
-Op[] parse(StringIterator it) {
-  Op[] res;
+  void run() {
+    _run(ops, new Tape());
+  }
 
-  while (true) {
-    char c = it.next();
-    if (c.to!int == 0) break;
-
-    switch(c) {
-      case '+': res ~= Op(OpT.INC, 1); break;
-      case '-': res ~= Op(OpT.INC, -1); break;
-      case '>': res ~= Op(OpT.MOVE, 1); break;
-      case '<': res ~= Op(OpT.MOVE, -1); break;
-      case '.': res ~= Op(OpT.PRINT, 0); break;
-      case '[': res ~= Op(OpT.LOOP, parse(it)); break;
-      case ']': return res;
-      default: break;
+  void _run(Op[] program, Tape tape) {
+    foreach (op; program) {
+      switch (op.op) {
+        case OpT.INC: tape.inc(op.v); break;
+        case OpT.MOVE: tape.move(op.v); break;
+        case OpT.LOOP: while (tape.get() != 0) _run(op.loop, tape); break;
+        case OpT.PRINT: write(tape.get().to!char); stdout.flush(); break;
+        default: break;
+      }
     }
   }
 
-  return res;
-}
+  Op[] parse(StringIterator it) {
+    Op[] res;
+
+    while (true) {
+      char c = it.next();
+      if (c.to!int == 0) break;
+
+      switch(c) {
+        case '+': res ~= Op(OpT.INC, 1); break;
+        case '-': res ~= Op(OpT.INC, -1); break;
+        case '>': res ~= Op(OpT.MOVE, 1); break;
+        case '<': res ~= Op(OpT.MOVE, -1); break;
+        case '.': res ~= Op(OpT.PRINT, 0); break;
+        case '[': res ~= Op(OpT.LOOP, parse(it)); break;
+        case ']': return res;
+        default: break;
+      }
+    }
+
+    return res;
+  }
+};
+
 
 int main(string[] args){
   string text = readText(args[1]);
-  auto ops = parse(new StringIterator(text));
-  run(ops, new Tape());
+  new Program(text).run();
   return 0;
 }

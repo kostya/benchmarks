@@ -29,39 +29,44 @@ class Tape
   end
 end
 
-def run(program, tape)
-  program.each do |op|
-    case op.op
-    when :inc
-      tape.inc(op.val)
-    when :move
-      tape.move(op.val)
-    when :loop
-      while tape.get != 0
-        run(op.val, tape)
+class Program
+  def initialize(code)
+    @ops = parse code.chars.each
+  end
+
+  def run
+    _run @ops, Tape.new
+  end
+
+private
+
+  def _run(program, tape)
+    program.each do |op|
+      case op.op
+        when :inc; tape.inc(op.val)
+        when :move; tape.move(op.val)
+        when :loop; _run(op.val, tape) while tape.get != 0
+        when :print; print(tape.get.chr)
       end
-    when :print
-      print(tape.get.chr)
     end
   end
-end
 
-def parse(iterator)
-  res = []
-  while c = iterator.next rescue nil
-    op = case c
-         when '+'; Op.new(:inc, 1)
-         when '-'; Op.new(:inc, -1)
-         when '>'; Op.new(:move, 1)
-         when '<'; Op.new(:move, -1)
-         when '.'; Op.new(:print, 0)
-         when '['; Op.new(:loop, parse(iterator))
-         when ']'; break
-         end
-    res << op if op
+  def parse(iterator)
+    res = []
+    while c = iterator.next rescue nil
+      op = case c
+           when '+'; Op.new(:inc, 1)
+           when '-'; Op.new(:inc, -1)
+           when '>'; Op.new(:move, 1)
+           when '<'; Op.new(:move, -1)
+           when '.'; Op.new(:print, 0)
+           when '['; Op.new(:loop, parse(iterator))
+           when ']'; break
+           end
+      res << op if op
+    end
+    res
   end
-  res
 end
 
-iterator = File.read(ARGV[0]).chars.each
-run(parse(iterator), Tape.new)
+Program.new(File.read(ARGV[0])).run

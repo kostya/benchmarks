@@ -54,6 +54,10 @@ proc move(self: var Tape, x: int) =
 proc get(self: Tape): int =
   result = self.tape[self.pos]
 
+type
+  Program = object
+    ops: seq[Op]
+
 proc parse(it: var StringIterator): seq[Op] = 
   result = newSeq[Op]()
   while true:
@@ -68,22 +72,26 @@ proc parse(it: var StringIterator): seq[Op] =
       of 0.chr: break
       else: discard
 
-proc run(program: seq[Op], tape: var Tape) =
+proc newProgram(code: string): Program =
+  var si = newStringIterator(code)
+  result.ops = parse(si)
+
+proc runops(program: seq[Op], tape: var Tape) =
   for op in program:
     case op.op:
       of INC: tape.inc(op.v)
       of MOVE: tape.move(op.v)
       of LOOP:
         while tape.get != 0:
-          run(op.loop, tape)
+          runops(op.loop, tape)
       of PRINT: 
         write stdout, tape.get.chr
         flushFile(stdout)
       else: discard
 
-var text = readFile(paramStr(1))
-var si = newStringIterator(text)
-var ops = parse(si)
-var tape = newTape()
-run(ops, tape)
+proc run(self: Program) =
+  var tape = newTape()
+  runops(self.ops, tape)
 
+var text = readFile(paramStr(1))
+newProgram(text).run

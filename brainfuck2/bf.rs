@@ -28,13 +28,13 @@ impl Tape {
   }
 }
 
-fn run(program: &[Op], tape: &mut Tape) {
+fn _run(program: &[Op], tape: &mut Tape) {
     for op in program {
         match *op {
             Inc(x) => tape.inc(x),
             Move(x) => tape.mov(x),
             Loop(ref program) => while tape.get() != 0 {
-              run(program, tape);
+              _run(program, tape);
             },
             Print => {
               print!("{}", tape.getc());
@@ -61,6 +61,18 @@ fn parse<I: Iterator<Item=char>>(it: &mut I) -> Box<[Op]> {
     buf.into_boxed_slice()
 }
 
+struct Program {
+  ops: Box<[Op]>
+}
+
+impl Program {
+  fn new(code: String) -> Program { Program { ops: parse(&mut code.chars()) } }
+  fn run(&self) { 
+    let mut tape = Tape::new();
+    _run(&self.ops, &mut tape);
+  }
+}
+
 fn main() {
     use std::fs::File;
     use std::path::Path;
@@ -72,7 +84,6 @@ fn main() {
     let mut s = String::new();
     let mut file = File::open(&path).unwrap();
     file.read_to_string(&mut s).unwrap();
-    let program = parse(&mut s.chars());
-    let mut tape = Tape::new();
-    run(&program, &mut tape);
+    let program = Program::new(s);
+    program.run();
 }
