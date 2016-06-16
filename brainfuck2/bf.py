@@ -22,7 +22,6 @@ class Tape(object):
         new_pos = self.pos + x
         if new_pos >= len(self.tape):
             for _ in range(new_pos - len(self.tape) + 1):
-                print 1
                 self.tape.append(0)
         if new_pos >= 0: self.pos = new_pos
 
@@ -51,17 +50,23 @@ def parse(iterator):
 
     return res
 
-def run(program, tape):
+def _run(program, tape):
     for op in program:
         if op.op == INC: tape.inc(op.val)
         elif op.op == MOVE: tape.move(op.val)
         elif op.op == LOOP: 
-            while tape.get != 0:
-                run(op.val, tape)
+            while tape.get() != 0:
+                _run(op.val, tape)
         elif op.op == PRINT:
             sys.stdout.write(chr(tape.get()))
             sys.stdout.flush()
 
+class Program(object):
+    def __init__(self, code):
+        self.ops = parse(iter(code))
+
+    def run(self):
+        _run(self.ops, Tape())
+
 text = open(sys.argv[1], 'r').read()
-print parse(iter(text))
-run(parse(iter(text)), Tape())
+Program(text).run()
