@@ -149,7 +149,7 @@ Some benchmarks of different languages
 | Ruby YAJL       | 8.23    | 1085.5     |
 | Haskell         | 8.31    | 70.5       |
 | Python          | 9.85    | 1409.1     |
-| C#              | 10.57   | 812.1      |
+| C# Mono         | 10.57   | 812.1      |
 | Julia           | 11.89   | 2622.4     |
 | D               | 12.42   | 1417.1     |
 | Ruby            | 12.67   | 2013.9     |
@@ -159,7 +159,6 @@ Some benchmarks of different languages
 | Ruby JRuby9K    | 16.53   | 2050.5     |
 | Go Gcc          | 17.64   | 473.1      |
 | Ruby JRuby      | 21.98   | 2761.1     |
-| C# Mono         | 25.74   | 3757.9     |
 | D Gdc           | 25.86   | 926.1      |
 | D Ldc           | 27.23   | 919.6      |
 | Perl            | 46.02   | 1635.4     |
