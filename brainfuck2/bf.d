@@ -11,7 +11,7 @@ enum OpT
     MOVE,
     PRINT,
     LOOP
-};
+}
 
 struct Op
 {
@@ -30,7 +30,7 @@ struct Op
         op = t;
         loop = _l;
     }
-};
+}
 
 class StringIterator
 {
@@ -47,7 +47,7 @@ class StringIterator
     {
         return (pos < text.length) ? text[pos++] : 0;
     }
-};
+}
 
 class Tape
 {
@@ -77,7 +77,7 @@ final:
         while (pos >= tape.length)
             tape ~= 0;
     }
-};
+}
 
 class Program
 {
@@ -158,7 +158,7 @@ class Program
 
         return res;
     }
-};
+}
 
 int main(string[] args)
 {
