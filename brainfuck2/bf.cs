@@ -30,7 +30,11 @@ namespace Test
 
         public int Get() { return tape[pos]; }
         public void Inc(int x) { tape[pos] += x; }
-        public void Move(int x) { pos += x; if (tape.Count <= pos) tape.Add(0); }
+        public void Move(int x) { 
+            int new_pos = pos + x;
+            while (new_pos >= tape.Count) tape.Add(0);
+            if (new_pos >= 0) pos = new_pos;
+        }
     }
 
     class Program
