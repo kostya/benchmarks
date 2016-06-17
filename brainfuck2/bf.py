@@ -19,11 +19,9 @@ class Tape(object):
     def inc(self, x):
         self.tape[self.pos] += x
     def move(self, x):
-        new_pos = self.pos + x
-        if new_pos >= len(self.tape):
-            for _ in range(new_pos - len(self.tape) + 1):
-                self.tape.append(0)
-        if new_pos >= 0: self.pos = new_pos
+        self.pos += x
+        while self.pos >= len(self.tape):
+            self.tape.append(0)
 
 def parse(iterator):
     res = []

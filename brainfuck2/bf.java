@@ -55,7 +55,7 @@ public class bf {
 
         public void move(int x) {
             pos += x;
-            if ( pos == tape.length ) {
+            while ( pos >= tape.length ) {
                 int[] tape = new int[this.tape.length * 2];
                 System.arraycopy( this.tape, 0, tape, 0, this.tape.length );
                 this.tape = tape;

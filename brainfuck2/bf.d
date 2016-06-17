@@ -36,15 +36,7 @@ class Tape {
 final:
   int get() { return tape[pos]; }
   void inc(int x) { tape[pos] += x; }
-  void move(int x) { 
-    int new_pos = pos + x;
-    if (new_pos >= tape.length) {
-      foreach (_; 0..new_pos - tape.length + 1) { tape ~= 0; }
-      if (tape.length <= pos) tape ~= 0; 
-    }
-
-    if (new_pos >= 0) pos = new_pos;
-  }
+  void move(int x) { pos += x; while (pos >= tape.length) tape ~= 0; }
 };
 
 class Program {

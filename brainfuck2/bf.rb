@@ -21,11 +21,10 @@ class Tape
   end
 
   def move(x)
-    new_pos = @pos + x
-    if new_pos >= @tape.size
-      (new_pos - @tape.size + 1).times { @tape << 0 }
+    @pos += x
+    while (@pos >= @tape.size)
+      @tape << 0
     end
-    @pos = new_pos if new_pos >= 0
   end
 end
 

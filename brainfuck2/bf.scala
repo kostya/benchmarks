@@ -12,10 +12,8 @@ class Tape() {
   def get = tape(pos)
   def inc(x: Int) = tape(pos) += x
   def move(x: Int) = { 
-    val new_pos = pos + x
-    if (new_pos >= tape.length) 
-      1 to (new_pos - tape.length + 1) foreach { _ => tape :+= 0 }
-    if (new_pos >= 0) pos = new_pos
+    pos += x
+    while (pos >= tape.length) { tape :+= 0 }
   }
 }
 

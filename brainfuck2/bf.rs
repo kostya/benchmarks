@@ -19,12 +19,8 @@ impl Tape {
   fn getc(&self) -> char { self.get() as u8 as char }
   fn inc(&mut self, x: isize) { self.tape[self.pos] += x; }
   fn mov(&mut self, x: isize) { 
-    let new_pos = self.pos as isize + x; 
-    if new_pos >= self.tape.len() as isize { 
-      let d = new_pos - self.tape.len() as isize + 1;
-      for _ in 0..d { self.tape.push(0); }
-    }
-    if new_pos >= 0 { self.pos = new_pos as usize; }
+    self.pos = (self.pos as isize + x) as usize;
+    while self.pos >= self.tape.len() { self.tape.push(0); }
   }
 }
 

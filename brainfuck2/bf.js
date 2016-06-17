@@ -21,11 +21,7 @@ function StringIterator(str){
 var Tape = function() {
   var pos = 0, tape = [0];
   this.inc = function(x) { tape[pos] += x; }
-  this.move = function(x) { var new_pos = pos + x; 
-    if (new_pos >= tape.length)
-      for (i = 0; i < new_pos - tape.length + 1; i++) tape.push(0); 
-    if (new_pos >= 0) pos = new_pos;
-  }
+  this.move = function(x) { pos += x; while (pos >= tape.length) tape.push(0); }
   this.get = function() { return tape[pos]; }
 }
 

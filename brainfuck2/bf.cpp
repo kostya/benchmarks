@@ -29,14 +29,7 @@ public:
 
   inline int get() { return tape[pos]; }
   inline void inc(int x) { tape[pos] += x; }
-  inline void move(int x) { 
-    int new_pos = pos + x;
-    if (new_pos >= tape.size()) {
-      int delta = new_pos - tape.size() + 1;
-      for (int i = 0; i < delta; i++) tape.push_back(0);
-    }
-    if (new_pos >= 0) pos = new_pos;
-  }
+  inline void move(int x) { pos += x; while (pos >= tape.size()) tape.push_back(0); }
 };
 
 class Program {
