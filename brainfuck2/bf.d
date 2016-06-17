@@ -19,7 +19,6 @@ struct Op
     int v;
     Op[] loop;
 
-@nogc @safe pure nothrow:
     this(OpT t, int _v)
     {
         op = t;
@@ -33,12 +32,11 @@ struct Op
     }
 }
 
-final class StringIterator
+class StringIterator
 {
     string text;
     int pos;
 
-@nogc @safe pure nothrow:
     this(string t)
     {
         text = t;
@@ -51,24 +49,24 @@ final class StringIterator
     }
 }
 
-final class Tape
+class Tape
 {
     int pos;
     int[] tape;
 
-@safe pure nothrow:
     this()
     {
         pos = 0;
         tape ~= 0;
     }
 
-    int get() @nogc
+final:
+    int get()
     {
         return tape[pos];
     }
 
-    void inc(int x) @nogc
+    void inc(int x)
     {
         tape[pos] += x;
     }
@@ -81,7 +79,7 @@ final class Tape
     }
 }
 
-final class Program
+class Program
 {
     Op[] ops;
 
@@ -121,7 +119,7 @@ final class Program
         }
     }
 
-    Op[] parse(StringIterator it) pure nothrow
+    Op[] parse(StringIterator it)
     {
         Op[] res;
 
