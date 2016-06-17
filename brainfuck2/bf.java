@@ -121,15 +121,15 @@ public class bf {
         byte[] code = Files.readAllBytes( Paths.get( args[0] ) );
 
         long start_time = System.currentTimeMillis();
-        System.out.println("warming");
+        System.err.println("warming");
         new Program(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++").run();
-        System.out.println("time: " + (System.currentTimeMillis()-start_time)/1e3+"s");
+        System.err.println("time: " + (System.currentTimeMillis()-start_time)/1e3+"s");
 
-        System.out.println("run");
+        System.err.println("run");
         start_time = System.currentTimeMillis();
         Program program = new Program(new String(code));
         program.run();
-        System.out.println("time: " + (System.currentTimeMillis()-start_time)/1e3+"s");
+        System.err.println("time: " + (System.currentTimeMillis()-start_time)/1e3+"s");
     }
 }
 

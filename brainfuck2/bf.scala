@@ -60,7 +60,7 @@ object BrainFuck {
   def time(f: => Any) = {
     val s = System.nanoTime
     val ret = f
-    println("time: "+(System.nanoTime-s)/1e9+"s")
+    System.err.println("time: "+(System.nanoTime-s)/1e9+"s")
     ret
   }
 
@@ -68,13 +68,13 @@ object BrainFuck {
     val text = scala.io.Source.fromFile(args(0)).mkString
 
     //warmup
-    print("warmup\n")
+    System.err.print("warmup\n")
     time {
       new Program(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++").run
     }
     //
 
-    print("run\n")
+    System.err.print("run\n")
     time {
       new Program(text).run
     }

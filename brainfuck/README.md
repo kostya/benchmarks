@@ -1,7 +1,7 @@
 Brainfuck interepter and benchmark
 ----------------------------------
 
-In benchmark i using only standard language containers and compile keys, without any kind of hacks to fair compare.
+In benchmark i using only standard language containers and compile keys, without any kind of hacks to fair compare. This is old benchmark, which is used hash_map based implementation of interepter, which considered by all as bad.
 
 To compile all: `sh build.sh`
 

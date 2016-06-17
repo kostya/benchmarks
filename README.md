@@ -10,15 +10,54 @@ Some benchmarks of different languages
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
-| C++ Gcc         | 1.87    | 1.0        |
-| Rust            | 2.42    | 4.9        |
-| Crystal         | 3.15    | 1.3        |
-| Ruby Topaz      | 60.16   | 36.1       |
-| Ruby Rbx        | 123.72  | 15.0       |
-| Ruby Jruby      | 124.08  | 272.2      |
-| Ruby Jruby9k    | 132.73  | 285.8      |
-| Ruby            | 186.1   | 7.2        |
+| Scala           | 1.95    | 120.12     |
+| C++ Gcc         | 2.25    | 1.0        |
+| D Gdc           | 2.41    | 1.4        |
+| Rust            | 2.53    | 4.9        |
+| Nim Gcc         | 2.56    | 0.7        |
+| Crystal         | 2.82    | 1.3        |
+| D Ldc           | 2.89    | 0.9        |
+| Nim Clang       | 3.09    | 0.8        |
+| Java            | 4.03    | 513.8      |
+| Go Gcc          | 4.20    | 10.0       |
+| Go              | 5.99    | 1.0        |
+| D Dmd           | 6.19    | 1.0        |
+| Javascript V8   | 6.53    | 7.9        |
+| Javascript Node | 7.18    | 15.7       |
+| Javascript Jx   | 19.08   | 11.0       |
+| C# Mono         | 19.86   | 14.6       |
+| Python Pypy     | 20.64   | 77.9       |
+| Ruby Topaz      | 59.53   | 36.5       |
+| Ruby Rbx        | 120.38  | 32.3       |
+| Ruby Jruby      | 129.75  | 267.6      |
+| Ruby Jruby9k    | 134.18  | 286.8      |
+| Ruby            | 181.44  | 7.2        |
+| Python3         | 310.75  | 5.5        |
+| Python          | 314.79  | 4.9        |
 
+### mandel.b
+
+[Mandel in Brainfuck](https://github.com/kostya/benchmarks/blob/master/brainfuck2/mandel.b)
+
+| Language        | Time,s  | Memory, Mb |
+| --------------- | ------- | ---------- |
+| C++ Gcc         | 22.12   | 1.7        |
+| Crystal         | 22.92   | 1.5        |
+| Rust            | 24.13   | 4.9        |
+| Nim Gcc         | 31.04   | 2.7        |
+| D Gdc           | 31.89   | 2.4        |
+| Nim Clang       | 37.39   | 2.9        |
+| Go Gcc          | 37.59   | 11.4       |
+| D Ldc           | 39.28   | 1.4        |
+| Scala           | 58.51   | 120.12     |
+| Java            | 58.86   | 423.9      |
+| Go              | 75.13   | 2.3        |
+| D Dmd           | 86.16   | 1.7        |
+| Javascript Node | 89.63   | 18.7       |
+| Python Pypy     | 126.47  | 78.9       |
+| C# Mono         | 147.69  | 12.6       |
+| Javascript Jx   | 227.07  | 16.7       |
+| Ruby Topaz      | 305.79  | 38.8       |
 
 # Base64
 
