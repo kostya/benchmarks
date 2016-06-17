@@ -10,7 +10,6 @@ Some benchmarks of different languages
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
-| Scala           | 1.95    | 120.12     |
 | C++ Gcc         | 2.25    | 1.0        |
 | D Gdc           | 2.39    | 1.4        |
 | Rust            | 2.53    | 4.9        |
@@ -18,6 +17,7 @@ Some benchmarks of different languages
 | Crystal         | 2.82    | 1.3        |
 | Nim Clang       | 3.09    | 0.8        |
 | D Ldc           | 3.10    | 0.9        |
+| Scala           | 3.43    | 120.12     |
 | Java            | 4.03    | 513.8      |
 | Go Gcc          | 4.20    | 10.0       |
 | D Dmd           | 5.63    | 1.0        |
