@@ -47,9 +47,12 @@ proc inc(self: var Tape, x: int) =
   self.tape[self.pos] += x
 
 proc move(self: var Tape, x: int) =
-  self.pos += x
-  if len(self.tape) <= self.pos:
-    self.tape.add(0)
+  var new_pos = self.pos + x
+  if new_pos >= self.tape.len:
+    for _ in 1..new_pos - len(self.tape) + 1:
+      self.tape.add(0)
+  if new_pos >= 0:
+    self.pos = new_pos
 
 proc get(self: Tape): int =
   result = self.tape[self.pos]

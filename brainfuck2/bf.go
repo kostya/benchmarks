@@ -62,9 +62,17 @@ func (t *Tape) Inc(x int) {
 }
 
 func (t *Tape) Move(x int) {
-  t.pos += x
-  if t.pos >= len(t.tape) {
+  new_pos := t.pos + x
+
+  if new_pos >= len(t.tape) {
     t.tape = append(t.tape, 0)
+
+    delta := new_pos - len(t.tape) + 1;
+    for i := 0; i < delta; i++ { t.tape = append(t.tape, 0) }
+  }
+
+  if new_pos >= 0 {
+    t.pos = new_pos
   }
 }
 
