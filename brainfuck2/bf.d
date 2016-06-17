@@ -2,7 +2,6 @@ import std.algorithm;
 import std.stdio;
 import std.file;
 import std.array;
-import std.conv;
 
 final:
 
@@ -46,7 +45,7 @@ class StringIterator
 
     char next()
     {
-        return (pos < text.length) ? text[pos++] : 0.to!char;
+        return (pos < text.length) ? text[pos++] : 0;
     }
 };
 
@@ -111,7 +110,7 @@ class Program
                     _run(op.loop, tape);
                 break;
             case OpT.PRINT:
-                write(tape.get().to!char);
+                write(cast(char) tape.get());
                 stdout.flush();
                 break;
             default:
@@ -127,7 +126,7 @@ class Program
         while (true)
         {
             char c = it.next();
-            if (c.to!int == 0)
+            if (c == 0)
                 break;
 
             switch (c)
