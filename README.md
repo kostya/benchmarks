@@ -68,9 +68,9 @@ Some benchmarks of different languages
 | C aklomp SSSE3  | 1.09    | 32.3       |
 | C               | 1.85    | 32.2       |
 | Crystal         | 2.24    | 137.5       |
+| D Gdc           | 2.52    | 33.3       |
 | Ruby            | 2.73    | 125.3      |
-| D Gdc           | 3.16    | 45.2       |
-| D Ldc           | 3.27    | 44.1       |
+| D Ldc           | 3.14    | 53.1       |
 | Perl XS         | 3.63    | 47.9       |
 | Rust            | 3.83    | 42.8       |
 | Ruby Rbx        | 4.29    | 30.7       |
@@ -79,8 +79,8 @@ Some benchmarks of different languages
 | Nim Clang       | 4.70    | 52.7       |
 | Julia           | 4.41    | 190.0      |
 | C++ Openssl     | 5.45    | 65.2       |
-| D               | 6.18    | 89.1       |
 | Javascript Jx   | 6.97    | 710.6      |
+| D               | 7.18    | 55.3       |
 | Tcl             | 7.20    | 66.0       |
 | Python Pypy     | 7.32    | 582.3      |
 | Python          | 7.62    | 52.6       |
