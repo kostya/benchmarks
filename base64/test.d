@@ -1,6 +1,6 @@
 import std.base64;
 import std.stdio;
-import std.array;
+import std.range;
 import std.datetime;
 
 enum STR_SIZE = 10_000_000;
@@ -8,8 +8,7 @@ enum TRIES = 100;
 
 int main(string[] args)
 {
-    string str = "a".replicate(STR_SIZE);
-    ubyte[] str1 = cast(ubyte[])(str);
+    auto str1 = (cast(ubyte) 'a').repeat(STR_SIZE);
     string str2 = "";
     uint s = 0;
 
