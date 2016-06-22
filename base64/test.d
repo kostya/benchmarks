@@ -6,7 +6,7 @@ import std.datetime;
 enum STR_SIZE = 10_000_000;
 enum TRIES = 100;
 
-int main(string[] args)
+int main()
 {
     auto str1 = (cast(ubyte) 'a').repeat(STR_SIZE);
     string str2 = "";
