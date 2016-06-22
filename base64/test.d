@@ -3,11 +3,11 @@ import std.stdio;
 import std.array;
 import std.datetime;
 
+enum STR_SIZE = 10_000_000;
+enum TRIES = 100;
+
 int main(string[] args)
 {
-    int STR_SIZE = 10_000_000;
-    int TRIES = 100;
-
     string str = "a".replicate(STR_SIZE);
     ubyte[] str1 = cast(ubyte[])(str);
     string str2 = "";
