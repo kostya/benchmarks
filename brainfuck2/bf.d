@@ -1,168 +1,109 @@
-import std.algorithm;
-import std.stdio;
-import std.file;
-import std.array;
+import std.conv : to;
+import std.exception : assumeUnique;
+import std.file : readText;
+import std.stdio : write, stdout;
+import std.traits : EnumMembers;
 
-final:
+// for compatability with older versions of the standard library
+static if (__VERSION__ < 2068)
+    import std.typetuple : Erase;
+else
+    import std.meta : Erase;
 
-enum OpT
+void main(string[] args)
 {
-    INC,
-    MOVE,
-    PRINT,
-    LOOP
+    string text = readText(args[1]);
+    Program(text).run();
 }
 
 struct Op
 {
     OpT op;
-    int v;
     Op[] loop;
-
-    this(OpT t, int _v)
-    {
-        op = t;
-        v = _v;
-    }
-
-    this(OpT t, Op[] _l)
-    {
-        op = t;
-        loop = _l;
-    }
 }
 
-class StringIterator
+enum OpT : dchar
 {
-    string text;
-    int pos;
-
-    this(string t)
-    {
-        text = t;
-        pos = 0;
-    }
-
-    char next()
-    {
-        return (pos < text.length) ? text[pos++] : 0;
-    }
+    inc = '+',
+    dec = '-',
+    movePrev = '<',
+    moveNext = '>',
+    print = '.',
+    loop = '!',
 }
 
-class Tape
+struct Tape
 {
-    int pos;
-    int[] tape;
+    uint pos;
+    int[] tape = [0];
 
-    this()
-    {
-        pos = 0;
-        tape ~= 0;
-    }
-
-final:
-    int get()
-    {
-        return tape[pos];
-    }
-
-    void inc(int x)
-    {
-        tape[pos] += x;
-    }
-
-    void move(int x)
-    {
-        pos += x;
-        while (pos >= tape.length)
-            tape ~= 0;
-    }
+    int  get()      { return tape[pos]; }
+    void inc()      { tape[pos]++; }
+    void dec()      { tape[pos]--; }
+    void movePrev() { pos--; }
+    void moveNext() { pos++; if (pos == tape.length) tape ~= 0; }
+    void print()    { write(cast(char)get()); stdout.flush(); }
 }
 
-class Program
+struct Program
 {
-    Op[] ops;
+    immutable Op[] ops;
 
     this(string code)
     {
-        ops = parse(new StringIterator(code));
+        this.ops = parse(code).assumeUnique;
     }
 
     void run()
     {
-        _run(ops, new Tape());
+        auto t = Tape();
+        run(ops, t);
     }
 
-    void _run(Op[] program, Tape tape)
-    {
-        foreach (op; program)
-        {
-            switch (op.op)
-            {
-            case OpT.INC:
-                tape.inc(op.v);
-                break;
-            case OpT.MOVE:
-                tape.move(op.v);
-                break;
-            case OpT.LOOP:
-                while (tape.get() != 0)
-                    _run(op.loop, tape);
-                break;
-            case OpT.PRINT:
-                write(cast(char) tape.get());
-                stdout.flush();
-                break;
-            default:
-                break;
-            }
-        }
-    }
-
-    Op[] parse(StringIterator it)
+    static Op[] parse(ref string code)
     {
         Op[] res;
 
-        while (true)
+        while (code.length)
         {
-            char c = it.next();
-            if (c == 0)
-                break;
-
+            char c = code[0];
+            code = code[1 .. $];
             switch (c)
             {
-            case '+':
-                res ~= Op(OpT.INC, 1);
-                break;
-            case '-':
-                res ~= Op(OpT.INC, -1);
-                break;
-            case '>':
-                res ~= Op(OpT.MOVE, 1);
-                break;
-            case '<':
-                res ~= Op(OpT.MOVE, -1);
-                break;
-            case '.':
-                res ~= Op(OpT.PRINT, 0);
-                break;
-            case '[':
-                res ~= Op(OpT.LOOP, parse(it));
-                break;
-            case ']':
-                return res;
-            default:
-                break;
+                case '+': case '-': case '.':
+                case '>': case '<':
+                    res ~= Op(cast(OpT)c);
+                    break;
+                case '[':
+                    res ~= Op(OpT.loop, parse(code));
+                    break;
+                case ']':
+                    return res;
+                default:
+                    break;
             }
         }
 
         return res;
     }
-}
 
-int main(string[] args)
-{
-    string text = readText(args[1]);
-    new Program(text).run();
-    return 0;
+    static void run(immutable(Op)[] program, ref Tape tape)
+    {
+        loop: foreach (op; program)
+        {
+            switch (op.op)
+            {
+            foreach (type; Erase!(OpT.loop, EnumMembers!OpT))
+                case type:
+                    mixin("tape." ~ type.to!string ~ "(); continue loop;");
+
+                case OpT.loop:
+                    while (tape.get() != 0)
+                        run(op.loop, tape);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
