@@ -10,17 +10,17 @@ Some benchmarks of different languages
 
 | Language        | Time,s  | Memory, Mb |
 | --------------- | ------- | ---------- |
+| D Ldc           | 2.02    | 0.9        |
 | C++ Gcc         | 2.25    | 1.0        |
-| D Gdc           | 2.39    | 1.4        |
 | Rust            | 2.53    | 4.9        |
 | Nim Gcc         | 2.56    | 0.7        |
 | Crystal         | 2.82    | 1.3        |
+| D Gdc           | 3.05    | 1.4        |
 | Nim Clang       | 3.09    | 0.8        |
-| D Ldc           | 3.10    | 0.9        |
 | Scala           | 3.43    | 120.12     |
 | Java            | 4.03    | 513.8      |
 | Go Gcc          | 4.20    | 10.0       |
-| D Dmd           | 5.63    | 1.0        |
+| D Dmd           | 5.23    | 1.0        |
 | Go              | 5.99    | 1.0        |
 | Javascript V8   | 6.53    | 7.9        |
 | Javascript Node | 7.18    | 15.7       |
@@ -44,15 +44,15 @@ Some benchmarks of different languages
 | C++ Gcc         | 22.12   | 1.7        |
 | Crystal         | 22.92   | 1.5        |
 | Rust            | 24.13   | 4.9        |
+| D Ldc           | 24.90   | 1.4        |
+| D Gdc           | 29.49   | 2.4        |
 | Nim Gcc         | 31.04   | 2.7        |
-| D Gdc           | 33.00   | 2.4        |
-| D Ldc           | 36.90   | 1.4        |
 | Nim Clang       | 37.39   | 2.9        |
 | Go Gcc          | 37.59   | 11.4       |
 | Scala           | 58.51   | 120.12     |
 | Java            | 58.86   | 423.9      |
+| D Dmd           | 62.69   | 1.7        |
 | Go              | 75.13   | 2.3        |
-| D Dmd           | 83.32   | 1.7        |
 | Javascript Node | 89.63   | 18.7       |
 | Python Pypy     | 126.47  | 78.9       |
 | C# Mono         | 147.69  | 12.6       |
