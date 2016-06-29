@@ -9,41 +9,25 @@ enum class OpT {
     INC, MOVE, PRINT, LOOP
 }
 
-class Op {
-    var op:OpT
-    var v:Int = 0
-    var loop:List<Op>
-    
-    constructor(_op: OpT, _v: Int) {
-        op = _op
-        v = _v
-        loop = ArrayList<Op>()
-    }
-    
-    constructor(_op: OpT, _l: List<Op>) {
-        op = _op
-        loop = _l
-        v = 0
-    }
-}
+data class Op(
+    val op: OpT,
+    val v: Int = 0,
+    val loop: List<Op> = ArrayList<Op>()
+)
 
 class Tape {
-    private var tape: IntArray
+    private var tape: IntArray = IntArray(1)
     private var pos: Int = 0
-
-    init{
-        tape = IntArray(1)
-    }
     
-    fun get():Int {
+    fun get(): Int {
         return tape[pos]
     }
     
-    fun inc(x:Int) {
+    fun inc(x: Int) {
         tape[pos] += x
     }
     
-    fun move(x:Int) {
+    fun move(x: Int) {
         pos += x
         while (pos >= tape.size) {
             val tape = IntArray(this.tape.size * 2)
@@ -65,12 +49,12 @@ class Program(code: String) {
         val res = ArrayList<Op>()
         while (it.hasNext()) {
             when (it.next()) {
-                '+' -> res.add(Op(OpT.INC, 1))
-                '-' -> res.add(Op(OpT.INC, -1))
-                '>' -> res.add(Op(OpT.MOVE, 1))
-                '<' -> res.add(Op(OpT.MOVE, -1))
-                '.' -> res.add(Op(OpT.PRINT, 0))
-                '[' -> res.add(Op(OpT.LOOP, parse(it)))
+                '+' -> res.add(Op(OpT.INC, v = 1))
+                '-' -> res.add(Op(OpT.INC, v = -1))
+                '>' -> res.add(Op(OpT.MOVE, v = 1))
+                '<' -> res.add(Op(OpT.MOVE, v = -1))
+                '.' -> res.add(Op(OpT.PRINT, v = 0))
+                '[' -> res.add(Op(OpT.LOOP, loop = parse(it)))
                 ']' -> return res
             }
         }
@@ -86,7 +70,9 @@ class Program(code: String) {
             when (op.op) {
                 OpT.INC -> tape.inc(op.v)
                 OpT.MOVE -> tape.move(op.v)
-                OpT.LOOP -> while (tape.get() != 0) _run(op.loop, tape)
+                OpT.LOOP -> while (tape.get() != 0) {
+                    _run(op.loop, tape)
+                }
                 OpT.PRINT -> print(tape.get().toChar())
             }
         }
@@ -103,7 +89,7 @@ fun warming() {
 }
 
 @Throws(IOException::class)
-fun main(args:Array<String>) {
+fun main(args: Array<String>) {
     val code = String(Files.readAllBytes(Paths.get(args[0])))
     
     warming()
