@@ -5,6 +5,7 @@ g++ -O3 -o base64_cpp test.cpp -lcrypto
 gcc -O3 -std=c99 -o base64_c test.c
 scalac -optimize test.scala
 javac Base64Java.java
+kotlinc Test.kt -include-runtime -d Test-kt.jar
 dmd -ofbase64_d -O -release -inline test.d
 gdc -o base64_d_gdc -O3 -frelease -finline test.d
 ldc2 -ofbase64_d_ldc -O5 -release -inline test.d

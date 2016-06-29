@@ -10,6 +10,7 @@ ldc2 -ofmatmul_d_ldc -O5 -release -inline matmul.d
 nim c -o:matmul_nim_gcc --cc:gcc -d:release --verbosity:0 matmul.nim
 nim c -o:matmul_nim_clang --cc:clang -d:release --verbosity:0 matmul.nim
 javac matmul.java
+kotlinc matmul.kt -include-runtime -d matmul-kt.jar
 mcs -debug- -optimize+ matmul.cs
 
 # numpy for matrix mult in python
