@@ -28,6 +28,8 @@ echo Scala
 ../xtime.rb scala Base64
 echo Java
 ../xtime.rb java -XX:+AggressiveOpts Base64Java
+echo Kotlin
+../xtime.rb java -jar Test-kt.jar
 echo Javascript Node
 ../xtime.rb node test.js
 echo Javascript Jx

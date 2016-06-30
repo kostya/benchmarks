@@ -19,6 +19,7 @@ Some benchmarks of different languages
 | Nim Clang       | 3.09    | 0.8        |
 | Scala           | 3.43    | 120.12     |
 | Java            | 4.03    | 513.8      |
+| Kotlin          | 4.07    | 513.9      |
 | Go Gcc          | 4.20    | 10.0       |
 | D Dmd           | 5.23    | 1.0        |
 | Go              | 5.99    | 1.0        |
@@ -49,6 +50,7 @@ Some benchmarks of different languages
 | Nim Gcc         | 31.04   | 2.7        |
 | Nim Clang       | 37.39   | 2.9        |
 | Go Gcc          | 37.59   | 11.4       |
+| Kotlin          | 49.8    | 276.4      |
 | Scala           | 58.51   | 120.12     |
 | Java            | 58.86   | 423.9      |
 | D Dmd           | 62.69   | 1.7        |
@@ -87,6 +89,7 @@ Some benchmarks of different languages
 | Python3         | 8.16    | 47.5       |
 | C# Mono         | 9.01    | 71.7       |
 | Java            | 9.06    | 971.2      |
+| Kotlin          | 9.75    | 932.9      |
 | Scala           | 10.69   | 292.5      |
 | Ruby JRuby9K    | 12.16   | 530.6      |
 | Ruby JRuby      | 12.65   | 514.9      |
@@ -155,6 +158,7 @@ Some benchmarks of different languages
 | Python Numpy    | 3.08    | 65.3       |
 | Java            | 3.50    | 136.2      |
 | Scala           | 3.62    | 136.2      |
+| Kotlin          | 3.62    | 132.2      |
 | C               | 3.64    | 69.2       |
 | Nim Clang       | 3.73    | 142.3      |
 | Nim Gcc         | 3.82    | 146.0      |
@@ -239,3 +243,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * jq version 1.3
 * JXCore v0.10.40
 * Swift version 2.2-dev (LLVM ae2eb212e4, Clang ef4c02f431, Swift 634acb40a1)
+* Kotlin version 1.0.3 (JRE 1.8.0_45-b14)

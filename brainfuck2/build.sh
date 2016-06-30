@@ -4,6 +4,7 @@ rustc -C opt-level=3 bf.rs -o bin_rs
 scalac -optimize bf.scala
 mcs -debug- -optimize+ bf.cs
 javac bf.java
+kotlinc bf2.kt -include-runtime -d bf2-kt.jar
 go build -o bin_go bf.go
 gccgo -O3 -g -o bin_go_gccgo bf.go
 dmd -ofbin_d -O -release -inline bf.d
