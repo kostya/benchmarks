@@ -18,8 +18,8 @@ mcs -debug- -optimize+ test.cs
 if [ ! -d aklomp-base64-ssse ]; then
   git clone --depth 1 https://github.com/aklomp/base64.git aklomp-base64-ssse
   cd aklomp-base64-ssse
-  SSSE3_CFLAGS=-mssse3 make
+  SSSE3_CFLAGS=-mssse3 OPENMP=1 make
   cd -
 fi
-gcc --std=c99 -O3 test-aklomp.c -I aklomp-base64-ssse/include/ aklomp-base64-ssse/lib/libbase64.o -o base64_c_ak_ssse
+gcc -fopenmp --std=c99 -O3 test-aklomp.c -I aklomp-base64-ssse/include/ aklomp-base64-ssse/lib/libbase64.o -o base64_c_ak_ssse
 wget -qO - https://cpanmin.us | perl - -L perllib MIME::Base64::Perl
