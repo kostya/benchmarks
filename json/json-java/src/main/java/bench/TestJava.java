@@ -35,7 +35,7 @@ public class TestJava {
 
 	public static void main(String[] args) throws IOException {
 		// warming
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < 5; i++) {
 			parse("1.json");
 		}
 	}
