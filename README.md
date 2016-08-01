@@ -109,7 +109,7 @@ Some benchmarks of different languages
 | C++ Rapid       | 0.94    | 243.6      |
 | Rust Struct     | 1.33    | 232.9      |
 | Rust Pull       | 1.35    | 208.7      |
-| Java            | 1.48    | 518.3      |
+| Java            | 1.47    | 621.2      |
 | Crystal Schema  | 1.85    | 337.2      |
 | Crystal         | 2.66    | 1118.2     |
 | Perl XS         | 2.68    | 888.4      |
@@ -134,8 +134,8 @@ Some benchmarks of different languages
 | Julia           | 11.89   | 2622.4     |
 | D               | 12.42   | 1417.1     |
 | Ruby            | 12.67   | 2013.9     |
-| Scala           | 14.11   | 1408.2     |
 | JQ              | 14.92   | 1714.5     |
+| Scala           | 15.47   | 1415.8     |
 | C++ Boost       | 16.44   | 2915.2     |
 | Ruby JRuby9K    | 16.53   | 2050.5     |
 | Go Gcc          | 17.64   | 473.1      |
