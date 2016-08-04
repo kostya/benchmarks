@@ -8,199 +8,199 @@ Some benchmarks of different languages
 
 ### bench.b
 
-| Language        | Time,s  | Memory, Mb |
-| --------------- | ------- | ---------- |
-| D Ldc           | 2.02    | 0.9        |
-| C++ Gcc         | 2.25    | 1.0        |
-| Rust            | 2.53    | 4.9        |
-| Nim Gcc         | 2.56    | 0.7        |
-| Crystal         | 2.82    | 1.3        |
-| D Gdc           | 3.05    | 1.4        |
-| Nim Clang       | 3.09    | 0.8        |
-| Scala           | 3.43    | 120.12     |
-| Java            | 4.03    | 513.8      |
-| Kotlin          | 4.07    | 513.9      |
-| Go Gcc          | 4.20    | 10.0       |
-| D Dmd           | 5.23    | 1.0        |
-| Go              | 5.99    | 1.0        |
-| Javascript V8   | 6.53    | 7.9        |
-| Javascript Node | 7.18    | 15.7       |
-| Javascript Jx   | 19.08   | 11.0       |
-| C# Mono         | 19.86   | 14.6       |
-| Python Pypy     | 20.64   | 77.9       |
-| Ruby Topaz      | 59.53   | 36.5       |
-| Ruby Rbx        | 120.38  | 32.3       |
-| Ruby Jruby      | 129.75  | 267.6      |
-| Ruby Jruby9k    | 134.18  | 286.8      |
-| Ruby            | 181.44  | 7.2        |
-| Python3         | 310.75  | 5.5        |
-| Python          | 314.79  | 4.9        |
+| Language        | Time, s | Memory, MiB |
+| --------------- | ------- | ----------- |
+| D Ldc           | 2.02    | 0.9         |
+| C++ Gcc         | 2.25    | 1.0         |
+| Rust            | 2.53    | 4.9         |
+| Nim Gcc         | 2.56    | 0.7         |
+| Crystal         | 2.82    | 1.3         |
+| D Gdc           | 3.05    | 1.4         |
+| Nim Clang       | 3.09    | 0.8         |
+| Scala           | 3.43    | 120.12      |
+| Java            | 4.03    | 513.8       |
+| Kotlin          | 4.07    | 513.9       |
+| Go Gcc          | 4.20    | 10.0        |
+| D Dmd           | 5.23    | 1.0         |
+| Go              | 5.99    | 1.0         |
+| Javascript V8   | 6.53    | 7.9         |
+| Javascript Node | 7.18    | 15.7        |
+| Javascript Jx   | 19.08   | 11.0        |
+| C# Mono         | 19.86   | 14.6        |
+| Python Pypy     | 20.64   | 77.9        |
+| Ruby Topaz      | 59.53   | 36.5        |
+| Ruby Rbx        | 120.38  | 32.3        |
+| Ruby Jruby      | 129.75  | 267.6       |
+| Ruby Jruby9k    | 134.18  | 286.8       |
+| Ruby            | 181.44  | 7.2         |
+| Python3         | 310.75  | 5.5         |
+| Python          | 314.79  | 4.9         |
 
 ### mandel.b
 
 [Mandel in Brainfuck](https://github.com/kostya/benchmarks/blob/master/brainfuck2/mandel.b)
 
-| Language        | Time,s  | Memory, Mb |
-| --------------- | ------- | ---------- |
-| C++ Gcc         | 22.12   | 1.7        |
-| Crystal         | 22.92   | 1.5        |
-| Rust            | 24.13   | 4.9        |
-| D Ldc           | 24.90   | 1.4        |
-| D Gdc           | 29.49   | 2.4        |
-| Nim Gcc         | 31.04   | 2.7        |
-| Nim Clang       | 37.39   | 2.9        |
-| Go Gcc          | 37.59   | 11.4       |
-| Kotlin          | 49.8    | 276.4      |
-| Scala           | 58.51   | 120.12     |
-| Java            | 58.86   | 423.9      |
-| D Dmd           | 62.69   | 1.7        |
-| Go              | 75.13   | 2.3        |
-| Javascript Node | 89.63   | 18.7       |
-| Python Pypy     | 126.47  | 78.9       |
-| C# Mono         | 147.69  | 12.6       |
-| Javascript Jx   | 227.07  | 16.7       |
-| Ruby Topaz      | 305.79  | 38.8       |
+| Language        | Time, s | Memory, MiB |
+| --------------- | ------- | ----------- |
+| C++ Gcc         | 22.12   | 1.7         |
+| Crystal         | 22.92   | 1.5         |
+| Rust            | 24.13   | 4.9         |
+| D Ldc           | 24.90   | 1.4         |
+| D Gdc           | 29.49   | 2.4         |
+| Nim Gcc         | 31.04   | 2.7         |
+| Nim Clang       | 37.39   | 2.9         |
+| Go Gcc          | 37.59   | 11.4        |
+| Kotlin          | 49.8    | 276.4       |
+| Scala           | 58.51   | 120.12      |
+| Java            | 58.86   | 423.9       |
+| D Dmd           | 62.69   | 1.7         |
+| Go              | 75.13   | 2.3         |
+| Javascript Node | 89.63   | 18.7        |
+| Python Pypy     | 126.47  | 78.9        |
+| C# Mono         | 147.69  | 12.6        |
+| Javascript Jx   | 227.07  | 16.7        |
+| Ruby Topaz      | 305.79  | 38.8        |
 
 # Base64
 
 [Base64](https://github.com/kostya/benchmarks/tree/master/base64)
 
-| Language        | Time,s  | Memory, Mb |
-| --------------- | ------- | ---------- |
-| C aklomp SSSE3  | 0.93    | 32.3       |
-| C               | 1.85    | 32.2       |
-| Crystal         | 2.24    | 137.5      |
-| D Gdc           | 2.52    | 33.3       |
-| Ruby            | 2.73    | 125.3      |
-| D Ldc           | 3.14    | 53.1       |
-| Perl XS         | 3.63    | 47.9       |
-| Rust            | 3.83    | 42.8       |
-| Ruby Rbx        | 4.29    | 30.7       |
-| Javascript Node | 4.57    | 683.4      |
-| Nim Gcc         | 4.62    | 52.7       |
-| Nim Clang       | 4.70    | 52.7       |
-| Julia           | 4.41    | 190.0      |
-| C++ Openssl     | 5.45    | 65.2       |
-| Javascript Jx   | 6.97    | 710.6      |
-| D               | 7.18    | 55.3       |
-| Tcl             | 7.20    | 66.0       |
-| Python Pypy     | 7.32    | 582.3      |
-| Python          | 7.62    | 52.6       |
-| Python3         | 8.16    | 47.5       |
-| C# Mono         | 9.01    | 71.7       |
-| Java            | 9.06    | 971.2      |
-| Kotlin          | 9.75    | 932.9      |
-| Scala           | 10.69   | 292.5      |
-| Ruby JRuby9K    | 12.16   | 530.6      |
-| Ruby JRuby      | 12.65   | 514.9      |
-| Go              | 13.36   | 73.3       |
-| Perl            | 33.30   | 99.7       |
-| Go Gcc          | 39.56   | 185.5      |
+| Language        | Time, s | Memory, MiB |
+| --------------- | ------- | ----------- |
+| C aklomp SSSE3  | 0.93    | 32.3        |
+| C               | 1.85    | 32.2        |
+| Crystal         | 2.24    | 137.5       |
+| D Gdc           | 2.52    | 33.3        |
+| Ruby            | 2.73    | 125.3       |
+| D Ldc           | 3.14    | 53.1        |
+| Perl XS         | 3.63    | 47.9        |
+| Rust            | 3.83    | 42.8        |
+| Ruby Rbx        | 4.29    | 30.7        |
+| Javascript Node | 4.57    | 683.4       |
+| Nim Gcc         | 4.62    | 52.7        |
+| Nim Clang       | 4.70    | 52.7        |
+| Julia           | 4.41    | 190.0       |
+| C++ Openssl     | 5.45    | 65.2        |
+| Javascript Jx   | 6.97    | 710.6       |
+| D               | 7.18    | 55.3        |
+| Tcl             | 7.20    | 66.0        |
+| Python Pypy     | 7.32    | 582.3       |
+| Python          | 7.62    | 52.6        |
+| Python3         | 8.16    | 47.5        |
+| C# Mono         | 9.01    | 71.7        |
+| Java            | 9.06    | 971.2       |
+| Kotlin          | 9.75    | 932.9       |
+| Scala           | 10.69   | 292.5       |
+| Ruby JRuby9K    | 12.16   | 530.6       |
+| Ruby JRuby      | 12.65   | 514.9       |
+| Go              | 13.36   | 73.3        |
+| Perl            | 33.30   | 99.7        |
+| Go Gcc          | 39.56   | 185.5       |
 
 # Json
 
 [Json](https://github.com/kostya/benchmarks/tree/master/json)
 
-| Language        | Time,s  | Memory, Mb |
-| --------------- | ------- | ---------- |
-| D Gdc Fast      | 0.34    | 226.7      |
-| C++ Rapid SAX   | 0.72    | 1.0        |
-| C++ Gason       | 0.83    | 582.2      |
-| C++ Rapid       | 0.94    | 243.6      |
-| Rust Struct     | 1.33    | 232.9      |
-| Rust Pull       | 1.35    | 208.7      |
-| Java            | 1.47    | 621.2      |
-| Crystal Schema  | 1.85    | 337.2      |
-| Crystal         | 2.66    | 1118.2     |
-| Perl XS         | 2.68    | 888.4      |
-| Javascript Node | 2.69    | 865.6      |
-| Javascript Jx   | 2.73    | 706.8      |
-| Rust Value      | 3.23    | 1970.6     |
-| Crystal Pull    | 3.43    | 1.3        |
-| Nim Clang       | 4.12    | 1089.6     |
-| Python3 ujson   | 4.15    | 1303.2     |
-| Nim Gcc         | 4.46    | 1090.1     |
-| Python Pypy     | 4.81    | 1553.0     |
-| Python ujson    | 5.07    | 1352.9     |
-| Q               | 5.18    | 684.0      |
-| C++ LibJson     | 5.49    | 2796.3     |
-| Go              | 5.64    | 478.6      |
-| Clojure         | 5.81    | 1148.5     |
-| Python3         | 5.92    | 1037.8     |
-| Ruby YAJL       | 8.23    | 1085.5     |
-| Haskell         | 8.31    | 70.5       |
-| Python          | 9.85    | 1409.1     |
-| C# Mono         | 10.57   | 812.1      |
-| Julia           | 11.89   | 2622.4     |
-| D               | 12.42   | 1417.1     |
-| Ruby            | 12.67   | 2013.9     |
-| JQ              | 14.92   | 1714.5     |
-| Scala           | 15.47   | 1415.8     |
-| C++ Boost       | 16.44   | 2915.2     |
-| Ruby JRuby9K    | 16.53   | 2050.5     |
-| Go Gcc          | 17.64   | 473.1      |
-| Ruby JRuby      | 21.98   | 2761.1     |
-| D Gdc           | 25.86   | 926.1      |
-| D Ldc           | 27.23   | 919.6      |
-| Perl            | 46.02   | 1635.4     |
-| Ruby Rbx        | 67.13   | 4681.0     |
+| Language        | Time, s | Memory, MiB |
+| --------------- | ------- | ----------- |
+| D Gdc Fast      | 0.34    | 226.7       |
+| C++ Rapid SAX   | 0.72    | 1.0         |
+| C++ Gason       | 0.83    | 582.2       |
+| C++ Rapid       | 0.94    | 243.6       |
+| Rust Struct     | 1.33    | 232.9       |
+| Rust Pull       | 1.35    | 208.7       |
+| Java            | 1.47    | 621.2       |
+| Crystal Schema  | 1.85    | 337.2       |
+| Crystal         | 2.66    | 1118.2      |
+| Perl XS         | 2.68    | 888.4       |
+| Javascript Node | 2.69    | 865.6       |
+| Javascript Jx   | 2.73    | 706.8       |
+| Rust Value      | 3.23    | 1970.6      |
+| Crystal Pull    | 3.43    | 1.3         |
+| Nim Clang       | 4.12    | 1089.6      |
+| Python3 ujson   | 4.15    | 1303.2      |
+| Nim Gcc         | 4.46    | 1090.1      |
+| Python Pypy     | 4.81    | 1553.0      |
+| Python ujson    | 5.07    | 1352.9      |
+| Q               | 5.18    | 684.0       |
+| C++ LibJson     | 5.49    | 2796.3      |
+| Go              | 5.64    | 478.6       |
+| Clojure         | 5.81    | 1148.5      |
+| Python3         | 5.92    | 1037.8      |
+| Ruby YAJL       | 8.23    | 1085.5      |
+| Haskell         | 8.31    | 70.5        |
+| Python          | 9.85    | 1409.1      |
+| C# Mono         | 10.57   | 812.1       |
+| Julia           | 11.89   | 2622.4      |
+| D               | 12.42   | 1417.1      |
+| Ruby            | 12.67   | 2013.9      |
+| JQ              | 14.92   | 1714.5      |
+| Scala           | 15.47   | 1415.8      |
+| C++ Boost       | 16.44   | 2915.2      |
+| Ruby JRuby9K    | 16.53   | 2050.5      |
+| Go Gcc          | 17.64   | 473.1       |
+| Ruby JRuby      | 21.98   | 2761.1      |
+| D Gdc           | 25.86   | 926.1       |
+| D Ldc           | 27.23   | 919.6       |
+| Perl            | 46.02   | 1635.4      |
+| Ruby Rbx        | 67.13   | 4681.0      |
 
 # Matmul
 
 [Matmul](https://github.com/kostya/benchmarks/tree/master/matmul)
 
-| Language        | Time,s  | Memory, Mb |
-| --------------- | ------- | ---------- |
-| Julia Native    | 0.11    | 148.3      |
-| D Ldc           | 2.01    | 68.9       |
-| D               | 2.30    | 71.3       |
-| D Gdc           | 2.33    | 73.0       |
-| Python Numpy    | 3.08    | 65.3       |
-| Java            | 3.50    | 136.2      |
-| Scala           | 3.62    | 136.2      |
-| Kotlin          | 3.62    | 132.2      |
-| C               | 3.64    | 69.2       |
-| Nim Clang       | 3.73    | 142.3      |
-| Nim Gcc         | 3.82    | 146.0      |
-| Crystal         | 3.88    | 72.1       |
-| Go Gcc          | 3.90    | 84.5       |
-| Swift           | 4.48    | 110.8      |
-| Rust            | 4.63    | 76.9       |
-| Go              | 4.85    | 73.9       |
-| Javascript Node | 5.75    | 86.6       |
-| Javascript Jx   | 5.92    | 83.8       |
-| Javascript V8   | 6.87    | 81.5       |
-| Python Pypy     | 7.68    | 122.6      |
-| C# Mono         | 15.17   | 83.6       |
-| Julia           | 20.98   | 187.4      |
-| Ruby Topaz      | 81.41   | 206.2      |
-| Ruby            | 338.40  | 82.8       |
-| Python          | 447.39  | 74.0       |
-| Ruby JRuby      | 416.12  | 582.4      |
-| Ruby JRuby9k    | 467.59  | 608.3      |
-| Ruby Rbx        | 591.70  | 325.0      |
-| Perl            | 666.46  | 604.1      |
-| Tcl             | 1066.66 | 279.9      |
+| Language        | Time, s | Memory, MiB |
+| --------------- | ------- | ----------- |
+| Julia Native    | 0.11    | 148.3       |
+| D Ldc           | 2.01    | 68.9        |
+| D               | 2.30    | 71.3        |
+| D Gdc           | 2.33    | 73.0        |
+| Python Numpy    | 3.08    | 65.3        |
+| Java            | 3.50    | 136.2       |
+| Scala           | 3.62    | 136.2       |
+| Kotlin          | 3.62    | 132.2       |
+| C               | 3.64    | 69.2        |
+| Nim Clang       | 3.73    | 142.3       |
+| Nim Gcc         | 3.82    | 146.0       |
+| Crystal         | 3.88    | 72.1        |
+| Go Gcc          | 3.90    | 84.5        |
+| Swift           | 4.48    | 110.8       |
+| Rust            | 4.63    | 76.9        |
+| Go              | 4.85    | 73.9        |
+| Javascript Node | 5.75    | 86.6        |
+| Javascript Jx   | 5.92    | 83.8        |
+| Javascript V8   | 6.87    | 81.5        |
+| Python Pypy     | 7.68    | 122.6       |
+| C# Mono         | 15.17   | 83.6        |
+| Julia           | 20.98   | 187.4       |
+| Ruby Topaz      | 81.41   | 206.2       |
+| Ruby            | 338.40  | 82.8        |
+| Python          | 447.39  | 74.0        |
+| Ruby JRuby      | 416.12  | 582.4       |
+| Ruby JRuby9k    | 467.59  | 608.3       |
+| Ruby Rbx        | 591.70  | 325.0       |
+| Perl            | 666.46  | 604.1       |
+| Tcl             | 1066.66 | 279.9       |
 
 # Havlak
 
 [Havlak](https://github.com/kostya/benchmarks/tree/master/havlak)
 
-| Language        | Time,s  | Memory, Mb |
-| --------------- | ------- | ---------- |
-| Crystal         | 15.43   | 445.2      |
-| Nim Gcc         | 16.59   | 484.3      |
-| Nim Clang       | 16.91   | 477.9      |
-| C++             | 17.72   | 174.5      |
-| D Ldc           | 25.15   | 214.9      |
-| D               | 28.90   | 418.2      |
-| D Gdc           | 31.79   | 197.6      |
-| Scala           | 32.18   | 363.0      |
-| Go Gcc          | 32.94   | 365.7      |
-| Go              | 35.59   | 307.3      |
-| C# Mono         | 40.54   | 270.0      |
-| Python Pypy     | 45.51   | 625.9      |
-| Python          | 396.54  | 724.0      |
+| Language        | Time, s | Memory, MiB |
+| --------------- | ------- | ----------- |
+| Crystal         | 15.43   | 445.2       |
+| Nim Gcc         | 16.59   | 484.3       |
+| Nim Clang       | 16.91   | 477.9       |
+| C++             | 17.72   | 174.5       |
+| D Ldc           | 25.15   | 214.9       |
+| D               | 28.90   | 418.2       |
+| D Gdc           | 31.79   | 197.6       |
+| Scala           | 32.18   | 363.0       |
+| Go Gcc          | 32.94   | 365.7       |
+| Go              | 35.59   | 307.3       |
+| C# Mono         | 40.54   | 270.0       |
+| Python Pypy     | 45.51   | 625.9       |
+| Python          | 396.54  | 724.0       |
 
 
 
