@@ -16,7 +16,7 @@ nim c -o:json_nim_gcc -d:release --cc:gcc --verbosity:0 test.nim
 nim c -o:json_nim_clang -d:release --cc:clang --verbosity:0 test.nim
 go build -o json_go test.go
 gccgo -O3 -g -o json_go_gccgo test.go
-g++ -O3 test_boost.cpp -o json_boost_cpp
+g++ -flto -O3 test_boost.cpp -o json_boost_cpp
 
 if [ ! -d fast ]; then
   git clone --depth 1 --branch v0.3.0 https://github.com/mleise/fast.git
@@ -26,15 +26,15 @@ gdc -o json_d_gdc_fast -O3 -frelease test_fast.d fast/source/fast/cstring.d fast
 if [ ! -d rapidjson ]; then
   git clone --depth 1 https://github.com/miloyip/rapidjson.git
 fi
-g++ -O3 test_rapid.cpp -o json_rapid_cpp -Irapidjson/include
-g++ -O3 test_rapid_sax.cpp -o json_rapid_sax_cpp -Irapidjson/include
+g++ -flto -O3 test_rapid.cpp -o json_rapid_cpp -Irapidjson/include
+g++ -flto -O3 test_rapid_sax.cpp -o json_rapid_sax_cpp -Irapidjson/include
 
 if [ ! -d gason ]; then
   git clone --depth 1 https://github.com/vivkin/gason.git
 fi
-g++ -std=c++11 test_gason.cpp -I gason/src/ gason/src/gason.cpp -o json_gason_cpp -O3
+g++ -flto -std=c++11 test_gason.cpp -I gason/src/ gason/src/gason.cpp -o json_gason_cpp -O3
 
-g++ -O3 test_libjson.cpp -o json_libjson_cpp -ljson
+g++ -flto -O3 test_libjson.cpp -o json_libjson_cpp -ljson
 julia -e 'Pkg.add("JSON")'
 # mono
 nuget install Newtonsoft.Json
