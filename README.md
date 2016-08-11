@@ -10,8 +10,8 @@ Some benchmarks of different languages
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
+| C++ Gcc         | 1.94    | 1.0         |
 | D Ldc           | 2.02    | 0.9         |
-| C++ Gcc         | 2.25    | 1.0         |
 | Rust            | 2.53    | 4.9         |
 | Nim Gcc         | 2.56    | 0.7         |
 | Crystal         | 2.82    | 1.3         |
@@ -42,7 +42,7 @@ Some benchmarks of different languages
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| C++ Gcc         | 22.12   | 1.7         |
+| C++ Gcc         | 20.49   | 1.7         |
 | Crystal         | 22.92   | 1.5         |
 | Rust            | 24.13   | 4.9         |
 | D Ldc           | 24.90   | 1.4         |
