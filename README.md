@@ -81,7 +81,7 @@ Some benchmarks of different languages
 | Nim Clang       | 4.70    | 52.7        |
 | Julia           | 4.41    | 190.0       |
 | C++ Openssl     | 5.45    | 65.2        |
-| Php             | 6.26    | 52.5        |
+| Php             | 6.34    | 53.4        |
 | Javascript Jx   | 6.97    | 710.6       |
 | D               | 7.18    | 55.3        |
 | Tcl             | 7.20    | 66.0        |
@@ -128,11 +128,11 @@ Some benchmarks of different languages
 | Go              | 5.64    | 478.6       |
 | Clojure         | 5.81    | 1148.5      |
 | Python3         | 5.92    | 1037.8      |
+| Php             | 6.37    | 1502.0      |
 | Ruby YAJL       | 8.23    | 1085.5      |
 | Haskell         | 8.31    | 70.5        |
 | Python          | 9.85    | 1409.1      |
 | C# Mono         | 10.57   | 812.1       |
-| Php             | 11.73   | 4350.6      |
 | Julia           | 11.89   | 2622.4      |
 | D               | 12.42   | 1417.1      |
 | Ruby            | 12.67   | 2013.9      |
@@ -246,4 +246,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * JXCore v0.10.40
 * Swift version 2.2-dev (LLVM ae2eb212e4, Clang ef4c02f431, Swift 634acb40a1)
 * Kotlin version 1.0.3 (JRE 1.8.0_45-b14)
-* PHP 5.5.9-1ubuntu4.4 (cli) (built: Sep  4 2014 06:56:34)
+* PHP 7.0.9-1+deb.sury.org~trusty+1 (cli) ( NTS )
