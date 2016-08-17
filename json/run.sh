@@ -74,4 +74,7 @@ echo jq
 ../xtime.rb jq -r '.coordinates | length as $len | (map(.x) | add) / $len, (map(.y) | add) / $len, (map(.z) | add) / $len' 1.json
 echo Java
 ../xtime.rb java -server -jar java-json.jar
+echo Php
+../xtime.rb php test.php
+
 
