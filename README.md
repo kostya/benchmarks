@@ -132,6 +132,7 @@ Some benchmarks of different languages
 | Haskell         | 8.31    | 70.5        |
 | Python          | 9.85    | 1409.1      |
 | C# Mono         | 10.57   | 812.1       |
+| Php             | 11.73   | 4350.6      |
 | Julia           | 11.89   | 2622.4      |
 | D               | 12.42   | 1417.1      |
 | Ruby            | 12.67   | 2013.9      |
