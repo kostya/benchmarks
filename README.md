@@ -81,6 +81,7 @@ Some benchmarks of different languages
 | Nim Clang       | 4.70    | 52.7        |
 | Julia           | 4.41    | 190.0       |
 | C++ Openssl     | 5.45    | 65.2        |
+| Php             | 6.26    | 52.5        |
 | Javascript Jx   | 6.97    | 710.6       |
 | D               | 7.18    | 55.3        |
 | Tcl             | 7.20    | 66.0        |
@@ -244,3 +245,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * JXCore v0.10.40
 * Swift version 2.2-dev (LLVM ae2eb212e4, Clang ef4c02f431, Swift 634acb40a1)
 * Kotlin version 1.0.3 (JRE 1.8.0_45-b14)
+* PHP 5.5.9-1ubuntu4.4 (cli) (built: Sep  4 2014 06:56:34)
