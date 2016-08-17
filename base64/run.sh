@@ -50,3 +50,5 @@ echo Perl XS
 ../xtime.rb perl test-xs.pl
 echo Tcl
 ../xtime.rb tclsh test.tcl
+echo Php
+../xtime.rb php test.php
