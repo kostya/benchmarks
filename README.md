@@ -53,7 +53,7 @@ Some benchmarks of different languages
 | Scala           | 58.51   | 120.12      |
 | Java            | 58.86   | 423.9       |
 | D Dmd           | 62.69   | 1.7         |
-| Javascript Node | 89.63   | 18.7        |
+| Javascript Node | 89.32   | 17.5        |
 | Go              | 102.85  | 2.2         |
 | Python Pypy     | 126.47  | 78.9        |
 | C# Mono         | 147.69  | 12.6        |
@@ -74,10 +74,10 @@ Some benchmarks of different languages
 | Perl XS         | 3.63    | 47.9        |
 | Rust            | 3.83    | 42.8        |
 | Ruby Rbx        | 4.29    | 30.7        |
-| Javascript Node | 4.57    | 683.4       |
 | Nim Gcc         | 4.62    | 52.7        |
 | Nim Clang       | 4.70    | 52.7        |
 | Julia           | 4.41    | 190.0       |
+| Javascript Node | 4.91    | 668.0       |
 | C++ Openssl     | 5.45    | 65.2        |
 | Php             | 6.34    | 53.4        |
 | D               | 7.18    | 55.3        |
@@ -111,7 +111,7 @@ Some benchmarks of different languages
 | Crystal Schema  | 1.85    | 337.2       |
 | Crystal         | 2.66    | 1118.2      |
 | Perl XS         | 2.68    | 888.4       |
-| Javascript Node | 2.69    | 865.6       |
+| Javascript Node | 2.78    | 848.8       |
 | Rust Value      | 3.23    | 1970.6      |
 | Crystal Pull    | 3.43    | 1.3         |
 | Nim Clang       | 4.12    | 1089.6      |
@@ -218,7 +218,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * V8 version 3.29.62 (candidate)
 * rustc 1.8.0-nightly (4b615854f 2016-01-26)
 * Scala version 2.11.6 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_45)
-* Nodejs v6.0.0
+* Nodejs v6.4.0
 * PyPy 4.0.0 with GCC 4.8.4
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]
 * ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-linux]
