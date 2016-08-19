@@ -26,8 +26,6 @@ echo Go Gcc
 ../xtime.rb ./bin_go_gccgo mandel.b > /dev/null
 echo Javascript Node
 ../xtime.rb node bf.js mandel.b > /dev/null
-echo Javascript Jx
-../xtime.rb jx bf.js mandel.b > /dev/null
 echo C# Mono
 ../xtime.rb mono -O=all --gc=sgen bf.exe mandel.b > /dev/null
 echo Python Pypy

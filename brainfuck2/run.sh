@@ -16,8 +16,6 @@ echo Javascript V8
 ../xtime.rb d8 bf.d8.js
 echo Javascript Node
 ../xtime.rb node bf.js bench.b
-echo Javascript Jx
-../xtime.rb jx bf.js bench.b
 echo Go
 ../xtime.rb ./bin_go bench.b
 echo Go Gcc

@@ -26,8 +26,6 @@ echo Kotlin
 ../xtime.rb java -jar matmul-kt.jar 1500
 echo Javascript V8
 ../xtime.rb d8 matmul.d8.js -- 1500
-echo Javascript Jx
-../xtime.rb jx matmul.js 1500
 echo Javascript Node
 ../xtime.rb node matmul.js 1500
 echo Julia Native

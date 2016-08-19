@@ -32,8 +32,6 @@ echo Kotlin
 ../xtime.rb java -jar Test-kt.jar
 echo Javascript Node
 ../xtime.rb node test.js
-echo Javascript Jx
-../xtime.rb jx test.js
 echo Python Pypy
 ../xtime.rb pypy test.py
 echo Python
