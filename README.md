@@ -22,7 +22,7 @@ Some benchmarks of different languages
 | Kotlin          | 4.07    | 513.9       |
 | Go Gcc          | 4.20    | 10.0        |
 | D Dmd           | 5.23    | 1.0         |
-| Go              | 5.99    | 1.0         |
+| Go              | 5.36    | 0.9         |
 | Javascript V8   | 6.53    | 7.9         |
 | Javascript Node | 7.18    | 15.7        |
 | Javascript Jx   | 19.08   | 11.0        |
@@ -54,8 +54,8 @@ Some benchmarks of different languages
 | Scala           | 58.51   | 120.12      |
 | Java            | 58.86   | 423.9       |
 | D Dmd           | 62.69   | 1.7         |
-| Go              | 75.13   | 2.3         |
 | Javascript Node | 89.63   | 18.7        |
+| Go              | 102.85  | 2.2         |
 | Python Pypy     | 126.47  | 78.9        |
 | C# Mono         | 147.69  | 12.6        |
 | Javascript Jx   | 227.07  | 16.7        |
@@ -87,6 +87,7 @@ Some benchmarks of different languages
 | Tcl             | 7.20    | 66.0        |
 | Python Pypy     | 7.32    | 582.3       |
 | Python          | 7.62    | 52.6        |
+| Go              | 8.00    | 70.0        | 
 | Python3         | 8.16    | 47.5        |
 | C# Mono         | 9.01    | 71.7        |
 | Java            | 9.06    | 971.2       |
@@ -94,7 +95,6 @@ Some benchmarks of different languages
 | Scala           | 10.69   | 292.5       |
 | Ruby JRuby9K    | 12.16   | 530.6       |
 | Ruby JRuby      | 12.65   | 514.9       |
-| Go              | 13.36   | 73.3        |
 | Perl            | 33.30   | 99.7        |
 | Go Gcc          | 39.56   | 185.5       |
 
@@ -124,8 +124,8 @@ Some benchmarks of different languages
 | Python Pypy     | 4.81    | 1553.0      |
 | Python ujson    | 5.07    | 1352.9      |
 | Q               | 5.18    | 684.0       |
+| Go              | 5.21    | 479.3       |
 | C++ LibJson     | 5.49    | 2796.3      |
-| Go              | 5.64    | 478.6       |
 | Clojure         | 5.81    | 1148.5      |
 | Python3         | 5.92    | 1037.8      |
 | Php             | 6.37    | 1502.0      |
@@ -164,11 +164,11 @@ Some benchmarks of different languages
 | C               | 3.64    | 69.2        |
 | Nim Clang       | 3.73    | 142.3       |
 | Nim Gcc         | 3.82    | 146.0       |
+| Go              | 3.83    | 73.5        |
 | Crystal         | 3.88    | 72.1        |
 | Go Gcc          | 3.90    | 84.5        |
 | Swift           | 4.48    | 110.8       |
 | Rust            | 4.63    | 76.9        |
-| Go              | 4.85    | 73.9        |
 | Javascript Node | 5.75    | 86.6        |
 | Javascript Jx   | 5.92    | 83.8        |
 | Javascript V8   | 6.87    | 81.5        |
@@ -196,10 +196,10 @@ Some benchmarks of different languages
 | C++             | 17.72   | 174.5       |
 | D Ldc           | 25.15   | 214.9       |
 | D               | 28.90   | 418.2       |
+| Go              | 31.26   | 349.9       |
 | D Gdc           | 31.79   | 197.6       |
 | Scala           | 32.18   | 363.0       |
 | Go Gcc          | 32.94   | 365.7       |
-| Go              | 35.59   | 307.3       |
 | C# Mono         | 40.54   | 270.0       |
 | Python Pypy     | 45.51   | 625.9       |
 | Python          | 396.54  | 724.0       |
@@ -215,7 +215,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
 * Nim Compiler Version 0.14.0 (2016-06-06) [Linux: amd64]
 * `Crystal 0.16.0 [fc89c1a] (Thu May  5 17:06:08 UTC 2016)`
-* go version go1.6 linux/amd64
+* go version go1.7 linux/amd64
 * gccgo (Ubuntu 4.9.1-0ubuntu1) 4.9.1
 * DMD64 D Compiler v2.068.0
 * gdc (crosstool-NG crosstool-ng-1.20.0-232-gc746732 - 20150830-2.066.1-dadb5a3784) 5.2.0
