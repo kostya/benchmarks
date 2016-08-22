@@ -1,7 +1,7 @@
 #!/usr/bin/env dub
 /+ dub.json:
 {
-	"name": "matmul_d_mir",
+	"name": "matmul_mir",
 	"dependencies": {"mir": "~>0.16.0-beta2"},
 	"dflags-ldc": ["-mcpu=native"],
 }
