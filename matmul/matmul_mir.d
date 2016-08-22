@@ -6,7 +6,7 @@
 	"dflags-ldc": ["-mcpu=native"],
 }
 +/
-//dub build --build=release-nobounds --single matmul/matmul_mir.d --compiler=ldmd2
+//dub build --build=release-nobounds --single matmul_mir.d --compiler=ldmd2
 
 // Writen by Attractive Chaos; distributed under the MIT license
 
