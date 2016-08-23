@@ -30,8 +30,10 @@ echo Javascript V8
 ../xtime.rb d8 matmul.d8.js -- 1500
 echo Javascript Node
 ../xtime.rb node matmul.js 1500
-echo Julia Native
+echo Julia Native Thr
 ../xtime.rb julia matmul-native.jl 1500
+echo Julia Native
+OPENBLAS_NUM_THREADS=1 ../xtime.rb julia matmul-native.jl 1500
 echo Julia
 ../xtime.rb julia matmul.jl 1500
 echo Mono

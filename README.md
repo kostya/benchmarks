@@ -149,7 +149,8 @@ Some benchmarks of different languages
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| Julia Native    | 0.11    | 148.3       |
+| Julia Native Thr| 0.11    | 148.3       |
+| Julia Native    | 0.31    | 175.8       |
 | D Mir GLAS      | 0.34    | 57.4        |
 | D Ldc           | 2.01    | 68.9        |
 | D               | 2.30    | 71.3        |
