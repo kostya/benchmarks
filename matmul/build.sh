@@ -7,7 +7,7 @@ rustc -C opt-level=3 matmul.rs -o matmul_rs
 dmd -ofmatmul_d -O -release -inline matmul.d
 gdc -o matmul_d_gdc -O3 -frelease -finline matmul.d
 ldc2 -ofmatmul_d_ldc -O5 -release -inline matmul.d
-dub build --build=release-nobounds --single matmul_mir.d --compiler=ldmd2
+dub build --build=release --single matmul_mir.d --compiler=ldmd2
 nim c -o:matmul_nim_gcc --cc:gcc -d:release --verbosity:0 matmul.nim
 nim c -o:matmul_nim_clang --cc:clang -d:release --verbosity:0 matmul.nim
 javac matmul.java
