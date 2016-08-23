@@ -14,6 +14,8 @@ echo D Gdc
 ../xtime.rb ./matmul_d_gdc 1500
 echo D Ldc
 ../xtime.rb ./matmul_d_ldc 1500
+echo D Mir GLAS
+../xtime.rb ./matmul_d_mir 1500
 echo Nim Gcc
 ../xtime.rb ./matmul_nim_gcc 1500
 echo Nim Clang
