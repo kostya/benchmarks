@@ -41,6 +41,9 @@ nuget install Newtonsoft.Json
 cp Newtonsoft.Json.*/lib/net45/Newtonsoft.Json.dll .
 mcs -debug- -optimize+ -r:Newtonsoft.Json.dll test.cs
 
+# .net core
+dotnet restore && dotnet build -c Release
+
 gem install yajl-ruby
 
 wget -qO - https://cpanmin.us | perl - -L perllib Cpanel::JSON::XS JSON::Tiny File::Slurper

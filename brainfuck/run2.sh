@@ -26,6 +26,8 @@ echo Python Pypy
 ../xtime.rb pypy brainfuck.py mandel.b > /dev/null
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen brainfuck.exe mandel.b > /dev/null
+echo .Net Core
+../xtime.rb dotnet bin/Release/netcoreapp1.0/brainfuck.dll mandel.b > /dev/null
 echo Felix
 ../xtime.rb ./brainfuck_flx mandel.b > /dev/null
 echo Java

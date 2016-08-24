@@ -8,3 +8,5 @@ rm -rf base64.rs/target
 rm -rf aklomp-base64*
 rm -rf perllib
 rm *.jar
+rm -rf bin/
+rm -rf obj/

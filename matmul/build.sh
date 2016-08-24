@@ -13,6 +13,7 @@ nim c -o:matmul_nim_clang --cc:clang -d:release --verbosity:0 matmul.nim
 javac matmul.java
 kotlinc matmul.kt -include-runtime -d matmul-kt.jar
 mcs -debug- -optimize+ matmul.cs
+dotnet restore && dotnet build -c Release
 
 # numpy for matrix mult in python
 # brew install numpy

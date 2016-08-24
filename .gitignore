@@ -22,3 +22,6 @@ rock_tmp
 perllib
 *.jar
 .lein-deps-sum
+obj
+bin
+!project.json

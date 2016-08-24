@@ -42,6 +42,8 @@ echo Ruby
 ../xtime.rb ruby test.rb
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen test.exe
+echo .Net Core
+../xtime.rb dotnet bin/Release/netcoreapp1.0/base64.dll
 echo Perl
 ../xtime.rb perl -Iperllib/lib/perl5 test.pl
 echo Perl XS
