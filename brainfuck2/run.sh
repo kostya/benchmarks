@@ -12,6 +12,8 @@ echo Kotlin
 ../xtime.rb java -jar bf2-kt.jar bench.b
 echo C# Mono
 ../xtime.rb mono -O=all --gc=sgen bf.exe bench.b
+echo C# .Net Core
+../xtime.rb dotnet bin/Release/netcoreapp1.0/brainfuck2.dll bench.b
 echo Javascript V8
 ../xtime.rb d8 bf.d8.js
 echo Javascript Node

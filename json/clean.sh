@@ -15,3 +15,5 @@ rm -rf perllib
 rm -rf json-clj/target
 rm json-clj/test.jar
 rm -rf json-java/target
+rm -rf bin/
+rm -rf obj/
