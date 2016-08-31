@@ -25,6 +25,7 @@ Some benchmarks of different languages
 | Go              | 5.36    | 0.9         |
 | Javascript V8   | 6.53    | 7.9         |
 | Javascript Node | 7.18    | 15.7        |
+| C# .Net Core    | 16.03   | 16.9        |
 | C# Mono         | 19.86   | 14.6        |
 | Python Pypy     | 20.64   | 77.9        |
 | Ruby Topaz      | 59.53   | 36.5        |
@@ -56,6 +57,7 @@ Some benchmarks of different languages
 | Javascript Node | 89.32   | 17.5        |
 | Go              | 102.85  | 2.2         |
 | Python Pypy     | 126.47  | 78.9        |
+| C# .Net Core    | 142.30  | 17.8        |
 | C# Mono         | 147.69  | 12.6        |
 | Ruby Topaz      | 305.79  | 38.8        |
 
@@ -80,6 +82,7 @@ Some benchmarks of different languages
 | Javascript Node | 4.91    | 668.0       |
 | C++ Openssl     | 5.45    | 65.2        |
 | Php             | 6.34    | 53.4        |
+| C# .Net Core    | 6.52    | 121.1       |
 | D               | 7.18    | 55.3        |
 | Tcl             | 7.20    | 66.0        |
 | Python Pypy     | 7.32    | 582.3       |
@@ -124,6 +127,7 @@ Some benchmarks of different languages
 | C++ LibJson     | 5.49    | 2796.3      |
 | Clojure         | 5.81    | 1148.5      |
 | Python3         | 5.82    | 1037.8      |
+| C# .Net Core    | 6.31    | 834.9       |
 | Php             | 6.37    | 1502.0      |
 | Ruby YAJL       | 8.23    | 1085.5      |
 | Haskell         | 8.31    | 70.5        |
@@ -170,6 +174,7 @@ Some benchmarks of different languages
 | Javascript Node | 5.75    | 86.6        |
 | Javascript V8   | 6.87    | 81.5        |
 | Python Pypy     | 7.68    | 122.6       |
+| C# .Net Core    | 10.87   | 85.7        |
 | C# Mono         | 15.17   | 83.6        |
 | Julia           | 20.98   | 187.4       |
 | Ruby Topaz      | 81.41   | 206.2       |
@@ -199,6 +204,7 @@ Some benchmarks of different languages
 | Go Gcc          | 32.94   | 365.7       |
 | C# Mono         | 40.54   | 270.0       |
 | Python Pypy     | 45.51   | 625.9       |
+| C# .Net Core    | 61.38   | 388.8       |
 | Python          | 396.54  | 724.0       |
 
 
@@ -243,3 +249,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Swift version 2.2-dev (LLVM ae2eb212e4, Clang ef4c02f431, Swift 634acb40a1)
 * Kotlin version 1.0.3 (JRE 1.8.0_45-b14)
 * PHP 7.0.9-1+deb.sury.org~trusty+1 (cli) ( NTS )
+* .Net Core 1.0.0-preview2-003121

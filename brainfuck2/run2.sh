@@ -28,7 +28,7 @@ echo Javascript Node
 ../xtime.rb node bf.js mandel.b > /dev/null
 echo C# Mono
 ../xtime.rb mono -O=all --gc=sgen bf.exe mandel.b > /dev/null
-echo .Net Core
+echo C# .Net Core
 ../xtime.rb dotnet bin/Release/netcoreapp1.0/brainfuck2.dll mandel.b > /dev/null
 echo Python Pypy
 ../xtime.rb pypy bf.py mandel.b > /dev/null

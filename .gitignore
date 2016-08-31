@@ -25,3 +25,4 @@ perllib
 obj
 bin
 !project.json
+*.swo
