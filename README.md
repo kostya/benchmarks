@@ -44,7 +44,7 @@ Some benchmarks of different languages
 | --------------- | ------- | ----------- |
 | C++ Gcc         | 20.49   | 1.7         |
 | Crystal         | 22.92   | 1.5         |
-| Rust            | 24.13   | 4.9         |
+| Rust            | 24.23   | 4.9         |
 | D Ldc           | 24.90   | 1.4         |
 | D Gdc           | 29.49   | 2.4         |
 | Nim Gcc         | 31.04   | 2.7         |
@@ -74,7 +74,7 @@ Some benchmarks of different languages
 | Ruby            | 2.73    | 125.3       |
 | D Ldc           | 3.14    | 53.1        |
 | Perl XS         | 3.63    | 47.9        |
-| Rust            | 3.83    | 42.8        |
+| Rust            | 3.64    | 42.9        |
 | Ruby Rbx        | 4.29    | 30.7        |
 | Nim Gcc         | 4.62    | 52.7        |
 | Nim Clang       | 4.70    | 52.7        |
@@ -106,16 +106,16 @@ Some benchmarks of different languages
 | --------------- | ------- | ----------- |
 | D Gdc Fast      | 0.34    | 226.7       |
 | C++ Rapid SAX   | 0.72    | 1.0         |
+| Rust Pull       | 0.78    | 207.9       |
+| Rust Struct     | 0.79    | 232.5       |
 | C++ Gason       | 0.83    | 582.2       |
 | C++ Rapid       | 0.94    | 243.6       |
-| Rust Struct     | 1.33    | 232.9       |
-| Rust Pull       | 1.35    | 208.7       |
 | Java            | 1.47    | 621.2       |
 | Crystal Schema  | 1.85    | 337.2       |
+| Rust Value      | 2.51    | 1967.0      |
 | Crystal         | 2.66    | 1118.2      |
 | Perl XS         | 2.68    | 888.4       |
 | Javascript Node | 2.78    | 848.8       |
-| Rust Value      | 3.23    | 1970.6      |
 | Crystal Pull    | 3.43    | 1.3         |
 | Nim Clang       | 4.12    | 1089.6      |
 | Python3 ujson   | 4.15    | 1303.2      |
@@ -165,12 +165,12 @@ Some benchmarks of different languages
 | Kotlin          | 3.62    | 132.2       |
 | C               | 3.64    | 69.2        |
 | Nim Clang       | 3.73    | 142.3       |
+| Rust            | 3.74    | 76.9        |
 | Nim Gcc         | 3.82    | 146.0       |
 | Go              | 3.83    | 73.5        |
 | Crystal         | 3.88    | 72.1        |
 | Go Gcc          | 3.90    | 84.5        |
 | Swift           | 4.48    | 110.8       |
-| Rust            | 4.63    | 76.9        |
 | Javascript Node | 5.75    | 86.6        |
 | Javascript V8   | 6.87    | 81.5        |
 | Python Pypy     | 7.68    | 122.6       |
@@ -224,7 +224,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * gdc (crosstool-NG crosstool-ng-1.20.0-232-gc746732 - 20150830-2.066.1-dadb5a3784) 5.2.0
 * LDC - the LLVM D compiler (0.15.2-beta1):
 * V8 version 3.29.62 (candidate)
-* rustc 1.8.0-nightly (4b615854f 2016-01-26)
+* rustc 1.11.0 (9b21dcd6a 2016-08-15)
 * Scala version 2.11.6 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_45)
 * Nodejs v6.4.0
 * PyPy 4.0.0 with GCC 4.8.4
