@@ -48,7 +48,7 @@ impl Deserialize for State {
     fn deserialize<D>(deserializer: &mut D) -> Result<Self, D::Error>
         where D: Deserializer
     {
-        deserializer.visit(StateVisitor)
+        deserializer.deserialize(StateVisitor)
     }
 }
 
@@ -112,7 +112,7 @@ impl Deserialize for TestStructField {
     fn deserialize<D>(deserializer: &mut D) -> Result<Self, D::Error>
         where D: Deserializer
     {
-        deserializer.visit(TestStructFieldVisitor)
+        deserializer.deserialize(TestStructFieldVisitor)
     }
 }
 

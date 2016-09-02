@@ -3,9 +3,9 @@ name = "json-rs"
 version = "0.0.1"
 
 [dependencies]
-serde = "*"
-serde_json = "*"
-serde_macros = "*"
+serde = "0.8"
+serde_json = "0.8"
+serde_macros = "0.8"
 
 [profile.release]
 lto = true
