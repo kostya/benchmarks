@@ -1,6 +1,3 @@
-#![feature(custom_derive, plugin)]
-#![plugin(serde_macros)]
-
 extern crate serde;
 extern crate serde_json;
 extern crate json_rs;
@@ -11,24 +8,8 @@ use std::io::Read;
 use std::path::Path;
 
 
-#[derive(Deserialize)]
-pub struct Coordinate {
-    x: f64,
-    y: f64,
-    z: f64,
-    #[allow(dead_code)]
-    name: Skip,
-    #[allow(dead_code)]
-    opts: Skip,
-}
+include!(concat!(env!("OUT_DIR"), "/serde_types_struct.rs"));
 
-
-#[derive(Deserialize)]
-pub struct TestStruct  {
-    coordinates: Vec<Coordinate>,
-    #[allow(dead_code)]
-    info: Skip,
-}
 
 fn main() {
     let path = Path::new("./1.json");
