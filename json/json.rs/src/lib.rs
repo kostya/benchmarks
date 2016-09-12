@@ -7,7 +7,7 @@ use serde::{Deserialize, Deserializer, de};
 pub struct Skip;
 impl Deserialize for Skip {
     fn deserialize<D>(deserializer: &mut D) -> Result<Self, D::Error> where D: Deserializer {
-        deserializer.visit(Skip)
+        deserializer.deserialize(Skip)
     }
 }
 
