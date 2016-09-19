@@ -20,7 +20,7 @@ class Tape
   end
 
   def move(x)
-    @pos += x 
+    @pos += x
     while @pos >= @tape.size
       @tape << 0
     end
