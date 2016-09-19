@@ -1,14 +1,6 @@
 # Havlak benchmark: https://code.google.com/p/multi-language-bench/
 # Crystal Implementation (translated from Python version)
 
-# Intel i5 2.5GHz
-# crystal: 26.5s 359Mb
-# c++:     28.2s 150Mb
-# java:    31.5s 909Mb
-# scala:   66.8s 316Mb
-# go:      67.7s 456Mb
-# python:  958.4s 713Mb
-
 class BasicBlock
   def initialize(@name : Int32)
     @in_edges = [] of BasicBlock
