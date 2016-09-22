@@ -1,16 +1,17 @@
 #!/usr/bin/env dub
 /+ dub.json:
 {
-	"name": "matmul_mir",
-	"dependencies": {"mir": "~>0.16.0-beta2"},
+	"name": "matmul_d_mir",
+	"dependencies": {"mir": "==0.18.0-beta0"},
 	"dflags-ldc": ["-mcpu=native"],
 }
 +/
-//dub build --build=release-nobounds --single matmul_mir.d --compiler=ldmd2
+//dub build --build=release-nobounds --single matmul_d_mir.d --compiler=ldmd2
 
 // Writen by Attractive Chaos; distributed under the MIT license
 
 import core.stdc.stdio, std.conv, std.array;
+import std.experimental.allocator.mallocator;
 import mir.ndslice;
 import mir.glas;
 
@@ -20,7 +21,7 @@ Matrix[2] generate2(size_t n)
 {
 	auto len = n * n;
 	double tmp = 1.0 / len;
-	auto ab = uninitializedArray!(double[])(len * 2).sliced(2, n, n);
+	auto ab = Mallocator.instance.makeUninitializedSlice!double([2, n, n]).slice;
 	auto a = ab[0];
 	auto b = ab[1];
 	size_t i;
@@ -38,11 +39,11 @@ Matrix[2] generate2(size_t n)
 	return [a, b];
 }
 
+GlasContext ctx;
 Matrix mul(Matrix a, Matrix b)
 {
-	auto c = slice!double([a.length!0, b.length!1], 0);
-	auto ctx = new GlasContext;
-	ctx.gemm(c, 1.0, a, b);
+	auto c = Mallocator.instance.makeUninitializedSlice!double([a.length!0, b.length!1]).slice;
+	gemm(&ctx, 1.0, a, b, 0.0, c);
 	return c;
 }
 
