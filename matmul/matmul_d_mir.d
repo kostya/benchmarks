@@ -2,7 +2,7 @@
 /+ dub.json:
 {
 	"name": "matmul_d_mir",
-	"dependencies": {"mir": "==0.18.0-beta0"},
+	"dependencies": {"mir": "==0.18.0"},
 	"dflags-ldc": ["-mcpu=native"],
 }
 +/
