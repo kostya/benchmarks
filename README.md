@@ -155,7 +155,7 @@ Some benchmarks of different languages
 | --------------- | ------- | ----------- |
 | Julia Native Thr| 0.11    | 148.3       |
 | Julia Native    | 0.31    | 175.8       |
-| D Mir GLAS      | 0.34    | 57.4        |
+| D Mir GLAS      | 0.32    | 56.7        |
 | D Ldc           | 2.01    | 68.9        |
 | D               | 2.30    | 71.3        |
 | D Gdc           | 2.33    | 73.0        |
