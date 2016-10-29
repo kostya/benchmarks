@@ -8,12 +8,12 @@ use std::collections::BTreeMap;
 
 struct Tape {
   pos: usize,
-  tape: Vec<isize>
+  tape: Vec<i32>
 }
 
 impl Tape {
   fn new() -> Tape { Tape { pos: 0, tape: vec![0] } }
-  fn get(&self) -> isize { self.tape[self.pos] }
+  fn get(&self) -> i32 { self.tape[self.pos] }
   fn getc(&self) -> char { self.get() as u8 as char }
   fn inc(&mut self) { self.tape[self.pos] += 1; }
   fn dec(&mut self) { self.tape[self.pos] -= 1; }
