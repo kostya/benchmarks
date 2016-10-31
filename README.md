@@ -12,7 +12,7 @@ Some benchmarks of different languages
 | --------------- | ------- | ----------- |
 | C++ Gcc         | 1.94    | 1.0         |
 | D Ldc           | 2.02    | 0.9         |
-| Rust            | 2.53    | 4.9         |
+| Rust            | 2.49    | 4.9         |
 | Nim Gcc         | 2.56    | 0.7         |
 | D Gdc           | 3.05    | 1.4         |
 | Nim Clang       | 3.09    | 0.8         |
@@ -44,8 +44,8 @@ Some benchmarks of different languages
 | --------------- | ------- | ----------- |
 | C++ Gcc         | 20.49   | 1.7         |
 | Crystal         | 23.13   | 1.5         |
-| Rust            | 24.23   | 4.9         |
 | D Ldc           | 24.90   | 1.4         |
+| Rust            | 25.19   | 4.9         |
 | D Gdc           | 29.49   | 2.4         |
 | Nim Gcc         | 31.04   | 2.7         |
 | Nim Clang       | 37.39   | 2.9         |

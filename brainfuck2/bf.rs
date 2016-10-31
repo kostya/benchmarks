@@ -1,7 +1,7 @@
 use std::io;
 
 enum Op {
-    Inc(isize),
+    Inc(i32),
     Move(isize),
     Loop(Box<[Op]>),
     Print
@@ -10,14 +10,14 @@ use Op::*;
 
 struct Tape {
   pos: usize,
-  tape: Vec<isize>
+  tape: Vec<i32>
 }
 
 impl Tape {
   fn new() -> Tape { Tape { pos: 0, tape: vec![0] } }
-  fn get(&self) -> isize { self.tape[self.pos] }
+  fn get(&self) -> i32 { self.tape[self.pos] }
   fn getc(&self) -> char { self.get() as u8 as char }
-  fn inc(&mut self, x: isize) { self.tape[self.pos] += x; }
+  fn inc(&mut self, x: i32) { self.tape[self.pos] += x; }
   fn mov(&mut self, x: isize) { 
     self.pos = (self.pos as isize + x) as usize;
     while self.pos >= self.tape.len() { self.tape.push(0); }
