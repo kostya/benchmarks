@@ -1,19 +1,13 @@
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.ArrayList
-import java.util.HashMap
-import java.util.Stack
 
-enum class OpT {
-    INC, MOVE, PRINT, LOOP
+sealed class Op() {
+    class Inc(val v: Int): Op()
+    class Move(val v: Int): Op()
+    class Loop(val loop: Array<Op>): Op()
+    object Print: Op()
 }
-
-data class Op(
-    val op: OpT,
-    val v: Int = 0,
-    val loop: List<Op> = ArrayList<Op>()
-)
 
 class Tape {
     private var tape: IntArray = IntArray(1)
@@ -38,42 +32,42 @@ class Tape {
 }
   
 class Program(code: String) {
-    private val ops: List<Op>
+    private val ops: Array<Op>
 
     init {
         val it = code.iterator()
         ops = parse(it)
     }
 
-    private fun parse(it: CharIterator): List<Op> {
-        val res = ArrayList<Op>()
+    private fun parse(it: CharIterator): Array<Op> {
+        val res = arrayListOf<Op>()
         while (it.hasNext()) {
             when (it.next()) {
-                '+' -> res.add(Op(OpT.INC, v = 1))
-                '-' -> res.add(Op(OpT.INC, v = -1))
-                '>' -> res.add(Op(OpT.MOVE, v = 1))
-                '<' -> res.add(Op(OpT.MOVE, v = -1))
-                '.' -> res.add(Op(OpT.PRINT, v = 0))
-                '[' -> res.add(Op(OpT.LOOP, loop = parse(it)))
-                ']' -> return res
+                '+' -> res.add(Op.Inc(1))
+                '-' -> res.add(Op.Inc(-1))
+                '>' -> res.add(Op.Move(1))
+                '<' -> res.add(Op.Move(-1))
+                '.' -> res.add(Op.Print)
+                '[' -> res.add(Op.Loop(parse(it)))
+                ']' -> return res.toTypedArray()
             }
         }
-        return res
+        return res.toTypedArray()
     }
 
     fun run() {
         _run(ops, Tape())
     }
     
-    private fun _run(program: List<Op>, tape: Tape) {
+    private fun _run(program: Array<Op>, tape: Tape) {
         for (op in program) {
-            when (op.op) {
-                OpT.INC -> tape.inc(op.v)
-                OpT.MOVE -> tape.move(op.v)
-                OpT.LOOP -> while (tape.get() != 0) {
+            when (op) {
+                is Op.Inc -> tape.inc(op.v)
+                is Op.Move -> tape.move(op.v)
+                is Op.Loop -> while (tape.get() != 0) {
                     _run(op.loop, tape)
                 }
-                OpT.PRINT -> print(tape.get().toChar())
+                is Op.Print -> print(tape.get().toChar())
             }
         }
     }
