@@ -10,6 +10,7 @@ Some benchmarks of different languages
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
+| Kotlin          | 1.78    | 28.4        |
 | C++ Gcc         | 1.94    | 1.0         |
 | D Ldc           | 2.02    | 0.9         |
 | Rust            | 2.49    | 4.9         |
@@ -19,7 +20,6 @@ Some benchmarks of different languages
 | Scala           | 3.43    | 120.12      |
 | Crystal         | 3.46    | 1.3         |
 | Java            | 4.03    | 513.8       |
-| Kotlin          | 4.07    | 513.9       |
 | Go Gcc          | 4.20    | 10.0        |
 | D Dmd           | 5.23    | 1.0         |
 | Go              | 5.36    | 0.9         |
@@ -50,7 +50,7 @@ Some benchmarks of different languages
 | Nim Gcc         | 31.04   | 2.7         |
 | Nim Clang       | 37.39   | 2.9         |
 | Go Gcc          | 37.59   | 11.4        |
-| Kotlin          | 49.8    | 276.4       |
+| Kotlin          | 40.79   | 34.9        |
 | Scala           | 58.51   | 120.12      |
 | Java            | 58.86   | 423.9       |
 | D Dmd           | 62.69   | 1.7         |
