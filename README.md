@@ -24,7 +24,7 @@ Some benchmarks of different languages
 | D Dmd           | 5.23    | 1.0         |
 | Go              | 5.36    | 0.9         |
 | Javascript V8   | 6.53    | 7.9         |
-| Javascript Node | 7.18    | 15.7        |
+| Javascript Node | 7.38    | 16.9        |
 | C# .Net Core    | 16.03   | 16.9        |
 | C# Mono         | 19.86   | 14.6        |
 | Python Pypy     | 20.64   | 77.9        |
@@ -54,7 +54,7 @@ Some benchmarks of different languages
 | Scala           | 58.51   | 120.12      |
 | Java            | 58.86   | 423.9       |
 | D Dmd           | 62.69   | 1.7         |
-| Javascript Node | 89.32   | 17.5        |
+| Javascript Node | 88.34   | 18.6        |
 | Go              | 102.85  | 2.2         |
 | Python Pypy     | 126.47  | 78.9        |
 | C# .Net Core    | 142.30  | 17.8        |
@@ -79,7 +79,7 @@ Some benchmarks of different languages
 | Nim Gcc         | 4.62    | 52.7        |
 | Nim Clang       | 4.70    | 52.7        |
 | Julia           | 4.41    | 190.0       |
-| Javascript Node | 4.91    | 668.0       |
+| Javascript Node | 4.76    | 551.5       |
 | C++ Openssl     | 5.45    | 65.2        |
 | Php             | 6.34    | 53.4        |
 | C# .Net Core    | 6.52    | 121.1       |
@@ -114,8 +114,8 @@ Some benchmarks of different languages
 | Crystal Schema  | 1.93    | 331.2       |
 | Rust Value      | 2.51    | 1967.0      |
 | Perl XS         | 2.68    | 888.4       |
-| Javascript Node | 2.78    | 848.8       |
 | Crystal         | 3.00    | 1115.2      |
+| Javascript Node | 3.21    | 863.7       |
 | Crystal Pull    | 3.30    | 1.6         |
 | Nim Clang       | 4.12    | 1089.6      |
 | Python3 ujson   | 4.15    | 1303.2      |
@@ -171,7 +171,7 @@ Some benchmarks of different languages
 | Crystal         | 3.85    | 73.9        |
 | Go Gcc          | 3.90    | 84.5        |
 | Swift           | 4.48    | 110.8       |
-| Javascript Node | 5.75    | 86.6        |
+| Javascript Node | 5.95    | 88.3        |
 | Javascript V8   | 6.87    | 81.5        |
 | Python Pypy     | 7.68    | 122.6       |
 | C# .Net Core    | 10.87   | 85.7        |
@@ -226,7 +226,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * V8 version 3.29.62 (candidate)
 * rustc 1.11.0 (9b21dcd6a 2016-08-15)
 * Scala version 2.11.6 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_45)
-* Nodejs v6.4.0
+* Nodejs v7.0.0
 * PyPy 4.0.0 with GCC 4.8.4
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]
 * ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-linux]
