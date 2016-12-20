@@ -22,6 +22,8 @@ echo Kotlin
 ../xtime.rb java -jar bf2-kt.jar mandel.b > /dev/null
 echo Go
 ../xtime.rb ./bin_go mandel.b > /dev/null
+echo Functional Go
+../xtime.rb ./bin_go_func mandel.b > /dev/null
 echo Go Gcc
 ../xtime.rb ./bin_go_gccgo mandel.b > /dev/null
 echo Javascript Node

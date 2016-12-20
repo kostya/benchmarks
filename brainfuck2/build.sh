@@ -7,6 +7,7 @@ dotnet restore && dotnet build -c Release
 javac bf.java
 kotlinc bf2.kt -include-runtime -d bf2-kt.jar
 go build -o bin_go bf.go
+go build -o bin_go_func bf_func.go
 gccgo -O3 -g -o bin_go_gccgo bf.go
 dmd -ofbin_d -O -release -inline bf.d
 gdc -o bin_d_gdc -O3 -frelease -finline bf.d
