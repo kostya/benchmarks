@@ -29,7 +29,7 @@ fn _run(program: &[Op], tape: &mut Tape) {
         match *op {
             Inc(x) => tape.inc(x),
             Move(x) => tape.mov(x),
-            Loop(ref program) => while tape.get() != 0 {
+            Loop(ref program) => while tape.get() > 0 {
               _run(program, tape);
             },
             Print => {

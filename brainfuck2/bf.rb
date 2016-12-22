@@ -44,7 +44,7 @@ private
       case op.op
         when :inc; tape.inc(op.val)
         when :move; tape.move(op.val)
-        when :loop; _run(op.val, tape) while tape.get != 0
+        when :loop; _run(op.val, tape) while tape.get > 0
         when :print; print(tape.get.chr)
       end
     end

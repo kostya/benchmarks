@@ -49,7 +49,7 @@ class Program(text: String) {
     for (op <- program) op match {
       case Inc(x) => tape.inc(x)
       case Move(x) => tape.move(x)
-      case Loop(loop) => while (tape.get != 0) _run(loop, tape)
+      case Loop(loop) => while (tape.get > 0) _run(loop, tape)
       case Print() => print(tape.get.toChar)
     }
   }

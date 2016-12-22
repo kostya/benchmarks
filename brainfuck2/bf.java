@@ -110,7 +110,7 @@ public class bf {
                 switch (op.op) {
                     case INC: tape.inc(op.v); break;
                     case MOVE: tape.move(op.v); break;
-                    case LOOP: while (tape.get() != 0) _run(op.loop, tape); break;
+                    case LOOP: while (tape.get() > 0) _run(op.loop, tape); break;
                     case PRINT: System.out.print( (char) tape.get() ); break;
                 }
             }

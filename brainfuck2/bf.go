@@ -107,7 +107,7 @@ func _run(program []Op, tape *Tape) {
     switch op.O {
       case INC: tape.Inc(op.V)
       case MOVE: tape.Move(op.V)
-      case LOOP: for tape.Get() != 0 { _run(op.Loop, tape) }
+      case LOOP: for tape.Get() > 0 { _run(op.Loop, tape) }
       case PRINT: fmt.Printf("%c", tape.Get())
     }
   }

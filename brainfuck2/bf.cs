@@ -73,7 +73,7 @@ namespace Test
                 switch (op.op) {
                     case OpT.INC: tape.Inc(op.v); break;
                     case OpT.MOVE: tape.Move(op.v); break;
-                    case OpT.LOOP: while (tape.Get() != 0) _run(op.loop, tape); break;
+                    case OpT.LOOP: while (tape.Get() > 0) _run(op.loop, tape); break;
                     case OpT.PRINT: Console.Write((char)tape.Get()); break;
                 }
             }

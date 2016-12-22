@@ -82,7 +82,7 @@ proc runops(program: seq[Op], tape: var Tape) =
       of INC: tape.inc(op.v)
       of MOVE: tape.move(op.v)
       of LOOP:
-        while tape.get != 0:
+        while tape.get > 0:
           runops(op.loop, tape)
       of PRINT: 
         write stdout, tape.get.chr

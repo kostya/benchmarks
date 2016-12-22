@@ -46,7 +46,7 @@ class Program
       when Op::Move
         tape.move(op.val)
       when Array(Op::T)
-        while tape.get != 0
+        while tape.get > 0
           _run(op, tape)
         end
       when Op::Print

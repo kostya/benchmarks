@@ -62,7 +62,7 @@ var Brainfuck = function(text) {
       switch(op.op) {
         case INC: tape.inc(op.v); break;
         case MOVE: tape.move(op.v); break;
-        case LOOP: while (tape.get() != 0) _run(op.v, tape); break;
+        case LOOP: while (tape.get() > 0) _run(op.v, tape); break;
         case PRINT: process.stdout.write(String.fromCharCode(tape.get())); break;
       }
     }

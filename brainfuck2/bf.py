@@ -53,7 +53,7 @@ def _run(program, tape):
         if op.op == INC: tape.inc(op.val)
         elif op.op == MOVE: tape.move(op.val)
         elif op.op == LOOP: 
-            while tape.get() != 0:
+            while tape.get() > 0:
                 _run(op.val, tape)
         elif op.op == PRINT:
             sys.stdout.write(chr(tape.get()))

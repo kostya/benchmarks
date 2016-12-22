@@ -98,7 +98,7 @@ struct Program
                     mixin("tape." ~ type.to!string ~ "(); continue loop;");
 
                 case OpT.loop:
-                    while (tape.get() != 0)
+                    while (tape.get() > 0)
                         run(op.loop, tape);
                     break;
                 default:
