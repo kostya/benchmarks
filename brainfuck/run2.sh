@@ -22,7 +22,7 @@ echo Scala
 ../xtime.rb scala BrainFuck mandel.b > /dev/null
 echo Javascript Node
 ../xtime.rb node brainfuck.js mandel.b > /dev/null
-echo Python Pypy
+echo Python PyPy
 ../xtime.rb pypy brainfuck.py mandel.b > /dev/null
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen brainfuck.exe mandel.b > /dev/null

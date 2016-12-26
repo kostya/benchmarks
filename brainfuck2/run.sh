@@ -34,7 +34,7 @@ echo Nim Clang
 ../xtime.rb ./bin_nim_clang bench.b
 echo Ruby Topaz
 ../xtime.rb topaz bf.rb bench.b
-echo Python Pypy
+echo Python PyPy
 ../xtime.rb pypy bf.py bench.b
 echo Ruby
 ../xtime.rb ruby bf.rb bench.b

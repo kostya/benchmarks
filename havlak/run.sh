@@ -14,7 +14,7 @@ echo D Gdc
 ../xtime.rb ./havlak_d_gdc
 echo D Ldc
 ../xtime.rb ./havlak_d_ldc
-echo Python Pypy
+echo Python PyPy
 ../xtime.rb pypy havlak.py
 echo Nim Gcc
 ../xtime.rb ./havlak_nim_gcc

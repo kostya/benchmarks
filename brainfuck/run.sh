@@ -30,7 +30,7 @@ echo Mono
 ../xtime.rb mono -O=all --gc=sgen brainfuck.exe bench.b
 echo .Net Core
 ../xtime.rb dotnet bin/Release/netcoreapp1.0/brainfuck.dll bench.b
-echo Python Pypy
+echo Python PyPy
 ../xtime.rb pypy brainfuck.py bench.b
 echo Python
 ../xtime.rb python brainfuck.py bench.b

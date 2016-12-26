@@ -30,7 +30,7 @@ echo C# Mono
 ../xtime.rb mono -O=all --gc=sgen bf.exe mandel.b > /dev/null
 echo C# .Net Core
 ../xtime.rb dotnet bin/Release/netcoreapp1.0/brainfuck2.dll mandel.b > /dev/null
-echo Python Pypy
+echo Python PyPy
 ../xtime.rb pypy bf.py mandel.b > /dev/null
 echo Ruby Topaz
 ../xtime.rb topaz bf.rb mandel.b > /dev/null

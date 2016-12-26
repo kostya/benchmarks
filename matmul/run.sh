@@ -40,7 +40,7 @@ echo Mono
 ../xtime.rb mono -O=all --gc=sgen matmul.exe 1500
 echo C# .Net Core
 ../xtime.rb dotnet bin/Release/netcoreapp1.0/matmul.dll 1500
-echo Python Pypy
+echo Python PyPy
 ../xtime.rb pypy matmul.py 1500
 echo Python
 ../xtime.rb python matmul.py 1500
