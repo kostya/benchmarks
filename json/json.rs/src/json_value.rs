@@ -8,11 +8,11 @@ use std::path::Path;
 
 fn main() {
     let path = Path::new("./1.json");
-    let mut s = Vec::new();
+    let mut s = String::new();
     let mut file = File::open(&path).unwrap();
-    file.read_to_end(&mut s).unwrap();
+    file.read_to_string(&mut s).unwrap();
 
-    let value: Value = serde_json::de::from_slice(&s).unwrap();
+    let value: Value = serde_json::from_str(&s).unwrap();
 
     let coordinates = value.find("coordinates").unwrap().as_array().unwrap();
 
