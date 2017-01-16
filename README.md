@@ -106,8 +106,8 @@ Some benchmarks of different languages
 | --------------- | ------- | ----------- |
 | D Gdc Fast      | 0.34    | 226.7       |
 | C++ Rapid SAX   | 0.72    | 1.0         |
-| Rust Pull       | 0.78    | 207.9       |
-| Rust Struct     | 0.79    | 232.5       |
+| Rust Pull       | 0.76    | 207.9       |
+| Rust Struct     | 0.77    | 234.5       |
 | C++ Gason       | 0.83    | 582.2       |
 | C++ Rapid       | 0.94    | 243.6       |
 | Java            | 1.47    | 621.2       |
