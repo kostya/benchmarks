@@ -33,6 +33,7 @@ Some benchmarks of different languages
 | Ruby Jruby      | 129.75  | 267.6       |
 | Ruby Jruby9k    | 134.18  | 286.8       |
 | Ruby            | 181.44  | 7.2         |
+| Elixir          | 211.20  | 31.9        |
 | Python          | 314.79  | 4.9         |
 | Python3         | 412.13  | 5.5         |
 
@@ -250,3 +251,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Kotlin version 1.0.3 (JRE 1.8.0_45-b14)
 * PHP 7.0.9-1+deb.sury.org~trusty+1 (cli) ( NTS )
 * .Net Core 1.0.0-preview2-003121
+* Elixir 1.2.0-rc.0 (a2860b3) Erlang/OTP 18 [erts-7.2] [source] [64-bit] [smp:4:4] [async-threads:10] [kernel-poll:false]
