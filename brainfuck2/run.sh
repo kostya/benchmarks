@@ -14,6 +14,8 @@ echo C# Mono
 ../xtime.rb mono -O=all --gc=sgen bf.exe bench.b
 echo C# .Net Core
 ../xtime.rb dotnet bin/Release/netcoreapp1.0/brainfuck2.dll bench.b
+echo Elixir
+../xtime.rb elixir bf.exs bench.b
 echo Javascript V8
 ../xtime.rb d8 bf.d8.js
 echo Javascript Node
