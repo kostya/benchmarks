@@ -44,3 +44,7 @@ echo Python
 ../xtime.rb python bf.py bench.b
 echo Python3
 ../xtime.rb python3 bf3.py bench.b
+echo Tcl (FP)
+../xtime.rb tclsh bf.tcl bench.b
+echo Tcl (OO)
+../xtime.rb tclsh bf_oo.tcl bench.b
