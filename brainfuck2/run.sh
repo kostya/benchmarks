@@ -48,3 +48,7 @@ echo Lua 5.1
 ../xtime.rb lua5.1 bf.lua bench.b
 echo LuaJIT
 ../xtime.rb luajit bf.lua bench.b
+echo Tcl (FP)
+../xtime.rb tclsh bf.tcl bench.b
+echo Tcl (OO)
+../xtime.rb tclsh bf_oo.tcl bench.b
