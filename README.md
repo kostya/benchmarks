@@ -26,6 +26,7 @@ Some benchmarks of different languages
 | Javascript V8   | 6.53    | 7.9         |
 | Javascript Node | 7.38    | 16.9        |
 | C# .Net Core    | 16.03   | 16.9        |
+| LuaJIT          | 16.73   | 1.1         |
 | C# Mono         | 19.86   | 14.6        |
 | Python PyPy     | 22.14   | 75.9        |
 | Ruby Topaz      | 59.53   | 36.5        |
@@ -34,6 +35,7 @@ Some benchmarks of different languages
 | Ruby Jruby9k    | 134.18  | 286.8       |
 | Ruby            | 181.44  | 7.2         |
 | Elixir          | 211.20  | 31.9        |
+| Lua 5.1         | 220.16  | 1.0         |
 | Python          | 314.79  | 4.9         |
 | Python3         | 412.13  | 5.5         |
 
@@ -59,6 +61,7 @@ Some benchmarks of different languages
 | Go              | 102.85  | 2.2         |
 | Python PyPy     | 133.73  | 76.0        |
 | C# .Net Core    | 142.30  | 17.8        |
+| LuaJIT          | 142.59  | 1.8         |
 | C# Mono         | 147.69  | 12.6        |
 | Ruby Topaz      | 305.79  | 38.8        |
 
@@ -252,3 +255,5 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * PHP 7.0.9-1+deb.sury.org~trusty+1 (cli) ( NTS )
 * .Net Core 1.0.0-preview2-003121
 * Elixir 1.2.0-rc.0 (a2860b3) Erlang/OTP 18 [erts-7.2] [source] [64-bit] [smp:4:4] [async-threads:10] [kernel-poll:false]
+* Lua 5.1.5  Copyright (C) 1994-2012 Lua.org, PUC-Rio
+* LuaJIT 2.0.2 -- Copyright (C) 2005-2013 Mike Pall. http://luajit.org/
