@@ -36,6 +36,8 @@ Some benchmarks of different languages
 | Elixir          | 211.20  | 31.9        |
 | Python          | 314.79  | 4.9         |
 | Python3         | 412.13  | 5.5         |
+| Tcl (FP)        | 457.33  | 2.5         |
+| Tcl (OO)        | 821.96  | 2.5         |
 
 ### mandel.b
 
