@@ -24,7 +24,7 @@ function Tape.inc(self, x)
 end
 
 function Tape.move(self, x)
-  local length = table.getn(self.data)
+  local length = #self.data
   self.pos = self.pos + x
   for i = length + 1, self.pos do
     self.data[i] = 0
