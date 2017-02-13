@@ -3,7 +3,7 @@ name = "base64_rs"
 version = "0.0.1"
 
 [dependencies]
-rustc-serialize = "0.3"
+base64 = "0.4"
 time = "0.1"
 
 [profile.release]

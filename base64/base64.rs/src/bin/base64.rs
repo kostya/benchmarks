@@ -1,7 +1,8 @@
-extern crate rustc_serialize;
-use rustc_serialize::base64::{ToBase64, FromBase64, STANDARD};
 extern crate time;
+extern crate base64;
+
 use time::precise_time_ns;
+use base64::{encode, decode};
 
 const STR_SIZE: usize = 10000000;
 const TRIES: usize = 100;
@@ -13,7 +14,7 @@ fn main() {
   let mut time_start = precise_time_ns();
   let mut sum = 0;
   for _ in 0..TRIES {
-    output = input.to_base64(STANDARD);
+    output = encode(&input);
     sum += output.len();
   }
   println!("encode: {}, {}", sum, ((precise_time_ns() - time_start) as f64) / 1e9);
@@ -21,7 +22,7 @@ fn main() {
   sum = 0;
   time_start = precise_time_ns();
   for _ in 0..TRIES {
-    sum += output.from_base64().unwrap().len();
+    sum += decode(&output).unwrap().len();
   }
   println!("decode: {}, {}", sum, ((precise_time_ns() - time_start) as f64) / 1e9);
 }

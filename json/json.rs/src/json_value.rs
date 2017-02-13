@@ -14,7 +14,7 @@ fn main() {
 
     let value: Value = serde_json::from_str(&s).unwrap();
 
-    let coordinates = value.find("coordinates").unwrap().as_array().unwrap();
+    let coordinates = value.get("coordinates").unwrap().as_array().unwrap();
 
     let len = coordinates.len() as f64;
     let mut x = 0_f64;
@@ -22,9 +22,9 @@ fn main() {
     let mut z = 0_f64;
 
     for coord in coordinates.iter() {
-        x += coord.find("x").unwrap().as_f64().unwrap();
-        y += coord.find("y").unwrap().as_f64().unwrap();
-        z += coord.find("z").unwrap().as_f64().unwrap();
+        x += coord.get("x").unwrap().as_f64().unwrap();
+        y += coord.get("y").unwrap().as_f64().unwrap();
+        z += coord.get("z").unwrap().as_f64().unwrap();
     }
 
     println!("{}", x / len);

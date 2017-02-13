@@ -1,15 +1,29 @@
 extern crate serde;
+#[macro_use]
+extern crate serde_derive;
 extern crate serde_json;
-extern crate json_rs;
 
-use json_rs::Skip;
 use std::fs::File;
 use std::io::Read;
 use std::path::Path;
 
+#[derive(Deserialize)]
+pub struct Coordinate {
+    x: f64,
+    y: f64,
+    z: f64,
+    #[serde(skip_deserializing)]
+    _name: (),
+    #[serde(skip_deserializing)]
+    _opts: (),
+}
 
-include!(concat!(env!("OUT_DIR"), "/serde_types_struct.rs"));
-
+#[derive(Deserialize)]
+pub struct TestStruct  {
+    coordinates: Vec<Coordinate>,
+    #[serde(skip_deserializing)]
+    _info: (),
+}
 
 fn main() {
     let path = Path::new("./1.json");
@@ -24,7 +38,7 @@ fn main() {
     let mut y = 0_f64;
     let mut z = 0_f64;
 
-    for coord in jobj.coordinates.iter() {
+    for coord in &jobj.coordinates {
         x += coord.x;
         y += coord.y;
         z += coord.z;

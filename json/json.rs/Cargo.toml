@@ -1,14 +1,11 @@
 [package]
 name = "json-rs"
 version = "0.0.1"
-build = "build.rs"
 
 [dependencies]
-serde = "0.8"
-serde_json = "0.8"
-
-[build-dependencies]
-serde_codegen = "0.8"
+serde = "0.9"
+serde_derive = "0.9"
+serde_json = "0.9"
 
 [profile.release]
 lto = true
