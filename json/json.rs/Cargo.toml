@@ -3,6 +3,7 @@ name = "json-rs"
 version = "0.0.1"
 
 [dependencies]
+memmap = "0.5"
 serde = "0.9"
 serde_derive = "0.9"
 serde_json = "0.9"

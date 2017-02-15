@@ -1,11 +1,11 @@
+extern crate memmap;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
 extern crate serde_json;
 
-use std::fs::File;
-use std::io::Read;
-use std::path::Path;
+use memmap::{Mmap, Protection};
+use std::str;
 
 #[derive(Deserialize)]
 pub struct Coordinate {
@@ -20,12 +20,12 @@ pub struct TestStruct  {
 }
 
 fn main() {
-    let path = Path::new("./1.json");
-    let mut s = String::new();
-    let mut file = File::open(&path).unwrap();
-    file.read_to_string(&mut s).unwrap();
+    let file = Mmap::open_path("1.json", Protection::Read).unwrap();
+    // Unsafe because we must guarantee that the file is not concurrently modified.
+    let bytes = unsafe { file.as_slice() };
+    let s = str::from_utf8(bytes).unwrap();
 
-    let jobj: TestStruct = serde_json::from_str(&s).unwrap();
+    let jobj: TestStruct = serde_json::from_str(s).unwrap();
 
     let len = jobj.coordinates.len() as f64;
     let mut x = 0_f64;
