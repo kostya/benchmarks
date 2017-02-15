@@ -76,11 +76,11 @@ Some benchmarks of different languages
 | C aklomp SSSE3  | 0.93    | 32.3        |
 | C               | 1.85    | 32.2        |
 | Crystal         | 2.30    | 113.8       |
+| Rust            | 2.38    | 40.8        |
 | D Gdc           | 2.52    | 33.3        |
 | Ruby            | 2.73    | 125.3       |
 | D Ldc           | 3.14    | 53.1        |
 | Perl XS         | 3.63    | 47.9        |
-| Rust            | 3.64    | 42.9        |
 | Ruby Rbx        | 4.29    | 30.7        |
 | Nim Gcc         | 4.62    | 52.7        |
 | Nim Clang       | 4.70    | 52.7        |
@@ -111,14 +111,14 @@ Some benchmarks of different languages
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
 | D Gdc Fast      | 0.34    | 226.7       |
+| Rust Pull       | 0.58    | 207.9       |
+| Rust Struct     | 0.60    | 232.5       |
 | C++ Rapid SAX   | 0.72    | 1.0         |
-| Rust Pull       | 0.76    | 207.9       |
-| Rust Struct     | 0.77    | 234.5       |
 | C++ Gason       | 0.83    | 582.2       |
 | C++ Rapid       | 0.94    | 243.6       |
 | Java            | 1.47    | 621.2       |
+| Rust Value      | 1.76    | 1675.0      |
 | Crystal Schema  | 2.05    | 337.2       |
-| Rust Value      | 2.51    | 1967.0      |
 | Perl XS         | 2.68    | 888.4       |
 | Crystal         | 2.99    | 1118.2      |
 | Javascript Node | 3.21    | 863.7       |
@@ -170,8 +170,8 @@ Some benchmarks of different languages
 | Scala           | 3.62    | 136.2       |
 | Kotlin          | 3.62    | 132.2       |
 | C               | 3.64    | 69.2        |
+| Rust            | 3.70    | 76.8        |
 | Nim Clang       | 3.73    | 142.3       |
-| Rust            | 3.74    | 76.9        |
 | Nim Gcc         | 3.82    | 146.0       |
 | Go              | 3.83    | 73.5        |
 | Crystal         | 3.84    | 72.2        |
@@ -230,7 +230,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * gdc (crosstool-NG crosstool-ng-1.20.0-232-gc746732 - 20150830-2.066.1-dadb5a3784) 5.2.0
 * LDC - the LLVM D compiler (0.15.2-beta1):
 * V8 version 3.29.62 (candidate)
-* rustc 1.11.0 (9b21dcd6a 2016-08-15)
+* rustc 1.15.1 (021bd294c 2017-02-08)
 * Scala version 2.11.6 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_45)
 * Nodejs v7.0.0
 * PyPy 5.6.0 with GCC 4.8.2
