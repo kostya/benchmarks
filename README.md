@@ -33,7 +33,7 @@ Some benchmarks of different languages
 | Ruby Rbx        | 120.38  | 32.3        |
 | Ruby Jruby      | 129.75  | 267.6       |
 | Ruby Jruby9k    | 134.18  | 286.8       |
-| Ruby            | 181.44  | 7.2         |
+| Ruby            | 143.80  | 6.6         |
 | Elixir          | 211.20  | 31.9        |
 | Lua 5.1         | 220.16  | 1.0         |
 | Python          | 314.79  | 4.9         |
@@ -78,7 +78,7 @@ Some benchmarks of different languages
 | Crystal         | 2.30    | 113.8       |
 | Rust            | 2.38    | 40.8        |
 | D Gdc           | 2.52    | 33.3        |
-| Ruby            | 2.73    | 125.3       |
+| Ruby            | 2.77    | 130.4       |
 | D Ldc           | 3.14    | 53.1        |
 | Perl XS         | 3.63    | 47.9        |
 | Ruby Rbx        | 4.29    | 30.7        |
@@ -135,13 +135,13 @@ Some benchmarks of different languages
 | Python3         | 5.82    | 1037.8      |
 | C# .Net Core    | 6.31    | 834.9       |
 | Php             | 6.37    | 1502.0      |
-| Ruby YAJL       | 8.23    | 1085.5      |
 | Haskell         | 8.31    | 70.5        |
+| Ruby            | 8.67    | 1074.6      |
+| Ruby Yajl       | 9.52    | 1054.6      |
 | Python          | 9.85    | 1409.1      |
 | C# Mono         | 10.57   | 812.1       |
 | Julia           | 11.89   | 2622.4      |
 | D               | 12.42   | 1417.1      |
-| Ruby            | 12.67   | 2013.9      |
 | JQ              | 14.92   | 1714.5      |
 | Scala           | 15.47   | 1415.8      |
 | C++ Boost       | 16.44   | 2915.2      |
@@ -184,7 +184,7 @@ Some benchmarks of different languages
 | C# Mono         | 15.17   | 83.6        |
 | Julia           | 20.98   | 187.4       |
 | Ruby Topaz      | 81.41   | 206.2       |
-| Ruby            | 338.40  | 82.8        |
+| Ruby            | 326.44  | 76.9        |
 | Python          | 447.39  | 74.0        |
 | Ruby JRuby      | 416.12  | 582.4       |
 | Ruby JRuby9k    | 467.59  | 608.3       |
@@ -235,7 +235,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Nodejs v7.0.0
 * PyPy 5.6.0 with GCC 4.8.2
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]
-* ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-linux]
+* ruby 2.4.0p0 (2016-12-24 revision 57164) [x86_64-linux]
 * Python 2.7.6
 * Python 3.5.2
 * rubinius 2.2.10 (2.1.0 bf61ae2e 2014-06-27 JI) [x86_64-linux-gnu]
