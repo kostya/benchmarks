@@ -29,6 +29,7 @@ Some benchmarks of different languages
 | LuaJIT          | 16.73   | 1.1         |
 | C# Mono         | 19.86   | 14.6        |
 | Python PyPy     | 22.14   | 75.9        |
+| Ruby truffle    | 33.79   | 1089.8      |
 | Ruby Topaz      | 59.53   | 36.5        |
 | Ruby Rbx        | 120.38  | 32.3        |
 | Ruby Jruby      | 129.75  | 267.6       |
@@ -62,6 +63,7 @@ Some benchmarks of different languages
 | Javascript Node | 88.34   | 18.6        |
 | Go              | 102.85  | 2.2         |
 | Python PyPy     | 133.73  | 76.0        |
+| Ruby truffle    | 138.00  | 1014.1      |
 | C# .Net Core    | 142.30  | 17.8        |
 | LuaJIT          | 142.59  | 1.8         |
 | C# Mono         | 147.69  | 12.6        |
@@ -101,6 +103,7 @@ Some benchmarks of different languages
 | Scala           | 10.69   | 292.5       |
 | Ruby JRuby9K    | 12.16   | 530.6       |
 | Ruby JRuby      | 12.65   | 514.9       |
+| Ruby truffle    | 17.17   | 908.3       |
 | Perl            | 33.30   | 99.7        |
 | Go Gcc          | 39.56   | 185.5       |
 
@@ -152,6 +155,7 @@ Some benchmarks of different languages
 | D Ldc           | 27.23   | 919.6       |
 | Perl            | 46.02   | 1635.4      |
 | Ruby Rbx        | 67.13   | 4681.0      |
+| Ruby truffle    |   -     | 1251.2      |
 
 # Matmul
 
@@ -183,6 +187,7 @@ Some benchmarks of different languages
 | C# .Net Core    | 10.87   | 85.7        |
 | C# Mono         | 15.17   | 83.6        |
 | Julia           | 20.98   | 187.4       |
+| Ruby truffle    | 35.43   | 934.2       |
 | Ruby Topaz      | 81.41   | 206.2       |
 | Ruby            | 326.44  | 76.9        |
 | Python          | 447.39  | 74.0        |
@@ -259,3 +264,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Elixir 1.2.0-rc.0 (a2860b3) Erlang/OTP 18 [erts-7.2] [source] [64-bit] [smp:4:4] [async-threads:10] [kernel-poll:false]
 * Lua 5.1.5  Copyright (C) 1994-2012 Lua.org, PUC-Rio
 * LuaJIT 2.0.2 -- Copyright (C) 2005-2013 Mike Pall. http://luajit.org/
+* truffleruby SNAPSHOT, like ruby 2.3.1 <Java HotSpot(TM) 64-Bit Server VM 1.8.0_111-b14 with Graal> [linux-x86_64]
