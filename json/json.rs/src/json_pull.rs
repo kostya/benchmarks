@@ -1,30 +1,27 @@
 extern crate serde;
+#[macro_use]
+extern crate serde_derive;
 extern crate serde_json;
-extern crate json_rs;
 
-use json_rs::Skip;
-use serde::{Deserialize, Deserializer, de};
+use serde::{Deserializer, de};
 use std::fs::File;
 use std::io::Read;
 use std::path::Path;
+use std::marker::PhantomData;
+use std::fmt;
 
-
-include!(concat!(env!("OUT_DIR"), "/serde_types_pull.rs"));
-
-fn main() {
-  let path = Path::new("./1.json");
-  let mut s = String::new();
-  let mut file = File::open(&path).unwrap();
-  file.read_to_string(&mut s).unwrap();
-
-  let state: State = serde_json::from_str(&s).unwrap();
-
-  let len = state.len as f64;
-  println!("{}", state.x / len);
-  println!("{}", state.y / len);
-  println!("{}", state.z / len);
+#[derive(Deserialize)]
+pub struct Coordinate {
+    x: f64,
+    y: f64,
+    z: f64,
+    #[serde(skip_deserializing)]
+    _name: (),
+    #[serde(skip_deserializing)]
+    _opts: (),
 }
 
+#[derive(Deserialize)]
 struct State {
     x: f64,
     y: f64,
@@ -32,90 +29,56 @@ struct State {
     len: usize,
 }
 
-impl Deserialize for State {
-    fn deserialize<D>(deserializer: &mut D) -> Result<Self, D::Error>
-        where D: Deserializer
-    {
-        deserializer.deserialize(StateVisitor)
-    }
+#[derive(Deserialize)]
+pub struct TestStruct  {
+    #[serde(deserialize_with = "deserialize_add", rename(deserialize = "coordinates"))]
+    state: State,
+    #[serde(skip_deserializing)]
+    _info: (),
 }
 
-struct StateVisitor;
+fn deserialize_add<D>(deserializer: D) -> Result<State, D::Error>
+    where D: Deserializer
+{
+    struct StateVisitor<State>(PhantomData<State>);
 
-impl de::Visitor for StateVisitor {
-    type Value = State;
-
-    fn visit_map<V>(&mut self,
-                    mut visitor: V) -> Result<State, V::Error>
-        where V: de::MapVisitor
+    impl de::Visitor for StateVisitor<State>
     {
-        let mut state = None;
+        type Value = State;
+        
+        fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+            write!(formatter, "a state")
+        }
 
-        while let Some(key) = try!(visitor.visit_key()) {
-            match key {
-                TestStructField::Coordinates => {
-                    state = Some(try!(visitor.visit_value()));
-                }
-                TestStructField::Info => {
-                    let _: Skip = try!(visitor.visit_value());
-                }
+        fn visit_seq<V>(self, mut visitor: V) -> Result<State, V::Error>
+            where V: de::SeqVisitor
+        {
+            let mut ac = State {x: 0.0, y: 0.0, z: 0.0, len: 1};
+            while let Some(v) = visitor.visit::<Coordinate>()? {
+                ac.x += v.x;
+                ac.y += v.y;
+                ac.z += v.z;
+                ac.len += 1;
             }
-        }
 
-        try!(visitor.end());
-
-        Ok(state.unwrap())
-    }
-
-    fn visit_seq<V>(&mut self,
-                    mut visitor: V) -> Result<State, V::Error>
-        where V: de::SeqVisitor
-    {
-        let mut state = State {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-            len: 0,
-        };
-
-        while let Some(coordinate) = try!(visitor.visit::<Coordinate>()) {
-            state.x += coordinate.x;
-            state.y += coordinate.y;
-            state.z += coordinate.z;
-            state.len += 1;
-        }
-
-        try!(visitor.end());
-
-        Ok(state)
-    }
-}
-
-enum TestStructField {
-    Coordinates,
-    Info,
-}
-
-impl Deserialize for TestStructField {
-    fn deserialize<D>(deserializer: &mut D) -> Result<Self, D::Error>
-        where D: Deserializer
-    {
-        deserializer.deserialize(TestStructFieldVisitor)
-    }
-}
-
-struct TestStructFieldVisitor;
-
-impl de::Visitor for TestStructFieldVisitor {
-    type Value = TestStructField;
-
-    fn visit_str<E>(&mut self, v: &str) -> Result<Self::Value, E>
-        where E: de::Error,
-    {
-        match v {
-            "coordinates" => Ok(TestStructField::Coordinates),
-            "info" => Ok(TestStructField::Info),
-            _ => Err(E::unknown_field(v)),
+            Ok(ac)
         }
     }
+
+    let visitor = StateVisitor(PhantomData);
+    deserializer.deserialize_seq(visitor)
+}
+
+fn main() {
+    let path = Path::new("./1.json");
+    let mut s = String::new();
+    let mut file = File::open(&path).unwrap();
+    file.read_to_string(&mut s).unwrap();
+
+    let test: TestStruct = serde_json::from_str(&s).unwrap();
+
+    let len = test.state.len as f64;
+    println!("{}", test.state.x / len);
+    println!("{}", test.state.y / len);
+    println!("{}", test.state.z / len);
 }

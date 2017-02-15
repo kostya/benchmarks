@@ -1,7 +1,7 @@
 use std::env;
 
 fn newmat(x: usize, y: usize) -> Vec<Vec<f64>> {
-  let inner = vec![0 as f64; y];
+  let inner = vec![0_f64; y];
   vec![inner; x]
 }
 
@@ -49,12 +49,12 @@ fn main() {
   let mut n = 100;
   if env::args().len() > 1 { 
     let arg1 = env::args().nth(1).unwrap();
-    n = ::std::str::FromStr::from_str(&arg1).unwrap(); 
+    n = arg1.parse().unwrap(); 
   }
   n = n / 2 * 2;
 
   let a = matgen(n);
   let b = matgen(n);
   let c = matmul(a, b);
-  print!("{}\n", c[n / 2][n / 2]);
+  println!("{}", c[n / 2][n / 2]);
 }
