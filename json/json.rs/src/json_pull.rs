@@ -7,7 +7,6 @@ use serde::{Deserializer, de};
 use std::fs::File;
 use std::io::Read;
 use std::path::Path;
-use std::marker::PhantomData;
 use std::fmt;
 
 #[derive(Deserialize)]
@@ -15,13 +14,8 @@ pub struct Coordinate {
     x: f64,
     y: f64,
     z: f64,
-    #[serde(skip_deserializing)]
-    _name: (),
-    #[serde(skip_deserializing)]
-    _opts: (),
 }
 
-#[derive(Deserialize)]
 struct State {
     x: f64,
     y: f64,
@@ -33,21 +27,18 @@ struct State {
 pub struct TestStruct  {
     #[serde(deserialize_with = "deserialize_add", rename(deserialize = "coordinates"))]
     state: State,
-    #[serde(skip_deserializing)]
-    _info: (),
 }
 
 fn deserialize_add<D>(deserializer: D) -> Result<State, D::Error>
     where D: Deserializer
 {
-    struct StateVisitor<State>(PhantomData<State>);
+    struct StateVisitor;
 
-    impl de::Visitor for StateVisitor<State>
-    {
+    impl de::Visitor for StateVisitor {
         type Value = State;
         
         fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-            write!(formatter, "a state")
+            write!(formatter, "an array of coordinates")
         }
 
         fn visit_seq<V>(self, mut visitor: V) -> Result<State, V::Error>
@@ -65,8 +56,7 @@ fn deserialize_add<D>(deserializer: D) -> Result<State, D::Error>
         }
     }
 
-    let visitor = StateVisitor(PhantomData);
-    deserializer.deserialize_seq(visitor)
+    deserializer.deserialize_seq(StateVisitor)
 }
 
 fn main() {

@@ -12,17 +12,11 @@ pub struct Coordinate {
     x: f64,
     y: f64,
     z: f64,
-    #[serde(skip_deserializing)]
-    _name: (),
-    #[serde(skip_deserializing)]
-    _opts: (),
 }
 
 #[derive(Deserialize)]
 pub struct TestStruct  {
     coordinates: Vec<Coordinate>,
-    #[serde(skip_deserializing)]
-    _info: (),
 }
 
 fn main() {
