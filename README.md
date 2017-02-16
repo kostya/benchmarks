@@ -114,13 +114,13 @@ Some benchmarks of different languages
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
 | D Gdc Fast      | 0.34    | 226.7       |
-| Rust Pull       | 0.58    | 207.9       |
-| Rust Struct     | 0.60    | 232.5       |
+| Rust Pull       | 0.52    | 207.7       |
+| Rust Struct     | 0.54    | 230.3       |
 | C++ Rapid SAX   | 0.72    | 1.0         |
 | C++ Gason       | 0.83    | 582.2       |
 | C++ Rapid       | 0.94    | 243.6       |
 | Java            | 1.47    | 621.2       |
-| Rust Value      | 1.76    | 1675.0      |
+| Rust Value      | 1.78    | 1673.9      |
 | Crystal Schema  | 2.05    | 337.2       |
 | Perl XS         | 2.68    | 888.4       |
 | Crystal         | 2.99    | 1118.2      |
