@@ -22,7 +22,7 @@ Some benchmarks of different languages
 | Java            | 4.03    | 513.8       |
 | Go Gcc          | 4.20    | 10.0        |
 | D Dmd           | 5.23    | 1.0         |
-| Go              | 5.36    | 0.9         |
+| Go              | 5.54    | 0.9         |
 | Javascript V8   | 6.53    | 7.9         |
 | Javascript Node | 7.38    | 16.9        |
 | C# .Net Core    | 16.03   | 16.9        |
@@ -61,7 +61,7 @@ Some benchmarks of different languages
 | Java            | 58.86   | 423.9       |
 | D Dmd           | 62.69   | 1.7         |
 | Javascript Node | 88.34   | 18.6        |
-| Go              | 102.85  | 2.2         |
+| Go              | 105.04  | 2.2         |
 | Python PyPy     | 133.73  | 76.0        |
 | Ruby truffle    | 138.00  | 1014.1      |
 | C# .Net Core    | 142.30  | 17.8        |
@@ -94,7 +94,7 @@ Some benchmarks of different languages
 | D               | 7.18    | 55.3        |
 | Tcl             | 7.20    | 66.0        |
 | Python          | 7.62    | 52.6        |
-| Go              | 8.00    | 70.0        | 
+| Go              | 8.40    | 95.7        | 
 | Python PyPy     | 8.05    | 153.9       |
 | Python3         | 8.13    | 54.5        |
 | C# Mono         | 9.01    | 71.7        |
@@ -131,7 +131,7 @@ Some benchmarks of different languages
 | Nim Gcc         | 4.46    | 1090.1      |
 | Python ujson    | 5.07    | 1352.9      |
 | Q               | 5.18    | 684.0       |
-| Go              | 5.21    | 479.3       |
+| Go              | 5.30    | 479.3       |
 | Python PyPy     | 5.35    | 1534.5      |
 | C++ LibJson     | 5.49    | 2796.3      |
 | Clojure         | 5.81    | 1148.5      |
@@ -177,7 +177,7 @@ Some benchmarks of different languages
 | Rust            | 3.70    | 76.8        |
 | Nim Clang       | 3.73    | 142.3       |
 | Nim Gcc         | 3.82    | 146.0       |
-| Go              | 3.83    | 73.5        |
+| Go              | 3.84    | 58.1        |
 | Crystal         | 3.84    | 72.2        |
 | Go Gcc          | 3.90    | 84.5        |
 | Swift           | 4.48    | 110.8       |
@@ -209,10 +209,10 @@ Some benchmarks of different languages
 | C++             | 17.72   | 174.5       |
 | D Ldc           | 25.15   | 214.9       |
 | D               | 28.90   | 418.2       |
-| Go              | 31.26   | 349.9       |
 | D Gdc           | 31.79   | 197.6       |
 | Scala           | 32.18   | 363.0       |
 | Go Gcc          | 32.94   | 365.7       |
+| Go              | 33.25   | 386.4       |
 | C# Mono         | 40.54   | 270.0       |
 | Python PyPy     | 50.21   | 797.0       |
 | C# .Net Core    | 61.38   | 388.8       |
@@ -229,7 +229,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
 * Nim Compiler Version 0.14.0 (2016-06-06) [Linux: amd64]
 * `Crystal 0.20.0 [b0cc6f7] (2016-11-22)`
-* go version go1.7 linux/amd64
+* go version go1.8 linux/amd64
 * gccgo (Ubuntu 4.9.1-0ubuntu1) 4.9.1
 * DMD64 D Compiler v2.068.0
 * gdc (crosstool-NG crosstool-ng-1.20.0-232-gc746732 - 20150830-2.066.1-dadb5a3784) 5.2.0
