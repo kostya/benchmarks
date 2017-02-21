@@ -13,11 +13,11 @@ Some benchmarks of different languages
 | Kotlin          | 1.78    | 28.4        |
 | C++ Gcc         | 1.94    | 1.0         |
 | D Ldc           | 2.02    | 0.9         |
+| Nim Gcc         | 2.16    | 0.6         |
 | Rust            | 2.42    | 4.8         |
-| Nim Gcc         | 2.56    | 0.7         |
 | Crystal         | 2.91    | 1.2         |
 | D Gdc           | 3.05    | 1.4         |
-| Nim Clang       | 3.09    | 0.8         |
+| Nim Clang       | 3.14    | 0.8         |
 | Scala           | 3.43    | 120.12      |
 | Java            | 4.03    | 513.8       |
 | Go Gcc          | 4.20    | 10.0        |
@@ -53,9 +53,9 @@ Some benchmarks of different languages
 | Rust            | 24.13   | 4.8         |
 | D Ldc           | 24.90   | 1.4         |
 | D Gdc           | 29.49   | 2.4         |
-| Nim Gcc         | 31.04   | 2.7         |
-| Nim Clang       | 37.39   | 2.9         |
+| Nim Gcc         | 30.58   | 2.7         |
 | Go Gcc          | 37.59   | 11.4        |
+| Nim Clang       | 40.01   | 2.9         |
 | Kotlin          | 40.79   | 34.9        |
 | Scala           | 58.51   | 120.12      |
 | Java            | 58.86   | 423.9       |
@@ -83,11 +83,11 @@ Some benchmarks of different languages
 | Ruby            | 2.77    | 130.4       |
 | D Ldc           | 3.14    | 53.1        |
 | Perl XS         | 3.63    | 47.9        |
+| Nim Clang       | 3.98    | 52.4        |
 | Ruby Rbx        | 4.29    | 30.7        |
-| Nim Gcc         | 4.62    | 52.7        |
-| Nim Clang       | 4.70    | 52.7        |
 | Julia           | 4.41    | 190.0       |
 | Javascript Node | 4.76    | 551.5       |
+| Nim Gcc         | 4.96    | 52.4        |
 | C++ Openssl     | 5.45    | 65.2        |
 | Php             | 6.34    | 53.4        |
 | C# .Net Core    | 6.52    | 121.1       |
@@ -126,9 +126,9 @@ Some benchmarks of different languages
 | Crystal         | 2.99    | 1118.2      |
 | Javascript Node | 3.21    | 863.7       |
 | Crystal Pull    | 3.48    | 1.2         |
-| Nim Clang       | 4.12    | 1089.6      |
 | Python3 ujson   | 4.15    | 1303.2      |
-| Nim Gcc         | 4.46    | 1090.1      |
+| Nim Clang       | 4.95    | 1338.1      |
+| Nim Gcc         | 5.02    | 1337.3      |
 | Python ujson    | 5.07    | 1352.9      |
 | Q               | 5.18    | 684.0       |
 | Go              | 5.30    | 479.3       |
@@ -175,12 +175,12 @@ Some benchmarks of different languages
 | Kotlin          | 3.62    | 132.2       |
 | C               | 3.64    | 69.2        |
 | Rust            | 3.70    | 76.8        |
-| Nim Clang       | 3.73    | 142.3       |
-| Nim Gcc         | 3.82    | 146.0       |
+| Nim Gcc         | 3.72    | 187.9       |
 | Go              | 3.84    | 58.1        |
 | Crystal         | 3.84    | 72.2        |
 | Go Gcc          | 3.90    | 84.5        |
 | Swift           | 4.48    | 110.8       |
+| Nim Clang       | 4.60    | 199.2       |
 | Javascript Node | 5.95    | 88.3        |
 | Javascript V8   | 6.87    | 81.5        |
 | Python PyPy     | 7.98    | 121.7       |
@@ -204,8 +204,8 @@ Some benchmarks of different languages
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
 | Crystal         | 15.80   | 416.9       |
-| Nim Gcc         | 16.59   | 484.3       |
-| Nim Clang       | 16.91   | 477.9       |
+| Nim Clang       | 17.02   | 480.9       |
+| Nim Gcc         | 17.23   | 485.0       |
 | C++             | 17.72   | 174.5       |
 | D Ldc           | 25.15   | 214.9       |
 | D               | 28.90   | 418.2       |
@@ -227,7 +227,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 # Versions:
 
 * gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
-* Nim Compiler Version 0.14.0 (2016-06-06) [Linux: amd64]
+* Nim Compiler Version 0.16.0 (2017-01-08) [Linux: amd64]
 * `Crystal 0.20.0 [b0cc6f7] (2016-11-22)`
 * go version go1.8 linux/amd64
 * gccgo (Ubuntu 4.9.1-0ubuntu1) 4.9.1
@@ -248,7 +248,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * jruby 9.0.0.0.pre2 (2.2.2) 2015-04-28 2755ae0 Java HotSpot(TM) 64-Bit Server VM 25.45-b02 on 1.8.0_45-b14 +jit [linux-amd64]
 * java version "1.8.0_45" Java HotSpot(TM) 64-Bit Server VM (build 25.45-b02, mixed mode)
 * julia version 0.4.3
-* clang version 3.5-1ubuntu1 (trunk) (based on LLVM 3.5)
+* clang version 3.9.0 (tags/RELEASE_390/final)
 * Mono JIT compiler version 4.0.1 (tarball Tue May 12 15:39:23 UTC 2015)
 * rock 0.9.10-head codename sapphire, built on Wed Jul  1 20:09:58 2015
 * Felix version 15.04.03
