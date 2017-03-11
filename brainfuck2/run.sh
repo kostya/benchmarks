@@ -18,6 +18,10 @@ echo Elixir
 ../xtime.rb elixir bf.exs bench.b
 echo F# Mono
 ../xtime.rb mono -O=all --gc=sgen bin_fs.exe bench.b
+echo Haskell
+../xtime.rb ./bin_hs bench.b
+echo "Haskell (MArray)"
+../xtime.rb ./bin_hs_marray bench.b
 echo Javascript V8
 ../xtime.rb d8 bf.d8.js
 echo Javascript Node

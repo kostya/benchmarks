@@ -16,6 +16,8 @@ echo Crystal
 ../xtime.rb ./bin_cr mandel.b > /dev/null
 echo F# Mono
 ../xtime.rb mono -O=all --gc=sgen bin_fs.exe mandel.b > /dev/null
+echo "Haskell (MArray)"
+../xtime.rb ./bin_hs_marray mandel.b > /dev/null
 echo Java
 ../xtime.rb java bf mandel.b > /dev/null
 echo Scala
