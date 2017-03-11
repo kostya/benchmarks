@@ -14,6 +14,8 @@ echo Nim Clang
 ../xtime.rb ./bin_nim_clang mandel.b > /dev/null
 echo Crystal
 ../xtime.rb ./bin_cr mandel.b > /dev/null
+echo F# Mono
+../xtime.rb mono -O=all --gc=sgen bin_fs.exe mandel.b > /dev/null
 echo Java
 ../xtime.rb java bf mandel.b > /dev/null
 echo Scala

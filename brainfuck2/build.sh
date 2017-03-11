@@ -14,3 +14,4 @@ ldc2 -ofbin_d_ldc -O5 -release -inline bf.d
 nim c -o:bin_nim_clang -d:release --cc:clang --verbosity:0 bf.nim
 nim c -o:bin_nim_gcc -d:release --cc:gcc --verbosity:0 bf.nim
 ocamlopt bf.ml -o bin_ocaml
+fsharpc bf.fs -o bin_fs.exe
