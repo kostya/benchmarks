@@ -20,6 +20,8 @@ echo Scala
 ../xtime.rb scala BrainFuck mandel.b > /dev/null
 echo Kotlin
 ../xtime.rb java -jar bf2-kt.jar mandel.b > /dev/null
+echo OCaml
+../xtime.rb ./bin_ocaml mandel.b > /dev/null
 echo Go
 ../xtime.rb ./bin_go mandel.b > /dev/null
 echo Go Gcc
