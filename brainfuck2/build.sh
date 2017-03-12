@@ -17,3 +17,4 @@ stack ghc -- -O2 bf.hs -o bin_hs
 stack ghc -- -O2 bf-marray.hs -o bin_hs_marray
 ocamlopt bf.ml -o bin_ocaml
 fsharpc bf.fs -o bin_fs.exe
+mlton -output bin_sml bf.sml

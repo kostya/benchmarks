@@ -52,6 +52,8 @@ echo Python
 ../xtime.rb python bf.py bench.b
 echo Python3
 ../xtime.rb python3 bf3.py bench.b
+echo Standard ML MLton
+../xtime.rb ./bin_sml bench.b
 echo Lua 5.1
 ../xtime.rb lua5.1 bf.lua bench.b
 echo LuaJIT

@@ -40,5 +40,7 @@ echo Python PyPy
 ../xtime.rb pypy bf.py mandel.b > /dev/null
 echo Ruby Topaz
 ../xtime.rb topaz bf.rb mandel.b > /dev/null
+echo Standard ML MLton
+../xtime.rb ./bin_sml mandel.b > /dev/null
 echo LuaJIT
 ../xtime.rb luajit bf.lua mandel.b > /dev/null
