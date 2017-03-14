@@ -16,6 +16,12 @@ echo C# .Net Core
 ../xtime.rb dotnet bin/Release/netcoreapp1.0/brainfuck2.dll bench.b
 echo Elixir
 ../xtime.rb elixir bf.exs bench.b
+echo F# Mono
+../xtime.rb mono -O=all --gc=sgen bin_fs.exe bench.b
+echo Haskell
+../xtime.rb ./bin_hs bench.b
+echo "Haskell (MArray)"
+../xtime.rb ./bin_hs_marray bench.b
 echo Javascript V8
 ../xtime.rb d8 bf.d8.js
 echo Javascript Node
@@ -34,6 +40,8 @@ echo Nim Gcc
 ../xtime.rb ./bin_nim_gcc bench.b
 echo Nim Clang
 ../xtime.rb ./bin_nim_clang bench.b
+echo OCaml
+../xtime.rb ./bin_ocaml bench.b
 echo Ruby Topaz
 ../xtime.rb topaz bf.rb bench.b
 echo Python PyPy
@@ -44,6 +52,8 @@ echo Python
 ../xtime.rb python bf.py bench.b
 echo Python3
 ../xtime.rb python3 bf3.py bench.b
+echo Standard ML MLton
+../xtime.rb ./bin_sml bench.b
 echo Lua 5.1
 ../xtime.rb lua5.1 bf.lua bench.b
 echo LuaJIT

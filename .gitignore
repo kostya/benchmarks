@@ -26,3 +26,6 @@ obj
 bin
 !project.json
 *.swo
+*.hi
+*.cmi
+*.cmx
