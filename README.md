@@ -17,18 +17,23 @@ Some benchmarks of different languages
 | Rust            | 2.42    | 4.8         |
 | Crystal         | 2.91    | 1.2         |
 | D Gdc           | 3.05    | 1.4         |
+| ML MLton        | 3.14    | 0.7         |
 | Nim Clang       | 3.14    | 0.8         |
 | Scala           | 3.43    | 120.12      |
 | Java            | 4.03    | 513.8       |
+| OCaml           | 4.04    | 2.7         |
 | Go Gcc          | 4.20    | 10.0        |
 | D Dmd           | 5.23    | 1.0         |
 | Go              | 5.54    | 0.9         |
 | Javascript V8   | 6.53    | 7.9         |
 | Javascript Node | 7.38    | 16.9        |
+| F# Mono         | 7.52    | 21.1        |
+| Haskell (MArray)| 7.95    | 2.2         |
 | C# .Net Core    | 16.03   | 16.9        |
 | LuaJIT          | 16.73   | 1.1         |
 | C# Mono         | 19.86   | 14.6        |
 | Python PyPy     | 22.14   | 75.9        |
+| Haskell         | 25.34   | 2.2         |
 | Ruby truffle    | 33.79   | 1089.8      |
 | Ruby Topaz      | 59.53   | 36.5        |
 | Ruby Rbx        | 120.38  | 32.3        |
@@ -54,19 +59,23 @@ Some benchmarks of different languages
 | D Ldc           | 24.90   | 1.4         |
 | D Gdc           | 29.49   | 2.4         |
 | Nim Gcc         | 30.58   | 2.7         |
+| ML MLton        | 36.03   | 2.5         |
 | Go Gcc          | 37.59   | 11.4        |
 | Nim Clang       | 40.01   | 2.9         |
 | Kotlin          | 40.79   | 34.9        |
+| OCaml           | 52.18   | 5.3         |
 | Scala           | 58.51   | 120.12      |
 | Java            | 58.86   | 423.9       |
 | D Dmd           | 62.69   | 1.7         |
 | Javascript Node | 88.34   | 18.6        |
 | Go              | 105.04  | 2.2         |
+| Haskell (MArray)| 124.60  | 3.2         |
 | Python PyPy     | 133.73  | 76.0        |
 | Ruby truffle    | 138.00  | 1014.1      |
 | C# .Net Core    | 142.30  | 17.8        |
 | LuaJIT          | 142.59  | 1.8         |
 | C# Mono         | 147.69  | 12.6        |
+| F# Mono         | 166.38  | 29.1        |
 | Ruby Topaz      | 305.79  | 38.8        |
 
 # Base64
@@ -265,3 +274,6 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Lua 5.1.5  Copyright (C) 1994-2012 Lua.org, PUC-Rio
 * LuaJIT 2.0.2 -- Copyright (C) 2005-2013 Mike Pall. http://luajit.org/
 * truffleruby SNAPSHOT, like ruby 2.3.1 <Java HotSpot(TM) 64-Bit Server VM 1.8.0_111-b14 with Graal> [linux-x86_64]
+* MLton 20100608 (built Sun Oct 27 04:18:37 UTC 2013 on allspice)
+* F# Compiler for F# 3.0 (Open Source Edition)
+* OCaml 4.01.0
