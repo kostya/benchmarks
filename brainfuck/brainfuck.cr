@@ -1,3 +1,5 @@
+require "simple_hash"
+
 class Tape
   def initialize
     @tape = [0]
@@ -29,7 +31,7 @@ end
 class Program
   def initialize(text)
     @chars = [] of Char
-    @bracket_map = {} of Int32 => Int32
+    @bracket_map = SimpleHash(Int32, Int32).new
     leftstack = [] of Int32
     pc = 0
     text.each_char do |char|
