@@ -11,14 +11,14 @@ def matmul(a, b)
   end
   # multiplication
   c = Array.new(m) { Array.new(p, 0.0) }
-  (0...m).each do |i|
-    (0...p).each do |j|
+  c.each_with_index do |ci, i|
+    ai = a[i]
+    b2.each_with_index do |b2j, j|
       s = 0.0
-      ai, b2j = a[i], b2[j]
-      (0...n).each do |k|
-        s += ai[k] * b2j[k]
+      b2j.each_with_index do |b2jv, k|
+        s += ai[k] * b2jv
       end
-      c[i][j] = s
+      ci[j] = s
     end
   end
   c
