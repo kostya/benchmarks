@@ -183,10 +183,10 @@ Some benchmarks of different languages
 | Scala           | 3.62    | 136.2       |
 | Kotlin          | 3.62    | 132.2       |
 | C               | 3.64    | 69.2        |
+| Crystal         | 3.70    | 61.7        |
 | Rust            | 3.70    | 76.8        |
 | Nim Gcc         | 3.72    | 187.9       |
 | Go              | 3.84    | 58.1        |
-| Crystal         | 3.84    | 72.2        |
 | Go Gcc          | 3.90    | 84.5        |
 | Swift           | 4.48    | 110.8       |
 | Nim Clang       | 4.60    | 199.2       |
