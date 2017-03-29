@@ -19,7 +19,7 @@ int main()
         s += str2.length;
     }
 
-    writeln("encode: ", s, ", ", (Clock.currTime() - t).total!"msecs"() / 1000.0);
+    writeln("encode: ", s, ", ", (Clock.currTime() - t).total!"seconds"());
 
     s = 0;
     t = Clock.currTime();
@@ -28,7 +28,7 @@ int main()
         s += Base64.decode(str2).length;
     }
 
-    writeln("decode: ", s, ", ", (Clock.currTime() - t).total!"msecs"() / 1000.0);
+    writeln("decode: ", s, ", ", (Clock.currTime() - t).total!"seconds"());
 
     return 0;
 }
