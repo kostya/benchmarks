@@ -10,28 +10,29 @@ class Tape {
 
   this() {
     pos = 0;
-    tape ~= 0;
+    tape.assumeSafeAppend ~= 0;
   }
 
 final:
   int get() { return tape[pos]; }
   void inc() { tape[pos]++; }
   void dec() { tape[pos]--; }
-  void advance() { pos++; if (tape.length <= pos) tape ~= 0; }
+  void advance() { pos++; if (tape.length <= pos) tape.assumeSafeAppend ~= 0; }
   void devance() { if (pos > 0) { pos--; } }
-};
+}
 
 class Program {
-  string code;
-  int[int] bracket_map;
+  int[] code;
+  int[] bracket_map;
 
   this(string text) {
     int[] leftstack;
+    bracket_map = [0];
     int pc = 0;
 
     for (int i = 0; i < text.length; i++) {
       char c = text[i];
-      if (!canFind("[]<>+-,.", c)) continue;
+      if (!canFind(cast(immutable(ubyte)[])"[]<>+-,.", c)) continue;
 
       if (c == '[') leftstack ~= pc;
       else
@@ -44,13 +45,15 @@ class Program {
         }
 
       pc++;
-      code ~= c;
+      code.assumeSafeAppend ~= c;
+      bracket_map.assumeSafeAppend ~= 0;
     }
   }
 
   void run() {
     auto tape = new Tape();
-    for (int pc = 0; pc < code.length; pc++) {
+    immutable int len = cast(int) code.length;
+    for (int pc = 0; pc < len; pc++) {
       switch (code[pc]) {
         case '+':
           tape.inc();
@@ -79,7 +82,7 @@ class Program {
       }
     }
   }
-};
+}
 
 int main(string[] args){
   string text = readText(args[1]);
