@@ -22,8 +22,11 @@ final:
 };
 
 class Program {
+  import std.container.rbtree;
+  import std.typecons;
+
   string code;
-  int[int] bracket_map;
+  auto bracket_map = new RedBlackTree!(Tuple!(int, int), "a[0]<b[0]")();
 
   this(string text) {
     int[] leftstack;
@@ -39,8 +42,8 @@ class Program {
           int left = leftstack[leftstack.length - 1];
           leftstack.popBack();
           int right = pc;
-          bracket_map[left] = right;
-          bracket_map[right] = left;
+          bracket_map.insert(tuple(left, right));
+          bracket_map.insert(tuple(right, left));
         }
 
       pc++;
@@ -65,10 +68,10 @@ class Program {
           tape.devance();
           break;
         case '[':
-          if (tape.get() == 0) pc = bracket_map[pc];
+          if (tape.get() == 0) pc = bracket_map.equalRange(tuple(pc, 0)).front[1];
           break;
         case ']':
-          if (tape.get() != 0) pc = bracket_map[pc];
+          if (tape.get() != 0) pc = bracket_map.equalRange(tuple(pc, 0)).front[1];
           break;
         case '.':
           write(tape.get().to!char);
