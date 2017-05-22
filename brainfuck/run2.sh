@@ -30,6 +30,8 @@ echo .Net Core
 ../xtime.rb dotnet bin/Release/netcoreapp1.0/brainfuck.dll mandel.b > /dev/null
 echo Felix
 ../xtime.rb ./brainfuck_flx mandel.b > /dev/null
+echo Tcl
+../xtime.rb tclsh brainfuck.tcl mandel.b > /dev/null
 echo Java
 ../xtime.rb java brainfuck mandel.b > /dev/null
 
