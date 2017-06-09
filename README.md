@@ -91,12 +91,12 @@ Some benchmarks of different languages
 | D Gdc           | 2.52    | 33.3        |
 | Ruby            | 2.77    | 130.4       |
 | D Ldc           | 3.14    | 53.1        |
+| Nim Clang       | 3.20    | 51.4        |
 | Perl XS         | 3.63    | 47.9        |
-| Nim Clang       | 3.98    | 52.4        |
 | Ruby Rbx        | 4.29    | 30.7        |
+| Nim Gcc         | 4.32    | 51.5        |
 | Julia           | 4.41    | 190.0       |
 | Javascript Node | 4.76    | 551.5       |
-| Nim Gcc         | 4.96    | 52.4        |
 | C++ Openssl     | 5.45    | 65.2        |
 | Php             | 6.34    | 53.4        |
 | C# .Net Core    | 6.52    | 121.1       |
