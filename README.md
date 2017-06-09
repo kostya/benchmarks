@@ -180,11 +180,11 @@ Some benchmarks of different languages
 | D Gdc           | 2.33    | 73.0        |
 | Python Numpy    | 3.08    | 65.3        |
 | Java            | 3.50    | 136.2       |
+| Rust            | 3.52    | 76.8        |
 | Scala           | 3.62    | 136.2       |
 | Kotlin          | 3.62    | 132.2       |
 | C               | 3.64    | 69.2        |
 | Crystal         | 3.70    | 61.7        |
-| Rust            | 3.70    | 76.8        |
 | Nim Gcc         | 3.72    | 187.9       |
 | Go              | 3.84    | 58.1        |
 | Go Gcc          | 3.90    | 84.5        |
