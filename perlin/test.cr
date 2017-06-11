@@ -1,4 +1,4 @@
-record Vec2, x, y
+record Vec2, x : Float64, y : Float64
 
 def lerp(a, b, v)
   a * (1.0 - v) + b * v
@@ -10,7 +10,7 @@ end
 
 def random_gradient
   v = rand * Math::PI * 2.0
-  Vec2.new(Math.cos(v), Math.sin(v))
+  Vec2.new Math.cos(v), Math.sin(v)
 end
 
 def gradient(orig, grad, p)
@@ -19,9 +19,11 @@ def gradient(orig, grad, p)
 end
 
 struct Noise2DContext
+  @permutations : StaticArray(Int32, 256)
+
   def initialize
     @rgradients = StaticArray(Vec2, 256).new { random_gradient }
-    @permutations = StaticArray(Int32, 256).new { |i | i }.shuffle!
+    @permutations = typeof(@permutations).new { |i| i }.shuffle!
   end
 
   def get_gradient(x, y)
@@ -49,7 +51,7 @@ struct Noise2DContext
         Vec2.new(x0f + 1.0, y0f + 0.0),
         Vec2.new(x0f + 0.0, y0f + 1.0),
         Vec2.new(x0f + 1.0, y0f + 1.0),
-      }
+      },
     }
   end
 
