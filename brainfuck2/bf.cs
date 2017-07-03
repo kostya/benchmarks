@@ -11,33 +11,33 @@ namespace Test
     struct Op {
         public OpT op;
         public int v;
-        public List<Op> loop;
+        public Op[] loop;
 
-        public Op(OpT _op, int _v) { op = _op; v = _v; loop = new List<Op>(); }
-        public Op(OpT _op, List<Op> _l) { op = _op; loop = _l; v = 0; }
+        public Op(OpT _op, int _v) { op = _op; v = _v; loop = null; }
+        public Op(OpT _op, Op[] _l) { op = _op; loop = _l; v = 0; }
     }
 
     public class Tape
     {
         int pos;
-        List<int> tape;
+        int[] tape;
 
         public Tape()
         {
             pos = 0;
-            tape = new List<int>(new int[]{0});
+            tape = new int[1];
         }
 
         public int Get() { return tape[pos]; }
         public void Inc(int x) { tape[pos] += x; }
-        public void Move(int x) { pos += x; while (pos >= tape.Count) tape.Add(0); }
+        public void Move(int x) { pos += x; while (pos >= tape.Length) Array.Resize(ref tape, tape.Length*2); }
     }
 
     class Program
     {
         string code;
         int pos;
-        List<Op> ops;
+        Op[] ops;
         
         Program(string text)
         {
@@ -46,7 +46,7 @@ namespace Test
             ops = parse();
         }
 
-        private List<Op> parse() {
+        private Op[] parse() {
             List<Op> res = new List<Op>();
             while (pos < code.Length) {                
                 char c = code[pos];
@@ -58,17 +58,17 @@ namespace Test
                     case '<': res.Add(new Op(OpT.MOVE, -1)); break;
                     case '.': res.Add(new Op(OpT.PRINT, 0)); break;
                     case '[': res.Add(new Op(OpT.LOOP, parse())); break;
-                    case ']': return res;
+                    case ']': return res.ToArray();
                 }
             }
-            return res;
+            return res.ToArray();
         }
 
         public void run() {
             _run(ops, new Tape());
         }
 
-        private void _run(List<Op> program, Tape tape) {
+        private void _run(Op[] program, Tape tape) {
             foreach (Op op in program) {
                 switch (op.op) {
                     case OpT.INC: tape.Inc(op.v); break;
