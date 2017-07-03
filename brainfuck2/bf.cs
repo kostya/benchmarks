@@ -46,7 +46,7 @@ namespace Test
             ops = parse();
         }
 
-        private List<Op> parse() {
+        private Op[] parse() {
             List<Op> res = new List<Op>();
             while (pos < code.Length) {                
                 char c = code[pos];
@@ -58,7 +58,7 @@ namespace Test
                     case '<': res.Add(new Op(OpT.MOVE, -1)); break;
                     case '.': res.Add(new Op(OpT.PRINT, 0)); break;
                     case '[': res.Add(new Op(OpT.LOOP, parse())); break;
-                    case ']': return res;
+                    case ']': return res.ToArray();
                 }
             }
             return res.ToArray();
