@@ -46,6 +46,8 @@ echo Ruby Topaz
 ../xtime.rb topaz bf.rb bench.b
 echo Python PyPy
 ../xtime.rb pypy bf.py bench.b
+echo Perl
+../xtime.rb perl bf.pl bench.b
 echo Ruby
 ../xtime.rb ruby bf.rb bench.b
 echo Python
