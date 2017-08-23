@@ -46,6 +46,7 @@ Some benchmarks of different languages
 | Python3         | 412.13  | 5.5         |
 | Tcl (FP)        | 457.33  | 2.5         |
 | Tcl (OO)        | 821.96  | 2.5         |
+| Perl            | 872.44  | 2.5         |
 
 ### mandel.b
 
