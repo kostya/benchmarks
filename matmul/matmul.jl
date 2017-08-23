@@ -6,14 +6,24 @@ end
 function mul(a, b)  
   m,n = size(a)
   q,p = size(b)
-  out = zeros(promote_type(eltype(a), eltype(b)),m,p)
-  for j = 1:p
-    for i = 1:m
-      z = zero(eltype(out))   
+  @assert n == q
+
+  # transpose a for cache-friendliness
+  aT = zeros(n,m)
+  @simd for i = 1:m
+    for j = 1:n      
+      @inbounds aT[j,i] = a[i,j]
+    end  
+  end
+
+  out = zeros(m,p)
+  @simd for i = 1:m
+    for j = 1:p
+      z = 0.0
       for k = 1:n
-        z += a[i,k]*b[k,j]
+        @inbounds z += aT[k,i]*b[k,j]
       end
-      out[i,j] = z
+      @inbounds out[i,j] = z
     end
   end
   out
