@@ -3,21 +3,30 @@ function matgen(n)
   [ tmp * (i - j) * (i + j - 2) for i=1:n, j=1:n ]
 end
 
-function mul_line(n, linea, lineb)
-  s = 0.0
-  for i=1:n
-    s += linea[i] * lineb[i]
+function mul(a, b)  
+  m,n = size(a)
+  q,p = size(b)
+  @assert n == q
+
+  # transpose a for cache-friendliness
+  aT = zeros(n,m)
+  @simd for i = 1:m
+    for j = 1:n      
+      @inbounds aT[j,i] = a[i,j]
+    end  
   end
-  s
-end
 
-function mul(a, b)
-  m = size(a)[1]
-  n = size(a)[2]
-  p = size(b)[2]
-
-  b2 = [ b[j, i] for i=1:p, j=1:n ]
-  [ mul_line(n, a[i,:], b2[j,:]) for i=1:m, j=1:p ]
+  out = zeros(m,p)
+  @simd for i = 1:m
+    for j = 1:p
+      z = 0.0
+      for k = 1:n
+        @inbounds z += aT[k,i]*b[k,j]
+      end
+      @inbounds out[i,j] = z
+    end
+  end
+  out
 end
 
 function main(n)

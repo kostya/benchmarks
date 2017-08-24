@@ -187,6 +187,7 @@ Some benchmarks of different languages
 | C               | 3.64    | 69.2        |
 | Crystal         | 3.70    | 61.7        |
 | Nim Gcc         | 3.72    | 187.9       |
+| Julia           | 3.76    | 172.2       |
 | Go              | 3.84    | 58.1        |
 | Go Gcc          | 3.90    | 84.5        |
 | Swift           | 4.48    | 110.8       |
@@ -196,7 +197,6 @@ Some benchmarks of different languages
 | Python PyPy     | 7.98    | 121.7       |
 | C# .Net Core    | 10.87   | 85.7        |
 | C# Mono         | 15.17   | 83.6        |
-| Julia           | 20.98   | 187.4       |
 | Ruby truffle    | 35.43   | 934.2       |
 | Ruby Topaz      | 81.41   | 206.2       |
 | Ruby            | 326.44  | 76.9        |
