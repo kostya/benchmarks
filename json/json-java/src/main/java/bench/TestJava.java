@@ -18,7 +18,7 @@ public class TestJava {
 	public static void parse(String filename) throws IOException {
 		long start_time = System.currentTimeMillis();
 		FileInputStream fis = new FileInputStream(filename);
-		DslJson<Object> json = new DslJson<Object>();
+		DslJson<Object> json = new DslJson<Object>(new DslJson.Settings<Object>().includeServiceLoader().doublePrecision(JsonReader.DoublePrecision.LOW));
 		Root result = json.deserialize(Root.class, fis, new byte[65536]);
 		double x = 0, y = 0, z = 0;
 		int total = result.coordinates.size();

@@ -59,7 +59,7 @@ pip install ujson
 pip3 install ujson
 
 # java
-cd json-java; mvn clean install; cp target/java-json-1.1-jar-with-dependencies.jar ../java-json.jar; cd ..
+cd json-java; mvn clean install; cp target/java-json-1.5-jar-with-dependencies.jar ../java-json.jar; cd ..
 
 #scala
 cd json-scala; sbt clean assembly; cp target/scala-2.11/benchmark-json-scala-assembly-1.0.jar ../scala-json.jar; cd ..
