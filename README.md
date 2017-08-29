@@ -129,7 +129,7 @@ Some benchmarks of different languages
 | C++ Rapid SAX   | 0.72    | 1.0         |
 | C++ Gason       | 0.83    | 582.2       |
 | C++ Rapid       | 0.94    | 243.6       |
-| Java            | 1.47    | 621.2       |
+| Java            | 1.28    | 371.2       |
 | Rust Value      | 1.78    | 1673.9      |
 | Crystal Schema  | 2.05    | 337.2       |
 | Perl XS         | 2.68    | 888.4       |
