@@ -12,13 +12,13 @@ Some benchmarks of different languages
 | --------------- | ------- | ----------- |
 | Kotlin          | 1.78    | 28.4        |
 | C++ Gcc         | 1.94    | 1.0         |
-| D Ldc           | 2.02    | 0.9         |
-| Nim Gcc         | 2.16    | 0.6         |
-| Rust            | 2.42    | 4.8         |
-| Crystal         | 2.91    | 1.2         |
-| D Gdc           | 3.05    | 1.4         |
+| Rust            | 2.16    | 4.8         |
+| Nim Gcc         | 2.50    | 0.6         |
+| D Gdc           | 2.61    | 1.4         |
+| D Ldc           | 2.85    | 1.0         |
+| Nim Clang       | 3.11    | 0.8         |
 | ML MLton        | 3.14    | 0.7         |
-| Nim Clang       | 3.14    | 0.8         |
+| Crystal         | 3.37    | 1.3         |
 | Scala           | 3.43    | 120.12      |
 | C# .Net Core    | 3.45    | 17.0        |
 | Java            | 4.03    | 513.8       |
@@ -28,8 +28,8 @@ Some benchmarks of different languages
 | Go              | 5.54    | 0.9         |
 | C# Mono         | 6.14    | 14.6        |
 | Javascript V8   | 6.53    | 7.9         |
-| Javascript Node | 7.38    | 16.9        |
 | F# Mono         | 7.52    | 21.1        |
+| Javascript Node | 7.85    | 18.6        |
 | Haskell (MArray)| 7.95    | 2.2         |
 | LuaJIT          | 16.73   | 1.1         |
 | Python PyPy     | 22.14   | 75.9        |
@@ -55,23 +55,23 @@ Some benchmarks of different languages
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
 | C++ Gcc         | 20.49   | 1.7         |
-| Crystal         | 23.39   | 1.5         |
-| Rust            | 24.13   | 4.8         |
-| D Ldc           | 24.90   | 1.4         |
-| D Gdc           | 29.49   | 2.4         |
-| Nim Gcc         | 30.58   | 2.7         |
+| Crystal         | 25.28   | 1.5         |
+| Rust            | 27.18   | 4.8         |
+| D Gdc           | 27.40   | 2.4         |
+| Nim Gcc         | 30.78   | 2.7         |
+| D Ldc           | 31.21   | 1.8         |
 | ML MLton        | 36.03   | 2.5         |
 | C# .Net Core    | 36.57   | 17.7        |
+| Nim Clang       | 37.22   | 2.9         |
 | Go Gcc          | 37.59   | 11.4        |
-| Nim Clang       | 40.01   | 2.9         |
 | Kotlin          | 40.79   | 34.9        |
 | OCaml           | 52.18   | 5.3         |
 | Scala           | 58.51   | 120.12      |
 | Java            | 58.86   | 423.9       |
 | D Dmd           | 62.69   | 1.7         |
 | C# Mono         | 70.90   | 12.6        |
-| Javascript Node | 88.34   | 18.6        |
-| Go              | 105.04  | 2.2         |
+| Javascript Node | 76.37   | 19.9        |
+| Go              | 108.21  | 2.2         |
 | Haskell (MArray)| 124.60  | 3.2         |
 | Python PyPy     | 133.73  | 76.0        |
 | Ruby truffle    | 138.00  | 1014.1      |
@@ -87,24 +87,24 @@ Some benchmarks of different languages
 | --------------- | ------- | ----------- |
 | C aklomp SSSE3  | 0.93    | 32.3        |
 | C               | 1.85    | 32.2        |
-| Crystal         | 2.30    | 113.8       |
-| Rust            | 2.38    | 40.8        |
-| D Gdc           | 2.52    | 33.3        |
+| D Ldc           | 2.01    | 54.4        |
+| Rust            | 2.37    | 40.9        |
+| Crystal         | 2.59    | 58.5        |
 | Ruby            | 2.77    | 130.4       |
-| D Ldc           | 3.14    | 53.1        |
-| Nim Clang       | 3.20    | 51.4        |
+| D Gdc           | 3.04    | 54.1        |
 | Perl XS         | 3.63    | 47.9        |
 | Ruby Rbx        | 4.29    | 30.7        |
-| Nim Gcc         | 4.32    | 51.5        |
+| Nim Gcc         | 4.29    | 57.8        |
+| Nim Clang       | 4.34    | 57.9        |
 | Julia           | 4.41    | 190.0       |
-| Javascript Node | 4.76    | 551.5       |
 | C++ Openssl     | 5.45    | 65.2        |
+| Javascript Node | 5.53    | 475.8       |
 | Php             | 6.34    | 53.4        |
 | C# .Net Core    | 6.52    | 121.1       |
 | D               | 7.18    | 55.3        |
 | Tcl             | 7.20    | 66.0        |
+| Go              | 7.56    | 93.1        |
 | Python          | 7.62    | 52.6        |
-| Go              | 8.40    | 95.7        | 
 | Python PyPy     | 8.05    | 153.9       |
 | Python3         | 8.13    | 54.5        |
 | C# Mono         | 9.01    | 71.7        |
@@ -123,33 +123,35 @@ Some benchmarks of different languages
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| D Gdc Fast      | 0.34    | 226.7       |
-| Rust Pull       | 0.52    | 207.7       |
-| Rust Struct     | 0.54    | 230.3       |
+| D Gdc Fast      | 0.35    | 234.1       |
+| Rust Pull       | 0.51    | 207.7       |
+| Rust Struct     | 0.53    | 226.2       |
 | C++ Rapid SAX   | 0.72    | 1.0         |
 | C++ Gason       | 0.83    | 582.2       |
 | C++ Rapid       | 0.94    | 243.6       |
 | Java            | 1.28    | 371.2       |
-| Rust Value      | 1.78    | 1673.9      |
-| Crystal Schema  | 2.05    | 337.2       |
+| Crystal Schema  | 1.87    | 304.6       |
+| Rust Value      | 1.94    | 1673.9      |
+| Crystal         | 2.41    | 1119.2      |
 | Perl XS         | 2.68    | 888.4       |
-| Crystal         | 2.99    | 1118.2      |
-| Javascript Node | 3.21    | 863.7       |
-| Crystal Pull    | 3.48    | 1.2         |
+| Javascript Node | 3.33    | 871.0       |
 | Python3 ujson   | 4.15    | 1303.2      |
-| Nim Clang       | 4.95    | 1338.1      |
-| Nim Gcc         | 5.02    | 1337.3      |
+| Nim Clang       | 4.22    | 1335.8      |
+| Crystal Pull    | 4.24    | 3.3         |
+| Nim Gcc         | 4.70    | 1335.0      |
+| Go              | 4.92    | 479.3       |
 | Python ujson    | 5.07    | 1352.9      |
 | Q               | 5.18    | 684.0       |
-| Go              | 5.30    | 479.3       |
 | Python PyPy     | 5.35    | 1534.5      |
 | C++ LibJson     | 5.49    | 2796.3      |
 | Clojure         | 5.81    | 1148.5      |
 | Python3         | 5.82    | 1037.8      |
 | C# .Net Core    | 6.31    | 834.9       |
 | Php             | 6.37    | 1502.0      |
+| D Ldc           | 7.13    | 1357.0      |
 | Haskell         | 8.31    | 70.5        |
 | Ruby            | 8.67    | 1074.6      |
+| D Gdc           | 8.89    | 1357.2      |
 | Ruby Yajl       | 9.52    | 1054.6      |
 | Python          | 9.85    | 1409.1      |
 | C# Mono         | 10.57   | 812.1       |
@@ -161,8 +163,6 @@ Some benchmarks of different languages
 | Ruby JRuby9K    | 16.53   | 2050.5      |
 | Go Gcc          | 17.64   | 473.1       |
 | Ruby JRuby      | 21.98   | 2761.1      |
-| D Gdc           | 25.86   | 926.1       |
-| D Ldc           | 27.23   | 919.6       |
 | Perl            | 46.02   | 1635.4      |
 | Ruby Rbx        | 67.13   | 4681.0      |
 | Ruby truffle    |   -     | 1251.2      |
@@ -176,23 +176,23 @@ Some benchmarks of different languages
 | Julia Native Thr| 0.11    | 148.3       |
 | Julia Native    | 0.31    | 175.8       |
 | D Mir GLAS      | 0.32    | 56.7        |
-| D Ldc           | 2.01    | 68.9        |
+| D Ldc           | 2.17    | 73.0        |
 | D               | 2.30    | 71.3        |
-| D Gdc           | 2.33    | 73.0        |
+| D Gdc           | 2.30    | 73.0        |
 | Python Numpy    | 3.08    | 65.3        |
 | Java            | 3.50    | 136.2       |
-| Rust            | 3.52    | 76.8        |
+| Rust            | 3.58    | 76.8        |
 | Scala           | 3.62    | 136.2       |
 | Kotlin          | 3.62    | 132.2       |
 | C               | 3.64    | 69.2        |
-| Crystal         | 3.70    | 61.7        |
-| Nim Gcc         | 3.72    | 187.9       |
+| Nim Clang       | 3.68    | 167.8       |
+| Crystal         | 3.70    | 55.8        |
+| Nim Gcc         | 3.75    | 188.2       |
 | Julia           | 3.76    | 172.2       |
-| Go              | 3.84    | 58.1        |
+| Go              | 3.77    | 59.6        |
 | Go Gcc          | 3.90    | 84.5        |
 | Swift           | 4.48    | 110.8       |
-| Nim Clang       | 4.60    | 199.2       |
-| Javascript Node | 5.95    | 88.3        |
+| Javascript Node | 6.06    | 89.6        |
 | Javascript V8   | 6.87    | 81.5        |
 | Python PyPy     | 7.98    | 121.7       |
 | C# .Net Core    | 10.87   | 85.7        |
@@ -213,16 +213,16 @@ Some benchmarks of different languages
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| Crystal         | 15.80   | 416.9       |
-| Nim Clang       | 17.02   | 480.9       |
-| Nim Gcc         | 17.23   | 485.0       |
+| Crystal         | 12.26   | 398.9       |
+| Nim Gcc         | 15.53   | 1003.2      |
+| Nim Clang       | 16.02   | 1011.4      |
 | C++             | 17.72   | 174.5       |
-| D Ldc           | 25.15   | 214.9       |
+| D Ldc           | 22.41   | 467.9       |
+| D Gdc           | 24.98   | 451.6       |
 | D               | 28.90   | 418.2       |
-| D Gdc           | 31.79   | 197.6       |
 | Scala           | 32.18   | 363.0       |
+| Go              | 32.17   | 366.4       |
 | Go Gcc          | 32.94   | 365.7       |
-| Go              | 33.25   | 386.4       |
 | C# Mono         | 40.54   | 270.0       |
 | Python PyPy     | 50.21   | 797.0       |
 | C# .Net Core    | 61.38   | 388.8       |
@@ -237,17 +237,17 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 # Versions:
 
 * gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
-* Nim Compiler Version 0.16.0 (2017-01-08) [Linux: amd64]
-* `Crystal 0.20.0 [b0cc6f7] (2016-11-22)`
-* go version go1.8 linux/amd64
+* Nim Compiler Version 0.17.0 (2017-05-17) [Linux: amd64]
+* `Crystal 0.23.1 [e2a1389e8] (2017-07-13) LLVM 3.8.1`
+* go version go1.9 linux/amd64
 * gccgo (Ubuntu 4.9.1-0ubuntu1) 4.9.1
 * DMD64 D Compiler v2.068.0
-* gdc (crosstool-NG crosstool-ng-1.20.0-232-gc746732 - 20150830-2.066.1-dadb5a3784) 5.2.0
-* LDC - the LLVM D compiler (0.15.2-beta1):
+* gdc (gdcproject.org 20161225-v2.068.2_gcc6) 6.3.0
+* LDC - the LLVM D compiler (1.4.0-beta1): based on DMD v2.074.1 and LLVM 4.0.1
 * V8 version 3.29.62 (candidate)
-* rustc 1.15.1 (021bd294c 2017-02-08)
+* rustc 1.19.0 (0ade33941 2017-07-17)
 * Scala version 2.11.6 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_45)
-* Nodejs v7.0.0
+* Nodejs v8.4.0
 * PyPy 5.6.0 with GCC 4.8.2
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]
 * ruby 2.4.0p0 (2016-12-24 revision 57164) [x86_64-linux]

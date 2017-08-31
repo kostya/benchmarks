@@ -2,16 +2,16 @@ if [ ! -f 1.json ]; then
   ruby generate_json.rb
 fi
 
-crystal build test.cr --release -o json_cr
-crystal build test_pull.cr --release -o json_pull_cr
-crystal build test_schema.cr --release -o json_schema_cr
+crystal build test.cr --release -o json_cr --no-debug
+crystal build test_pull.cr --release -o json_pull_cr --no-debug
+crystal build test_schema.cr --release -o json_schema_cr --no-debug
 cargo build --manifest-path json.rs/Cargo.toml --release && \
   cp ./json.rs/target/release/json-pull-rs ./json_pull_rs && \
   cp ./json.rs/target/release/json-struct-rs ./json_struct_rs && \
   cp ./json.rs/target/release/json-value-rs ./json_value_rs
 dmd -ofjson_d -O -release -inline test.d
 gdc -o json_d_gdc -O3 -frelease -finline test.d
-ldc2 -ofjson_d_ldc -O5 -release -inline test.d
+ldc2 -ofjson_d_ldc -O5 -release test.d
 nim c -o:json_nim_gcc -d:release --cc:gcc --verbosity:0 test.nim
 nim c -o:json_nim_clang -d:release --cc:clang --verbosity:0 test.nim
 go build -o json_go test.go

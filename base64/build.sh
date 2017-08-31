@@ -1,4 +1,4 @@
-crystal build test.cr --release -o base64_cr
+crystal build test.cr --release -o base64_cr --no-debug
 go build -o base64_go test.go
 gccgo -O3 -g -o base64_go_gccgo test.go
 g++ -O3 -o base64_cpp test.cpp -lcrypto
@@ -8,7 +8,7 @@ javac Base64Java.java
 kotlinc Test.kt -include-runtime -d Test-kt.jar
 dmd -ofbase64_d -O -release -inline test.d
 gdc -o base64_d_gdc -O3 -frelease -finline test.d
-ldc2 -ofbase64_d_ldc -O5 -release -inline test.d
+ldc2 -ofbase64_d_ldc -O5 -release test.d
 nim c -o:base64_nim_gcc -d:release --cc:gcc --verbosity:0 test.nim
 nim c -o:base64_nim_clang -d:release --cc:clang --verbosity:0 test.nim
 julia -e 'Pkg.add("Codecs")'
