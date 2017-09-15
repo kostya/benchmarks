@@ -44,3 +44,5 @@ echo Standard ML MLton
 ../xtime.rb ./bin_sml mandel.b > /dev/null
 echo LuaJIT
 ../xtime.rb luajit bf.lua mandel.b > /dev/null
+echo Racket
+../xtime.rb racket bf.rkt mandel.b > /dev/null
