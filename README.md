@@ -34,6 +34,7 @@ Some benchmarks of different languages
 | LuaJIT          | 16.73   | 1.1         |
 | Python PyPy     | 22.14   | 75.9        |
 | Haskell         | 25.34   | 2.2         |
+| Racket          | 27.76   | 57.9        |
 | Ruby truffle    | 33.79   | 1089.8      |
 | Ruby Topaz      | 59.53   | 36.5        |
 | Ruby Rbx        | 120.38  | 32.3        |
@@ -78,6 +79,7 @@ Some benchmarks of different languages
 | LuaJIT          | 142.59  | 1.8         |
 | F# Mono         | 166.38  | 29.1        |
 | Ruby Topaz      | 305.79  | 38.8        |
+| Racket          | 339.10  | 68.0        |
 
 # Base64
 
@@ -278,3 +280,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * MLton 20100608 (built Sun Oct 27 04:18:37 UTC 2013 on allspice)
 * F# Compiler for F# 3.0 (Open Source Edition)
 * OCaml 4.01.0
+* Racket v5.3.6.
