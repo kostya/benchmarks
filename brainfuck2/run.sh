@@ -66,3 +66,5 @@ echo Tcl (OO)
 ../xtime.rb tclsh bf_oo.tcl bench.b
 echo Racket
 ../xtime.rb racket bf.rkt bench.b
+echo Chez Scheme
+../xtime.rb scheme --script bf.ss bench.b

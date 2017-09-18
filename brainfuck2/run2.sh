@@ -46,3 +46,5 @@ echo LuaJIT
 ../xtime.rb luajit bf.lua mandel.b > /dev/null
 echo Racket
 ../xtime.rb racket bf.rkt mandel.b > /dev/null
+echo Chez Scheme
+../xtime.rb scheme --script bf.ss mandel.b > /dev/null
