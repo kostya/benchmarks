@@ -32,6 +32,7 @@ Some benchmarks of different languages
 | Javascript Node | 7.85    | 18.6        |
 | Haskell (MArray)| 7.95    | 2.2         |
 | LuaJIT          | 16.73   | 1.1         |
+| Chez Scheme     | 20.15   | 25.7        |
 | Python PyPy     | 22.14   | 75.9        |
 | Haskell         | 25.34   | 2.2         |
 | Racket          | 27.76   | 57.9        |
@@ -78,6 +79,7 @@ Some benchmarks of different languages
 | Ruby truffle    | 138.00  | 1014.1      |
 | LuaJIT          | 142.59  | 1.8         |
 | F# Mono         | 166.38  | 29.1        |
+| Chez Scheme     | 258.54  | 27.8        |
 | Ruby Topaz      | 305.79  | 38.8        |
 | Racket          | 339.10  | 68.0        |
 
@@ -281,3 +283,4 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * F# Compiler for F# 3.0 (Open Source Edition)
 * OCaml 4.01.0
 * Racket v5.3.6.
+* Chez Scheme Version 9.4
