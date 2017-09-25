@@ -19,7 +19,7 @@ struct Op {
 
 class Tape {
   int pos;
-  vector<int> tape;
+  vector<char> tape;
 
 public:
   Tape() {
@@ -73,7 +73,7 @@ private:
       switch (op.op) {
         case INC: tape.inc(op.val); break;
         case MOVE: tape.move(op.val); break;
-        case LOOP: while (tape.get() > 0) _run(op.loop, tape); break;
+        case LOOP: while (tape.get() != 0) _run(op.loop, tape); break;
         case PRINT: printf("%c", tape.get()); fflush(stdout); break;
       }
     }

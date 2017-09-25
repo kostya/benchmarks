@@ -46,19 +46,19 @@ func (si *StringIterator) Next() byte {
 }
 
 type Tape struct {
-  tape []int
+  tape []byte
   pos  int
 }
 
 func NewTape() *Tape {
   t := &Tape{pos: 0}
-  t.tape = make([]int, 1)
+  t.tape = make([]byte, 1)
   t.Move(1)
   return t
 }
 
 func (t *Tape) Inc(x int) {
-  t.tape[t.pos] += x
+  t.tape[t.pos] += byte(x)
 }
 
 func (t *Tape) Move(x int) {
@@ -66,7 +66,7 @@ func (t *Tape) Move(x int) {
   for t.pos >= len(t.tape) { t.tape = append(t.tape, 0) }
 }
 
-func (t *Tape) Get() int {
+func (t *Tape) Get() byte {
   return t.tape[t.pos]
 }
 
@@ -107,7 +107,7 @@ func _run(program []Op, tape *Tape) {
     switch op.O {
       case INC: tape.Inc(op.V)
       case MOVE: tape.Move(op.V)
-      case LOOP: for tape.Get() > 0 { _run(op.Loop, tape) }
+      case LOOP: for tape.Get() != 0 { _run(op.Loop, tape) }
       case PRINT: fmt.Printf("%c", tape.Get())
     }
   }

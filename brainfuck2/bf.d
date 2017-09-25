@@ -35,7 +35,7 @@ enum OpT : dchar
 struct Tape
 {
     uint pos;
-    int[] tape = [0];
+    char[] tape = [0];
 
     int  get()      { return tape[pos]; }
     void inc()      { tape[pos]++; }
@@ -98,7 +98,7 @@ struct Program
                     mixin("tape." ~ type.to!string ~ "(); continue loop;");
 
                 case OpT.loop:
-                    while (tape.get() > 0)
+                    while (tape.get() != 0)
                         run(op.loop, tape);
                     break;
                 default:

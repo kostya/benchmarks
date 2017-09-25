@@ -7,7 +7,7 @@ end
 
 class Tape
   def initialize
-    @tape = [0]
+    @tape = [0_u8]
     @pos = 0
   end
 
@@ -22,7 +22,7 @@ class Tape
   def move(x)
     @pos += x
     while @pos >= @tape.size
-      @tape << 0
+      @tape << 0_u8
     end
   end
 end
@@ -46,7 +46,7 @@ class Program
       when Op::Move
         tape.move(op.val)
       when Array(Op::T)
-        while tape.get > 0
+        while tape.get != 0
           _run(op, tape)
         end
       when Op::Print

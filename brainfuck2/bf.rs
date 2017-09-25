@@ -10,14 +10,14 @@ use Op::*;
 
 struct Tape {
   pos: usize,
-  tape: Vec<i32>
+  tape: Vec<u8>
 }
 
 impl Tape {
   fn new() -> Tape { Tape { pos: 0, tape: vec![0] } }
-  fn get(&self) -> i32 { self.tape[self.pos] }
+  fn get(&self) -> u8 { self.tape[self.pos] }
   fn getc(&self) -> char { self.get() as u8 as char }
-  fn inc(&mut self, x: i32) { self.tape[self.pos] += x; }
+  fn inc(&mut self, x: i32) { self.tape[self.pos] += x as u8; }
   fn mov(&mut self, x: isize) { 
     self.pos = (self.pos as isize + x) as usize;
     while self.pos >= self.tape.len() { self.tape.push(0); }
@@ -29,7 +29,7 @@ fn _run(program: &[Op], tape: &mut Tape) {
         match *op {
             Inc(x) => tape.inc(x),
             Move(x) => tape.mov(x),
-            Loop(ref program) => while tape.get() > 0 {
+            Loop(ref program) => while tape.get() != 0 {
               _run(program, tape);
             },
             Print => {

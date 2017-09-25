@@ -37,21 +37,21 @@ proc next(self: var StringIterator): char =
 type
   Tape = object
     pos: int
-    tape: seq[int]
+    tape: seq[uint8]
 
 proc newTape(): Tape =
   result.pos = 0
-  result.tape = @[0]
+  result.tape = @[cast[uint8](0)]
 
 proc inc(self: var Tape, x: int) =
-  self.tape[self.pos] += x
+  self.tape[self.pos] += cast[uint8](x)
 
 proc move(self: var Tape, x: int) =
   self.pos += x
   while self.pos >= self.tape.len:
     self.tape.add(0)
 
-proc get(self: Tape): int =
+proc get(self: Tape): uint8 =
   result = self.tape[self.pos]
 
 type
@@ -82,7 +82,7 @@ proc runops(program: seq[Op], tape: var Tape) =
       of INC: tape.inc(op.v)
       of MOVE: tape.move(op.v)
       of LOOP:
-        while tape.get > 0:
+        while tape.get != 0:
           runops(op.loop, tape)
       of PRINT: 
         write stdout, tape.get.chr
