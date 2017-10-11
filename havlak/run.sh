@@ -25,4 +25,4 @@ echo Python
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen havlak.exe
 echo C# .Net Core
-../xtime.rb dotnet bin/Release/netcoreapp1.0/havlak.dll
+../xtime.rb dotnet bin/Release/netcoreapp2.0/havlak.dll

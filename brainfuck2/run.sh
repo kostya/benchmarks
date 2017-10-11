@@ -13,7 +13,7 @@ echo Kotlin
 echo C# Mono
 ../xtime.rb mono -O=all --gc=sgen bf.exe bench.b
 echo C# .Net Core
-../xtime.rb dotnet bin/Release/netcoreapp1.0/brainfuck2.dll bench.b
+../xtime.rb dotnet bin/Release/netcoreapp2.0/brainfuck2.dll bench.b
 echo Elixir
 ../xtime.rb elixir bf.exs bench.b
 echo F# Mono

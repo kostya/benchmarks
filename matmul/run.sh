@@ -39,7 +39,7 @@ echo Julia
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen matmul.exe 1500
 echo C# .Net Core
-../xtime.rb dotnet bin/Release/netcoreapp1.0/matmul.dll 1500
+../xtime.rb dotnet bin/Release/netcoreapp2.0/matmul.dll 1500
 echo Python PyPy
 ../xtime.rb pypy matmul.py 1500
 echo Python

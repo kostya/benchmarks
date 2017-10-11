@@ -3,7 +3,7 @@ g++ -flto -O3 -o bin_cpp bf.cpp
 rustc -C opt-level=3 bf.rs -o bin_rs
 scalac -optimize bf.scala
 mcs -debug- -optimize+ bf.cs
-dotnet restore && dotnet build -c Release
+dotnet build -c Release
 javac bf.java
 kotlinc bf2.kt -include-runtime -d bf2-kt.jar
 go build -o bin_go bf.go
