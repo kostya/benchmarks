@@ -14,7 +14,7 @@ nim c -o:base64_nim_clang -d:release --cc:clang --verbosity:0 test.nim
 julia -e 'Pkg.add("Codecs")'
 cargo build --manifest-path base64.rs/Cargo.toml --release && cp ./base64.rs/target/release/base64 ./base64_rs
 mcs -debug- -optimize+ test.cs
-dotnet restore && dotnet build -c Release
+dotnet build -c Release
 
 if [ ! -d aklomp-base64-ssse ]; then
   git clone --depth 1 https://github.com/aklomp/base64.git aklomp-base64-ssse

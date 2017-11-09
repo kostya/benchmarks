@@ -10,7 +10,7 @@ ldc2 -ofbrainfuck_d_ldc -O5 -release -inline brainfuck.d
 nim c -o:brainfuck_nim_clang -d:release --cc:clang --verbosity:0 brainfuck.nim
 nim c -o:brainfuck_nim_gcc -d:release --cc:gcc --verbosity:0 brainfuck.nim
 mcs -debug- -optimize+ brainfuck.cs
-dotnet restore && dotnet build -c Release
+dotnet build -c Release
 rock -o=brainfuck_ooc -v -O3 brainfuck.ooc
 flx --usage=hyperlight -c --static -o brainfuck_flx brainfuck.flx
 javac brainfuck.java

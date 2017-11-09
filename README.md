@@ -19,8 +19,8 @@ Some benchmarks of different languages
 | Nim Clang       | 3.11    | 0.8         |
 | ML MLton        | 3.14    | 0.7         |
 | Crystal         | 3.37    | 1.3         |
+| C# .Net Core    | 3.40    | 18.7        |
 | Scala           | 3.43    | 120.12      |
-| C# .Net Core    | 3.45    | 17.0        |
 | Java            | 4.03    | 513.8       |
 | OCaml           | 4.04    | 2.7         |
 | Go Gcc          | 4.20    | 10.0        |
@@ -62,8 +62,8 @@ Some benchmarks of different languages
 | D Gdc           | 27.40   | 2.4         |
 | Nim Gcc         | 30.78   | 2.7         |
 | D Ldc           | 31.21   | 1.8         |
+| C# .Net Core    | 34.93   | 21.4        |
 | ML MLton        | 36.03   | 2.5         |
-| C# .Net Core    | 36.57   | 17.7        |
 | Nim Clang       | 37.22   | 2.9         |
 | Go Gcc          | 37.59   | 11.4        |
 | Kotlin          | 40.79   | 34.9        |
@@ -104,7 +104,7 @@ Some benchmarks of different languages
 | C++ Openssl     | 5.45    | 65.2        |
 | Javascript Node | 5.53    | 475.8       |
 | Php             | 6.34    | 53.4        |
-| C# .Net Core    | 6.52    | 121.1       |
+| C# .Net Core    | 6.63    | 121.1       |
 | D               | 7.18    | 55.3        |
 | Tcl             | 7.20    | 66.0        |
 | Go              | 7.56    | 93.1        |
@@ -150,7 +150,7 @@ Some benchmarks of different languages
 | C++ LibJson     | 5.49    | 2796.3      |
 | Clojure         | 5.81    | 1148.5      |
 | Python3         | 5.82    | 1037.8      |
-| C# .Net Core    | 6.31    | 834.9       |
+| C# .Net Core    | 5.89    | 836.9       |
 | Php             | 6.37    | 1502.0      |
 | D Ldc           | 7.13    | 1357.0      |
 | Haskell         | 8.31    | 70.5        |
@@ -199,7 +199,7 @@ Some benchmarks of different languages
 | Javascript Node | 6.06    | 89.6        |
 | Javascript V8   | 6.87    | 81.5        |
 | Python PyPy     | 7.98    | 121.7       |
-| C# .Net Core    | 10.87   | 85.7        |
+| C# .Net Core    | 9.17    | 87.4        |
 | C# Mono         | 15.17   | 83.6        |
 | Ruby truffle    | 35.43   | 934.2       |
 | Ruby Topaz      | 81.41   | 206.2       |
@@ -229,7 +229,7 @@ Some benchmarks of different languages
 | Go Gcc          | 32.94   | 365.7       |
 | C# Mono         | 40.54   | 270.0       |
 | Python PyPy     | 50.21   | 797.0       |
-| C# .Net Core    | 61.38   | 388.8       |
+| C# .Net Core    | 54.57   | 519.519.519.0
 | Python          | 396.54  | 724.0       |
 
 
@@ -274,7 +274,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Swift version 2.2-dev (LLVM ae2eb212e4, Clang ef4c02f431, Swift 634acb40a1)
 * Kotlin version 1.0.3 (JRE 1.8.0_45-b14)
 * PHP 7.0.9-1+deb.sury.org~trusty+1 (cli) ( NTS )
-* .Net Core 1.0.0-preview2-003121
+* .Net Core 2.0.0
 * Elixir 1.2.0-rc.0 (a2860b3) Erlang/OTP 18 [erts-7.2] [source] [64-bit] [smp:4:4] [async-threads:10] [kernel-poll:false]
 * Lua 5.1.5  Copyright (C) 1994-2012 Lua.org, PUC-Rio
 * LuaJIT 2.0.2 -- Copyright (C) 2005-2013 Mike Pall. http://luajit.org/
