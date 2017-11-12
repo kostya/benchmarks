@@ -3,7 +3,7 @@ go build -o matmul_go matmul.go
 gccgo -O3 -g -o matmul_go_gccgo matmul.go
 gcc -O3 -o matmul_c matmul.c
 scalac -optimize matmul.scala
-rustc -C opt-level=3 matmul.rs -o matmul_rs
+rustc -C opt-level=3 -C target-cpu=native matmul.rs -o matmul_rs
 dmd -ofmatmul_d -O -release -inline matmul.d
 gdc -o matmul_d_gdc -O3 -frelease -finline matmul.d
 ldc2 -ofmatmul_d_ldc -O5 -release matmul.d
