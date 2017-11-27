@@ -4,7 +4,9 @@ extern crate serde;
 extern crate serde_derive;
 extern crate serde_json;
 
-use memmap::{Mmap, Protection};
+use memmap::Mmap;
+
+use std::fs::File;
 use std::str;
 
 #[derive(Deserialize)]
@@ -20,10 +22,9 @@ pub struct TestStruct  {
 }
 
 fn main() {
-    let file = Mmap::open_path("1.json", Protection::Read).unwrap();
-    // Unsafe because we must guarantee that the file is not concurrently modified.
-    let bytes = unsafe { file.as_slice() };
-    let s = str::from_utf8(bytes).unwrap();
+    let file = File::open("1.json").unwrap();
+    let mmap = unsafe { Mmap::map(&file).unwrap() };
+    let s = str::from_utf8(&mmap[..]).unwrap();
 
     let jobj: TestStruct = serde_json::from_str(s).unwrap();
 
