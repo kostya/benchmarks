@@ -3,75 +3,88 @@ local MOVE = 1
 local PRINT = 3
 local LOOP = 4
 
--- Tape class
+local function Tape()
+  local pos = 1;
+  local data = {0};
 
-local Tape = {}
-Tape.__index = Tape
-
-function Tape.new()
-  local self = setmetatable({}, Tape)
-  self.data = {0}
-  self.pos = 1
-  return self
-end
-
-function Tape.current(self)
-  return self.data[self.pos]
-end
-
-function Tape.inc(self, x)
-  self.data[self.pos] = self.data[self.pos] + x
-end
-
-function Tape.move(self, x)
-  local length = #self.data
-  self.pos = self.pos + x
-  for i = length + 1, self.pos do
-    self.data[i] = 0
+  local get = function()
+    return data[pos];
   end
-end
 
--- Parser and interpreter
+  local inc = function(x)
+    data[pos] = data[pos] + x;
+  end
 
-function parse(source, i)
-  local res = {}
-  while i <= #source do
-    local c = source:sub(i, i)
-    if     c == "+" then res[#res + 1]  = {INC, 1}
-    elseif c == "-" then res[#res + 1]  = {INC, -1}
-    elseif c == ">" then res[#res + 1]  = {MOVE, 1}
-    elseif c == "<" then res[#res + 1]  = {MOVE, -1}
-    elseif c == "." then res[#res + 1]  = {PRINT, nil}
-    elseif c == "[" then
-      loop_code, i = parse(source, i + 1)
-      res[#res + 1]  = {LOOP, loop_code}
-    elseif c == "]" then break
+  local move = function(x)
+    local length = #data;
+    pos = pos + x;
+    for i = length + 1, pos do
+      data[i] = 0;
     end
-    i = i + 1
   end
-  return res, i
+
+  return {
+    get = get;
+    inc = inc;
+    move = move;
+  };
 end
 
-function run(program, tape)
-  for i = 1, #program do
-    local op = program[i]
-    if     op[1] == INC then tape:inc(op[2])
-    elseif op[1] == MOVE then tape:move(op[2])
-    elseif op[1] == PRINT then
-      io.write(string.char(tape:current()))
-      io.flush()
-    elseif op[1] == LOOP then
-      while tape:current() ~= 0 do
-        run(op[2], tape)
+local function Brainfuck(text)
+  local function parse(source, i)
+    local res = {};
+    while i <= source:len() do
+      local c = source:sub(i, i);
+      if c == "+" then
+        table.insert(res, {INC, 1});
+      elseif c == "-" then
+        table.insert(res, {INC, -1});
+      elseif c == ">" then
+        table.insert(res, {MOVE, 1});
+      elseif c == "<" then
+        table.insert(res, {MOVE, -1});
+      elseif c == "." then
+        table.insert(res, {PRINT});
+      elseif c == "[" then
+        local loop_code;
+        loop_code, i = parse(source, i+1);
+        table.insert(res, {LOOP, loop_code});
+      elseif c == "]" then
+        break;
+      end
+      i = i + 1;
+    end
+    return res, i;
+  end
+
+  local function _run(program, tape)
+    for i = 1, #program do
+      local op = program[i];
+      local operator = op[1];
+      if operator == INC then
+        tape.inc(op[2]);
+      elseif operator == MOVE then
+        tape.move(op[2]);
+      elseif operator == LOOP then
+        while tape.get() > 0 do
+          _run(op[2], tape);
+        end
+      elseif operator == PRINT then
+        io.write(string.char(tape.get()));
+        io.flush();
       end
     end
   end
+
+  local function run()
+    _run(parse(text, 1), Tape())
+  end
+
+  return {
+    run = run;
+  };
 end
 
--- Startup code
-
-f = io.open(arg[1])
-source = f:read("*a")
-f:close()
-program, _ = parse(source, 1)
-run(program, Tape.new())
+local text = io.open(arg[1]):read("*a");
+local brainfuck = Brainfuck(text);
+brainfuck.run();
