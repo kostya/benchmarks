@@ -49,8 +49,8 @@ proc newProgram(code: string): Program =
       leftstack.add(pc)
     elif c == ']' and len(leftstack) > 0:
       var left: int = leftstack.pop
-      result.bracketMap[pc] = left
-      result.bracketMap[left] = pc
+      result.bracketMap.add pc, left
+      result.bracketMap.add left,  pc
     result.code.add(c)
     inc pc
 
