@@ -29,7 +29,7 @@ proc devance(self: var Tape) =
   if pos > 0:
     dec pos
 
-template get(self: Tape) =
+template get(self: Tape): int =
   self.tape[self.pos]
 
 type
