@@ -1,7 +1,7 @@
 name := "benchmark-json-scala"
 
-version := "1.0"
+version := "1.1"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.12.5"
 
-libraryDependencies += "org.json4s" %% "json4s-jackson" % "3.3.0"
+libraryDependencies += "com.dslplatform" %% "dsl-json-scala" % "1.7.1"
