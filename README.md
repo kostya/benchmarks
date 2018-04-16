@@ -134,6 +134,7 @@ Some benchmarks of different languages
 | C++ Gason       | 0.83    | 582.2       |
 | C++ Rapid       | 0.94    | 243.6       |
 | Java            | 1.28    | 371.2       |
+| Scala           | 1.44    | 457.2       |
 | Crystal Schema  | 1.87    | 304.6       |
 | Rust Value      | 1.94    | 1673.9      |
 | Crystal         | 2.41    | 1119.2      |
@@ -162,7 +163,6 @@ Some benchmarks of different languages
 | Julia           | 11.89   | 2622.4      |
 | D               | 12.42   | 1417.1      |
 | JQ              | 14.92   | 1714.5      |
-| Scala           | 15.47   | 1415.8      |
 | C++ Boost       | 16.44   | 2915.2      |
 | Ruby JRuby9K    | 16.53   | 2050.5      |
 | Go Gcc          | 17.64   | 473.1       |
