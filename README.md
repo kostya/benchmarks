@@ -75,9 +75,9 @@ Some benchmarks of different languages
 | Javascript Node | 76.37   | 19.9        |
 | Go              | 108.21  | 2.2         |
 | Haskell (MArray)| 124.60  | 3.2         |
+| LuaJIT          | 131.46  | 1.9         |
 | Python PyPy     | 133.73  | 76.0        |
 | Ruby truffle    | 138.00  | 1014.1      |
-| LuaJIT          | 142.59  | 1.8         |
 | F# Mono         | 166.38  | 29.1        |
 | Chez Scheme     | 258.54  | 27.8        |
 | Ruby Topaz      | 305.79  | 38.8        |
