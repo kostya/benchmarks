@@ -43,7 +43,7 @@ Some benchmarks of different languages
 | Ruby Jruby9k    | 134.18  | 286.8       |
 | Ruby            | 143.80  | 6.6         |
 | Lua 5.1         | 182.74  | 1.0         |
-| Elixir          | 211.20  | 31.9        |
+| Elixir          | 208.19  | 31.9        |
 | Python          | 314.79  | 4.9         |
 | Python3         | 412.13  | 5.5         |
 | Tcl (FP)        | 457.33  | 2.5         |

@@ -15,7 +15,7 @@ echo C# Mono
 echo C# .Net Core
 ../xtime.rb dotnet bin/Release/netcoreapp2.0/brainfuck2.dll bench.b
 echo Elixir
-../xtime.rb elixir bf.exs bench.b
+../xtime.rb elixir bf.ex bench.b
 echo F# Mono
 ../xtime.rb mono -O=all --gc=sgen bin_fs.exe bench.b
 echo Haskell
