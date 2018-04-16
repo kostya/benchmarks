@@ -91,8 +91,8 @@ Some benchmarks of different languages
 | --------------- | ------- | ----------- |
 | C aklomp SSSE3  | 0.93    | 32.3        |
 | C               | 1.85    | 32.2        |
+| Rust            | 1.92    | 42.9        |
 | D Ldc           | 2.01    | 54.4        |
-| Rust            | 2.37    | 40.9        |
 | Crystal         | 2.59    | 58.5        |
 | Ruby            | 2.77    | 130.4       |
 | D Gdc           | 3.04    | 54.1        |
