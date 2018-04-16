@@ -2,17 +2,17 @@ extern crate memmap;
 extern crate serde;
 extern crate serde_json;
 
-use memmap::{Mmap, Protection};
+use memmap::Mmap;
 use serde_json::Value;
+use std::fs::File;
 use std::str;
 
 fn main() {
-    let file = Mmap::open_path("1.json", Protection::Read).unwrap();
-    // Unsafe because we must guarantee that the file is not concurrently modified.
-    let bytes = unsafe { file.as_slice() };
-    let s = str::from_utf8(bytes).unwrap();
+    let file = File::open("1.json").unwrap();
+    let mmap = unsafe { Mmap::map(&file).unwrap() };
+    let contents = str::from_utf8(&mmap[..]).unwrap();
 
-    let value: Value = serde_json::from_str(s).unwrap();
+    let value: Value = serde_json::from_str(&contents).unwrap();
 
     let coordinates = value.get("coordinates").unwrap().as_array().unwrap();
 

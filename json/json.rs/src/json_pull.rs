@@ -4,10 +4,12 @@ extern crate serde;
 extern crate serde_derive;
 extern crate serde_json;
 
-use memmap::{Mmap, Protection};
+use memmap::Mmap;
 use serde::{Deserializer, de};
 use std::fmt;
 use std::str;
+use std::fs::File;
+
 
 #[derive(Deserialize)]
 pub struct Coordinate {
@@ -29,23 +31,23 @@ pub struct TestStruct  {
     state: State,
 }
 
-fn deserialize_add<D>(deserializer: D) -> Result<State, D::Error>
-    where D: Deserializer
+fn deserialize_add<'de, D>(deserializer: D) -> Result<State, D::Error>
+    where D: Deserializer<'de>
 {
     struct StateVisitor;
 
-    impl de::Visitor for StateVisitor {
+    impl<'de> de::Visitor<'de> for StateVisitor {
         type Value = State;
-        
+
         fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
             write!(formatter, "an array of coordinates")
         }
 
         fn visit_seq<V>(self, mut visitor: V) -> Result<State, V::Error>
-            where V: de::SeqVisitor
+            where V: de::SeqAccess<'de>
         {
             let mut ac = State {x: 0.0, y: 0.0, z: 0.0, len: 1};
-            while let Some(v) = visitor.visit::<Coordinate>()? {
+            while let Some(v) = visitor.next_element::<Coordinate>()? {
                 ac.x += v.x;
                 ac.y += v.y;
                 ac.z += v.z;
@@ -60,12 +62,11 @@ fn deserialize_add<D>(deserializer: D) -> Result<State, D::Error>
 }
 
 fn main() {
-    let file = Mmap::open_path("1.json", Protection::Read).unwrap();
-    // Unsafe because we must guarantee that the file is not concurrently modified.
-    let bytes = unsafe { file.as_slice() };
-    let s = str::from_utf8(bytes).unwrap();
+    let file = File::open("1.json").unwrap();
+    let mmap = unsafe { Mmap::map(&file).unwrap() };
+    let contents = str::from_utf8(&mmap[..]).unwrap();
 
-    let test: TestStruct = serde_json::from_str(s).unwrap();
+    let test: TestStruct = serde_json::from_str(&contents).unwrap();
 
     let len = test.state.len as f64;
     println!("{}", test.state.x / len);
