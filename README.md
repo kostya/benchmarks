@@ -41,7 +41,7 @@ Some benchmarks of different languages
 | Ruby Rbx        | 120.38  | 32.3        |
 | Ruby Jruby      | 129.75  | 267.6       |
 | Ruby Jruby9k    | 134.18  | 286.8       |
-| Ruby            | 143.80  | 6.6         |
+| Ruby            | 147.32  | 7.4         |
 | Lua 5.1         | 182.74  | 1.0         |
 | Elixir          | 208.19  | 31.9        |
 | Python          | 314.79  | 4.9         |
@@ -94,7 +94,7 @@ Some benchmarks of different languages
 | Rust            | 1.92    | 42.9        |
 | D Ldc           | 2.01    | 54.4        |
 | Crystal         | 2.59    | 58.5        |
-| Ruby            | 2.77    | 130.4       |
+| Ruby            | 2.95    | 167.7       |
 | D Gdc           | 3.04    | 54.1        |
 | Perl XS         | 3.63    | 47.9        |
 | Ruby Rbx        | 4.29    | 30.7        |
@@ -155,7 +155,7 @@ Some benchmarks of different languages
 | Php             | 6.37    | 1502.0      |
 | D Ldc           | 7.13    | 1357.0      |
 | Haskell         | 8.31    | 70.5        |
-| Ruby            | 8.67    | 1074.6      |
+| Ruby            | 8.34    | 897.3       |
 | D Gdc           | 8.89    | 1357.2      |
 | Ruby Yajl       | 9.52    | 1054.6      |
 | Python          | 9.85    | 1409.1      |
@@ -203,7 +203,7 @@ Some benchmarks of different languages
 | C# Mono         | 15.17   | 83.6        |
 | Ruby truffle    | 35.43   | 934.2       |
 | Ruby Topaz      | 81.41   | 206.2       |
-| Ruby            | 326.44  | 76.9        |
+| Ruby            | 354.98  | 78.7        |
 | Python          | 447.39  | 74.0        |
 | Ruby JRuby      | 416.12  | 582.4       |
 | Ruby JRuby9k    | 467.59  | 608.3       |
@@ -254,7 +254,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Nodejs v8.4.0
 * PyPy 5.6.0 with GCC 4.8.2
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]
-* ruby 2.4.0p0 (2016-12-24 revision 57164) [x86_64-linux]
+* ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-linux]
 * Python 2.7.6
 * Python 3.5.2
 * rubinius 2.2.10 (2.1.0 bf61ae2e 2014-06-27 JI) [x86_64-linux-gnu]
