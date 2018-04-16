@@ -31,7 +31,7 @@ Some benchmarks of different languages
 | F# Mono         | 7.52    | 21.1        |
 | Javascript Node | 7.85    | 18.6        |
 | Haskell (MArray)| 7.95    | 2.2         |
-| LuaJIT          | 16.73   | 1.1         |
+| LuaJIT          | 12.61   | 1.0         |
 | Chez Scheme     | 20.15   | 25.7        |
 | Python PyPy     | 22.14   | 75.9        |
 | Haskell         | 25.34   | 2.2         |
@@ -42,8 +42,8 @@ Some benchmarks of different languages
 | Ruby Jruby      | 129.75  | 267.6       |
 | Ruby Jruby9k    | 134.18  | 286.8       |
 | Ruby            | 143.80  | 6.6         |
+| Lua 5.1         | 182.74  | 1.0         |
 | Elixir          | 211.20  | 31.9        |
-| Lua 5.1         | 220.16  | 1.0         |
 | Python          | 314.79  | 4.9         |
 | Python3         | 412.13  | 5.5         |
 | Tcl (FP)        | 457.33  | 2.5         |
