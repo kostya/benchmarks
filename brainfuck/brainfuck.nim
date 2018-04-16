@@ -12,45 +12,47 @@ proc newTape(): Tape =
   result.pos = 0
   result.tape = @[0]
 
+{.this: self.}
+
 proc inc(self: var Tape) =
-  self.tape[self.pos] += 1
+  inc tape[pos]
 
 proc dec(self: var Tape) =
-  self.tape[self.pos] -= 1
+  dec tape[pos]
 
 proc advance(self: var Tape) =
-  self.pos += 1
-  if len(self.tape) <= self.pos:
-    self.tape.add(0)
+  inc pos
+  if len(tape) <= pos:
+    tape.add(0)
 
 proc devance(self: var Tape) =
-  if self.pos > 0:
-    self.pos -= 1
+  if pos > 0:
+    dec pos
 
-proc get(self: Tape): int =
-  result = self.tape[self.pos]
+template get(self: Tape): int =
+  self.tape[self.pos]
 
 type
   Program = object
     code: string
-    bracket_map: Table[int, int]
+    bracketMap: Table[int, int]
 
 proc newProgram(code: string): Program =
-  result.bracket_map = initTable[int, int]()
+  result.bracketMap = initTable[int, int]()
   result.code = ""
   var pc = 0
   var leftstack = newSeq[int]()
   for c in code:
-    if not "+-<>[].,".contains(c):
+    if c notin {'+', '-', '<', '>', '[', ']', '.', ','}:
       continue
-    if c == '[':
+    elif c == '[':
       leftstack.add(pc)
-    if c == ']' and len(leftstack) > 0:
+    elif c == ']' and len(leftstack) > 0:
       var left: int = leftstack.pop
-      result.bracket_map.add pc, left
-      result.bracket_map.add left, pc
+      result.bracketMap.add pc, left
+      result.bracketMap.add left,  pc
     result.code.add(c)
-    pc += 1
+    inc pc
 
 proc run(prog: Program) =
   var pc: int = 0
@@ -68,15 +70,15 @@ proc run(prog: Program) =
         tape.devance
       of '[':
         if tape.get == 0:
-          pc = prog.bracket_map[pc]
+          pc = prog.bracketMap[pc]
       of ']':
         if tape.get != 0:
-          pc = prog.bracket_map[pc]
+          pc = prog.bracketMap[pc]
       of '.':
-        write stdout, tape.get.chr
+        write stdout, tape.get.char
         flushFile(stdout)
       else: discard
-    pc += 1
+    inc pc
 
 newProgram(readFile(paramStr(1))).run
 
