@@ -31,7 +31,7 @@ Some benchmarks of different languages
 | F# Mono         | 7.52    | 21.1        |
 | Javascript Node | 7.85    | 18.6        |
 | Haskell (MArray)| 7.95    | 2.2         |
-| LuaJIT          | 16.73   | 1.1         |
+| LuaJIT          | 12.61   | 1.0         |
 | Chez Scheme     | 20.15   | 25.7        |
 | Python PyPy     | 22.14   | 75.9        |
 | Haskell         | 25.34   | 2.2         |
@@ -41,9 +41,9 @@ Some benchmarks of different languages
 | Ruby Rbx        | 120.38  | 32.3        |
 | Ruby Jruby      | 129.75  | 267.6       |
 | Ruby Jruby9k    | 134.18  | 286.8       |
-| Ruby            | 143.80  | 6.6         |
-| Elixir          | 211.20  | 31.9        |
-| Lua 5.1         | 220.16  | 1.0         |
+| Ruby            | 147.32  | 7.4         |
+| Lua 5.1         | 182.74  | 1.0         |
+| Elixir          | 208.19  | 31.9        |
 | Python          | 314.79  | 4.9         |
 | Python3         | 412.13  | 5.5         |
 | Tcl (FP)        | 457.33  | 2.5         |
@@ -75,9 +75,9 @@ Some benchmarks of different languages
 | Javascript Node | 76.37   | 19.9        |
 | Go              | 108.21  | 2.2         |
 | Haskell (MArray)| 124.60  | 3.2         |
+| LuaJIT          | 131.46  | 1.9         |
 | Python PyPy     | 133.73  | 76.0        |
 | Ruby truffle    | 138.00  | 1014.1      |
-| LuaJIT          | 142.59  | 1.8         |
 | F# Mono         | 166.38  | 29.1        |
 | Chez Scheme     | 258.54  | 27.8        |
 | Ruby Topaz      | 305.79  | 38.8        |
@@ -91,10 +91,10 @@ Some benchmarks of different languages
 | --------------- | ------- | ----------- |
 | C aklomp SSSE3  | 0.93    | 32.3        |
 | C               | 1.85    | 32.2        |
+| Rust            | 1.92    | 42.9        |
 | D Ldc           | 2.01    | 54.4        |
-| Rust            | 2.37    | 40.9        |
 | Crystal         | 2.59    | 58.5        |
-| Ruby            | 2.77    | 130.4       |
+| Ruby            | 2.95    | 167.7       |
 | D Gdc           | 3.04    | 54.1        |
 | Perl XS         | 3.63    | 47.9        |
 | Ruby Rbx        | 4.29    | 30.7        |
@@ -128,14 +128,15 @@ Some benchmarks of different languages
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
 | D Gdc Fast      | 0.35    | 234.1       |
-| Rust Pull       | 0.51    | 207.7       |
-| Rust Struct     | 0.53    | 226.2       |
+| Rust Pull       | 0.49    | 207.7       |
+| Rust Struct     | 0.50    | 226.2       |
 | C++ Rapid SAX   | 0.72    | 1.0         |
 | C++ Gason       | 0.83    | 582.2       |
 | C++ Rapid       | 0.94    | 243.6       |
 | Java            | 1.28    | 371.2       |
+| Scala           | 1.44    | 457.2       |
+| Rust Value      | 1.82    | 1675.8      |
 | Crystal Schema  | 1.87    | 304.6       |
-| Rust Value      | 1.94    | 1673.9      |
 | Crystal         | 2.41    | 1119.2      |
 | Perl XS         | 2.68    | 888.4       |
 | Javascript Node | 3.33    | 871.0       |
@@ -154,7 +155,7 @@ Some benchmarks of different languages
 | Php             | 6.37    | 1502.0      |
 | D Ldc           | 7.13    | 1357.0      |
 | Haskell         | 8.31    | 70.5        |
-| Ruby            | 8.67    | 1074.6      |
+| Ruby            | 8.34    | 897.3       |
 | D Gdc           | 8.89    | 1357.2      |
 | Ruby Yajl       | 9.52    | 1054.6      |
 | Python          | 9.85    | 1409.1      |
@@ -162,7 +163,6 @@ Some benchmarks of different languages
 | Julia           | 11.89   | 2622.4      |
 | D               | 12.42   | 1417.1      |
 | JQ              | 14.92   | 1714.5      |
-| Scala           | 15.47   | 1415.8      |
 | C++ Boost       | 16.44   | 2915.2      |
 | Ruby JRuby9K    | 16.53   | 2050.5      |
 | Go Gcc          | 17.64   | 473.1       |
@@ -203,7 +203,7 @@ Some benchmarks of different languages
 | C# Mono         | 15.17   | 83.6        |
 | Ruby truffle    | 35.43   | 934.2       |
 | Ruby Topaz      | 81.41   | 206.2       |
-| Ruby            | 326.44  | 76.9        |
+| Ruby            | 354.98  | 78.7        |
 | Python          | 447.39  | 74.0        |
 | Ruby JRuby      | 416.12  | 582.4       |
 | Ruby JRuby9k    | 467.59  | 608.3       |
@@ -254,7 +254,7 @@ Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz (Ubuntu 14.04.1 LTS x86_64)
 * Nodejs v8.4.0
 * PyPy 5.6.0 with GCC 4.8.2
 * topaz (ruby-1.9.3p125) (git rev b95c858) [x86_64-linux]
-* ruby 2.4.0p0 (2016-12-24 revision 57164) [x86_64-linux]
+* ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-linux]
 * Python 2.7.6
 * Python 3.5.2
 * rubinius 2.2.10 (2.1.0 bf61ae2e 2014-06-27 JI) [x86_64-linux-gnu]

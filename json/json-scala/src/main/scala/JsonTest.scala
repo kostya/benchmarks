@@ -1,35 +1,42 @@
 import java.io.FileInputStream
 
-import org.json4s._
-import org.json4s.jackson.JsonMethods._
+import com.dslplatform.json._
 
 object JsonTest {
 
-  case class Coordinates(x:Double, y:Double, z:Double)
+  case class Root(coordinates: Seq[Coordinates])
 
-  implicit val formats = DefaultFormats
+  case class Coordinates(
+    x: Double,
+    y: Double,
+    z: Double)
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
+    1 to 5 foreach (_ => parseJson())
+  }
+
+  private def parseJson(): Unit = {
     val start_time = System.nanoTime
 
-    val fileStream = new FileInputStream("./1.json")
-    val json = parse(fileStream)
-    val coordsJson: JValue = json \ "coordinates"
-    val coords = coordsJson.extract[Seq[Coordinates]]
+    val settings = new DslJson.Settings[Any]().doublePrecision(JsonReader.DoublePrecision.LOW).`with`(new ConfigureScala)
+    val dslJson = new DslJson[Any](settings)
 
-    val len = coords.length
-    var (x,y,z) = (0.0,0.0,0.0)
+    val fs = new FileInputStream("1.json")
+    val root = dslJson.decode[Root](fs)
 
-    coords.foreach{c =>
+    var (x, y, z) = (0.0, 0.0, 0.0)
+
+    root.coordinates.foreach { c =>
       x += c.x
       y += c.y
       z += c.z
     }
 
+    val len = root.coordinates.size
     println(x / len)
     println(y / len)
     println(z / len)
 
-    println("time: "+(System.nanoTime-start_time)/1e9+"s")
+    println("time: " + (System.nanoTime - start_time) / 1e9 + "s")
   }
 }
