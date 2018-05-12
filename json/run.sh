@@ -51,9 +51,9 @@ echo C++ LibJson
 echo Julia
 ../xtime.rb julia test.jl
 echo Mono
-../xtime.rb mono -O=all --gc=sgen test.exe
+../xtime.rb mono -O=all --gc=sgen netfx/json.exe
 echo C# .Net Core
-../xtime.rb dotnet bin/Release/netcoreapp2.0/json.dll
+../xtime.rb dotnet netcore/json.dll
 echo Ruby
 ../xtime.rb ruby test.rb
 echo Ruby YAJL

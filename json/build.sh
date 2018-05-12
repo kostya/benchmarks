@@ -37,12 +37,9 @@ g++ -std=c++11 test_gason.cpp -I gason/src/ gason/src/gason.cpp -o json_gason_cp
 g++ -O3 test_libjson.cpp -o json_libjson_cpp -ljson
 julia -e 'Pkg.add("JSON")'
 # mono
-nuget install Newtonsoft.Json
-cp Newtonsoft.Json.*/lib/net45/Newtonsoft.Json.dll .
-mcs -debug- -optimize+ -r:Newtonsoft.Json.dll test.cs
-
-# .net core
-dotnet build -c Release
+dotnet build -c Release -f net45 -o netfx
+# .NET Core
+dotnet build -c Release -f netcoreapp2.0 -o netcore
 
 gem install yajl-ruby
 
