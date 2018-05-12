@@ -11,9 +11,9 @@ echo Java
 echo Kotlin
 ../xtime.rb java -jar bf2-kt.jar bench.b
 echo C# Mono
-../xtime.rb mono -O=all --gc=sgen bf.exe bench.b
-echo C# .Net Core
-../xtime.rb dotnet bin/Release/netcoreapp2.0/brainfuck2.dll bench.b
+../xtime.rb mono -O=all --gc=sgen netfx/brainfuck2.exe bench.b
+echo C# .NET Core
+../xtime.rb dotnet netcore/brainfuck2.dll bench.b
 echo Elixir
 ../xtime.rb elixir bf.ex bench.b
 echo F# Mono

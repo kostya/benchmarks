@@ -2,8 +2,8 @@ crystal build bf.cr --release -o bin_cr --no-debug
 g++ -flto -O3 -o bin_cpp bf.cpp
 rustc -C opt-level=3 -C lto bf.rs -o bin_rs
 scalac -optimize bf.scala
-mcs -debug- -optimize+ bf.cs
-dotnet build -c Release
+dotnet build -c Release -f net45 -o netfx
+dotnet build -c Release -f netcoreapp2.0 -o netcore
 javac bf.java
 kotlinc bf2.kt -include-runtime -d bf2-kt.jar
 go build -o bin_go bf.go
