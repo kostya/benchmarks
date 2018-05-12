@@ -1,46 +1,43 @@
 using System;
 using System.IO;
-using System.Linq;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using Utf8Json.Resolvers;
+using Utf8Json;
 
-namespace Test
+class Root
 {
-    class Program
+    public struct Coordinate
     {
-        public class Coordinate
+        public double X;
+        public double Y;
+        public double Z;
+    }
+
+    public List<Coordinate> Coordinates { get; set; }
+
+#if NETCOREAPP2_0
+    static async System.Threading.Tasks.Task Main(string[] args)
+    {
+        var stream = File.Open("./1.json", FileMode.Open);
+        var root = await JsonSerializer.DeserializeAsync<Root>(stream, StandardResolver.AllowPrivateCamelCase);
+#else
+    static void Main(string[] args) {
+        var text = File.ReadAllText("./1.json");
+        var root = JsonSerializer.Deserialize<Root>(text, StandardResolver.AllowPrivateCamelCase);
+#endif
+        double x = 0;
+        double y = 0;
+        double z = 0;
+
+        foreach (var c in root.Coordinates)
         {
-            public double X { get; set; }
-            public double Y { get; set; }
-            public double Z { get; set; }
-        }
+            x += c.X;
+            y += c.Y;
+            z += c.Z;
+        };
 
-        public class Root
-        {
-            public List<Coordinate> Coordinates { get; set; }
-        }
-
-        static void Main(string[] args)
-        {
-            var text = File.ReadAllText("./1.json");
-
-            var root = JsonConvert.DeserializeObject<Root>(text);
-
-            double x = 0;
-            double y = 0;
-            double z = 0;
-            int count = 0;
-
-            foreach(var c in root.Coordinates)
-            {
-                count += 1;
-                x += c.X;
-                y += c.Y;
-                z += c.Z;
-            };
-
-            Console.WriteLine("{0}\n{1}\n{2}", x/count, y/count, z/count);
-        }
+        Console.WriteLine(x / root.Coordinates.Count);
+        Console.WriteLine(y / root.Coordinates.Count);
+        Console.WriteLine(z / root.Coordinates.Count);
     }
 }

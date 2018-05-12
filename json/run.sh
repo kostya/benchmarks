@@ -52,7 +52,7 @@ echo Julia
 ../xtime.rb julia test.jl
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen netfx/json.exe
-echo C# .Net Core
+echo C# .NET Core
 ../xtime.rb dotnet netcore/json.dll
 echo Ruby
 ../xtime.rb ruby test.rb
