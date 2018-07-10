@@ -53,7 +53,6 @@ type Tape struct {
 func NewTape() *Tape {
   t := &Tape{pos: 0}
   t.tape = make([]int, 1)
-  t.Move(1)
   return t
 }
 
@@ -96,6 +95,7 @@ func parse(si *StringIterator) []Op {
       case '[': op = NewOpLoop(LOOP, parse(si))
       case ']': return res
       case byte(0): return res
+      default: continue
     }
     res = append(res, op)
   }
