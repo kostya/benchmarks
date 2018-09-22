@@ -63,7 +63,10 @@ func (t *Tape) Inc(x int) {
 
 func (t *Tape) Move(x int) {
   t.pos += x
-  for t.pos >= len(t.tape) { t.tape = append(t.tape, 0) }
+  if t.pos < len(t.tape) {
+		return
+	}
+  t.tape = append(t.tape, make([]int, (t.pos+1)-len(t.tape))...)
 }
 
 func (t *Tape) Get() int {
@@ -103,13 +106,19 @@ func parse(si *StringIterator) []Op {
 }
 
 func _run(program []Op, tape *Tape) {
-  for _, op := range(program) {
-    switch op.O {
-      case INC: tape.Inc(op.V)
-      case MOVE: tape.Move(op.V)
-      case LOOP: for tape.Get() > 0 { _run(op.Loop, tape) }
-      case PRINT: fmt.Printf("%c", tape.Get())
-    }
+  for i :=0; i < len(program); i++ {
+    switch program[i].O {
+		case INC:
+			tape.Inc(program[i].V)
+		case MOVE:
+			tape.Move(program[i].V)
+		case LOOP:
+			for tape.Get() > 0 {
+				_run(program[i].Loop, tape)
+			}
+		case PRINT:
+			os.Stdout.Write([]byte{byte(tape.Get())})
+		}
   }
 }
 
