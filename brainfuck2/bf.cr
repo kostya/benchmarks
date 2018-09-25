@@ -21,7 +21,7 @@ class Tape
 
   def move(x)
     @pos += x
-      if @pos >= @tape.size
+    if @pos >= @tape.size
       @tape.concat Array.new(@pos - @tape.size + 1, 0)
     end
   end
