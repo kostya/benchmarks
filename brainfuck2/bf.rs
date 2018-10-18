@@ -32,10 +32,7 @@ fn _run(program: &[Op], tape: &mut Tape) {
             Loop(ref program) => while tape.get() > 0 {
               _run(program, tape);
             },
-            Print => {
-              print!("{}", tape.getc());
-              io::Write::flush(&mut io::stdout()).unwrap();
-            }
+            Print => print!("{}", tape.getc())
         }
     }
 }
