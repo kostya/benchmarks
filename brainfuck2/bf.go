@@ -103,14 +103,20 @@ func parse(si *StringIterator) []Op {
 }
 
 func _run(program []Op, tape *Tape) {
-  for _, op := range(program) {
-    switch op.O {
-      case INC: tape.Inc(op.V)
-      case MOVE: tape.Move(op.V)
-      case LOOP: for tape.Get() > 0 { _run(op.Loop, tape) }
-      case PRINT: fmt.Printf("%c", tape.Get())
-    }
-  }
+	for i := 0; i < len(program); i++ {
+		switch program[i].O {
+		case INC:
+			tape.Inc(program[i].V)
+		case MOVE:
+			tape.Move(program[i].V)
+		case LOOP:
+			for tape.Get() > 0 {
+				_run(program[i].Loop, tape)
+			}
+		case PRINT:
+			fmt.Printf("%c", tape.Get())
+		}
+	}
 }
 
 func main() {

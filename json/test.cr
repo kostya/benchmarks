@@ -2,7 +2,7 @@ require "json"
 
 text = File.read("1.json")
 jobj = JSON.parse(text)
-coordinates = jobj["coordinates"]
+coordinates = jobj["coordinates"].as_a
 len = coordinates.size
 x = y = z = 0
 

@@ -15,17 +15,17 @@ Some benchmarks of different languages
 | Rust            | 2.16    | 4.8         |
 | Nim Gcc         | 2.50    | 0.6         |
 | D Gdc           | 2.61    | 1.4         |
+| Go              | 2.79    | 0.9         |
 | D Ldc           | 2.85    | 1.0         |
 | Nim Clang       | 3.11    | 0.8         |
 | ML MLton        | 3.14    | 0.7         |
 | Crystal         | 3.37    | 1.3         |
+| Go Gcc          | 3.38    | 10.0        |
 | C# .Net Core    | 3.40    | 18.7        |
 | Scala           | 3.43    | 120.12      |
 | Java            | 4.03    | 513.8       |
 | OCaml           | 4.04    | 2.7         |
-| Go Gcc          | 4.20    | 10.0        |
 | D Dmd           | 5.23    | 1.0         |
-| Go              | 5.54    | 0.9         |
 | C# Mono         | 6.14    | 14.6        |
 | Javascript V8   | 6.53    | 7.9         |
 | F# Mono         | 7.52    | 21.1        |
@@ -60,20 +60,20 @@ Some benchmarks of different languages
 | Crystal         | 25.28   | 1.5         |
 | Rust            | 27.18   | 4.8         |
 | D Gdc           | 27.40   | 2.4         |
+| Go Gcc          | 28.06   | 11.4        |
 | Nim Gcc         | 30.78   | 2.7         |
 | D Ldc           | 31.21   | 1.8         |
 | C# .Net Core    | 34.93   | 21.4        |
 | ML MLton        | 36.03   | 2.5         |
 | Nim Clang       | 37.22   | 2.9         |
-| Go Gcc          | 37.59   | 11.4        |
 | Kotlin          | 40.79   | 34.9        |
 | OCaml           | 52.18   | 5.3         |
 | Scala           | 58.51   | 120.12      |
 | Java            | 58.86   | 423.9       |
 | D Dmd           | 62.69   | 1.7         |
+| Go              | 65.78   | 2.2         |
 | C# Mono         | 70.90   | 12.6        |
 | Javascript Node | 76.37   | 19.9        |
-| Go              | 108.21  | 2.2         |
 | Haskell (MArray)| 124.60  | 3.2         |
 | LuaJIT          | 131.46  | 1.9         |
 | Python PyPy     | 133.73  | 76.0        |
