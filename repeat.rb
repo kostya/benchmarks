@@ -13,10 +13,10 @@ end
 
 min_t = nil
 10.times do
-  start = Time.now
+  start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
   pid = Process.spawn(*ARGV.to_a)
   Process.waitall
-  t = Time.now - start
+  t = Process.clock_gettime(Process::CLOCK_MONOTONIC) - start
   min_t = t if min_t.nil? || t < min_t
   STDERR.puts "%.2fs" % t
 end
