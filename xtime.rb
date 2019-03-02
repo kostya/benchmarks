@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 def mem(pid); `ps p #{pid} -o rss`.split.last.to_i; end
-t = Time.now
+t = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 pid = Process.spawn(*ARGV.to_a)
 mm = 0
 
@@ -14,5 +14,5 @@ Thread.new do
 end
 
 Process.waitall
-STDERR.puts "%.2fs, %.1fMb" % [Time.now - t, mm / 1024.0]
+STDERR.puts "%.2fs, %.1fMb" % [Process.clock_gettime(Process::CLOCK_MONOTONIC) - t, mm / 1024.0]
 
