@@ -24,3 +24,5 @@ if [ ! -d aklomp-base64-ssse ]; then
 fi
 gcc --std=c99 -O3 test-aklomp.c -I aklomp-base64-ssse/include/ aklomp-base64-ssse/lib/libbase64.o -o base64_c_ak_ssse
 wget -qO - https://cpanmin.us | perl - -L perllib MIME::Base64::Perl
+pip install pybase64
+
