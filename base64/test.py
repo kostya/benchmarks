@@ -1,4 +1,9 @@
-import base64, time
+try: 
+  #pip install pybase64 is required to use the fast base64 variant.
+  import pybase64 as base64 
+except ImportError:
+  import base64
+import time
 
 STR_SIZE = 10000000
 TRIES = 100
