@@ -14,6 +14,7 @@ javac matmul.java
 kotlinc matmul.kt -include-runtime -d matmul-kt.jar
 mcs -debug- -optimize+ matmul.cs
 dotnet build -c Release
+valac -X -O3 -o matmul_vala matmul.vala
 
 # numpy for matrix mult in python
 # brew install numpy
