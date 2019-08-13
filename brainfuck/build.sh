@@ -7,8 +7,8 @@ rustc -C opt-level=3 brainfuck.rs -o brainfuck_rs
 dmd -ofbrainfuck_d -O -release -inline brainfuck.d
 gdc -o brainfuck_d_gdc -O3 -frelease -finline brainfuck.d
 ldc2 -ofbrainfuck_d_ldc -O5 -release -inline brainfuck.d
-nim c -o:brainfuck_nim_clang -d:release --cc:clang --verbosity:0 brainfuck.nim
-nim c -o:brainfuck_nim_gcc -d:release --cc:gcc --verbosity:0 brainfuck.nim
+nim c -o:brainfuck_nim_clang -d:danger --cc:clang --verbosity:0 brainfuck.nim
+nim c -o:brainfuck_nim_gcc -d:danger --cc:gcc --verbosity:0 brainfuck.nim
 mcs -debug- -optimize+ brainfuck.cs
 dotnet build -c Release
 rock -o=brainfuck_ooc -v -O3 brainfuck.ooc

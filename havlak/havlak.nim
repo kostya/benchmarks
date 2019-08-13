@@ -1,5 +1,4 @@
 import tables
-import sequtils
 import sets
 
 type
@@ -233,7 +232,7 @@ proc findLoops(self: var HavlakLoopFinder): int =
   #     - the list of backedges (backPreds) or
   #     - the list of non-backedges (nonBackPreds)
   #
-  for w in 0 .. <size:
+  for w in 0 ..< size:
     header[w] = 0
     types[w]  = BB_NONHEADER
 
@@ -431,7 +430,7 @@ proc run(self: var LoopTesterApp) =
   var loops = h.findLoops
 
   echo "Another 50 iterations..."
- 
+
   var sum = 0
   for i in 1..50:
     write stdout, "."

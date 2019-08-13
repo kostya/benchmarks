@@ -7,7 +7,7 @@ type
   OpT = enum
     INC = 1, MOVE = 2, LOOP = 3, PRINT = 4
 
-type 
+type
   Op = object
     op: OpT
     v: int
@@ -21,7 +21,7 @@ proc newOp(op1: OpT, l1: seq[Op]): Op =
   result.op = op1
   result.loop = l1
 
-type 
+type
   StringIterator = object
     text: string
     pos: int
@@ -58,7 +58,7 @@ type
   Program = object
     ops: seq[Op]
 
-proc parse(it: var StringIterator): seq[Op] = 
+proc parse(it: var StringIterator): seq[Op] =
   result = newSeq[Op]()
   while true:
     case it.next:
@@ -84,10 +84,9 @@ proc runops(program: seq[Op], tape: var Tape) =
       of LOOP:
         while tape.get > 0:
           runops(op.loop, tape)
-      of PRINT: 
+      of PRINT:
         write stdout, tape.get.chr
         flushFile(stdout)
-      else: discard
 
 proc run(self: Program) =
   var tape = newTape()
