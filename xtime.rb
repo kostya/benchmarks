@@ -1,5 +1,14 @@
 #!/usr/bin/env ruby
-def mem(pid); `ps p #{pid} -o rss`.split.last.to_i; end
+def mem(pid)
+  parent_rss = `ps p #{pid} -o rss`
+  children_rss = `ps --ppid #{pid} -o rss`
+  overall = parent_rss.split("\n").last.to_i
+  children_rss.split("\n").drop(1).each do |mem|
+    overall += mem.to_i
+  end
+  overall
+end
+
 t = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 pid = Process.spawn(*ARGV.to_a)
 mm = 0

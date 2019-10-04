@@ -1,3 +1,5 @@
+#!/bin/sh
+
 if [ ! -f 1.json ]; then
   ruby generate_json.rb
 fi
@@ -34,8 +36,8 @@ if [ ! -d gason ]; then
 fi
 g++ -std=c++11 test_gason.cpp -I gason/src/ gason/src/gason.cpp -o json_gason_cpp -O3
 
-g++ -O3 test_libjson.cpp -o json_libjson_cpp -ljson
-julia -e 'Pkg.add("JSON")'
+g++ -O3 test_libjson.cpp -o json_libjson_cpp -ljson-c
+julia -e 'using Pkg; Pkg.add("JSON")'
 # mono
 nuget install Newtonsoft.Json
 cp Newtonsoft.Json.*/lib/net45/Newtonsoft.Json.dll .
@@ -52,7 +54,7 @@ wget -qO - https://cpanmin.us | perl - -L perllib Cpanel::JSON::XS JSON::Tiny Fi
 cd json-hs; make; cd ..
 
 # clojure
-cd json-clj; lein uberjar; cd ..; cp json-clj/test.jar ./
+cd json-clj; lein uberjar; cd ..; cp json-clj/target/test.jar ./
 
 # python/python3/pypy
 pip install ujson
@@ -62,4 +64,4 @@ pip3 install ujson
 cd json-java; mvn clean install; cp target/java-json-1.5-jar-with-dependencies.jar ../java-json.jar; cd ..
 
 #scala
-cd json-scala; sbt clean assembly; cp target/scala-2.12/benchmark-json-scala-assembly-1.1.jar ../scala-json.jar; cd ..
+cd json-scala; sbt clean assembly; cp target/scala-2.13/benchmark-json-scala-assembly-1.1.jar ../scala-json.jar; cd ..

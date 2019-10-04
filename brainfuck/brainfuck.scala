@@ -15,8 +15,8 @@ class Program(text: String) {
 
   parse_code(text)
 
-  def parse_code(text: String) {
-    val leftstack = collection.mutable.ArrayStack.empty[Int]
+  def parse_code(text: String): Unit = {
+    val leftstack = collection.mutable.Stack.empty[Int]
     var pc = 0
     for (ch <- text)
       ch match {

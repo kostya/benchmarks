@@ -1,10 +1,8 @@
-type Tape
+mutable struct Tape
   tape::Array{Int, 1}
   pos::Int
 
-  function Tape()
-    new(zeros(Int, 1), 1)
-  end
+  Tape() = new(zeros(Int, 1), 1)
 end
 
 inc(this::Tape) = (this.tape[this.pos] += 1)
@@ -26,8 +24,8 @@ end
 
 validbfsymbol(x) = in(x, ['>', '<', '+', '-', '.', ',', '[', ']'])
 
-type Program
-  code::ASCIIString
+struct Program
+  code::String
   bracket_map::Dict{Int, Int}
 
   function Program(text)
@@ -83,11 +81,13 @@ function main(text)
   run(Program(text))
 end
 
-println(STDERR, "warming")
+println("JIT warming up")
 main(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++")
 
-println(STDERR, "bench")
-text = open(readall, ARGS[1])
+println("bench")
+text = open(ARGS[1]) do file
+  read(file, String)
+end
 x = @timed main(text)
-println(STDERR, "Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
 

@@ -19,7 +19,7 @@ object JsonTest {
     val start_time = System.nanoTime
 
     val settings = new DslJson.Settings[Any]().doublePrecision(JsonReader.DoublePrecision.LOW).`with`(new ConfigureScala)
-    val dslJson = new DslJson[Any](settings)
+    implicit val dslJson = new DslJson[Any](settings)
 
     val fs = new FileInputStream("1.json")
     val root = dslJson.decode[Root](fs)

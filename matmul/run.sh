@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo Crystal
 ../xtime.rb ./matmul_cr 1500
 echo Go
@@ -14,8 +16,8 @@ echo D Gdc
 ../xtime.rb ./matmul_d_gdc 1500
 echo D Ldc
 ../xtime.rb ./matmul_d_ldc 1500
-echo D Mir GLAS
-../xtime.rb ./matmul_d_mir 1500
+echo D lubeck
+../xtime.rb ./matmul_d_lubeck 1500
 echo Nim Gcc
 ../xtime.rb ./matmul_nim_gcc 1500
 echo Nim Clang
@@ -39,15 +41,13 @@ echo Julia
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen matmul.exe 1500
 echo C# .Net Core
-../xtime.rb dotnet bin/Release/netcoreapp2.0/matmul.dll 1500
+../xtime.rb dotnet bin/Release/netcoreapp3.0/matmul.dll 1500
 echo Python PyPy
 ../xtime.rb pypy matmul.py 1500
 echo Python
 ../xtime.rb python matmul.py 1500
 echo Python NumPy
 ../xtime.rb python matmul-numpy.py 1500
-echo Ruby Topaz
-../xtime.rb topaz matmul.rb 1500
 echo Ruby
 ../xtime.rb ruby matmul.rb 1500
 echo Perl

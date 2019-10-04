@@ -36,7 +36,7 @@ class matmul {
 		matmul m = new matmul();
 
 		double[][] t = m.matmul(m.matgen(500), m.matgen(500));
-		System.out.println("warnup: " + t[1][1]);
+		System.out.println("JIT warming up: " + t[1][1]);
 
 		long start_time = System.currentTimeMillis();
 

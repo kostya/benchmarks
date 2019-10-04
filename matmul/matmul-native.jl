@@ -20,12 +20,12 @@ function test()
     n = parse(Int, ARGS[1])
   end
 
-  println(STDERR, "warming")
+  println("JIT warming up")
   main(200)
 
-  println(STDERR, "bench")
+  println("bench")
   x = @timed main(n)
-  println(STDERR, "Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+  println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
 end
 
 test()

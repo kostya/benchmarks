@@ -1,4 +1,5 @@
 open System
+open System.Diagnostics
 open System.IO
 
 type op = Inc of int | Move of int | Print | Loop of op list
@@ -61,7 +62,21 @@ let main argv =
     let source =
       File.ReadAllLines filename
       |> String.concat "\n"
+
+    let stopWatch = new Stopwatch()
+    Console.Error.WriteLine("JIT warming up")
+
+    stopWatch.Start();
+    let (_, ops) = parse(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++", [])
+    let _ = run ops { data = [| 0 |]; pos = 0 }
+    stopWatch.Stop()
+    Console.Error.WriteLine("time: {0}s", stopWatch.Elapsed.TotalSeconds)
+
+    Console.Error.WriteLine("run")
+    stopWatch.Restart()
     let (_, ops) = parse(source, [])
     let _ = run ops { data = [| 0 |]; pos = 0 }
+    stopWatch.Stop()
+    Console.Error.WriteLine("time: {0}s", stopWatch.Elapsed.TotalSeconds)
     0
   | _ -> 1

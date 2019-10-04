@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo Cpp
 ../xtime.rb ./bin_cpp mandel.b > /dev/null
 echo D
@@ -35,11 +37,9 @@ echo Javascript Node
 echo C# Mono
 ../xtime.rb mono -O=all --gc=sgen bf.exe mandel.b > /dev/null
 echo C# .Net Core
-../xtime.rb dotnet bin/Release/netcoreapp2.0/brainfuck2.dll mandel.b > /dev/null
+../xtime.rb dotnet bin/Release/netcoreapp3.0/brainfuck2.dll mandel.b > /dev/null
 echo Python PyPy
 ../xtime.rb pypy bf.py mandel.b > /dev/null
-echo Ruby Topaz
-../xtime.rb topaz bf.rb mandel.b > /dev/null
 echo Standard ML MLton
 ../xtime.rb ./bin_sml mandel.b > /dev/null
 echo LuaJIT

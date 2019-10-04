@@ -7,26 +7,32 @@ val enc = Base64.getEncoder();
 val dec = Base64.getDecoder();
 
 fun main(args: Array<String>) {
-    val str = "a".repeat(STR_SIZE)
+    val str = "a".repeat(STR_SIZE).toByteArray()
 
     var count1 = 0
     var encStr = ""
 
+    println("JIT warming up")
+    repeat(5) {
+        dec.decode(enc.encodeToString(str))
+    }
+
+    println("run")
     val t1 = System.nanoTime()
     repeat(TRIES) {
-        encStr = enc.encodeToString(str.toByteArray())
+        encStr = enc.encodeToString(str)
         count1 += encStr.length
     }
     println("encode: ${count1}, ${(System.nanoTime() - t1) / 1e9}")
 
     var count2 = 0
-    var decStr: String
 
     val t2 = System.nanoTime()
     repeat(TRIES) {
         val decBytes = dec.decode(encStr)
-        decStr = String(decBytes)
-        count2 += decStr.length
+        count2 += decBytes.size
     }
-    println("decode: ${count2}, ${(System.nanoTime() - t2) / 1e9}")
+    val now = System.nanoTime()
+    println("decode: ${count2}, ${(now - t2) / 1e9}")
+    println("overall time: ${(now - t1) / 1e9}s")
 }

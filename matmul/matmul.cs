@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace test
 {
@@ -41,12 +42,21 @@ namespace test
         {
             int n = 100;
             if (args.Length >= 1) n = int.Parse(args[0]) / 2 * 2;
-            Console.WriteLine("N = {0}", n);
+
             double[,] a, b, x;
+            a = MatGen(500);
+            b = MatGen(500);
+            x = MatMul(ref a, ref b);
+            Console.WriteLine("JIT warming up: {0}", x[1, 1]);
+
+            Console.WriteLine("N = {0}", n);
+            var sw = Stopwatch.StartNew();
             a = MatGen(n);
             b = MatGen(n);
             x = MatMul(ref a, ref b);
+            sw.Stop();
             Console.WriteLine(x[n/2,n/2]);
+            Console.WriteLine("time: {0}s", sw.Elapsed.TotalSeconds);
         }
     }
 }

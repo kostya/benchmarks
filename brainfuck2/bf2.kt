@@ -1,6 +1,7 @@
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.util.Arrays
 
 sealed class Op() {
     class Inc(val v: Int): Op()
@@ -24,9 +25,7 @@ class Tape {
     fun move(x: Int) {
         pos += x
         while (pos >= tape.size) {
-            val tape = IntArray(this.tape.size * 2)
-            System.arraycopy(this.tape, 0, tape, 0, this.tape.size)
-            this.tape = tape
+            this.tape = Arrays.copyOf(this.tape, this.tape.size * 2)
         }
     }
 }
@@ -76,7 +75,7 @@ class Program(code: String) {
 fun warming() {
     val WARM_PROGRAM = ">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++"
     
-    System.err.println("warming")
+    System.err.println("JIT warming up")
     val start_time = System.currentTimeMillis()
     Program(WARM_PROGRAM).run()
     System.err.println("time: ${(System.currentTimeMillis() - start_time) / 1e3}s")

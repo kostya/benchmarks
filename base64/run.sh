@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo Crystal
 ../xtime.rb ./base64_cr
 echo Go
@@ -27,7 +29,7 @@ echo Julia
 echo Scala
 ../xtime.rb scala Base64
 echo Java
-../xtime.rb java -XX:+AggressiveOpts Base64Java
+../xtime.rb java Base64Java
 echo Kotlin
 ../xtime.rb java -jar Test-kt.jar
 echo Javascript Node
@@ -43,7 +45,7 @@ echo Ruby
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen test.exe
 echo C# .Net Core
-../xtime.rb dotnet bin/Release/netcoreapp2.0/base64.dll
+../xtime.rb dotnet bin/Release/netcoreapp3.0/base64.dll
 echo Perl
 ../xtime.rb perl -Iperllib/lib/perl5 test.pl
 echo Perl XS

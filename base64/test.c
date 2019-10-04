@@ -2,6 +2,7 @@
 #include "stdio.h"
 #include "time.h"
 #include <stdint.h>
+#include <string.h>
 
 typedef unsigned int uint;
 const char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -101,7 +102,7 @@ int main() {
   const int TRIES = 100;
 
   char *str = (char*) malloc(STR_SIZE + 1);
-  for (int i = 0; i < STR_SIZE; i++) { str[i] = 'a'; }
+  memset(str, 'a', STR_SIZE);
   str[STR_SIZE] = '\0';
 
   int s = 0;

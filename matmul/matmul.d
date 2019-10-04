@@ -4,11 +4,21 @@
 import std.numeric, std.stdio, std.string, std.conv;
 
 double[][] matGen(in int n) {
-  double tmp = 1.0 / n / n;
+  auto len = n * n;
+  double tmp = 1.0 / len;
   auto a = new double[][](n, n);
-  foreach (int i, row; a)
-    foreach (int j, ref x; row)
-      x = tmp * (i - j) * (i + j);
+  size_t i;
+  foreach (ref row; a)
+  {
+    sizediff_t u = i, v = i;
+    foreach (ref x; row)
+    {
+      x = tmp * (u * v);
+      u--;
+      v++;
+     }
+     i++;
+  }
   return a;
 }
 
