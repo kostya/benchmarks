@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo Crystal
 ../xtime.rb ./json_cr
 echo Crystal Pull
@@ -53,7 +55,7 @@ echo Julia
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen test.exe
 echo C# .Net Core
-../xtime.rb dotnet bin/Release/netcoreapp2.0/json.dll
+../xtime.rb dotnet bin/Release/netcoreapp3.0/json.dll
 echo Ruby
 ../xtime.rb ruby test.rb
 echo Ruby YAJL

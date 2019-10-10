@@ -69,8 +69,7 @@ class CFG {
       tmp
     }
 
-    if (getNumNodes == 1)
-      startNode = node
+    startNode = node
     node
   }
 
@@ -133,7 +132,7 @@ class SimpleLoop {
   def addNode(bb : BasicBlock) = basicBlocks += bb
   def addChildLoop(loop : SimpleLoop) = children += loop
 
-  def dump(indent : Int) {
+  def dump(indent : Int): Unit = {
     for (i <- 0 until indent)
       System.out.format("  ")
 
@@ -215,7 +214,7 @@ class LSG {
 
   def max(a : Int, b : Int) = if (a > b) a else b
 
-  def calculateNestingLevelRec(loop : SimpleLoop, depth : Int) {
+  def calculateNestingLevelRec(loop : SimpleLoop, depth : Int): Unit = {
     loop.depthLevel_=(depth)
     for (liter <- loop.children) {
       calculateNestingLevelRec(liter, depth+1)
@@ -603,7 +602,7 @@ object LoopTesterApp {
     footer
   }
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     println("Welcome to LoopTesterApp, Scala edition")
 
     println("Constructing Simple CFG...")

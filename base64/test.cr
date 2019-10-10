@@ -7,16 +7,16 @@ str = "a" * STR_SIZE
 str2 = ""
 
 print "encode: "
-t, s = Time.now, 0
+t, s = Time.local, 0
 TRIES.times do |i|
   str2 = Base64.strict_encode(str)
   s += str2.bytesize
 end
-puts "#{s}, #{Time.now - t}"
+puts "#{s}, #{Time.local - t}"
 
 print "decode: "
-t, s = Time.now, 0
+t, s = Time.local, 0
 TRIES.times do |i|
   s += Base64.decode(str2).bytesize
 end
-puts "#{s}, #{Time.now - t}"
+puts "#{s}, #{Time.local - t}"

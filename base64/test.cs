@@ -15,6 +15,13 @@ namespace Test
             string str2 = String.Empty;
             int s = 0;
 
+            Console.WriteLine("JIT warming up");
+            for (int i = 0; i < 5; i++)
+            {
+                Convert.FromBase64String(Convert.ToBase64String(str1));
+            }
+
+            Console.WriteLine("run");
             var sw = Stopwatch.StartNew();
             for (int i = 0; i < TRIES; i++)
             {
@@ -24,6 +31,7 @@ namespace Test
 
             sw.Stop();
             Console.WriteLine("encode: {0}, {1}", s, sw.Elapsed.TotalSeconds);
+            var overall = sw.Elapsed.TotalSeconds;
 
             s = 0;
             sw.Restart();
@@ -33,6 +41,8 @@ namespace Test
             }
             sw.Stop();
             Console.WriteLine("decode: {0}, {1}", s, sw.Elapsed.TotalSeconds);
+            overall += sw.Elapsed.TotalSeconds;
+            Console.WriteLine("overall time: {0}s", overall);
         }
     }
 }

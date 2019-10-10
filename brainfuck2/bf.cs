@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace Test
         string code;
         int pos;
         Op[] ops;
-        
+
         Program(string text)
         {
             code = text;
@@ -48,7 +49,7 @@ namespace Test
 
         private Op[] parse() {
             List<Op> res = new List<Op>();
-            while (pos < code.Length) {                
+            while (pos < code.Length) {
                 char c = code[pos];
                 pos++;
                 switch (c) {
@@ -82,8 +83,20 @@ namespace Test
         static void Main(string[] args)
         {
             string text = File.ReadAllText(args[0]);
+            var stopWatch = new Stopwatch();
+            Console.Error.WriteLine("JIT warming up");
+
+            stopWatch.Start();
+            new Program(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++").run();
+            stopWatch.Stop();
+            Console.Error.WriteLine("time: " + stopWatch.ElapsedMilliseconds / 1e3 + "s");
+
+            Console.Error.WriteLine("run");
+            stopWatch.Restart();
             var p = new Program(text);
             p.run();
+            stopWatch.Stop();
+            Console.Error.WriteLine("time: " + stopWatch.ElapsedMilliseconds / 1e3 + "s");
         }
     }
 }

@@ -1,5 +1,4 @@
 import tables
-import sequtils
 import sets
 
 type
@@ -49,12 +48,13 @@ proc addEdge(self: var Cfg, edge: BasicBlockEdge) =
 proc getNumNodes(self: Cfg): int =
   self.basicBlockMap.len
 
-proc NewBasicBlockEdge(cfg: var Cfg, fromName: int, toName: int): BasicBlockEdge =
-  result.fr = cfg.createNode(fromName)
-  result.to = cfg.createNode(toName)
-  result.fr.outEdges.add(result.to)
-  result.to.inEdges.add(result.fr)
-  cfg.addEdge(result)
+proc NewBasicBlockEdge(cfg: var Cfg, fromName: int, toName: int) =
+  var newEdge = BasicBlockEdge()
+  newEdge.fr = cfg.createNode(fromName)
+  newEdge.to = cfg.createNode(toName)
+  newEdge.fr.outEdges.add(newEdge.to)
+  newEdge.to.inEdges.add(newEdge.fr)
+  cfg.addEdge(newEdge)
 
 type
   SimpleLoop = object
@@ -159,13 +159,11 @@ proc union(self: ref UnionFindNode, unionFindNode: ref UnionFindNode) =
 
 
 const
-  BB_TOP          = 0 # uninitialized
   BB_NONHEADER    = 1 # a regular BB
   BB_REDUCIBLE    = 2 # reducible loop
   BB_SELF         = 3 # single BB loop
   BB_IRREDUCIBLE  = 4 # irreducible loop
   BB_DEAD         = 5 # a dead BB
-  BB_LAST         = 6 # Sentinel
 
   # # Marker for uninitialized nodes.
   UNVISITED = -1
@@ -211,7 +209,7 @@ proc findLoops(self: var HavlakLoopFinder): int =
   var nodes           = newSeq[ref UnionFindNode]()
 
   for i in 1..size:
-    nonBackPreds.add initSet[int](1)
+    nonBackPreds.add initHashSet[int](1)
     backPreds.add newSeq[int]()
     nodes.add NewUnionFindNode()
 
@@ -221,7 +219,7 @@ proc findLoops(self: var HavlakLoopFinder): int =
   #   - unreached BB's are marked as dead.
   #
   for v in self.cfg.basicBlockMap.values: number[v] = UNVISITED
-  var res = dfs(startNode, nodes, number, last, 0)
+  discard dfs(startNode, nodes, number, last, 0)
 
   # Step b:
   #   - iterate over all nodes.
@@ -233,7 +231,7 @@ proc findLoops(self: var HavlakLoopFinder): int =
   #     - the list of backedges (backPreds) or
   #     - the list of non-backedges (nonBackPreds)
   #
-  for w in 0 .. <size:
+  for w in 0 ..< size:
     header[w] = 0
     types[w]  = BB_NONHEADER
 
@@ -368,14 +366,14 @@ proc NewLoopTesterApp(): LoopTesterApp =
 
 proc buildDiamond(self: var LoopTesterApp, start: int): int =
   var bb0 = start
-  var x1 = NewBasicBlockEdge(self.cfg, bb0, bb0 + 1)
-  var x2 = NewBasicBlockEdge(self.cfg, bb0, bb0 + 2)
-  var x3 = NewBasicBlockEdge(self.cfg, bb0 + 1, bb0 + 3)
-  var x4 = NewBasicBlockEdge(self.cfg, bb0 + 2, bb0 + 3)
+  NewBasicBlockEdge(self.cfg, bb0, bb0 + 1)
+  NewBasicBlockEdge(self.cfg, bb0, bb0 + 2)
+  NewBasicBlockEdge(self.cfg, bb0 + 1, bb0 + 3)
+  NewBasicBlockEdge(self.cfg, bb0 + 2, bb0 + 3)
   result = bb0 + 3
 
 proc buildConnect(self: var LoopTesterApp, start1: int, end1: int) =
-  var x1 = NewBasicBlockEdge(self.cfg, start1, end1)
+  NewBasicBlockEdge(self.cfg, start1, end1)
 
 proc buildStraight(self: var LoopTesterApp, start: int, n: int): int =
   for i in 0..n-1:
@@ -398,22 +396,22 @@ proc run(self: var LoopTesterApp) =
   echo "Welcome to LoopTesterApp, Nim edition"
   echo "Constructing Simple CFG..."
 
-  var x1 = self.cfg.createNode(0)
-  var x2 = self.buildBaseLoop(0)
-  var x3 = self.cfg.createNode(1)
+  discard self.cfg.createNode(0)
+  discard self.buildBaseLoop(0)
+  discard self.cfg.createNode(1)
   self.buildConnect(0, 2)
 
   echo "15000 dummy loops"
 
   for i in 1..15000:
     var h = NewHavlakLoopFinder(self.cfg, NewLsg())
-    var res = h.findLoops
+    discard h.findLoops
 
   echo "Constructing CFG..."
   var n = 2
 
   for parlooptrees in 1..10:
-    var x6 = self.cfg.createNode(n + 1)
+    discard self.cfg.createNode(n + 1)
     self.buildConnect(2, n + 1)
     n += 1
     for i in 1..100:

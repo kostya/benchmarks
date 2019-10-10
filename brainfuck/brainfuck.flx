@@ -2,20 +2,21 @@ include "stl/stl_vector";
 include "stl/stl_map";
 
 struct Tape {
-    tape: Stl_Vector[int]::stl_vector;
+    tape: varray[int];
     pos: size;
-    proc inc() = { self*.tape.[self*.pos] = self*.tape.[self*.pos] + 1; }
-    proc dec() = { self*.tape.[self*.pos] = self*.tape.[self*.pos] - 1; }
-    proc advance() = {
-        self*.pos = self*.pos + 1;
-        if self*.pos.size >= self*.tape.len call push_back(self*.tape, 0);
-    }
-    proc devance() = { self*.pos = self*.pos - 1; }
-    fun get() => self.tape.[self.pos];
 }
 
+fun get(self: Tape) => get(self.tape, self.pos);
+proc inc(self: &Tape) = { set(*self.tape, *self.pos, get(*self) + 1); }
+proc dec(self: &Tape) = { set(*self.tape, *self.pos, get(*self) - 1); }
+proc advance(self: &Tape) = {
+    self.pos <- *self.pos + 1;
+    if (*self.pos).size >= (*self.tape).len call push_back(*self.tape, 0);
+}
+proc devance(self: &Tape) = { self.pos <- *self.pos - 1; }
+
 ctor Tape() = {
-    tape := #Stl_Vector[int]::create;
+    tape := varray[int] 1024.size;
     push_back(tape, 0);
     return Tape(tape, 0.size);
 }
@@ -26,20 +27,20 @@ struct Program {
 }
 
 ctor Program(text: string) = {
-    bracket_map := #Stl_Map[int,int]::create;
+    var bracket_map = #Stl_Map[int,int]::create;
     pcode := #Stl_Vector[char]::create;
-    leftstack := #list[int];
+    var leftstack = #list[int];
     var pc = 0;
     valid := "[]<>+-,.";
     for chr in text do
         match find(valid, chr) with
         | Some p =>
             push_back(pcode, chr);
-            match p with
+            match p.int with
             | 0 => leftstack = pc + leftstack;
             | 1 =>
-                bracket_map.[leftstack.head] = pc;
-                bracket_map.[pc] = leftstack.head;
+                insert(bracket_map, leftstack.head, pc);
+                insert(bracket_map, pc, leftstack.head);
                 leftstack = leftstack.tail;
             | _ => ;
             endmatch;
@@ -55,13 +56,13 @@ proc run(p: Program) = {
     var pc = 0;
     while pc < p.pcode.len.int do
         match p.pcode.[pc.size].ord with
-        | 43 => #(&tape.inc);
-        | 45 => #(&tape.dec);
-        | 60 => #(&tape.devance);
-        | 62 => #(&tape.advance);
-        | 91 => if #(tape.get) == 0 do pc = p.bracket_map.[pc]; done
-        | 93 => if #(tape.get) != 0 do pc = p.bracket_map.[pc]; done
-        | 46 => print $ char $ #(tape.get); stdout.fflush;
+        | 43 => inc(&tape);
+        | 45 => dec(&tape);
+        | 60 => devance(&tape);
+        | 62 => advance(&tape);
+        | 91 => if get(tape) == 0 do pc = p.bracket_map.[pc]; done
+        | 93 => if get(tape) != 0 do pc = p.bracket_map.[pc]; done
+        | 46 => print $ char $ get(tape); stdout.fflush;
         endmatch;
         pc++;
     done

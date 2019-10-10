@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo Crystal
 ../xtime.rb ./brainfuck_cr mandel.b > /dev/null
 echo Go

@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo Cpp
 ../xtime.rb ./bin_cpp bench.b
 echo Crystal
@@ -13,7 +15,7 @@ echo Kotlin
 echo C# Mono
 ../xtime.rb mono -O=all --gc=sgen bf.exe bench.b
 echo C# .Net Core
-../xtime.rb dotnet bin/Release/netcoreapp2.0/brainfuck2.dll bench.b
+../xtime.rb dotnet bin/Release/netcoreapp3.0/brainfuck2.dll bench.b
 echo Elixir
 ../xtime.rb elixir bf.ex bench.b
 echo F# Mono
@@ -42,8 +44,6 @@ echo Nim Clang
 ../xtime.rb ./bin_nim_clang bench.b
 echo OCaml
 ../xtime.rb ./bin_ocaml bench.b
-echo Ruby Topaz
-../xtime.rb topaz bf.rb bench.b
 echo Python PyPy
 ../xtime.rb pypy bf.py bench.b
 echo Perl
@@ -56,13 +56,13 @@ echo Python3
 ../xtime.rb python3 bf3.py bench.b
 echo Standard ML MLton
 ../xtime.rb ./bin_sml bench.b
-echo Lua 5.1
-../xtime.rb lua5.1 bf.lua bench.b
+echo Lua 5.3
+../xtime.rb lua5.3 bf.lua bench.b
 echo LuaJIT
 ../xtime.rb luajit bf.lua bench.b
-echo Tcl (FP)
+echo "Tcl (FP)"
 ../xtime.rb tclsh bf.tcl bench.b
-echo Tcl (OO)
+echo "Tcl (OO)"
 ../xtime.rb tclsh bf_oo.tcl bench.b
 echo Racket
 ../xtime.rb racket bf.rkt bench.b

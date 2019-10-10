@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo Crystal
 ../xtime.rb ./brainfuck_cr bench.b
 echo Go
@@ -29,15 +31,13 @@ echo Julia
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen brainfuck.exe bench.b
 echo .Net Core
-../xtime.rb dotnet bin/Release/netcoreapp2.0/brainfuck.dll bench.b
+../xtime.rb dotnet bin/Release/netcoreapp3.0/brainfuck.dll bench.b
 echo Python PyPy
 ../xtime.rb pypy brainfuck.py bench.b
 echo Python
 ../xtime.rb python brainfuck.py bench.b
 echo Ruby
 ../xtime.rb ruby brainfuck.rb bench.b
-echo Ruby Topaz
-../xtime.rb topaz brainfuck.rb bench.b
 echo OOC
 ../xtime.rb ./brainfuck_ooc bench.b
 echo Felix

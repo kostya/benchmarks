@@ -10,14 +10,14 @@ my $str = 'a' x STR_SIZE;
 my $str2 = '';
 
 my ($t, $s) = (time, 0);
-for (0..TRIES) {
+for (1..TRIES) {
   $str2 = encode_base64 $str, '';
   $s += length $str2;
 }
 print "encode: $s, ", (time - $t), "\n";
 
 ($t, $s) = (time, 0);
-for (0..TRIES) {
+for (1..TRIES) {
   $s += length decode_base64 $str2;
 }
 print "decode: $s, ", (time - $t), "\n";
