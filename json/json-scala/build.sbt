@@ -2,6 +2,6 @@ name := "benchmark-json-scala"
 
 version := "1.1"
 
-scalaVersion := "2.12.5"
+scalaVersion := "2.13.0"
 
-libraryDependencies += "com.dslplatform" %% "dsl-json-scala" % "1.7.1"
+libraryDependencies += "com.dslplatform" %% "dsl-json-scala" % "1.9.3"

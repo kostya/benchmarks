@@ -16,35 +16,33 @@ class Base64Java {
         for (int i = 0 ; i < STR_SIZE ; i++) {
             sb.append("a");
         }
-        String str = sb.toString();
+        final byte[] str = sb.toString().getBytes(ISO_8859_1);
         String str2 = "";
         String str3;
 
-        // cheat - JIT warming-up  - 0,5-1sec
-        for (int i = 0 ; i < TRIES ; i++) {
-            enc.encodeToString(str.getBytes(ISO_8859_1)).length();
+        out.println("JIT warming up");
+        for (int i = 0 ; i < 5 ; i++) {
+            dec.decode(enc.encodeToString(str));
         }
 
+        out.println("run");
         int s = 0;
-        Long t = System.nanoTime();
+        final Long t = System.nanoTime();
         for (int i = 0 ; i < TRIES ; i++) {
-            str2 = enc.encodeToString(str.getBytes(ISO_8859_1));
+            str2 = enc.encodeToString(str);
             s += str2.length();
         }
         out.println("encode: " + s + ", " + (System.nanoTime() - t)/1e9);
-
-        // cheat - JIT warming-up  - 0-0,3sec
-        for (int i = 0 ; i < TRIES ; i++) {
-            dec.decode(str2.getBytes(ISO_8859_1));
-        }
+        final byte[] encoded = str2.getBytes(ISO_8859_1);
 
         s = 0;
-        t = System.nanoTime();
+        final Long t1 = System.nanoTime();
         for (int i = 0 ; i < TRIES ; i++) {
-            byte[] b_arr = dec.decode(str2.getBytes(ISO_8859_1));
-            str3 = new String(b_arr, ISO_8859_1);
-            s += str3.length();
+            byte[] b_arr = dec.decode(encoded);
+            s += b_arr.length;
         }
-        out.println("decode: " + s + ", " + (System.nanoTime() - t)/1e9);
+        final Long now = System.nanoTime();
+        out.println("decode: " + s + ", " + (now - t1) / 1e9);
+        out.println("overall time: " + (now - t) / 1e9 + "s");
     }
 }

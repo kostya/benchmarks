@@ -1,8 +1,8 @@
 // Written by Kajal Sinha; distributed under the MIT license
 import Glibc
 
-func matgen(n: Int) -> [[Double]]{
-    var a = [[Double]](count: n, repeatedValue: [Double](count: n, repeatedValue : 0))
+func matgen(_ n: Int) -> [[Double]]{
+    var a = Array(repeating: Array<Double>(repeating: 0, count: n), count: n)
     let divideBy = Double(n)
     let tmp = 1.0 / divideBy / divideBy
     for i in 0..<n {
@@ -13,12 +13,12 @@ func matgen(n: Int) -> [[Double]]{
     return a
 }
 
-func  matmul(a : [[Double]], b : [[Double]]) ->[[Double]] {
+func matmul(_ a : [[Double]], b : [[Double]]) ->[[Double]] {
     let m = a.count
     let n = a[0].count
     let p = b[0].count
-    var x = [[Double]](count: m, repeatedValue : [Double](count: p, repeatedValue : 0))
-    var c = [[Double]](count: p, repeatedValue : [Double](count : n, repeatedValue: 0))
+    var x = Array(repeating: Array<Double>(repeating: 0, count: p), count: m)
+    var c = Array(repeating: Array<Double>(repeating: 0, count: n), count: p)
     for  i in 0..<n  {// transpose
         for j in 0..<p {
             c[j][i] = b[i][j];
@@ -37,16 +37,14 @@ func  matmul(a : [[Double]], b : [[Double]]) ->[[Double]] {
     return x
 }
 
-
-
 var n = 100;
 
-if Process.argc != 2 {
+if CommandLine.argc != 2 {
     print("Usage: ./matmulswift {arg}")
     exit(1)
 }
 
-let end = Int(String.fromCString(Process.arguments[1])!)!
+let end = Int(CommandLine.arguments[1])!
 n = end
 n = n / 2 * 2
 

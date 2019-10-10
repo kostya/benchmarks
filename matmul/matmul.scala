@@ -47,7 +47,7 @@ object MatMul {
     n = n / 2 * 2;
 
     val t = matmul(matgen(500), matgen(500))
-    println("warnup: " + t(1)(1))
+    println("JIT warming up: " + t(1)(1))
 
     val start_time = System.nanoTime
 

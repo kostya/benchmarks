@@ -1,7 +1,9 @@
 import JSON
 
 function main()
-  text = open(readall, "1.json")
+  text = open("1.json") do file
+    read(file, String)
+  end
   jobj = JSON.parse(text)
   coordinates = jobj["coordinates"]
   len = length(coordinates)
@@ -20,7 +22,9 @@ end
 
 function test()
   x = @timed main()
-  println(STDERR, "Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+  println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
 end
 
-test()
+for i in 1:5
+  test()
+end

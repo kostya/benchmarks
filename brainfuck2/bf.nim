@@ -1,7 +1,4 @@
-import tables
-import sequtils
 import os
-import strutils
 
 type
   OpT = enum
@@ -87,7 +84,6 @@ proc runops(program: seq[Op], tape: var Tape) =
       of PRINT: 
         write stdout, tape.get.chr
         flushFile(stdout)
-      else: discard
 
 proc run(self: Program) =
   var tape = newTape()

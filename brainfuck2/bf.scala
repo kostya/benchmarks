@@ -1,56 +1,54 @@
-abstract class Op
+import scala.collection.mutable.ArrayBuffer
+
+sealed abstract class Op
 case class Inc(v: Int) extends Op
 case class Move(v: Int) extends Op
-case class Print() extends Op
 case class Loop(loop: Array[Op]) extends Op
-case class Nop() extends Op
+case object Print extends Op
 
 class Tape() {
-  private var tape = Array(0)
-  private var pos  = 0
+  private var tape: Array[Int] = Array(0)
+  private var pos: Int = 0
 
   def get = tape(pos)
   def inc(x: Int) = tape(pos) += x
   def move(x: Int) = { 
     pos += x
-    while (pos >= tape.length) { tape :+= 0 }
+    while (pos >= tape.length) {
+      tape = Array.copyOf(tape, tape.length * 2)
+    }
   }
 }
 
 class Program(text: String) {
-  var ops = parse(text.iterator)
+  val ops: Array[Op] = parse(text.iterator)
 
   def parse(iterator: Iterator[Char]) : Array[Op] = {
-    var res = Array[Op]()
+    val res = ArrayBuffer[Op]()
     while (iterator.hasNext) {
-      val op = iterator.next() match {
-        case '+' => new Inc(1)
-        case '-' => new Inc(-1)
-        case '>' => new Move(1)
-        case '<' => new Move(-1)
-        case '.' => new Print()
-        case '[' => new Loop(parse(iterator))
-        case ']' => return res
-        case _ => new Nop()
-      }
-
-      op match {
-        case Nop() => ()
-        case _ => res :+= op
+      iterator.next() match {
+        case '+' => res += Inc(1)
+        case '-' => res += Inc(-1)
+        case '>' => res += Move(1)
+        case '<' => res += Move(-1)
+        case '.' => res += Print
+        case '[' => res += Loop(parse(iterator))
+        case ']' => return res.toArray
+	case _ =>
       }
     }
 
-    res
+    res.toArray
   }
 
   def run = _run(ops, new Tape())
 
-  def _run(program: Array[Op], tape: Tape) {
+  def _run(program: Array[Op], tape: Tape): Unit = {
     for (op <- program) op match {
       case Inc(x) => tape.inc(x)
       case Move(x) => tape.move(x)
       case Loop(loop) => while (tape.get > 0) _run(loop, tape)
-      case Print() => print(tape.get.toChar)
+      case Print => print(tape.get.toChar)
     }
   }
 
@@ -67,8 +65,8 @@ object BrainFuck {
   def main(args: Array[String]): Unit = {
     val text = scala.io.Source.fromFile(args(0)).mkString
 
-    //warmup
-    System.err.print("warmup\n")
+    // JIT warming up
+    System.err.print("JIT warming up\n")
     time {
       new Program(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++").run
     }

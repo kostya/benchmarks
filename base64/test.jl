@@ -1,4 +1,4 @@
-using Codecs
+using Base64
 
 function main(tries)
   str_size = 10_000_000
@@ -8,8 +8,8 @@ function main(tries)
   print("encode: ")
   t = time()
   s = 0
-  for i in range(0, tries)
-    str2 = ASCIIString(encode(Base64, str))
+  for i in 1:tries
+    str2 = base64encode(str)
     s += length(str2)
   end
   print(s, ", ", time() - t, "\n")
@@ -17,15 +17,15 @@ function main(tries)
   print("decode: ")
   t = time()
   s = 0
-  for i in range(0, tries)
-    s += length(ASCIIString(decode(Base64, str2)))
+  for i in 1:tries
+    s += length(base64decode(str2))
   end
   print(s, ", ", time() - t, "\n")
 end
 
-println(STDERR, "warming")
+println("JIT warming up")
 main(5)
 
-println(STDERR, "bench")
+println("bench")
 x = @timed main(100)
-println(STDERR, "Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")

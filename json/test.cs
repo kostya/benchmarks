@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json.Linq;
@@ -21,8 +22,9 @@ namespace Test
             public List<Coordinate> Coordinates { get; set; }
         }
 
-        static void Main(string[] args)
+        static void ParseJson()
         {
+            var sw = Stopwatch.StartNew();
             var text = File.ReadAllText("./1.json");
 
             var root = JsonConvert.DeserializeObject<Root>(text);
@@ -41,6 +43,16 @@ namespace Test
             };
 
             Console.WriteLine("{0}\n{1}\n{2}", x/count, y/count, z/count);
+            sw.Stop();
+            Console.WriteLine("time: {0}s", sw.Elapsed.TotalSeconds);
+        }
+
+        static void Main(string[] args)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                ParseJson();
+            }
         }
     }
 }

@@ -29,7 +29,7 @@ public:
 
   inline int get() { return tape[pos]; }
   inline void inc(int x) { tape[pos] += x; }
-  inline void move(int x) { pos += x; while (pos >= tape.size()) tape.push_back(0); }
+  inline void move(int x) { pos += x; while (pos >= tape.size()) tape.resize(2 * tape.size()); }
 };
 
 class Program {
@@ -97,4 +97,3 @@ int main(int argc, char** argv){
   p.run();
   return 0;
 }
-

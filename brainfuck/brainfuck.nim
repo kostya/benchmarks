@@ -1,7 +1,5 @@
 import tables
-import sequtils
 import os
-import strutils
 
 type
   Tape = object

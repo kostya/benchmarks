@@ -42,16 +42,13 @@ func NewCFG() *CFG {
 }
 
 func (cfg *CFG) CreateNode(node int) *BasicBlock {
-	if bblock := cfg.Bb[node]; bblock != nil {
-		return bblock
-	}
-	bblock := NewBasicBlock(node)
-	cfg.Bb[node] = bblock
-
-	if len(cfg.Bb) == 1 {
-		cfg.StartNode = bblock
+	bblock := cfg.Bb[node]
+	if bblock == nil {
+		bblock = NewBasicBlock(node)
+		cfg.Bb[node] = bblock
 	}
 
+	cfg.StartNode = bblock
 	return bblock
 }
 
@@ -73,7 +70,7 @@ func NewBasicBlockEdge(cfg *CFG, from int, to int) *BasicBlockEdge {
 	self.To = cfg.CreateNode(to)
 	self.From = cfg.CreateNode(from)
 
-	self.From.OutEdges = append(self.From.OutEdges,self.To)
+	self.From.OutEdges = append(self.From.OutEdges, self.To)
 	self.To.InEdges = append(self.To.InEdges, self.From)
 
 	return self

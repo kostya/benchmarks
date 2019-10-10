@@ -2,8 +2,7 @@
 $STR_SIZE = 10000000;
 $TRIES = 100;
 
-$str = "";
-for ($i = 0; $i < $STR_SIZE; $i++) $str .= "a";
+$str = str_repeat("a", $STR_SIZE);
 $str2 = "";
 
 $s = 0;
