@@ -6,9 +6,11 @@ using namespace simdjson;
 int main(int argc, char *argv[]) {
   padded_string p = get_corpus("1.json"); 
   ParsedJson pj;
-  pj.allocate_capacity(p.size()); // allocate memory for parsing up to p.size() bytes
-  const int res = json_parse(p, pj); // do the parsing, return 0 on success
-  if (res != 0) {
+  int res = simdjson::SUCCESS;
+  if (pj.allocate_capacity(p.size())) { // allocate memory for parsing up to p.size() bytes
+    res = json_parse(p, pj); // do the parsing, return 0 on success
+  }
+  if (res != simdjson::SUCCESS) {
     std::cout << pj.get_error_message() << std::endl;
   }
 
