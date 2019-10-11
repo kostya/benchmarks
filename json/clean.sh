@@ -9,6 +9,7 @@ rm -rf nimcache
 rm -rf Newtonsoft.Json*
 rm -rf rapidjson
 rm -rf gason
+rm -rf simdjson
 rm -rf json.rs/target
 rm -rf fast
 rm -rf perllib
