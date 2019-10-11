@@ -65,3 +65,9 @@ cd json-java; mvn clean install; cp target/java-json-1.5-jar-with-dependencies.j
 
 #scala
 cd json-scala; sbt clean assembly; cp target/scala-2.13/benchmark-json-scala-assembly-1.1.jar ../scala-json.jar; cd ..
+
+# simdjson
+if [ ! -d simdjson ]; then
+  git clone --depth 1 https://github.com/lemire/simdjson.git
+fi
+g++ -O3 -msse4.2 -mpclmul -std=c++17 -Isimdjson/include/ -Isimdjson/src/ simdjson/src/jsonioutil.cpp simdjson/src/jsonparser.cpp simdjson/src/simdjson.cpp simdjson/src/stage1_find_marks.cpp simdjson/src/stage2_build_tape.cpp simdjson/src/parsedjson.cpp simdjson/src/parsedjsoniterator.cpp test_simdjson.cpp -o json_simdjson_cpp
