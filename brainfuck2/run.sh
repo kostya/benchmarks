@@ -24,8 +24,6 @@ echo Haskell
 ../xtime.rb ./bin_hs bench.b
 echo "Haskell (MArray)"
 ../xtime.rb ./bin_hs_marray bench.b
-echo Javascript V8
-../xtime.rb d8 bf.d8.js
 echo Javascript Node
 ../xtime.rb node bf.js bench.b
 echo Go

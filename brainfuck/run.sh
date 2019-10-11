@@ -22,8 +22,6 @@ echo Nim Clang
 ../xtime.rb ./brainfuck_nim_clang bench.b
 echo Scala
 ../xtime.rb scala BrainFuck bench.b
-echo Javascript V8
-../xtime.rb d8 brainfuck.d8.js
 echo Javascript Node
 ../xtime.rb node brainfuck.js bench.b
 echo Julia

@@ -49,7 +49,6 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | Javascript Node | 6.23    | 31.2        |
 | Haskell (MArray)| 6.90    | 4.1         |
 | F# Mono         | 7.34    | 25.4        |
-| Javascript V8   | 7.61    | 24.1        |
 | LuaJIT          | 10.89   | 1.3         |
 | Racket          | 16.85   | 62.2        |
 | Python PyPy     | 17.75   | 95.0        |
@@ -177,7 +176,6 @@ Testing parsing and simple calculating of values from a big JSON file.
 | V Gcc           | 5.40    | 1127.5      |
 | C++ LibJson     | 5.46    | 2888.8      |
 | Nim Gcc         | 5.62    | 1321.3      |
-| Q               | 5.85    | 691.5       |
 | Haskell         | 5.91    | 9.9         |
 | Ruby            | 6.33    | 842.4       |
 | C# .Net Core    | 6.67    | 842.2       |
@@ -223,7 +221,6 @@ Testing allocating and multiplying matrices.
 | V Gcc           | 4.19    | 70.2        |
 | Javascript Node | 4.36    | 101.7       |
 | Swift           | 7.13    | 186.4       |
-| Javascript V8   | 5.92    | 95.0        |
 | Python PyPy     | 8.18    | 132.9       |
 | C# .Net Core    | 8.21    | 102.9       |
 | C# Mono         | 14.44   | 88.4        |
@@ -263,46 +260,46 @@ Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz (Ubuntu 18.04.3 LTS x86_64)
 
 # Versions:
 
-* gcc (Ubuntu 9.1.0-2ubuntu2~18.04) 9.1.0
-* Nim Compiler Version 1.0.2 [Linux: amd64]
-* `Crystal 0.31.1 [0e2e1d067] (2019-09-30) LLVM 8.0.0`
-* go version go1.13.1 linux/amd64
-* gccgo (Ubuntu 9.1.0-2ubuntu2~18.04) 9.1.0
-* DMD64 D Compiler v2.088.0
-* gdc (Ubuntu 9.1.0-2ubuntu2~18.04) 9.1.0
-* LDC - the LLVM D compiler (1.18.0-beta1): based on DMD v2.088.0 and LLVM 8.0.1
-* V8 version 7.9.0 (candidate)
-* rustc 1.38.0 (625451e37 2019-09-23)
-* Scala 2.13.1
-* Nodejs v12.10.0
-* PyPy 7.1.1 with GCC 7.4.0
-* ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-linux]
-* Python 2.7.15+
-* Python 3.6.8
-* JRuby 9.2.8.0 (2.5.3) 2019-08-12 a1ac7ff OpenJDK 64-Bit Server VM 11.0.4+11-post-Ubuntu-1ubuntu218.04.3 +jit [linux-x86_64]
-* java openjdk version "11.0.4" 2019-07-16
-* julia version 1.2.0
-* clang version 7.0.0
-* Mono JIT compiler version 6.4.0.198 (tarball Tue Sep 24 01:21:28 UTC 2019)
-* rock 0.9.11-head codename sapporo
-* Felix version 2019.01.06
-* Q KDB+ 3.6 2019.04.02 Copyright (C) 1993-2019 Kx Systems
-* perl 5, version 26, subversion 1 (v5.26.1) built for x86_64-linux-gnu-thread-multi
-* The Glorious Glasgow Haskell Compilation System, version 8.8.1
-* Tcl 8.6
-* jq-1.5-1-a5b5cbe
-* Swift version 5.1 (swift-5.1-RELEASE)
-* Kotlin version 1.3.50-release-112 (JRE 11.0.4+11-post-Ubuntu-1ubuntu218.04.3)
-* PHP 7.2.19-0ubuntu0.18.04.2
-* .NET Core SDK 3.0.100
-* Elixir 1.9.1 Erlang/OTP 22 [erts-10.5.1] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [hipe]
-* Lua 5.3.3  Copyright (C) 1994-2016 Lua.org, PUC-Rio
-* LuaJIT 2.1.0-beta3 -- Copyright (C) 2005-2017 Mike Pall. http://luajit.org/
-* truffleruby 19.2.0.1, like ruby 2.6.2, GraalVM CE Native [x86_64-linux]
-* MLton 20130715 (built Fri Apr 28 06:06:34 UTC 2017 on lcy01-11)
-* Microsoft (R) F# Compiler version 10.2.3 for F# 4.5
-* OCaml 4.07.0
-* Racket v6.11
-* Chez Scheme Version 9.5
-* V 0.1.21 c18578a
-* Clojure 1.10.1
+| Language     | Version                         |
+| ------------ | ------------------------------- |
+| .NET Core    | 3.0.100                         |
+| C# .NET Core | 3.3.1-beta4-19462-11 (66a912c9) |
+| C# Mono      | 6.4.0.198                       |
+| Chez Scheme  | 9.5                             |
+| Clang        | 7.0.0 (tags/RELEASE_700/final)  |
+| Clojure      | "1.10.1"                        |
+| Crystal      | 0.31.1                          |
+| DMD          | v2.088.1                        |
+| Elixir       | 1.9.1                           |
+| F#           | 10.2.3 for F# 4.5               |
+| GCC          | 9.2.1                           |
+| GCC Go       | 9.2.1                           |
+| GDC          | 9.2.1                           |
+| Go           | go1.13.1                        |
+| Haskell      | 8.8.1                           |
+| JRuby        | 9.2.8.0                         |
+| Java         | 11.0.4                          |
+| Julia        | v"1.2.0"                        |
+| Kotlin       | 1.3.50                          |
+| LDC          | 1.18.0-beta1                    |
+| Lua          | Lua 5.3                         |
+| LuaJIT       | LuaJIT 2.1.0-beta3              |
+| MLton        | 20130715                        |
+| Nim          | 1.0.2                           |
+| Node.js      | v12.13.0                        |
+| OCaml        | 4.07.0                          |
+| PHP          | 7.2.19-0ubuntu0.18.04.2         |
+| Perl         | v5.26.1                         |
+| PyPy         | 7.1.1-final0 for Python 2.7.13  |
+| Python 2     | 2.7.15+                         |
+| Python 3     | 3.6.8                           |
+| Racket       | "6.11"                          |
+| Ruby         | 2.6.5p114                       |
+| Rust         | 1.38.0                          |
+| Scala        | 2.13.1                          |
+| Swift        | swift-5.1-RELEASE               |
+| Tcl          | 8.6                             |
+| TruffleRuby  | 19.2.0.1                        |
+| V            | 0.1.21 d4c1bba                  |
+| jq           | jq-1.5-1-a5b5cbe                |
+| ooc          | 0.9.11-head codename sapporo    |
