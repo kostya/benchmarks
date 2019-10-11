@@ -16,7 +16,9 @@ Some benchmarks of different languages
 | --------------- | ------- | ----------- |
 | Kotlin          | 1.56    | 38.9        |
 | C++ Gcc         | 1.74    | 1.8         |
+| Nim Gcc         | 2.27    | 0.8         |
 | D Gdc           | 2.32    | 6.3         |
+| Nim Clang       | 2.33    | 1.1         |
 | Java            | 2.54    | 39.3        |
 | Rust            | 2.58    | 0.9         |
 | Go              | 2.65    | 1.4         |
@@ -27,9 +29,7 @@ Some benchmarks of different languages
 | Crystal         | 3.03    | 2.7         |
 | Scala           | 3.51    | 136.3       |
 | OCaml           | 3.61    | 4.0         |
-| Nim Gcc         | 3.83    | 0.8         |
 | D Dmd           | 4.60    | 1.9         |
-| Nim Clang       | 5.06    | 1.3         |
 | C# Mono         | 6.13    | 17.7        |
 | Javascript Node | 6.23    | 31.2        |
 | Haskell (MArray)| 7.06    | 4.1         |
@@ -63,15 +63,15 @@ Some benchmarks of different languages
 | Crystal         | 25.60   | 3.1         |
 | Rust            | 25.74   | 2.0         |
 | Kotlin          | 27.29   | 45.3        |
+| Nim Gcc         | 29.27   | 3.3         |
 | Scala           | 30.72   | 142.6       |
 | C# .Net Core    | 31.40   | 29.7        |
 | ML MLton        | 32.35   | 4.0         |
 | Java            | 32.88   | 45.4        |
+| Nim Clang       | 32.95   | 3.7         |
 | Go Gcc          | 33.72   | 34.5        |
 | OCaml           | 44.71   | 11.7        |
 | Go              | 47.86   | 3.1         |
-| Nim Gcc         | 48.84   | 3.3         |
-| Nim Clang       | 54.24   | 3.7         |
 | D Dmd           | 58.42   | 4.3         |
 | Javascript Node | 64.23   | 34.4        |
 | C# Mono         | 78.52   | 18.1        |
@@ -100,6 +100,8 @@ Some benchmarks of different languages
 | Perl XS         | 3.24    | 50.3        |
 | D Gdc           | 3.29    | 57.8        |
 | Kotlin          | 3.32    | 403.4       |
+| Nim Gcc         | 3.62    | 58.9        |
+| Nim Clang       | 3.62    | 59.3        |
 | Scala           | 3.64    | 128.2       |
 | Go              | 3.65    | 178.5       |
 | Go Gcc          | 4.47    | 219.1       |
@@ -111,9 +113,7 @@ Some benchmarks of different languages
 | Tcl             | 6.20    | 68.7        |
 | Python PyPy     | 7.40    | 156.1       |
 | Python          | 7.60    | 55.0        |
-| Nim Gcc         | 7.85    | 58.9        |
 | C# Mono         | 7.89    | 127.6       |
-| Nim Clang       | 8.20    | 59.4        |
 | Julia           | 9.18    | 355.4       |
 | Ruby JRuby      | 12.29   | 254.7       |
 | Perl            | 26.60   | 142.6       |
@@ -146,11 +146,11 @@ Some benchmarks of different languages
 | Python3         | 4.65    | 910.4       |
 | Python PyPy     | 4.78    | 1293.0      |
 | Crystal Pull    | 4.94    | 4.3         |
+| Nim Clang       | 5.08    | 1321.5      |
 | Python ujson    | 5.10    | 1404.7      |
+| Nim Gcc         | 5.25    | 1321.2      |
 | Go Gcc          | 5.28    | 456.9       |
 | C++ LibJson     | 5.46    | 2888.8      |
-| Nim Gcc         | 5.46    | 1321.2      |
-| Nim Clang       | 5.73    | 1321.6      |
 | Q               | 5.85    | 691.5       |
 | Haskell         | 6.17    | 9.9         |
 | Ruby            | 6.33    | 842.4       |
@@ -183,19 +183,19 @@ Some benchmarks of different languages
 | C               | 3.11    | 69.7        |
 | Rust            | 3.17    | 70.7        |
 | Julia           | 3.22    | 246.5       |
+| Nim Gcc         | 3.23    | 72.5        |
+| Nim Clang       | 3.23    | 72.9        |
 | Crystal         | 3.32    | 63.3        |
 | Go Gcc          | 3.41    | 106.6       |
 | Go              | 3.54    | 60.4        |
 | Kotlin          | 3.59    | 129.6       |
 | Scala           | 3.67    | 171.5       |
 | Java            | 3.81    | 129.5       |
-| Nim Clang       | 4.24    | 73.4        |
 | Javascript Node | 4.36    | 101.7       |
 | Swift           | 7.13    | 186.4       |
 | Javascript V8   | 5.92    | 95.0        |
 | Python PyPy     | 8.18    | 132.9       |
 | C# .Net Core    | 8.21    | 102.9       |
-| Nim Gcc         | 8.64    | 72.5        |
 | C# Mono         | 14.44   | 88.4        |
 | Ruby truffle    | 59.52   | 580.5       |
 | Ruby            | 246.34  | 83.0        |
@@ -211,8 +211,8 @@ Some benchmarks of different languages
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
 | Crystal         | 10.04   | 228.2       |
-| Nim Gcc         | 15.13   | 476.0       |
-| Nim Clang       | 15.75   | 459.3       |
+| Nim Gcc         | 14.52   | 475.2       |
+| Nim Clang       | 15.09   | 471.8       |
 | C++             | 16.16   | 179.2       |
 | Scala           | 22.84   | 384.9       |
 | D Ldc           | 23.37   | 460.1       |
