@@ -49,7 +49,6 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | Javascript Node | 6.23    | 31.2        |
 | Haskell (MArray)| 6.90    | 4.1         |
 | F# Mono         | 7.34    | 25.4        |
-| Javascript V8   | 7.61    | 24.1        |
 | LuaJIT          | 10.89   | 1.3         |
 | Racket          | 16.85   | 62.2        |
 | Python PyPy     | 17.75   | 95.0        |
@@ -177,7 +176,6 @@ Testing parsing and simple calculating of values from a big JSON file.
 | Go Gcc          | 5.28    | 456.9       |
 | V Gcc           | 5.40    | 1127.5      |
 | C++ LibJson     | 5.46    | 2888.8      |
-| Q               | 5.85    | 691.5       |
 | Haskell         | 5.91    | 9.9         |
 | Ruby            | 6.33    | 842.4       |
 | C# .Net Core    | 6.67    | 842.2       |
@@ -223,7 +221,6 @@ Testing allocating and multiplying matrices.
 | V Gcc           | 4.19    | 70.2        |
 | Javascript Node | 4.36    | 101.7       |
 | Swift           | 7.13    | 186.4       |
-| Javascript V8   | 5.92    | 95.0        |
 | Python PyPy     | 8.18    | 132.9       |
 | C# .Net Core    | 8.21    | 102.9       |
 | C# Mono         | 14.44   | 88.4        |
@@ -271,7 +268,6 @@ Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz (Ubuntu 18.04.3 LTS x86_64)
 * DMD64 D Compiler v2.088.0
 * gdc (Ubuntu 9.1.0-2ubuntu2~18.04) 9.1.0
 * LDC - the LLVM D compiler (1.18.0-beta1): based on DMD v2.088.0 and LLVM 8.0.1
-* V8 version 7.9.0 (candidate)
 * rustc 1.38.0 (625451e37 2019-09-23)
 * Scala 2.13.1
 * Nodejs v12.10.0
@@ -285,8 +281,6 @@ Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz (Ubuntu 18.04.3 LTS x86_64)
 * clang version 7.0.0
 * Mono JIT compiler version 6.4.0.198 (tarball Tue Sep 24 01:21:28 UTC 2019)
 * rock 0.9.11-head codename sapporo
-* Felix version 2019.01.06
-* Q KDB+ 3.6 2019.04.02 Copyright (C) 1993-2019 Kx Systems
 * perl 5, version 26, subversion 1 (v5.26.1) built for x86_64-linux-gnu-thread-multi
 * The Glorious Glasgow Haskell Compilation System, version 8.8.1
 * Tcl 8.6
