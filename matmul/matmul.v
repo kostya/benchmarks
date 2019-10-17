@@ -1,9 +1,8 @@
 import os
 
 fn make_matrix(n int, m int) [] []f64 {
-  mut res := [[f64(0.0)]] // only this works, [][]f64 not work
-  res.delete(0) // todo: remove this shit
-  for i := 0; i < n; i++ {
+  mut res := [[f64(0.0)].repeat(m)]
+  for i := 1; i < n; i++ {
     res << [f64(0.0)].repeat(m)
   }
   return res
