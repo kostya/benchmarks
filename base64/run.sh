@@ -54,3 +54,5 @@ echo Tcl
 ../xtime.rb tclsh test.tcl
 echo Php
 ../xtime.rb php test.php
+echo V
+../xtime.rb ./base64_v

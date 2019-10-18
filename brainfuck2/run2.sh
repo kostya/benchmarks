@@ -48,3 +48,5 @@ echo Racket
 ../xtime.rb racket bf.rkt mandel.b > /dev/null
 echo Chez Scheme
 ../xtime.rb scheme --script bf.ss mandel.b > /dev/null
+echo V
+../xtime.rb ./bin_v mandel.b > /dev/null

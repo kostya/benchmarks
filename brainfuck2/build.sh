@@ -20,3 +20,4 @@ stack ghc -- -O2 -fforce-recomp bf-marray.hs -o bin_hs_marray
 ocamlopt bf.ml -o bin_ocaml
 fsharpc bf.fs -o bin_fs.exe
 mlton -output bin_sml bf.sml
+v -prod -o bin_v bf.v
