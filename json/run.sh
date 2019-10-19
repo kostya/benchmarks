@@ -80,6 +80,7 @@ echo Java
 ../xtime.rb java -server -jar java-json.jar
 echo Php
 ../xtime.rb php test.php
-echo V
-../xtime.rb ./json_v
-
+echo V Gcc
+../xtime.rb ./json_v_gcc
+echo V Clang
+../xtime.rb ./json_v_clang

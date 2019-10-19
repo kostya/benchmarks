@@ -68,5 +68,7 @@ echo Racket
 ../xtime.rb racket bf.rkt bench.b
 echo Chez Scheme
 ../xtime.rb scheme --script bf.ss bench.b
-echo V
-../xtime.rb ./bin_v bench.b
+echo V Gcc
+../xtime.rb ./bin_v_gcc bench.b
+echo V Clang
+../xtime.rb ./bin_v_clang bench.b
