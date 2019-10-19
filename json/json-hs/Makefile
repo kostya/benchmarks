@@ -1,3 +1,4 @@
 all:
-	stack build
-	cp $$(stack path --local-install-root)/bin/json-hs ../json_hs
+	cabal update
+	cabal build
+	cabal install --overwrite-policy=always --installdir=../

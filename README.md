@@ -40,21 +40,21 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | ML MLton        | 2.85    | 1.2         |
 | C# .Net Core    | 3.00    | 28.0        |
 | Crystal         | 3.03    | 2.7         |
-| Scala           | 3.51    | 136.3       |
+| Scala           | 3.49    | 124.4       |
 | OCaml           | 3.61    | 4.0         |
 | V Gcc           | 4.03    | 0.7         |
 | D Dmd           | 4.60    | 1.9         |
 | V Clang         | 5.36    | 1.1         |
 | C# Mono         | 6.13    | 17.7        |
 | Javascript Node | 6.23    | 31.2        |
-| Haskell (MArray)| 7.06    | 4.1         |
+| Haskell (MArray)| 6.90    | 4.1         |
 | F# Mono         | 7.34    | 25.4        |
 | Javascript V8   | 7.61    | 24.1        |
 | LuaJIT          | 10.89   | 1.3         |
 | Racket          | 16.85   | 62.2        |
 | Python PyPy     | 17.75   | 95.0        |
 | Chez Scheme     | 18.48   | 29.4        |
-| Haskell         | 23.01   | 4.1         |
+| Haskell         | 22.84   | 4.1         |
 | Ruby truffle    | 29.21   | 603.3       |
 | Ruby            | 119.07  | 13.7        |
 | Lua 5.3         | 131.13  | 1.5         |
@@ -80,7 +80,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | Rust            | 25.74   | 2.0         |
 | Kotlin          | 27.29   | 45.3        |
 | Nim Gcc         | 29.27   | 3.3         |
-| Scala           | 30.72   | 142.6       |
+| Scala           | 30.88   | 136.5       |
 | C# .Net Core    | 31.40   | 29.7        |
 | ML MLton        | 32.35   | 4.0         |
 | V Clang         | 32.78   | 2.7         |
@@ -93,7 +93,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | Javascript Node | 64.23   | 34.4        |
 | C# Mono         | 78.52   | 18.1        |
 | Python PyPy     | 105.04  | 96.3        |
-| Haskell (MArray)| 107.81  | 5.4         |
+| Haskell (MArray)| 109.42  | 5.4         |
 | LuaJIT          | 110.26  | 3.0         |
 | Ruby truffle    | 138.00  | 1014.1      |
 | F# Mono         | 166.75  | 33.5        |
@@ -122,8 +122,8 @@ Testing large blob base64 encoding/decoding into newly allocated buffers.
 | Kotlin          | 3.32    | 403.4       |
 | V Clang         | 3.42    | 2195.3      |
 | Nim Gcc         | 3.63    | 58.9        |
-| Scala           | 3.64    | 128.2       |
 | Go              | 3.65    | 178.5       |
+| Scala           | 3.66    | 144.7       |
 | V Gcc           | 3.77    | 2199.2      |
 | Go Gcc          | 4.47    | 219.1       |
 | C# .Net Core    | 4.70    | 224.4       |
@@ -155,14 +155,14 @@ Testing parsing and simple calculating of values from a big JSON file.
 | C++ Rapid SAX   | 0.55    | 1.8         |
 | C++ Rapid       | 0.78    | 218.5       |
 | C++ Gason       | 0.85    | 591.0       |
-| Java            | 0.99    | 383.8       |
-| Scala           | 1.22    | 536.8       |
+| Java            | 1.03    | 403.0       |
+| Scala           | 1.20    | 242.8       |
 | Rust Value      | 2.08    | 1745.9      |
 | Javascript Node | 2.22    | 507.6       |
 | Crystal Schema  | 2.23    | 282.0       |
 | Perl XS         | 2.37    | 966.4       |
 | Crystal         | 2.94    | 962.1       |
-| Clojure         | 3.24    | 1676.0      |
+| Clojure         | 3.07    | 1652.1      |
 | V Clang         | 3.37    | 1128.1      |
 | Go              | 3.42    | 511.2       |
 | Php             | 3.43    | 1476.7      |
@@ -178,7 +178,7 @@ Testing parsing and simple calculating of values from a big JSON file.
 | V Gcc           | 5.40    | 1127.5      |
 | C++ LibJson     | 5.46    | 2888.8      |
 | Q               | 5.85    | 691.5       |
-| Haskell         | 6.17    | 9.9         |
+| Haskell         | 5.91    | 9.9         |
 | Ruby            | 6.33    | 842.4       |
 | C# .Net Core    | 6.67    | 842.2       |
 | D Ldc           | 6.69    | 1546.7      |
@@ -218,7 +218,7 @@ Testing allocating and multiplying matrices.
 | Go Gcc          | 3.41    | 106.6       |
 | Go              | 3.54    | 60.4        |
 | Kotlin          | 3.59    | 129.6       |
-| Scala           | 3.67    | 171.5       |
+| Scala           | 3.67    | 141.6       |
 | Java            | 3.81    | 129.5       |
 | V Gcc           | 4.19    | 70.2        |
 | Javascript Node | 4.36    | 101.7       |
@@ -246,7 +246,7 @@ Testing Havlak's loop finder implementations.
 | Nim Gcc         | 14.52   | 475.2       |
 | Nim Clang       | 15.09   | 471.8       |
 | C++             | 16.16   | 179.2       |
-| Scala           | 22.84   | 384.9       |
+| Scala           | 23.29   | 382.7       |
 | D Ldc           | 23.37   | 460.1       |
 | Go              | 24.24   | 347.0       |
 | D               | 28.51   | 461.4       |
@@ -273,7 +273,7 @@ Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz (Ubuntu 18.04.3 LTS x86_64)
 * LDC - the LLVM D compiler (1.18.0-beta1): based on DMD v2.088.0 and LLVM 8.0.1
 * V8 version 7.9.0 (candidate)
 * rustc 1.38.0 (625451e37 2019-09-23)
-* Scala 2.13.0 (OpenJDK 64-Bit Server VM, Java 11.0.4)
+* Scala 2.13.1
 * Nodejs v12.10.0
 * PyPy 7.1.1 with GCC 7.4.0
 * ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-linux]
@@ -288,7 +288,7 @@ Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz (Ubuntu 18.04.3 LTS x86_64)
 * Felix version 2019.01.06
 * Q KDB+ 3.6 2019.04.02 Copyright (C) 1993-2019 Kx Systems
 * perl 5, version 26, subversion 1 (v5.26.1) built for x86_64-linux-gnu-thread-multi
-* The Glorious Glasgow Haskell Compilation System, version 8.6.5
+* The Glorious Glasgow Haskell Compilation System, version 8.8.1
 * Tcl 8.6
 * jq-1.5-1-a5b5cbe
 * Swift version 5.1 (swift-5.1-RELEASE)
@@ -305,3 +305,4 @@ Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz (Ubuntu 18.04.3 LTS x86_64)
 * Racket v6.11
 * Chez Scheme Version 9.5
 * V 0.1.21 c18578a
+* Clojure 1.10.1

@@ -3,7 +3,7 @@
 crystal build bf.cr --release -o bin_cr --no-debug
 g++ -flto -O3 -o bin_cpp bf.cpp
 rustc -C opt-level=3 -C lto bf.rs -o bin_rs
-scalac -opt:l:inline -deprecation bf.scala
+scalac bf.scala
 mcs -debug- -optimize+ bf.cs
 dotnet build -c Release
 javac bf.java
@@ -15,8 +15,8 @@ gdc -o bin_d_gdc -O3 -frelease -finline bf.d
 ldc2 -ofbin_d_ldc -O5 -release bf.d
 nim c -o:bin_nim_clang -d:danger --cc:clang --verbosity:0 bf.nim
 nim c -o:bin_nim_gcc -d:danger --cc:gcc --verbosity:0 bf.nim
-stack ghc -- -O2 -fforce-recomp bf.hs -o bin_hs
-stack ghc -- -O2 -fforce-recomp bf-marray.hs -o bin_hs_marray
+ghc -O2 -fforce-recomp bf.hs -o bin_hs
+ghc -O2 -fforce-recomp bf-marray.hs -o bin_hs_marray
 ocamlopt bf.ml -o bin_ocaml
 fsharpc bf.fs -o bin_fs.exe
 mlton -output bin_sml bf.sml
