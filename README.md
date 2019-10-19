@@ -29,7 +29,9 @@ Some benchmarks of different languages
 | Crystal         | 3.03    | 2.7         |
 | Scala           | 3.51    | 136.3       |
 | OCaml           | 3.61    | 4.0         |
+| V Gcc           | 4.03    | 0.7         |
 | D Dmd           | 4.60    | 1.9         |
+| V Clang         | 5.36    | 1.1         |
 | C# Mono         | 6.13    | 17.7        |
 | Javascript Node | 6.23    | 31.2        |
 | Haskell (MArray)| 7.06    | 4.1         |
@@ -39,7 +41,6 @@ Some benchmarks of different languages
 | Racket          | 16.85   | 62.2        |
 | Python PyPy     | 17.75   | 95.0        |
 | Chez Scheme     | 18.48   | 29.4        |
-| V               | 20.41   | 1.2         |
 | Haskell         | 23.01   | 4.1         |
 | Ruby truffle    | 29.21   | 603.3       |
 | Ruby            | 119.07  | 13.7        |
@@ -61,6 +62,7 @@ Some benchmarks of different languages
 | C++ Gcc         | 22.98   | 3.7         |
 | D Ldc           | 24.96   | 3.7         |
 | D Gdc           | 25.31   | 7.1         |
+| V Gcc           | 25.34   | 2.2         |
 | Crystal         | 25.60   | 3.1         |
 | Rust            | 25.74   | 2.0         |
 | Kotlin          | 27.29   | 45.3        |
@@ -68,6 +70,7 @@ Some benchmarks of different languages
 | Scala           | 30.72   | 142.6       |
 | C# .Net Core    | 31.40   | 29.7        |
 | ML MLton        | 32.35   | 4.0         |
+| V Clang         | 32.78   | 2.7         |
 | Java            | 32.88   | 45.4        |
 | Nim Clang       | 32.95   | 3.7         |
 | Go Gcc          | 33.72   | 34.5        |
@@ -79,7 +82,6 @@ Some benchmarks of different languages
 | Python PyPy     | 105.04  | 96.3        |
 | Haskell (MArray)| 107.81  | 5.4         |
 | LuaJIT          | 110.26  | 3.0         |
-| V               | 116.14  | 3.2         |
 | Ruby truffle    | 138.00  | 1014.1      |
 | F# Mono         | 166.75  | 33.5        |
 | Racket          | 203.15  | 63.9        |
@@ -100,12 +102,14 @@ Some benchmarks of different languages
 | Javascript Node | 2.76    | 220.9       |
 | Java            | 2.93    | 351.1       |
 | Perl XS         | 3.24    | 50.3        |
+| Nim Clang       | 3.25    | 59.2        |
 | D Gdc           | 3.29    | 57.8        |
 | Kotlin          | 3.32    | 403.4       |
-| Nim Gcc         | 3.62    | 58.9        |
-| Nim Clang       | 3.62    | 59.3        |
+| V Clang         | 3.42    | 2195.3      |
+| Nim Gcc         | 3.63    | 58.9        |
 | Scala           | 3.64    | 128.2       |
 | Go              | 3.65    | 178.5       |
+| V Gcc           | 3.77    | 2199.2      |
 | Go Gcc          | 4.47    | 219.1       |
 | C# .Net Core    | 4.70    | 224.4       |
 | Php             | 4.90    | 57.2        |
@@ -119,7 +123,6 @@ Some benchmarks of different languages
 | Julia           | 9.18    | 355.4       |
 | Ruby JRuby      | 12.29   | 254.7       |
 | Perl            | 26.60   | 142.6       |
-| V               | 27.11   | 2234.4      |
 | Ruby truffle    | 29.37   | 478.4       |
 
 # Json
@@ -143,6 +146,7 @@ Some benchmarks of different languages
 | Perl XS         | 2.37    | 966.4       |
 | Crystal         | 2.94    | 962.1       |
 | Clojure         | 3.24    | 1676.0      |
+| V Clang         | 3.37    | 1128.1      |
 | Go              | 3.42    | 511.2       |
 | Php             | 3.43    | 1476.7      |
 | Python3 ujson   | 3.61    | 1184.0      |
@@ -154,8 +158,8 @@ Some benchmarks of different languages
 | Python ujson    | 5.10    | 1404.7      |
 | Nim Gcc         | 5.25    | 1321.2      |
 | Go Gcc          | 5.28    | 456.9       |
+| V Gcc           | 5.40    | 1127.5      |
 | C++ LibJson     | 5.46    | 2888.8      |
-| V               | 5.84    | 1128.0      |
 | Q               | 5.85    | 691.5       |
 | Haskell         | 6.17    | 9.9         |
 | Ruby            | 6.33    | 842.4       |
@@ -191,18 +195,19 @@ Some benchmarks of different languages
 | Nim Gcc         | 3.23    | 72.5        |
 | Nim Clang       | 3.23    | 72.9        |
 | Crystal         | 3.32    | 63.3        |
+| V Clang         | 3.35    | 70.4        |
 | Go Gcc          | 3.41    | 106.6       |
 | Go              | 3.54    | 60.4        |
 | Kotlin          | 3.59    | 129.6       |
 | Scala           | 3.67    | 171.5       |
 | Java            | 3.81    | 129.5       |
+| V Gcc           | 4.19    | 70.2        |
 | Javascript Node | 4.36    | 101.7       |
 | Swift           | 7.13    | 186.4       |
 | Javascript V8   | 5.92    | 95.0        |
 | Python PyPy     | 8.18    | 132.9       |
 | C# .Net Core    | 8.21    | 102.9       |
 | C# Mono         | 14.44   | 88.4        |
-| V               | 40.94   | 70.7        |
 | Ruby truffle    | 59.52   | 580.5       |
 | Ruby            | 246.34  | 83.0        |
 | Python          | 340.32  | 76.0        |
@@ -278,4 +283,4 @@ Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz (Ubuntu 18.04.3 LTS x86_64)
 * OCaml 4.07.0
 * Racket v6.11
 * Chez Scheme Version 9.5
-* V 0.1.21 8d16762
+* V 0.1.21 c18578a

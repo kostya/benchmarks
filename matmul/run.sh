@@ -56,5 +56,7 @@ echo Tcl
 ../xtime.rb tclsh matmul.tcl 1500
 echo Swift
 ../xtime.rb swift -O matmul.swift 1500
-echo V
-../xtime.rb ./matmul_v 1500
+echo V Gcc
+../xtime.rb ./matmul_v_gcc 1500
+echo V Clang
+../xtime.rb ./matmul_v_clang 1500

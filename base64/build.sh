@@ -25,5 +25,5 @@ if [ ! -d aklomp-base64-ssse ]; then
 fi
 gcc --std=c99 -O3 test-aklomp.c -I aklomp-base64-ssse/include/ aklomp-base64-ssse/lib/libbase64.o -o base64_c_ak_ssse
 wget -qO - https://cpanmin.us | perl - -L perllib MIME::Base64::Perl
-v -prod -o base64_v test.v
-
+v -prod -cc gcc -o base64_v_gcc test.v
+v -prod -cc clang -o base64_v_clang test.v

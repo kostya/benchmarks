@@ -72,4 +72,5 @@ if [ ! -d simdjson ]; then
 fi
 g++ -O3 -msse4.2 -mpclmul -std=c++17 -Isimdjson/include/ -Isimdjson/src/ simdjson/src/jsonioutil.cpp simdjson/src/jsonparser.cpp simdjson/src/simdjson.cpp simdjson/src/stage1_find_marks.cpp simdjson/src/stage2_build_tape.cpp simdjson/src/parsedjson.cpp simdjson/src/parsedjsoniterator.cpp test_simdjson.cpp -o json_simdjson_cpp
 
-v -prod -o json_v test.v
+v -prod -cc gcc -o json_v_gcc test.v
+v -prod -cc clang -o json_v_clang test.v
