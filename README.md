@@ -109,6 +109,7 @@ Some benchmarks of different languages
 | Nim Gcc         | 3.63    | 58.9        |
 | Scala           | 3.64    | 128.2       |
 | Go              | 3.65    | 178.5       |
+| Zig             | 3.70    | 31.9        |
 | V Gcc           | 3.77    | 2199.2      |
 | Go Gcc          | 4.47    | 219.1       |
 | C# .Net Core    | 4.70    | 224.4       |
@@ -284,3 +285,4 @@ Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz (Ubuntu 18.04.3 LTS x86_64)
 * Racket v6.11
 * Chez Scheme Version 9.5
 * V 0.1.21 c18578a
+* Zig 0.5.0+771dafbab
