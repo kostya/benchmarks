@@ -5,7 +5,7 @@ The benchmarks follow the criteria:
 
   - They are written as the average software developer would write them, i.e.
 
-    - The algorithms are implemented as cited in the public sources;
+    - The algorithms are implemented as cited in public sources;
     - The libraries are used as described in the tutorials, documentation and examples;
     - Used data structures are idiomatic.
 
@@ -102,7 +102,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 
 # Base64
 
-Testing large blob base64 encoding/decoding into the newly allocated buffers.
+Testing large blob base64 encoding/decoding into newly allocated buffers.
 
 [Base64](base64)
 
