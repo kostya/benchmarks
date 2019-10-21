@@ -1,11 +1,24 @@
 Some benchmarks of different languages
 --------------------------------------
 
+The benchmarks follow the criteria:
+
+  - They are written as the average software developer would write them, i.e.
+
+    - The algorithms are implemented as cited in the public sources;
+    - The libraries are used as described in the tutorials, documentation and examples;
+    - Used data structures are idiomatic.
+
+  - The used algorithms are similar between the languages (reference implementations), variants are acceptable if the reference implementation exists.
+  - All final binaries are releases (optimized for performance if possible) as debug performance may vary too much depending on the compiler.
+
 # UPDATE 
 
 2019-10-11
 
 # Brainfuck v2.0
+
+Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 
 [Brainfuck v2.0](brainfuck2)
 [Brainfuck v1.0](brainfuck)
@@ -89,6 +102,8 @@ Some benchmarks of different languages
 
 # Base64
 
+Testing large blob base64 encoding/decoding into the newly allocated buffers.
+
 [Base64](base64)
 
 | Language        | Time, s | Memory, MiB |
@@ -126,6 +141,8 @@ Some benchmarks of different languages
 | Ruby truffle    | 29.37   | 478.4       |
 
 # Json
+
+Testing parsing and simple calculating of values from a big JSON file.
 
 [Json](json)
 
@@ -178,6 +195,8 @@ Some benchmarks of different languages
 
 # Matmul
 
+Testing allocating and multiplying matrices.
+
 [Matmul](matmul)
 
 | Language        | Time, s | Memory, MiB |
@@ -216,6 +235,8 @@ Some benchmarks of different languages
 | Perl            | 558.50  | 606.7       |
 
 # Havlak
+
+Testing Havlak's loop finder implementations.
 
 [Havlak](havlak)
 
