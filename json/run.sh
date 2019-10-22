@@ -63,7 +63,7 @@ echo Ruby
 echo Ruby YAJL
 ../xtime.rb ruby test-yajl.rb
 echo Scala
-../xtime.rb java -server -jar scala-json.jar
+../xtime.rb scala -cp json-scala/target/application.jar JsonTest
 echo q
 ../xtime.rb q test.q -q
 echo Perl
@@ -73,11 +73,11 @@ echo Perl XS
 echo Haskell
 ../xtime.rb ./json_hs
 echo Clojure
-../xtime.rb java -server -jar test.jar
+../xtime.rb clj -Sdeps '{:deps {cheshire {:mvn/version "5.9.0"}}}' test.clj
 echo jq
 ../xtime.rb jq -r '.coordinates | length as $len | (map(.x) | add) / $len, (map(.y) | add) / $len, (map(.z) | add) / $len' 1.json
 echo Java
-../xtime.rb java -server -jar java-json.jar
+../xtime.rb json-java/target/application
 echo Php
 ../xtime.rb php test.php
 echo V Gcc

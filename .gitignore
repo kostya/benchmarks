@@ -1,3 +1,4 @@
+*~
 brainfuck_*
 base64_*
 json_*
@@ -29,3 +30,4 @@ bin
 *.hi
 *.cmi
 *.cmx
+json/json-hs/dist-newstyle/

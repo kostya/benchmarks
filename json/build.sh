@@ -51,20 +51,28 @@ gem install yajl-ruby
 wget -qO - https://cpanmin.us | perl - -L perllib Cpanel::JSON::XS JSON::Tiny File::Slurper
 
 # haskell
-cd json-hs; make; cd ..
+if ! [ -x "$(command -v cabal)" ]; then
+  echo 'Please install cabal (https://www.haskell.org/downloads/linux/).' >&2
+  exit 1
+fi
 
-# clojure
-cd json-clj; lein uberjar; cd ..; cp json-clj/target/test.jar ./
+cd json-hs; make; cd ..
 
 # python/python3/pypy
 pip install ujson
 pip3 install ujson
 
+# java builds require coursier
+if ! [ -x "$(command -v coursier)" ]; then
+  echo 'Please install coursier (https://get-coursier.io/docs/cli-overview.html#installation).' >&2
+  exit 1
+fi
+
 # java
-cd json-java; mvn clean install; cp target/java-json-1.5-jar-with-dependencies.jar ../java-json.jar; cd ..
+cd json-java; make clean target/application; cd ..
 
 #scala
-cd json-scala; sbt clean assembly; cp target/scala-2.13/benchmark-json-scala-assembly-1.1.jar ../scala-json.jar; cd ..
+cd json-scala; make clean target/application.jar; cd ..
 
 # simdjson
 if [ ! -d simdjson ]; then

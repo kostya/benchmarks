@@ -4,7 +4,7 @@ crystal build brainfuck.cr --release -o brainfuck_cr
 go build -o brainfuck_go brainfuck.go
 gccgo -O3 -g -o brainfuck_go_gccgo brainfuck.go
 g++ -O3 -o brainfuck_cpp brainfuck.cpp
-scalac -opt:l:inline -deprecation brainfuck.scala
+scalac brainfuck.scala
 rustc -C opt-level=3 brainfuck.rs -o brainfuck_rs
 dmd -ofbrainfuck_d -O -release -inline brainfuck.d
 gdc -o brainfuck_d_gdc -O3 -frelease -finline brainfuck.d
