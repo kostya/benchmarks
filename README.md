@@ -29,9 +29,9 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | --------------- | ------- | ----------- |
 | Kotlin          | 1.56    | 38.9        |
 | C++ Gcc         | 1.74    | 1.8         |
-| Nim Gcc         | 2.27    | 0.8         |
+| Nim Gcc         | 1.86    | 0.8         |
 | D Gdc           | 2.32    | 6.3         |
-| Nim Clang       | 2.33    | 1.1         |
+| Nim Clang       | 2.50    | 1.2         |
 | Java            | 2.54    | 39.3        |
 | Rust            | 2.58    | 0.9         |
 | Go              | 2.65    | 1.4         |
@@ -79,13 +79,13 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | Crystal         | 25.60   | 3.1         |
 | Rust            | 25.74   | 2.0         |
 | Kotlin          | 27.29   | 45.3        |
-| Nim Gcc         | 29.27   | 3.3         |
+| Nim Gcc         | 30.24   | 1.8         |
 | Scala           | 30.88   | 136.5       |
 | C# .Net Core    | 31.40   | 29.7        |
 | ML MLton        | 32.35   | 4.0         |
+| Nim Clang       | 32.64   | 2.7         |
 | V Clang         | 32.78   | 2.7         |
 | Java            | 32.88   | 45.4        |
-| Nim Clang       | 32.95   | 3.7         |
 | Go Gcc          | 33.72   | 34.5        |
 | OCaml           | 44.71   | 11.7        |
 | Go              | 47.86   | 3.1         |
@@ -117,11 +117,11 @@ Testing large blob base64 encoding/decoding into newly allocated buffers.
 | Javascript Node | 2.76    | 220.9       |
 | Java            | 2.93    | 351.1       |
 | Perl XS         | 3.24    | 50.3        |
-| Nim Clang       | 3.25    | 59.2        |
+| Nim Clang       | 3.26    | 59.3        |
+| Nim Gcc         | 3.27    | 58.9        |
 | D Gdc           | 3.29    | 57.8        |
 | Kotlin          | 3.32    | 403.4       |
 | V Clang         | 3.42    | 2195.3      |
-| Nim Gcc         | 3.63    | 58.9        |
 | Go              | 3.65    | 178.5       |
 | Scala           | 3.66    | 144.7       |
 | V Gcc           | 3.77    | 2199.2      |
@@ -171,12 +171,12 @@ Testing parsing and simple calculating of values from a big JSON file.
 | Python3         | 4.65    | 910.4       |
 | Python PyPy     | 4.78    | 1293.0      |
 | Crystal Pull    | 4.94    | 4.3         |
-| Nim Clang       | 5.08    | 1321.5      |
 | Python ujson    | 5.10    | 1404.7      |
-| Nim Gcc         | 5.25    | 1321.2      |
+| Nim Clang       | 5.19    | 1321.6      |
 | Go Gcc          | 5.28    | 456.9       |
 | V Gcc           | 5.40    | 1127.5      |
 | C++ LibJson     | 5.46    | 2888.8      |
+| Nim Gcc         | 5.62    | 1321.3      |
 | Q               | 5.85    | 691.5       |
 | Haskell         | 5.91    | 9.9         |
 | Ruby            | 6.33    | 842.4       |
@@ -210,9 +210,9 @@ Testing allocating and multiplying matrices.
 | D Gdc           | 2.36    | 76.8        |
 | C               | 3.11    | 69.7        |
 | Rust            | 3.17    | 70.7        |
+| Nim Gcc         | 3.21    | 72.5        |
+| Nim Clang       | 3.22    | 73.0        |
 | Julia           | 3.22    | 246.5       |
-| Nim Gcc         | 3.23    | 72.5        |
-| Nim Clang       | 3.23    | 72.9        |
 | Crystal         | 3.32    | 63.3        |
 | V Clang         | 3.35    | 70.4        |
 | Go Gcc          | 3.41    | 106.6       |
@@ -243,8 +243,8 @@ Testing Havlak's loop finder implementations.
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
 | Crystal         | 10.04   | 228.2       |
-| Nim Gcc         | 14.52   | 475.2       |
-| Nim Clang       | 15.09   | 471.8       |
+| Nim Gcc         | 14.40   | 505.8       |
+| Nim Clang       | 14.83   | 470.8       |
 | C++             | 16.16   | 179.2       |
 | Scala           | 23.29   | 382.7       |
 | D Ldc           | 23.37   | 460.1       |
@@ -264,7 +264,7 @@ Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz (Ubuntu 18.04.3 LTS x86_64)
 # Versions:
 
 * gcc (Ubuntu 9.1.0-2ubuntu2~18.04) 9.1.0
-* Nim Compiler Version 1.0.0 [Linux: amd64]
+* Nim Compiler Version 1.0.2 [Linux: amd64]
 * `Crystal 0.31.1 [0e2e1d067] (2019-09-30) LLVM 8.0.0`
 * go version go1.13.1 linux/amd64
 * gccgo (Ubuntu 9.1.0-2ubuntu2~18.04) 9.1.0
