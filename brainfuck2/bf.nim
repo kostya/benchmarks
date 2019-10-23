@@ -1,93 +1,65 @@
-import os
-
 type
-  OpT = enum
-    INC = 1, MOVE = 2, LOOP = 3, PRINT = 4
-
-type 
+  OpType = enum Inc, Move, Loop, Print
+  Ops = seq[Op]
   Op = object
-    op: OpT
-    v: int
-    loop: seq[Op]
+    case op: OpType
+    of Inc, Move: val: int
+    of Loop: loop: Ops
+    else: discard
 
-proc newOp(op1: OpT, v1: int): Op =
-  result.op = op1
-  result.v = v1
-
-proc newOp(op1: OpT, l1: seq[Op]): Op =
-  result.op = op1
-  result.loop = l1
-
-type 
-  StringIterator = object
-    text: string
-    pos: int
-
-proc newStringIterator(t: string): StringIterator =
-  result.text = t
-  result.pos = 0
-
-proc next(self: var StringIterator): char =
-  result = if (self.pos < self.text.len): self.text[self.pos] else: 0.chr
-  self.pos += 1
-
-type
+  StringIterator = iterator(): char
   Tape = object
     pos: int
     tape: seq[int]
 
-proc newTape(): Tape =
+  Program = distinct Ops
+
+func initTape(): Tape =
   result.pos = 0
-  result.tape = @[0]
+  result.tape = newSeq[int](1)
 
-proc inc(self: var Tape, x: int) =
-  self.tape[self.pos] += x
+proc get(t: Tape): int {.inline.} = t.tape[t.pos]
+proc inc(t: var Tape, x: int) {.inline.} = t.tape[t.pos] += x
+proc move(t: var Tape, x: int) {.inline.} =
+  t.pos += x
+  while t.pos >= t.tape.len:
+    t.tape.setLen 2 * t.tape.len
 
-proc move(self: var Tape, x: int) =
-  self.pos += x
-  while self.pos >= self.tape.len:
-    self.tape.add(0)
+func newStringIterator(s: string): StringIterator =
+  result = iterator(): char =
+    for i in s:
+      yield i
 
-proc get(self: Tape): int =
-  result = self.tape[self.pos]
+func parse(iter: StringIterator): Ops =
+  for i in iter():
+    case i
+    of '+': result.add Op(op: Inc, val: 1)
+    of '-': result.add Op(op: Inc, val: -1)
+    of '>': result.add Op(op: Move, val: 1)
+    of '<': result.add Op(op: Move, val: -1)
+    of '.': result.add Op(op: Print)
+    of '[': result.add Op(op: Loop, loop: parse iter)
+    of ']': break
+    else: discard
 
-type
-  Program = object
-    ops: seq[Op]
+func parse(code: string): Program =
+  let iter = newStringIterator code
+  result = Program parse iter
 
-proc parse(it: var StringIterator): seq[Op] = 
-  result = newSeq[Op]()
-  while true:
-    case it.next:
-      of '+': result.add(newOp(INC, 1))
-      of '-': result.add(newOp(INC, -1))
-      of '>': result.add(newOp(MOVE, 1))
-      of '<': result.add(newOp(MOVE, -1))
-      of '.': result.add(newOp(PRINT, 0))
-      of '[': result.add(newOp(LOOP, parse(it)))
-      of ']': break
-      of 0.chr: break
-      else: discard
+proc run(ops: Ops, t: var Tape) =
+  for op in ops:
+    case op.op
+    of Inc: t.inc op.val
+    of Move: t.move op.val
+    of Loop:
+      while t.get() > 0: run(op.loop, t)
+    of Print:
+      stdout.write t.get().chr()
+      stdout.flushFile()
 
-proc newProgram(code: string): Program =
-  var si = newStringIterator(code)
-  result.ops = parse(si)
+proc run(ops: Program) =
+  var tape = initTape()
+  run Ops ops, tape
 
-proc runops(program: seq[Op], tape: var Tape) =
-  for op in program:
-    case op.op:
-      of INC: tape.inc(op.v)
-      of MOVE: tape.move(op.v)
-      of LOOP:
-        while tape.get > 0:
-          runops(op.loop, tape)
-      of PRINT: 
-        write stdout, tape.get.chr
-        flushFile(stdout)
-
-proc run(self: Program) =
-  var tape = newTape()
-  runops(self.ops, tape)
-
-var text = readFile(paramStr(1))
-newProgram(text).run
+import os
+paramStr(1).readFile().parse().run()
