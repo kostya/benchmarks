@@ -108,37 +108,37 @@ Testing large blob base64 encoding/decoding into newly allocated buffers.
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| C aklomp SSSE3  | 0.52    | 33.1        |
-| C               | 1.67    | 33.2        |
-| Rust            | 1.88    | 46.4        |
-| Crystal         | 2.10    | 57.3        |
-| D Ldc           | 2.18    | 54.0        |
-| Ruby            | 2.48    | 197.9       |
-| Javascript Node | 2.76    | 220.9       |
-| Java            | 2.93    | 351.1       |
-| Perl XS         | 3.24    | 50.3        |
-| Nim Clang       | 3.26    | 59.3        |
-| Nim Gcc         | 3.27    | 58.9        |
-| D Gdc           | 3.29    | 57.8        |
-| Kotlin          | 3.32    | 403.4       |
-| V Clang         | 3.42    | 2195.3      |
-| Go              | 3.65    | 178.5       |
-| Scala           | 3.66    | 144.7       |
-| V Gcc           | 3.77    | 2199.2      |
-| Go Gcc          | 4.47    | 219.1       |
-| C# .Net Core    | 4.70    | 224.4       |
-| Php             | 4.90    | 57.2        |
-| C++ Openssl     | 5.53    | 68.1        |
-| Python3         | 6.01    | 44.1        |
-| D               | 6.11    | 54.3        |
-| Tcl             | 6.20    | 68.7        |
-| Python PyPy     | 7.40    | 156.1       |
-| Python          | 7.60    | 55.0        |
-| C# Mono         | 7.89    | 127.6       |
-| Julia           | 9.18    | 355.4       |
-| Ruby JRuby      | 12.29   | 254.7       |
-| Perl            | 26.60   | 142.6       |
-| Ruby truffle    | 29.37   | 478.4       |
+| C aklomp        | 0.38    | 2.0         |
+| C               | 1.81    | 1.9         |
+| Rust            | 1.90    | 2.4         |
+| Crystal         | 2.31    | 5.2         |
+| D Ldc           | 2.46    | 4.2         |
+| Ruby            | 2.54    | 73.1        |
+| Java            | 2.98    | 371.0       |
+| D Gdc           | 3.08    | 10.7        |
+| Scala           | 3.09    | 131.3       |
+| Kotlin          | 3.23    | 377.4       |
+| Nim Gcc         | 3.30    | 7.4         |
+| Perl XS         | 3.35    | 6.2         |
+| Javascript Node | 3.44    | 99.9        |
+| Nim Clang       | 3.70    | 7.7         |
+| C++ libcrypto   | 4.15    | 5.5         |
+| V Clang         | 4.21    | 2429.9      |
+| Php             | 4.27    | 16.7        |
+| Go              | 4.57    | 8.1         |
+| V Gcc           | 4.77    | 2426.1      |
+| C# .Net Core    | 5.21    | 30.6        |
+| D               | 5.58    | 11.4        |
+| Python3         | 6.35    | 10.0        |
+| Tcl             | 6.44    | 5.6         |
+| Python          | 6.51    | 8.2         |
+| Go Gcc          | 6.68    | 43.8        |
+| Python PyPy     | 7.26    | 95.0        |
+| C# Mono         | 8.43    | 36.5        |
+| Julia           | 9.93    | 214.1       |
+| Ruby JRuby      | 14.55   | 241.8       |
+| Perl            | 27.59   | 8.0         |
+| Ruby truffle    | 32.01   | 384.1       |
 
 # Json
 

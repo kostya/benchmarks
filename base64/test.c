@@ -31,9 +31,8 @@ void init_decode_table() {
 
 #define next_char(x) char x = decode_table[(unsigned char)*str++]; if (x < 0) return 1;
 
-int decode(int size, const char* str, int* out_size, char** output) {
-  *output = (char*) malloc( decode_size(size) );
-  char *out = *output;
+int decode(int size, const char* str, size_t* out_size, char* output) {
+  char *out = output;
   while (size > 0 && (str[size - 1] == '\n' || str[size - 1] == '\r' || str[size - 1] == '=')) size--;
   const char* ends = str + size - 4;
   while (1) {
@@ -59,13 +58,12 @@ int decode(int size, const char* str, int* out_size, char** output) {
   }
 
   *out = '\0';
-  *out_size = out - *output;
+  *out_size = out - output;
   return 0;
 }
 
-void encode(int size, const char* str, int* out_size, char** output) {
-  *output = (char*) malloc( encode_size(size) );
-  char *out = *output;
+void encode(int size, const char* str, size_t* out_size, char* output) {
+  char *out = output;
   const char* ends = str + (size - size % 3);
   uint n;
   while (str != ends) {
@@ -92,44 +90,49 @@ void encode(int size, const char* str, int* out_size, char** output) {
     *out++ = '=';
   }
   *out = '\0';
-  *out_size = out - *output;
+  *out_size = out - output;
 }
 
 int main() {
   init_decode_table();
 
-  const int STR_SIZE = 10000000;
-  const int TRIES = 100;
+  const int STR_SIZE = 131072;
+  const int TRIES = 8192;
 
-  char *str = (char*) malloc(STR_SIZE + 1);
+  char str[STR_SIZE + 1];
   memset(str, 'a', STR_SIZE);
   str[STR_SIZE] = '\0';
+
+  size_t str2_size;
+  char str2[encode_size(STR_SIZE)];
+  encode(STR_SIZE, str, &str2_size, str2);
+  printf("encode %s... to %s...: ", strndup(str, 4), strndup(str2, 4));
 
   int s = 0;
   clock_t t = clock();
   for (int i = 0; i < TRIES; i++) { 
-    char *str2; 
-    int str2_size;
-    encode(STR_SIZE, str, &str2_size, &str2); 
+    size_t str2_size;
+    char str2[encode_size(STR_SIZE)];
+    encode(STR_SIZE, str, &str2_size, str2);
     s += str2_size;
-    free(str2); 
   }
-  printf("encode: %d, %.2f\n", s, (float)(clock() - t)/CLOCKS_PER_SEC);
 
-  char *str2;
-  int str2_size;
-  encode(STR_SIZE, str, &str2_size, &str2);
+  printf("%d, %.2f\n", s, (float)(clock() - t)/CLOCKS_PER_SEC);
+
+  size_t str3_size;
+  char str3[decode_size(str2_size)];
+  decode(str2_size, str2, &str3_size, str3);
+  printf("decode %s... to %s...: ", strndup(str2, 4), strndup(str3, 4));
 
   s = 0;
   t = clock();
   for (int i = 0; i < TRIES; i++) {
-    char *str3;
-    int str3_size;
-    if (decode(str2_size, str2, &str3_size, &str3) != 0) {
+    size_t str3_size;
+    char str3[decode_size(str2_size)];
+    if (decode(str2_size, str2, &str3_size, str3) != 0) {
       printf("error when decoding");
     }
     s += str3_size;
-    free(str3);
   }
-  printf("decode: %d, %.2f\n", s, (float)(clock() - t)/CLOCKS_PER_SEC);
+  printf("%d, %.2f\n", s, (float)(clock() - t)/CLOCKS_PER_SEC);
 }

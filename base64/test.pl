@@ -3,21 +3,29 @@ use warnings;
 use MIME::Base64::Perl qw(encode_base64 decode_base64);
 use Time::HiRes 'time';
 
-use constant STR_SIZE => 10_000_000;
-use constant TRIES => 100;
+use constant STR_SIZE => 131072;
+use constant TRIES => 8192;
 
 my $str = 'a' x STR_SIZE;
-my $str2 = '';
+
+my $str2 = encode_base64 $str, '';
+printf("encode %s... to %s...: ",
+       substr($str, 0, 4), substr($str2, 0, 4));
 
 my ($t, $s) = (time, 0);
 for (1..TRIES) {
   $str2 = encode_base64 $str, '';
   $s += length $str2;
 }
-print "encode: $s, ", (time - $t), "\n";
+printf("%d, %.2f\n", $s, time - $t);
+
+my $str3 = decode_base64 $str2;
+printf("decode %s... to %s...: ",
+       substr($str2, 0, 4), substr($str3, 0, 4));
 
 ($t, $s) = (time, 0);
 for (1..TRIES) {
-  $s += length decode_base64 $str2;
+  $str3 = decode_base64 $str2;
+  $s += length $str3;
 }
-print "decode: $s, ", (time - $t), "\n";
+printf("%d, %.2f\n", $s, time - $t);

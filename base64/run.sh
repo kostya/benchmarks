@@ -6,12 +6,12 @@ echo Go
 ../xtime.rb ./base64_go
 echo GccGo
 ../xtime.rb ./base64_go_gccgo
-echo Cpp
+echo Cpp libcrypto
 ../xtime.rb ./base64_cpp
 echo C
 ../xtime.rb ./base64_c
-echo C aklomp SSSE3
-../xtime.rb ./base64_c_ak_ssse
+echo C aklomp
+../xtime.rb ./base64_c_ak
 echo Rust
 ../xtime.rb ./base64_rs
 echo D
