@@ -6,8 +6,8 @@ import "time"
 import "strings"
 
 func main() {
-	STR_SIZE := 10000000
-	TRIES := 100
+	STR_SIZE := 131072
+	TRIES := 8192
 
 	str2 := ""
 	bytes := []byte(strings.Repeat("a", STR_SIZE))

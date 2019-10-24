@@ -1,10 +1,13 @@
 package require Tcl 8.6
 
-set STR_SIZE 10000000
-set TRIES 100
+set STR_SIZE 131072
+set TRIES 8192
 
 proc main {size tries} {
     set str [string repeat a $size]
+
+    set encoded [binary encode base64 $str]
+    puts -nonewline "encode [string range $str 0 4]... to [string range $str 0 4]...: "
 
     set t [clock milliseconds]
     set length 0
@@ -12,7 +15,10 @@ proc main {size tries} {
         set encoded [binary encode base64 $str]
         incr length [string length $encoded]
     }
-    puts "encode: $length, [expr { ([clock milliseconds] - $t) / 1000.0 }]"
+    puts "$length, [expr { ([clock milliseconds] - $t) / 1000.0 }]"
+
+    set decoded [binary decode base64 $encoded]
+    puts -nonewline "decode [string range $encoded 0 4]... to [string range $decoded 0 4]...: "
 
     set t [clock milliseconds]
     set length 0
@@ -20,7 +26,7 @@ proc main {size tries} {
         set decoded [binary decode base64 $encoded]
         incr length [string length $decoded]
     }
-    puts "decode: $length, [expr { ([clock milliseconds] - $t) / 1000.0 }]"
+    puts "$length, [expr { ([clock milliseconds] - $t) / 1000.0 }]"
 }
 
 main $STR_SIZE $TRIES

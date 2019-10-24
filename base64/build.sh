@@ -4,7 +4,7 @@ crystal build test.cr --release -o base64_cr --no-debug
 go build -o base64_go test.go
 gccgo -O3 -g -o base64_go_gccgo test.go
 g++ -O3 -o base64_cpp test.cpp -lcrypto
-gcc -O3 -std=c99 -o base64_c test.c
+gcc -O3 -o base64_c test.c
 scalac test.scala
 javac Base64Java.java
 kotlinc Test.kt -include-runtime -d Test-kt.jar
@@ -17,13 +17,13 @@ cargo build --manifest-path base64.rs/Cargo.toml --release && cp ./base64.rs/tar
 mcs -debug- -optimize+ test.cs
 dotnet build -c Release
 
-if [ ! -d aklomp-base64-ssse ]; then
-  git clone --depth 1 https://github.com/aklomp/base64.git aklomp-base64-ssse
-  cd aklomp-base64-ssse
-  SSSE3_CFLAGS=-mssse3 make
+if [ ! -d aklomp-base64 ]; then
+  git clone --depth 1 https://github.com/aklomp/base64.git aklomp-base64
+  cd aklomp-base64
+  AVX2_CFLAGS=-mavx2 SSSE3_CFLAGS=-mssse3 AVX_CFLAGS=-mavx make
   cd -
 fi
-gcc --std=c99 -O3 test-aklomp.c -I aklomp-base64-ssse/include/ aklomp-base64-ssse/lib/libbase64.o -o base64_c_ak_ssse
+gcc -O3 test-aklomp.c -I aklomp-base64/include/ aklomp-base64/lib/libbase64.o -o base64_c_ak
 wget -qO - https://cpanmin.us | perl - -L perllib MIME::Base64::Perl
 v -prod -cc gcc -o base64_v_gcc test.v
 v -prod -cc clang -o base64_v_clang test.v
