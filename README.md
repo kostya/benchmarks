@@ -254,11 +254,10 @@ Testing Havlak's loop finder implementations.
 | C# .Net Core    | 43.10   | 542.1       |
 | Python          | 345.14  | 725.5       |
 
-# Hardware:
+# Environment
 
-Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz (Ubuntu 18.04.3 LTS x86_64)
-
-# Versions:
+CPU: Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz
+OS: Ubuntu 18.04.3 LTS x86_64
 
 | Language     | Version                         |
 | ------------ | ------------------------------- |
