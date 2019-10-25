@@ -257,6 +257,7 @@ Testing Havlak's loop finder implementations.
 # Environment
 
 CPU: Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz
+
 OS: Ubuntu 18.04.3 LTS x86_64
 
 | Language     | Version                         |
