@@ -36,10 +36,6 @@ echo Python
 ../xtime.rb python brainfuck.py bench.b
 echo Ruby
 ../xtime.rb ruby brainfuck.rb bench.b
-echo OOC
-../xtime.rb ./brainfuck_ooc bench.b
-echo Felix
-../xtime.rb ./brainfuck_flx bench.b
 echo Tcl
 ../xtime.rb tclsh brainfuck.tcl bench.b
 echo Java

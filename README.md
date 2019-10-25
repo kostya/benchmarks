@@ -254,6 +254,27 @@ Testing Havlak's loop finder implementations.
 | C# .Net Core    | 43.10   | 542.1       |
 | Python          | 345.14  | 725.5       |
 
+# Using Docker
+
+Build the image:
+
+    $ docker build docker/ -t benchmark
+
+Run the image:
+
+    $ docker run -it --rm --name test -v $(pwd):/src benchmark <cmd>
+
+where <cmd> is:
+
+ - `versions` (print installed language versions)
+ - `shell` (start the shell)
+ - `brainfuck2 bench` (build and run Brainfuck2 bench.b benchmarks)
+ - `brainfuck2 mandel` (build and run Brainfuck2 mandel.b benchmarks)
+ - `base64` (build and run Base64 benchmarks)
+ - `json` (build and run Json benchmarks)
+ - `matmul` (build and run Matmul benchmarks)
+ - `havlak` (build and run Havlak benchmarks)
+
 # Environment
 
 CPU: Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz

@@ -73,7 +73,7 @@ echo Perl XS
 echo Haskell
 ../xtime.rb ./json_hs
 echo Clojure
-../xtime.rb clj -Sdeps '{:deps {cheshire {:mvn/version "5.9.0"}}}' test.clj
+../xtime.rb clojure -Sdeps '{:deps {cheshire {:mvn/version "5.9.0"}}}' test.clj
 echo jq
 ../xtime.rb jq -r '.coordinates | length as $len | (map(.x) | add) / $len, (map(.y) | add) / $len, (map(.z) | add) / $len' 1.json
 echo Java

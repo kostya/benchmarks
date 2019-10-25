@@ -5,6 +5,11 @@ require 'json'
 
 BUILD_DIR = "build"
 
+def dotnet_base_path
+  info = `dotnet --info`
+  info.match(/Base Path:\s+(.*)\s*/)[1]
+end
+
 def cat(filename, content = nil)
   name = File.join(BUILD_DIR, filename)
   unless content.nil?
@@ -33,7 +38,10 @@ def versions
     },
     "Swift" => -> { `swift --version`.split("\n")[0].match(/\((.*)\)/)[1] },
     "MLton" => -> { `mlton`.split()[1] },
-    "F#" => -> { `fsharpc --help | sed -n 1p`.match(/version\s(.*)/)[1] },
+    "F#" => -> {
+      fsharpc = File.join(dotnet_base_path, "FSharp", "fsc.exe")
+      `dotnet #{fsharpc} --help | sed -n 1p`.match(/version\s(.*)/)[1]
+    },
 
     "GCC" => -> { `gcc -dumpfullversion` },
     "GCC Go" => -> { `gccgo -dumpfullversion` },
@@ -95,8 +103,10 @@ END
     "Julia" => -> { `julia -E 'VERSION'` },
     "C# Mono" => -> { `mono --version=number` },
     ".NET Core" => -> { `dotnet --version` },
-    "C# .NET Core" => -> { `csc -version` },
-    "ooc" => -> { `rock -r #{cat('ooc.ooc', "__BUILD_ROCK_VERSION__ println()")}` },
+    "C# .NET Core" => -> {
+      csc = File.join(dotnet_base_path, "Roslyn", "bincore", "csc.dll")
+      `dotnet #{csc} -version`
+    },
     "Perl" => -> { `perl -e 'print $^V;'` },
     "Haskell" => -> { `ghc --numeric-version` },
     "Tcl" => -> { `echo 'puts "$tcl_version"' | tclsh` },
@@ -124,10 +134,10 @@ fn main() {
 END
       `v run #{cat('v.v', prog)}`
     },
-    "Clojure" => -> { `clj -e '(clojure-version)'` },
+    "Clojure" => -> { `clojure -e '(clojure-version)'` },
   }
   langs.sort.each do | name, version_lambda |
-    STDERR.putc '.'
+    STDERR.puts "Fetching #{name} version..."
     version = version_lambda.call
     table << "| #{lpad.(name)} | #{rpad.(version)} |"
   end
