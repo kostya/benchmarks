@@ -260,7 +260,6 @@ Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz (Ubuntu 18.04.3 LTS x86_64)
 
 # Versions:
 
-<<<<<<< HEAD
 | Language     | Version                         |
 | ------------ | ------------------------------- |
 | .NET Core    | 3.0.100                         |
