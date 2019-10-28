@@ -42,9 +42,9 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | Crystal         | 3.03    | 2.7         |
 | Scala           | 3.49    | 124.4       |
 | OCaml           | 3.61    | 4.0         |
-| V Gcc           | 4.03    | 0.7         |
+| V Gcc           | 3.96    | 0.8         |
 | D Dmd           | 4.60    | 1.9         |
-| V Clang         | 5.36    | 1.1         |
+| V Clang         | 5.03    | 1.2         |
 | C# Mono         | 6.13    | 17.7        |
 | Javascript Node | 6.23    | 31.2        |
 | Haskell (MArray)| 6.90    | 4.1         |
@@ -75,7 +75,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | C++ Gcc         | 22.98   | 3.7         |
 | D Ldc           | 24.96   | 3.7         |
 | D Gdc           | 25.31   | 7.1         |
-| V Gcc           | 25.34   | 2.2         |
+| V Gcc           | 25.45   | 2.2         |
 | Crystal         | 25.60   | 3.1         |
 | Rust            | 25.74   | 2.0         |
 | Kotlin          | 27.29   | 45.3        |
@@ -84,7 +84,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | C# .Net Core    | 31.40   | 29.7        |
 | ML MLton        | 32.35   | 4.0         |
 | Nim Clang       | 32.64   | 2.7         |
-| V Clang         | 32.78   | 2.7         |
+| V Clang         | 32.65   | 2.7         |
 | Java            | 32.88   | 45.4        |
 | Go Gcc          | 33.72   | 34.5        |
 | OCaml           | 44.71   | 11.7        |
@@ -121,12 +121,12 @@ Testing large blob base64 encoding/decoding into newly allocated buffers.
 | Nim Gcc         | 3.30    | 7.4         |
 | Perl XS         | 3.35    | 6.2         |
 | Javascript Node | 3.44    | 99.9        |
+| V Clang         | 3.61    | 2407.4      |
 | Nim Clang       | 3.70    | 7.7         |
+| V Gcc           | 3.71    | 2423.5      |
 | C++ libcrypto   | 4.15    | 5.5         |
-| V Clang         | 4.21    | 2429.9      |
 | Php             | 4.27    | 16.7        |
 | Go              | 4.57    | 8.1         |
-| V Gcc           | 4.77    | 2426.1      |
 | C# .Net Core    | 5.21    | 30.6        |
 | D               | 5.58    | 11.4        |
 | Python3         | 6.35    | 10.0        |
@@ -163,7 +163,7 @@ Testing parsing and simple calculating of values from a big JSON file.
 | Perl XS         | 2.37    | 966.4       |
 | Crystal         | 2.94    | 962.1       |
 | Clojure         | 3.07    | 1652.1      |
-| V Clang         | 3.37    | 1128.1      |
+| V Clang         | 3.37    | 1128.0      |
 | Go              | 3.42    | 511.2       |
 | Php             | 3.43    | 1476.7      |
 | Python3 ujson   | 3.61    | 1184.0      |
@@ -174,8 +174,8 @@ Testing parsing and simple calculating of values from a big JSON file.
 | Python ujson    | 5.10    | 1404.7      |
 | Nim Clang       | 5.19    | 1321.6      |
 | Go Gcc          | 5.28    | 456.9       |
-| V Gcc           | 5.40    | 1127.5      |
 | C++ LibJson     | 5.46    | 2888.8      |
+| V Gcc           | 5.47    | 1127.5      |
 | Nim Gcc         | 5.62    | 1321.3      |
 | Q               | 5.85    | 691.5       |
 | Haskell         | 5.91    | 9.9         |
@@ -214,13 +214,13 @@ Testing allocating and multiplying matrices.
 | Nim Clang       | 3.22    | 73.0        |
 | Julia           | 3.22    | 246.5       |
 | Crystal         | 3.32    | 63.3        |
-| V Clang         | 3.35    | 70.4        |
+| V Clang         | 3.35    | 70.6        |
 | Go Gcc          | 3.41    | 106.6       |
 | Go              | 3.54    | 60.4        |
 | Kotlin          | 3.59    | 129.6       |
 | Scala           | 3.67    | 141.6       |
 | Java            | 3.81    | 129.5       |
-| V Gcc           | 4.19    | 70.2        |
+| V Gcc           | 4.17    | 70.2        |
 | Javascript Node | 4.36    | 101.7       |
 | Swift           | 7.13    | 186.4       |
 | Javascript V8   | 5.92    | 95.0        |
@@ -304,5 +304,5 @@ Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz (Ubuntu 18.04.3 LTS x86_64)
 * OCaml 4.07.0
 * Racket v6.11
 * Chez Scheme Version 9.5
-* V 0.1.21 c18578a
+* V 0.1.22 3950b10
 * Clojure 1.10.1

@@ -63,25 +63,16 @@ fn parse(si mut StringIterator) []Op {
   mut res := []Op
   for true {
     c := si.next()
-    switch c {
-    case `+`: 
-      res << new_op(INC, 1)
-    case `-`: 
-      res << new_op(INC, -1)
-    case `>`: 
-      res << new_op(MOVE, 1)
-    case `<`: 
-      res << new_op(MOVE, -1)
-    case `.`: 
-      res << new_op(PRINT, 0)
-    case `[`: 
-      res << new_op_loop(LOOP, parse(mut si))
-    case `]`: 
-      return res
-    case `\0`:
-      return res
-    default:
-      continue
+    match c {
+      `+` { res << new_op(INC, 1) }
+      `-` { res << new_op(INC, -1) }
+      `>` { res << new_op(MOVE, 1) }
+      `<` { res << new_op(MOVE, -1) }
+      `.` { res << new_op(PRINT, 0) }
+      `[` { res << new_op_loop(LOOP, parse(mut si)) }
+      `]` { return res }
+      `\0`{ return res }
+      else { continue }
     }
   }
   return res  
@@ -94,17 +85,17 @@ fn (p Program) run() {
 
 fn run_ops(ops []Op, tape mut Tape) {
   for op in ops {
-    switch op.o {
-    case INC:
-      tape.inc(op.v)
-    case MOVE:
-      tape.move(op.v)
-    case PRINT:
-      print(byte(tape.get()).str())
-      os.flush_stdout()
-    case LOOP:
-      for tape.get() > 0 {
-        run_ops(op.loop, mut tape)
+    match op.o {
+      INC { tape.inc(op.v) }
+      MOVE { tape.move(op.v) }
+      PRINT {
+        print(byte(tape.get()).str())
+        os.flush_stdout()
+      }
+      LOOP {
+        for tape.get() > 0 {
+          run_ops(op.loop, mut tape)
+        }
       }
     }
   }
@@ -120,14 +111,14 @@ fn new_si(s string) StringIterator {
   return StringIterator{code: s, pos: 0}
 }
 
-fn (si mut StringIterator) next() char {
+fn (si mut StringIterator) next() byte {
   if si.pos < si.code.len {
     res := si.code[si.pos]
     si.pos += 1
-    return char(res)
+    return res
   }
   else {
-    return char(0)
+    return 0
   }
 }
 
@@ -150,5 +141,3 @@ fn main() {
 
     new_program(code).run()
 }
-
-
