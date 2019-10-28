@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 echo Crystal
 ../xtime.rb ./base64_cr
 echo Go

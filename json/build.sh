@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 if [ ! -f 1.json ]; then
   ruby generate_json.rb
 fi

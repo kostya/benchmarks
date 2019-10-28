@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 crystal build matmul.cr --release -o matmul_cr --no-debug
 go build -o matmul_go matmul.go
 gccgo -O3 -g -o matmul_go_gccgo matmul.go

@@ -14,34 +14,28 @@ when "brainfuck2"
   case ARGV[1]
   when "bench"
     Dir.chdir("/src/brainfuck2")
-    system("./build.sh")
-    system("./run.sh")
+    system("./build.sh && ./run.sh")
     unknown_cmd = false
   when "mandel"
     Dir.chdir("/src/brainfuck2")
-    system("./build.sh")
-    system("./run2.sh")
+    system("./build.sh && ./run2.sh")
     unknown_cmd = false
   end
 when "base64"
   Dir.chdir("/src/base64")
-  system("./build.sh")
-  system("./run.sh")
+  system("./build.sh && ./run.sh")
   unknown_cmd = false
 when "havlak"
   Dir.chdir("/src/base64")
-  system("./build.sh")
-  system("./run.sh")
+  system("./build.sh && ./run.sh")
   unknown_cmd = false
 when "json"
   Dir.chdir("/src/base64")
-  system("./build.sh")
-  system("./run.sh")
+  system("./build.sh && ./run.sh")
   unknown_cmd = false
 when "matmul"
   Dir.chdir("/src/base64")
-  system("./build.sh")
-  system("./run.sh")
+  system("./build.sh && ./run.sh")
   unknown_cmd = false
 end
 

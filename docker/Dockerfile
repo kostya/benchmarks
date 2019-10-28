@@ -18,8 +18,8 @@ RUN echo "deb http://download.mono-project.com/repo/debian vs-stretch/snapshots/
 RUN  apt-get update \
   && apt-get install -y wget xz-utils build-essential libtool-bin cmake git libgmp-dev \
      libssl1.1 libxml2 lbzip2 libtinfo5 libtool zlib1g libicu63 curl libpcre3-dev libevent-dev \
-     gcc python python3 mono-devel chezscheme racket gccgo \
-     luajit lua5.3 tcl jq gdc php elixir clang-9 opam \
+     gcc python python-numpy python3 mono-devel fsharp chezscheme racket gccgo \
+     luajit lua5.3 tcl tcllib jq gdc php elixir clang-9 opam \
   && rm -rf /var/lib/apt/lists/* /tmp/*
 
 RUN ln -s /usr/bin/clang-9 /usr/bin/clang
@@ -164,16 +164,26 @@ RUN wget --progress=dot:giga \
 ENV PATH="/opt/kotlinc/bin/:${PATH}"
 
 # https://www.haskell.org/ghc/
-ARG GHC=8.8.1
+ARG GHC_VER=8.8.1
 RUN wget --progress=dot:giga -O - \
-    https://downloads.haskell.org/~ghc/$GHC/ghc-$GHC-x86_64-deb9-linux.tar.xz \
+    https://downloads.haskell.org/~ghc/$GHC_VER/ghc-$GHC_VER-x86_64-deb9-linux.tar.xz \
     | tar -xJ \
-    && cd ghc-$GHC && ./configure && make install
+    && cd ghc-$GHC_VER && ./configure && make install
+
+# http://hackage.haskell.org/package/cabal-install
+ARG CABAL=cabal-install-3.0.0.0
+RUN wget --progress=dot:giga -O - \
+    http://hackage.haskell.org/package/$CABAL/$CABAL.tar.gz \
+    | tar -xz \
+    && cd $CABAL && EXTRA_CONFIGURE_OPTS="" ./bootstrap.sh --global
 
 # https://ocaml.org/releases/
 ARG OCAML=4.09.0
 RUN opam init --disable-sandboxing -n --root=/opt/opam --compiler=$OCAML
 ENV PATH="/opt/opam/$OCAML/bin/:${PATH}"
+
+RUN curl -Lo /usr/local/bin/coursier https://git.io/coursier-cli \
+    && chmod +x /usr/local/bin/coursier
 
 RUN gcc --version && echo "---" \
     && nim --version && echo "---" \

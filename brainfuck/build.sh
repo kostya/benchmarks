@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 crystal build brainfuck.cr --release -o brainfuck_cr
 go build -o brainfuck_go brainfuck.go
 gccgo -O3 -g -o brainfuck_go_gccgo brainfuck.go

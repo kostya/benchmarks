@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 echo Cpp
 ../xtime.rb ./bin_cpp mandel.b > /dev/null
 echo D

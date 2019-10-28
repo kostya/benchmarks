@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 crystal build havlak.cr --release -o havlak_cr --no-debug
 go build -o havlak_go havlak.go
 gccgo -O3 -g -o havlak_go_gccgo havlak.go

@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 echo Crystal
 ../xtime.rb ./json_cr
 echo Crystal Pull

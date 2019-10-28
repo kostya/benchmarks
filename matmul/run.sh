@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 echo Crystal
 ../xtime.rb ./matmul_cr 1500
 echo Go
