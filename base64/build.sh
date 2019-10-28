@@ -27,3 +27,4 @@ gcc -O3 test-aklomp.c -I aklomp-base64/include/ aklomp-base64/lib/libbase64.o -o
 wget -qO - https://cpanmin.us | perl - -L perllib MIME::Base64::Perl
 v -prod -cc gcc -o base64_v_gcc test.v
 v -prod -cc clang -o base64_v_clang test.v
+ocamlfind ocamlopt -o base64_ocaml -linkpkg -package base64,unix test.ml

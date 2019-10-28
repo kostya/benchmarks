@@ -58,3 +58,5 @@ echo V Gcc
 ../xtime.rb ./base64_v_gcc
 echo V Clang
 ../xtime.rb ./base64_v_clang
+echo OCaml
+../xtime.rb ./base64_ocaml
