@@ -7,28 +7,33 @@ fn main() {
 
   str := 'a'.repeat(str_size)
 
-  mut str2 := base64.encode(str)
+  str2 := base64.encode(str)
+  str3 := base64.decode(str2)
+  
+  str2_buffer := malloc( str2.len )
+  str3_buffer := malloc( str3.len )
+  
   print('encode ${str.substr(0, 4)}... to ${str2.substr(0, 4)}...: ')
 
   mut bench := benchmark.new_benchmark()
   bench.step()
   mut s := 0
   for i := 0; i < tries; i++ {
-    str2 = base64.encode(str)
-    s += str2.len
+    s += base64.encode_in_buffer(str, mut str2_buffer)
   }
   bench.ok()
   println(bench.step_message('$s'))
 
-  mut str3 := base64.decode(str2)
   print('decode ${str2.substr(0, 4)}... to ${str3.substr(0, 4)}...: ')
 
   bench.step()
   s = 0
-  for i := 0; i < tries; i++ {
-    str3 = base64.decode(str2)
-    s += str3.len
+  for i := 0; i < tries; i++ {    
+    s += base64.decode_in_buffer( str2, mut str3_buffer )
   }
   bench.ok()
-  println(bench.step_message('$s'))
+  println(bench.step_message('decode: $s'))
+  
+  bench.stop()
+  println(bench.total_message('running base64 encode/decode ops'))
 }
