@@ -16,13 +16,15 @@ ARG MONO_VERSION=6.4.0.198
 RUN echo "deb http://download.mono-project.com/repo/debian vs-stretch/snapshots/$MONO_VERSION main" > /etc/apt/sources.list.d/mono-official-vs.list
 
 RUN  apt-get update \
-  && apt-get install -y wget xz-utils build-essential libtool-bin cmake git libgmp-dev libssl-dev \
-     libssl1.1 libxml2 lbzip2 libtinfo5 libtool zlib1g libicu63 curl libpcre3-dev libevent-dev \
-     gcc python python-numpy python3 mono-complete fsharp chezscheme racket gccgo \
-     luajit lua5.3 tcl tcllib jq gdc php elixir clang-9 opam libboost-dev libjson-c-dev
-#  && rm -rf /var/lib/apt/lists/* /tmp/*
-# TODO: mono-complete -> mono-devel
-RUN ln -s /usr/bin/clang-9 /usr/bin/clang
+  && apt-get install -y wget xz-utils build-essential libtool-bin cmake git curl \
+     libgmp-dev libssl-dev libssl1.1 libxml2 lbzip2 libtinfo5 libtool zlib1g libicu63 \
+     libpcre3-dev libevent-dev libboost-dev libjson-c-dev libblas-dev liblapack-dev libopenblas-dev \
+     python python-numpy python3 python-ujson python3-ujson \
+     mono-devel fsharp nuget \
+     chezscheme racket gccgo gdc \
+     luajit lua5.3 tcl tcllib jq php elixir clang-9 opam \
+  && rm -rf /var/lib/apt/lists/* /tmp/* \
+  && ln -s /usr/bin/clang-9 /usr/bin/clang
 
 WORKDIR /opt
 
@@ -97,7 +99,7 @@ RUN wget --progress=dot:giga -O - \
     | tar -xz
 ENV PATH="/opt/scala-$SCALA/bin/:${PATH}"
 
-# https://nodejs.org/en/download/
+# https://nodejs.org/en/download/current/
 ARG NODE=v13.0.1
 RUN wget --progress=dot:giga -O - \
     https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
@@ -179,11 +181,6 @@ ENV PATH="/opt/opam/$OCAML/bin/:${PATH}"
 
 RUN curl -Lo /usr/local/bin/coursier https://git.io/coursier-cli \
     && chmod +x /usr/local/bin/coursier
-
-# TODO: move up
-RUN apt-get -y install nuget
-RUN apt-get -y install python-ujson python3-ujson
-RUN apt-get -y install libblas-dev liblapack-dev libopenblas-dev
 
 RUN gcc --version && echo "---" \
     && nim --version && echo "---" \

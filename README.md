@@ -27,43 +27,43 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| Kotlin          | 1.56    | 38.9        |
-| C++ Gcc         | 1.74    | 1.8         |
-| Nim Gcc         | 1.86    | 0.8         |
-| D Gdc           | 2.32    | 6.3         |
-| Nim Clang       | 2.50    | 1.2         |
-| Java            | 2.54    | 39.3        |
-| Rust            | 2.58    | 0.9         |
-| Go              | 2.65    | 1.4         |
-| D Ldc           | 2.74    | 1.5         |
-| Go Gcc          | 2.80    | 19.1        |
-| ML MLton        | 2.85    | 1.2         |
-| C# .Net Core    | 3.00    | 28.0        |
-| Crystal         | 3.03    | 2.7         |
-| Scala           | 3.49    | 124.4       |
-| OCaml           | 3.61    | 4.0         |
-| V Gcc           | 3.96    | 0.8         |
-| D Dmd           | 4.60    | 1.9         |
-| V Clang         | 5.03    | 1.2         |
-| C# Mono         | 6.13    | 17.7        |
-| Javascript Node | 6.23    | 31.2        |
-| Haskell (MArray)| 6.90    | 4.1         |
-| F# Mono         | 7.34    | 25.4        |
-| LuaJIT          | 10.89   | 1.3         |
-| Racket          | 16.85   | 62.2        |
-| Python PyPy     | 17.75   | 95.0        |
-| Chez Scheme     | 18.48   | 29.4        |
-| Haskell         | 22.84   | 4.1         |
-| Ruby truffle    | 29.21   | 603.3       |
-| Ruby            | 119.07  | 13.7        |
-| Lua 5.3         | 131.13  | 1.5         |
-| Ruby JRuby      | 142.68  | 240.1       |
-| Elixir          | 155.58  | 41.4        |
-| Python          | 282.38  | 6.9         |
-| Python3         | 284.03  | 8.9         |
-| Tcl (FP)        | 362.41  | 4.6         |
-| Perl            | 530.66  | 5.0         |
-| Tcl (OO)        | 701.28  | 5.0         |
+| Kotlin          | 2.01    | 37.6        |
+| Nim Gcc         | 2.17    | 0.7         |
+| C++ Gcc         | 2.41    | 1.7         |
+| Go              | 3.01    | 1.3         |
+| Java            | 3.05    | 37.2        |
+| Crystal         | 3.06    | 2.7         |
+| ML MLton        | 3.22    | 0.7         |
+| Go Gcc          | 3.30    | 19.2        |
+| Nim Clang       | 3.43    | 1.0         |
+| Rust            | 3.51    | 0.8         |
+| D Ldc           | 3.57    | 1.4         |
+| D Gdc           | 3.72    | 5.8         |
+| OCaml           | 3.75    | 3.9         |
+| Scala           | 4.30    | 136.3       |
+| C# .Net Core    | 4.48    | 23.8        |
+| D Dmd           | 4.77    | 1.7         |
+| Haskell (MArray)| 6.88    | 3.5         |
+| C# Mono         | 6.88    | 17.6        |
+| Javascript Node | 7.10    | 31.2        |
+| V Gcc           | 7.38    | 0.7         |
+| V Clang         | 9.26    | 1.1         |
+| LuaJIT          | 10.99   | 2.1         |
+| F# Mono         | 12.81   | 25.1        |
+| Racket          | 17.52   | 87.4        |
+| Python PyPy     | 21.51   | 95.4        |
+| Chez Scheme     | 24.72   | 29.2        |
+| Haskell         | 29.14   | 3.4         |
+| Ruby truffle    | 32.52   | 613.3       |
+| Ruby            | 191.36  | 13.1        |
+| Ruby JRuby      | 195.63  | 284.4       |
+| Lua 5.3         | 201.26  | 1.4         |
+| Elixir          | 279.03  | 48.9        |
+| Python3         | 396.27  | 7.9         |
+| Python          | 399.75  | 6.2         |
+| Tcl (FP)        | 494.78  | 4.3         |
+| Perl            | 769.17  | 5.2         |
+| Tcl (OO)        | 1000.55 | 4.3         |
 
 ### mandel.b
 
@@ -71,33 +71,33 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| C++ Gcc         | 22.98   | 3.7         |
-| D Ldc           | 24.96   | 3.7         |
-| D Gdc           | 25.31   | 7.1         |
-| V Gcc           | 25.45   | 2.2         |
-| Crystal         | 25.60   | 3.1         |
-| Rust            | 25.74   | 2.0         |
-| Kotlin          | 27.29   | 45.3        |
-| Nim Gcc         | 30.24   | 1.8         |
-| Scala           | 30.88   | 136.5       |
-| C# .Net Core    | 31.40   | 29.7        |
-| ML MLton        | 32.35   | 4.0         |
-| Nim Clang       | 32.64   | 2.7         |
-| V Clang         | 32.65   | 2.7         |
-| Java            | 32.88   | 45.4        |
-| Go Gcc          | 33.72   | 34.5        |
-| OCaml           | 44.71   | 11.7        |
-| Go              | 47.86   | 3.1         |
-| D Dmd           | 58.42   | 4.3         |
-| Javascript Node | 64.23   | 34.4        |
-| C# Mono         | 78.52   | 18.1        |
-| Python PyPy     | 105.04  | 96.3        |
-| Haskell (MArray)| 109.42  | 5.4         |
-| LuaJIT          | 110.26  | 3.0         |
-| Ruby truffle    | 138.00  | 1014.1      |
-| F# Mono         | 166.75  | 33.5        |
-| Racket          | 203.15  | 63.9        |
-| Chez Scheme     | 212.33  | 29.3        |
+| C++ Gcc         | 21.42   | 3.5         |
+| Crystal         | 22.89   | 2.9         |
+| Kotlin          | 27.38   | 44.6        |
+| V Gcc           | 27.61   | 2.0         |
+| Java            | 28.44   | 43.9        |
+| Nim Gcc         | 30.00   | 1.9         |
+| Scala           | 30.65   | 139.4       |
+| Nim Clang       | 31.39   | 2.4         |
+| D Ldc           | 31.56   | 3.7         |
+| D Gdc           | 31.87   | 7.2         |
+| ML MLton        | 32.04   | 3.6         |
+| Go Gcc          | 32.88   | 20.6        |
+| Rust            | 33.12   | 1.9         |
+| C# .Net Core    | 36.38   | 25.8        |
+| V Clang         | 39.26   | 3.0         |
+| OCaml           | 44.12   | 7.1         |
+| Go              | 45.55   | 2.9         |
+| D Dmd           | 56.08   | 4.1         |
+| Javascript Node | 69.00   | 34.5        |
+| C# Mono         | 71.27   | 18.0        |
+| Python PyPy     | 106.44  | 96.2        |
+| LuaJIT          | 107.96  | 2.9         |
+| Haskell (MArray)| 122.81  | 4.9         |
+| Ruby truffle    | 171.47  | 630.7       |
+| F# Mono         | 195.99  | 40.0        |
+| Racket          | 198.86  | 88.2        |
+| Chez Scheme     | 244.82  | 29.3        |
 
 # Base64
 
