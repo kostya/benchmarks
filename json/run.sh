@@ -65,14 +65,10 @@ echo Ruby YAJL
 ../xtime.rb ruby test-yajl.rb
 echo Scala
 ../xtime.rb scala -cp json-scala/target/application.jar JsonTest
-echo q
-../xtime.rb q test.q -q
 echo Perl
 ../xtime.rb perl -Iperllib/lib/perl5 test.pl
 echo Perl XS
 ../xtime.rb perl -Iperllib/lib/perl5 test-xs.pl
-echo Haskell
-../xtime.rb ./json_hs
 echo Clojure
 ../xtime.rb clojure -Sdeps '{:deps {cheshire {:mvn/version "5.9.0"}}}' test.clj
 echo jq
@@ -85,3 +81,16 @@ echo V Gcc
 ../xtime.rb ./json_v_gcc
 echo V Clang
 ../xtime.rb ./json_v_clang
+
+if [ "$1" != "--skip-unstable" ]; then
+  echo Haskell
+  ../xtime.rb ./json_hs
+  echo JRuby
+  ../xtime.rb jruby -J-Xmx4096M test.rb
+  echo TruffleRuby
+  ../xtime.rb truffleruby test.rb
+else
+  echo "Skipped run - Haskell"
+  echo "Skipped run - JRuby"
+  echo "Skipped run - TruffleRuby"
+fi

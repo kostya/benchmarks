@@ -16,12 +16,12 @@ ARG MONO_VERSION=6.4.0.198
 RUN echo "deb http://download.mono-project.com/repo/debian vs-stretch/snapshots/$MONO_VERSION main" > /etc/apt/sources.list.d/mono-official-vs.list
 
 RUN  apt-get update \
-  && apt-get install -y wget xz-utils build-essential libtool-bin cmake git libgmp-dev \
+  && apt-get install -y wget xz-utils build-essential libtool-bin cmake git libgmp-dev libssl-dev \
      libssl1.1 libxml2 lbzip2 libtinfo5 libtool zlib1g libicu63 curl libpcre3-dev libevent-dev \
-     gcc python python-numpy python3 mono-devel fsharp chezscheme racket gccgo \
-     luajit lua5.3 tcl tcllib jq gdc php elixir clang-9 opam \
-  && rm -rf /var/lib/apt/lists/* /tmp/*
-
+     gcc python python-numpy python3 mono-complete fsharp chezscheme racket gccgo \
+     luajit lua5.3 tcl tcllib jq gdc php elixir clang-9 opam libboost-dev libjson-c-dev
+#  && rm -rf /var/lib/apt/lists/* /tmp/*
+# TODO: mono-complete -> mono-devel
 RUN ln -s /usr/bin/clang-9 /usr/bin/clang
 
 WORKDIR /opt
@@ -163,19 +163,14 @@ RUN wget --progress=dot:giga \
     && rm kotlin-compiler-$KOTLIN.zip
 ENV PATH="/opt/kotlinc/bin/:${PATH}"
 
+ENV GHCUP_INSTALL_BASE_PREFIX="/opt"
+RUN curl https://get-ghcup.haskell.org -sSf \
+    | BOOTSTRAP_HASKELL_NONINTERACTIVE="y" sh
+ENV PATH="/opt/.ghcup/bin/:${PATH}"
+
 # https://www.haskell.org/ghc/
 ARG GHC_VER=8.8.1
-RUN wget --progress=dot:giga -O - \
-    https://downloads.haskell.org/~ghc/$GHC_VER/ghc-$GHC_VER-x86_64-deb9-linux.tar.xz \
-    | tar -xJ \
-    && cd ghc-$GHC_VER && ./configure && make install
-
-# http://hackage.haskell.org/package/cabal-install
-ARG CABAL=cabal-install-3.0.0.0
-RUN wget --progress=dot:giga -O - \
-    http://hackage.haskell.org/package/$CABAL/$CABAL.tar.gz \
-    | tar -xz \
-    && cd $CABAL && EXTRA_CONFIGURE_OPTS="" ./bootstrap.sh --global
+RUN ghcup install $GHC_VER && ghcup set $GHC_VER
 
 # https://ocaml.org/releases/
 ARG OCAML=4.09.0
@@ -184,6 +179,11 @@ ENV PATH="/opt/opam/$OCAML/bin/:${PATH}"
 
 RUN curl -Lo /usr/local/bin/coursier https://git.io/coursier-cli \
     && chmod +x /usr/local/bin/coursier
+
+# TODO: move up
+RUN apt-get -y install nuget
+RUN apt-get -y install python-ujson python3-ujson
+RUN apt-get -y install libblas-dev liblapack-dev libopenblas-dev
 
 RUN gcc --version && echo "---" \
     && nim --version && echo "---" \

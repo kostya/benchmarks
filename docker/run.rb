@@ -1,46 +1,35 @@
 #!/usr/bin/env ruby
 
-unknown_cmd = true
-
 case ARGV[0]
 when "versions"
-  system("./versions.rb")
-  unknown_cmd = false
+  exec("./versions.rb")
 when "shell"
   Dir.chdir("/src")
-  system("bash")
-  unknown_cmd = false
+  exec("bash")
 when "brainfuck2"
   case ARGV[1]
   when "bench"
     Dir.chdir("/src/brainfuck2")
-    system("./build.sh && ./run.sh")
-    unknown_cmd = false
+    exec("./build.sh && ./run.sh")
   when "mandel"
     Dir.chdir("/src/brainfuck2")
-    system("./build.sh && ./run2.sh")
-    unknown_cmd = false
+    exec("./build.sh && ./run2.sh")
   end
 when "base64"
   Dir.chdir("/src/base64")
-  system("./build.sh && ./run.sh")
-  unknown_cmd = false
+  exec("./build.sh && ./run.sh")
 when "havlak"
-  Dir.chdir("/src/base64")
-  system("./build.sh && ./run.sh")
-  unknown_cmd = false
+  Dir.chdir("/src/havlak")
+  exec("./build.sh && ./run.sh")
 when "json"
-  Dir.chdir("/src/base64")
-  system("./build.sh && ./run.sh")
-  unknown_cmd = false
+  Dir.chdir("/src/json")
+  exec("./build.sh --skip-unstable && ./run.sh --skip-unstable")
 when "matmul"
-  Dir.chdir("/src/base64")
-  system("./build.sh && ./run.sh")
-  unknown_cmd = false
+  Dir.chdir("/src/matmul")
+  exec("./build.sh && ./run.sh")
 end
 
-if unknown_cmd
-  puts <<-EOF
+puts <<-EOF
 Usage: run.rb [command]
 
 Commands:
@@ -53,4 +42,3 @@ Commands:
   matmul                Build and run Matmul benchmarks
   havlak                Build and run Havlak benchmarks
 EOF
-end

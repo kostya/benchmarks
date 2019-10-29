@@ -1,9 +1,6 @@
 #!/bin/sh
 
 set -e
-if [ ! -f 1.json ]; then
-  ruby generate_json.rb
-fi
 
 crystal build test.cr --release -o json_cr --no-debug
 crystal build test_pull.cr --release -o json_pull_cr --no-debug
@@ -51,17 +48,20 @@ gem install yajl-ruby
 
 wget -qO - https://cpanmin.us | perl - -L perllib Cpanel::JSON::XS JSON::Tiny File::Slurper
 
-# haskell
-if ! [ -x "$(command -v cabal)" ]; then
-  echo 'Please install cabal (https://www.haskell.org/downloads/linux/).' >&2
-  exit 1
+if [ "$1" != "--skip-unstable" ]; then
+  # haskell
+  if ! [ -x "$(command -v cabal)" ]; then
+    echo 'Please install cabal (https://www.haskell.org/downloads/linux/).' >&2
+    exit 1
+  fi
+  cd json-hs; make; cd ..
+else
+  echo "Skipped build - Haskell"
 fi
 
-cd json-hs; make; cd ..
-
 # python/python3/pypy
-pip install ujson
-pip3 install ujson
+# pip install ujson
+# pip3 install ujson
 
 # java builds require coursier
 if ! [ -x "$(command -v coursier)" ]; then
@@ -83,3 +83,7 @@ g++ -O3 -msse4.2 -mpclmul -std=c++17 -Isimdjson/include/ -Isimdjson/src/ simdjso
 
 v -prod -cc gcc -o json_v_gcc test.v
 v -prod -cc clang -o json_v_clang test.v
+
+if [ ! -f 1.json ]; then
+  ruby generate_json.rb
+fi

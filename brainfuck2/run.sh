@@ -49,6 +49,10 @@ echo Perl
 ../xtime.rb perl bf.pl bench.b
 echo Ruby
 ../xtime.rb ruby bf.rb bench.b
+echo JRuby
+../xtime.rb jruby bf.rb bench.b
+echo TruffleRuby
+../xtime.rb truffleruby bf.rb bench.b
 echo Python
 ../xtime.rb python bf.py bench.b
 echo Python3

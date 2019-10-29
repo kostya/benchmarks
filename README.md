@@ -258,11 +258,11 @@ Testing Havlak's loop finder implementations.
 
 Build the image:
 
-    $ docker build docker/ -t benchmark
+    $ docker build docker/ -t benchmarks
 
 Run the image:
 
-    $ docker run -it --rm --name test -v $(pwd):/src benchmark <cmd>
+    $ docker run -it --rm --name test -v $(pwd):/src benchmarks <cmd>
 
 where <cmd> is:
 
@@ -274,6 +274,8 @@ where <cmd> is:
  - `json` (build and run Json benchmarks)
  - `matmul` (build and run Matmul benchmarks)
  - `havlak` (build and run Havlak benchmarks)
+
+Please note that some tests are unstable under Docker and should be run manually (use `shell` command to get an access to the image).
 
 # Environment
 
