@@ -114,6 +114,8 @@ Testing large blob base64 encoding/decoding into newly allocated buffers.
 | Crystal         | 2.31    | 5.2         |
 | D Ldc           | 2.46    | 4.2         |
 | Ruby            | 2.54    | 73.1        |
+| V Gcc           | 2.70    | 1.7         |
+| V Clang         | 2.78    | 2.1         |
 | Java            | 2.98    | 371.0       |
 | D Gdc           | 3.08    | 10.7        |
 | Scala           | 3.09    | 131.3       |
@@ -121,9 +123,7 @@ Testing large blob base64 encoding/decoding into newly allocated buffers.
 | Nim Gcc         | 3.30    | 7.4         |
 | Perl XS         | 3.35    | 6.2         |
 | Javascript Node | 3.44    | 99.9        |
-| V Clang         | 3.61    | 2407.4      |
 | Nim Clang       | 3.70    | 7.7         |
-| V Gcc           | 3.71    | 2423.5      |
 | C++ libcrypto   | 4.15    | 5.5         |
 | Php             | 4.27    | 16.7        |
 | Go              | 4.57    | 8.1         |
