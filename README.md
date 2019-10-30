@@ -289,40 +289,39 @@ OS: Ubuntu 18.04.3 LTS x86_64
 | C# .NET Core | 3.3.1-beta4-19462-11 (66a912c9) |
 | C# Mono      | 6.4.0.198                       |
 | Chez Scheme  | 9.5                             |
-| Clang        | 7.0.0 (tags/RELEASE_700/final)  |
+| Clang        | 9.0.0 (tags/RELEASE_900/final)  |
 | Clojure      | "1.10.1"                        |
 | Crystal      | 0.31.1                          |
 | DMD          | v2.088.1                        |
 | Elixir       | 1.9.1                           |
-| F#           | 10.2.3 for F# 4.5               |
+| F#           | 10.6.0.0 for F# 4.7             |
 | GCC          | 9.2.1                           |
 | GCC Go       | 9.2.1                           |
 | GDC          | 9.2.1                           |
-| Go           | go1.13.1                        |
+| Go           | go1.13.3                        |
 | Haskell      | 8.8.1                           |
 | JRuby        | 9.2.8.0                         |
-| Java         | 11.0.4                          |
+| Java         | 13.0.1                          |
 | Julia        | v"1.2.0"                        |
 | Kotlin       | 1.3.50                          |
-| LDC          | 1.18.0-beta1                    |
+| LDC          | 1.18.0                          |
 | Lua          | Lua 5.3                         |
 | LuaJIT       | LuaJIT 2.1.0-beta3              |
-| MLton        | 20130715                        |
+| MLton        | 20180207                        |
 | Nim          | 1.0.2                           |
-| Node.js      | v12.13.0                        |
-| OCaml        | 4.07.0                          |
-| PHP          | 7.2.19-0ubuntu0.18.04.2         |
-| Perl         | v5.26.1                         |
+| Node.js      | v13.0.1                         |
+| OCaml        | 4.09.0                          |
+| PHP          | 7.3.10-1+b1                     |
+| Perl         | v5.30.0                         |
 | PyPy         | 7.1.1-final0 for Python 2.7.13  |
-| Python 2     | 2.7.15+                         |
-| Python 3     | 3.6.8                           |
-| Racket       | "6.11"                          |
+| Python 2     | 2.7.17                          |
+| Python 3     | 3.7.5rc1                        |
+| Racket       | "7.2"                           |
 | Ruby         | 2.6.5p114                       |
 | Rust         | 1.38.0                          |
 | Scala        | 2.13.1                          |
-| Swift        | swift-5.1-RELEASE               |
+| Swift        | swift-5.1.1-RELEASE             |
 | Tcl          | 8.6                             |
-| TruffleRuby  | 19.2.0.1                        |
-| V            | 0.1.21 d4c1bba                  |
-| jq           | jq-1.5-1-a5b5cbe                |
-| ooc          | 0.9.11-head codename sapporo    |
+| TruffleRuby  | 19.2.1                          |
+| V            | 0.1.22 ee6ec3f                  |
+| jq           | jq-1.6                          |
