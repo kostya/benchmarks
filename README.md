@@ -281,7 +281,7 @@ Please note that some tests are unstable under Docker and should be run manually
 
 CPU: Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz
 
-OS: Ubuntu 18.04.3 LTS x86_64
+Base Docker image: Debian GNU/Linux bullseye/sid
 
 | Language     | Version                         |
 | ------------ | ------------------------------- |

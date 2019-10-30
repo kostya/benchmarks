@@ -182,46 +182,11 @@ ENV PATH="/opt/opam/$OCAML/bin/:${PATH}"
 RUN curl -Lo /usr/local/bin/coursier https://git.io/coursier-cli \
     && chmod +x /usr/local/bin/coursier
 
-RUN gcc --version && echo "---" \
-    && nim --version && echo "---" \
-    && crystal --version && echo "---" \
-    && go version && echo "---" \
-    && gccgo --version && echo "---" \
-    && dmd --version && echo "---" \
-    && gdc --version && echo "---" \
-    && ldc2 --version && echo "---" \
-    && rustc --version && echo "---" \
-    && scala --version && echo "---" \
-    && node -e "console.log('Nodejs ' + process.version)" && echo "---" \
-    && pypy --version && echo "---" \
-    && ruby --version && echo "---" \
-    && python2 --version && echo "---" \
-    && python3 --version && echo "---" \
-    && jruby --version && echo "---" \
-    && java --version && echo "---" \
-    && julia --version && echo "---" \
-    && clang --version && echo "---" \
-    && mcs --version && echo "---" \
-    && perl --version && echo "---" \
-    && ghc --version && echo "---" \
-    && echo 'puts "Tcl $tcl_version"' | tclsh && echo "---" \
-    && jq --version && echo "---" \
-    && swift --version && echo "---" \
-    && kotlinc -version && echo "---" \
-    && php --version && echo "---" \
-    && dotnet --info && echo "---" \
-    && elixir --version && echo "---" \
-    && lua -v && echo "---" \
-    && luajit -v && echo "---" \
-    && truffleruby --version && echo "---" \
-    && mlton && echo "---" \
-    && ocaml --version && echo "---" \
-    && racket --version && echo "---" \
-    && echo '(scheme-version)' | scheme -q && echo "---" \
-    && v --version && echo "---" \
-    && clojure -e '(str "Clojure " (clojure-version))' && echo "---" \
-    echo " END"
-
 ARG SCRIPTS_VER=unknown
 COPY *.rb ./
+
+RUN ./versions.rb
+
 ENTRYPOINT ["./run.rb"]
+
+RUN cat /etc/os-release
