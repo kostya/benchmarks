@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 echo Cpp
 ../xtime.rb ./bin_cpp bench.b
 echo Crystal
@@ -24,8 +25,6 @@ echo Haskell
 ../xtime.rb ./bin_hs bench.b
 echo "Haskell (MArray)"
 ../xtime.rb ./bin_hs_marray bench.b
-echo Javascript V8
-../xtime.rb d8 bf.d8.js
 echo Javascript Node
 ../xtime.rb node bf.js bench.b
 echo Go
@@ -50,6 +49,10 @@ echo Perl
 ../xtime.rb perl bf.pl bench.b
 echo Ruby
 ../xtime.rb ruby bf.rb bench.b
+echo JRuby
+../xtime.rb jruby bf.rb bench.b
+echo TruffleRuby
+../xtime.rb truffleruby bf.rb bench.b
 echo Python
 ../xtime.rb python bf.py bench.b
 echo Python3

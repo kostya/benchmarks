@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 echo Cpp
 ../xtime.rb ./bin_cpp mandel.b > /dev/null
 echo D
@@ -52,3 +53,5 @@ echo V Gcc
 ../xtime.rb ./bin_v_gcc mandel.b > /dev/null
 echo V Clang
 ../xtime.rb ./bin_v_clang mandel.b > /dev/null
+echo TruffleRuby
+../xtime.rb truffleruby bf.rb mandel.b > /dev/null

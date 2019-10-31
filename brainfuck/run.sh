@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 echo Crystal
 ../xtime.rb ./brainfuck_cr bench.b
 echo Go
@@ -22,8 +23,6 @@ echo Nim Clang
 ../xtime.rb ./brainfuck_nim_clang bench.b
 echo Scala
 ../xtime.rb scala BrainFuck bench.b
-echo Javascript V8
-../xtime.rb d8 brainfuck.d8.js
 echo Javascript Node
 ../xtime.rb node brainfuck.js bench.b
 echo Julia
@@ -38,10 +37,6 @@ echo Python
 ../xtime.rb python brainfuck.py bench.b
 echo Ruby
 ../xtime.rb ruby brainfuck.rb bench.b
-echo OOC
-../xtime.rb ./brainfuck_ooc bench.b
-echo Felix
-../xtime.rb ./brainfuck_flx bench.b
 echo Tcl
 ../xtime.rb tclsh brainfuck.tcl bench.b
 echo Java

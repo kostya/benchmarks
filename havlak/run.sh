@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 echo Cpp
 ../xtime.rb ./havlak_cpp
 echo Go

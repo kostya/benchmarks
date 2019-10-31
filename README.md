@@ -27,44 +27,43 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| Kotlin          | 1.56    | 38.9        |
-| C++ Gcc         | 1.74    | 1.8         |
-| Nim Gcc         | 1.86    | 0.8         |
-| D Gdc           | 2.32    | 6.3         |
-| Nim Clang       | 2.50    | 1.2         |
-| Java            | 2.54    | 39.3        |
-| Rust            | 2.58    | 0.9         |
-| Go              | 2.65    | 1.4         |
-| D Ldc           | 2.74    | 1.5         |
-| Go Gcc          | 2.80    | 19.1        |
-| ML MLton        | 2.85    | 1.2         |
-| C# .Net Core    | 3.00    | 28.0        |
-| Crystal         | 3.03    | 2.7         |
-| Scala           | 3.49    | 124.4       |
-| OCaml           | 3.61    | 4.0         |
-| V Gcc           | 3.96    | 0.8         |
-| D Dmd           | 4.60    | 1.9         |
-| V Clang         | 5.03    | 1.2         |
-| C# Mono         | 6.13    | 17.7        |
-| Javascript Node | 6.23    | 31.2        |
-| Haskell (MArray)| 6.90    | 4.1         |
-| F# Mono         | 7.34    | 25.4        |
-| Javascript V8   | 7.61    | 24.1        |
-| LuaJIT          | 10.89   | 1.3         |
-| Racket          | 16.85   | 62.2        |
-| Python PyPy     | 17.75   | 95.0        |
-| Chez Scheme     | 18.48   | 29.4        |
-| Haskell         | 22.84   | 4.1         |
-| Ruby truffle    | 29.21   | 603.3       |
-| Ruby            | 119.07  | 13.7        |
-| Lua 5.3         | 131.13  | 1.5         |
-| Ruby JRuby      | 142.68  | 240.1       |
-| Elixir          | 155.58  | 41.4        |
-| Python          | 282.38  | 6.9         |
-| Python3         | 284.03  | 8.9         |
-| Tcl (FP)        | 362.41  | 4.6         |
-| Perl            | 530.66  | 5.0         |
-| Tcl (OO)        | 701.28  | 5.0         |
+| Kotlin          | 2.01    | 37.6        |
+| Nim Gcc         | 2.17    | 0.7         |
+| C++ Gcc         | 2.41    | 1.7         |
+| Go              | 3.01    | 1.3         |
+| Java            | 3.05    | 37.2        |
+| Crystal         | 3.06    | 2.7         |
+| ML MLton        | 3.22    | 0.7         |
+| Go Gcc          | 3.30    | 19.2        |
+| Nim Clang       | 3.43    | 1.0         |
+| Rust            | 3.51    | 0.8         |
+| D Ldc           | 3.57    | 1.4         |
+| D Gdc           | 3.72    | 5.8         |
+| OCaml           | 3.75    | 3.9         |
+| Scala           | 4.30    | 136.3       |
+| C# .Net Core    | 4.48    | 23.8        |
+| D Dmd           | 4.77    | 1.7         |
+| Haskell (MArray)| 6.88    | 3.5         |
+| C# Mono         | 6.88    | 17.6        |
+| Javascript Node | 7.10    | 31.2        |
+| V Gcc           | 7.38    | 0.7         |
+| V Clang         | 9.26    | 1.1         |
+| LuaJIT          | 10.99   | 2.1         |
+| F# Mono         | 12.81   | 25.1        |
+| Racket          | 17.52   | 87.4        |
+| Python PyPy     | 21.51   | 95.4        |
+| Chez Scheme     | 24.72   | 29.2        |
+| Haskell         | 29.14   | 3.4         |
+| Ruby truffle    | 32.52   | 613.3       |
+| Ruby            | 191.36  | 13.1        |
+| Ruby JRuby      | 195.63  | 284.4       |
+| Lua 5.3         | 201.26  | 1.4         |
+| Elixir          | 279.03  | 48.9        |
+| Python3         | 396.27  | 7.9         |
+| Python          | 399.75  | 6.2         |
+| Tcl (FP)        | 494.78  | 4.3         |
+| Perl            | 769.17  | 5.2         |
+| Tcl (OO)        | 1000.55 | 4.3         |
 
 ### mandel.b
 
@@ -72,33 +71,33 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| C++ Gcc         | 22.98   | 3.7         |
-| D Ldc           | 24.96   | 3.7         |
-| D Gdc           | 25.31   | 7.1         |
-| V Gcc           | 25.45   | 2.2         |
-| Crystal         | 25.60   | 3.1         |
-| Rust            | 25.74   | 2.0         |
-| Kotlin          | 27.29   | 45.3        |
-| Nim Gcc         | 30.24   | 1.8         |
-| Scala           | 30.88   | 136.5       |
-| C# .Net Core    | 31.40   | 29.7        |
-| ML MLton        | 32.35   | 4.0         |
-| Nim Clang       | 32.64   | 2.7         |
-| V Clang         | 32.65   | 2.7         |
-| Java            | 32.88   | 45.4        |
-| Go Gcc          | 33.72   | 34.5        |
-| OCaml           | 44.71   | 11.7        |
-| Go              | 47.86   | 3.1         |
-| D Dmd           | 58.42   | 4.3         |
-| Javascript Node | 64.23   | 34.4        |
-| C# Mono         | 78.52   | 18.1        |
-| Python PyPy     | 105.04  | 96.3        |
-| Haskell (MArray)| 109.42  | 5.4         |
-| LuaJIT          | 110.26  | 3.0         |
-| Ruby truffle    | 138.00  | 1014.1      |
-| F# Mono         | 166.75  | 33.5        |
-| Racket          | 203.15  | 63.9        |
-| Chez Scheme     | 212.33  | 29.3        |
+| C++ Gcc         | 21.42   | 3.5         |
+| Crystal         | 22.89   | 2.9         |
+| Kotlin          | 27.38   | 44.6        |
+| V Gcc           | 27.61   | 2.0         |
+| Java            | 28.44   | 43.9        |
+| Nim Gcc         | 30.00   | 1.9         |
+| Scala           | 30.65   | 139.4       |
+| Nim Clang       | 31.39   | 2.4         |
+| D Ldc           | 31.56   | 3.7         |
+| D Gdc           | 31.87   | 7.2         |
+| ML MLton        | 32.04   | 3.6         |
+| Go Gcc          | 32.88   | 20.6        |
+| Rust            | 33.12   | 1.9         |
+| C# .Net Core    | 36.38   | 25.8        |
+| V Clang         | 39.26   | 3.0         |
+| OCaml           | 44.12   | 7.1         |
+| Go              | 45.55   | 2.9         |
+| D Dmd           | 56.08   | 4.1         |
+| Javascript Node | 69.00   | 34.5        |
+| C# Mono         | 71.27   | 18.0        |
+| Python PyPy     | 106.44  | 96.2        |
+| LuaJIT          | 107.96  | 2.9         |
+| Haskell (MArray)| 122.81  | 4.9         |
+| Ruby truffle    | 171.47  | 630.7       |
+| F# Mono         | 195.99  | 40.0        |
+| Racket          | 198.86  | 88.2        |
+| Chez Scheme     | 244.82  | 29.3        |
 
 # Base64
 
@@ -108,37 +107,37 @@ Testing large blob base64 encoding/decoding into newly allocated buffers.
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| C aklomp        | 0.38    | 2.0         |
-| C               | 1.81    | 1.9         |
-| Rust            | 1.90    | 2.4         |
-| Crystal         | 2.31    | 5.2         |
-| D Ldc           | 2.46    | 4.2         |
-| Ruby            | 2.54    | 73.1        |
-| V Gcc           | 2.70    | 1.7         |
-| V Clang         | 2.78    | 2.1         |
-| Java            | 2.98    | 371.0       |
-| D Gdc           | 3.08    | 10.7        |
-| Scala           | 3.09    | 131.3       |
-| Kotlin          | 3.23    | 377.4       |
-| Nim Gcc         | 3.30    | 7.4         |
-| Perl XS         | 3.35    | 6.2         |
-| Javascript Node | 3.44    | 99.9        |
-| Nim Clang       | 3.70    | 7.7         |
-| C++ libcrypto   | 4.15    | 5.5         |
-| Php             | 4.27    | 16.7        |
-| Go              | 4.57    | 8.1         |
-| C# .Net Core    | 5.21    | 30.6        |
-| D               | 5.58    | 11.4        |
-| Python3         | 6.35    | 10.0        |
-| Tcl             | 6.44    | 5.6         |
-| Python          | 6.51    | 8.2         |
-| Go Gcc          | 6.68    | 43.8        |
-| Python PyPy     | 7.26    | 95.0        |
-| C# Mono         | 8.43    | 36.5        |
-| Julia           | 9.93    | 214.1       |
-| Ruby JRuby      | 14.55   | 241.8       |
-| Perl            | 27.59   | 8.0         |
-| Ruby truffle    | 32.01   | 384.1       |
+| C aklomp        | 0.37    | 1.9         |
+| C               | 1.86    | 1.8         |
+| Rust            | 1.89    | 2.3         |
+| Crystal         | 2.32    | 5.3         |
+| D Ldc           | 2.44    | 4.0         |
+| Ruby            | 2.72    | 72.8        |
+| V Gcc           | 2.73    | 1.6         |
+| V Clang         | 2.82    | 2.1         |
+| D Gdc           | 2.89    | 10.6        |
+| Java            | 3.11    | 375.4       |
+| Scala           | 3.20    | 154.9       |
+| Perl XS         | 3.25    | 6.3         |
+| Nim Clang       | 3.27    | 7.4         |
+| Kotlin          | 3.29    | 346.0       |
+| Nim Gcc         | 3.30    | 7.1         |
+| Javascript Node | 3.86    | 100.1       |
+| Php             | 3.93    | 16.1        |
+| C++ libcrypto   | 4.06    | 5.6         |
+| Go              | 4.69    | 13.3        |
+| C# .Net Core    | 5.39    | 27.1        |
+| D               | 5.74    | 11.2        |
+| Tcl             | 6.05    | 5.1         |
+| Python          | 6.06    | 7.4         |
+| Python PyPy     | 6.22    | 99.9        |
+| Python3         | 6.80    | 9.3         |
+| Go Gcc          | 7.15    | 43.0        |
+| C# Mono         | 8.86    | 36.0        |
+| Julia           | 10.84   | 212.8       |
+| Ruby JRuby      | 18.51   | 240.4       |
+| Perl            | 28.00   | 8.0         |
+| Ruby truffle    | 32.39   | 381.7       |
 
 # Json
 
@@ -148,50 +147,49 @@ Testing parsing and simple calculating of values from a big JSON file.
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| D Gdc Fast      | 0.30    | 191.3       |
-| Rust Pull       | 0.38    | 202.6       |
-| Rust Struct     | 0.39    | 225.2       |
-| C++ Simdjson    | 0.47    | 486.2       |
-| C++ Rapid SAX   | 0.55    | 1.8         |
-| C++ Rapid       | 0.78    | 218.5       |
-| C++ Gason       | 0.85    | 591.0       |
-| Java            | 1.03    | 403.0       |
-| Scala           | 1.20    | 242.8       |
-| Rust Value      | 2.08    | 1745.9      |
-| Javascript Node | 2.22    | 507.6       |
-| Crystal Schema  | 2.23    | 282.0       |
-| Perl XS         | 2.37    | 966.4       |
-| Crystal         | 2.94    | 962.1       |
-| Clojure         | 3.07    | 1652.1      |
-| V Clang         | 3.37    | 1128.0      |
-| Go              | 3.42    | 511.2       |
-| Php             | 3.43    | 1476.7      |
-| Python3 ujson   | 3.61    | 1184.0      |
-| Julia           | 4.14    | 2369.6      |
-| Python3         | 4.65    | 910.4       |
-| Python PyPy     | 4.78    | 1293.0      |
-| Crystal Pull    | 4.94    | 4.3         |
-| Python ujson    | 5.10    | 1404.7      |
-| Nim Clang       | 5.19    | 1321.6      |
-| Go Gcc          | 5.28    | 456.9       |
-| C++ LibJson     | 5.46    | 2888.8      |
-| V Gcc           | 5.47    | 1127.5      |
-| Nim Gcc         | 5.62    | 1321.3      |
-| Q               | 5.85    | 691.5       |
-| Haskell         | 5.91    | 9.9         |
-| Ruby            | 6.33    | 842.4       |
-| C# .Net Core    | 6.67    | 842.2       |
-| D Ldc           | 6.69    | 1546.7      |
-| Ruby Yajl       | 6.94    | 840.4       |
-| D Gdc           | 7.52    | 1362.2      |
-| Python          | 8.99    | 1411.1      |
-| C++ Boost       | 9.53    | 2952.4      |
-| C# Mono         | 10.16   | 859.0       |
-| JQ              | 10.43   | 1321.9      |
-| D Dmd           | 12.35   | 1546.9      |
-| Ruby JRuby      | 13.70   | 2189.4      |
-| Perl            | 38.04   | 1415.5      |
-| Ruby truffle    | 159.02  | 5162.5      |
+| D Gdc Fast      | 0.30    | 179.8       |
+| Rust Pull       | 0.41    | 202.2       |
+| Rust Struct     | 0.42    | 222.2       |
+| C++ Rapid SAX   | 0.51    | 1.8         |
+| C++ Simdjson    | 0.59    | 543.3       |
+| C++ Rapid       | 0.86    | 232.6       |
+| C++ Gason       | 0.99    | 593.4       |
+| Java            | 1.07    | 310.6       |
+| Scala           | 1.26    | 227.4       |
+| Rust Value      | 2.35    | 1745.8      |
+| Crystal Schema  | 2.92    | 283.3       |
+| Perl XS         | 2.92    | 941.2       |
+| Javascript Node | 3.35    | 517.4       |
+| Clojure         | 3.35    | 1472.7      |
+| Go              | 4.05    | 512.4       |
+| V Gcc           | 4.11    | 1127.4      |
+| V Clang         | 4.11    | 1127.8      |
+| Python3 ujson   | 4.16    | 1298.5      |
+| Php             | 4.25    | 1483.1      |
+| Julia           | 4.31    | 2377.6      |
+| Crystal         | 5.46    | 961.9       |
+| Crystal Pull    | 5.48    | 4.2         |
+| C++ LibJson     | 5.65    | 3331.3      |
+| Python ujson    | 5.75    | 1454.6      |
+| Nim Gcc         | 6.11    | 1321.1      |
+| Nim Clang       | 6.18    | 1321.5      |
+| Python3         | 6.53    | 979.9       |
+| C# .Net Core    | 6.79    | 854.3       |
+| Python PyPy     | 6.84    | 1294.9      |
+| Go Gcc          | 6.91    | 454.1       |
+| D Ldc           | 7.63    | 1546.6      |
+| Ruby            | 8.15    | 842.4       |
+| Haskell         | 8.24    | 10.0        |
+| Ruby Yajl       | 8.63    | 839.7       |
+| D Gdc           | 10.16   | 1362.4      |
+| Python          | 10.31   | 1465.5      |
+| JQ              | 11.58   | 1321.8      |
+| C# Mono         | 12.11   | 1046.4      |
+| C++ Boost       | 12.45   | 2952.2      |
+| Ruby JRuby      | 12.91   | 3090.9      |
+| D Dmd           | 14.15   | 1546.7      |
+| Perl            | 49.11   | 1212.7      |
+| Ruby truffle    | 173.70  | 5276.9      |
 
 # Matmul
 
@@ -201,38 +199,37 @@ Testing allocating and multiplying matrices.
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| D lubeck        | 0.12    | 13.9        |
-| Julia Native Thr| 0.13    | 216.9       |
-| Julia Native    | 0.29    | 214.7       |
-| Python Numpy    | 1.08    | 52.3        |
-| D Ldc           | 2.00    | 73.2        |
-| D               | 2.24    | 73.1        |
-| D Gdc           | 2.36    | 76.8        |
-| C               | 3.11    | 69.7        |
+| Julia Native Thr| 0.11    | 218.6       |
+| Julia Native    | 0.29    | 216.2       |
+| D lubeck        | 0.38    | 62.8        |
+| Python Numpy    | 1.17    | 81.6        |
+| D Ldc           | 1.93    | 73.1        |
+| D               | 2.16    | 73.1        |
+| D Gdc           | 2.28    | 76.7        |
+| C               | 3.12    | 69.8        |
 | Rust            | 3.17    | 70.7        |
-| Nim Gcc         | 3.21    | 72.5        |
-| Nim Clang       | 3.22    | 73.0        |
-| Julia           | 3.22    | 246.5       |
-| Crystal         | 3.32    | 63.3        |
-| V Clang         | 3.35    | 70.6        |
-| Go Gcc          | 3.41    | 106.6       |
-| Go              | 3.54    | 60.4        |
-| Kotlin          | 3.59    | 129.6       |
-| Scala           | 3.67    | 141.6       |
-| Java            | 3.81    | 129.5       |
-| V Gcc           | 4.17    | 70.2        |
-| Javascript Node | 4.36    | 101.7       |
-| Swift           | 7.13    | 186.4       |
-| Javascript V8   | 5.92    | 95.0        |
-| Python PyPy     | 8.18    | 132.9       |
-| C# .Net Core    | 8.21    | 102.9       |
-| C# Mono         | 14.44   | 88.4        |
-| Ruby truffle    | 59.52   | 580.5       |
-| Ruby            | 246.34  | 83.0        |
-| Python          | 340.32  | 76.0        |
-| Ruby JRuby      | 534.32  | 1085.6      |
-| Tcl             | 481.88  | 281.1       |
-| Perl            | 558.50  | 606.7       |
+| Nim Clang       | 3.21    | 73.1        |
+| Nim Gcc         | 3.23    | 72.4        |
+| Julia           | 3.23    | 246.4       |
+| Crystal         | 3.33    | 63.1        |
+| Go              | 3.36    | 60.2        |
+| V Clang         | 3.40    | 70.4        |
+| Go Gcc          | 3.41    | 110.7       |
+| Kotlin          | 3.43    | 125.9       |
+| Java            | 3.81    | 124.7       |
+| Scala           | 4.15    | 168.7       |
+| V Gcc           | 4.23    | 70.2        |
+| Javascript Node | 5.43    | 102.7       |
+| C# .Net Core    | 8.21    | 99.3        |
+| Python PyPy     | 8.50    | 138.1       |
+| Swift           | 8.80    | 205.1       |
+| C# Mono         | 14.66   | 88.2        |
+| Ruby truffle    | 60.39   | 559.7       |
+| Ruby            | 365.68  | 82.5        |
+| Ruby JRuby      | 534.93  | 1116.9      |
+| Tcl             | 580.68  | 280.5       |
+| Python          | 606.50  | 75.7        |
+| Perl            | 654.90  | 606.5       |
 
 # Havlak
 
@@ -242,67 +239,89 @@ Testing Havlak's loop finder implementations.
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| Crystal         | 10.04   | 228.2       |
-| Nim Gcc         | 14.40   | 505.8       |
-| Nim Clang       | 14.83   | 470.8       |
-| C++             | 16.16   | 179.2       |
-| Scala           | 23.29   | 382.7       |
-| D Ldc           | 23.37   | 460.1       |
-| Go              | 24.24   | 347.0       |
-| D               | 28.51   | 461.4       |
-| D Gdc           | 30.17   | 419.3       |
-| C# Mono         | 31.33   | 326.7       |
-| Go Gcc          | 36.52   | 430.7       |
-| Python PyPy     | 40.09   | 624.4       |
-| C# .Net Core    | 43.10   | 542.1       |
-| Python          | 345.14  | 725.5       |
+| Crystal         | 10.70   | 226.4       |
+| C++             | 17.23   | 179.2       |
+| Nim Gcc         | 17.81   | 506.5       |
+| Nim Clang       | 18.46   | 509.9       |
+| Go              | 25.34   | 373.6       |
+| D Ldc           | 25.86   | 460.4       |
+| Scala           | 26.97   | 387.9       |
+| D               | 32.09   | 460.2       |
+| D Gdc           | 33.26   | 419.0       |
+| C# Mono         | 37.37   | 318.8       |
+| Go Gcc          | 40.92   | 453.3       |
+| C# .Net Core    | 44.02   | 491.4       |
+| Python PyPy     | 46.53   | 777.4       |
+| Python          | 429.51  | 744.9       |
 
-# Hardware:
+# Using Docker
 
-Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz (Ubuntu 18.04.3 LTS x86_64)
+Build the image:
 
-# Versions:
+    $ docker build docker/ -t benchmarks
 
-* gcc (Ubuntu 9.1.0-2ubuntu2~18.04) 9.1.0
-* Nim Compiler Version 1.0.2 [Linux: amd64]
-* `Crystal 0.31.1 [0e2e1d067] (2019-09-30) LLVM 8.0.0`
-* go version go1.13.1 linux/amd64
-* gccgo (Ubuntu 9.1.0-2ubuntu2~18.04) 9.1.0
-* DMD64 D Compiler v2.088.0
-* gdc (Ubuntu 9.1.0-2ubuntu2~18.04) 9.1.0
-* LDC - the LLVM D compiler (1.18.0-beta1): based on DMD v2.088.0 and LLVM 8.0.1
-* V8 version 7.9.0 (candidate)
-* rustc 1.38.0 (625451e37 2019-09-23)
-* Scala 2.13.1
-* Nodejs v12.10.0
-* PyPy 7.1.1 with GCC 7.4.0
-* ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-linux]
-* Python 2.7.15+
-* Python 3.6.8
-* JRuby 9.2.8.0 (2.5.3) 2019-08-12 a1ac7ff OpenJDK 64-Bit Server VM 11.0.4+11-post-Ubuntu-1ubuntu218.04.3 +jit [linux-x86_64]
-* java openjdk version "11.0.4" 2019-07-16
-* julia version 1.2.0
-* clang version 7.0.0
-* Mono JIT compiler version 6.4.0.198 (tarball Tue Sep 24 01:21:28 UTC 2019)
-* rock 0.9.11-head codename sapporo
-* Felix version 2019.01.06
-* Q KDB+ 3.6 2019.04.02 Copyright (C) 1993-2019 Kx Systems
-* perl 5, version 26, subversion 1 (v5.26.1) built for x86_64-linux-gnu-thread-multi
-* The Glorious Glasgow Haskell Compilation System, version 8.8.1
-* Tcl 8.6
-* jq-1.5-1-a5b5cbe
-* Swift version 5.1 (swift-5.1-RELEASE)
-* Kotlin version 1.3.50-release-112 (JRE 11.0.4+11-post-Ubuntu-1ubuntu218.04.3)
-* PHP 7.2.19-0ubuntu0.18.04.2
-* .NET Core SDK 3.0.100
-* Elixir 1.9.1 Erlang/OTP 22 [erts-10.5.1] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [hipe]
-* Lua 5.3.3  Copyright (C) 1994-2016 Lua.org, PUC-Rio
-* LuaJIT 2.1.0-beta3 -- Copyright (C) 2005-2017 Mike Pall. http://luajit.org/
-* truffleruby 19.2.0.1, like ruby 2.6.2, GraalVM CE Native [x86_64-linux]
-* MLton 20130715 (built Fri Apr 28 06:06:34 UTC 2017 on lcy01-11)
-* Microsoft (R) F# Compiler version 10.2.3 for F# 4.5
-* OCaml 4.07.0
-* Racket v6.11
-* Chez Scheme Version 9.5
-* V 0.1.22 3950b10
-* Clojure 1.10.1
+Run the image:
+
+    $ docker run -it --rm --name test -v $(pwd):/src benchmarks <cmd>
+
+where <cmd> is:
+
+ - `versions` (print installed language versions)
+ - `shell` (start the shell)
+ - `brainfuck2 bench` (build and run Brainfuck2 bench.b benchmarks)
+ - `brainfuck2 mandel` (build and run Brainfuck2 mandel.b benchmarks)
+ - `base64` (build and run Base64 benchmarks)
+ - `json` (build and run Json benchmarks)
+ - `matmul` (build and run Matmul benchmarks)
+ - `havlak` (build and run Havlak benchmarks)
+
+Please note that some tests are unstable under Docker and should be run manually (use `shell` command to get an access to the image).
+
+# Environment
+
+CPU: Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz
+
+Base Docker image: Debian GNU/Linux bullseye/sid
+
+| Language     | Version                         |
+| ------------ | ------------------------------- |
+| .NET Core    | 3.0.100                         |
+| C# .NET Core | 3.3.1-beta4-19462-11 (66a912c9) |
+| C# Mono      | 6.4.0.198                       |
+| Chez Scheme  | 9.5                             |
+| Clang        | 9.0.0 (tags/RELEASE_900/final)  |
+| Clojure      | "1.10.1"                        |
+| Crystal      | 0.31.1                          |
+| DMD          | v2.088.1                        |
+| Elixir       | 1.9.1                           |
+| F#           | 10.6.0.0 for F# 4.7             |
+| GCC          | 9.2.1                           |
+| GCC Go       | 9.2.1                           |
+| GDC          | 9.2.1                           |
+| Go           | go1.13.3                        |
+| Haskell      | 8.8.1                           |
+| JRuby        | 9.2.8.0                         |
+| Java         | 13.0.1                          |
+| Julia        | v"1.2.0"                        |
+| Kotlin       | 1.3.50                          |
+| LDC          | 1.18.0                          |
+| Lua          | Lua 5.3                         |
+| LuaJIT       | LuaJIT 2.1.0-beta3              |
+| MLton        | 20180207                        |
+| Nim          | 1.0.2                           |
+| Node.js      | v13.0.1                         |
+| OCaml        | 4.09.0                          |
+| PHP          | 7.3.10-1+b1                     |
+| Perl         | v5.30.0                         |
+| PyPy         | 7.1.1-final0 for Python 2.7.13  |
+| Python 2     | 2.7.17                          |
+| Python 3     | 3.7.5rc1                        |
+| Racket       | "7.2"                           |
+| Ruby         | 2.6.5p114                       |
+| Rust         | 1.38.0                          |
+| Scala        | 2.13.1                          |
+| Swift        | swift-5.1.1-RELEASE             |
+| Tcl          | 8.6                             |
+| TruffleRuby  | 19.2.1                          |
+| V            | 0.1.22 ee6ec3f                  |
+| jq           | jq-1.6                          |

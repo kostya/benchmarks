@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 echo Crystal
 ../xtime.rb ./matmul_cr 1500
 echo Go
@@ -28,8 +29,6 @@ echo Java
 ../xtime.rb java matmul 1500
 echo Kotlin
 ../xtime.rb java -jar matmul-kt.jar 1500
-echo Javascript V8
-../xtime.rb d8 matmul.d8.js -- 1500
 echo Javascript Node
 ../xtime.rb node matmul.js 1500
 echo Julia Native Thr
@@ -50,6 +49,10 @@ echo Python NumPy
 ../xtime.rb python matmul-numpy.py 1500
 echo Ruby
 ../xtime.rb ruby matmul.rb 1500
+echo JRuby
+../xtime.rb jruby matmul.rb 1500
+echo TruffleRuby
+../xtime.rb truffleruby matmul.rb 1500
 echo Perl
 ../xtime.rb perl matmul.pl 1500
 echo Tcl

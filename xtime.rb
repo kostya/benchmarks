@@ -26,6 +26,6 @@ Thread.new do
   end
 end
 
-Process.waitall
+Process.waitpid(pid, 0)
 STDERR.puts "%.2fs, %.1fMb" % [Process.clock_gettime(Process::CLOCK_MONOTONIC) - t, mm / 1024.0]
-
+exit($?.exitstatus || 0)

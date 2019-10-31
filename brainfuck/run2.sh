@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 echo Crystal
 ../xtime.rb ./brainfuck_cr mandel.b > /dev/null
 echo Go
@@ -30,8 +31,6 @@ echo Mono
 ../xtime.rb mono -O=all --gc=sgen brainfuck.exe mandel.b > /dev/null
 echo .Net Core
 ../xtime.rb dotnet bin/Release/netcoreapp2.0/brainfuck.dll mandel.b > /dev/null
-echo Felix
-../xtime.rb ./brainfuck_flx mandel.b > /dev/null
 echo Java
 ../xtime.rb java brainfuck mandel.b > /dev/null
 

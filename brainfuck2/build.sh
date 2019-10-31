@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 crystal build bf.cr --release -o bin_cr --no-debug
 g++ -flto -O3 -o bin_cpp bf.cpp
 rustc -C opt-level=3 -C lto bf.rs -o bin_rs
