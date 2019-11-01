@@ -16,7 +16,7 @@ ARG MONO_VERSION=6.4.0.198
 RUN echo "deb http://download.mono-project.com/repo/debian vs-stretch/snapshots/$MONO_VERSION main" > /etc/apt/sources.list.d/mono-official-vs.list
 
 RUN  apt-get update \
-  && apt-get install -y wget xz-utils build-essential libtool-bin cmake git curl \
+  && apt-get install -y wget xz-utils build-essential libtool-bin cmake git curl vim \
      libgmp-dev libssl-dev libssl1.1 libxml2 lbzip2 libtinfo5 libtool zlib1g libicu63 \
      libpcre3-dev libevent-dev libboost-dev libjson-c-dev libblas-dev liblapack-dev libopenblas-dev \
      python python-numpy python3 python-ujson python3-ujson \
