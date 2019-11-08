@@ -1,78 +1,78 @@
 #lang racket/base
-(require racket/file racket/list racket/match)
+(require racket/file racket/list racket/match racket/cmdline
+         (rename-in racket/unsafe/ops
+                    [unsafe-vector-ref vector-ref]
+                    [unsafe-vector-set! vector-set!]
+                    [unsafe-fx+ +]))
 
-(struct op (op val) #:transparent)
-(struct tape (data pos) #:transparent)
+(define-syntax-rule (define-match-expander* k r) (define-match-expander k r r))
+(define-match-expander* op (syntax-rules () [(_ op val) (cons op val)]))
+(define-match-expander* tape (syntax-rules () [(_ data pos) (mcons data pos)]))
 
 ;;; Vector and tape ops.
 
 (define (vector-grow-if-needed vec len)
   (if (<= len (vector-length vec))
       vec
-      (let ((new-vec (make-vector len)))
+      (let ([new-vec (make-vector len)])
         (vector-copy! new-vec 0 vec)
         new-vec)))
 
 (define (tape-get t)
-  (match t ((tape data pos) (vector-ref data pos))))
+  (match-let ([(tape data pos) t])
+    (vector-ref data pos)))
 
-(define (tape-move t n)
-  (match t ((tape data pos)
-            (let ((new-pos (+ n pos)))
-              (tape (vector-grow-if-needed data (add1 new-pos)) new-pos)))))
+(define (tape-move! t n)
+  (match-let ([(tape data pos) t])
+    (let ([new-pos (+ n pos)])
+      (set-mcar! t (vector-grow-if-needed data (add1 new-pos)))
+      (set-mcdr! t new-pos))))
 
 (define (tape-inc! t n)
-  (match t ((tape data pos)
-            (vector-set! data pos (+ n (vector-ref data pos)))
-            t)))
+  (match-let ([(tape data pos) t])
+    (vector-set! data pos (+ n (vector-ref data pos)))))
 
 ;;; Parser.
 
 (define (parse-helper lst acc)
   (if (empty? lst)
       (reverse acc)
-      (let ((rst (rest lst)))
+      (let ([rst (rest lst)])
         (match (first lst)
-          (#\+ (parse-helper rst (cons (op 'inc 1) acc)))
-          (#\- (parse-helper rst (cons (op 'inc -1) acc)))
-          (#\> (parse-helper rst (cons (op 'move 1) acc)))
-          (#\< (parse-helper rst (cons (op 'move -1) acc)))
-          (#\. (parse-helper rst (cons (op 'print null) acc)))
-          (#\[ (let ((subparsed (parse-helper rst empty)))
+          [#\+ (parse-helper rst (cons (op 'inc 1) acc))]
+          [#\- (parse-helper rst (cons (op 'inc -1) acc))]
+          [#\> (parse-helper rst (cons (op 'move 1) acc))]
+          [#\< (parse-helper rst (cons (op 'move -1) acc))]
+          [#\. (parse-helper rst (cons 'print acc))]
+          [#\[ (let ([subparsed (parse-helper rst empty)])
                  (parse-helper (first subparsed)
-                               (cons (op 'loop (rest subparsed)) acc))))
-          (#\] (cons rst (reverse acc)))
-          (_ (parse-helper rst acc))))))
+                               (cons (op 'loop (rest subparsed)) acc)))]
+          [#\] (cons rst (reverse acc))]
+          [_ (parse-helper rst acc)]))))
 
 (define (parse bf-code) (parse-helper (string->list bf-code) empty))
 
 ;;; Interpreter.
 
 (define (run parsed t)
-  (match parsed
-    ((list) t)
-    ((list-rest (op 'inc x) rst) (run rst (tape-inc! t x)))
-    ((list-rest (op 'move x) rst) (run rst (tape-move t x)))
-    ((list-rest (op 'print _) rst)
-     (display (integer->char (tape-get t)))
-     (flush-output)
-     (run rst t))
-    ((list-rest (op 'loop body) rst)
-     (if (> (tape-get t) 0)
-         (run parsed (run body t))
-         (run rst t)))
-    ((list-rest _ rst) (run rst t))))
+  (define step-op!
+    (match-lambda
+      [(op 'inc x) (tape-inc! t x)]
+      [(op 'move x) (tape-move! t x)]
+      ['print (display (integer->char (tape-get t)))
+              (flush-output)]
+      [(op 'loop body) (let loop ()
+                         (when (> (tape-get t) 0)
+                           (step-ops! body)
+                           (loop)))]))
+  (define step-ops!
+    (match-lambda
+      [(cons op ops) (step-op! op) (step-ops! ops)]
+      [_ (void)]))
+  (step-ops! parsed))
 
 ;;; I/O.
-
-(define (get-file-arg-or-exit)
-  (match (current-command-line-arguments)
-    ((vector path) path)
-    (_ ((printf "usage: ~a filename" (find-system-path 'run-file))
-        (exit)))))
-
 (define (read-c path)
-  (parameterize ((current-locale "C"))
+  (parameterize ([current-locale "C"])
     (file->string path)))
-
-(run (parse (read-c (get-file-arg-or-exit))) (tape (vector 0) 0))
+(run (parse (read-c (command-line #:args (filename) filename))) (tape (vector 0) 0))
