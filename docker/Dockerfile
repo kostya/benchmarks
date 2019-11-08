@@ -82,13 +82,13 @@ ENV PATH="/opt/$NIM/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN wget --progress=dot:giga -O - \
-    https://dl.google.com/go/go1.13.3.linux-amd64.tar.gz \
+    https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz \
     | tar -xz
 ENV PATH="/opt/go/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN wget --progress=dot:giga -O - \
-    http://downloads.dlang.org/releases/2.x/2.088.1/dmd.2.088.1.linux.tar.xz \
+    http://downloads.dlang.org/releases/2.x/2.089.0/dmd.2.089.0.linux.tar.xz \
     | tar -xJ
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
@@ -100,7 +100,7 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/scala-$SCALA/bin/:${PATH}"
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v13.0.1
+ARG NODE=v13.1.0
 RUN wget --progress=dot:giga -O - \
     https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
     | tar -xJ
@@ -111,7 +111,7 @@ ENV CARGO_HOME="/opt/.cargo" PATH="/opt/.cargo/bin:${PATH}"
 RUN wget -O - https://sh.rustup.rs | sh -s -- -y
 
 # https://www.jruby.org/download
-ARG JRUBY=9.2.8.0
+ARG JRUBY=9.2.9.0
 RUN wget --progress=dot:giga -O - \
     https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
     | tar -xz \
@@ -139,7 +139,7 @@ RUN wget --progress=dot:giga -O - \
     && ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
 
 # https://clojure.org/community/downloads
-ARG CLOJURE=1.10.1.478
+ARG CLOJURE=1.10.1.483
 RUN wget --progress=dot:giga https://download.clojure.org/install/linux-install-$CLOJURE.sh \
     && chmod +x linux-install-$CLOJURE.sh \
     && ./linux-install-$CLOJURE.sh
