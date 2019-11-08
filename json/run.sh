@@ -53,8 +53,6 @@ echo C++ Gason
 ../xtime.rb ./json_gason_cpp
 echo C++ LibJson
 ../xtime.rb ./json_libjson_cpp
-echo Julia
-../xtime.rb julia test.jl
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen test.exe
 echo C# .Net Core
@@ -69,8 +67,6 @@ echo Perl
 ../xtime.rb perl -Iperllib/lib/perl5 test.pl
 echo Perl XS
 ../xtime.rb perl -Iperllib/lib/perl5 test-xs.pl
-echo Clojure
-../xtime.rb clojure -Sdeps '{:deps {cheshire {:mvn/version "5.9.0"}}}' test.clj
 echo jq
 ../xtime.rb jq -r '.coordinates | length as $len | (map(.x) | add) / $len, (map(.y) | add) / $len, (map(.z) | add) / $len' 1.json
 echo Java
@@ -89,8 +85,14 @@ if [ "$1" != "--skip-unstable" ]; then
   ../xtime.rb jruby -J-Xmx4096M test.rb
   echo TruffleRuby
   ../xtime.rb truffleruby test.rb
+  echo Julia
+  ../xtime.rb julia test.jl
+  echo Clojure
+  ../xtime.rb clojure -Sdeps '{:deps {cheshire {:mvn/version "5.9.0"}}}' test.clj
 else
   echo "Skipped run - Haskell"
   echo "Skipped run - JRuby"
   echo "Skipped run - TruffleRuby"
+  echo "Skipped run - Julia"
+  echo "Skipped run - Clojure"
 fi
