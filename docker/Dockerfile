@@ -21,7 +21,7 @@ RUN  apt-get update \
      libpcre3-dev libevent-dev libboost-dev libjson-c-dev libblas-dev liblapack-dev libopenblas-dev \
      python python-numpy python3 python-ujson python3-ujson \
      mono-devel fsharp nuget \
-     chezscheme racket gccgo gdc \
+     chezscheme gccgo gdc \
      luajit lua5.3 tcl tcllib jq php elixir clang-9 opam \
   && rm -rf /var/lib/apt/lists/* /tmp/* \
   && ln -s /usr/bin/clang-9 /usr/bin/clang
@@ -132,17 +132,11 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$JULIA/bin/:${PATH}"
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.1.1-RELEASE-ubuntu18.04
+ARG SWIFT=swift-5.1.2-RELEASE-ubuntu18.04
 RUN wget --progress=dot:giga -O - \
-    https://swift.org/builds/swift-5.1.1-release/ubuntu1804/swift-5.1.1-RELEASE/$SWIFT.tar.gz \
+    https://swift.org/builds/swift-5.1.2-release/ubuntu1804/swift-5.1.2-RELEASE/$SWIFT.tar.gz \
     | tar -xz \
     && ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
-
-# https://clojure.org/community/downloads
-ARG CLOJURE=1.10.1.483
-RUN wget --progress=dot:giga https://download.clojure.org/install/linux-install-$CLOJURE.sh \
-    && chmod +x linux-install-$CLOJURE.sh \
-    && ./linux-install-$CLOJURE.sh
 
 # https://github.com/vlang/v
 RUN git clone https://github.com/vlang/v \
@@ -181,6 +175,19 @@ ENV PATH="/opt/opam/$OCAML/bin/:${PATH}"
 
 RUN curl -Lo /usr/local/bin/coursier https://git.io/coursier-cli \
     && chmod +x /usr/local/bin/coursier
+
+# https://clojure.org/community/downloads
+ARG CLOJURE=1.10.1.483
+RUN wget --progress=dot:giga -O - \
+    https://download.clojure.org/install/linux-install-$CLOJURE.sh \
+    | bash -s
+
+# https://download.racket-lang.org/
+ARG RACKET=7.4
+RUN wget --progress=dot:giga \
+    https://mirror.racket-lang.org/installers/$RACKET/racket-$RACKET-x86_64-linux.sh \
+    && sh racket-$RACKET-x86_64-linux.sh --unix-style --dest /usr/ \
+    && rm racket-$RACKET-x86_64-linux.sh
 
 ARG SCRIPTS_VER=unknown
 COPY *.rb ./

@@ -46,11 +46,11 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | Haskell (MArray)| 6.88    | 3.5         |
 | C# Mono         | 6.88    | 17.6        |
 | Javascript Node | 6.97    | 31.5        |
-| V Gcc           | 7.30    | 0.7         |
-| V Clang         | 9.06    | 1.1         |
+| V Gcc           | 7.30    | 0.8         |
+| V Clang         | 9.06    | 1.0         |
+| Racket          | 10.49   | 77.4        |
 | LuaJIT          | 10.99   | 2.1         |
 | F# Mono         | 12.81   | 25.1        |
-| Racket          | 17.52   | 87.4        |
 | Python PyPy     | 21.51   | 95.4        |
 | Chez Scheme     | 24.72   | 29.2        |
 | Haskell         | 29.14   | 3.4         |
@@ -73,8 +73,8 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | --------------- | ------- | ----------- |
 | C++ Gcc         | 21.42   | 3.5         |
 | Crystal         | 22.89   | 2.9         |
+| V Gcc           | 27.28   | 2.2         |
 | Kotlin          | 27.38   | 44.6        |
-| V Gcc           | 27.53   | 2.1         |
 | Java            | 28.44   | 43.9        |
 | Nim Gcc         | 30.00   | 1.9         |
 | Scala           | 30.65   | 139.4       |
@@ -85,7 +85,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | ML MLton        | 32.04   | 3.6         |
 | Go Gcc          | 32.88   | 20.6        |
 | C# .Net Core    | 36.38   | 25.8        |
-| V Clang         | 37.23   | 2.8         |
+| V Clang         | 37.10   | 2.5         |
 | OCaml           | 44.12   | 7.1         |
 | Go              | 45.28   | 2.9         |
 | D Dmd           | 56.16   | 4.1         |
@@ -95,8 +95,8 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | LuaJIT          | 107.96  | 2.9         |
 | Haskell (MArray)| 122.81  | 4.9         |
 | Ruby truffle    | 171.47  | 630.7       |
+| Racket          | 171.86  | 77.4        |
 | F# Mono         | 195.99  | 40.0        |
-| Racket          | 198.86  | 88.2        |
 | Chez Scheme     | 244.82  | 29.3        |
 
 # Base64
@@ -114,8 +114,8 @@ Testing large blob base64 encoding/decoding into newly allocated buffers.
 | D Ldc           | 2.44    | 4.0         |
 | V Gcc           | 2.71    | 1.6         |
 | Ruby            | 2.72    | 72.8        |
+| V Clang         | 2.83    | 2.1         |
 | D Gdc           | 2.89    | 10.6        |
-| V Clang         | 2.90    | 2.0         |
 | Java            | 3.11    | 375.4       |
 | Scala           | 3.20    | 154.9       |
 | Perl XS         | 3.25    | 6.3         |
@@ -162,8 +162,8 @@ Testing parsing and simple calculating of values from a big JSON file.
 | Perl XS         | 2.92    | 941.2       |
 | Clojure         | 3.35    | 1472.7      |
 | Go              | 3.97    | 510.7       |
-| V Gcc           | 4.07    | 1127.3      |
-| V Clang         | 4.07    | 1127.8      |
+| V Gcc           | 4.10    | 1127.4      |
+| V Clang         | 4.10    | 1127.8      |
 | Python3 ujson   | 4.15    | 1287.4      |
 | Php             | 4.25    | 1483.1      |
 | Julia           | 4.31    | 2377.6      |
@@ -215,14 +215,14 @@ Testing allocating and multiplying matrices.
 | Crystal         | 3.33    | 63.1        |
 | Go Gcc          | 3.41    | 110.7       |
 | Kotlin          | 3.43    | 125.9       |
-| V Clang         | 3.47    | 70.6        |
+| V Clang         | 3.47    | 70.5        |
 | Java            | 3.81    | 124.7       |
 | Scala           | 4.15    | 168.7       |
-| V Gcc           | 4.21    | 70.0        |
+| V Gcc           | 4.21    | 70.1        |
 | Javascript Node | 4.40    | 102.4       |
+| Swift           | 8.20    | 205.2       |
 | C# .Net Core    | 8.21    | 99.3        |
 | Python PyPy     | 8.50    | 138.1       |
-| Swift           | 8.80    | 205.1       |
 | C# Mono         | 14.66   | 88.2        |
 | Ruby truffle    | 60.39   | 559.7       |
 | Ruby            | 365.68  | 82.5        |
@@ -262,7 +262,7 @@ Build the image:
 
 Run the image:
 
-    $ docker run -it --rm --name test -v $(pwd):/src benchmarks <cmd>
+    $ docker run -it --rm -v $(pwd):/src benchmarks <cmd>
 
 where <cmd> is:
 
@@ -316,12 +316,12 @@ Base Docker image: Debian GNU/Linux bullseye/sid
 | PyPy         | 7.1.1-final0 for Python 2.7.13  |
 | Python 2     | 2.7.17                          |
 | Python 3     | 3.7.5                           |
-| Racket       | "7.2"                           |
+| Racket       | "7.4"                           |
 | Ruby         | 2.6.5p114                       |
 | Rust         | 1.39.0                          |
 | Scala        | 2.13.1                          |
-| Swift        | swift-5.1.1-RELEASE             |
+| Swift        | swift-5.1.2-RELEASE             |
 | Tcl          | 8.6                             |
 | TruffleRuby  | 19.2.1                          |
-| V            | 0.1.22 b9e7d02                  |
+| V            | 0.1.22 ab37081                  |
 | jq           | jq-1.6                          |
