@@ -51,9 +51,10 @@ let rec run program t =
       Console.Out.Flush()
       run ops t
   | Loop loop_code :: ops ->
-      if current t = 0 then run ops t
-      else
-        run loop_code t |> run program
+      let rec loop t =
+          if current t = 0 then run ops t
+          else run loop_code t |> loop
+      in loop t
 
 [<EntryPoint>]
 let main argv =

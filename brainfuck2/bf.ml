@@ -47,10 +47,10 @@ let rec run program t =
       flush stdout;
       run ops t
   | Loop loop_code :: ops ->
-      if current t = 0 then run ops t
-      else
-        let  new_tape = run loop_code t in
-        run program new_tape
+     let rec loop t =
+       if current t = 0 then run ops t
+       else loop (run loop_code t)
+     in loop t
 
 let read_file filename =
   let s = ref "" in
