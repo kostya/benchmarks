@@ -12,11 +12,14 @@
 ;;; Vector and tape ops.
 
 (define (vector-grow-if-needed vec len)
-  (if (<= len (vector-length vec))
-      vec
-      (let ([new-vec (make-vector len)])
-        (vector-copy! new-vec 0 vec)
-        new-vec)))
+  (define old-len (vector-length vec))
+  (cond [(< len old-len) vec]
+        [else
+         (let loop ([new-len (* 2 old-len)])
+           (cond [(>= len new-len) (loop (* 2 new-len))]
+                 [else (define new-vec (make-vector new-len))
+                       (vector-copy! new-vec 0 vec)
+                       new-vec]))]))
 
 (define (tape-get t)
   (match-let ([(tape data pos) t])
@@ -25,7 +28,7 @@
 (define (tape-move! t n)
   (match-let ([(tape data pos) t])
     (let ([new-pos (+ n pos)])
-      (set-mcar! t (vector-grow-if-needed data (add1 new-pos)))
+      (set-mcar! t (vector-grow-if-needed data new-pos))
       (set-mcdr! t new-pos))))
 
 (define (tape-inc! t n)
