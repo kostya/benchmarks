@@ -15,12 +15,12 @@ echo Kotlin
 ../xtime.rb java -jar bf2-kt.jar bench.b
 echo C# Mono
 ../xtime.rb mono -O=all --gc=sgen bf.exe bench.b
-echo C# .Net Core
-../xtime.rb dotnet bin/Release/netcoreapp3.0/brainfuck2.dll bench.b
+echo C# .NET Core
+../xtime.rb dotnet bin_cs/netcoreapp3.0/brainfuck2.dll bench.b
 echo Elixir
 ../xtime.rb elixir bf.ex bench.b
-echo F# Mono
-../xtime.rb mono -O=all --gc=sgen bin_fs.exe bench.b
+echo F# .NET Core
+../xtime.rb dotnet bin_fs/netcoreapp3.0/brainfuck2.dll bench.b
 echo Haskell
 ../xtime.rb ./bin_hs bench.b
 echo "Haskell (MArray)"

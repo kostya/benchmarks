@@ -20,7 +20,7 @@ RUN  apt-get update \
      libgmp-dev libssl-dev libssl1.1 libxml2 lbzip2 libtinfo5 libtool zlib1g libicu63 \
      libpcre3-dev libevent-dev libboost-dev libjson-c-dev libblas-dev liblapack-dev libopenblas-dev \
      python python-numpy python3 python-ujson python3-ujson \
-     mono-devel fsharp nuget \
+     mono-devel nuget \
      chezscheme gccgo gdc \
      luajit lua5.3 tcl tcllib jq php elixir clang-9 opam \
   && rm -rf /var/lib/apt/lists/* /tmp/* \

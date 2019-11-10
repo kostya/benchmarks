@@ -6,7 +6,7 @@ g++ -flto -O3 -o bin_cpp bf.cpp
 rustc -C opt-level=3 -C lto bf.rs -o bin_rs
 scalac bf.scala
 mcs -debug- -optimize+ bf.cs
-dotnet build -c Release
+dotnet build brainfuck2.csproj -c Release
 javac bf.java
 kotlinc bf2.kt -include-runtime -d bf2-kt.jar
 go build -o bin_go bf.go
@@ -19,7 +19,7 @@ nim c -o:bin_nim_gcc -d:danger --cc:gcc --verbosity:0 bf.nim
 ghc -O2 -fforce-recomp bf.hs -o bin_hs
 ghc -O2 -fforce-recomp bf-marray.hs -o bin_hs_marray
 ocamlopt -unsafe bf.ml -o bin_ocaml
-fsharpc -O bf.fs -o bin_fs.exe
+dotnet build brainfuck2.fsproj -c Release
 mlton -output bin_sml bf.sml
 v -prod -cc gcc -o bin_v_gcc bf.v
 v -prod -cc clang -o bin_v_clang bf.v

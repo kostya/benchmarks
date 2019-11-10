@@ -17,8 +17,8 @@ echo Nim Clang
 ../xtime.rb ./bin_nim_clang mandel.b > /dev/null
 echo Crystal
 ../xtime.rb ./bin_cr mandel.b > /dev/null
-echo F# Mono
-../xtime.rb mono -O=all --gc=sgen bin_fs.exe mandel.b > /dev/null
+echo F# .NET Core
+../xtime.rb dotnet bin_fs/netcoreapp3.0/brainfuck2.dll mandel.b > /dev/null
 echo "Haskell (MArray)"
 ../xtime.rb ./bin_hs_marray mandel.b > /dev/null
 echo Java
@@ -37,8 +37,8 @@ echo Javascript Node
 ../xtime.rb node bf.js mandel.b > /dev/null
 echo C# Mono
 ../xtime.rb mono -O=all --gc=sgen bf.exe mandel.b > /dev/null
-echo C# .Net Core
-../xtime.rb dotnet bin/Release/netcoreapp3.0/brainfuck2.dll mandel.b > /dev/null
+echo C# .NET Core
+../xtime.rb dotnet bin_cs/netcoreapp3.0/brainfuck2.dll mandel.b > /dev/null
 echo Python PyPy
 ../xtime.rb pypy bf.py mandel.b > /dev/null
 echo Standard ML MLton
