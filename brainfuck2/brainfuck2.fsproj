@@ -2,6 +2,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    <OutputPath>bin_cs</OutputPath>
+    <OutputPath>bin_fs</OutputPath>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="bf.fs" />
+  </ItemGroup>
 </Project>

@@ -14,7 +14,7 @@ The benchmarks follow the criteria:
 
 # UPDATE 
 
-2019-11-07
+2019-11-09
 
 # Brainfuck v2.0
 
@@ -30,6 +30,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | Kotlin          | 2.01    | 37.6        |
 | Nim Gcc         | 2.17    | 0.7         |
 | C++ Gcc         | 2.41    | 1.7         |
+| OCaml           | 2.50    | 4.4         |
 | Go              | 2.94    | 1.5         |
 | Java            | 3.05    | 37.2        |
 | Crystal         | 3.06    | 2.7         |
@@ -39,9 +40,9 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | Nim Clang       | 3.43    | 1.0         |
 | D Ldc           | 3.57    | 1.4         |
 | D Gdc           | 3.72    | 5.8         |
-| OCaml           | 3.75    | 3.9         |
+| C# .NET Core    | 4.30    | 24.3        |
 | Scala           | 4.30    | 136.3       |
-| C# .Net Core    | 4.48    | 23.8        |
+| F# .NET Core    | 4.35    | 24.5        |
 | D Dmd           | 4.74    | 3.3         |
 | Haskell (MArray)| 6.88    | 3.5         |
 | C# Mono         | 6.88    | 17.6        |
@@ -50,7 +51,6 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | V Clang         | 9.06    | 1.0         |
 | Racket          | 10.49   | 77.4        |
 | LuaJIT          | 10.99   | 2.1         |
-| F# Mono         | 12.81   | 25.1        |
 | Python PyPy     | 21.51   | 95.4        |
 | Chez Scheme     | 24.72   | 29.2        |
 | Haskell         | 29.14   | 3.4         |
@@ -84,10 +84,11 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | D Gdc           | 31.87   | 7.2         |
 | ML MLton        | 32.04   | 3.6         |
 | Go Gcc          | 32.88   | 20.6        |
-| C# .Net Core    | 36.38   | 25.8        |
+| F# .NET Core    | 36.23   | 25.9        |
+| C# .NET Core    | 36.38   | 25.8        |
 | V Clang         | 37.10   | 2.5         |
-| OCaml           | 44.12   | 7.1         |
 | Go              | 45.28   | 2.9         |
+| OCaml           | 47.90   | 6.9         |
 | D Dmd           | 56.16   | 4.1         |
 | Javascript Node | 62.70   | 34.5        |
 | C# Mono         | 71.27   | 18.0        |
@@ -96,7 +97,6 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | Haskell (MArray)| 122.81  | 4.9         |
 | Ruby truffle    | 171.47  | 630.7       |
 | Racket          | 171.86  | 77.4        |
-| F# Mono         | 195.99  | 40.0        |
 | Chez Scheme     | 244.82  | 29.3        |
 
 # Base64
@@ -294,7 +294,7 @@ Base Docker image: Debian GNU/Linux bullseye/sid
 | Crystal      | 0.31.1                          |
 | DMD          | v2.089.0                        |
 | Elixir       | 1.9.1                           |
-| F#           | 10.6.0.0 for F# 4.7             |
+| F# .NET Core | 10.6.0.0 for F# 4.7             |
 | GCC          | 9.2.1                           |
 | GCC Go       | 9.2.1                           |
 | GDC          | 9.2.1                           |

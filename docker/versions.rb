@@ -38,7 +38,7 @@ def versions
     },
     "Swift" => -> { `swift --version`.split("\n")[0].match(/\((.*)\)/)[1] },
     "MLton" => -> { `mlton`.split()[1] },
-    "F#" => -> {
+    "F# .NET Core" => -> {
       fsharpc = File.join(dotnet_base_path, "FSharp", "fsc.exe")
       `dotnet #{fsharpc} --help | sed -n 1p`.match(/version\s(.*)/)[1]
     },
