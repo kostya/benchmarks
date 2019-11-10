@@ -18,8 +18,8 @@ nim c -o:bin_nim_clang -d:danger --cc:clang --verbosity:0 bf.nim
 nim c -o:bin_nim_gcc -d:danger --cc:gcc --verbosity:0 bf.nim
 ghc -O2 -fforce-recomp bf.hs -o bin_hs
 ghc -O2 -fforce-recomp bf-marray.hs -o bin_hs_marray
-ocamlopt bf.ml -o bin_ocaml
-fsharpc bf.fs -o bin_fs.exe
+ocamlopt -unsafe bf.ml -o bin_ocaml
+fsharpc -O bf.fs -o bin_fs.exe
 mlton -output bin_sml bf.sml
 v -prod -cc gcc -o bin_v_gcc bf.v
 v -prod -cc clang -o bin_v_clang bf.v
