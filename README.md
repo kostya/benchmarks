@@ -40,6 +40,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | Nim Clang       | 3.43    | 1.0         |
 | D Ldc           | 3.57    | 1.4         |
 | D Gdc           | 3.72    | 5.8         |
+| Julia           | 4.02    | 162.9       |
 | C# .NET Core    | 4.30    | 24.3        |
 | Scala           | 4.30    | 136.3       |
 | F# .NET Core    | 4.35    | 24.5        |
@@ -92,6 +93,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | D Dmd           | 56.16   | 4.1         |
 | Javascript Node | 62.70   | 34.5        |
 | C# Mono         | 71.27   | 18.0        |
+| Julia           | 79.88   | 163.3       |
 | Python PyPy     | 106.44  | 96.2        |
 | LuaJIT          | 107.96  | 2.9         |
 | Haskell (MArray)| 122.81  | 4.9         |
@@ -134,7 +136,7 @@ Testing large blob base64 encoding/decoding into newly allocated buffers.
 | Python3         | 6.97    | 9.3         |
 | Go Gcc          | 7.15    | 43.0        |
 | C# Mono         | 8.86    | 36.0        |
-| Julia           | 10.84   | 212.8       |
+| Julia           | 11.15   | 236.1       |
 | Ruby JRuby      | 18.73   | 199.0       |
 | Perl            | 28.00   | 8.0         |
 | Ruby truffle    | 32.39   | 381.7       |
@@ -166,7 +168,7 @@ Testing parsing and simple calculating of values from a big JSON file.
 | V Clang         | 4.10    | 1127.8      |
 | Python3 ujson   | 4.15    | 1287.4      |
 | Php             | 4.25    | 1483.1      |
-| Julia           | 4.31    | 2377.6      |
+| Julia           | 4.78    | 2689.5      |
 | Crystal         | 5.46    | 961.9       |
 | Crystal Pull    | 5.48    | 4.2         |
 | C++ LibJson     | 5.65    | 3331.3      |
@@ -199,8 +201,8 @@ Testing allocating and multiplying matrices.
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| Julia Native Thr| 0.11    | 218.6       |
-| Julia Native    | 0.29    | 216.2       |
+| Julia Native Thr| 0.10    | 253.9       |
+| Julia Native    | 0.26    | 282.9       |
 | D Ldc lubeck    | 0.38    | 62.8        |
 | Python Numpy    | 1.17    | 81.6        |
 | D Ldc           | 1.93    | 73.1        |
@@ -208,9 +210,9 @@ Testing allocating and multiplying matrices.
 | D Gdc           | 2.28    | 76.7        |
 | C               | 3.12    | 69.8        |
 | Rust            | 3.17    | 70.5        |
+| Julia           | 3.20    | 248.8       |
 | Nim Clang       | 3.21    | 73.1        |
 | Nim Gcc         | 3.23    | 72.4        |
-| Julia           | 3.23    | 246.4       |
 | Go              | 3.32    | 60.6        |
 | Crystal         | 3.33    | 63.1        |
 | Go Gcc          | 3.41    | 110.7       |

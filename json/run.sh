@@ -86,7 +86,7 @@ if [ "$1" != "--skip-unstable" ]; then
   echo TruffleRuby
   ../xtime.rb truffleruby test.rb
   echo Julia
-  ../xtime.rb julia test.jl
+  ../xtime.rb julia --check-bounds=no test.jl
   echo Clojure
   ../xtime.rb clojure -Sdeps '{:deps {cheshire {:mvn/version "5.9.0"}}}' test.clj
 else

@@ -26,7 +26,7 @@ echo Scala
 echo Javascript Node
 ../xtime.rb node brainfuck.js bench.b
 echo Julia
-../xtime.rb julia brainfuck.jl bench.b
+../xtime.rb julia --check-bounds=no brainfuck.jl bench.b
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen brainfuck.exe bench.b
 echo .Net Core
