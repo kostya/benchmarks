@@ -9,7 +9,7 @@ function main(tries)
 
   t = time()
   s = 0
-  for i in 1:tries
+  @inbounds for i in 1:tries
     str2 = base64encode(str)
     s += length(str2)
   end
@@ -20,7 +20,7 @@ function main(tries)
 
   t = time()
   s = 0
-  for i in 1:tries
+  @inbounds for i in 1:tries
     str3 = base64decode(str2)
     s += length(str3)
   end
