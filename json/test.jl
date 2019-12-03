@@ -9,7 +9,7 @@ function main()
   len = length(coordinates)
   x = y = z = 0
 
-  @inbounds for coord in coordinates
+  for coord in coordinates
     x += coord["x"]
     y += coord["y"]
     z += coord["z"]
