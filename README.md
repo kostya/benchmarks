@@ -29,7 +29,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | --------------- | ------- | ----------- |
 | Kotlin          | 2.01    | 37.6        |
 | Nim Gcc         | 2.17    | 0.7         |
-| C++ Gcc         | 2.41    | 1.7         |
+| C++ Gcc         | 2.23    | 1.7         |
 | OCaml           | 2.50    | 4.4         |
 | Go              | 2.94    | 1.5         |
 | Java            | 3.05    | 37.2        |
@@ -72,7 +72,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
-| C++ Gcc         | 21.42   | 3.5         |
+| C++ Gcc         | 21.22   | 3.5         |
 | Crystal         | 22.89   | 2.9         |
 | V Gcc           | 27.28   | 2.2         |
 | Kotlin          | 27.38   | 44.6        |
@@ -242,7 +242,7 @@ Testing Havlak's loop finder implementations.
 | Language        | Time, s | Memory, MiB |
 | --------------- | ------- | ----------- |
 | Crystal         | 10.70   | 226.4       |
-| C++             | 17.23   | 179.2       |
+| C++             | 16.99   | 179.3       |
 | Nim Gcc         | 17.81   | 506.5       |
 | Nim Clang       | 18.46   | 509.9       |
 | Go              | 24.71   | 342.1       |
