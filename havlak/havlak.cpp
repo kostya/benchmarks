@@ -32,7 +32,7 @@ class MaoCFG;
 //
 class BasicBlockEdge {
  public:
-  inline BasicBlockEdge(MaoCFG *cfg, int from, int to);
+  BasicBlockEdge(MaoCFG *cfg, int from, int to);
 
   BasicBlock *GetSrc() { return from_; }
   BasicBlock *GetDst() { return to_; }
@@ -304,7 +304,6 @@ class LoopStructureGraph {
   int           loop_counter_;
 };
 
-inline
 BasicBlockEdge::BasicBlockEdge(MaoCFG     *cfg,
                                int         from_name,
                                int         to_name) {

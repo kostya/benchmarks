@@ -27,9 +27,9 @@ public:
     tape.push_back(0);
   }
 
-  inline int get() { return tape[pos]; }
-  inline void inc(int x) { tape[pos] += x; }
-  inline void move(int x) { pos += x; while (pos >= tape.size()) tape.resize(2 * tape.size()); }
+  int get() { return tape[pos]; }
+  void inc(int x) { tape[pos] += x; }
+  void move(int x) { pos += x; while (pos >= tape.size()) tape.resize(2 * tape.size()); }
 };
 
 class Program {
