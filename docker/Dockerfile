@@ -125,9 +125,9 @@ RUN wget --progress=dot:giga -O - \
     && ln -s /opt/truffleruby-$TRUFFLERUBY-linux-amd64/bin/truffleruby /usr/bin/truffleruby
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.2.0
+ARG JULIA=julia-1.3.0
 RUN wget --progress=dot:giga -O - \
-    https://julialang-s3.julialang.org/bin/linux/x64/1.2/$JULIA-linux-x86_64.tar.gz \
+    https://julialang-s3.julialang.org/bin/linux/x64/1.3/$JULIA-linux-x86_64.tar.gz \
     | tar -xz
 ENV PATH="/opt/$JULIA/bin/:${PATH}"
 
