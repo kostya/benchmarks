@@ -75,3 +75,5 @@ echo V Gcc
 ../xtime.rb ./bin_v_gcc bench.b
 echo V Clang
 ../xtime.rb ./bin_v_clang bench.b
+echo Julia
+../xtime.rb julia --check-bounds=no bf.jl bench.b

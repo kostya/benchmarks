@@ -55,3 +55,5 @@ echo V Clang
 ../xtime.rb ./bin_v_clang mandel.b > /dev/null
 echo TruffleRuby
 ../xtime.rb truffleruby bf.rb mandel.b > /dev/null
+echo Julia
+../xtime.rb julia --check-bounds=no bf.jl mandel.b > /dev/null

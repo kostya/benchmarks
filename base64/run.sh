@@ -26,7 +26,7 @@ echo Nim Gcc
 echo Nim Clang
 ../xtime.rb ./base64_nim_clang
 echo Julia
-../xtime.rb julia test.jl
+../xtime.rb julia --check-bounds=no test.jl
 echo Scala
 ../xtime.rb scala Base64
 echo Java
