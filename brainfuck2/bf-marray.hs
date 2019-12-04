@@ -7,9 +7,9 @@ import Data.Char (chr)
 import System.Environment (getArgs)
 import System.IO (hFlush, stdout)
 
-data Op = Inc Int | Move Int | Print | Loop [Op] deriving Show
+data Op = Inc !Int | Move !Int | Print | Loop ![Op] deriving Show
 data Tape = Tape { tapeData :: IOUArray.IOUArray Int Int
-                 , tapePos :: Int
+                 , tapePos :: !Int
                  }
 
 current :: Tape -> IO Int
@@ -28,7 +28,7 @@ move m tape = do
                else do
                  el <- MArray.getElems curData
                  MArray.newListArray (0, newPos) (el ++ [0 | i <- [len..newPos]])
-    return tape { tapeData = newData, tapePos = newPos }
+    return $ Tape newData newPos
   where
     curData = tapeData tape
     newPos = (tapePos tape) + m
@@ -37,15 +37,15 @@ parse :: ([Char], [Op]) -> ([Char], [Op])
 parse ([], acc) = ([], reverse acc)
 parse (c:cs, acc) =
     case c of
-        '+'       -> parse (cs, Inc 1:acc)
-        '-'       -> parse (cs, Inc (-1):acc)
-        '>'       -> parse (cs, Move 1:acc)
-        '<'       -> parse (cs, Move (-1):acc)
-        '.'       -> parse (cs, Print:acc)
-        '['       -> parse (newCs, Loop loop:acc)
-                     where (newCs, loop) = parse (cs, [])
-        ']'       -> (cs, reverse acc)
-        otherwise -> parse (cs, acc)
+        '+' -> parse (cs, Inc 1:acc)
+        '-' -> parse (cs, Inc (-1):acc)
+        '>' -> parse (cs, Move 1:acc)
+        '<' -> parse (cs, Move (-1):acc)
+        '.' -> parse (cs, Print:acc)
+        '[' -> parse (newCs, Loop loop:acc)
+                   where (newCs, loop) = parse (cs, [])
+        ']' -> (cs, reverse acc)
+        _   -> parse (cs, acc)
 
 run :: [Op] -> Tape -> IO Tape
 run [] tape = return tape
@@ -62,13 +62,12 @@ run (op:ops) tape = do
             putStr $ [chr x]
             hFlush stdout
             run ops tape
-        Loop loop -> do
-            x <- current tape
-            if x == 0
-            then run ops tape
-            else do
-                newTape <- run loop tape
-                run (op:ops) newTape
+        Loop loop ->
+            let go tape = do
+                x <- current tape
+                if x == 0 then run ops tape
+                else run loop tape >>= go
+            in go tape
 
 main = do
     [filename] <- getArgs
