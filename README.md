@@ -160,6 +160,7 @@ Testing parsing and simple calculating of values from a big JSON file.
 | Scala           | 1.26    | 227.4       |
 | Javascript Node | 2.38    | 508.8       |
 | Rust Value      | 2.41    | 1745.8      |
+| Go jsoniter     | 2.46    | 96.5        |
 | Crystal Schema  | 2.92    | 283.3       |
 | Perl XS         | 2.92    | 941.2       |
 | Clojure         | 3.35    | 1472.7      |

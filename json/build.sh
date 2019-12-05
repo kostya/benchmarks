@@ -84,6 +84,9 @@ g++ -O3 -msse4.2 -mpclmul -std=c++17 -Isimdjson/include/ -Isimdjson/src/ simdjso
 v -prod -cc gcc -o json_v_gcc test.v
 v -prod -cc clang -o json_v_clang test.v
 
+go get github.com/json-iterator/go
+go build -o json_iter_go test_jsoniter.go
+
 if [ ! -f 1.json ]; then
   ruby generate_json.rb
 fi

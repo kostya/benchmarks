@@ -17,6 +17,8 @@ echo Rust Value
 ../xtime.rb ./json_value_rs
 echo Go
 ../xtime.rb ./json_go
+echo Go jsoniter
+../xtime.rb ./json_iter_go
 echo GccGo
 ../xtime.rb ./json_go_gccgo
 echo D DMD
