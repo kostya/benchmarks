@@ -45,7 +45,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | Scala           | 4.30    | 136.3       |
 | F# .NET Core    | 4.35    | 24.5        |
 | D Dmd           | 4.74    | 3.3         |
-| Haskell (MArray)| 6.88    | 3.5         |
+| Haskell (MArray)| 5.10    | 3.5         |
 | C# Mono         | 6.88    | 17.6        |
 | Javascript Node | 6.97    | 31.5        |
 | V Gcc           | 7.30    | 0.8         |
@@ -94,9 +94,9 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 | Javascript Node | 62.70   | 34.5        |
 | C# Mono         | 71.27   | 18.0        |
 | Julia           | 79.88   | 163.3       |
+| Haskell (MArray)| 96.69   | 4.9         |
 | Python PyPy     | 106.44  | 96.2        |
 | LuaJIT          | 107.96  | 2.9         |
-| Haskell (MArray)| 122.81  | 4.9         |
 | Ruby truffle    | 171.47  | 630.7       |
 | Racket          | 171.86  | 77.4        |
 | Chez Scheme     | 244.82  | 29.3        |
