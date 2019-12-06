@@ -1,72 +1,58 @@
-module Main where
-
-import qualified Data.Array.Base as ArrayBase
-import qualified Data.Array.Unboxed as UArray
+import Control.Arrow (first)
 import Data.Char (chr)
+import Data.Function (fix)
 import System.Environment (getArgs)
-import System.IO (hFlush, stdout)
+import System.IO (hFlush, hPutChar, stdout)
 
-data Op = Inc Int | Move Int | Print | Loop [Op] deriving Show
-data Tape = Tape { tapeData :: UArray.UArray Int Int
-                 , tapePos :: Int
-                 } deriving Show
+data Op = Inc | Dec | MoveL | MoveR | Print | Loop [Op]
+    deriving Show
 
-current :: Tape -> Int
-current tape = ArrayBase.unsafeAt (tapeData tape) (tapePos tape)
-
-inc :: Int -> Tape -> Tape
-inc delta tape =
-    tape { tapeData = newData }
+parse :: [Char] -> [Op]
+parse = fst <$> go
   where
-    newData = ArrayBase.unsafeReplace (tapeData tape)
-                                      [(tapePos tape, (current tape) + delta)]
+    go :: [Char] -> ([Op], [Char])
+    go (c : cs) = case c of
+        '+' -> first (Inc :) (go cs)
+        '-' -> first (Dec :) (go cs)
+        '<' -> first (MoveL :) (go cs)
+        '>' -> first (MoveR :) (go cs)
+        '.' -> first (Print :) (go cs)
+        '[' -> first (Loop os :) (go cs')
+            where (os, cs') = go cs
+        ']' -> ([], cs)
+        _ -> go cs
+    go [] = ([], [])
 
-move :: Int -> Tape -> Tape
-move m tape =
-    tape { tapeData = newData, tapePos = newPos }
-  where
-    curData = tapeData tape
-    len = ArrayBase.numElements curData
-    newPos = (tapePos tape) + m
-    asc = ArrayBase.assocs curData
-    newData = if newPos < len
-              then curData
-              else ArrayBase.unsafeArray (0, newPos)
-                                         (asc ++ [(i, 0) | i <- [len..newPos]])
+data IntStream = !Int :- IntStream
+    deriving Show
 
-parse :: ([Char], [Op]) -> ([Char], [Op])
-parse ([], acc) = ([], reverse acc)
-parse (c:cs, acc) =
-    case c of
-        '+'       -> parse (cs, Inc 1:acc)
-        '-'       -> parse (cs, Inc (-1):acc)
-        '>'       -> parse (cs, Move 1:acc)
-        '<'       -> parse (cs, Move (-1):acc)
-        '.'       -> parse (cs, Print:acc)
-        '['       -> parse (newCs, Loop loop:acc)
-                     where (newCs, loop) = parse (cs, [])
-        ']'       -> (cs, reverse acc)
-        otherwise -> parse (cs, acc)
+data Tape = Tape IntStream !Int IntStream
+    deriving Show
+
+blank :: Tape
+blank = Tape (fix (0 :-)) 0 (fix (0 :-))
 
 run :: [Op] -> Tape -> IO Tape
-run [] tape = return tape
-run (op:ops) tape = do
-    case op of
-        Inc d -> run ops $ inc d tape
-        Move m -> run ops $ move m tape
-        Print -> do
-            putStr $ [chr $ current tape]
-            hFlush stdout
-            run ops tape
-        Loop loop -> do
-            if current tape == 0
-            then run ops tape
-            else do
-                newTape <- run loop tape
-                run (op:ops) newTape
+run (o : os) tape = case o of
+    Inc -> let Tape ls v rs = tape
+            in run os $ Tape ls (v + 1) rs
+    Dec -> let Tape ls v rs = tape
+            in run os $ Tape ls (v - 1) rs
+    MoveL -> let Tape (l :- lt) v rs = tape
+              in run os $ Tape lt l (v :- rs)
+    MoveR -> let Tape ls v (r :- rt) = tape
+              in run os $ Tape (v :- ls) r rt
+    Print -> let Tape _ v _ = tape
+              in hPutChar stdout (chr v) *> hFlush stdout *> run os tape
+    Loop os' -> let Tape _ v _ = tape
+                 in if v /= 0
+                    then run (o : os) =<< run os' tape
+                    else run os tape
+run [] tape = pure tape
 
+main :: IO ()
 main = do
     [filename] <- getArgs
     source <- readFile filename
-    let (_, ops) = parse (source, [])
-    run ops (Tape (ArrayBase.unsafeArray (0, 0) [(0, 0)]) 0)
+    _ <- run (parse source) blank
+    pure ()
