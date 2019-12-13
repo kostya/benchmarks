@@ -18,6 +18,7 @@
 #include <list>
 #include <vector>
 #include <algorithm>
+#include <libsocket/inetclientstream.hpp>
 
 // Forward Decls
 class BasicBlock;
@@ -760,6 +761,13 @@ int buildBaseLoop(MaoCFG *cfg, int from) {
 
 
 int main(int argc, char *argv[]) {
+  try {
+    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
+    sock << "C++";
+  } catch (...) {
+    // standalone usage
+  }
+
   fprintf(stderr, "Welcome to LoopTesterApp, C++ edition\n");
   MaoCFG cfg;
   LoopStructureGraph lsg;

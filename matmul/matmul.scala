@@ -49,6 +49,10 @@ object MatMul {
     val t = matmul(matgen(500), matgen(500))
     println("JIT warming up: " + t(1)(1))
 
+    scala.util.Using((new java.net.Socket("localhost", 9001)).getOutputStream()) {
+        _.write("Scala".getBytes())
+    }
+
     val start_time = System.nanoTime
 
     val a = matgen(n)

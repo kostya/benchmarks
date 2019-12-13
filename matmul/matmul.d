@@ -2,6 +2,8 @@
 // Contributed by leonardo and then modified by Attractive Chaos to remove D 2.0 features
 
 import std.numeric, std.stdio, std.string, std.conv;
+import std.socket;
+import std.compiler;
 
 double[][] matGen(in int n) {
   auto len = n * n;
@@ -41,6 +43,14 @@ double[][] matMul(in double[][] a, in double[][] b) {
 }
 
 void main(in string[] args) {
+  try {
+    auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+    scope(exit) socket.close();
+    socket.send(name);
+  } catch (SocketOSException) {
+    // standalone usage
+  }
+
   int n = 100;
   if (args.length >= 2) n = to!int(args[1]) / 2 * 2;
   auto a = matGen(n);

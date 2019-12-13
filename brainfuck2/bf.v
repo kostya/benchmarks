@@ -1,4 +1,5 @@
 import os
+import net
 
 const (
   INC = 0
@@ -97,6 +98,7 @@ fn run_ops(ops []Op, tape mut Tape) {
           run_ops(op.loop, mut tape)
         }
       }
+      else {}
     }
   }
 }
@@ -114,7 +116,7 @@ fn new_si(s string) StringIterator {
 fn (si mut StringIterator) next() byte {
   if si.pos < si.code.len {
     res := si.code[si.pos]
-    si.pos += 1
+    si.pos++
     return res
   }
   else {
@@ -122,7 +124,21 @@ fn (si mut StringIterator) next() byte {
   }
 }
 
+fn notify() {
+    sock := net.dial('127.0.0.1', 9001) or {
+        return
+    }
+    mut lang := "V GCC"
+    $if clang {
+      lang = "V Clang"
+    }
+    sock.write(lang) or {}
+    sock.close() or {}
+}
+
 fn main() {
+    notify()
+
     args := os.args
     mut filename := ''
 

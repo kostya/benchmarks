@@ -1,10 +1,15 @@
-from __future__ import print_function
 import base64, time
+import platform
+import socket
 
 STR_SIZE = 131072
 TRIES = 8192
 
 str1 = b"a" * STR_SIZE
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    if not s.connect_ex(("localhost", 9001)):
+        s.sendall(bytes(platform.python_implementation(), 'utf8'))
 
 str2 = base64.b64encode(str1)
 print("encode {0}... to {1}...: ".format(str1[:4], str2[:4]), end = '')

@@ -51,6 +51,15 @@ var Brainfuck = function(text) {
 
 }
 
-var text = require('fs').readFileSync(process.argv[2].toString()).toString(); 
-var brainfuck = new Brainfuck(text);
-brainfuck.run();
+function main() {
+    var text = require('fs').readFileSync(process.argv[2].toString()).toString();
+    var brainfuck = new Brainfuck(text);
+    brainfuck.run();
+}
+
+const client = require('net').connect(9001, 'localhost', () => {
+    client.end('Node.js', 'utf8', () => {
+        client.destroy();
+        main();
+    });
+}).on('error', main);

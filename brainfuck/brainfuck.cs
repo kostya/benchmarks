@@ -93,6 +93,16 @@ namespace Test
 
         static void Main(string[] args)
         {
+            try {
+                using (var s = new System.Net.Sockets.TcpClient("localhost", 9001)) {
+                    var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
+                    var data = System.Text.Encoding.UTF8.GetBytes("C# " + runtime);
+                    s.Client.Send(data);
+                }
+            } catch {
+                // standalone usage
+            }
+
             string text = File.ReadAllText(args[0]);
             var p = new Program(text);
             p.Run();

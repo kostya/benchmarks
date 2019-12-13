@@ -1,4 +1,10 @@
 <?php
+$socket = @fsockopen('localhost', 9001);
+if ($socket) {
+   fputs($socket, 'PHP');
+   fclose($socket);
+}
+
 $jobj = json_decode(file_get_contents("./1.json"), true);
 
 $coordinates = $jobj['coordinates'];

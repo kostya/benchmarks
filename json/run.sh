@@ -34,14 +34,10 @@ echo Nim Gcc
 echo Nim Clang
 ../xtime.rb ./json_nim_clang
 echo Python PyPy
-../xtime.rb pypy test.py
+../xtime.rb pypy3 test.py
 echo Python
-../xtime.rb python test.py
-echo Python3
 ../xtime.rb python3 test.py
 echo Python ujson
-../xtime.rb python test_ujson.py
-echo Python3 ujson
 ../xtime.rb python3 test_ujson.py
 echo C++ Boost
 ../xtime.rb ./json_boost_cpp
@@ -69,8 +65,8 @@ echo Perl
 ../xtime.rb perl -Iperllib/lib/perl5 test.pl
 echo Perl XS
 ../xtime.rb perl -Iperllib/lib/perl5 test-xs.pl
-echo jq
-../xtime.rb jq -r '.coordinates | length as $len | (map(.x) | add) / $len, (map(.y) | add) / $len, (map(.z) | add) / $len' 1.json
+echo Rust jq
+../xtime.rb ./json_jq_rs
 echo Java
 ../xtime.rb json-java/target/application
 echo Php
@@ -79,22 +75,13 @@ echo V Gcc
 ../xtime.rb ./json_v_gcc
 echo V Clang
 ../xtime.rb ./json_v_clang
-
-if [ "$1" != "--skip-unstable" ]; then
-  echo Haskell
-  ../xtime.rb ./json_hs
-  echo JRuby
-  ../xtime.rb jruby -J-Xmx4096M test.rb
-  echo TruffleRuby
-  ../xtime.rb truffleruby test.rb
-  echo Julia
-  ../xtime.rb julia --check-bounds=no test.jl
-  echo Clojure
-  ../xtime.rb clojure -Sdeps '{:deps {cheshire {:mvn/version "5.9.0"}}}' test.clj
-else
-  echo "Skipped run - Haskell"
-  echo "Skipped run - JRuby"
-  echo "Skipped run - TruffleRuby"
-  echo "Skipped run - Julia"
-  echo "Skipped run - Clojure"
-fi
+echo Haskell
+../xtime.rb ./json_hs
+echo JRuby
+../xtime.rb jruby test.rb
+echo TruffleRuby
+../xtime.rb truffleruby --jvm test.rb
+echo Julia
+../xtime.rb julia --optimize=3 --check-bounds=no test.jl
+echo Clojure
+../xtime.rb clojure -Sdeps '{:deps {cheshire {:mvn/version "5.9.0"}}}' test.clj

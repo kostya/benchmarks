@@ -32,27 +32,27 @@ echo Kotlin
 echo Javascript Node
 ../xtime.rb node matmul.js 1500
 echo Julia Native Thr
-../xtime.rb julia --check-bounds=no matmul-native.jl 1500
+../xtime.rb julia --optimize=3 --check-bounds=no matmul-native.jl 1500
 echo Julia Native
-OPENBLAS_NUM_THREADS=1 ../xtime.rb julia --check-bounds=no matmul-native.jl 1500
+OPENBLAS_NUM_THREADS=1 ../xtime.rb julia --optimize=3 --check-bounds=no matmul-native.jl 1500
 echo Julia
-../xtime.rb julia --check-bounds=no matmul.jl 1500
+../xtime.rb julia --optimize=3 --check-bounds=no matmul.jl 1500
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen matmul.exe 1500
 echo C# .Net Core
 ../xtime.rb dotnet bin/Release/netcoreapp3.0/matmul.dll 1500
 echo Python PyPy
-../xtime.rb pypy matmul.py 1500
+../xtime.rb pypy3 matmul.py 1500
 echo Python
-../xtime.rb python matmul.py 1500
+../xtime.rb python3 matmul.py 1500
 echo Python NumPy
-../xtime.rb python matmul-numpy.py 1500
+../xtime.rb python3 matmul-numpy.py 1500
 echo Ruby
 ../xtime.rb ruby matmul.rb 1500
 echo JRuby
 ../xtime.rb jruby matmul.rb 1500
 echo TruffleRuby
-../xtime.rb truffleruby matmul.rb 1500
+../xtime.rb truffleruby --jvm matmul.rb 1500
 echo Perl
 ../xtime.rb perl matmul.pl 1500
 echo Tcl

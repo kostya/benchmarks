@@ -14,6 +14,14 @@ fun main(args: Array<String>) {
         dec.decode(enc.encodeToString(str))
     }
 
+    try {
+        java.net.Socket("localhost", 9001).getOutputStream().use {
+            it.write("Kotlin".toByteArray())
+        }
+    } catch (e: java.io.IOException) {
+        // standalone usage
+    }
+
     var encStr = enc.encodeToString(str)
     print("encode ${String(str.sliceArray(1..4))}... to ${encStr.substring(0, 4)}...: ")
 

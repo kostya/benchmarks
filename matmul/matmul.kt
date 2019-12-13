@@ -52,6 +52,14 @@ fun main(args: Array<String>) {
     val t = matmul(matgen(500), matgen(500))
     println("JIT warming up: ${t[1][1]}")
 
+    try {
+        java.net.Socket("localhost", 9001).getOutputStream().use {
+            it.write("Kotlin".toByteArray())
+        }
+    } catch (e: java.io.IOException) {
+        // standalone usage
+    }
+
     val start_time = System.currentTimeMillis()
     val a = matgen(n)
     val b = matgen(n)

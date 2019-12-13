@@ -1,8 +1,18 @@
 import std.json;
 import std.stdio;
 import std.file;
+import std.socket;
+import std.compiler;
 
 int main(string[] args) {
+  try {
+    auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+    scope(exit) socket.close();
+    socket.send(name);
+  } catch (SocketOSException) {
+    // standalone usage
+  }
+
   string text = cast(string)read("./1.json");
   auto jobj = parseJSON(text).object;
   auto coordinates = jobj["coordinates"].array;

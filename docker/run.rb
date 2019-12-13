@@ -23,7 +23,7 @@ when "havlak"
   exec("./build.sh && ./run.sh")
 when "json"
   Dir.chdir("/src/json")
-  exec("./build.sh --skip-unstable && ./run.sh --skip-unstable")
+  exec("./build.sh && ./run.sh")
 when "matmul"
   Dir.chdir("/src/matmul")
   exec("./build.sh && ./run.sh")

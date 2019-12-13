@@ -8,6 +8,13 @@ use std::fs::File;
 use std::str;
 
 fn main() {
+    {
+        use std::io::Write;
+        if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+            stream.write_all(b"Rust Serde Untyped").unwrap();
+        }
+    }
+
     let file = File::open("1.json").unwrap();
     let mmap = unsafe { Mmap::map(&file).unwrap() };
     let contents = str::from_utf8(&mmap[..]).unwrap();

@@ -2,6 +2,8 @@ import std.conv;
 import std.algorithm: canFind;
 import std.array;
 import std.stdio;
+import std.socket;
+import std.compiler;
 
 final:
 
@@ -451,6 +453,14 @@ class LoopTesterApp {
 }
 
 int main() {
+  try {
+    auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+    scope(exit) socket.close();
+    socket.send(name);
+  } catch (SocketOSException) {
+    // standalone usage
+  }
+
   auto l = new LoopTesterApp();
   l.run();
   return 0;

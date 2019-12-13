@@ -1,4 +1,5 @@
 require "json"
+require "socket"
 
 struct Coordinate
   JSON.mapping({
@@ -12,6 +13,14 @@ class Coordinates
   JSON.mapping({
     coordinates: {type: Array(Coordinate)},
   })
+end
+
+begin
+  TCPSocket.open("localhost", 9001) { |s|
+    s.puts "Crystal Schema"
+  }
+rescue
+  # standalone usage
 end
 
 text = File.read("1.json")

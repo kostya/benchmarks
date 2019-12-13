@@ -1,3 +1,5 @@
+require 'socket'
+
 class Op
   attr_accessor :op, :val
   def initialize(op, val)
@@ -66,6 +68,23 @@ private
     end
     res
   end
+end
+
+begin
+  Socket.tcp('localhost', 9001) { |s|
+    engine = "#{RUBY_ENGINE}"
+    if engine == "truffleruby"
+      desc = "#{RUBY_DESCRIPTION}"
+      if desc.include?('Native')
+        engine = "TruffleRuby Native"
+      elsif desc.include?('JVM')
+        engine = "TruffleRuby JVM"
+      end
+    end
+    s.puts engine
+  }
+rescue
+  # standalone usage
 end
 
 Program.new(File.read(ARGV[0])).run

@@ -1,4 +1,5 @@
 import os, strutils
+import net
 
 type
   Matrix = seq[seq[float]]
@@ -37,6 +38,17 @@ proc matmul(a: Matrix, b: Matrix): Matrix =
         s += ai[k] * b2j[k]
       c[i][j] = s
   result = c
+
+try:
+  var socket = newSocket()
+  defer: socket.close()
+  socket.connect("localhost", Port(9001))
+  when defined(gcc):
+    socket.send("Nim GCC")
+  else:
+    socket.send("Nim Clang")
+except:
+  discard
 
 var n = 100
 if paramCount() > 0:

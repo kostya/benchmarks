@@ -26,7 +26,7 @@ echo Scala
 echo Javascript Node
 ../xtime.rb node brainfuck.js mandel.b > /dev/null
 echo Python PyPy
-../xtime.rb pypy brainfuck.py mandel.b > /dev/null
+../xtime.rb pypy3 brainfuck.py mandel.b > /dev/null
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen brainfuck.exe mandel.b > /dev/null
 echo .Net Core

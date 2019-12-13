@@ -92,6 +92,16 @@ namespace Test
             Console.Error.WriteLine("time: " + stopWatch.ElapsedMilliseconds / 1e3 + "s");
 
             Console.Error.WriteLine("run");
+            try {
+                using (var s = new System.Net.Sockets.TcpClient("localhost", 9001)) {
+                    var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
+                    var data = System.Text.Encoding.UTF8.GetBytes("C# " + runtime);
+                    s.Client.Send(data);
+                }
+            } catch {
+                // standalone usage
+            }
+
             stopWatch.Restart();
             var p = new Program(text);
             p.run();

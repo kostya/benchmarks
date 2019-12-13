@@ -1,4 +1,4 @@
-#lang racket/base
+#lang racket
 (require racket/file racket/list racket/match racket/cmdline
          (rename-in racket/unsafe/ops
                     [unsafe-vector-ref vector-ref]
@@ -75,6 +75,11 @@
   (step-ops! parsed))
 
 ;;; I/O.
+(with-handlers ([exn:fail:network? (lambda (_) (void))])
+  (let-values ([(in out) (tcp-connect "localhost" 9001)])
+    (display "Racket" out)
+      (close-output-port out)))
+
 (define (read-c path)
   (parameterize ([current-locale "C"])
     (file->string path)))

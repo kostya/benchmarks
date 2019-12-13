@@ -117,6 +117,13 @@ public class brainfuck {
     }
 
     public static void main( String[] args ) throws IOException {
+        try (var socket = new java.net.Socket("localhost", 9001);
+             var out = socket.getOutputStream()) {
+            out.write("Java".getBytes("UTF-8"));
+        } catch (java.io.IOException e) {
+            // standalone usage
+        }
+
         byte[] code = Files.readAllBytes( Paths.get( args[0] ) );
 
         long start_time = System.currentTimeMillis();

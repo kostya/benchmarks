@@ -19,6 +19,13 @@ class Base64Java {
             dec.decode(enc.encodeToString(str));
         }
 
+        try (var socket = new java.net.Socket("localhost", 9001);
+             var out = socket.getOutputStream()) {
+            out.write("Java".getBytes("UTF-8"));
+        } catch (java.io.IOException e) {
+            // standalone usage
+        }
+
         String str2 = enc.encodeToString(str);
         out.print(String.format("encode %s... to %s...: ",
             new String(Arrays.copyOf(str, 4)),

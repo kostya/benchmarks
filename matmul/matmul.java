@@ -38,6 +38,13 @@ class matmul {
 		double[][] t = m.matmul(m.matgen(500), m.matgen(500));
 		System.out.println("JIT warming up: " + t[1][1]);
 
+                try (var socket = new java.net.Socket("localhost", 9001);
+                     var out = socket.getOutputStream()) {
+                    out.write("Java".getBytes("UTF-8"));
+                } catch (java.io.IOException e) {
+                    // standalone usage
+                }
+
 		long start_time = System.currentTimeMillis();
 
 		double[][] a, b, x;

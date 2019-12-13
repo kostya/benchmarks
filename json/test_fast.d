@@ -4,11 +4,21 @@
 
 import core.stdc.stdio;
 import fast.json;
+import std.socket;
+import std.compiler;
 
 struct Coord { double x, y, z; }
 
 void main()
 {
+    try {
+        auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+        scope(exit) socket.close();
+        socket.send("GDC fast");
+    } catch (SocketOSException) {
+        // standalone usage
+    }
+
     double x = 0, y = 0, z = 0;
 
     auto json = parseJSONFile("./1.json");

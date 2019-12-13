@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/json-iterator/go"
+	"net"
 	"os"
 )
 
@@ -15,6 +16,12 @@ type TestStruct struct {
 }
 
 func main() {
+	conn, err := net.Dial("tcp", "localhost:9001")
+	if err == nil {
+		fmt.Fprintf(conn, "Go jsoniter")
+		conn.Close()
+	}
+
 	// Add jsoniter
 	var json = jsoniter.ConfigCompatibleWithStandardLibrary
 	f, err := os.Open("./1.json")

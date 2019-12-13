@@ -7,6 +7,7 @@
 #include <time.h>
 #include <iostream>
 #include <iomanip>
+#include <libsocket/inetclientstream.hpp>
 
 using namespace std;
 
@@ -92,6 +93,13 @@ int main() {
   const int TRIES = 8192;
 
   bio_string str("a", STR_SIZE);
+
+  try {
+    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
+    sock << "C++ libcrypto";
+  } catch (...) {
+    // standalone usage
+  }
 
   bio_string str2 = str.base64_encode();
 

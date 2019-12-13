@@ -3,6 +3,8 @@ module Main where
 import qualified Data.Array.Base as ArrayBase
 import qualified Data.Array.IO as IOUArray
 import qualified Data.Array.MArray as MArray
+import qualified Data.ByteString.Char8 as C
+import Network.Simple.TCP
 import Data.Char (chr)
 import System.Environment (getArgs)
 import System.IO (hFlush, stdout)
@@ -70,6 +72,8 @@ run (op:ops) tape = do
             in go tape
 
 main = do
+    connect "localhost" "9001" $ \(socket, _) -> do
+      send socket $ C.pack "Haskell MArray"
     [filename] <- getArgs
     source <- readFile filename
     let (_, ops) = parse (source, [])

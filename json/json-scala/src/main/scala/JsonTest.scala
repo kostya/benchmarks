@@ -12,7 +12,11 @@ object JsonTest {
     z: Double)
 
   def main(args: Array[String]): Unit = {
-    1 to 5 foreach (_ => parseJson())
+    1 to 4 foreach (_ => parseJson())
+    scala.util.Using((new java.net.Socket("localhost", 9001)).getOutputStream()) {
+        _.write("Scala".getBytes())
+    }
+    parseJson()
   }
 
   private def parseJson(): Unit = {

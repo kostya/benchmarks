@@ -76,6 +76,18 @@ fun read_file filename =
     contents
   end
 
+val _ =
+let
+  val localhost = valOf(NetHostDB.fromString "127.0.0.1")
+  val addr = INetSock.toAddr(localhost, 9001)
+  val sock = INetSock.TCP.socket()
+  val _  = Socket.connect(sock, addr)
+in
+  Socket.sendVec(sock, Word8VectorSlice.full(Byte.stringToBytes "MLton"));
+  Socket.close sock
+end
+handle OS.SysErr _ => ()
+
 val args = CommandLine.arguments ()
 val source =
   case args of

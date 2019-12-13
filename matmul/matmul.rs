@@ -41,6 +41,13 @@ fn mat_mul(a: &[Vec<f64>], b: &[Vec<f64>]) -> Vec<Vec<f64>> {
 }
 
 fn main() {
+    {
+        use std::io::Write;
+        if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+            stream.write_all(b"Rust").unwrap();
+        }
+    }
+
     let n = std::env::args()
             .nth(1)
             .unwrap_or("1500".into())

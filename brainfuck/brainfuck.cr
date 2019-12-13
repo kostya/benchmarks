@@ -1,3 +1,5 @@
+require "socket"
+
 class Tape
   def initialize
     @tape = [0]
@@ -64,6 +66,14 @@ class Program
       pc += 1
     end
   end
+end
+
+begin
+  TCPSocket.open("localhost", 9001) { |s|
+    s.puts "Crystal"
+  }
+rescue
+  # standalone usage
 end
 
 text = File.read(ARGV[0])

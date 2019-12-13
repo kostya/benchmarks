@@ -2,7 +2,7 @@ require 'json'
 
 x = []
 
-1000000.times do
+524288.times do
   h = {
     'x' => rand,
     'y' => rand,

@@ -1,6 +1,8 @@
 # Havlak benchmark: https://code.google.com/p/multi-language-bench/
 # Crystal Implementation (translated from Python version)
 
+require "socket"
+
 class BasicBlock
   def initialize(@name : Int32)
     @in_edges = [] of BasicBlock
@@ -423,6 +425,14 @@ def build_base_loop(from)
 
   build_connect(footer, from)
   build_straight(footer, 1)
+end
+
+begin
+  TCPSocket.open("localhost", 9001) { |s|
+    s.puts "Crystal"
+  }
+rescue
+  # standalone usage
 end
 
 TOP_CFG = CFG.new

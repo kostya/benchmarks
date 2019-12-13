@@ -49,6 +49,16 @@ namespace test
             x = MatMul(ref a, ref b);
             Console.WriteLine("JIT warming up: {0}", x[1, 1]);
 
+            try {
+                using (var s = new System.Net.Sockets.TcpClient("localhost", 9001)) {
+                    var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
+                    var data = System.Text.Encoding.UTF8.GetBytes("C# " + runtime);
+                    s.Client.Send(data);
+                }
+            } catch {
+                // standalone usage
+            }
+
             Console.WriteLine("N = {0}", n);
             var sw = Stopwatch.StartNew();
             a = MatGen(n);

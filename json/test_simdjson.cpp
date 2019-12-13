@@ -1,9 +1,17 @@
 #include <iostream>
+#include <libsocket/inetclientstream.hpp>
 #include "simdjson/jsonparser.h"
 
 using namespace simdjson;
 
 int main(int argc, char *argv[]) {
+  try {
+    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
+    sock << "C++ simdjson";
+  } catch (...) {
+    // standalone usage
+  }
+
   padded_string p = get_corpus("1.json"); 
   ParsedJson pj;
   int res = simdjson::SUCCESS;

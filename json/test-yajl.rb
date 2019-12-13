@@ -1,4 +1,13 @@
 require 'yajl'
+require 'socket'
+
+begin
+  Socket.tcp('localhost', 9001) { |s|
+    s.puts "Ruby YAJL"
+  }
+rescue
+  # standalone usage
+end
 
 jobj = Yajl::Parser.new.parse(File.read('1.json'))
 coordinates = jobj['coordinates']

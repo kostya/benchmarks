@@ -40,10 +40,19 @@ matgen = function (n) {
     return y
 }
 
-var n = 100;
-if (process.argv[2]) n = parseInt(process.argv[2]);
+function main() {
+    var n = 100;
+    if (process.argv[2]) n = parseInt(process.argv[2]);
 
-var a = matgen(n);
-var b = matgen(n);
-var c = matrix.mul(a, b, n);
-console.log(c[(n/2)][(n / 2)]);
+    var a = matgen(n);
+    var b = matgen(n);
+    var c = matrix.mul(a, b, n);
+    console.log(c[(n/2)][(n / 2)]);
+}
+
+const client = require('net').connect(9001, 'localhost', () => {
+    client.end('Node.js', 'utf8', () => {
+        client.destroy();
+        main();
+    });
+}).on('error', main);

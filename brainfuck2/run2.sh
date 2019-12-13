@@ -40,7 +40,7 @@ echo C# Mono
 echo C# .NET Core
 ../xtime.rb dotnet bin_cs/netcoreapp3.0/brainfuck2.dll mandel.b > /dev/null
 echo Python PyPy
-../xtime.rb pypy bf.py mandel.b > /dev/null
+../xtime.rb pypy3 bf3.py mandel.b > /dev/null
 echo Standard ML MLton
 ../xtime.rb ./bin_sml mandel.b > /dev/null
 echo LuaJIT
@@ -54,6 +54,6 @@ echo V Gcc
 echo V Clang
 ../xtime.rb ./bin_v_clang mandel.b > /dev/null
 echo TruffleRuby
-../xtime.rb truffleruby bf.rb mandel.b > /dev/null
+../xtime.rb truffleruby --jvm bf.rb mandel.b > /dev/null
 echo Julia
 ../xtime.rb julia --check-bounds=no bf.jl mandel.b > /dev/null

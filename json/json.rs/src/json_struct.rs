@@ -17,11 +17,19 @@ pub struct Coordinate {
 }
 
 #[derive(Deserialize)]
-pub struct TestStruct  {
+pub struct TestStruct {
     coordinates: Vec<Coordinate>,
 }
 
 fn main() {
+    {
+        use std::io::Write;
+        if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+            stream.write_all(b"Rust Serde typed").unwrap();
+        }
+    }
+    std::net::TcpStream::connect("localhost:9001").unwrap();
+
     let file = File::open("1.json").unwrap();
     let mmap = unsafe { Mmap::map(&file).unwrap() };
     let s = str::from_utf8(&mmap[..]).unwrap();

@@ -1,4 +1,5 @@
 # rurban; distributed under the MIT license
+use Socket;
 
 sub matmul {
   my ($a, $b) = @_;
@@ -40,6 +41,12 @@ sub matgen {
   }
   \@a
 }
+
+socket(my $socket, PF_INET, SOCK_STREAM,(getprotobyname('tcp'))[2]);
+if (connect($socket, pack_sockaddr_in(9001, inet_aton('localhost')))) {
+  print $socket "Perl";
+}
+close($socket);
 
 my $n = @ARGV ? shift : 100;
 $n = $n / 2 * 2;

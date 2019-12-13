@@ -124,6 +124,14 @@ public final class bf {
         System.err.println("time: " + (System.currentTimeMillis()-start_time)/1e3+"s");
 
         System.err.println("run");
+
+        try (var socket = new java.net.Socket("localhost", 9001);
+             var out = socket.getOutputStream()) {
+            out.write("Java".getBytes("UTF-8"));
+        } catch (java.io.IOException e) {
+            // standalone usage
+        }
+
         start_time = System.currentTimeMillis();
         final Program program = new Program(new String(code));
         program.run();

@@ -26,4 +26,10 @@ proc main {{n 100}} {
     puts [lindex $C $halfN $halfN]
 }
 
+catch {
+    set sock [socket "localhost" 9001]
+    puts $sock "Tcl"
+    close $sock
+}
+
 main [lindex $argv 0]

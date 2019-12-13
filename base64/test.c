@@ -3,6 +3,7 @@
 #include "time.h"
 #include <stdint.h>
 #include <string.h>
+#include <libsocket/libinetsocket.h>
 
 typedef unsigned int uint;
 const char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -102,6 +103,13 @@ int main() {
   char str[STR_SIZE + 1];
   memset(str, 'a', STR_SIZE);
   str[STR_SIZE] = '\0';
+
+  int sock = create_inet_stream_socket("localhost", "9001", LIBSOCKET_IPv4, 0);
+  if (sock != -1) {
+    char msg[] = "C";
+    send(sock, msg, sizeof(msg), 0);
+    destroy_inet_socket(sock);
+  }
 
   size_t str2_size;
   char str2[encode_size(STR_SIZE)];
