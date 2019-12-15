@@ -1,3 +1,5 @@
+import net
+
 type
   OpType = enum Inc, Move, Loop, Print
   Ops = seq[Op]
@@ -62,4 +64,16 @@ proc run(ops: Program) =
   run Ops ops, tape
 
 import os
+
+try:
+  var socket = newSocket()
+  defer: socket.close()
+  socket.connect("localhost", Port(9001))
+  when defined(gcc):
+    socket.send("Nim GCC")
+  else:
+    socket.send("Nim Clang")
+except:
+  discard
+
 paramStr(1).readFile().parse().run()

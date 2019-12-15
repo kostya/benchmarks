@@ -2,11 +2,19 @@
 #include "rapidjson/filereadstream.h"
 #include <cstdio>
 #include <iostream>
+#include <libsocket/inetclientstream.hpp>
 
 using namespace std;
 using namespace rapidjson;
 
 int main() {
+    try {
+      libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
+      sock << "C++ RapidJSON";
+    } catch (...) {
+      // standalone usage
+    }
+
     FILE* fp = std::fopen("./1.json", "r");
     char buffer[65536];
     FileReadStream frs(fp, buffer, sizeof(buffer));

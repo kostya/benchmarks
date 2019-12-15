@@ -1,12 +1,14 @@
 [package]
 name = "json-rs"
 version = "0.0.1"
+edition = "2018"
 
 [dependencies]
 memmap = "0.7.0"
-serde = "1.0.102"
-serde_derive = "1.0.102"
-serde_json = "1.0.41"
+serde = "1.0.103"
+serde_derive = "1.0.103"
+serde_json = "1.0.44"
+jq-rs = "0.4.1"
 
 [profile.release]
 lto = true
@@ -22,3 +24,7 @@ path = "src/json_struct.rs"
 [[bin]]
 name = "json-pull-rs"
 path = "src/json_pull.rs"
+
+[[bin]]
+name = "json-jq-rs"
+path = "src/json_jq.rs"

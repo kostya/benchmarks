@@ -4,6 +4,12 @@ $TRIES = 8192;
 
 $str = str_repeat("a", $STR_SIZE);
 
+$socket = @fsockopen('localhost', 9001);
+if ($socket) {
+   fputs($socket, 'PHP');
+   fclose($socket);
+}
+
 $str2 = base64_encode($str);
 printf("encode %s... to %s...: ", substr($str, 0, 4), substr($str2, 0, 4));
 

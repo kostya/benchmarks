@@ -1,5 +1,6 @@
 import tables
 import sets
+import net
 
 type
   BasicBlock = object
@@ -437,6 +438,17 @@ proc run(self: var LoopTesterApp) =
     var hlf = NewHavlakLoopFinder(self.cfg, NewLsg())
     sum += hlf.findLoops
   echo "\nFound ", loops, " loops (including artificial root node) (", sum, ")"
+
+try:
+  var socket = newSocket()
+  defer: socket.close()
+  socket.connect("localhost", Port(9001))
+  when defined(gcc):
+    socket.send("Nim GCC")
+  else:
+    socket.send("Nim Clang")
+except:
+  discard
 
 var l = NewLoopTesterApp()
 l.run

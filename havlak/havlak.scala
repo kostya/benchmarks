@@ -603,6 +603,10 @@ object LoopTesterApp {
   }
 
   def main(args: Array[String]): Unit = {
+    scala.util.Using((new java.net.Socket("localhost", 9001)).getOutputStream()) {
+        _.write("Scala".getBytes())
+    }
+
     println("Welcome to LoopTesterApp, Scala edition")
 
     println("Constructing Simple CFG...")

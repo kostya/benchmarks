@@ -73,6 +73,10 @@ object BrainFuck {
     //
 
     System.err.print("run\n")
+    scala.util.Using((new java.net.Socket("localhost", 9001)).getOutputStream()) {
+        _.write("Scala".getBytes())
+    }
+
     time {
       new Program(text).run
     }

@@ -2,9 +2,13 @@
 
 package main
 
-import "fmt"
-import "flag"
-import "strconv"
+import (
+	"flag"
+	"fmt"
+	"net"
+	"runtime"
+	"strconv"
+)
 
 func matgen(n int) [][]float64 {
 	a := make([][]float64, n)
@@ -44,6 +48,12 @@ func matmul(a [][]float64, b [][]float64) [][]float64 {
 }
 
 func main() {
+	conn, err := net.Dial("tcp", "localhost:9001")
+	if err == nil {
+		fmt.Fprintf(conn, runtime.Compiler)
+		conn.Close()
+	}
+
 	n := int(100)
 	flag.Parse()
 	if flag.NArg() > 0 {

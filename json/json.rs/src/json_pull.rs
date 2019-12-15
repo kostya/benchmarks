@@ -5,11 +5,10 @@ extern crate serde_derive;
 extern crate serde_json;
 
 use memmap::Mmap;
-use serde::{Deserializer, de};
+use serde::{de, Deserializer};
 use std::fmt;
-use std::str;
 use std::fs::File;
-
+use std::str;
 
 #[derive(Deserialize)]
 pub struct Coordinate {
@@ -26,13 +25,17 @@ struct State {
 }
 
 #[derive(Deserialize)]
-pub struct TestStruct  {
-    #[serde(deserialize_with = "deserialize_add", rename(deserialize = "coordinates"))]
+pub struct TestStruct {
+    #[serde(
+        deserialize_with = "deserialize_add",
+        rename(deserialize = "coordinates")
+    )]
     state: State,
 }
 
 fn deserialize_add<'de, D>(deserializer: D) -> Result<State, D::Error>
-    where D: Deserializer<'de>
+where
+    D: Deserializer<'de>,
 {
     struct StateVisitor;
 
@@ -44,9 +47,15 @@ fn deserialize_add<'de, D>(deserializer: D) -> Result<State, D::Error>
         }
 
         fn visit_seq<V>(self, mut visitor: V) -> Result<State, V::Error>
-            where V: de::SeqAccess<'de>
+        where
+            V: de::SeqAccess<'de>,
         {
-            let mut ac = State {x: 0.0, y: 0.0, z: 0.0, len: 1};
+            let mut ac = State {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+                len: 1,
+            };
             while let Some(v) = visitor.next_element::<Coordinate>()? {
                 ac.x += v.x;
                 ac.y += v.y;
@@ -62,6 +71,13 @@ fn deserialize_add<'de, D>(deserializer: D) -> Result<State, D::Error>
 }
 
 fn main() {
+    {
+        use std::io::Write;
+        if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+            stream.write_all(b"Rust Serde custom").unwrap();
+        }
+    }
+
     let file = File::open("1.json").unwrap();
     let mmap = unsafe { Mmap::map(&file).unwrap() };
     let contents = str::from_utf8(&mmap[..]).unwrap();

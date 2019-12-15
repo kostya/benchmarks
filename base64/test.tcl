@@ -29,4 +29,10 @@ proc main {size tries} {
     puts "$length, [expr { ([clock milliseconds] - $t) / 1000.0 }]"
 }
 
+catch {
+    set sock [socket "localhost" 9001]
+    puts $sock "Tcl"
+    close $sock
+}
+
 main $STR_SIZE $TRIES

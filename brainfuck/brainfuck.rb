@@ -1,3 +1,5 @@
+require 'socket'
+
 class Tape
   def initialize
     @tape = [0]
@@ -64,6 +66,23 @@ class Program
       pc += 1
     end
   end
+end
+
+begin
+  Socket.tcp('localhost', 9001) { |s|
+    engine = "#{RUBY_ENGINE}"
+    if engine == "truffleruby"
+      desc = "#{RUBY_DESCRIPTION}"
+      if desc.include?('Native')
+        engine = "TruffleRuby Native"
+      elsif desc.include?('JVM')
+        engine = "TruffleRuby JVM"
+      end
+    end
+    s.puts engine
+  }
+rescue
+  # standalone usage
 end
 
 text = File.read(ARGV[0])

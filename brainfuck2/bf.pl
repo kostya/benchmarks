@@ -3,8 +3,8 @@
 use 5.10.1;
 use strict;
 use warnings;
+use Socket;
 no warnings 'experimental';
-
 
 package Op;
 
@@ -94,7 +94,7 @@ sub run {
     my $parsed = shift;
     my $tape = shift;
     foreach my $op (@$parsed) {
-        given ($op->{op}) {
+        CORE::given ($op->{op}) {
             when ($INC)   { $tape->inc($op->{val}); }
             when ($MOVE)  { $tape->move($op->{val}); }
             when ($PRINT) { printf "%c", $tape->get(); }
@@ -106,6 +106,12 @@ sub run {
         }
     }
 }
+
+socket(my $socket, Socket::PF_INET, Socket::SOCK_STREAM, (getprotobyname('tcp'))[2]);
+if (connect($socket, Socket::pack_sockaddr_in(9001, Socket::inet_aton('localhost')))) {
+  print $socket "Perl";
+}
+close($socket);
 
 open (FH, "<", shift) or die $!;
 undef $/;

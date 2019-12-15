@@ -109,4 +109,10 @@ proc main filename {
     $bf destroy
 }
 
+catch {
+    set sock [socket "localhost" 9001]
+    puts $sock "Tcl"
+    close $sock
+}
+
 main [lindex $argv 0]

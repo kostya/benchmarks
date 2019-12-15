@@ -44,7 +44,7 @@ echo Nim Clang
 echo OCaml
 ../xtime.rb ./bin_ocaml bench.b
 echo Python PyPy
-../xtime.rb pypy bf.py bench.b
+../xtime.rb pypy3 bf3.py bench.b
 echo Perl
 ../xtime.rb perl bf.pl bench.b
 echo Ruby
@@ -52,10 +52,8 @@ echo Ruby
 echo JRuby
 ../xtime.rb jruby bf.rb bench.b
 echo TruffleRuby
-../xtime.rb truffleruby bf.rb bench.b
+../xtime.rb truffleruby --jvm bf.rb bench.b
 echo Python
-../xtime.rb python bf.py bench.b
-echo Python3
 ../xtime.rb python3 bf3.py bench.b
 echo Standard ML MLton
 ../xtime.rb ./bin_sml bench.b
@@ -76,4 +74,4 @@ echo V Gcc
 echo V Clang
 ../xtime.rb ./bin_v_clang bench.b
 echo Julia
-../xtime.rb julia --check-bounds=no bf.jl bench.b
+../xtime.rb julia --optimize=3 --check-bounds=no bf.jl bench.b

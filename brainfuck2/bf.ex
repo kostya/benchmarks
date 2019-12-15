@@ -83,4 +83,9 @@ defmodule Benchmark do
   end
 end
 
+with {:ok, socket} <- :gen_tcp.connect('localhost', 9001, []) do
+   :gen_tcp.send(socket, "Elixir")
+   :gen_tcp.close(socket)
+end
+
 Benchmark.run()

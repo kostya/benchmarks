@@ -23,6 +23,7 @@ executable json_hs
                      , json-stream
                      , unordered-containers
                      , vector
+                     , network-simple
   ghc-options:       -O2
                      -Wall
                      -Werror

@@ -1,5 +1,6 @@
 import tables
 import os
+import net
 
 type
   Tape = object
@@ -75,6 +76,17 @@ proc run(prog: Program) =
         flushFile(stdout)
       else: discard
     pc += 1
+
+try:
+  var socket = newSocket()
+  defer: socket.close()
+  socket.connect("localhost", Port(9001))
+  when defined(gcc):
+    socket.send("Nim GCC")
+  else:
+    socket.send("Nim Clang")
+except:
+  discard
 
 newProgram(readFile(paramStr(1))).run
 

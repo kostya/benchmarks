@@ -1,3 +1,5 @@
+require "socket"
+
 module Op
   record Inc, val : Int32
   record Move, val : Int32
@@ -71,6 +73,14 @@ class Program
     end
     res
   end
+end
+
+begin
+  TCPSocket.open("localhost", 9001) { |s|
+    s.puts "Crystal"
+  }
+rescue
+  # standalone usage
 end
 
 Program.new(File.read(ARGV[0])).run

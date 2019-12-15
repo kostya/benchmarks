@@ -3,6 +3,8 @@ import std.exception : assumeUnique;
 import std.file : readText;
 import std.stdio : write, stdout;
 import std.traits : EnumMembers;
+import std.socket;
+import std.compiler;
 
 // for compatability with older versions of the standard library
 static if (__VERSION__ < 2068)
@@ -12,6 +14,14 @@ else
 
 void main(string[] args)
 {
+    try {
+        auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+        scope(exit) socket.close();
+        socket.send(name);
+    } catch (SocketOSException) {
+        // standalone usage
+    }
+
     string text = readText(args[1]);
     Program(text).run();
 }

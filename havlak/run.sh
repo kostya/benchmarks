@@ -18,13 +18,13 @@ echo D Gdc
 echo D Ldc
 ../xtime.rb ./havlak_d_ldc
 echo Python PyPy
-../xtime.rb pypy havlak.py
+../xtime.rb pypy3 havlak.py
 echo Nim Gcc
 ../xtime.rb ./havlak_nim_gcc
 echo Nim Clang
 ../xtime.rb ./havlak_nim_clang
 echo Python
-../xtime.rb python havlak.py
+../xtime.rb python3 havlak.py
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen havlak.exe
 echo C# .Net Core

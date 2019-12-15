@@ -85,6 +85,14 @@ local function Brainfuck(text)
   };
 end
 
+local socket = require "socket"
+socket.protect(function()
+  local c = socket.try(socket.connect("localhost", 9001))
+  local try = socket.newtry(function() c:close() end)
+  try(c:send(type(jit) == 'table' and "LuaJIT" or "Lua"))
+  c:close()
+end)()
+
 local text = io.open(arg[1]):read("*a");
 local brainfuck = Brainfuck(text);
 brainfuck.run();

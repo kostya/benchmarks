@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <libsocket/inetclientstream.hpp>
 
 using namespace std;
 
@@ -17,7 +18,14 @@ void read_file(string filename, stringstream &buffer){
 }
 
 int main() {
-  std::stringstream ss;
+  try {
+    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
+    sock << "C++ json-c";
+  } catch (...) {
+    // standalone usage
+  }
+
+  stringstream ss;
   read_file("./1.json", ss);
   string text = ss.str();
   json_object* jobj = json_tokener_parse(text.c_str());

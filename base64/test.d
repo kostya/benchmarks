@@ -4,6 +4,8 @@ import std.datetime;
 import std.format;
 import std.range;
 import std.stdio;
+import std.socket;
+import std.compiler;
 
 enum STR_SIZE = 131072;
 enum TRIES = 8192;
@@ -11,6 +13,14 @@ enum TRIES = 8192;
 int main()
 {
     auto str1 = (cast(ubyte) 'a').repeat(STR_SIZE).array;
+
+    try {
+        auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+        scope(exit) socket.close();
+        socket.send(name);
+    } catch (SocketOSException) {
+        // standalone usage
+    }
 
     string str2 = Base64.encode(str1);
     write("encode %s... to %s...: ".format(cast(string)str1[0..4], str2[0..4]));

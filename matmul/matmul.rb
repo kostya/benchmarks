@@ -1,4 +1,5 @@
 # Writen by Attractive Chaos; distributed under the MIT license
+require 'socket'
 
 def matmul(a, b)
   m = a.length
@@ -37,6 +38,23 @@ def matgen(n)
     end
   end
   a
+end
+
+begin
+  Socket.tcp('localhost', 9001) { |s|
+    engine = "#{RUBY_ENGINE}"
+    if engine == "truffleruby"
+      desc = "#{RUBY_DESCRIPTION}"
+      if desc.include?('Native')
+        engine = "TruffleRuby Native"
+      elsif desc.include?('JVM')
+        engine = "TruffleRuby JVM"
+      end
+    end
+    s.puts engine
+  }
+rescue
+  # standalone usage
 end
 
 n = 100

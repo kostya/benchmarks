@@ -1,3 +1,5 @@
+import platform
+import socket
 import sys
 
 INC = 1
@@ -65,6 +67,10 @@ class Program(object):
 
     def run(self):
         _run(self.ops, Tape())
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    if not s.connect_ex(("localhost", 9001)):
+        s.sendall(bytes(platform.python_implementation(), 'utf8'))
 
 text = open(sys.argv[1], 'r').read()
 Program(text).run()

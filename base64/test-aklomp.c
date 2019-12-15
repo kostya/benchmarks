@@ -1,6 +1,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include <string.h>
+#include <libsocket/libinetsocket.h>
 #include "time.h"
 #include "libbase64.h"
 #include "../lib/config.h"
@@ -20,6 +21,13 @@ int main() {
   char str[STR_SIZE + 1];
   memset(str, 'a', STR_SIZE);
   str[STR_SIZE] = '\0';
+
+  int sock = create_inet_stream_socket("localhost", "9001", LIBSOCKET_IPv4, 0);
+  if (sock != -1) {
+    char msg[] = "C aklomp";
+    send(sock, msg, sizeof(msg), 0);
+    destroy_inet_socket(sock);
+  }
 
   size_t str2_size;
   char str2[encode_size(STR_SIZE)];

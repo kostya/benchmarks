@@ -1,7 +1,16 @@
 require "json"
+require "socket"
 
 len = 0
 x = y = z = 0
+
+begin
+  TCPSocket.open("localhost", 9001) { |s|
+    s.puts "Crystal Pull"
+  }
+rescue
+  # standalone usage
+end
 
 File.open("1.json") do |file|
   pull = JSON::PullParser.new(file)

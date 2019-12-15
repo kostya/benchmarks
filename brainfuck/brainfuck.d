@@ -3,6 +3,8 @@ import std.stdio;
 import std.file;
 import std.array;
 import std.conv;
+import std.socket;
+import std.compiler;
 
 class Tape {
   int pos;
@@ -81,7 +83,15 @@ class Program {
   }
 };
 
-int main(string[] args){
+int main(string[] args) {
+  try {
+    auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+    scope(exit) socket.close();
+    socket.send(name);
+  } catch (SocketOSException) {
+    // standalone usage
+  }
+
   string text = readText(args[1]);
   auto p = new Program(text);
   p.run();

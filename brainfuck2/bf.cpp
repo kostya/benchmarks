@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <fstream>
+#include <libsocket/inetclientstream.hpp>
 
 using namespace std;
 
@@ -92,6 +93,13 @@ string read_file(string filename){
 }
 
 int main(int argc, char** argv){
+  try {
+    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
+    sock << "C++";
+  } catch (...) {
+    // standalone usage
+  }
+
   string text = read_file(string(argv[1]));
   Program p(text);
   p.run();

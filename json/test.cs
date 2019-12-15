@@ -49,10 +49,21 @@ namespace Test
 
         static void Main(string[] args)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 4; i++)
             {
                 ParseJson();
             }
+
+            try {
+                using (var s = new System.Net.Sockets.TcpClient("localhost", 9001)) {
+                    var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
+                    var data = System.Text.Encoding.UTF8.GetBytes("C# " + runtime);
+                    s.Client.Send(data);
+                }
+            } catch {
+                // standalone usage
+            }
+            ParseJson();
         }
     }
 }

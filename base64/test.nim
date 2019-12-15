@@ -1,8 +1,20 @@
 import base64, times, strutils, strformat
+import net
 
 let STR_SIZE = 131072
 let TRIES = 8192
 let str = strutils.repeat('a', STR_SIZE)
+
+try:
+  var socket = newSocket()
+  defer: socket.close()
+  socket.connect("localhost", Port(9001))
+  when defined(gcc):
+    socket.send("Nim GCC")
+  else:
+    socket.send("Nim Clang")
+except:
+  discard
 
 var str2 = base64.encode(str)
 stdout.write(fmt"encode {str[..3]}... to {str2[..3]}...: ")

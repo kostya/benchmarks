@@ -65,6 +65,14 @@ let read_file filename =
     !s
 
 let main =
+  let _ =
+    let addr = Unix.ADDR_INET(Unix.inet_addr_loopback, 9001) in
+    try
+      let (_, oc) = Unix.open_connection(addr) in
+      Fun.protect (fun() -> output_string oc "OCaml")
+        ~finally:(fun() -> close_out oc)
+    with Unix.Unix_error _ -> () in
+
   match Sys.argv with
   | [| _; filename |] ->
     let source = read_file filename in

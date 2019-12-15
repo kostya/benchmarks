@@ -60,4 +60,10 @@ proc main argv {
     ::bf::run $program 0 0
 }
 
+catch {
+    set sock [socket "localhost" 9001]
+    puts $sock "Tcl (FP)"
+    close $sock
+}
+
 main $argv

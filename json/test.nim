@@ -1,4 +1,16 @@
 import json
+import net
+
+try:
+  var socket = newSocket()
+  defer: socket.close()
+  socket.connect("localhost", Port(9001))
+  when defined(gcc):
+    socket.send("Nim GCC")
+  else:
+    socket.send("Nim Clang")
+except:
+  discard
 
 let jobj = parseFile("1.json")
 

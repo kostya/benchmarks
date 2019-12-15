@@ -26,7 +26,7 @@ echo Nim Gcc
 echo Nim Clang
 ../xtime.rb ./base64_nim_clang
 echo Julia
-../xtime.rb julia --check-bounds=no test.jl
+../xtime.rb julia --optimize=3 --check-bounds=no test.jl
 echo Scala
 ../xtime.rb scala Base64
 echo Java
@@ -36,17 +36,15 @@ echo Kotlin
 echo Javascript Node
 ../xtime.rb node test.js
 echo Python PyPy
-../xtime.rb pypy test.py
+../xtime.rb pypy3 test.py
 echo Python
-../xtime.rb python test.py
-echo Python3
 ../xtime.rb python3 test.py
 echo Ruby
 ../xtime.rb ruby test.rb
 echo JRuby
 ../xtime.rb jruby test.rb
 echo TruffleRuby
-../xtime.rb truffleruby test.rb
+../xtime.rb truffleruby --jvm test.rb
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen test.exe
 echo C# .Net Core

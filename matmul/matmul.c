@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <libsocket/libinetsocket.h>
 
 double **mm_init(int n)
 {
@@ -51,6 +52,13 @@ double **mm_mul(int n, double *const *a, double *const *b)
 }
 int main(int argc, char *argv[])
 {
+  int sock = create_inet_stream_socket("localhost", "9001", LIBSOCKET_IPv4, 0);
+  if (sock != -1) {
+    char msg[] = "C";
+    send(sock, msg, sizeof(msg), 0);
+    destroy_inet_socket(sock);
+  }
+
   int n = 100;
   double **a, **b, **m;
   if (argc > 1) n = atoi(argv[1]);

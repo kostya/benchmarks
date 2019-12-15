@@ -1,3 +1,5 @@
+require "socket"
+
 def matmul(a, b)
   m = a.size
   n = a[0].size
@@ -33,6 +35,14 @@ def matgen(n)
     end
   end
   a
+end
+
+begin
+  TCPSocket.open("localhost", 9001) { |s|
+    s.puts "Crystal"
+  }
+rescue
+  # standalone usage
 end
 
 n = (ARGV[0]? || 100).to_i

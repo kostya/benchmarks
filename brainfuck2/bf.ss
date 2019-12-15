@@ -77,6 +77,20 @@
         (else (run rst t))))))
 
 ;;; I/O.
+(load-shared-object "libsocket.so")
+
+(define create-inet-stream-socket
+  (foreign-procedure "create_inet_stream_socket" (string string integer-8 int) int))
+(define send
+  (foreign-procedure "send" (int u8* size_t int) ssize_t))
+(define destroy-inet-socket
+  (foreign-procedure "destroy_inet_socket" (int) int))
+
+(let ([sock (create-inet-stream-socket "localhost" "9001" 3 0)])
+  (if (not (eq? sock -1))
+    (let ([bv (string->utf8 "Chez Scheme")])
+      (send sock bv (bytevector-length bv) 0)
+      (destroy-inet-socket sock))))
 
 (define (get-file-arg-or-exit)
   (let ((cl (command-line)))

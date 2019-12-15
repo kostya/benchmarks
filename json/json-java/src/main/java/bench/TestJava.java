@@ -35,9 +35,18 @@ public class TestJava {
 
 	public static void main(String[] args) throws IOException {
 		// JIT warming up
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < 4; i++) {
 			parse("1.json");
 		}
+
+                try (var socket = new java.net.Socket("localhost", 9001);
+                     var out = socket.getOutputStream()) {
+                    out.write("Java".getBytes("UTF-8"));
+                } catch (java.io.IOException e) {
+                    // standalone usage
+                }
+
+                parse("1.json");
 	}
 }
 

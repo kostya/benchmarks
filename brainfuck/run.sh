@@ -26,15 +26,15 @@ echo Scala
 echo Javascript Node
 ../xtime.rb node brainfuck.js bench.b
 echo Julia
-../xtime.rb julia --check-bounds=no brainfuck.jl bench.b
+../xtime.rb julia --optimize=3 --check-bounds=no brainfuck.jl bench.b
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen brainfuck.exe bench.b
 echo .Net Core
 ../xtime.rb dotnet bin/Release/netcoreapp3.0/brainfuck.dll bench.b
 echo Python PyPy
-../xtime.rb pypy brainfuck.py bench.b
+../xtime.rb pypy3 brainfuck.py bench.b
 echo Python
-../xtime.rb python brainfuck.py bench.b
+../xtime.rb python3 brainfuck.py bench.b
 echo Ruby
 ../xtime.rb ruby brainfuck.rb bench.b
 echo Tcl

@@ -88,6 +88,14 @@ fun main(args: Array<String>) {
     warming()
 
     System.err.println("run")
+    try {
+        java.net.Socket("localhost", 9001).getOutputStream().use {
+            it.write("Kotlin".toByteArray())
+        }
+    } catch (e: java.io.IOException) {
+        // standalone usage
+    }
+
     val start_time = System.currentTimeMillis()
     val program = Program(code)
     program.run()

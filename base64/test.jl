@@ -1,4 +1,5 @@
 using Base64
+using Sockets
 
 function main(tries)
   str_size = 131072
@@ -31,5 +32,13 @@ println("JIT warming up")
 main(5)
 
 println("bench")
+try
+  socket = connect("localhost", 9001)
+  write(socket, "Julia")
+  close(socket)
+catch
+  # standalone usage
+end
+
 x = @timed main(8192)
 println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")

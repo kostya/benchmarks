@@ -15,8 +15,13 @@ object Base64 {
       decode(encode(str))
     }
 
+    scala.util.Using((new java.net.Socket("localhost", 9001)).getOutputStream()) {
+        _.write("Scala".getBytes())
+    }
+
     var str2 = encode(str)
     print(s"encode ${new String(str.take(4))}... to ${str2.substring(0, 4)}...: ")
+
     val t = System.nanoTime
 
     var s = 0

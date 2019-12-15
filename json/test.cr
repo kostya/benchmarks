@@ -1,4 +1,13 @@
 require "json"
+require "socket"
+
+begin
+  TCPSocket.open("localhost", 9001) { |s|
+    s.puts "Crystal"
+  }
+rescue
+  # standalone usage
+end
 
 text = File.read("1.json")
 jobj = JSON.parse(text)

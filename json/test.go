@@ -3,7 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"net"
 	"os"
+	"runtime"
 )
 
 type Coordinate struct {
@@ -15,6 +17,12 @@ type TestStruct struct {
 }
 
 func main() {
+	conn, err := net.Dial("tcp", "localhost:9001")
+	if err == nil {
+		fmt.Fprintf(conn, runtime.Compiler)
+		conn.Close()
+	}
+
 	f, err := os.Open("./1.json")
 	if err != nil {
 		panic(err)
@@ -27,7 +35,7 @@ func main() {
 	}
 
 	x, y, z := 0.0, 0.0, 0.0
-	
+
 	for _, coord := range jobj.Coordinates {
 		x += coord.X
 		y += coord.Y

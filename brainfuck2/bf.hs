@@ -2,9 +2,11 @@ module Main where
 
 import qualified Data.Array.Base as ArrayBase
 import qualified Data.Array.Unboxed as UArray
+import qualified Data.ByteString.Char8 as C
 import Data.Char (chr)
 import System.Environment (getArgs)
 import System.IO (hFlush, stdout)
+import Network.Simple.TCP
 
 data Op = Inc Int | Move Int | Print | Loop [Op] deriving Show
 data Tape = Tape { tapeData :: UArray.UArray Int Int
@@ -66,6 +68,8 @@ run (op:ops) tape = do
                 run (op:ops) newTape
 
 main = do
+    connect "localhost" "9001" $ \(socket, _) -> do
+      send socket $ C.pack "Haskell"
     [filename] <- getArgs
     source <- readFile filename
     let (_, ops) = parse (source, [])

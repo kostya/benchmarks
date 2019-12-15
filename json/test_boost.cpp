@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <libsocket/inetclientstream.hpp>
 
 using namespace std;
 
@@ -18,7 +19,14 @@ void read_file(string filename, stringstream &buffer){
 
 int main()
 {
-  std::stringstream text;
+  try {
+    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
+    sock << "C++ Boost";
+  } catch (...) {
+    // standalone usage
+  }
+
+  stringstream text;
   read_file("./1.json", text);
 
   boost::property_tree::ptree jobj;

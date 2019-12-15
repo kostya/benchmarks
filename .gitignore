@@ -24,6 +24,7 @@ matmul/.dub
 **/*.hi
 **/*.jar
 **/*.json
+**/*.log
 **/*.o
 **/*.so
 **/*.txt

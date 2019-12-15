@@ -1,5 +1,6 @@
 import json
 import os
+import net
 
 struct Coordinate {
 	x f64
@@ -11,7 +12,21 @@ struct Coordinates {
 	coordinates []Coordinate
 }
 
+fn notify() {
+    sock := net.dial('127.0.0.1', 9001) or {
+        return
+    }
+    mut lang := "V GCC"
+    $if clang {
+      lang = "V Clang"
+    }
+    sock.write(lang) or {}
+    sock.close() or {}
+}
+
 fn main() {
+	notify()
+
 	s := os.read_file("./1.json") or {
 		eprintln('Failed to open file 1.json')
 		return

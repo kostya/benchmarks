@@ -1,5 +1,5 @@
 import numpy as np
-
+import socket
 
 def build_matrix_np(n):
     i_idxs = np.atleast_2d(np.arange(n)).T
@@ -20,6 +20,9 @@ def main(n):
 
 if __name__=='__main__':
     import sys
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        if not s.connect_ex(("localhost", 9001)):
+            s.sendall(bytes("Python NumPy", 'utf8'))
 
     if len(sys.argv) > 1:
         main(int(sys.argv[1]))

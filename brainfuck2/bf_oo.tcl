@@ -82,4 +82,10 @@ proc main argv {
     $tape destroy
 }
 
+catch {
+    set sock [socket "localhost" 9001]
+    puts $sock "Tcl (OO)"
+    close $sock
+}
+
 main $argv

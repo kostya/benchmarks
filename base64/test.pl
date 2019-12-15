@@ -2,11 +2,18 @@ use strict;
 use warnings;
 use MIME::Base64::Perl qw(encode_base64 decode_base64);
 use Time::HiRes 'time';
+use Socket;
 
 use constant STR_SIZE => 131072;
 use constant TRIES => 8192;
 
 my $str = 'a' x STR_SIZE;
+
+socket(my $socket, PF_INET, SOCK_STREAM,(getprotobyname('tcp'))[2]);
+if (connect($socket, pack_sockaddr_in(9001, inet_aton('localhost')))) {
+  print $socket "Perl MIME::Base64::Perl";
+}
+close($socket);
 
 my $str2 = encode_base64 $str, '';
 printf("encode %s... to %s...: ",

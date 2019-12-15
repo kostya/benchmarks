@@ -4,7 +4,7 @@ set -e
 crystal build brainfuck.cr --release -o brainfuck_cr
 go build -o brainfuck_go brainfuck.go
 gccgo -O3 -g -o brainfuck_go_gccgo brainfuck.go
-g++ -O3 -o brainfuck_cpp brainfuck.cpp
+g++ -O3 -o brainfuck_cpp brainfuck.cpp -lsocket++
 scalac brainfuck.scala
 rustc -C opt-level=3 brainfuck.rs -o brainfuck_rs
 dmd -ofbrainfuck_d -O -release -inline brainfuck.d

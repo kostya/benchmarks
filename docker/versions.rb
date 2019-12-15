@@ -77,15 +77,14 @@ END
     },
     "Scala" => -> { `scala -e "print(util.Properties.versionNumberString)"` },
     "Node.js" => -> { `node -e "console.log(process.version)"` },
-    "Python 2" => -> { `python2 -c "import platform;print(platform.python_version())"` },
-    "Python 3" => -> { `python3 -c "import platform;print(platform.python_version())"` },
+    "Python" => -> { `python3 -c "import platform;print(platform.python_version())"` },
     "PyPy" => -> {
       prog = <<-END
 import platform, sys
 pypy = "%d.%d.%d-%s%d" % sys.pypy_version_info
 print("%s for Python %s" % (pypy, platform.python_version()))
 END
-      `pypy #{cat('pypy.py', prog)}`
+      `pypy3 #{cat('pypy.py', prog)}`
     },
     "Ruby" => -> { `ruby -e 'puts "#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}"'` },
     "JRuby" => -> { `jruby -e 'puts JRUBY_VERSION'` },
@@ -110,7 +109,6 @@ END
     "Perl" => -> { `perl -e 'print $^V;'` },
     "Haskell" => -> { `ghc --numeric-version` },
     "Tcl" => -> { `echo 'puts "$tcl_version"' | tclsh` },
-    "jq" => -> { `jq --version` },
     "Kotlin" => -> {
       prog = <<-END
 fun main(args: Array<String>){

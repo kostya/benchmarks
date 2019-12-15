@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <string.h>
+#include <libsocket/inetclientstream.hpp>
 
 using namespace std;
 
@@ -17,7 +18,14 @@ void read_file(string filename, stringstream &buffer){
 }
 
 int main() {
-    std::stringstream ss;
+    try {
+      libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
+      sock << "C++ gason";
+    } catch (...) {
+      // standalone usage
+    }
+
+    stringstream ss;
     read_file("./1.json", ss);
 
     string text = ss.str();
@@ -44,9 +52,9 @@ int main() {
       }
     }
 
-    std::cout << x / len << std::endl;
-    std::cout << y / len << std::endl;
-    std::cout << z / len << std::endl;
+    cout << x / len << endl;
+    cout << y / len << endl;
+    cout << z / len << endl;
 
     return 0;
 }

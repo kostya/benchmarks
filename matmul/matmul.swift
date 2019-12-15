@@ -37,6 +37,26 @@ func matmul(_ a : [[Double]], b : [[Double]]) ->[[Double]] {
     return x
 }
 
+let sock = socket(AF_INET, Int32(SOCK_STREAM.rawValue), 0)
+var serv_addr = (
+    sa_family_t(AF_INET),
+    in_port_t(htons(9001)),
+    in_addr(s_addr: 0),
+    (0,0,0,0,0,0,0,0))
+inet_pton(AF_INET, "127.0.0.1", &serv_addr.2)
+let len = MemoryLayout.stride(ofValue: serv_addr)
+let rc = withUnsafePointer(to: &serv_addr) { ptr -> Int32 in
+    return ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+        bptr in return connect(sock, bptr, socklen_t(len))
+    }
+}
+if rc == 0 {
+    "Swift".withCString { (cstr: UnsafePointer<Int8>) -> Void in
+        send(sock, cstr, Int(strlen(cstr)), 0)
+        close(sock)
+    }
+}
+
 var n = 100;
 
 if CommandLine.argc != 2 {
@@ -48,9 +68,7 @@ let end = Int(CommandLine.arguments[1])!
 n = end
 n = n / 2 * 2
 
-
 var a = matgen(n);
 var b = matgen(n);
 var x = matmul(a, b: b)
-//print("done")
 print(x[n/2][n/2])

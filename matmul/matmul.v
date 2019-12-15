@@ -1,4 +1,5 @@
 import os
+import net
 
 fn make_matrix(n int, m int) [] []f64 {
   mut res := [[f64(0.0)].repeat(m)]
@@ -14,7 +15,7 @@ fn matgen(n int) [] []f64 {
 
   for i := 0; i < n; i++ {
     for j := 0; j < n; j++ {
-      v := f64(tmp * f64(i - j) * f64(i + j))
+      v := tmp * f64(i - j) * f64(i + j)
       a[i] [j] = v
     }
   }
@@ -54,7 +55,20 @@ fn matmul(a [] []f64, b [] []f64) [] []f64 {
   return c
 }
 
+fn notify() {
+    sock := net.dial('127.0.0.1', 9001) or {
+        return
+    }
+    mut lang := "V GCC"
+    $if clang {
+      lang = "V Clang"
+    }
+    sock.write(lang) or {}
+    sock.close() or {}
+}
+
 fn main() {
+  notify()
   n := if os.args.len != 2 {
     100
   } else {

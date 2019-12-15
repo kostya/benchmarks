@@ -7,6 +7,8 @@ libs "lapack" "blas"
 import core.stdc.stdio, std.conv, std.array;
 import mir.ndslice;
 import lubeck: mtimes;
+import std.socket;
+import std.compiler;
 
 alias Matrix = Slice!(double*, 2);
 
@@ -44,10 +46,18 @@ Matrix mul(Matrix a, Matrix b)
 
 void main(in string[] args)
 {
-	size_t n = 100;
-	if (args.length >= 2)
-		n = to!size_t(args[1]) / 2 * 2;
-	auto ab = generate2(n);
-	auto x = mul(ab[0], ab[1]);
-	printf("%.6f\n", x[n / 2, n / 2]);
+    try {
+        auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+        scope(exit) socket.close();
+        socket.send("LDC lubeck");
+    } catch (SocketOSException) {
+        // standalone usage
+    }
+
+    size_t n = 100;
+    if (args.length >= 2)
+       n = to!size_t(args[1]) / 2 * 2;
+    auto ab = generate2(n);
+    auto x = mul(ab[0], ab[1]);
+    printf("%.6f\n", x[n / 2, n / 2]);
 }
