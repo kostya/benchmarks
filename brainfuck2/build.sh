@@ -20,6 +20,8 @@ ghc -O2 -fforce-recomp bf.hs -o bin_hs
 ghc -O2 -fforce-recomp bf-marray.hs -o bin_hs_marray
 ocamlopt -unsafe unix.cmxa bf.ml -o bin_ocaml
 dotnet build brainfuck2.fsproj -c Release
+valac bf.vala --cc=gcc --disable-assert -X -O3 --pkg gee-0.8 -o bin_vala_gcc
+valac bf.vala --cc=clang --disable-assert -X -O3 --pkg gee-0.8 -o bin_vala_clang
 mlton -output bin_sml bf.sml
 v -prod -cc gcc -o bin_v_gcc bf.v
 v -prod -cc clang -o bin_v_clang bf.v

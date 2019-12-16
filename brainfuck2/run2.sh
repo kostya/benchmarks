@@ -39,6 +39,10 @@ echo C# Mono
 ../xtime.rb mono -O=all --gc=sgen bf.exe mandel.b > /dev/null
 echo C# .NET Core
 ../xtime.rb dotnet bin_cs/netcoreapp3.0/brainfuck2.dll mandel.b > /dev/null
+echo Vala Gcc
+../xtime.rb ./bin_vala_gcc mandel.b > /dev/null
+echo Vala Clang
+../xtime.rb ./bin_vala_clang mandel.b > /dev/null
 echo Python PyPy
 ../xtime.rb pypy3 bf3.py mandel.b > /dev/null
 echo Standard ML MLton

@@ -17,6 +17,10 @@ echo C# Mono
 ../xtime.rb mono -O=all --gc=sgen bf.exe bench.b
 echo C# .NET Core
 ../xtime.rb dotnet bin_cs/netcoreapp3.0/brainfuck2.dll bench.b
+echo Vala Gcc
+../xtime.rb ./bin_vala_gcc bench.b
+echo Vala Clang
+../xtime.rb ./bin_vala_clang bench.b
 echo Elixir
 ../xtime.rb elixir bf.ex bench.b
 echo F# .NET Core
