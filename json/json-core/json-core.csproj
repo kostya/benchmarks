@@ -5,9 +5,6 @@
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="test.cs" />
+    <Compile Include="test-core.cs" />
   </ItemGroup>
 </Project>

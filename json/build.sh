@@ -44,6 +44,7 @@ mcs -debug- -optimize+ -r:Newtonsoft.Json.dll test.cs
 
 # .net core
 dotnet build -c Release
+cd json-core; dotnet build -c Release; cd ..
 
 gem install yajl-ruby
 
