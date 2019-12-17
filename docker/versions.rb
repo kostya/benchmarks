@@ -32,6 +32,7 @@ def versions
   ]
   langs = {
     "Rust" => -> { `rustc --version`.split()[1] },
+    "Vala" => -> { `vala --version`.split()[1] },
     "LDC" => -> {
       line = `ldc2 -v -X -Xf=#{cat('ldc.json')} -Xi=compilerInfo`.split("\n")[1]
       line.match(/version\s+(.*)\s+\(/)[1]
