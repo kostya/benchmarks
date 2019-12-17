@@ -12,8 +12,8 @@ RUN apt-get update \
   && apt-get purge -y --auto-remove gnupg dirmngr
 
 # https://www.mono-project.com/download/stable/
-ARG MONO_VERSION=6.4.0.198
-RUN echo "deb http://download.mono-project.com/repo/debian vs-stretch/snapshots/$MONO_VERSION main" > /etc/apt/sources.list.d/mono-official-vs.list
+ARG MONO_VERSION=6.6.0.161
+RUN echo "deb http://download.mono-project.com/repo/debian stable-stretch/snapshots/$MONO_VERSION main" > /etc/apt/sources.list.d/mono-official-vs.list
 
 RUN  apt-get update \
   && apt-get install -y wget xz-utils build-essential libtool-bin cmake git curl vim powercap-utils \
@@ -22,7 +22,7 @@ RUN  apt-get update \
      libjq-dev libonig-dev \
      python3-numpy python3 python3-ujson \
      mono-devel nuget \
-     chezscheme gccgo gdc \
+     chezscheme gccgo gdc valac \
      luajit lua5.3 lua-socket \
      tcl tcllib php elixir clang-9 opam \
   && rm -rf /var/lib/apt/lists/* /tmp/* \
@@ -65,9 +65,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/jdk-$JDK/bin:${PATH}"
 
 # https://github.com/crystal-lang/crystal/releases
-ARG CRYSTAL=crystal-0.31.1-1
+ARG CRYSTAL=crystal-0.32.0-1
 RUN wget --progress=dot:giga -O - \
-    https://github.com/crystal-lang/crystal/releases/download/0.31.1/$CRYSTAL-linux-x86_64.tar.gz \
+    https://github.com/crystal-lang/crystal/releases/download/0.32.0/$CRYSTAL-linux-x86_64.tar.gz \
     | tar -xz
 ENV PATH="/opt/$CRYSTAL/bin:${PATH}"
 
@@ -93,7 +93,7 @@ ENV PATH="/opt/go/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN wget --progress=dot:giga -O - \
-    http://downloads.dlang.org/releases/2.x/2.089.0/dmd.2.089.0.linux.tar.xz \
+    http://downloads.dlang.org/releases/2.x/2.089.1/dmd.2.089.1.linux.tar.xz \
     | tar -xJ
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
@@ -130,9 +130,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$JULIA/bin/:${PATH}"
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.1.2-RELEASE-ubuntu18.04
+ARG SWIFT=swift-5.1.3-RELEASE-ubuntu18.04
 RUN wget --progress=dot:giga -O - \
-    https://swift.org/builds/swift-5.1.2-release/ubuntu1804/swift-5.1.2-RELEASE/$SWIFT.tar.gz \
+    https://swift.org/builds/swift-5.1.3-release/ubuntu1804/swift-5.1.3-RELEASE/$SWIFT.tar.gz \
     | tar -xz \
     && ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
 

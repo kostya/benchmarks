@@ -1,42 +1,26 @@
 #!/usr/bin/vala
-//Compile $ valac bf.vala --disable-assert -X -O3 --pkg gee-0.8 --pkg gio-2.0 -o bin_vala_gcc
-//Run like script $ ./bf.vala --disable-assert -X -O3 --pkg gee-0.8 --pkg gio-2.0 --run-args bench.b
-void print_vala_version() {
-    string vala_version="",error="";
-    try {
-        Process.spawn_command_line_sync ("valac --version", out vala_version,out error);
-        if (error.length > 1) print (error);
-        else print (vala_version.split(" ")[1] + "\n");
-    } catch (SpawnError e) {print (@"Error: $(e.message)\n");}
-}
-
-void send_language_name () {
-    var host = "localhost:9001";
+void start() {
     try {
         var address = new InetAddress.from_string ("127.0.0.1");
-        print (@"Resolved $host to $address\n");
-        // Connect
         var client = new SocketClient ();
         var conn = client.connect (new InetSocketAddress (address, 9001));
-        print (@"Connected to $host\n");
-
-        // Send HTTP GET request
-        var message = @"GET / HTTP/1.1\r\nHost: $host\r\n\r\n";
+        var message = "Vala ";
+#if GCC_TEST
+        message += "GCC";
+#elif CLANG_TEST
+        message += "Clang";
+#else
+        // The preprocessor directive for the test should be specified
+        Process.exit(-1);
+#endif
         conn.output_stream.write (message.data);
-        print ("Wrote request\n");
-
-        // Receive response
-        var response = new DataInputStream (conn.input_stream);
-        var status_line = response.read_line (null).strip ();
-        print ("Received status line: %s\n", status_line);
-
     } catch (Error e) {
-        stderr.printf ("%s\n", e.message);
+        // Standalone usage
     }
 }
 
 enum OpT {INC, MOVE, PRINT, LOOP}
-namespace Test{
+namespace Test {
     struct Op {
         public OpT op;
         public int v;
@@ -99,18 +83,23 @@ namespace Test{
                     case OpT.INC: tape.Inc(program[i].v); break;
                     case OpT.MOVE: tape.Move(program[i].v); break;
                     case OpT.LOOP: while (tape.Get() > 0) _run(program[i].loop, tape); break;
-                    case OpT.PRINT: stdout.printf("%c",(char)tape.Get()); break;
+                    case OpT.PRINT: stdout.printf("%c", (char)tape.Get()); stdout.flush(); break;
                 }
             }
         }
 
         static void main(string[] args) {
-            print_vala_version();
-            send_language_name();
-
             string text;
-            FileUtils.get_contents(args[1],out text);
-            
+            try {
+                FileUtils.get_contents(args[1], out text);
+            } catch (FileError e) {
+                stdout.printf("Error: %s\n", e.message);
+            }
+            if (text.length == 0) {
+                Process.exit(-1);
+            }
+
+            start();
             message("run");
             Timer timer = new Timer ();
             var p = new Program(text);
