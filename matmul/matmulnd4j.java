@@ -4,12 +4,10 @@ import org.nd4j.linalg.factory.Nd4j;
 class matmulnd4j {
 
 	public static INDArray matgen(int n) {
-		double[][] a = new double[n][n];
-		double tmp = 1. / n / n;
-		for (int i = 0; i < n; ++i)
-			for (int j = 0; j < n; ++j)
-				a[i][j] = tmp * (i - j) * (i + j);
-		return Nd4j.create(a);
+		INDArray iIdxs = Nd4j.arange(n).reshape(1, n).transpose();
+        INDArray jIdxs = Nd4j.arange(n).reshape(1, n);
+
+		return (iIdxs.sub(jIdxs)).mul((iIdxs.add(jIdxs)).mul(1.0/n/n));
 	}
 
 	public static void main(String[] args) {
