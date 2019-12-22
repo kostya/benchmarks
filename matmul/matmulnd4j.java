@@ -5,7 +5,7 @@ class matmulnd4j {
 
 	public static INDArray matgen(int n) {
 		INDArray iIdxs = Nd4j.arange(n).reshape(1, n).transpose();
-        INDArray jIdxs = Nd4j.arange(n).reshape(1, n);
+		INDArray jIdxs = Nd4j.arange(n).reshape(1, n);
 
 		return (iIdxs.sub(jIdxs)).mul((iIdxs.add(jIdxs)).mul(1.0/n/n));
 	}
