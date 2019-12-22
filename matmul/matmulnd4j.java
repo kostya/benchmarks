@@ -1,13 +1,15 @@
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.linalg.api.buffer.DataType;
 
 class matmulnd4j {
 
 	public static INDArray matgen(int n) {
-		INDArray iIdxs = Nd4j.arange(n).reshape(1, n).transpose();
-		INDArray jIdxs = Nd4j.arange(n).reshape(1, n);
+		INDArray iIdxs = Nd4j.arange(n).reshape(1, n).transpose().castTo(DataType.DOUBLE);
+		INDArray jIdxs = Nd4j.arange(n).reshape(1, n).castTo(DataType.DOUBLE);
 
-		return (iIdxs.sub(jIdxs)).mul((iIdxs.add(jIdxs)).mul(1.0/n/n));
+
+		return (iIdxs.sub(jIdxs)).mul((iIdxs.add(jIdxs))).mul(1.0/n/n);
 	}
 
 	public static void main(String[] args) {
