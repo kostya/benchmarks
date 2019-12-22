@@ -14,6 +14,10 @@ dub build --build=release --single matmul_d_lubeck.d --compiler=ldc2
 nim c -o:matmul_nim_gcc --cc:gcc -d:danger --verbosity:0 matmul.nim
 nim c -o:matmul_nim_clang --cc:clang -d:danger --verbosity:0 matmul.nim
 javac matmul.java
+pushd nd4j-build
+./mvnw clean package
+popd
+javac -cp nd4j-build/target/nd4j-build-1.0-jar-with-dependencies.jar:. matmulnd4j.java
 kotlinc matmul.kt -include-runtime -d matmul-kt.jar
 mcs -debug- -optimize+ matmul.cs
 dotnet build -c Release
