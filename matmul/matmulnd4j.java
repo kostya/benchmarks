@@ -1,15 +1,17 @@
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.api.buffer.DataType;
+import java.net.Socket;
+import java.io.OutputStream;
 
 class matmulnd4j {
 
 	public static INDArray matgen(int n) {
-		INDArray iIdxs = Nd4j.arange(n).reshape(1, n).transpose().castTo(DataType.DOUBLE);
-		INDArray jIdxs = Nd4j.arange(n).reshape(1, n).castTo(DataType.DOUBLE);
+		INDArray idxs = Nd4j.linspace(DataType.DOUBLE, 0, n, 1);
+		INDArray iIdxs = idxs.reshape(n,1);
+		INDArray jIdxs = idxs.reshape(1, n);
 
-
-		return (iIdxs.sub(jIdxs)).mul((iIdxs.add(jIdxs))).mul(1.0/n/n);
+		return (iIdxs.sub(jIdxs)).muli((iIdxs.add(jIdxs))).muli(1.0/n/n);
 	}
 
 	public static void main(String[] args) {
@@ -19,13 +21,13 @@ class matmulnd4j {
 		
 		INDArray t =  Nd4j.matmul(matgen(500), matgen(500));
 		System.out.println("JIT warming up: " + t.getDouble(1, 1));
-
-                try (var socket = new java.net.Socket("localhost", 9001);
-                     var out = socket.getOutputStream()) {
-                    out.write("Java".getBytes("UTF-8"));
-                } catch (java.io.IOException e) {
-                    // standalone usage
-                }
+		
+		try (Socket socket = new Socket("localhost", 9001);
+			OutputStream out = socket.getOutputStream()) {
+			out.write("Java".getBytes("UTF-8"));
+		} catch (java.io.IOException e) {
+			// standalone usage
+		}
 
 		long start_time = System.currentTimeMillis();
 
