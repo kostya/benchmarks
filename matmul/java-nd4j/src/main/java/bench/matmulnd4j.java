@@ -1,3 +1,5 @@
+package bench;
+
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.api.buffer.DataType;
@@ -24,7 +26,7 @@ class matmulnd4j {
 		
 		try (Socket socket = new Socket("localhost", 9001);
 			OutputStream out = socket.getOutputStream()) {
-			out.write("Java".getBytes("UTF-8"));
+			out.write("Java ND4J".getBytes("UTF-8"));
 		} catch (java.io.IOException e) {
 			// standalone usage
 		}

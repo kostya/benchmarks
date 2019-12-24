@@ -1,0 +1,5 @@
+# Maven coordinates of dependencies are listed here.
+#
+# lines starting with # are ignored
+#
+org.nd4j:nd4j-native-platform:1.0.0-beta6

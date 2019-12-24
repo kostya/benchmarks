@@ -28,7 +28,7 @@ echo Scala
 echo Java
 ../xtime.rb java matmul 1500
 echo Java ND4J
-../xtime.rb java -cp nd4j-build/target/nd4j-build-1.0-jar-with-dependencies.jar:. matmulnd4j 1500
+../xtime.rb java-nd4j/target/application 1500
 echo Kotlin
 ../xtime.rb java -jar matmul-kt.jar 1500
 echo Javascript Node
