@@ -25,8 +25,8 @@ fi
 
 # nim install arraymancer
 nimble install arraymancer
-nim c -o:matmul_nim_arraymancer_gcc -d:openmp --cc:gcc -d:native -d:release -d:danger matmul_arraymancer.nim
-nim c -o:matmul_nim_arraymancer_clang -d:openmp --cc:clang -d:native -d:release -d:danger matmul_arraymancer.nim
+nim c -o:matmul_nim_arraymancer_gcc -d:openmp --cc:gcc -d:native --gc:markAndSweep -d:danger matmul_arraymancer.nim
+nim c -o:matmul_nim_arraymancer_clang -d:openmp --cc:clang -d:native --gc:markAndSweep -d:danger matmul_arraymancer.nim
 
 cd java-nd4j; make clean target/application; cd ..
 
