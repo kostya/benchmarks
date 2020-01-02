@@ -17,9 +17,9 @@ proc main() =
         defer: socket.close()
         socket.connect("localhost", Port(9001))
         when defined(gcc):
-            socket.send("Nim GCC")
+            socket.send("Nim GCC Arraymancer")
         else:
-            socket.send("Nim Clang")
+            socket.send("Nim Clang Arraymancer")
     except:
         discard
 

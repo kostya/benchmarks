@@ -24,7 +24,7 @@ echo Nim Gcc
 echo Nim Clang
 ../xtime.rb ./matmul_nim_clang 1500
 echo Nim Arraymancer Gcc
-../xtime.rb ./matmul_nim_arraymancer_clang 1500
+../xtime.rb ./matmul_nim_arraymancer_gcc 1500
 echo Nim Arraymancer Clang
 ../xtime.rb ./matmul_nim_arraymancer_clang 1500
 echo Scala
