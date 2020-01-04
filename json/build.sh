@@ -36,7 +36,7 @@ fi
 g++ -std=c++11 test_gason.cpp -I gason/src/ gason/src/gason.cpp -o json_gason_cpp -O3 -lsocket++
 
 g++ -O3 test_libjson.cpp -o json_libjson_cpp -ljson-c -lsocket++
-julia -e 'using Pkg; Pkg.add("JSON")'
+julia -e 'using Pkg; Pkg.add("JSON3")'
 # mono
 nuget install Newtonsoft.Json
 cp Newtonsoft.Json.*/lib/net45/Newtonsoft.Json.dll .
