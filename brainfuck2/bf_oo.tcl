@@ -72,20 +72,26 @@ namespace eval bf {} {
     }
 }   
 
-proc main argv {
-    lassign $argv filename
-    set f [open $filename]
-    lassign [::bf::parse [split [read $f] {}]] program
-    close $f
+proc main text {
+    lassign [::bf::parse $text] program
     set tape [::bf::Tape new]
     ::bf::run $program $tape
     $tape destroy
 }
 
-catch {
-    set sock [socket "localhost" 9001]
-    puts $sock "Tcl (OO)"
-    close $sock
+proc notify msg {
+    catch {
+        set sock [socket "localhost" 9001]
+        puts $sock $msg
+        close $sock
+    }
 }
 
-main $argv
+lassign $argv filename
+set f [open $filename]
+set text [split [read $f] {}]
+close $f
+
+notify [format "%s\t%d" "Tcl (OO)" [pid]]
+main $text
+notify "stop"

@@ -37,13 +37,18 @@ def matgen(n)
   a
 end
 
-begin
-  TCPSocket.open("localhost", 9001) { |s|
-    s.puts "Crystal"
-  }
-rescue
-  # standalone usage
+def notify(msg)
+  begin
+    TCPSocket.open("localhost", 9001) { |s|
+      s.puts msg
+    }
+  rescue
+    # standalone usage
+  end
 end
+
+pid = Process.pid
+notify("Crystal\t#{pid}")
 
 n = (ARGV[0]? || 100).to_i
 n = n >> 1 << 1
@@ -51,3 +56,5 @@ a = matgen(n)
 b = matgen(n)
 c = matmul(a, b)
 puts c[n >> 1][n >> 1]
+
+notify("stop")

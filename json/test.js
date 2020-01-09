@@ -1,5 +1,5 @@
-function main() {
-    var jobj = (JSON.parse(require('fs').readFileSync("./1.json", "utf8")));
+function main(text) {
+    var jobj = JSON.parse(text);
 
     var coordinates = jobj['coordinates'];
     var len = coordinates.length;
@@ -19,9 +19,20 @@ function main() {
     console.log(z / len);
 }
 
-const client = require('net').connect(9001, 'localhost', () => {
-    client.end('Node.js', 'utf8', () => {
-        client.destroy();
-        main();
+function notify(msg) {
+    return new Promise(resolve => {
+        const client = require('net').connect(9001, 'localhost', () => {
+            client.end(msg, 'utf8', () => {
+                client.destroy();
+                resolve();
+            });
+        }).on('error', resolve);
     });
-}).on('error', main);
+}
+
+(async function() {
+    const text = require('fs').readFileSync("/tmp/1.json", "utf8");
+    await notify(`Node.js\t${require('process').pid}`);
+    main(text);
+    await notify('stop');
+})();

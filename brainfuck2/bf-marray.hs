@@ -8,6 +8,7 @@ import Network.Simple.TCP
 import Data.Char (chr)
 import System.Environment (getArgs)
 import System.IO (hFlush, stdout)
+import System.Posix (getProcessID)
 
 data Op = Inc !Int | Move !Int | Print | Loop ![Op] deriving Show
 data Tape = Tape { tapeData :: IOUArray.IOUArray Int Int
@@ -71,11 +72,19 @@ run (op:ops) tape = do
                 else run loop tape >>= go
             in go tape
 
-main = do
+notify msg = do
     connect "localhost" "9001" $ \(socket, _) -> do
-      send socket $ C.pack "Haskell MArray"
+      send socket $ C.pack msg
+
+main = do
     [filename] <- getArgs
     source <- readFile filename
+
+    pid <- getProcessID
+    notify $ "Haskell MArray\t" ++ show pid
+
     let (_, ops) = parse (source, [])
     empty <- MArray.newListArray (0, 0) [0]
     run ops $ Tape empty 0
+
+    notify "stop"

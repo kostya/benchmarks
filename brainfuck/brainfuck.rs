@@ -1,5 +1,4 @@
-use std::fs::File;
-use std::path::Path;
+use std::fs;
 use std::io::prelude::*;
 use std::vec::Vec;
 use std::io;
@@ -70,17 +69,19 @@ impl Program {
   }
 }
 
-fn main() {
-    {
-        if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
-            stream.write_all(b"Rust").unwrap();
-        }
+fn notify(msg: &str) {
+    if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+        stream.write_all(msg.as_bytes()).unwrap();
     }
+}
 
+fn main() {
     let arg1 = env::args().nth(1).unwrap();
-    let path = Path::new(&arg1);
-    let mut s = String::new();
-    let mut file = File::open(&path).unwrap();
-    file.read_to_string(&mut s).unwrap();
-    Program::new(s).run()
+    let s = fs::read_to_string(arg1).unwrap();
+
+    notify(&format!("Rust\t{}", std::process::id()));
+
+    Program::new(s).run();
+
+    notify("stop");
 }

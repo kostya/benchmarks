@@ -89,17 +89,24 @@ println("JIT warming up")
 main(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++")
 
 println("bench")
-try
-  socket = connect("localhost", 9001)
-  write(socket, "Julia")
-  close(socket)
-catch
-  # standalone usage
+
+function notify(msg)
+  try
+    socket = connect("localhost", 9001)
+    write(socket, msg)
+    close(socket)
+  catch
+    # standalone usage
+  end
 end
 
 text = open(ARGS[1]) do file
   read(file, String)
 end
+
+notify("Julia\t$(getpid())")
+
 x = @timed main(text)
 println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
 
+notify("stop")

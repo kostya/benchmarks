@@ -4,6 +4,7 @@ import array
 import platform
 import socket
 import sys
+import os
 
 def matmul(a, b):
     c = [array.array("d", [0.0]) * len(b) for _ in range(len(b[0]))]
@@ -40,10 +41,14 @@ def main(argv):
     d = matmul(a, b)
     print(d[n // 2][n // 2])
 
-
-if __name__ == "__main__":
+def notify(msg):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         if not s.connect_ex(("localhost", 9001)):
-            s.sendall(bytes(platform.python_implementation(), 'utf8'))
+            s.sendall(bytes(msg, 'utf8'))
+
+if __name__ == "__main__":
+    notify("%s\t%d" % (platform.python_implementation(), os.getpid()))
 
     main(sys.argv)
+
+    notify("stop")

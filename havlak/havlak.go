@@ -4,6 +4,7 @@ import (
 	"container/list"
 	"fmt"
 	"net"
+	"os"
 	"runtime"
 )
 
@@ -609,12 +610,16 @@ func buildBaseLoop(cfgraph *CFG, from int) int {
 	return footer
 }
 
-func main() {
+func notify(msg string) {
 	conn, err := net.Dial("tcp", "localhost:9001")
 	if err == nil {
-		fmt.Fprintf(conn, runtime.Compiler)
+		fmt.Fprintf(conn, msg)
 		conn.Close()
 	}
+}
+
+func main() {
+	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
 
 	fmt.Printf("Welcome to LoopTesterApp, Go edition\n")
 
@@ -665,4 +670,6 @@ func main() {
 	}
 
 	fmt.Printf("\nFound %d loops (including artificial root node) (%d)\n", len(lsgraph.Loops), s)
+
+	notify("stop")
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 
 namespace Test
@@ -494,20 +495,26 @@ namespace Test
                 Console.WriteLine("Found {0} loops (including artificial root node) ({1})", loops, sum);
             }
 
-            static void Main(string[] args)
-            {
+            private static void Notify(string msg) {
                 try {
                     using (var s = new System.Net.Sockets.TcpClient("localhost", 9001)) {
-                        var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
-                        var data = System.Text.Encoding.UTF8.GetBytes("C# " + runtime);
+                        var data = System.Text.Encoding.UTF8.GetBytes(msg);
                         s.Client.Send(data);
                     }
                 } catch {
                     // standalone usage
                 }
+            }
+
+            static void Main(string[] args)
+            {
+                var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
+                Notify($"C# {runtime}\t{Process.GetCurrentProcess().Id}");
 
                 var l = new LoopTesterApp();
                 l.Run();
+
+                Notify("stop");
             }
         }
     }

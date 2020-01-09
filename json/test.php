@@ -1,11 +1,19 @@
 <?php
-$socket = @fsockopen('localhost', 9001);
-if ($socket) {
-   fputs($socket, 'PHP');
-   fclose($socket);
+
+function notify($msg) {
+    $socket = @fsockopen('localhost', 9001);
+    if ($socket) {
+        fputs($socket, $msg);
+        fclose($socket);
+    }
 }
 
-$jobj = json_decode(file_get_contents("./1.json"), true);
+$text = file_get_contents("/tmp/1.json");
+
+$pid = posix_getpid();
+notify("PHP\t$pid");
+
+$jobj = json_decode($text, true);
 
 $coordinates = $jobj['coordinates'];
 $len = count($coordinates);
@@ -24,3 +32,4 @@ printf("%.8f\n", $x / $len);
 printf("%.8f\n", $y / $len);
 printf("%.8f\n", $z / $len);
 
+notify("stop");

@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <libsocket/libinetsocket.h>
 
 double **mm_init(int n)
@@ -50,14 +51,20 @@ double **mm_mul(int n, double *const *a, double *const *b)
   mm_destroy(n, c);
   return m;
 }
-int main(int argc, char *argv[])
-{
+
+void notify(char *msg, size_t len) {
   int sock = create_inet_stream_socket("localhost", "9001", LIBSOCKET_IPv4, 0);
   if (sock != -1) {
-    char msg[] = "C";
-    send(sock, msg, sizeof(msg), 0);
+    send(sock, msg, len, 0);
     destroy_inet_socket(sock);
   }
+}
+
+int main(int argc, char *argv[])
+{
+  char msg[32];
+  size_t len = snprintf(msg, sizeof(msg), "C\t%d", getpid());
+  notify(msg, len);
 
   int n = 100;
   double **a, **b, **m;
@@ -67,6 +74,9 @@ int main(int argc, char *argv[])
   m = mm_mul(n, a, b);
   fprintf(stderr, "%lf\n", m[n/2][n/2]);
   mm_destroy(n, a); mm_destroy(n, b); mm_destroy(n, m);
+
+  char stop_msg[] = "stop";
+  notify(stop_msg, sizeof(stop_msg));
+
   return 0;
 }
-

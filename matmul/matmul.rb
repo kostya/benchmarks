@@ -40,22 +40,27 @@ def matgen(n)
   a
 end
 
-begin
-  Socket.tcp('localhost', 9001) { |s|
-    engine = "#{RUBY_ENGINE}"
-    if engine == "truffleruby"
-      desc = "#{RUBY_DESCRIPTION}"
-      if desc.include?('Native')
-        engine = "TruffleRuby Native"
-      elsif desc.include?('JVM')
-        engine = "TruffleRuby JVM"
-      end
-    end
-    s.puts engine
-  }
-rescue
-  # standalone usage
+def notify(msg)
+  begin
+    Socket.tcp('localhost', 9001) { |s|
+      s.puts msg
+    }
+  rescue
+    # standalone usage
+  end
 end
+
+engine = "#{RUBY_ENGINE}"
+if engine == "truffleruby"
+  desc = "#{RUBY_DESCRIPTION}"
+  if desc.include?('Native')
+    engine = "TruffleRuby Native"
+  elsif desc.include?('JVM')
+    engine = "TruffleRuby JVM"
+  end
+end
+pid = Process.pid
+notify("#{engine}\t#{pid}")
 
 n = 100
 if ARGV.length >= 1
@@ -66,3 +71,5 @@ a = matgen(n)
 b = matgen(n)
 c = matmul(a, b)
 puts c[n/2][n/2]
+
+notify("stop")

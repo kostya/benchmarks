@@ -602,10 +602,14 @@ object LoopTesterApp {
     footer
   }
 
-  def main(args: Array[String]): Unit = {
+  def notify(msg: String): Unit = {
     scala.util.Using((new java.net.Socket("localhost", 9001)).getOutputStream()) {
-        _.write("Scala".getBytes())
+        _.write(msg.getBytes())
     }
+  }
+
+  def main(args: Array[String]): Unit = {
+    notify(s"Scala\t${ProcessHandle.current().pid()}")
 
     println("Welcome to LoopTesterApp, Scala edition")
 
@@ -660,5 +664,7 @@ object LoopTesterApp {
 
     println("\nFound " + loops + " loops (including artificial root node) (" + sum + "), " + lsg.calculateNestingLevel + "\n")
     println("time: "+(System.nanoTime-start_time)/1e9+"s")
+
+    notify("stop")
   }
 }

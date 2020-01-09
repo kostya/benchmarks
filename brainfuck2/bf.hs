@@ -7,6 +7,7 @@ import Data.Char (chr)
 import System.Environment (getArgs)
 import System.IO (hFlush, stdout)
 import Network.Simple.TCP
+import System.Posix (getProcessID)
 
 data Op = Inc Int | Move Int | Print | Loop [Op] deriving Show
 data Tape = Tape { tapeData :: UArray.UArray Int Int
@@ -67,10 +68,18 @@ run (op:ops) tape = do
                 newTape <- run loop tape
                 run (op:ops) newTape
 
-main = do
+notify msg = do
     connect "localhost" "9001" $ \(socket, _) -> do
-      send socket $ C.pack "Haskell"
+      send socket $ C.pack msg
+
+main = do
     [filename] <- getArgs
     source <- readFile filename
+
+    pid <- getProcessID
+    notify $ "Haskell\t" ++ show pid
+
     let (_, ops) = parse (source, [])
     run ops (Tape (ArrayBase.unsafeArray (0, 0) [(0, 0)]) 0)
+
+    notify "stop"

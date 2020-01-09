@@ -1,6 +1,8 @@
 import platform
 import sys
 import socket
+import os
+from pathlib import Path
 
 class Tape(object):
     def __init__(self):
@@ -62,8 +64,15 @@ class Program(object):
                 sys.stdout.flush()
             pc += 1
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    if not s.connect_ex(("localhost", 9001)):
-        s.sendall(bytes(platform.python_implementation(), 'utf8'))
+def notify(msg):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        if not s.connect_ex(("localhost", 9001)):
+            s.sendall(bytes(msg, 'utf8'))
 
-Program(open(sys.argv[1], 'r').read()).run()
+text = Path(sys.argv[1]).read_text()
+
+notify("%s\t%d" % (platform.python_implementation(), os.getpid()))
+
+Program(text).run()
+
+notify("stop")

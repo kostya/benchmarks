@@ -80,6 +80,17 @@ namespace Test
             }
         }
 
+        private static void Notify(string msg) {
+            try {
+                using (var s = new System.Net.Sockets.TcpClient("localhost", 9001)) {
+                    var data = System.Text.Encoding.UTF8.GetBytes(msg);
+                    s.Client.Send(data);
+                }
+            } catch {
+                // standalone usage
+            }
+        }
+
         static void Main(string[] args)
         {
             string text = File.ReadAllText(args[0]);
@@ -92,21 +103,16 @@ namespace Test
             Console.Error.WriteLine("time: " + stopWatch.ElapsedMilliseconds / 1e3 + "s");
 
             Console.Error.WriteLine("run");
-            try {
-                using (var s = new System.Net.Sockets.TcpClient("localhost", 9001)) {
-                    var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
-                    var data = System.Text.Encoding.UTF8.GetBytes("C# " + runtime);
-                    s.Client.Send(data);
-                }
-            } catch {
-                // standalone usage
-            }
+            var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
+            Notify($"C# {runtime}\t{Process.GetCurrentProcess().Id}");
 
             stopWatch.Restart();
             var p = new Program(text);
             p.run();
             stopWatch.Stop();
             Console.Error.WriteLine("time: " + stopWatch.ElapsedMilliseconds / 1e3 + "s");
+
+            Notify("stop");
         }
     }
 }

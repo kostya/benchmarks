@@ -38,6 +38,17 @@ namespace test
             return x;
         }
 
+        private static void Notify(string msg) {
+            try {
+                using (var s = new System.Net.Sockets.TcpClient("localhost", 9001)) {
+                    var data = System.Text.Encoding.UTF8.GetBytes(msg);
+                    s.Client.Send(data);
+                }
+            } catch {
+                // standalone usage
+            }
+        }
+
         static void Main(string[] args)
         {
             int n = 100;
@@ -49,15 +60,8 @@ namespace test
             x = MatMul(ref a, ref b);
             Console.WriteLine("JIT warming up: {0}", x[1, 1]);
 
-            try {
-                using (var s = new System.Net.Sockets.TcpClient("localhost", 9001)) {
-                    var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
-                    var data = System.Text.Encoding.UTF8.GetBytes("C# " + runtime);
-                    s.Client.Send(data);
-                }
-            } catch {
-                // standalone usage
-            }
+            var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
+            Notify($"C# {runtime}\t{Process.GetCurrentProcess().Id}");
 
             Console.WriteLine("N = {0}", n);
             var sw = Stopwatch.StartNew();
@@ -67,6 +71,8 @@ namespace test
             sw.Stop();
             Console.WriteLine(x[n/2,n/2]);
             Console.WriteLine("time: {0}s", sw.Elapsed.TotalSeconds);
+
+            Notify("stop");
         }
     }
 }

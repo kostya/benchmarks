@@ -1,15 +1,21 @@
 require "json"
 require "socket"
 
-begin
-  TCPSocket.open("localhost", 9001) { |s|
-    s.puts "Crystal"
-  }
-rescue
-  # standalone usage
+def notify(msg)
+  begin
+    TCPSocket.open("localhost", 9001) { |s|
+      s.puts msg
+    }
+  rescue
+    # standalone usage
+  end
 end
 
-text = File.read("1.json")
+text = File.read("/tmp/1.json")
+
+pid = Process.pid
+notify("Crystal\t#{pid}")
+
 jobj = JSON.parse(text)
 coordinates = jobj["coordinates"].as_a
 len = coordinates.size
@@ -24,3 +30,5 @@ end
 p x / len
 p y / len
 p z / len
+
+notify("stop")

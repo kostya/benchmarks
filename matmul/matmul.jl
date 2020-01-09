@@ -42,6 +42,16 @@ function main(n)
   println(time() - t)
 end
 
+function notify(msg)
+  try
+    socket = connect("localhost", 9001)
+    write(socket, msg)
+    close(socket)
+  catch
+    # standalone usage
+  end
+end
+
 function test()
   n = 100
   if length(ARGS) >= 1
@@ -52,16 +62,12 @@ function test()
   main(200)
 
   println("bench")
-  try
-    socket = connect("localhost", 9001)
-    write(socket, "Julia (no BLAS)")
-    close(socket)
-  catch
-    # standalone usage
-  end
+  notify("Julia (no BLAS)\t$(getpid())")
 
   x = @timed main(n)
   println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+
+  notify("stop")
 end
 
 test()

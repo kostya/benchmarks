@@ -4,6 +4,8 @@ import std.array;
 import std.stdio;
 import std.socket;
 import std.compiler;
+import std.format;
+import core.thread;
 
 final:
 
@@ -452,16 +454,22 @@ class LoopTesterApp {
   }
 }
 
+void notify(string msg) {
+    try {
+        auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+        scope(exit) socket.close();
+        socket.send(msg);
+    } catch (SocketOSException) {
+        // standalone usage
+    }
+}
+
 int main() {
-  try {
-    auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
-    scope(exit) socket.close();
-    socket.send(name);
-  } catch (SocketOSException) {
-    // standalone usage
-  }
+  notify("%s\t%d".format(name, getpid()));
 
   auto l = new LoopTesterApp();
   l.run();
+
+  notify("stop");
   return 0;
 }

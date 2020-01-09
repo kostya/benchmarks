@@ -1,5 +1,7 @@
 import arraymancer, strutils, os
 import net, times
+import strformat
+import posix
 
 proc matgen*(n: int): auto =
     result = newTensor[float](@[n,n])
@@ -11,17 +13,20 @@ proc matgen*(n: int): auto =
 proc matmul*[T](a: Tensor[T], b: Tensor[T]) : auto =
     a * b
 
+proc notify(msg: string) =
+  try:
+    var socket = newSocket()
+    defer: socket.close()
+    socket.connect("localhost", Port(9001))
+    socket.send(msg)
+  except:
+    discard
+
 proc main() =
-    try:
-        var socket = newSocket()
-        defer: socket.close()
-        socket.connect("localhost", Port(9001))
-        when defined(gcc):
-            socket.send("Nim GCC Arraymancer")
-        else:
-            socket.send("Nim Clang Arraymancer")
-    except:
-        discard
+    var compiler = "Nim Clang"
+    when defined(gcc):
+        compiler = "Nim GCC"
+    notify(&"{compiler} Arraymancer\t{getpid()}")
 
     var n = 100
 
@@ -31,5 +36,7 @@ proc main() =
     let a, b = matgen(n)
     let c = matmul(a, b)
     echo formatFloat(c[n div 2, n div 2], ffDefault, 16)
+
+    notify("stop")
 
 main()

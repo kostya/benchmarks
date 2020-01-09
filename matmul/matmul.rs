@@ -40,13 +40,16 @@ fn mat_mul(a: &[Vec<f64>], b: &[Vec<f64>]) -> Vec<Vec<f64>> {
     c
 }
 
-fn main() {
-    {
-        use std::io::Write;
-        if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
-            stream.write_all(b"Rust").unwrap();
-        }
+fn notify(msg: &str) {
+    use std::io::Write;
+
+    if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+        stream.write_all(msg.as_bytes()).unwrap();
     }
+}
+
+fn main() {
+    notify(&format!("Rust\t{}", std::process::id()));
 
     let n = std::env::args()
             .nth(1)
@@ -59,4 +62,6 @@ fn main() {
     let c = mat_mul(&a, &b);
 
     println!("{}", c[n / 2][n / 2]);
+
+    notify("stop");
 }

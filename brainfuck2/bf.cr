@@ -75,12 +75,21 @@ class Program
   end
 end
 
-begin
-  TCPSocket.open("localhost", 9001) { |s|
-    s.puts "Crystal"
-  }
-rescue
-  # standalone usage
+def notify(msg)
+  begin
+    TCPSocket.open("localhost", 9001) { |s|
+      s.puts msg
+    }
+  rescue
+    # standalone usage
+  end
 end
 
-Program.new(File.read(ARGV[0])).run
+text = File.read(ARGV[0])
+
+pid = Process.pid
+notify("Crystal\t#{pid}")
+
+Program.new(text).run
+
+notify("stop")

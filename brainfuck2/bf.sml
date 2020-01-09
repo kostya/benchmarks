@@ -76,22 +76,28 @@ fun read_file filename =
     contents
   end
 
-val _ =
-let
-  val localhost = valOf(NetHostDB.fromString "127.0.0.1")
-  val addr = INetSock.toAddr(localhost, 9001)
-  val sock = INetSock.TCP.socket()
-  val _  = Socket.connect(sock, addr)
-in
-  Socket.sendVec(sock, Word8VectorSlice.full(Byte.stringToBytes "MLton"));
-  Socket.close sock
-end
-handle OS.SysErr _ => ()
+fun notify msg =
+  let
+    val localhost = valOf(NetHostDB.fromString "127.0.0.1")
+    val addr = INetSock.toAddr(localhost, 9001)
+    val sock = INetSock.TCP.socket()
+    val _  = Socket.connect(sock, addr)
+  in
+    Socket.sendVec(sock, Word8VectorSlice.full(Byte.stringToBytes msg));
+    Socket.close sock
+  end
+  handle OS.SysErr _ => ()
 
 val args = CommandLine.arguments ()
 val source =
   case args of
     [filename] => read_file filename
   | _ => OS.Process.exit(OS.Process.failure)
+
+val pid = LargeWord.toInt (Posix.Process.pidToWord (Posix.ProcEnv.getpid ()));
+notify("MLton\t" ^ Int.toString pid);
+
 val (_, ops) = parse(source, [])
-val _ = run ops { data = Array.fromList [0], pos = 0 }
+val _ = run ops { data = Array.fromList [0], pos = 0 };
+
+notify("stop");

@@ -1,6 +1,8 @@
 import tables
 import os
 import net
+import strformat
+import posix
 
 type
   Tape = object
@@ -77,16 +79,20 @@ proc run(prog: Program) =
       else: discard
     pc += 1
 
-try:
-  var socket = newSocket()
-  defer: socket.close()
-  socket.connect("localhost", Port(9001))
-  when defined(gcc):
-    socket.send("Nim GCC")
-  else:
-    socket.send("Nim Clang")
-except:
-  discard
+proc notify(msg: string) =
+  try:
+    var socket = newSocket()
+    defer: socket.close()
+    socket.connect("localhost", Port(9001))
+    socket.send(msg)
+  except:
+    discard
+
+var compiler = "Nim Clang"
+when defined(gcc):
+  compiler = "Nim GCC"
+notify(&"{compiler}\t{getpid()}")
 
 newProgram(readFile(paramStr(1))).run
 
+notify("stop")

@@ -5,6 +5,8 @@ import std.array;
 import std.conv;
 import std.socket;
 import std.compiler;
+import std.format;
+import core.thread;
 
 class Tape {
   int pos;
@@ -83,17 +85,23 @@ class Program {
   }
 };
 
+void notify(string msg) {
+    try {
+        auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+        scope(exit) socket.close();
+        socket.send(msg);
+    } catch (SocketOSException) {
+        // standalone usage
+    }
+}
+
 int main(string[] args) {
-  try {
-    auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
-    scope(exit) socket.close();
-    socket.send(name);
-  } catch (SocketOSException) {
-    // standalone usage
-  }
+  notify("%s\t%d".format(name, getpid()));
 
   string text = readText(args[1]);
   auto p = new Program(text);
   p.run();
+
+  notify("stop");
   return 0;
 }

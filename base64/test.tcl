@@ -2,15 +2,16 @@ package require Tcl 8.6
 
 set STR_SIZE 131072
 set TRIES 8192
+set str [string repeat a $STR_SIZE]
 
-proc main {size tries} {
-    set str [string repeat a $size]
+proc main {tries} {
+    global str
+    set t [clock milliseconds]
+    set length 0
 
     set encoded [binary encode base64 $str]
     puts -nonewline "encode [string range $str 0 4]... to [string range $str 0 4]...: "
 
-    set t [clock milliseconds]
-    set length 0
     for {set i 0} {$i < $tries} {incr i} {
         set encoded [binary encode base64 $str]
         incr length [string length $encoded]
@@ -29,10 +30,16 @@ proc main {size tries} {
     puts "$length, [expr { ([clock milliseconds] - $t) / 1000.0 }]"
 }
 
-catch {
-    set sock [socket "localhost" 9001]
-    puts $sock "Tcl"
-    close $sock
+proc notify msg {
+    catch {
+        set sock [socket "localhost" 9001]
+        puts $sock $msg
+        close $sock
+    }
 }
 
-main $STR_SIZE $TRIES
+notify [format "%s\t%d" "Tcl" [pid]]
+
+main $TRIES
+
+notify "stop"

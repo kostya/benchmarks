@@ -42,11 +42,17 @@ sub matgen {
   \@a
 }
 
-socket(my $socket, PF_INET, SOCK_STREAM,(getprotobyname('tcp'))[2]);
-if (connect($socket, pack_sockaddr_in(9001, inet_aton('localhost')))) {
-  print $socket "Perl";
+sub notify {
+    my $msg = shift;
+    socket(my $socket, Socket::PF_INET, Socket::SOCK_STREAM, (getprotobyname('tcp'))[2]);
+    if (connect($socket, Socket::pack_sockaddr_in(9001, Socket::inet_aton('localhost')))) {
+        print $socket $msg;
+    }
+    close($socket);
 }
-close($socket);
+
+my $pid = $$;
+notify("Perl\t${pid}");
 
 my $n = @ARGV ? shift : 100;
 $n = $n / 2 * 2;
@@ -54,3 +60,5 @@ my $a = matgen($n);
 my $b = matgen($n);
 my $c = matmul($a, $b);
 print $c->[$n/2]->[$n/2], "\n";
+
+notify("stop");

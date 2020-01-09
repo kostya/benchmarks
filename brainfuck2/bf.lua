@@ -85,14 +85,25 @@ local function Brainfuck(text)
   };
 end
 
-local socket = require "socket"
-socket.protect(function()
-  local c = socket.try(socket.connect("localhost", 9001))
-  local try = socket.newtry(function() c:close() end)
-  try(c:send(type(jit) == 'table' and "LuaJIT" or "Lua"))
-  c:close()
-end)()
+local function notify(msg)
+  local socket = require "socket"
+  socket.protect(function()
+    local c = socket.try(socket.connect("localhost", 9001))
+    local try = socket.newtry(function() c:close() end)
+    try(c:send(msg))
+    c:close()
+  end)()
+end
 
-local text = io.open(arg[1]):read("*a");
-local brainfuck = Brainfuck(text);
-brainfuck.run();
+local f = io.open(arg[1])
+local text = f:read("*a")
+f:close()
+
+local compiler = type(jit) == 'table' and "LuaJIT" or "Lua"
+local getpid = require 'posix.unistd'.getpid
+notify(string.format("%s\t%d", compiler, getpid()))
+
+local brainfuck = Brainfuck(text)
+brainfuck.run()
+
+notify("stop")

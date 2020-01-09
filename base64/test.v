@@ -2,15 +2,11 @@ import encoding.base64
 import benchmark
 import net
 
-fn notify() {
+fn notify(msg string) {
     sock := net.dial('127.0.0.1', 9001) or {
         return
     }
-    mut lang := "V GCC"
-    $if clang {
-      lang = "V Clang"
-    }
-    sock.write(lang) or {}
+    sock.write(msg) or {}
     sock.close() or {}
 }
 
@@ -19,14 +15,19 @@ fn main() {
   tries := 8192
 
   str := 'a'.repeat(str_size)
-  notify()
+
+    mut lang := "V GCC"
+    $if clang {
+      lang = "V Clang"
+    }
+    notify('${lang}\t${C.getpid()}')
+  mut bench := benchmark.new_benchmark()
+  bench.step()
+  mut s := 0
 
   str2 := base64.encode(str)
   print('encode ${str[0..4]}... to ${str2[0..4]}...: ')
 
-  mut bench := benchmark.new_benchmark()
-  bench.step()
-  mut s := 0
   for i := 0; i < tries; i++ {
     str2_local := base64.encode(str)
     s += str2_local.len
@@ -47,6 +48,8 @@ fn main() {
   }
   bench.ok()
   println(bench.step_message('$s'))
+
+  notify("stop")
 
   str2.free()
   str3.free()

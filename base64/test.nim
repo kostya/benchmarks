@@ -1,27 +1,31 @@
 import base64, times, strutils, strformat
 import net
+import posix
 
 let STR_SIZE = 131072
 let TRIES = 8192
 let str = strutils.repeat('a', STR_SIZE)
 
-try:
-  var socket = newSocket()
-  defer: socket.close()
-  socket.connect("localhost", Port(9001))
-  when defined(gcc):
-    socket.send("Nim GCC")
-  else:
-    socket.send("Nim Clang")
-except:
-  discard
+proc notify(msg: string) =
+  try:
+    var socket = newSocket()
+    defer: socket.close()
+    socket.connect("localhost", Port(9001))
+    socket.send(msg)
+  except:
+    discard
+
+var compiler = "Nim Clang"
+when defined(gcc):
+  compiler = "Nim GCC"
+notify(&"{compiler}\t{getpid()}")
+var t = times.epochTime()
+var i = 0
+var s:int64 = 0
 
 var str2 = base64.encode(str)
 stdout.write(fmt"encode {str[..3]}... to {str2[..3]}...: ")
 
-var t = times.epochTime()
-var i = 0
-var s:int64 = 0
 while i < TRIES:
   str2 = base64.encode(str)
   s += len(str2)
@@ -39,3 +43,5 @@ while i < TRIES:
   s += len(str3)
   i += 1
 echo(fmt"{s}, {formatFloat(times.epochTime() - t, ffDefault, 6)}")
+
+notify("stop")

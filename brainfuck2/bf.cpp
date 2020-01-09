@@ -3,6 +3,8 @@
 #include <map>
 #include <fstream>
 #include <libsocket/inetclientstream.hpp>
+#include <sstream>
+#include <unistd.h>
 
 using namespace std;
 
@@ -92,16 +94,25 @@ string read_file(string filename){
   return text;
 }
 
-int main(int argc, char** argv){
+void notify(const string& msg) {
   try {
     libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
-    sock << "C++";
+    sock << msg;
   } catch (...) {
     // standalone usage
   }
+}
 
+int main(int argc, char** argv) {
   string text = read_file(string(argv[1]));
+
+  stringstream ostr;
+  ostr << "C++\t" << getpid();
+  notify(ostr.str());
+
   Program p(text);
   p.run();
+
+  notify("stop");
   return 0;
 }

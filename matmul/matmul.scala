@@ -38,6 +38,12 @@ object MatMul {
     c
   }
 
+  def notify(msg: String): Unit = {
+    scala.util.Using((new java.net.Socket("localhost", 9001)).getOutputStream()) {
+        _.write(msg.getBytes())
+    }
+  }
+
   def main(args: Array[String]): Unit = {
     var n = 100
 
@@ -49,9 +55,7 @@ object MatMul {
     val t = matmul(matgen(500), matgen(500))
     println("JIT warming up: " + t(1)(1))
 
-    scala.util.Using((new java.net.Socket("localhost", 9001)).getOutputStream()) {
-        _.write("Scala".getBytes())
-    }
+    notify(s"Scala\t${ProcessHandle.current().pid()}")
 
     val start_time = System.nanoTime
 
@@ -61,5 +65,7 @@ object MatMul {
 
     println(x(n/2)(n/2))
     println("time: "+(System.nanoTime-start_time)/1e9+"s")
+
+    notify("stop")
   }
 }

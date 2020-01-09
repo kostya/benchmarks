@@ -24,6 +24,7 @@ executable json_hs
                      , unordered-containers
                      , vector
                      , network-simple
+                     , unix
   ghc-options:       -O2
                      -Wall
                      -Werror

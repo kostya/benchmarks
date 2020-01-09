@@ -427,13 +427,18 @@ def build_base_loop(from)
   build_straight(footer, 1)
 end
 
-begin
-  TCPSocket.open("localhost", 9001) { |s|
-    s.puts "Crystal"
-  }
-rescue
-  # standalone usage
+def notify(msg)
+  begin
+    TCPSocket.open("localhost", 9001) { |s|
+      s.puts msg
+    }
+  rescue
+    # standalone usage
+  end
 end
+
+pid = Process.pid
+notify("Crystal\t#{pid}")
 
 TOP_CFG = CFG.new
 
@@ -484,3 +489,5 @@ sum = 0
 end
 
 puts "\nFound #{loops} loops (including artificial root node) (#{sum})\n"
+
+notify("stop")

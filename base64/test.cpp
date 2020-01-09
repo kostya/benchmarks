@@ -8,6 +8,8 @@
 #include <iostream>
 #include <iomanip>
 #include <libsocket/inetclientstream.hpp>
+#include <sstream>
+#include <unistd.h>
 
 using namespace std;
 
@@ -88,26 +90,33 @@ public:
   }
 };
 
+void notify(const string& msg) {
+  try {
+    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
+    sock << msg;
+  } catch (...) {
+    // standalone usage
+  }
+}
+
 int main() {
   const int STR_SIZE = 131072;
   const int TRIES = 8192;
 
   bio_string str("a", STR_SIZE);
 
-  try {
-    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
-    sock << "C++ libcrypto";
-  } catch (...) {
-    // standalone usage
-  }
+  stringstream ostr;
+  ostr << "C++ libcrypto\t" << getpid();
+  notify(ostr.str());
+
+  long s = 0;
+  clock_t t = clock();
 
   bio_string str2 = str.base64_encode();
 
   cout << fixed;
   cout << "encode " << str.substr(0, 4) << "... to "<< str2.substr(0, 4) << "...: ";
 
-  long s = 0;
-  clock_t t = clock();
   for (int i = 0; i < TRIES; i++) {
     str2 = str.base64_encode();
     s += str2.length();
@@ -124,4 +133,6 @@ int main() {
     s += str3.length();
   }
   cout << s << ", " << setprecision(2) << (float)(clock() - t)/CLOCKS_PER_SEC << endl;
+
+  notify("stop");
 }

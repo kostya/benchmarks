@@ -16,6 +16,7 @@ import platform
 import resource
 import socket
 import sys
+import os
 
 #======================================================
 # Scaffold Code
@@ -572,9 +573,12 @@ def buildBaseLoop(From):
   footer = buildStraight(footer, 1)
   return  footer
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    if not s.connect_ex(("localhost", 9001)):
-        s.sendall(bytes(platform.python_implementation(), 'utf8'))
+def notify(msg):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        if not s.connect_ex(("localhost", 9001)):
+            s.sendall(bytes(msg, 'utf8'))
+
+notify("%s\t%d" % (platform.python_implementation(), os.getpid()))
 
 cfg = CFG()
 lsg = LSG()
@@ -630,3 +634,5 @@ for i in range(50):
   sum += HavlakLoopFinder(cfg, LSG()).findLoops()
 
 print("\nFound " + str(loops) + " loops (including artificial root node) (" + str(sum) + ")\n")
+
+notify("stop")

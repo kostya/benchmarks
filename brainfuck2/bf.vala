@@ -1,22 +1,27 @@
 #!/usr/bin/vala
-void start() {
+void notify(string message) {
     try {
         var address = new InetAddress.from_string ("127.0.0.1");
         var client = new SocketClient ();
         var conn = client.connect (new InetSocketAddress (address, 9001));
-        var message = "Vala ";
-#if GCC_TEST
-        message += "GCC";
-#elif CLANG_TEST
-        message += "Clang";
-#else
-        // The preprocessor directive for the test should be specified
-        Process.exit(-1);
-#endif
         conn.output_stream.write (message.data);
     } catch (Error e) {
         // Standalone usage
     }
+}
+
+void start() {
+    var msg = "Vala ";
+#if GCC_TEST
+    msg += "GCC";
+#elif CLANG_TEST
+    msg += "Clang";
+#else
+    // The preprocessor directive for the test should be specified
+    Process.exit(-1);
+#endif
+    msg += @"\t $((uint16)Posix.getpid())";
+    notify(msg);
 }
 
 enum OpT {INC, MOVE, PRINT, LOOP}
@@ -106,6 +111,8 @@ namespace Test {
             p.run();
             timer.stop();
             message("time: " + timer.elapsed().to_string() + " s");
+
+            notify("stop");
         }
     }
 }

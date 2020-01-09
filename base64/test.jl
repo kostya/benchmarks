@@ -5,11 +5,12 @@ function main(tries)
   str_size = 131072
   str = repeat("a", str_size)
 
+  t = time()
+  s = 0
+
   str2 = base64encode(str)
   print("encode $(str[1:4])... to $(str2[1:4]): ")
 
-  t = time()
-  s = 0
   for i in 1:tries
     str2 = base64encode(str)
     s += length(str2)
@@ -32,13 +33,20 @@ println("JIT warming up")
 main(5)
 
 println("bench")
-try
-  socket = connect("localhost", 9001)
-  write(socket, "Julia")
-  close(socket)
-catch
-  # standalone usage
+
+function notify(msg)
+  try
+    socket = connect("localhost", 9001)
+    write(socket, msg)
+    close(socket)
+  catch
+    # standalone usage
+  end
 end
+
+notify("Julia\t$(getpid())")
 
 x = @timed main(8192)
 println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+
+notify("stop")

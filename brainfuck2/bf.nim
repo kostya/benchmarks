@@ -1,4 +1,6 @@
 import net
+import strformat
+import posix
 
 type
   OpType = enum Inc, Move, Loop, Print
@@ -63,17 +65,24 @@ proc run(ops: Program) =
   var tape = initTape()
   run Ops ops, tape
 
+proc notify(msg: string) =
+  try:
+    var socket = newSocket()
+    defer: socket.close()
+    socket.connect("localhost", Port(9001))
+    socket.send(msg)
+  except:
+    discard
+
 import os
 
-try:
-  var socket = newSocket()
-  defer: socket.close()
-  socket.connect("localhost", Port(9001))
-  when defined(gcc):
-    socket.send("Nim GCC")
-  else:
-    socket.send("Nim Clang")
-except:
-  discard
+var text = paramStr(1).readFile()
 
-paramStr(1).readFile().parse().run()
+var compiler = "Nim Clang"
+when defined(gcc):
+  compiler = "Nim GCC"
+notify(&"{compiler}\t{getpid()}")
+
+text.parse().run()
+
+notify("stop")
