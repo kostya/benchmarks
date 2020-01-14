@@ -58,7 +58,7 @@ void notify(string msg) {
 
 void main(in string[] args)
 {
-    notify("LDC lubeck\t%d".format(getpid()));
+    notify("DMD lubeck\t%d".format(getpid()));
 
     size_t n = 100;
     if (args.length >= 2)

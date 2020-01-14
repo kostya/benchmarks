@@ -10,7 +10,7 @@ rustc -C opt-level=3 -C lto matmul.rs -o matmul_rs
 dmd -ofmatmul_d -O -release -inline matmul.d
 gdc -o matmul_d_gdc -O3 -frelease -finline matmul.d
 ldc2 -ofmatmul_d_ldc -O5 -release matmul.d
-dub build --build=release --single matmul_d_lubeck.d --compiler=ldc2
+dub build --build=release --single matmul_d_lubeck.d --compiler=dmd
 nim c -o:matmul_nim_gcc --cc:gcc  -d:danger --opt:speed --verbosity:0 matmul.nim
 nim c -o:matmul_nim_clang --cc:clang -d:danger --opt:speed --verbosity:0 matmul.nim
 

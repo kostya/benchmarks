@@ -22,7 +22,7 @@ void main()
 {
     string text = readText("/tmp/1.json");
 
-    notify("GDC fast\t%d".format(getpid()));
+    notify("DMD fast\t%d".format(getpid()));
 
     double x = 0, y = 0, z = 0;
 

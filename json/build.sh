@@ -22,7 +22,7 @@ g++ -O3 test_boost.cpp -o json_boost_cpp -lsocket++
 if [ ! -d fast ]; then
   git clone --depth 1 https://github.com/mleise/fast.git
 fi
-gdc -o json_d_gdc_fast -O3 -frelease test_fast.d fast/source/fast/cstring.d fast/source/fast/buffer.d fast/source/fast/json.d fast/source/fast/parsing.d fast/source/fast/intmath.d fast/source/fast/internal/sysdef.di fast/source/fast/internal/helpers.d fast/source/fast/unicode.d fast/source/fast/internal/unicode_tables.d fast/source/std/simd.d
+dmd -ofjson_d_fast -O -release -inline test_fast.d fast/source/fast/cstring.d fast/source/fast/buffer.d fast/source/fast/json.d fast/source/fast/parsing.d fast/source/fast/intmath.d fast/source/fast/internal/sysdef.di fast/source/fast/internal/helpers.d fast/source/fast/unicode.d fast/source/fast/internal/unicode_tables.d fast/source/std/simd.d
 
 if [ ! -d rapidjson ]; then
   git clone --depth 1 https://github.com/miloyip/rapidjson.git

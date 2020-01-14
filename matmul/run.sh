@@ -17,7 +17,7 @@ echo D Gdc
 ../xtime.rb ./matmul_d_gdc 1500
 echo D Ldc
 ../xtime.rb ./matmul_d_ldc 1500
-echo D lubeck
+echo DMD lubeck
 ../xtime.rb ./matmul_d_lubeck 1500
 echo Nim Gcc
 ../xtime.rb ./matmul_nim_gcc 1500
