@@ -1,10 +1,11 @@
 import core.stdc.stdio;
-import fast.json;
-import std.socket;
-import std.compiler;
-import std.format;
 import core.thread;
+import fast.json;
+import std.compiler;
 import std.file : readText;
+import std.format;
+import std.socket;
+import std.typecons;
 
 struct Coord { double x, y, z; }
 
@@ -21,12 +22,14 @@ void notify(string msg) {
 void main()
 {
     string text = readText("/tmp/1.json");
+    // We need to append 16 zero bytes for SSE to work
+    text ~= "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
 
     notify("GDC fast\t%d".format(getpid()));
 
     double x = 0, y = 0, z = 0;
 
-    auto json = parseTrustedJSON(text);
+    auto json = Json!(trustedSource, false)(text, No.simdPrep);
     auto coords = json.coordinates.read!(Coord[]);
 
     foreach (ref coord; coords)

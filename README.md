@@ -170,8 +170,8 @@ Testing parsing and simple calculating of values from a big JSON file.
 
 |              Language |       Time, s |     Memory, MiB |        Energy, J |
 | :-------------------- | ------------: | --------------: | ---------------: |
+|              GDC fast |  0.14 ± 00.00 |  231.46 ± 00.12 |     3.37 ± 00.18 |
 |     Rust Serde Custom |  0.19 ± 00.00 |  108.54 ± 00.07 |     5.14 ± 00.06 |
-|              GDC fast |  0.19 ± 00.00 |  231.69 ± 00.22 |     5.54 ± 00.25 |
 |      Rust Serde Typed |  0.20 ± 00.00 |  120.33 ± 00.13 |     5.74 ± 00.73 |
 |          C++ simdjson |  0.31 ± 00.00 |  496.82 ± 00.92 |     8.29 ± 00.46 |
 |             C++ gason |  0.32 ± 00.00 |  313.18 ± 00.09 |     8.28 ± 00.42 |
