@@ -109,10 +109,16 @@ proc main filename {
     $bf destroy
 }
 
-catch {
-    set sock [socket "localhost" 9001]
-    puts $sock "Tcl"
-    close $sock
+proc notify msg {
+    catch {
+        set sock [socket "localhost" 9001]
+        puts $sock $msg
+        close $sock
+    }
 }
 
+notify [format "%s\t%d" "Tcl" [pid]]
+
 main [lindex $argv 0]
+
+notify "stop"

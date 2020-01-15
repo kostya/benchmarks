@@ -44,6 +44,16 @@ fun matmul(a: Array<DoubleArray>, b: Array<DoubleArray>): Array<DoubleArray> {
     return x
 }
 
+fun notify(msg: String) {
+    try {
+        java.net.Socket("localhost", 9001).getOutputStream().use {
+            it.write(msg.toByteArray())
+        }
+    } catch (e: java.io.IOException) {
+        // standalone usage
+    }
+}
+
 fun main(args: Array<String>) {
     val n =
         if (args.size >= 1) { Integer.parseInt(args[0]) / 2 * 2 }
@@ -52,13 +62,8 @@ fun main(args: Array<String>) {
     val t = matmul(matgen(500), matgen(500))
     println("JIT warming up: ${t[1][1]}")
 
-    try {
-        java.net.Socket("localhost", 9001).getOutputStream().use {
-            it.write("Kotlin".toByteArray())
-        }
-    } catch (e: java.io.IOException) {
-        // standalone usage
-    }
+    val pid = ProcessHandle.current().pid()
+    notify("Kotlin\t${pid}")
 
     val start_time = System.currentTimeMillis()
     val a = matgen(n)
@@ -67,4 +72,5 @@ fun main(args: Array<String>) {
     
     println(x[n / 2][n / 2])
     println("time: ${(System.currentTimeMillis() - start_time) / 1e3}s")
+    notify("stop")
 }

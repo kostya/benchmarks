@@ -56,7 +56,7 @@ echo Mono
 echo C# .Net Core
 ../xtime.rb dotnet bin/Release/netcoreapp3.0/json.dll
 echo C# System.Text.Json
-../xtime.rb dotnet json-core/bin/Release/netcoreapp3.0/json.dll
+../xtime.rb dotnet json-core/bin/Release/netcoreapp3.0/json-core.dll
 echo Ruby
 ../xtime.rb ruby test.rb
 echo Ruby YAJL

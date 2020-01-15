@@ -86,11 +86,12 @@
 (define destroy-inet-socket
   (foreign-procedure "destroy_inet_socket" (int) int))
 
-(let ([sock (create-inet-stream-socket "localhost" "9001" 3 0)])
-  (if (not (eq? sock -1))
-    (let ([bv (string->utf8 "Chez Scheme")])
-      (send sock bv (bytevector-length bv) 0)
-      (destroy-inet-socket sock))))
+(define (notify msg)
+  (let ([sock (create-inet-stream-socket "localhost" "9001" 3 0)])
+    (if (not (eq? sock -1))
+      (let ([bv (string->utf8 msg)])
+        (send sock bv (bytevector-length bv) 0)
+        (destroy-inet-socket sock)))))
 
 (define (get-file-arg-or-exit)
   (let ((cl (command-line)))
@@ -104,7 +105,13 @@
   (call-with-input-file path
     (lambda (port) (get-string-all port))))
 
+(define text '())
+(set! text (file->string (get-file-arg-or-exit)))
+
+(notify (format "Chez Scheme\t~s" (get-process-id)))
+
 (run
-  (parse
-    (file->string (get-file-arg-or-exit)))
+  (parse text)
   (make-tape (make-vector 1) 0))
+
+(notify "stop")

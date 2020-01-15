@@ -1,5 +1,7 @@
 import os, strutils
 import net
+import strformat
+import posix
 
 type
   Matrix = seq[seq[float]]
@@ -39,16 +41,19 @@ proc matmul(a: Matrix, b: Matrix): Matrix =
       c[i][j] = s
   result = c
 
-try:
-  var socket = newSocket()
-  defer: socket.close()
-  socket.connect("localhost", Port(9001))
-  when defined(gcc):
-    socket.send("Nim GCC")
-  else:
-    socket.send("Nim Clang")
-except:
-  discard
+proc notify(msg: string) =
+  try:
+    var socket = newSocket()
+    defer: socket.close()
+    socket.connect("localhost", Port(9001))
+    socket.send(msg)
+  except:
+    discard
+
+var compiler = "Nim Clang"
+when defined(gcc):
+  compiler = "Nim GCC"
+notify(&"{compiler}\t{getpid()}")
 
 var n = 100
 if paramCount() > 0:
@@ -59,3 +64,5 @@ let a = matgen(n)
 let b = matgen(n)
 let c = matmul(a, b)
 echo formatFloat(c[n div 2][n div 2], ffDefault, 8)
+
+notify("stop")

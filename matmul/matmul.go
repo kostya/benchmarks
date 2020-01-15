@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"net"
+	"os"
 	"runtime"
 	"strconv"
 )
@@ -47,12 +48,16 @@ func matmul(a [][]float64, b [][]float64) [][]float64 {
 	return x
 }
 
-func main() {
+func notify(msg string) {
 	conn, err := net.Dial("tcp", "localhost:9001")
 	if err == nil {
-		fmt.Fprintf(conn, runtime.Compiler)
+		fmt.Fprintf(conn, msg)
 		conn.Close()
 	}
+}
+
+func main() {
+	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
 
 	n := int(100)
 	flag.Parse()
@@ -63,4 +68,6 @@ func main() {
 	b := matgen(n)
 	x := matmul(a, b)
 	fmt.Printf("%f\n", x[n/2][n/2])
+
+	notify("stop")
 }

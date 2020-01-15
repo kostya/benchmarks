@@ -5,6 +5,12 @@ object Base64 {
   def encode(str: Array[Byte]) = enc.encodeToString(str)
   def decode(str: String) = dec.decode(str)
 
+  def notify(msg: String): Unit = {
+    scala.util.Using((new java.net.Socket("localhost", 9001)).getOutputStream()) {
+        _.write(msg.getBytes())
+    }
+  }
+
   def main(args: Array[String]): Unit = {
     val STR_SIZE = 131072
     val TRIES = 8192
@@ -15,16 +21,13 @@ object Base64 {
       decode(encode(str))
     }
 
-    scala.util.Using((new java.net.Socket("localhost", 9001)).getOutputStream()) {
-        _.write("Scala".getBytes())
-    }
+    notify(s"Scala\t${ProcessHandle.current().pid()}")
+    val t = System.nanoTime
+    var s = 0
 
     var str2 = encode(str)
     print(s"encode ${new String(str.take(4))}... to ${str2.substring(0, 4)}...: ")
 
-    val t = System.nanoTime
-
-    var s = 0
     for (_ <- 1 to TRIES) {
       str2 = encode(str)
       s += str2.length
@@ -43,5 +46,7 @@ object Base64 {
     val now = System.nanoTime
     println(s"$s, ${(now - t1) / 1e9}")
     println(s"overall time: ${(now - t) / 1e9}s")
+
+    notify("stop")
   }
 }

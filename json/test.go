@@ -3,9 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net"
 	"os"
 	"runtime"
+	"strings"
 )
 
 type Coordinate struct {
@@ -16,20 +18,26 @@ type TestStruct struct {
 	Coordinates []Coordinate
 }
 
-func main() {
+func notify(msg string) {
 	conn, err := net.Dial("tcp", "localhost:9001")
 	if err == nil {
-		fmt.Fprintf(conn, runtime.Compiler)
+		fmt.Fprintf(conn, msg)
 		conn.Close()
 	}
+}
 
-	f, err := os.Open("./1.json")
+func main() {
+	bytes, err := ioutil.ReadFile("/tmp/1.json")
 	if err != nil {
-		panic(err)
+		panic(fmt.Sprintf("%v", err))
 	}
+	content := string(bytes)
+	reader := strings.NewReader(content)
+
+	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
 
 	jobj := TestStruct{}
-	err = json.NewDecoder(f).Decode(&jobj)
+	err = json.NewDecoder(reader).Decode(&jobj)
 	if err != nil {
 		panic(err)
 	}
@@ -44,4 +52,6 @@ func main() {
 
 	len := float64(len(jobj.Coordinates))
 	fmt.Printf("%.8f\n%.8f\n%.8f\n", x/len, y/len, z/len)
+
+	notify("stop")
 }

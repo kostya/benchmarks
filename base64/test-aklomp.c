@@ -4,6 +4,7 @@
 #include <libsocket/libinetsocket.h>
 #include "time.h"
 #include "libbase64.h"
+#include <unistd.h>
 #include "../lib/config.h"
 
 int encode_size(int size) {
@@ -14,6 +15,14 @@ int decode_size(int size) {
   return (int)(size * 3 / 4.0) + 6;
 }
 
+void notify(char *msg, size_t len) {
+  int sock = create_inet_stream_socket("localhost", "9001", LIBSOCKET_IPv4, 0);
+  if (sock != -1) {
+    send(sock, msg, len, 0);
+    destroy_inet_socket(sock);
+  }
+}
+
 int main() {
   const int STR_SIZE = 131072;
   const int TRIES = 8192;
@@ -22,12 +31,11 @@ int main() {
   memset(str, 'a', STR_SIZE);
   str[STR_SIZE] = '\0';
 
-  int sock = create_inet_stream_socket("localhost", "9001", LIBSOCKET_IPv4, 0);
-  if (sock != -1) {
-    char msg[] = "C aklomp";
-    send(sock, msg, sizeof(msg), 0);
-    destroy_inet_socket(sock);
-  }
+  char msg[32];
+  size_t len = snprintf(msg, sizeof(msg), "C aklomp\t%d", getpid());
+  notify(msg, len);
+  int s = 0;
+  clock_t t = clock();
 
   size_t str2_size;
   char str2[encode_size(STR_SIZE)];
@@ -35,8 +43,6 @@ int main() {
   base64_encode(str, STR_SIZE, str2, &str2_size, 0);
   printf("encode %s... to %s...: ", strndup(str, 4), strndup(str2, 4));
 
-  int s = 0;
-  clock_t t = clock();
   for (int i = 0; i < TRIES; i++) {
     size_t str2_size;
     char str2[encode_size(STR_SIZE)];
@@ -61,4 +67,7 @@ int main() {
     s += str3_size;
   }
   printf("%d, %.2f\n", s, (float)(clock() - t)/CLOCKS_PER_SEC);
+
+  char stop_msg[] = "stop";
+  notify(stop_msg, sizeof(stop_msg));
 }

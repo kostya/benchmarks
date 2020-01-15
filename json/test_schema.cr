@@ -15,15 +15,21 @@ class Coordinates
   })
 end
 
-begin
-  TCPSocket.open("localhost", 9001) { |s|
-    s.puts "Crystal Schema"
-  }
-rescue
-  # standalone usage
+def notify(msg)
+  begin
+    TCPSocket.open("localhost", 9001) { |s|
+      s.puts msg
+    }
+  rescue
+    # standalone usage
+  end
 end
 
-text = File.read("1.json")
+text = File.read("/tmp/1.json")
+
+pid = Process.pid
+notify("Crystal Schema\t#{pid}")
+
 coordinates = Coordinates.from_json(text).coordinates
 len = coordinates.size
 x = y = z = 0
@@ -37,3 +43,5 @@ end
 p x / len
 p y / len
 p z / len
+
+notify("stop")

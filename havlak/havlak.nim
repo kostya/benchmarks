@@ -1,6 +1,8 @@
 import tables
 import sets
 import net
+import strformat
+import posix
 
 type
   BasicBlock = object
@@ -439,16 +441,21 @@ proc run(self: var LoopTesterApp) =
     sum += hlf.findLoops
   echo "\nFound ", loops, " loops (including artificial root node) (", sum, ")"
 
-try:
-  var socket = newSocket()
-  defer: socket.close()
-  socket.connect("localhost", Port(9001))
-  when defined(gcc):
-    socket.send("Nim GCC")
-  else:
-    socket.send("Nim Clang")
-except:
-  discard
+proc notify(msg: string) =
+  try:
+    var socket = newSocket()
+    defer: socket.close()
+    socket.connect("localhost", Port(9001))
+    socket.send(msg)
+  except:
+    discard
+
+var compiler = "Nim Clang"
+when defined(gcc):
+  compiler = "Nim GCC"
+notify(&"{compiler}\t{getpid()}")
 
 var l = NewLoopTesterApp()
 l.run
+
+notify("stop")

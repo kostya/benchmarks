@@ -23,7 +23,7 @@ RUN  apt-get update \
      python3-numpy python3 python3-ujson \
      mono-devel nuget \
      chezscheme gccgo gdc valac \
-     luajit lua5.3 lua-socket \
+     luajit lua5.3 lua-socket lua-posix \
      tcl tcllib php elixir clang-9 opam \
   && rm -rf /var/lib/apt/lists/* /tmp/* \
   && ln -s /usr/bin/clang-9 /usr/bin/clang
@@ -34,9 +34,9 @@ ENV JQ_LIB_DIR=/usr/lib/x86_64-linux-gnu/
 WORKDIR /opt
 
 # https://www.ruby-lang.org/en/downloads/
-RUN export VERSION=ruby-2.6.5 \
+RUN export VERSION=ruby-2.7.0 \
     && wget --progress=dot:giga -O - \
-    https://cache.ruby-lang.org/pub/ruby/2.6/$VERSION.tar.gz \
+    https://cache.ruby-lang.org/pub/ruby/2.7/$VERSION.tar.gz \
     | tar -xz \
     && cd $VERSION \
     && ./configure --prefix=/opt/ruby && make -j && make install \
@@ -44,14 +44,14 @@ RUN export VERSION=ruby-2.6.5 \
 ENV PATH="/opt/ruby/bin:${PATH}"
 
 # https://github.com/dotnet/core/tree/master/release-notes
-ARG DOTNET_CORE=3.0.101
+ARG DOTNET_CORE=3.1.100
 RUN mkdir dotnet && wget --progress=dot:giga -O - \
-    https://download.visualstudio.microsoft.com/download/pr/4f51cfd8-311d-43fe-a887-c80b40358cfd/440d10dc2091b8d0f1a12b7124034e49/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
+    https://download.visualstudio.microsoft.com/download/pr/d731f991-8e68-4c7c-8ea0-fad5605b077a/49497b5420eecbd905158d86d738af64/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
     | tar -xz -C dotnet
 ENV PATH="/opt/dotnet:${PATH}"
 
 # https://pypy.org/download.html
-ARG PYPY=pypy3.6-v7.2.0-linux64
+ARG PYPY=pypy3.6-v7.3.0-linux64
 RUN wget --progress=dot:giga -O - \
     https://bitbucket.org/pypy/pypy/downloads/$PYPY.tar.bz2 \
     | tar -xj
@@ -65,16 +65,16 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/jdk-$JDK/bin:${PATH}"
 
 # https://github.com/crystal-lang/crystal/releases
-ARG CRYSTAL=crystal-0.32.0-1
+ARG CRYSTAL=crystal-0.32.1-1
 RUN wget --progress=dot:giga -O - \
-    https://github.com/crystal-lang/crystal/releases/download/0.32.0/$CRYSTAL-linux-x86_64.tar.gz \
+    https://github.com/crystal-lang/crystal/releases/download/0.32.1/$CRYSTAL-linux-x86_64.tar.gz \
     | tar -xz
 ENV PATH="/opt/$CRYSTAL/bin:${PATH}"
 
 # https://github.com/ldc-developers/ldc/releases
-ARG LDC=ldc2-1.18.0-linux-x86_64
+ARG LDC=ldc2-1.19.0-linux-x86_64
 RUN wget --progress=dot:giga -O - \
-    https://github.com/ldc-developers/ldc/releases/download/v1.18.0/$LDC.tar.xz \
+    https://github.com/ldc-developers/ldc/releases/download/v1.19.0/$LDC.tar.xz \
     | tar -xJ
 ENV PATH="/opt/$LDC/bin/:${PATH}"
 
@@ -93,7 +93,7 @@ ENV PATH="/opt/go/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN wget --progress=dot:giga -O - \
-    http://downloads.dlang.org/releases/2.x/2.089.1/dmd.2.089.1.linux.tar.xz \
+    http://downloads.dlang.org/releases/2.x/2.090.0/dmd.2.090.0.linux.tar.xz \
     | tar -xJ
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
@@ -105,7 +105,7 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/scala-$SCALA/bin/:${PATH}"
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v13.3.0
+ARG NODE=v13.5.0
 RUN wget --progress=dot:giga -O - \
     https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
     | tar -xJ
@@ -123,7 +123,7 @@ RUN wget --progress=dot:giga -O - \
     && ln -s /opt/jruby-$JRUBY/bin/jruby /usr/bin/jruby
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.3.0
+ARG JULIA=julia-1.3.1
 RUN wget --progress=dot:giga -O - \
     https://julialang-s3.julialang.org/bin/linux/x64/1.3/$JULIA-linux-x86_64.tar.gz \
     | tar -xz
@@ -177,6 +177,7 @@ RUN wget --progress=dot:giga \
     https://mirror.racket-lang.org/installers/$RACKET/racket-$RACKET-x86_64-linux.sh \
     && sh racket-$RACKET-x86_64-linux.sh --unix-style --dest /usr/ \
     && rm racket-$RACKET-x86_64-linux.sh
+
 ENV GHCUP_INSTALL_BASE_PREFIX="/opt"
 RUN curl https://get-ghcup.haskell.org -sSf \
     | BOOTSTRAP_HASKELL_NONINTERACTIVE="y" sh
@@ -201,7 +202,7 @@ RUN wget --progress=dot:giga -O - \
     && cd .. && rm -rf libsocket-$LIBSOCKET
 
 # https://github.com/graalvm/graalvm-ce-builds/releases
-ARG GRAALVM=19.3.0
+ARG GRAALVM=19.3.0.2
 RUN wget --progress=dot:giga -O - \
     https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-$GRAALVM/graalvm-ce-java11-linux-amd64-$GRAALVM.tar.gz \
     | tar -xz \

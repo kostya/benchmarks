@@ -1,13 +1,11 @@
-extern crate memmap;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
 extern crate serde_json;
 
-use memmap::Mmap;
 use serde::{de, Deserializer};
 use std::fmt;
-use std::fs::File;
+use std::fs;
 use std::str;
 
 #[derive(Deserialize)]
@@ -70,22 +68,25 @@ where
     deserializer.deserialize_seq(StateVisitor)
 }
 
-fn main() {
-    {
-        use std::io::Write;
-        if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
-            stream.write_all(b"Rust Serde custom").unwrap();
-        }
+fn notify(msg: &str) {
+    use std::io::Write;
+
+    if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+        stream.write_all(msg.as_bytes()).unwrap();
     }
+}
 
-    let file = File::open("1.json").unwrap();
-    let mmap = unsafe { Mmap::map(&file).unwrap() };
-    let contents = str::from_utf8(&mmap[..]).unwrap();
+fn main() {
+    let content = fs::read_to_string("/tmp/1.json").unwrap();
 
-    let test: TestStruct = serde_json::from_str(&contents).unwrap();
+    notify(&format!("Rust Serde Custom\t{}", std::process::id()));
+
+    let test: TestStruct = serde_json::from_str(&content).unwrap();
 
     let len = test.state.len as f64;
     println!("{}", test.state.x / len);
     println!("{}", test.state.y / len);
     println!("{}", test.state.z / len);
+
+    notify("stop");
 }

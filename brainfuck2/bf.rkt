@@ -1,5 +1,5 @@
 #lang racket
-(require racket/file racket/list racket/match racket/cmdline
+(require racket/file racket/list racket/match racket/cmdline racket/os
          (rename-in racket/unsafe/ops
                     [unsafe-vector-ref vector-ref]
                     [unsafe-vector-set! vector-set!]
@@ -74,13 +74,21 @@
       [_ (void)]))
   (step-ops! parsed))
 
-;;; I/O.
-(with-handlers ([exn:fail:network? (lambda (_) (void))])
-  (let-values ([(in out) (tcp-connect "localhost" 9001)])
-    (display "Racket" out)
-      (close-output-port out)))
+(define (notify msg)
+  (with-handlers ([exn:fail:network? (lambda (_) (void))])
+    (let-values ([(in out) (tcp-connect "localhost" 9001)])
+      (display msg out)
+        (close-output-port out))))
 
 (define (read-c path)
   (parameterize ([current-locale "C"])
     (file->string path)))
-(run (parse (read-c (command-line #:args (filename) filename))) (tape (vector 0) 0))
+
+(define text null)
+(set! text (read-c (command-line #:args (filename) filename)))
+
+(notify (format "Racket\t~s" (getpid)))
+
+(run (parse text) (tape (vector 0) 0))
+
+(notify "stop")

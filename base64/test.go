@@ -4,30 +4,33 @@ import (
 	"encoding/base64"
 	"fmt"
 	"net"
+	"os"
 	"runtime"
 	"strings"
 	"time"
 )
+
+func notify(msg string) {
+	conn, err := net.Dial("tcp", "localhost:9001")
+	if err == nil {
+		fmt.Fprintf(conn, msg)
+		conn.Close()
+	}
+}
 
 func main() {
 	STR_SIZE := 131072
 	TRIES := 8192
 
 	bytes := []byte(strings.Repeat("a", STR_SIZE))
-
-	conn, err := net.Dial("tcp", "localhost:9001")
-	if err == nil {
-		fmt.Fprintf(conn, runtime.Compiler)
-		conn.Close()
-	}
-
 	coder := base64.StdEncoding
+
+	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
+	t := time.Now()
+	s := 0
 
 	str2 := coder.EncodeToString(bytes)
 	fmt.Printf("encode %s... to %s...: ", string(bytes[:4]), str2[:4])
-
-	t := time.Now()
-	s := 0
 
 	for i := 0; i < TRIES; i += 1 {
 		str2 = coder.EncodeToString(bytes)
@@ -45,4 +48,6 @@ func main() {
 		s += len(str3)
 	}
 	fmt.Printf("%d, %.4f\n", s, time.Since(t).Seconds())
+
+	notify("stop")
 }

@@ -81,6 +81,16 @@ fun warming() {
     System.err.println("time: ${(System.currentTimeMillis() - start_time) / 1e3}s")
 }
 
+fun notify(msg: String) {
+    try {
+        java.net.Socket("localhost", 9001).getOutputStream().use {
+            it.write(msg.toByteArray())
+        }
+    } catch (e: java.io.IOException) {
+        // standalone usage
+    }
+}
+
 @Throws(IOException::class)
 fun main(args: Array<String>) {
     val code = String(Files.readAllBytes(Paths.get(args[0])))
@@ -88,16 +98,12 @@ fun main(args: Array<String>) {
     warming()
 
     System.err.println("run")
-    try {
-        java.net.Socket("localhost", 9001).getOutputStream().use {
-            it.write("Kotlin".toByteArray())
-        }
-    } catch (e: java.io.IOException) {
-        // standalone usage
-    }
+    val pid = ProcessHandle.current().pid()
+    notify("Kotlin\t${pid}")
 
     val start_time = System.currentTimeMillis()
     val program = Program(code)
     program.run()
     System.err.println("time: ${(System.currentTimeMillis() - start_time) / 1e3}s")
+    notify("stop")
 }

@@ -57,9 +57,19 @@ function main() {
     brainfuck.run();
 }
 
-const client = require('net').connect(9001, 'localhost', () => {
-    client.end('Node.js', 'utf8', () => {
-        client.destroy();
-        main();
+function notify(msg) {
+    return new Promise(resolve => {
+        const client = require('net').connect(9001, 'localhost', () => {
+            client.end(msg, 'utf8', () => {
+                client.destroy();
+                resolve();
+            });
+        }).on('error', resolve);
     });
-}).on('error', main);
+}
+
+(async function() {
+    await notify(`Node.js\t${require('process').pid}`);
+    main();
+    await notify('stop');
+})();

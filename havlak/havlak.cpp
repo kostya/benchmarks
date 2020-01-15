@@ -19,6 +19,8 @@
 #include <vector>
 #include <algorithm>
 #include <libsocket/inetclientstream.hpp>
+#include <sstream>
+#include <unistd.h>
 
 // Forward Decls
 class BasicBlock;
@@ -759,14 +761,19 @@ int buildBaseLoop(MaoCFG *cfg, int from) {
   return footer;
 }
 
-
-int main(int argc, char *argv[]) {
+void notify(const std::string& msg) {
   try {
     libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
-    sock << "C++";
+    sock << msg;
   } catch (...) {
     // standalone usage
   }
+}
+
+int main(int argc, char *argv[]) {
+  std::stringstream ostr;
+  ostr << "C++\t" << getpid();
+  notify(ostr.str());
 
   fprintf(stderr, "Welcome to LoopTesterApp, C++ edition\n");
   MaoCFG cfg;
@@ -819,4 +826,6 @@ int main(int argc, char *argv[]) {
   fprintf(stderr,
           "\nFound %d loops (including artificial root node)"
           "(%d)\n", num_loops, sum);
+
+  notify("stop");
 }

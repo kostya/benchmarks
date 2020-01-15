@@ -4,6 +4,8 @@
 import std.numeric, std.stdio, std.string, std.conv;
 import std.socket;
 import std.compiler;
+import std.format;
+import core.thread;
 
 double[][] matGen(in int n) {
   auto len = n * n;
@@ -42,14 +44,18 @@ double[][] matMul(in double[][] a, in double[][] b) {
   return x;
 }
 
+void notify(string msg) {
+    try {
+        auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+        scope(exit) socket.close();
+        socket.send(msg);
+    } catch (SocketOSException) {
+        // standalone usage
+    }
+}
+
 void main(in string[] args) {
-  try {
-    auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
-    scope(exit) socket.close();
-    socket.send(name);
-  } catch (SocketOSException) {
-    // standalone usage
-  }
+  notify("%s\t%d".format(name, getpid()));
 
   int n = 100;
   if (args.length >= 2) n = to!int(args[1]) / 2 * 2;
@@ -57,4 +63,6 @@ void main(in string[] args) {
   auto b = matGen(n);
   auto x = matMul(a, b);
   printf("%.6f\n", x[n / 2][n / 2]);
+
+  notify("stop");
 }

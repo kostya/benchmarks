@@ -116,13 +116,17 @@ public class brainfuck {
 
     }
 
-    public static void main( String[] args ) throws IOException {
+    private static void notify(final String msg) {
         try (var socket = new java.net.Socket("localhost", 9001);
              var out = socket.getOutputStream()) {
-            out.write("Java".getBytes("UTF-8"));
+            out.write(msg.getBytes("UTF-8"));
         } catch (java.io.IOException e) {
             // standalone usage
         }
+    }
+
+    public static void main( String[] args ) throws IOException {
+        notify("Java\t" + ProcessHandle.current().pid());
 
         byte[] code = Files.readAllBytes( Paths.get( args[0] ) );
 
@@ -130,6 +134,8 @@ public class brainfuck {
         Program program = new Program( code );
         program.run( new Tape() );
         System.out.println("time: " + (System.currentTimeMillis()-start_time)/1e3+"s");
+
+        notify("stop");
     }
 }
 

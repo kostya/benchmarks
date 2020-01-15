@@ -10,6 +10,15 @@ class Base64Java {
     final static Base64.Decoder dec = Base64.getDecoder();
     final static Base64.Encoder enc = Base64.getEncoder();
 
+    private static void notify(final String msg) {
+        try (var socket = new java.net.Socket("localhost", 9001);
+             var out = socket.getOutputStream()) {
+            out.write(msg.getBytes("UTF-8"));
+        } catch (java.io.IOException e) {
+            // standalone usage
+        }
+    }
+
     public static void main(String[] args){
         final byte[] str = new byte[STR_SIZE];
         Arrays.fill(str, (byte)'a');
@@ -19,20 +28,15 @@ class Base64Java {
             dec.decode(enc.encodeToString(str));
         }
 
-        try (var socket = new java.net.Socket("localhost", 9001);
-             var out = socket.getOutputStream()) {
-            out.write("Java".getBytes("UTF-8"));
-        } catch (java.io.IOException e) {
-            // standalone usage
-        }
+        notify("Java\t" + ProcessHandle.current().pid());
+        int s = 0;
+        final Long t = System.nanoTime();
 
         String str2 = enc.encodeToString(str);
         out.print(String.format("encode %s... to %s...: ",
             new String(Arrays.copyOf(str, 4)),
             str2.substring(0, 4)));
 
-        int s = 0;
-        final Long t = System.nanoTime();
         for (int i = 0 ; i < TRIES ; i++) {
             str2 = enc.encodeToString(str);
             s += str2.length();
@@ -54,5 +58,7 @@ class Base64Java {
         final Long now = System.nanoTime();
         out.println(String.format("%d, %.2f", s, (now - t1) / 1e9));
         out.println("overall time: " + (now - t) / 1e9 + "s");
+
+        notify("stop");
     }
 }

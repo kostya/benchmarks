@@ -1,22 +1,41 @@
 #include <iostream>
 #include <libsocket/inetclientstream.hpp>
 #include "simdjson/jsonparser.h"
+#include <sstream>
+#include <unistd.h>
+#include <fstream>
 
 using namespace simdjson;
 
-int main(int argc, char *argv[]) {
+void read_file(const std::string& filename, std::stringstream &buffer) {
+  std::ifstream f(filename);
+  if (f.good()) {
+    buffer << f.rdbuf();
+  }
+}
+
+void notify(const std::string& msg) {
   try {
     libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
-    sock << "C++ simdjson";
+    sock << msg;
   } catch (...) {
     // standalone usage
   }
+}
 
-  padded_string p = get_corpus("1.json"); 
+int main(int argc, char *argv[]) {
+  std::stringstream ss;
+  read_file("/tmp/1.json", ss);
+  std::string text = ss.str();
+
+  std::stringstream ostr;
+  ostr << "C++ simdjson\t" << getpid();
+  notify(ostr.str());
+
   ParsedJson pj;
   int res = simdjson::SUCCESS;
-  if (pj.allocate_capacity(p.size())) { // allocate memory for parsing up to p.size() bytes
-    res = json_parse(p, pj); // do the parsing, return 0 on success
+  if (pj.allocate_capacity(text.size())) { // allocate memory for parsing up to p.size() bytes
+    res = json_parse(text, pj); // do the parsing, return 0 on success
   }
   if (res != simdjson::SUCCESS) {
     std::cout << pj.get_error_message() << std::endl;
@@ -76,5 +95,6 @@ int main(int argc, char *argv[]) {
   std::cout << y / len << std::endl;
   std::cout << z / len << std::endl;
 
+  notify("stop");
   return EXIT_SUCCESS;
 }

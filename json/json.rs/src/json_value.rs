@@ -1,25 +1,21 @@
-extern crate memmap;
-extern crate serde;
-extern crate serde_json;
-
-use memmap::Mmap;
 use serde_json::Value;
-use std::fs::File;
+use std::fs;
 use std::str;
 
-fn main() {
-    {
-        use std::io::Write;
-        if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
-            stream.write_all(b"Rust Serde Untyped").unwrap();
-        }
+fn notify(msg: &str) {
+    use std::io::Write;
+
+    if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+        stream.write_all(msg.as_bytes()).unwrap();
     }
+}
 
-    let file = File::open("1.json").unwrap();
-    let mmap = unsafe { Mmap::map(&file).unwrap() };
-    let contents = str::from_utf8(&mmap[..]).unwrap();
+fn main() {
+    let content = fs::read_to_string("/tmp/1.json").unwrap();
 
-    let value: Value = serde_json::from_str(&contents).unwrap();
+    notify(&format!("Rust Serde Untyped\t{}", std::process::id()));
+
+    let value: Value = serde_json::from_str(&content).unwrap();
 
     let coordinates = value.get("coordinates").unwrap().as_array().unwrap();
 
@@ -37,4 +33,6 @@ fn main() {
     println!("{}", x / len);
     println!("{}", y / len);
     println!("{}", z / len);
+
+    notify("stop");
 }

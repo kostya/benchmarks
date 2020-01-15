@@ -56,6 +56,13 @@ let rec run program t =
           else run loop_code t |> loop
       in loop t
 
+let notify (msg: string) =
+  try
+    use s = new System.Net.Sockets.TcpClient("localhost", 9001)
+    let data = System.Text.Encoding.UTF8.GetBytes(msg)
+    ignore(s.Client.Send(data))
+  with _ -> ()
+
 [<EntryPoint>]
 let main argv =
   match argv with
@@ -74,17 +81,14 @@ let main argv =
     Console.Error.WriteLine("time: {0}s", stopWatch.Elapsed.TotalSeconds)
 
     Console.Error.WriteLine("run")
-    try
-       use s = new System.Net.Sockets.TcpClient("localhost", 9001)
-       let runtime = if isNull(Type.GetType("Mono.Runtime")) then ".NET Core" else "Mono"
-       let data = System.Text.Encoding.UTF8.GetBytes("F# " + runtime)
-       ignore(s.Client.Send(data))
-    with _ -> ()
+    let runtime = if isNull(Type.GetType("Mono.Runtime")) then ".NET Core" else "Mono"
+    notify(String.Format("F# {0}\t{1}", runtime, Process.GetCurrentProcess().Id))
 
     stopWatch.Restart()
     let (_, ops) = parse(source, [])
     let _ = run ops { data = [| 0 |]; pos = 0 }
     stopWatch.Stop()
     Console.Error.WriteLine("time: {0}s", stopWatch.Elapsed.TotalSeconds)
+    notify("stop")
     0
   | _ -> 1

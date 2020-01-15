@@ -75,17 +75,25 @@ defmodule BF do
 end
 
 defmodule Benchmark do
+  def notify(msg) do
+    with {:ok, socket} <- :gen_tcp.connect('localhost', 9001, []) do
+      :gen_tcp.send(socket, msg)
+      :gen_tcp.close(socket)
+    end
+  end
+
   def run do
     [filename] = System.argv()
-    File.read!(filename)
-    |> BF.parse()
+    text = File.read!(filename)
+
+    notify("Elixir\t#{System.pid()}")
+
+    BF.parse(text)
     |> BF.run(%BF.Tape{})
+
+    notify("stop")
   end
 end
 
-with {:ok, socket} <- :gen_tcp.connect('localhost', 9001, []) do
-   :gen_tcp.send(socket, "Elixir")
-   :gen_tcp.close(socket)
-end
-
 Benchmark.run()
+

@@ -55,20 +55,21 @@ fn matmul(a [] []f64, b [] []f64) [] []f64 {
   return c
 }
 
-fn notify() {
+fn notify(msg string) {
     sock := net.dial('127.0.0.1', 9001) or {
         return
     }
-    mut lang := "V GCC"
-    $if clang {
-      lang = "V Clang"
-    }
-    sock.write(lang) or {}
+    sock.write(msg) or {}
     sock.close() or {}
 }
 
 fn main() {
-  notify()
+    mut lang := "V GCC"
+    $if clang {
+      lang = "V Clang"
+    }
+    notify('${lang}\t${C.getpid()}')
+
   n := if os.args.len != 2 {
     100
   } else {
@@ -79,4 +80,6 @@ fn main() {
   b := matgen(n)
   c := matmul(a, b)
   println(c[n / 2] [n / 2])
+
+    notify("stop")
 }

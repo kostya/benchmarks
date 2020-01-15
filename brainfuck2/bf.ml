@@ -64,18 +64,24 @@ let read_file filename =
     close_in chan;
     !s
 
-let main =
-  let _ =
-    let addr = Unix.ADDR_INET(Unix.inet_addr_loopback, 9001) in
-    try
-      let (_, oc) = Unix.open_connection(addr) in
-      Fun.protect (fun() -> output_string oc "OCaml")
-        ~finally:(fun() -> close_out oc)
-    with Unix.Unix_error _ -> () in
+let notify msg =
+  let addr = Unix.ADDR_INET(Unix.inet_addr_loopback, 9001) in
+  try
+    let (_, oc) = Unix.open_connection(addr) in
+    Fun.protect (fun() -> output_string oc msg)
+      ~finally:(fun() -> close_out oc)
+  with Unix.Unix_error _ -> ()
 
+let main =
   match Sys.argv with
   | [| _; filename |] ->
     let source = read_file filename in
+
+    let pid = Unix.getpid() in
+    notify(Printf.sprintf "OCaml\t%d" pid);
+
     let (_, ops) = parse(source, []) in
-    run ops { data = [| 0 |]; pos = 0 }
+    ignore(run ops { data = [| 0 |]; pos = 0 });
+
+    notify "stop"
   | _ -> exit 1

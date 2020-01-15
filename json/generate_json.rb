@@ -13,4 +13,4 @@ x = []
   x << h
 end
 
-File.open("1.json", 'w') { |f| f.write JSON.pretty_generate('coordinates' => x, 'info' => "some info") }
+File.open("/tmp/1.json", 'w') { |f| f.write JSON.pretty_generate('coordinates' => x, 'info' => "some info") }

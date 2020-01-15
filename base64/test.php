@@ -4,17 +4,22 @@ $TRIES = 8192;
 
 $str = str_repeat("a", $STR_SIZE);
 
-$socket = @fsockopen('localhost', 9001);
-if ($socket) {
-   fputs($socket, 'PHP');
-   fclose($socket);
+function notify($msg) {
+    $socket = @fsockopen('localhost', 9001);
+    if ($socket) {
+        fputs($socket, $msg);
+        fclose($socket);
+    }
 }
+
+$pid = posix_getpid();
+notify("PHP\t$pid");
+$s = 0;
+$start = microtime(true);
 
 $str2 = base64_encode($str);
 printf("encode %s... to %s...: ", substr($str, 0, 4), substr($str2, 0, 4));
 
-$s = 0;
-$start = microtime(true);
 for ($i = 0; $i < $TRIES; $i++) {
     $str2 = base64_encode($str);
     $s += strlen($str2);
@@ -31,3 +36,5 @@ for ($i = 0; $i < $TRIES; $i++) {
     $s += strlen($str3);
 }
 printf("%d, %.2f\n", $s, microtime(true) - $start);
+
+notify("stop");

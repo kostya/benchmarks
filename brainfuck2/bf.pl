@@ -107,15 +107,26 @@ sub run {
     }
 }
 
-socket(my $socket, Socket::PF_INET, Socket::SOCK_STREAM, (getprotobyname('tcp'))[2]);
-if (connect($socket, Socket::pack_sockaddr_in(9001, Socket::inet_aton('localhost')))) {
-  print $socket "Perl";
+sub notify {
+    my $msg = shift;
+    socket(my $socket, Socket::PF_INET, Socket::SOCK_STREAM, (getprotobyname('tcp'))[2]);
+    if (connect($socket, Socket::pack_sockaddr_in(9001, Socket::inet_aton('localhost')))) {
+        print $socket $msg;
+    }
+    close($socket);
 }
-close($socket);
 
 open (FH, "<", shift) or die $!;
 undef $/;
 $| = 1;
-my ($parsed, $n) = parse([split //, <FH>]);
+my $text = [split //, <FH>];
+close(FH);
+
+my $pid = $$;
+notify("Perl\t${pid}");
+
+my ($parsed, $n) = parse($text);
 my $tape = Tape->new();
 run($parsed, $tape);
+
+notify("stop");

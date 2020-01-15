@@ -124,21 +124,15 @@ fn (si mut StringIterator) next() byte {
   }
 }
 
-fn notify() {
+fn notify(msg string) {
     sock := net.dial('127.0.0.1', 9001) or {
         return
     }
-    mut lang := "V GCC"
-    $if clang {
-      lang = "V Clang"
-    }
-    sock.write(lang) or {}
+    sock.write(msg) or {}
     sock.close() or {}
 }
 
 fn main() {
-    notify()
-
     args := os.args
     mut filename := ''
 
@@ -155,5 +149,13 @@ fn main() {
       return
     }
 
+    mut lang := "V GCC"
+    $if clang {
+      lang = "V Clang"
+    }
+    notify('${lang}\t${C.getpid()}')
+
     new_program(code).run()
+
+    notify("stop")
 }

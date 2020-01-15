@@ -1,10 +1,8 @@
 import JSON3
 using Sockets
 
-function main()
-  jobj = open("1.json") do file
-    JSON3.read(file)
-  end
+function main(text)
+  jobj = JSON3.read(text)
   coordinates = jobj["coordinates"]
   len = length(coordinates)
   x = y = z = 0
@@ -20,21 +18,31 @@ function main()
   println(z / len)
 end
 
-function test()
-  x = @timed main()
+function test(text)
+  x = @timed main(text)
   println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
 end
 
+text = open("/tmp/1.json") do file
+  read(file, String)
+end
+
 for i in 1:4
-  test()
+  test(text)
 end
 
-try
-  socket = connect("localhost", 9001)
-  write(socket, "Julia")
-  close(socket)
-catch
-  # standalone usage
+function notify(msg)
+  try
+    socket = connect("localhost", 9001)
+    write(socket, msg)
+    close(socket)
+  catch
+    # standalone usage
+  end
 end
 
-test()
+notify("Julia JSON3\t$(getpid())")
+
+test(text)
+
+notify("stop")

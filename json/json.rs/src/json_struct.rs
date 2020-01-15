@@ -1,12 +1,9 @@
-extern crate memmap;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
 extern crate serde_json;
 
-use memmap::Mmap;
-
-use std::fs::File;
+use std::fs;
 use std::str;
 
 #[derive(Deserialize)]
@@ -21,20 +18,20 @@ pub struct TestStruct {
     coordinates: Vec<Coordinate>,
 }
 
-fn main() {
-    {
-        use std::io::Write;
-        if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
-            stream.write_all(b"Rust Serde typed").unwrap();
-        }
+fn notify(msg: &str) {
+    use std::io::Write;
+
+    if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+        stream.write_all(msg.as_bytes()).unwrap();
     }
-    std::net::TcpStream::connect("localhost:9001").unwrap();
+}
 
-    let file = File::open("1.json").unwrap();
-    let mmap = unsafe { Mmap::map(&file).unwrap() };
-    let s = str::from_utf8(&mmap[..]).unwrap();
+fn main() {
+    let s = fs::read_to_string("/tmp/1.json").unwrap();
 
-    let jobj: TestStruct = serde_json::from_str(s).unwrap();
+    notify(&format!("Rust Serde Typed\t{}", std::process::id()));
+
+    let jobj: TestStruct = serde_json::from_str(&s).unwrap();
 
     let len = jobj.coordinates.len() as f64;
     let mut x = 0_f64;
@@ -50,4 +47,6 @@ fn main() {
     println!("{}", x / len);
     println!("{}", y / len);
     println!("{}", z / len);
+
+    notify("stop");
 }

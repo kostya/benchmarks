@@ -9,17 +9,23 @@ use constant TRIES => 8192;
 
 my $str = 'a' x STR_SIZE;
 
-socket(my $socket, PF_INET, SOCK_STREAM,(getprotobyname('tcp'))[2]);
-if (connect($socket, pack_sockaddr_in(9001, inet_aton('localhost')))) {
-  print $socket "Perl MIME::Base64::Perl";
+sub notify {
+    my $msg = shift;
+    socket(my $socket, Socket::PF_INET, Socket::SOCK_STREAM, (getprotobyname('tcp'))[2]);
+    if (connect($socket, Socket::pack_sockaddr_in(9001, Socket::inet_aton('localhost')))) {
+        print $socket $msg;
+    }
+    close($socket);
 }
-close($socket);
+
+my $pid = $$;
+notify("Perl MIME::Base64::Perl\t${pid}");
+my ($t, $s) = (time, 0);
 
 my $str2 = encode_base64 $str, '';
 printf("encode %s... to %s...: ",
        substr($str, 0, 4), substr($str2, 0, 4));
 
-my ($t, $s) = (time, 0);
 for (1..TRIES) {
   $str2 = encode_base64 $str, '';
   $s += length $str2;
@@ -36,3 +42,5 @@ for (1..TRIES) {
   $s += length $str3;
 }
 printf("%d, %.2f\n", $s, time - $t);
+
+notify("stop");

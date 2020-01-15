@@ -22,10 +22,9 @@ namespace Test
             public List<Coordinate> Coordinates { get; set; }
         }
 
-        static void ParseJson()
+        static void ParseJson(string text)
         {
             var sw = Stopwatch.StartNew();
-            var text = File.ReadAllText("./1.json");
 
             var root = JsonConvert.DeserializeObject<Root>(text);
 
@@ -47,23 +46,30 @@ namespace Test
             Console.WriteLine("time: {0}s", sw.Elapsed.TotalSeconds);
         }
 
-        static void Main(string[] args)
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                ParseJson();
-            }
-
+        private static void Notify(string msg) {
             try {
                 using (var s = new System.Net.Sockets.TcpClient("localhost", 9001)) {
-                    var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
-                    var data = System.Text.Encoding.UTF8.GetBytes("C# " + runtime);
+                    var data = System.Text.Encoding.UTF8.GetBytes(msg);
                     s.Client.Send(data);
                 }
             } catch {
                 // standalone usage
             }
-            ParseJson();
         }
+
+        static void Main(string[] args)
+        {
+            var text = File.ReadAllText("/tmp/1.json");
+            for (int i = 0; i < 4; i++)
+            {
+                ParseJson(text);
+            }
+
+            var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
+            Notify($"C# {runtime}\t{Process.GetCurrentProcess().Id}");
+
+            ParseJson(text);
+
+            Notify("stop");}
     }
 }

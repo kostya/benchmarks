@@ -1,8 +1,11 @@
 #include "rapidjson/reader.h"
-#include "rapidjson/filereadstream.h"
+#include <rapidjson/istreamwrapper.h>
 #include <cstdio>
 #include <iostream>
 #include <libsocket/inetclientstream.hpp>
+#include <sstream>
+#include <unistd.h>
+#include <fstream>
 
 using namespace std;
 using namespace rapidjson;
@@ -11,7 +14,7 @@ class CoordinateHandler : public BaseReaderHandler<UTF8<>, CoordinateHandler> {
 public:
   CoordinateHandler() : state_(kStart), x_(), y_(), z_() {}
 
-  bool Double(double d) { 
+  bool Double(double d) {
     switch (state_) {
       case kX: x_ += d; state_ = kCoordinatesElement; break;
       case kY: y_ += d; state_ = kCoordinatesElement; break;
@@ -30,7 +33,7 @@ public:
     return true;
   }
 
-  bool Key(const Ch* str, SizeType len, bool copy) { 
+  bool Key(const Ch* str, SizeType len, bool copy) {
     switch (state_) {
       case kRoot:
         if (len == sizeof("coordinates") - 1 && memcmp(str, "coordinates", sizeof("coordinates") - 1) == 0)
@@ -91,21 +94,34 @@ private:
   double x_, y_, z_;
 };
 
+void read_file(const string& filename, stringstream &buffer) {
+  ifstream f(filename);
+  if (f.good()) {
+    buffer << f.rdbuf();
+  }
+}
+
+void notify(const string& msg) {
+  try {
+    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
+    sock << msg;
+  } catch (...) {
+    // standalone usage
+  }
+}
+
 int main() {
-    try {
-      libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
-      sock << "C++ RapidJSON SAX";
-    } catch (...) {
-      // standalone usage
-    }
+    stringstream ss;
+    read_file("/tmp/1.json", ss);
 
-    FILE* fp = std::fopen("./1.json", "r");
-    char buffer[65536];
-    FileReadStream frs(fp, buffer, sizeof(buffer));
+    stringstream ostr;
+    ostr << "C++ RapidJSON SAX\t" << getpid();
+    notify(ostr.str());
 
+    IStreamWrapper isw(ss);
     Reader reader;
     CoordinateHandler handler;
-    reader.Parse(frs, handler);
+    reader.Parse(isw, handler);
 
-    fclose(fp);
+    notify("stop");
 }

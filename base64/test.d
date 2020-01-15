@@ -6,27 +6,32 @@ import std.range;
 import std.stdio;
 import std.socket;
 import std.compiler;
+import core.thread;
 
 enum STR_SIZE = 131072;
 enum TRIES = 8192;
+
+void notify(string msg) {
+    try {
+        auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+        scope(exit) socket.close();
+        socket.send(msg);
+    } catch (SocketOSException) {
+        // standalone usage
+    }
+}
 
 int main()
 {
     auto str1 = (cast(ubyte) 'a').repeat(STR_SIZE).array;
 
-    try {
-        auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
-        scope(exit) socket.close();
-        socket.send(name);
-    } catch (SocketOSException) {
-        // standalone usage
-    }
+    notify("%s\t%d".format(name, getpid()));
+    uint s = 0;
+    auto t = Clock.currTime();
 
     string str2 = Base64.encode(str1);
     write("encode %s... to %s...: ".format(cast(string)str1[0..4], str2[0..4]));
 
-    uint s = 0;
-    auto t = Clock.currTime();
     for (int i = 0; i < TRIES; i++)
     {
         str2 = Base64.encode(str1);
@@ -48,5 +53,6 @@ int main()
 
     writeln("%d, %.2f".format(s, (Clock.currTime() - t).total!"msecs"() / 1000.0));
 
+    notify("stop");
     return 0;
 }

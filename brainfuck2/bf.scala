@@ -62,8 +62,14 @@ object BrainFuck {
     ret
   }
 
+  def notify(msg: String): Unit = {
+    scala.util.Using((new java.net.Socket("localhost", 9001)).getOutputStream()) {
+        _.write(msg.getBytes())
+    }
+  }
+
   def main(args: Array[String]): Unit = {
-    val text = scala.io.Source.fromFile(args(0)).mkString
+    val text = scala.util.Using(scala.io.Source.fromFile(args(0))) { _.mkString }.get
 
     // JIT warming up
     System.err.print("JIT warming up\n")
@@ -73,13 +79,11 @@ object BrainFuck {
     //
 
     System.err.print("run\n")
-    scala.util.Using((new java.net.Socket("localhost", 9001)).getOutputStream()) {
-        _.write("Scala".getBytes())
-    }
+    notify(s"Scala\t${ProcessHandle.current().pid()}")
 
     time {
       new Program(text).run
     }
-
+    notify("stop")
   }
 }

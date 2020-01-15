@@ -8,7 +8,7 @@ scalac bf.scala
 mcs -debug- -optimize+ bf.cs
 dotnet build brainfuck2.csproj -c Release
 javac bf.java
-kotlinc bf2.kt -include-runtime -d bf2-kt.jar
+kotlinc bf2.kt -include-runtime -jvm-target 12 -d bf2-kt.jar
 go build -o bin_go bf.go
 gccgo -O3 -g -o bin_go_gccgo bf.go
 dmd -ofbin_d -O -release -inline bf.d
@@ -20,8 +20,8 @@ ghc -O2 -fforce-recomp bf.hs -o bin_hs
 ghc -O2 -fforce-recomp bf-marray.hs -o bin_hs_marray
 ocamlopt -unsafe unix.cmxa bf.ml -o bin_ocaml
 dotnet build brainfuck2.fsproj -c Release
-valac bf.vala --cc=gcc -D GCC_TEST --disable-assert -X -O3 --pkg gio-2.0 -o bin_vala_gcc
-valac bf.vala --cc=clang -D CLANG_TEST --disable-assert -X -O3 --pkg gio-2.0 -o bin_vala_clang
+valac bf.vala --cc=gcc -D GCC_TEST --disable-assert -X -O3 --pkg gio-2.0 --pkg posix -o bin_vala_gcc
+valac bf.vala --cc=clang -D CLANG_TEST --disable-assert -X -O3 --pkg gio-2.0 --pkg posix -o bin_vala_clang
 mlton -output bin_sml bf.sml
 v -prod -cc gcc -o bin_v_gcc bf.v
 v -prod -cc clang -o bin_v_clang bf.v

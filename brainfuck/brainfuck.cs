@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace Test
 {
@@ -91,21 +92,27 @@ namespace Test
             }
         }
 
-        static void Main(string[] args)
-        {
+        private static void Notify(string msg) {
             try {
                 using (var s = new System.Net.Sockets.TcpClient("localhost", 9001)) {
-                    var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
-                    var data = System.Text.Encoding.UTF8.GetBytes("C# " + runtime);
+                    var data = System.Text.Encoding.UTF8.GetBytes(msg);
                     s.Client.Send(data);
                 }
             } catch {
                 // standalone usage
             }
+        }
+
+        static void Main(string[] args)
+        {
+            var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
+            Notify($"C# {runtime}\t{Process.GetCurrentProcess().Id}");
 
             string text = File.ReadAllText(args[0]);
             var p = new Program(text);
             p.Run();
+
+            Notify("stop");
         }
     }
 }

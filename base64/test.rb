@@ -1,32 +1,39 @@
 require "base64"
 require "socket"
 
+def notify(msg)
+  begin
+    Socket.tcp('localhost', 9001) { |s|
+      s.puts msg
+    }
+  rescue
+    # standalone usage
+  end
+end
+
 STR_SIZE = 131072
 TRIES = 8192
 
 str = "a" * STR_SIZE
 
-begin
-  Socket.tcp('localhost', 9001) { |s|
-    engine = "#{RUBY_ENGINE}"
-    if engine == "truffleruby"
-      desc = "#{RUBY_DESCRIPTION}"
-      if desc.include?('Native')
-        engine = "TruffleRuby Native"
-      elsif desc.include?('JVM')
-        engine = "TruffleRuby JVM"
-      end
-    end
-    s.puts engine
-  }
-rescue
-  # standalone usage
+engine = "#{RUBY_ENGINE}"
+if engine == "truffleruby"
+  desc = "#{RUBY_DESCRIPTION}"
+  if desc.include?('Native')
+    engine = "TruffleRuby Native"
+  elsif desc.include?('JVM')
+    engine = "TruffleRuby JVM"
+  end
 end
+
+pid = Process.pid
+notify("#{engine}\t#{pid}")
+
+t, s = Process.clock_gettime(Process::CLOCK_MONOTONIC), 0
 
 str2 = Base64.strict_encode64(str)
 print "encode #{str[0..3]}... to #{str2[0..3]}...: "
 
-t, s = Process.clock_gettime(Process::CLOCK_MONOTONIC), 0
 TRIES.times do |i|
   str2 = Base64.strict_encode64(str)
   s += str2.bytesize
@@ -42,3 +49,5 @@ TRIES.times do |i|
   s += str3.bytesize
 end
 puts "#{s}, #{Process.clock_gettime(Process::CLOCK_MONOTONIC) - t}"
+
+notify("stop")

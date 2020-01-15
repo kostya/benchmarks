@@ -9,6 +9,8 @@ import mir.ndslice;
 import lubeck: mtimes;
 import std.socket;
 import std.compiler;
+import std.format;
+import core.thread;
 
 alias Matrix = Slice!(double*, 2);
 
@@ -44,15 +46,19 @@ Matrix mul(Matrix a, Matrix b)
 	return a.mtimes(b);
 }
 
-void main(in string[] args)
-{
+void notify(string msg) {
     try {
         auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
         scope(exit) socket.close();
-        socket.send("LDC lubeck");
+        socket.send(msg);
     } catch (SocketOSException) {
         // standalone usage
     }
+}
+
+void main(in string[] args)
+{
+    notify("LDC lubeck\t%d".format(getpid()));
 
     size_t n = 100;
     if (args.length >= 2)
@@ -60,4 +66,6 @@ void main(in string[] args)
     auto ab = generate2(n);
     auto x = mul(ab[0], ab[1]);
     printf("%.6f\n", x[n / 2, n / 2]);
+
+    notify("stop");
 }
