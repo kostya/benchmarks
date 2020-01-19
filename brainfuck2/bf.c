@@ -288,6 +288,9 @@ int main(int argc, char *argv[])
 	fsize = ftell(f);
 	fseek(f, 0, SEEK_SET);
 
+	/* use unbuffered stdout */
+	setbuf(stdout, NULL);
+
 	code = malloc(sizeof(char) * fsize + 1);
 	fread(code, 1, fsize, f);
 	fclose(f);
@@ -303,7 +306,6 @@ int main(int argc, char *argv[])
 	parse(&it, &ops);
 
 	eval(&ops, &tape);
-	fflush(stdout);
 
 	free(code);
 	tape_free(tape);
