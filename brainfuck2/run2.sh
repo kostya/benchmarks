@@ -61,3 +61,7 @@ echo TruffleRuby
 ../xtime.rb truffleruby --jvm bf.rb mandel.b > /dev/null
 echo Julia
 ../xtime.rb julia --check-bounds=no bf.jl mandel.b > /dev/null
+echo C clang
+../xtime.rb ./bin_c_clang mandel.b > /dev/null
+echo C GCC
+../xtime.rb ./bin_c_gcc mandel.b > /dev/null
