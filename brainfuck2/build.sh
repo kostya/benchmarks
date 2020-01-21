@@ -25,3 +25,5 @@ valac bf.vala --cc=clang -D CLANG_TEST --disable-assert -X -O3 --pkg gio-2.0 --p
 mlton -output bin_sml bf.sml
 v -prod -cc gcc -o bin_v_gcc bf.v
 v -prod -cc clang -o bin_v_clang bf.v
+gcc -O3 -o bin_c_gcc bf.c -lsocket
+clang -O3 -o bin_c_clang bf.c -lsocket
