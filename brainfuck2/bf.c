@@ -234,6 +234,7 @@ void eval(const struct op_list *ops, struct tape *tape)
 			break;
 		case OP_PRINT:
 			putc(tape_get(*tape), stdout);
+			fflush(stdout);
 			break;
 		}
 	}
@@ -278,9 +279,6 @@ int main(int argc, char *argv[])
 	fseek(f, 0, SEEK_END);
 	fsize = ftell(f);
 	fseek(f, 0, SEEK_SET);
-
-	/* use unbuffered stdout */
-	setbuf(stdout, NULL);
 
 	code = malloc(sizeof(char) * fsize + 1);
 	fread(code, 1, fsize, f);
