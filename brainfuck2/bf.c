@@ -5,7 +5,7 @@
 #include <libsocket/libinetsocket.h>
 
 #ifdef __clang__
-# define COMPILER "clang"
+# define COMPILER "Clang"
 #else
 # define COMPILER "GCC"
 #endif

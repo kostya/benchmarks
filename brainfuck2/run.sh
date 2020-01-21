@@ -79,7 +79,7 @@ echo V Clang
 ../xtime.rb ./bin_v_clang bench.b
 echo Julia
 ../xtime.rb julia --optimize=3 --check-bounds=no bf.jl bench.b
-echo C clang
+echo C Clang
 ../xtime.rb ./bin_c_clang bench.b
 echo C GCC
 ../xtime.rb ./bin_c_gcc bench.b
