@@ -79,18 +79,9 @@ void op_list_free(struct op_list *list)
 
 void op_list_grow(struct op_list *list)
 {
-	struct op *new_list;
-	int i;
-
 	/* double the capacity */
 	list->cap <<= 1;
-	new_list = malloc(sizeof(struct op) * list->cap);
-
-	for (i = 0; i < list->len; i += 1)
-		new_list[i] = list->ops[i];
-
-	free(list->ops);
-	list->ops = new_list;
+	list->ops = realloc(list->ops, sizeof(struct op) * list->cap);
 }
 
 int op_list_length(const struct op_list *list)
@@ -198,16 +189,12 @@ char tape_get(const struct tape tape)
 
 void tape_grow(struct tape *tape)
 {
-	int i, new_cap, *new_tape;
+	int new_cap;
 
 	new_cap = tape->cap << 1;
-	new_tape = calloc(sizeof(int), new_cap);
+	tape->tape = realloc(tape->tape, sizeof(int) * new_cap);
 
-	for (i = 0; i < tape->cap; i += 1)
-		new_tape[i] = tape->tape[i];
-
-	free(tape->tape);
-	tape->tape = new_tape;
+	memset(tape->tape + tape->cap, 0, new_cap - tape->cap);
 	tape->cap = new_cap;
 }
 
