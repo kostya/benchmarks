@@ -4,9 +4,6 @@
 #include <unistd.h>
 #include <libsocket/libinetsocket.h>
 
-#define OP_LIST_DEFAULT_CAPACITY 1 << 5
-#define TAPE_DEFAULT_CAPACITY 1 << 5
-
 #ifdef __clang__
 # define COMPILER "clang"
 #else
@@ -63,8 +60,8 @@ void op_free(struct op op)
 void op_list_init(struct op_list *list)
 {
 	list->len = 0;
-	list->cap = OP_LIST_DEFAULT_CAPACITY;
-	list->ops = malloc(sizeof(struct op) * OP_LIST_DEFAULT_CAPACITY);
+	list->cap = 0;
+	list->ops = NULL;
 }
 
 void op_list_free(struct op_list *list)
@@ -79,8 +76,12 @@ void op_list_free(struct op_list *list)
 
 void op_list_grow(struct op_list *list)
 {
-	/* double the capacity */
-	list->cap <<= 1;
+	if (list->ops == NULL) {
+		list->cap = 4;
+	} else {
+		/* double the capacity */
+		list->cap <<= 1;
+	}
 	list->ops = realloc(list->ops, sizeof(struct op) * list->cap);
 }
 
@@ -173,8 +174,9 @@ struct tape {
 void tape_init(struct tape *tape)
 {
 	tape->pos = 0;
-	tape->cap = TAPE_DEFAULT_CAPACITY;
-	tape->tape = calloc(sizeof(int), TAPE_DEFAULT_CAPACITY);
+	tape->cap = 1;
+	tape->tape = malloc(sizeof(int));
+	*tape->tape = 0;
 }
 
 void tape_free(struct tape tape)
@@ -189,12 +191,14 @@ char tape_get(const struct tape tape)
 
 void tape_grow(struct tape *tape)
 {
-	int new_cap;
+	int i, new_cap;
 
 	new_cap = tape->cap << 1;
 	tape->tape = realloc(tape->tape, sizeof(int) * new_cap);
 
-	memset(tape->tape + tape->cap, 0, new_cap - tape->cap);
+	for (i = tape->cap; i < new_cap; i += 1)
+		tape->tape[i] = 0;
+
 	tape->cap = new_cap;
 }
 
