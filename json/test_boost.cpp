@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <libsocket/inetclientstream.hpp>
+#include <libnotify.hpp>
 #include <unistd.h>
 
 using namespace std;
@@ -15,15 +15,6 @@ void read_file(string filename, stringstream &buffer){
   {
     buffer << file.rdbuf();
     file.close();
-  }
-}
-
-void notify(const string& msg) {
-  try {
-    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
-    sock << msg;
-  } catch (...) {
-    // standalone usage
   }
 }
 

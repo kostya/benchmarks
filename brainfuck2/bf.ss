@@ -77,21 +77,14 @@
         (else (run rst t))))))
 
 ;;; I/O.
-(load-shared-object "libsocket.so")
+(load-shared-object "../common/libnotify/dyn/libnotify.so")
 
-(define create-inet-stream-socket
-  (foreign-procedure "create_inet_stream_socket" (string string integer-8 int) int))
-(define send
-  (foreign-procedure "send" (int u8* size_t int) ssize_t))
-(define destroy-inet-socket
-  (foreign-procedure "destroy_inet_socket" (int) int))
+(define notify-internal
+  (foreign-procedure "notify" (u8* size_t) void))
 
 (define (notify msg)
-  (let ([sock (create-inet-stream-socket "localhost" "9001" 3 0)])
-    (if (not (eq? sock -1))
-      (let ([bv (string->utf8 msg)])
-        (send sock bv (bytevector-length bv) 0)
-        (destroy-inet-socket sock)))))
+  (let ([bv (string->utf8 msg)])
+     (notify-internal bv (bytevector-length bv))))
 
 (define (get-file-arg-or-exit)
   (let ((cl (command-line)))

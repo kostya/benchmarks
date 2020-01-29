@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <libsocket/libinetsocket.h>
+#include <libnotify.h>
 
 #ifdef __clang__
 # define COMPILER "Clang"
@@ -237,18 +237,6 @@ void eval(const struct op_list *ops, struct tape *tape)
 			fflush(stdout);
 			break;
 		}
-	}
-}
-
-void notify(const char *msg, int len)
-{
-	int sock;
-
-	sock = create_inet_stream_socket("localhost", "9001", LIBSOCKET_IPv4, 0);
-
-	if (sock != -1) {
-		send(sock, msg, len, 0);
-		destroy_inet_socket(sock);
 	}
 }
 

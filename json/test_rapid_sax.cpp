@@ -2,7 +2,7 @@
 #include <rapidjson/istreamwrapper.h>
 #include <cstdio>
 #include <iostream>
-#include <libsocket/inetclientstream.hpp>
+#include <libnotify.hpp>
 #include <sstream>
 #include <unistd.h>
 #include <fstream>
@@ -98,15 +98,6 @@ void read_file(const string& filename, stringstream &buffer) {
   ifstream f(filename);
   if (f.good()) {
     buffer << f.rdbuf();
-  }
-}
-
-void notify(const string& msg) {
-  try {
-    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
-    sock << msg;
-  } catch (...) {
-    // standalone usage
   }
 }
 

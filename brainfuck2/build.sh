@@ -1,8 +1,11 @@
 #!/bin/sh
 
 set -e
+
+cd ../common/libnotify; make; cd ..
+
 crystal build bf.cr --release -o bin_cr --no-debug
-g++ -flto -O3 -o bin_cpp bf.cpp -lsocket++
+g++ -flto -O3 -o bin_cpp bf.cpp -I../common/libnotify -L../common/libnotify -lnotify
 rustc -C opt-level=3 -C lto bf.rs -o bin_rs
 scalac bf.scala
 mcs -debug- -optimize+ bf.cs
@@ -25,5 +28,5 @@ valac bf.vala --cc=clang -D CLANG_TEST --disable-assert -X -O3 --pkg gio-2.0 --p
 mlton -output bin_sml bf.sml
 v -prod -cc gcc -o bin_v_gcc bf.v
 v -prod -cc clang -o bin_v_clang bf.v
-gcc -O3 -o bin_c_gcc bf.c -lsocket
-clang -O3 -o bin_c_clang bf.c -lsocket
+gcc -O3 -o bin_c_gcc bf.c -I../common/libnotify -L../common/libnotify -lnotify
+clang -O3 -o bin_c_clang bf.c -I../common/libnotify -L../common/libnotify -lnotify
