@@ -76,5 +76,10 @@ if energy_stats.has_energy_metrics
   open('results.log', 'a') { |f|
     f.puts "%s\t%f\t%f\t%f" % [test_name, t_diff, mm_mb, energy_stats.val]
   }
+else
+  stats += ", 0.0 J"
+  open('results.log', 'a') { |f| 
+    f.puts "%s\t%f\t%f\t0.0" % [test_name, t_diff, mm_mb]
+  }  
 end
 STDERR.puts stats
