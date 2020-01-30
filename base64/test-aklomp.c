@@ -1,7 +1,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include <string.h>
-#include <libsocket/libinetsocket.h>
+#include <libnotify.h>
 #include "time.h"
 #include "libbase64.h"
 #include <unistd.h>
@@ -13,14 +13,6 @@ int encode_size(int size) {
 
 int decode_size(int size) {
   return (int)(size * 3 / 4.0) + 6;
-}
-
-void notify(char *msg, size_t len) {
-  int sock = create_inet_stream_socket("localhost", "9001", LIBSOCKET_IPv4, 0);
-  if (sock != -1) {
-    send(sock, msg, len, 0);
-    destroy_inet_socket(sock);
-  }
 }
 
 int main() {

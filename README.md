@@ -402,10 +402,6 @@ For Haskell:
 
  - [network-simple](http://hackage.haskell.org/package/network-simple) for TCP connectivity between the tests and the test runner
 
-For C, C++, Chez Scheme:
-
- - [libsocket](https://github.com/dermesser/libsocket/) for TCP connectivity between the tests and the test runner
-
 # Contribution
 
 Please follow the criteria specified in the [Overview](#overview). Besides that please ensure that the communication protocol between a test and the test runner is satisfied:

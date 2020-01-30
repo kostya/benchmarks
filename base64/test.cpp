@@ -7,7 +7,7 @@
 #include <time.h>
 #include <iostream>
 #include <iomanip>
-#include <libsocket/inetclientstream.hpp>
+#include <libnotify.hpp>
 #include <sstream>
 #include <unistd.h>
 
@@ -89,15 +89,6 @@ public:
     return string(str + pos, len == string::npos ? size - pos : len);
   }
 };
-
-void notify(const string& msg) {
-  try {
-    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
-    sock << msg;
-  } catch (...) {
-    // standalone usage
-  }
-}
 
 int main() {
   const int STR_SIZE = 131072;

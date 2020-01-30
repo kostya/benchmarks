@@ -1,5 +1,5 @@
 #include <iostream>
-#include <libsocket/inetclientstream.hpp>
+#include <libnotify.hpp>
 #include "simdjson/jsonparser.h"
 #include <sstream>
 #include <unistd.h>
@@ -11,15 +11,6 @@ void read_file(const std::string& filename, std::stringstream &buffer) {
   std::ifstream f(filename);
   if (f.good()) {
     buffer << f.rdbuf();
-  }
-}
-
-void notify(const std::string& msg) {
-  try {
-    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
-    sock << msg;
-  } catch (...) {
-    // standalone usage
   }
 }
 

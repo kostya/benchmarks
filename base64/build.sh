@@ -1,11 +1,14 @@
 #!/bin/sh
 
 set -e
+
+cd ../common/libnotify; make; cd -
+
 crystal build test.cr --release -o base64_cr --no-debug
 go build -o base64_go test.go
 gccgo -O3 -g -o base64_go_gccgo test.go
-g++ -O3 -o base64_cpp test.cpp -lcrypto -lsocket++
-gcc -O3 -o base64_c test.c -lsocket
+g++ -O3 -o base64_cpp test.cpp -lcrypto -I../common/libnotify -L../common/libnotify -lnotify
+gcc -O3 -o base64_c test.c -I../common/libnotify -L../common/libnotify -lnotify
 scalac test.scala
 javac Base64Java.java
 kotlinc Test.kt -include-runtime -jvm-target 12 -d Test-kt.jar
@@ -24,7 +27,7 @@ if [ ! -d aklomp-base64 ]; then
   AVX2_CFLAGS=-mavx2 SSSE3_CFLAGS=-mssse3 AVX_CFLAGS=-mavx make
   cd -
 fi
-gcc -O3 test-aklomp.c -I aklomp-base64/include/ aklomp-base64/lib/libbase64.o -o base64_c_ak -lsocket
+gcc -O3 test-aklomp.c -I aklomp-base64/include/ aklomp-base64/lib/libbase64.o -o base64_c_ak -I../common/libnotify -L../common/libnotify -lnotify
 wget -qO - https://cpanmin.us | perl - -L perllib MIME::Base64::Perl
 v -prod -cc gcc -o base64_v_gcc test.v
 v -prod -cc clang -o base64_v_clang test.v

@@ -1,10 +1,13 @@
 #!/bin/sh
 
 set -e
+
+cd ../common/libnotify; make; cd -
+
 crystal build matmul.cr --release -o matmul_cr --no-debug
 go build -o matmul_go matmul.go
 gccgo -O3 -g -o matmul_go_gccgo matmul.go
-gcc -O3 -o matmul_c matmul.c -lsocket
+gcc -O3 -o matmul_c matmul.c -I../common/libnotify -L../common/libnotify -lnotify
 scalac matmul.scala
 rustc -C opt-level=3 -C lto matmul.rs -o matmul_rs
 dmd -ofmatmul_d -O -release -inline matmul.d

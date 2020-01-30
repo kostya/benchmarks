@@ -30,7 +30,7 @@ target/library.jar: target/classfiles.stamp
 # combine lirary jar with all dependencies to produce a fat jar
 target/application.jar: target/library.jar target/dependencies.list
 	mkdir -p target
-	../jvm-common/combinejars.sh $@ $(shell cat target/dependencies.list) $<
+	../../common/jvm/combinejars.sh $@ $(shell cat target/dependencies.list) $<
 
 clean:
 	rm -rf target

@@ -18,7 +18,7 @@
 #include <list>
 #include <vector>
 #include <algorithm>
-#include <libsocket/inetclientstream.hpp>
+#include <libnotify.hpp>
 #include <sstream>
 #include <unistd.h>
 
@@ -759,15 +759,6 @@ int buildBaseLoop(MaoCFG *cfg, int from) {
   buildConnect(cfg, footer, from);
   footer = buildStraight(cfg, footer, 1);
   return footer;
-}
-
-void notify(const std::string& msg) {
-  try {
-    libsocket::inet_stream sock("localhost", "9001", LIBSOCKET_IPv4);
-    sock << msg;
-  } catch (...) {
-    // standalone usage
-  }
 }
 
 int main(int argc, char *argv[]) {

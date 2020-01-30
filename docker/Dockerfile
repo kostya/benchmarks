@@ -12,7 +12,7 @@ RUN apt-get update \
   && apt-get purge -y --auto-remove gnupg dirmngr
 
 # https://www.mono-project.com/download/stable/
-ARG MONO_VERSION=6.6.0.161
+ARG MONO_VERSION=6.8.0.96
 RUN echo "deb http://download.mono-project.com/repo/debian stable-stretch/snapshots/$MONO_VERSION main" > /etc/apt/sources.list.d/mono-official-vs.list
 
 RUN  apt-get update \
@@ -44,9 +44,9 @@ RUN export VERSION=ruby-2.7.0 \
 ENV PATH="/opt/ruby/bin:${PATH}"
 
 # https://github.com/dotnet/core/tree/master/release-notes
-ARG DOTNET_CORE=3.1.100
+ARG DOTNET_CORE=3.1.101
 RUN mkdir dotnet && wget --progress=dot:giga -O - \
-    https://download.visualstudio.microsoft.com/download/pr/d731f991-8e68-4c7c-8ea0-fad5605b077a/49497b5420eecbd905158d86d738af64/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
+    https://download.visualstudio.microsoft.com/download/pr/c4b503d6-2f41-4908-b634-270a0a1dcfca/c5a20e42868a48a2cd1ae27cf038044c/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
     | tar -xz -C dotnet
 ENV PATH="/opt/dotnet:${PATH}"
 
@@ -58,9 +58,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$PYPY/bin:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=13.0.1
+ARG JDK=13.0.2
 RUN wget --progress=dot:giga -O - \
-    https://download.java.net/java/GA/jdk$JDK/cec27d702aa74d5a8630c65ae61e4305/9/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
+    https://download.java.net/java/GA/jdk13.0.2/d4173c853231432d94f001e99d882ca7/8/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
     | tar -xz
 ENV PATH="/opt/jdk-$JDK/bin:${PATH}"
 
@@ -79,7 +79,7 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$LDC/bin/:${PATH}"
 
 # https://nim-lang.org/install_unix.html
-ARG NIM=nim-1.0.4
+ARG NIM=nim-1.0.6
 RUN wget --progress=dot:giga -O - \
     https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
     | tar -xJ
@@ -87,7 +87,7 @@ ENV PATH="/opt/$NIM/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN wget --progress=dot:giga -O - \
-    https://dl.google.com/go/go1.13.5.linux-amd64.tar.gz \
+    https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz \
     | tar -xz
 ENV PATH="/opt/go/bin/:${PATH}"
 
@@ -105,7 +105,7 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/scala-$SCALA/bin/:${PATH}"
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v13.5.0
+ARG NODE=v13.7.0
 RUN wget --progress=dot:giga -O - \
     https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
     | tar -xJ
@@ -166,7 +166,7 @@ RUN curl -Lo /usr/local/bin/coursier https://git.io/coursier-cli \
     && chmod +x /usr/local/bin/coursier
 
 # https://clojure.org/community/downloads
-ARG CLOJURE=1.10.1.492
+ARG CLOJURE=1.10.1.502
 RUN wget --progress=dot:giga -O - \
     https://download.clojure.org/install/linux-install-$CLOJURE.sh \
     | bash -s
@@ -184,25 +184,15 @@ RUN curl https://get-ghcup.haskell.org -sSf \
 ENV PATH="/opt/.ghcup/bin/:${PATH}"
 
 # https://www.haskell.org/ghc/
-ARG GHC_VER=8.8.1
+ARG GHC_VER=8.8.2
 RUN ghcup install $GHC_VER && ghcup set $GHC_VER
 
 # Shared packages for all Haskell code
 RUN cabal update && cabal install network-simple --lib
 ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
 
-# Socket library used with static (C/C++) and dynamic (Chez Scheme) linking
-# https://github.com/dermesser/libsocket/releases
-ARG LIBSOCKET=2.5.0
-RUN wget --progress=dot:giga -O - \
-    https://github.com/dermesser/libsocket/archive/v$LIBSOCKET.tar.gz \
-    | tar -xz \
-    && cd libsocket-$LIBSOCKET \
-    && cmake CMakeLists.txt && make && make install \
-    && cd .. && rm -rf libsocket-$LIBSOCKET
-
 # https://github.com/graalvm/graalvm-ce-builds/releases
-ARG GRAALVM=19.3.0.2
+ARG GRAALVM=19.3.1
 RUN wget --progress=dot:giga -O - \
     https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-$GRAALVM/graalvm-ce-java11-linux-amd64-$GRAALVM.tar.gz \
     | tar -xz \

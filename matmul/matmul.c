@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <libsocket/libinetsocket.h>
+#include <libnotify.h>
 
 double **mm_init(int n)
 {
@@ -50,14 +50,6 @@ double **mm_mul(int n, double *const *a, double *const *b)
   }
   mm_destroy(n, c);
   return m;
-}
-
-void notify(char *msg, size_t len) {
-  int sock = create_inet_stream_socket("localhost", "9001", LIBSOCKET_IPv4, 0);
-  if (sock != -1) {
-    send(sock, msg, len, 0);
-    destroy_inet_socket(sock);
-  }
 }
 
 int main(int argc, char *argv[])
