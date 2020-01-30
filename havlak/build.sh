@@ -2,7 +2,7 @@
 
 set -e
 
-cd ../common/libnotify; make; cd ..
+cd ../common/libnotify; make; cd -
 
 crystal build havlak.cr --release -o havlak_cr --no-debug
 go build -o havlak_go havlak.go

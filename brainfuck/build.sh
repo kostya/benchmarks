@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
-cd ../common/libnotify; make; cd ..
+cd ../common/libnotify; make; cd -
 
 crystal build brainfuck.cr --release -o brainfuck_cr
 go build -o brainfuck_go brainfuck.go

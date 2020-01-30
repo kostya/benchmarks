@@ -2,7 +2,7 @@
 
 set -e
 
-cd ../common/libnotify; make; cd ..
+cd ../common/libnotify; make; cd -
 
 crystal build test.cr --release -o json_cr --no-debug
 crystal build test_pull.cr --release -o json_pull_cr --no-debug

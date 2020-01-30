@@ -2,7 +2,7 @@
 
 set -e
 
-cd ../common/libnotify; make; cd ..
+cd ../common/libnotify; make; cd -
 
 crystal build matmul.cr --release -o matmul_cr --no-debug
 go build -o matmul_go matmul.go

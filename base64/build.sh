@@ -2,7 +2,7 @@
 
 set -e
 
-cd ../common/libnotify; make; cd ..
+cd ../common/libnotify; make; cd -
 
 crystal build test.cr --release -o base64_cr --no-debug
 go build -o base64_go test.go

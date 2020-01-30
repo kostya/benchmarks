@@ -2,7 +2,7 @@
 
 set -e
 
-cd ../common/libnotify; make; cd ..
+cd ../common/libnotify; make; cd -
 
 crystal build bf.cr --release -o bin_cr --no-debug
 g++ -flto -O3 -o bin_cpp bf.cpp -I../common/libnotify -L../common/libnotify -lnotify

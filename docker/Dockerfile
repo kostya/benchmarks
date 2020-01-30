@@ -46,7 +46,7 @@ ENV PATH="/opt/ruby/bin:${PATH}"
 # https://github.com/dotnet/core/tree/master/release-notes
 ARG DOTNET_CORE=3.1.101
 RUN mkdir dotnet && wget --progress=dot:giga -O - \
-    https://download.visualstudio.microsoft.com/download/pr/d731f991-8e68-4c7c-8ea0-fad5605b077a/49497b5420eecbd905158d86d738af64/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
+    https://download.visualstudio.microsoft.com/download/pr/c4b503d6-2f41-4908-b634-270a0a1dcfca/c5a20e42868a48a2cd1ae27cf038044c/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
     | tar -xz -C dotnet
 ENV PATH="/opt/dotnet:${PATH}"
 

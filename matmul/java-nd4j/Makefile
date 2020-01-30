@@ -29,7 +29,7 @@ target/library.jar: target/classfiles.stamp
 # combine lirary jar with all dependencies to produce a fat jar
 target/application.jar: target/library.jar target/dependencies.list
 	mkdir -p target
-	../jvm-common/combinejars.sh $@ $(shell cat target/dependencies.list) $<
+	../../common/jvm/combinejars.sh $@ $(shell cat target/dependencies.list) $<
 
 # inject a startup script to the fat jar, producing an executable
 target/application: target/application.jar
