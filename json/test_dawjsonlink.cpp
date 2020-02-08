@@ -20,13 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <daw/daw_memory_mapped_file.h>
 #include <daw/json/daw_json_iterator.h>
 #include <daw/json/daw_json_link.h>
 
+#include <fstream>
 #include <iostream>
 #include <libnotify.hpp>
+#include <sstream>
 #include <string_view>
+#include <unistd.h>
 
 struct coordinate_t {
 	double x;
@@ -44,14 +46,12 @@ namespace daw::json {
 	template<>
 	struct json_data_contract<coordinate_t> {
 #ifdef __cpp_nontype_template_parameter_class
-		using type =
-		  json_member_list<json_number<"x">, json_number<"y">, json_number<"z">>;
+		using type = json_member_list<json_number<"x">, json_number<"y">, json_number<"z">>;
 #else
 		constexpr inline static char const x[] = "x";
 		constexpr inline static char const y[] = "y";
 		constexpr inline static char const z[] = "z";
-		using type =
-		  json_member_list<json_number<x>, json_number<y>, json_number<z>>;
+		using type = json_member_list<json_number<x>, json_number<y>, json_number<z>>;
 #endif
 	};
 
@@ -66,25 +66,29 @@ namespace daw::json {
 	};
 } // namespace daw::json
 
-int main( int argc, char *argv[] ) {
-	std::ios_base::sync_with_stdio( false );
-	std::string_view fpath = "/tmp/1.json";
-	if( argc > 1 ) {
-		fpath = argv[1];
+void read_file( std::string const &filename, std::stringstream &buffer ) {
+	std::ifstream f( filename );
+	if( f.good( ) ) {
+		buffer << f.rdbuf( );
 	}
-	auto const text = daw::filesystem::memory_mapped_file_t<>( fpath );
+}
+
+int main( int argc, char *argv[] ) {
+	std::stringstream ss;
+	read_file( "/tmp/1.json", ss );
+	std::string const text = ss.str( );
+
 	auto const json_sv = std::string_view( text.data( ), text.size( ) );
 	double x = 0, y = 0, z = 0;
 	int len = 0;
-
-	using range_t = daw::json::json_array_range<coordinate_t, true>;
-	auto rng = range_t( json_sv, "coordinates" );
 
 	{
 		std::stringstream ostr;
 		ostr << "C++ DAW JSON Link\t" << getpid( );
 		notify( ostr.str( ) );
 	}
+	using range_t = daw::json::json_array_range<coordinate_t, true>;
+	auto rng = range_t( json_sv, "coordinates" );
 
 	for( auto c : rng ) {
 		++len;
