@@ -90,3 +90,10 @@ go build -o json_iter_go test_jsoniter.go
 if [ ! -f /tmp/1.json ]; then
   ruby generate_json.rb
 fi
+
+if [ ! -d ./daw_json_link_all ]; then
+  git clone --depth 1 https://github.com/beached/daw_json_link.git ./daw_json_link_all/daw_json_link
+  git clone --depth 1 https://github.com/beached/header_libraries.git ./daw_json_link_all/header_libraries
+  git clone --depth 1 https://github.com/beached/utf_range.git ./daw_json_link_all/utf_range
+fi
+g++ -std=c++17 -O3 -L /usr/local/lib -I /usr/local/include -I./daw_json_link_all/daw_json_link/include -I./daw_json_link_all/header_libraries/include -I./daw_json_link_all/utf_range/include test_dawjsonlink.cpp -o json_dawjsonlink_cpp -I../common/libnotify -L../common/libnotify -lnotify

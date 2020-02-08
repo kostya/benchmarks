@@ -12,6 +12,7 @@ json/json-hs/dist-newstyle/
 json/json_*
 json/rapidjson
 json/simdjson
+json/daw_json_link_all
 matmul/matmul_*
 matmul/.dub
 

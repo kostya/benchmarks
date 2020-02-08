@@ -87,3 +87,5 @@ echo Julia
 ../xtime.rb julia --optimize=3 --check-bounds=no test.jl
 echo Clojure
 ../xtime.rb clojure -Sdeps '{:deps {cheshire {:mvn/version "5.9.0"}}}' test.clj
+echo C++ DAW JSON Link
+../xtime.rb ./json_dawjsonlink_cpp
