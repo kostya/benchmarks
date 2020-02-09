@@ -7,7 +7,6 @@ import (
 	"net"
 	"os"
 	"runtime"
-	"strings"
 )
 
 type Coordinate struct {
@@ -31,16 +30,11 @@ func main() {
 	if err != nil {
 		panic(fmt.Sprintf("%v", err))
 	}
-	content := string(bytes)
-	reader := strings.NewReader(content)
 
 	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
 
 	jobj := TestStruct{}
-	err = json.NewDecoder(reader).Decode(&jobj)
-	if err != nil {
-		panic(err)
-	}
+        json.Unmarshal(bytes, &jobj)
 
 	x, y, z := 0.0, 0.0, 0.0
 
