@@ -7,7 +7,7 @@ import (
 	"net"
 	"os"
 	"runtime"
-	"strings"
+	"bufio"
 )
 
 type Coordinate struct {
@@ -27,20 +27,17 @@ func notify(msg string) {
 }
 
 func main() {
-	bytes, err := ioutil.ReadFile("/tmp/1.json")
+        f, err := os.Open("/tmp/1.json")
+        file := bufio.NewReaderSize(f, 16384)
+        b, err := ioutil.ReadAll(file)
 	if err != nil {
 		panic(fmt.Sprintf("%v", err))
 	}
-	content := string(bytes)
-	reader := strings.NewReader(content)
 
 	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
 
 	jobj := TestStruct{}
-	err = json.NewDecoder(reader).Decode(&jobj)
-	if err != nil {
-		panic(err)
-	}
+        json.Unmarshal(b, &jobj)
 
 	x, y, z := 0.0, 0.0, 0.0
 
