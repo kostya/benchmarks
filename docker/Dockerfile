@@ -12,7 +12,7 @@ RUN apt-get update \
   && apt-get purge -y --auto-remove gnupg dirmngr
 
 # https://www.mono-project.com/download/stable/
-ARG MONO_VERSION=6.8.0.96
+ARG MONO_VERSION=6.8.0.105
 RUN echo "deb http://download.mono-project.com/repo/debian stable-stretch/snapshots/$MONO_VERSION main" > /etc/apt/sources.list.d/mono-official-vs.list
 
 RUN  apt-get update \
@@ -105,7 +105,7 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/scala-$SCALA/bin/:${PATH}"
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v13.7.0
+ARG NODE=v13.8.0
 RUN wget --progress=dot:giga -O - \
     https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
     | tar -xJ
@@ -130,9 +130,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$JULIA/bin/:${PATH}"
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.1.3-RELEASE-ubuntu18.04
+ARG SWIFT=swift-5.1.4-RELEASE-ubuntu18.04
 RUN wget --progress=dot:giga -O - \
-    https://swift.org/builds/swift-5.1.3-release/ubuntu1804/swift-5.1.3-RELEASE/$SWIFT.tar.gz \
+    https://swift.org/builds/swift-5.1.4-release/ubuntu1804/swift-5.1.4-RELEASE/$SWIFT.tar.gz \
     | tar -xz \
     && ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
 
@@ -166,7 +166,7 @@ RUN curl -Lo /usr/local/bin/coursier https://git.io/coursier-cli \
     && chmod +x /usr/local/bin/coursier
 
 # https://clojure.org/community/downloads
-ARG CLOJURE=1.10.1.502
+ARG CLOJURE=1.10.1.507
 RUN wget --progress=dot:giga -O - \
     https://download.clojure.org/install/linux-install-$CLOJURE.sh \
     | bash -s
