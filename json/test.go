@@ -34,7 +34,7 @@ func main() {
 	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
 
 	jobj := TestStruct{}
-        json.Unmarshal(bytes, &jobj)
+	json.Unmarshal(bytes, &jobj)
 
 	x, y, z := 0.0, 0.0, 0.0
 
