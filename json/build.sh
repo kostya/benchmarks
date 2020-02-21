@@ -79,7 +79,7 @@ cd json-scala; make clean target/application.jar; cd ..
 if [ ! -d simdjson ]; then
   git clone --depth 1 https://github.com/lemire/simdjson.git
 fi
-g++ -O3 -msse4.2 -mpclmul -std=c++17 -Isimdjson/include/ -Isimdjson/src/ simdjson/src/jsonioutil.cpp simdjson/src/jsonparser.cpp simdjson/src/simdjson.cpp simdjson/src/stage1_find_marks.cpp simdjson/src/stage2_build_tape.cpp simdjson/src/parsedjson.cpp simdjson/src/parsedjsoniterator.cpp test_simdjson.cpp -o json_simdjson_cpp -I../common/libnotify -L../common/libnotify -lnotify
+g++ -O3 -msse4.2 -mpclmul -std=c++17 -Isimdjson/include/ -Isimdjson/src/ simdjson/src/jsonioutil.cpp simdjson/src/jsonminifier.cpp simdjson/src/jsonparser.cpp simdjson/src/stage1_find_marks.cpp simdjson/src/stage2_build_tape.cpp simdjson/src/document.cpp simdjson/src/document_parser.cpp simdjson/src/error.cpp test_simdjson.cpp -o json_simdjson_cpp -I../common/libnotify -L../common/libnotify -lnotify
 
 v -prod -cc gcc -o json_v_gcc test.v
 v -prod -cc clang -o json_v_clang test.v
