@@ -1,20 +1,22 @@
-rm json_*
-rm *.class
+#!/bin/sh
+
+rm *.log
 rm *.o
-rm *.exe
 rm *.dll
-rm *.jar
-rm -rf .crystal
-rm -rf nimcache
-rm -rf Newtonsoft.Json*
-rm -rf rapidjson
-rm -rf gason
-rm -rf simdjson
-rm -rf json.rs/target
-rm -rf fast
-rm -rf perllib
-rm -rf json-clj/target
-rm json-clj/test.jar
-rm -rf json-java/target
+rm *.exe
+rm json_*
 rm -rf bin/
 rm -rf obj/
+rm -rf json.rs/target/
+rm -rf daw_json_link_all/
+rm -rf gason/
+rm -rf fast/
+rm -rf json-core/obj/
+rm -rf json-core/bin/
+rm -rf json-hs/dist-newstyle/
+rm -rf json-java/target/
+rm -rf json-scala/target/
+rm -rf Newtonsoft.Json*
+rm -rf perllib/
+rm -rf rapidjson/
+rm -rf simdjson/

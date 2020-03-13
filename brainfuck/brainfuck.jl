@@ -34,9 +34,8 @@ function right!(t::Tape)
   return
 end
 
-clip(n) = n > 255 ? n - 256 : n < 0 ? n + 256 : n
-inc!(t::Tape) = (t[] = clip(t[] + 1))
-dec!(t::Tape) = (t[] = clip(t[] - 1))
+inc!(t::Tape) = t[] += 0x01
+dec!(t::Tape) = t[] -= 0x01
 
 function read!(t::Tape, io::IO)
   t[] = read(io, UInt8)
