@@ -11,7 +11,7 @@ g++ -O3 -o base64_cpp test.cpp -lcrypto -I../common/libnotify -L../common/libnot
 gcc -O3 -o base64_c test.c -I../common/libnotify -L../common/libnotify -lnotify
 scalac test.scala
 javac Base64Java.java
-kotlinc Test.kt -include-runtime -jvm-target 12 -d Test-kt.jar
+kotlinc Test.kt -include-runtime -jvm-target 13 -d Test-kt.jar
 dmd -ofbase64_d -O -release -inline test.d
 gdc -o base64_d_gdc -O3 -frelease -finline test.d
 ldc2 -ofbase64_d_ldc -O5 -release test.d

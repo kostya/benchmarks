@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rm bin_*
+rm -rf bin_*
 rm *.class
 rm *.exe
 rm *.jar

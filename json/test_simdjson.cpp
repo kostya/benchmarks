@@ -1,6 +1,6 @@
 #include <iostream>
 #include <libnotify.hpp>
-#include "simdjson/jsonparser.h"
+#include "simdjson.h"
 #include <sstream>
 #include <unistd.h>
 #include <fstream>
