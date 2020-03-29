@@ -4,9 +4,9 @@
 #
 org.nd4j:nd4j-native:1.0.0-beta6
 
-# NOTE: use avx2 or even better (avx512) as soon as the test server is upgraded
+# NOTE: use avx512 as soon as the test server is upgraded
 # Usage reference: https://deeplearning4j.org/cpu
-# org.nd4j:nd4j-native:1.0.0-beta6,classifier=linux-x86_64-avx2
+org.nd4j:nd4j-native:1.0.0-beta6,classifier=linux-x86_64-avx2
 org.nd4j:nd4j-native:1.0.0-beta6,classifier=linux-x86_64
 
 # Proper logging makes the results more stable (and faster,

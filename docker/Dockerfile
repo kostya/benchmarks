@@ -116,7 +116,7 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://www.jruby.org/download
-ARG JRUBY=9.2.11.0
+ARG JRUBY=9.2.11.1
 RUN wget --progress=dot:giga -O - \
     https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
     | tar -xz \
@@ -140,9 +140,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$JULIA/bin/:${PATH}"
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.1.5-RELEASE-ubuntu18.04
+ARG SWIFT=swift-5.2-RELEASE-ubuntu18.04
 RUN wget --progress=dot:giga -O - \
-    https://swift.org/builds/swift-5.1.5-release/ubuntu1804/swift-5.1.5-RELEASE/$SWIFT.tar.gz \
+    https://swift.org/builds/swift-5.2-release/ubuntu1804/swift-5.2-RELEASE/$SWIFT.tar.gz \
     | tar -xz \
     && ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
 
@@ -176,7 +176,7 @@ RUN curl https://get-ghcup.haskell.org -sSf \
 ENV PATH="/opt/.ghcup/bin/:${PATH}"
 
 # https://www.haskell.org/ghc/
-ARG GHC_VER=8.8.3
+ARG GHC_VER=8.10.1
 RUN ghcup install $GHC_VER && ghcup set $GHC_VER
 
 # Shared packages for all Haskell code

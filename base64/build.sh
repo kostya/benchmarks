@@ -24,7 +24,7 @@ dotnet build -c Release
 if [ ! -d aklomp-base64 ]; then
   git clone --depth 1 https://github.com/aklomp/base64.git aklomp-base64
   cd aklomp-base64
-  AVX2_CFLAGS=-mavx2 SSSE3_CFLAGS=-mssse3 AVX_CFLAGS=-mavx make
+  AVX2_CFLAGS=-mavx2 SSSE3_CFLAGS=-mssse3 SSE41_CFLAGS=-msse4.1 SSE42_CFLAGS=-msse4.2 AVX_CFLAGS=-mavx make lib/libbase64.o
   cd -
 fi
 gcc -O3 test-aklomp.c -I aklomp-base64/include/ aklomp-base64/lib/libbase64.o -o base64_c_ak -I../common/libnotify -L../common/libnotify -lnotify
