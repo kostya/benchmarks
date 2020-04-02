@@ -1,3 +1,5 @@
+#!/bin/sh
+
 rm base64_*
 rm *.class
 rm *.o

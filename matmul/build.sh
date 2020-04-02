@@ -17,7 +17,6 @@ dub build --build=release --single matmul_d_lubeck.d --compiler=ldc2
 nim c -o:matmul_nim_gcc --cc:gcc  -d:danger --opt:speed --verbosity:0 matmul.nim
 nim c -o:matmul_nim_clang --cc:clang -d:danger --opt:speed --verbosity:0 matmul.nim
 
-
 javac matmul.java
 
 # java nd4j build require coursier
@@ -33,7 +32,7 @@ nim c -o:matmul_nim_arraymancer_clang -d:openmp --cc:clang -d:native --gc:markAn
 
 cd java-nd4j; make clean target/application; cd ..
 
-kotlinc matmul.kt -include-runtime -jvm-target 12 -d matmul-kt.jar
+kotlinc matmul.kt -include-runtime -jvm-target 13 -d matmul-kt.jar
 mcs -debug- -optimize+ matmul.cs
 dotnet build -c Release
 v -prod -cc gcc -o matmul_v_gcc matmul.v

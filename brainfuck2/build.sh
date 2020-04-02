@@ -11,7 +11,7 @@ scalac bf.scala
 mcs -debug- -optimize+ bf.cs
 dotnet build brainfuck2.csproj -c Release
 javac bf.java
-kotlinc bf2.kt -include-runtime -jvm-target 12 -d bf2-kt.jar
+kotlinc bf2.kt -include-runtime -jvm-target 13 -d bf2-kt.jar
 go build -o bin_go bf.go
 gccgo -O3 -g -o bin_go_gccgo bf.go
 dmd -ofbin_d -O -release -inline bf.d
