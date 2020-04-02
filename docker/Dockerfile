@@ -44,7 +44,7 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/mlton-$MLTON-1.amd64-linux/bin/:${PATH}"
 
 # https://www.ruby-lang.org/en/downloads/
-RUN export VERSION=ruby-2.7.0 \
+RUN export VERSION=ruby-2.7.1 \
     && wget --progress=dot:giga -O - \
     https://cache.ruby-lang.org/pub/ruby/2.7/$VERSION.tar.gz \
     | tar -xz \
@@ -109,7 +109,7 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v13.11.0
+ARG NODE=v13.12.0
 RUN wget --progress=dot:giga -O - \
     https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
     | tar -xJ
@@ -140,9 +140,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$JULIA/bin/:${PATH}"
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.2-RELEASE-ubuntu18.04
+ARG SWIFT=swift-5.2.1-RELEASE-ubuntu18.04
 RUN wget --progress=dot:giga -O - \
-    https://swift.org/builds/swift-5.2-release/ubuntu1804/swift-5.2-RELEASE/$SWIFT.tar.gz \
+    https://swift.org/builds/swift-5.2.1-release/ubuntu1804/swift-5.2.1-RELEASE/$SWIFT.tar.gz \
     | tar -xz \
     && ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
 
@@ -171,7 +171,7 @@ RUN wget --progress=dot:giga \
     && rm racket-$RACKET-x86_64-linux.sh
 
 ENV GHCUP_INSTALL_BASE_PREFIX="/opt"
-RUN curl https://get-ghcup.haskell.org -sSf \
+RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org \
     | BOOTSTRAP_HASKELL_NONINTERACTIVE="y" sh
 ENV PATH="/opt/.ghcup/bin/:${PATH}"
 

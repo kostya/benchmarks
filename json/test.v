@@ -36,9 +36,9 @@ fn main() {
 		eprintln('Failed to parse json')
 		return
 	}
-	mut x := f64(0.0)
-	mut y := f64(0.0)
-	mut z := f64(0.0)
+	mut x := 0.0
+	mut y := 0.0
+	mut z := 0.0
 	for coord in j.coordinates {
 		x += coord.x
 		y += coord.y

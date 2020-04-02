@@ -15,7 +15,7 @@ text = Path('/tmp/1.json').read_text()
 notify("%s\t%d" % (platform.python_implementation(), os.getpid()))
 
 jobj = json.loads(text)
-len = len(jobj['coordinates'])
+len = 0
 x = 0
 y = 0
 z = 0
@@ -24,6 +24,7 @@ for coord in jobj['coordinates']:
   x += coord['x']
   y += coord['y']
   z += coord['z']
+  len += 1
 
 print(x / len)
 print(y / len)
