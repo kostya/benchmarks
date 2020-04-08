@@ -52,7 +52,7 @@ echo LuaJIT
 echo Racket
 ../xtime.rb racket bf.rkt mandel.b > /dev/null
 echo Chez Scheme
-../xtime.rb scheme --script bf.ss mandel.b > /dev/null
+../xtime.rb scheme --optimize-level 3 --program bf.ss mandel.b > /dev/null
 echo V Gcc
 ../xtime.rb ./bin_v_gcc mandel.b > /dev/null
 echo V Clang

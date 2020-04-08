@@ -1,3 +1,5 @@
+(import (chezscheme))
+
 (define-record-type op (fields op val))
 (define-record-type tape (fields data pos))
 
