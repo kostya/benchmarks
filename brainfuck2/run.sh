@@ -72,7 +72,7 @@ echo "Tcl (OO)"
 echo Racket
 ../xtime.rb racket bf.rkt bench.b
 echo Chez Scheme
-../xtime.rb scheme --script bf.ss bench.b
+../xtime.rb scheme --optimize-level 3 --program bf.ss bench.b
 echo V Gcc
 ../xtime.rb ./bin_v_gcc bench.b
 echo V Clang
