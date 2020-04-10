@@ -96,7 +96,7 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$LDC/bin/:${PATH}"
 
 # https://nim-lang.org/install_unix.html
-ARG NIM=nim-1.0.6
+ARG NIM=nim-1.2.0
 RUN wget --progress=dot:giga -O - \
     https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
     | tar -xJ
