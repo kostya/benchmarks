@@ -1,14 +1,12 @@
+# frozen_string_literal: true
+
 require 'yajl'
 require 'socket'
 
 def notify(msg)
-  begin
-    Socket.tcp('localhost', 9001) { |s|
-      s.puts msg
-    }
-  rescue
-    # standalone usage
-  end
+  Socket.tcp('localhost', 9001) { |s| s.puts msg }
+rescue SystemCallError
+  # standalone usage
 end
 
 text = IO.read('/tmp/1.json')
@@ -31,4 +29,4 @@ p x / len
 p y / len
 p z / len
 
-notify("stop")
+notify('stop')

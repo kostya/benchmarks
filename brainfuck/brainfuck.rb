@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'socket'
 
 class Tape
@@ -24,7 +26,7 @@ class Tape
   end
 
   def devance
-    @pos -= 1 if @pos > 0
+    @pos -= 1 if @pos.positive?
   end
 end
 
@@ -35,18 +37,18 @@ class Program
     leftstack = []
     pc = 0
     text.each_char do |char|
-      if "[]<>+-,.".include?(char)
-        @chars << char
-        if char == '['
-          leftstack << pc
-        elsif char == ']' && !leftstack.empty?
-          left = leftstack.pop
-          right = pc
-          @bracket_map[left] = right
-          @bracket_map[right] = left
-        end
-        pc += 1
+      next unless '[]<>+-,.'.include?(char)
+
+      @chars << char
+      if char == '['
+        leftstack << pc
+      elsif char == ']' && !leftstack.empty?
+        left = leftstack.pop
+        right = pc
+        @bracket_map[left] = right
+        @bracket_map[right] = left
       end
+      pc += 1
     end
   end
 
@@ -55,13 +57,13 @@ class Program
     pc = 0
     while pc < @chars.length
       case @chars[pc]
-        when '+'; tape.inc
-        when '-'; tape.dec
-        when '>'; tape.advance
-        when '<'; tape.devance
-        when '['; pc = @bracket_map[pc] if tape.get == 0
-        when ']'; pc = @bracket_map[pc] if tape.get != 0
-        when '.'; print(tape.get.chr)
+      when '+' then tape.inc
+      when '-' then tape.dec
+      when '>' then tape.advance
+      when '<' then tape.devance
+      when '[' then pc = @bracket_map[pc] if tape.get.zero?
+      when ']' then pc = @bracket_map[pc] if tape.get != 0
+      when '.' then print(tape.get.chr)
       end
       pc += 1
     end
@@ -69,22 +71,18 @@ class Program
 end
 
 def notify(msg)
-  begin
-    Socket.tcp('localhost', 9001) { |s|
-      s.puts msg
-    }
-  rescue
-    # standalone usage
-  end
+  Socket.tcp('localhost', 9001) { |s| s.puts msg }
+rescue SystemCallError
+  # standalone usage
 end
 
-engine = "#{RUBY_ENGINE}"
-if engine == "truffleruby"
-  desc = "#{RUBY_DESCRIPTION}"
+engine = RUBY_ENGINE
+if engine == 'truffleruby'
+  desc = RUBY_DESCRIPTION
   if desc.include?('Native')
-    engine = "TruffleRuby Native"
+    engine = 'TruffleRuby Native'
   elsif desc.include?('JVM')
-    engine = "TruffleRuby JVM"
+    engine = 'TruffleRuby JVM'
   end
 end
 pid = Process.pid
@@ -93,4 +91,4 @@ notify("#{engine}\t#{pid}")
 text = File.read(ARGV[0])
 Program.new(text).run
 
-notify("stop")
+notify('stop')

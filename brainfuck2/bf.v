@@ -91,7 +91,7 @@ fn run_ops(ops []Op, tape mut Tape) {
       MOVE { tape.move(op.v) }
       PRINT {
         print(byte(tape.get()).str())
-        os.flush()
+        os.flush_stdout()
       }
       LOOP {
         for tape.get() > 0 {

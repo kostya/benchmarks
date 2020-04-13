@@ -1,10 +1,14 @@
 #!/usr/bin/env ruby
-def mem(pid); `ps p #{pid} -o rss`.split.last.to_i; end
+# frozen_string_literal: true
+
+def mem(pid)
+  `ps p #{pid} -o rss`.split.last.to_i
+end
 
 mm = 0
 pid = 0
 Thread.new do
-  while true
+  loop do
     sleep 0.1
     m = mem(pid)
     mm = m if m > mm
@@ -18,9 +22,9 @@ min_t = nil
   Process.waitall
   t = Process.clock_gettime(Process::CLOCK_MONOTONIC) - start
   min_t = t if min_t.nil? || t < min_t
-  STDERR.puts "%.2fs" % t
+  warn "#{t.round(2)}s"
 end
 
-STDERR.puts
-STDERR.puts "MIN TIME: %.2fs" % min_t
-STDERR.puts "PEAK MEM: %.1fMb" % (mm / 1024.0)
+warn
+warn "MIN TIME: #{min_t.round(2)}s"
+warn "PEAK MEM: #{(mm / 1024.0).round(1)}Mb"
