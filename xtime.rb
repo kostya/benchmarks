@@ -1,20 +1,23 @@
 #!/usr/bin/env ruby
-require "socket"
+# frozen_string_literal: true
 
-$page_size = `getconf PAGESIZE`.to_i
-$has_mem = File.file?("/proc/self/statm")
+require 'socket'
+
+PAGE_SIZE = `getconf PAGESIZE`.to_i
+HAS_MEM = File.file?('/proc/self/statm')
 
 def mem(pid)
-  if $has_mem
+  if HAS_MEM
     stat = IO.read("/proc/#{pid}/statm").split
-    $page_size * stat[1].to_i # man 5 proc
+    PAGE_SIZE * stat[1].to_i # man 5 proc
   else
     0
   end
 end
 
+# Container for energy stats
 class EnergyStats
-  PATH = "/sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj"
+  PATH = '/sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj'
 
   attr_reader :has_energy_metrics
 
@@ -22,25 +25,23 @@ class EnergyStats
     @acc_e = 0
     @e = 0
     @has_energy_metrics = File.file?(PATH)
-    if @has_energy_metrics
-      @max_e = IO.read(PATH).to_i
-    end
+    @max_e = IO.read(PATH).to_i if @has_energy_metrics
   end
 
   def update
-    if @has_energy_metrics
-      new_e = IO.read(PATH).to_i
-      if @e == 0
-        # first reading
-        @acc_e = 0
-      elsif new_e > @e
-        @acc_e += new_e - @e
-      elsif new_e < @e
-        # counter has been reset
-        @acc_e += @max_e - @e + new_e
-      end
-      @e = new_e
+    return unless @has_energy_metrics
+
+    new_e = IO.read(PATH).to_i
+    if @e.zero?
+      # first reading
+      @acc_e = 0
+    elsif new_e > @e
+      @acc_e += new_e - @e
+    elsif new_e < @e
+      # counter has been reset
+      @acc_e += @max_e - @e + new_e
     end
+    @e = new_e
   end
 
   def val
@@ -69,17 +70,17 @@ end
 
 energy_stats.update
 t_diff = Process.clock_gettime(Process::CLOCK_MONOTONIC) - t
-mm_mb = mm / 1048576.0
-stats = "%.2f s, %.1f Mb" % [t_diff, mm_mb]
+mm_mb = mm / 1_048_576.0
+stats = "#{t_diff.round(2)} s, #{mm_mb.round(1)} Mb"
 if energy_stats.has_energy_metrics
-  stats += ", %.1f J" % [energy_stats.val]
-  open('results.log', 'a') { |f|
-    f.puts "%s\t%f\t%f\t%f" % [test_name, t_diff, mm_mb, energy_stats.val]
-  }
+  stats += ", #{energy_stats.val.round(1)} J"
+  open('results.log', 'a') do |f|
+    f.puts "#{test_name}\t#{t_diff}\t#{mm_mb}\t#{energy_stats.val}"
+  end
 else
-  stats += ", 0.0 J"
-  open('results.log', 'a') { |f| 
-    f.puts "%s\t%f\t%f\t0.0" % [test_name, t_diff, mm_mb]
-  }  
+  stats += ', 0.0 J'
+  open('results.log', 'a') do |f|
+    f.puts "#{test_name}\t#{t_diff}\t#{mm_mb}\t0.0"
+  end
 end
-STDERR.puts stats
+warn stats

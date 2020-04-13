@@ -2,16 +2,16 @@ import os
 import net
 
 fn make_matrix(n int, m int) [] []f64 {
-  mut res := [[0.0].repeat(m)]
+  mut res := [[f64(0.0)].repeat(m)]
   for i := 1; i < n; i++ {
-    res << [0.0].repeat(m)
+    res << [f64(0.0)].repeat(m)
   }
   return res
 }
 
 fn matgen(n int) [] []f64 {
   mut a := make_matrix(n, n)
-  tmp := 1.0 / n / n
+  tmp := f64(1.0) / n / n
 
   for i := 0; i < n; i++ {
     for j := 0; j < n; j++ {

@@ -1,0 +1,35 @@
+Style/RescueModifier:
+  Enabled: false
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Metrics/MethodLength:
+  Max: 17
+
+Metrics/CyclomaticComplexity:
+  Max: 11
+
+Style/Documentation:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Style/Encoding:
+  Enabled: false

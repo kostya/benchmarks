@@ -60,7 +60,7 @@ echo C# System.Text.Json
 echo Ruby
 ../xtime.rb ruby test.rb
 echo Ruby YAJL
-../xtime.rb ruby test-yajl.rb
+../xtime.rb ruby test_yajl.rb
 echo Scala
 ../xtime.rb scala -cp json-scala/target/application.jar JsonTest
 echo Perl

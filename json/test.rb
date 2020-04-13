@@ -1,23 +1,21 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'socket'
 
 def notify(msg)
-  begin
-    Socket.tcp('localhost', 9001) { |s|
-      s.puts msg
-    }
-  rescue
-    # standalone usage
-  end
+  Socket.tcp('localhost', 9001) { |s| s.puts msg }
+rescue SystemCallError
+  # standalone usage
 end
 
-engine = "#{RUBY_ENGINE}"
-if engine == "truffleruby"
-  desc = "#{RUBY_DESCRIPTION}"
+engine = RUBY_ENGINE
+if engine == 'truffleruby'
+  desc = RUBY_DESCRIPTION
   if desc.include?('Native')
-    engine = "TruffleRuby Native"
+    engine = 'TruffleRuby Native'
   elsif desc.include?('JVM')
-    engine = "TruffleRuby JVM"
+    engine = 'TruffleRuby JVM'
   end
 end
 
@@ -41,4 +39,4 @@ p x / len
 p y / len
 p z / len
 
-notify("stop")
+notify('stop')

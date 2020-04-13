@@ -53,6 +53,8 @@ class Program
         end
       when Op::Print
         print(tape.get.chr)
+      else
+        # pass
       end
     end
   end
@@ -68,6 +70,7 @@ class Program
            when '.'; Op::Print.new
            when '['; parse(iterator)
            when ']'; break
+	   else; # pass
            end
       res << op if op
     end

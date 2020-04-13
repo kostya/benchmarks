@@ -54,14 +54,14 @@ RUN export VERSION=ruby-2.7.1 \
 ENV PATH="/opt/ruby/bin:${PATH}"
 
 # https://github.com/dotnet/core/tree/master/release-notes
-ARG DOTNET_CORE=3.1.102
+ARG DOTNET_CORE=3.1.103
 RUN mkdir dotnet && wget --progress=dot:giga -O - \
-    https://download.visualstudio.microsoft.com/download/pr/57e63f03-ebdf-4c22-96ff-2b85dc70cf7f/988576869e82a80f4a97ca5a733a5295/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
+    https://download.visualstudio.microsoft.com/download/pr/4acde034-669e-4d98-86ac-6214ebb36ff9/7e3cf7e4c323840c49ad7c3e4e2c7755/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
     | tar -xz -C dotnet
 ENV PATH="/opt/dotnet:${PATH}"
 
 # https://pypy.org/download.html
-ARG PYPY=pypy3.6-v7.3.0-linux64
+ARG PYPY=pypy3.6-v7.3.1-linux64
 RUN wget --progress=dot:giga -O - \
     https://bitbucket.org/pypy/pypy/downloads/$PYPY.tar.bz2 \
     | tar -xj
@@ -82,9 +82,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/jdk-$JDK/bin:${PATH}"
 
 # https://github.com/crystal-lang/crystal/releases
-ARG CRYSTAL=crystal-0.33.0-1
+ARG CRYSTAL=crystal-0.34.0-1
 RUN wget --progress=dot:giga -O - \
-    https://github.com/crystal-lang/crystal/releases/download/0.33.0/$CRYSTAL-linux-x86_64.tar.gz \
+    https://github.com/crystal-lang/crystal/releases/download/0.34.0/$CRYSTAL-linux-x86_64.tar.gz \
     | tar -xz
 ENV PATH="/opt/$CRYSTAL/bin:${PATH}"
 
@@ -124,7 +124,7 @@ RUN wget --progress=dot:giga -O - \
 
 # https://golang.org/dl/
 RUN wget --progress=dot:giga -O - \
-    https://dl.google.com/go/go1.14.1.linux-amd64.tar.gz \
+    https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz \
     | tar -xz
 ENV PATH="/opt/go/bin/:${PATH}"
 
@@ -145,12 +145,6 @@ RUN wget --progress=dot:giga -O - \
     https://swift.org/builds/swift-5.2.1-release/ubuntu1804/swift-5.2.1-RELEASE/$SWIFT.tar.gz \
     | tar -xz \
     && ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
-
-# https://github.com/vlang/v
-RUN git clone https://github.com/vlang/v \
-    && cd v \
-    && make
-ENV PATH="/opt/v/:${PATH}"
 
 # https://ocaml.org/releases/
 ARG OCAML=4.10.0
@@ -200,6 +194,14 @@ RUN wget --progress=dot:giga \
     && unzip kotlin-compiler-$KOTLIN.zip \
     && rm kotlin-compiler-$KOTLIN.zip
 ENV PATH="/opt/kotlinc/bin/:${PATH}"
+
+# https://github.com/vlang/v/releases
+ARG VLANG=0.1.24
+RUN wget --progress=dot:giga \
+    https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
+    && unzip v_linux.zip -d v \
+    && rm v_linux.zip
+ENV PATH="/opt/v/:${PATH}"
 
 ARG SCRIPTS_VER=unknown
 COPY *.rb ./

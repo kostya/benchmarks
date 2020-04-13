@@ -1,16 +1,20 @@
+# frozen_string_literal: true
+
 require 'json'
 
 x = []
 
-524288.times do
+524_288.times do
   h = {
     'x' => rand,
     'y' => rand,
     'z' => rand,
-    'name' => ('a'..'z').to_a.shuffle[0..5].join + ' ' + rand(10000).to_s,
-    'opts' => {'1' => [1, true]},
+    'name' => ('a'..'z').to_a.sample(6).join + ' ' + rand(10_000).to_s,
+    'opts' => { '1' => [1, true] }
   }
   x << h
 end
 
-File.open("/tmp/1.json", 'w') { |f| f.write JSON.pretty_generate('coordinates' => x, 'info' => "some info") }
+File.open('/tmp/1.json', 'w') do |f|
+  f.write JSON.pretty_generate('coordinates' => x, 'info' => 'some info')
+end

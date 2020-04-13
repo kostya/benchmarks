@@ -77,14 +77,13 @@ cd json-scala; make clean target/application.jar; cd ..
 
 # simdjson
 if [ ! -d simdjson ]; then
-    git clone --depth 1 https://github.com/lemire/simdjson.git
-    mkdir simdjson/build
-    cd simdjson/build
-    cmake -DSIMDJSON_BUILD_STATIC=ON ..
-    make simdjson
-    cd ../..
+    git clone --depth 1 --no-checkout https://github.com/simdjson/simdjson.git
+    cd simdjson
+    git sparse-checkout init --cone
+    git sparse-checkout set singleheader
+    cd ..
 fi
-g++ -O3 -std=c++17 test_simdjson.cpp -o json_simdjson_cpp -Isimdjson/include/ -Lsimdjson/build/src -lsimdjson  -I../common/libnotify -L../common/libnotify -lnotify
+g++ -O3 -std=c++17 test_simdjson.cpp simdjson/singleheader/simdjson.cpp -o json_simdjson_cpp -Isimdjson/singleheader/ -I../common/libnotify -L../common/libnotify -lnotify
 
 v -prod -cc gcc -o json_v_gcc test.v
 v -prod -cc clang -o json_v_clang test.v

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'socket'
 
 class Op
@@ -24,9 +26,7 @@ class Tape
 
   def move(x)
     @pos += x
-    while (@pos >= @tape.size)
-      @tape << 0
-    end
+    @tape << 0 while @pos >= @tape.size
   end
 end
 
@@ -39,30 +39,30 @@ class Program
     _run @ops, Tape.new
   end
 
-private
+  private
 
   def _run(program, tape)
     program.each do |op|
       case op.op
-        when :inc; tape.inc(op.val)
-        when :move; tape.move(op.val)
-        when :loop; _run(op.val, tape) while tape.get > 0
-        when :print; print(tape.get.chr)
+      when :inc then tape.inc(op.val)
+      when :move then tape.move(op.val)
+      when :loop then _run(op.val, tape) while tape.get.positive?
+      when :print then print(tape.get.chr)
       end
     end
   end
 
   def parse(iterator)
     res = []
-    while c = iterator.next rescue nil
+    while (c = iterator.next rescue nil)
       op = case c
-           when '+'; Op.new(:inc, 1)
-           when '-'; Op.new(:inc, -1)
-           when '>'; Op.new(:move, 1)
-           when '<'; Op.new(:move, -1)
-           when '.'; Op.new(:print, 0)
-           when '['; Op.new(:loop, parse(iterator))
-           when ']'; break
+           when '+' then Op.new(:inc, 1)
+           when '-' then Op.new(:inc, -1)
+           when '>' then Op.new(:move, 1)
+           when '<' then Op.new(:move, -1)
+           when '.' then Op.new(:print, 0)
+           when '[' then Op.new(:loop, parse(iterator))
+           when ']' then break
            end
       res << op if op
     end
@@ -71,22 +71,18 @@ private
 end
 
 def notify(msg)
-  begin
-    Socket.tcp('localhost', 9001) { |s|
-      s.puts msg
-    }
-  rescue
-    # standalone usage
-  end
+  Socket.tcp('localhost', 9001) { |s| s.puts msg }
+rescue SystemCallError
+  # standalone usage
 end
 
-engine = "#{RUBY_ENGINE}"
-if engine == "truffleruby"
-  desc = "#{RUBY_DESCRIPTION}"
+engine = RUBY_ENGINE
+if engine == 'truffleruby'
+  desc = RUBY_DESCRIPTION
   if desc.include?('Native')
-    engine = "TruffleRuby Native"
+    engine = 'TruffleRuby Native'
   elsif desc.include?('JVM')
-    engine = "TruffleRuby JVM"
+    engine = 'TruffleRuby JVM'
   end
 end
 
@@ -97,4 +93,4 @@ notify("#{engine}\t#{pid}")
 
 Program.new(text).run
 
-notify("stop")
+notify('stop')
