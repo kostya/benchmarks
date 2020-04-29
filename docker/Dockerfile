@@ -68,16 +68,16 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$PYPY/bin:${PATH}"
 
 # https://www.scala-lang.org/download/
-ARG SCALA=2.13.1
+ARG SCALA=2.13.2
 RUN wget --progress=dot:giga -O - \
     https://downloads.lightbend.com/scala/$SCALA/scala-$SCALA.tgz \
     | tar -xz
 ENV PATH="/opt/scala-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=14
+ARG JDK=14.0.1
 RUN wget --progress=dot:giga -O - \
-    https://download.java.net/java/GA/jdk14/076bab302c7b4508975440c56f6cc26a/36/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
+    https://download.java.net/java/GA/jdk${JDK}/664493ef4a6946b186ff29eb326336a2/7/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
     | tar -xz
 ENV PATH="/opt/jdk-$JDK/bin:${PATH}"
 
@@ -89,9 +89,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$CRYSTAL/bin:${PATH}"
 
 # https://github.com/ldc-developers/ldc/releases
-ARG LDC=ldc2-1.20.1-linux-x86_64
+ARG LDC=ldc2-1.21.0-linux-x86_64
 RUN wget --progress=dot:giga -O - \
-    https://github.com/ldc-developers/ldc/releases/download/v1.20.1/$LDC.tar.xz \
+    https://github.com/ldc-developers/ldc/releases/download/v1.21.0/$LDC.tar.xz \
     | tar -xJ
 ENV PATH="/opt/$LDC/bin/:${PATH}"
 
@@ -104,12 +104,12 @@ ENV PATH="/opt/$NIM/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN wget --progress=dot:giga -O - \
-    http://downloads.dlang.org/releases/2.x/2.091.0/dmd.2.091.0.linux.tar.xz \
+    http://downloads.dlang.org/releases/2.x/2.091.1/dmd.2.091.1.linux.tar.xz \
     | tar -xJ
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v13.12.0
+ARG NODE=v14.0.0
 RUN wget --progress=dot:giga -O - \
     https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
     | tar -xJ
@@ -133,16 +133,16 @@ ENV CARGO_HOME="/opt/.cargo" PATH="/opt/.cargo/bin:${PATH}"
 RUN wget -O - https://sh.rustup.rs | sh -s -- -y
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.4.0
+ARG JULIA=julia-1.4.1
 RUN wget --progress=dot:giga -O - \
     https://julialang-s3.julialang.org/bin/linux/x64/1.4/$JULIA-linux-x86_64.tar.gz \
     | tar -xz
 ENV PATH="/opt/$JULIA/bin/:${PATH}"
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.2.1-RELEASE-ubuntu18.04
+ARG SWIFT=swift-5.2.2-RELEASE-ubuntu18.04
 RUN wget --progress=dot:giga -O - \
-    https://swift.org/builds/swift-5.2.1-release/ubuntu1804/swift-5.2.1-RELEASE/$SWIFT.tar.gz \
+    https://swift.org/builds/swift-5.2.2-release/ubuntu1804/swift-5.2.2-RELEASE/$SWIFT.tar.gz \
     | tar -xz \
     && ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
 
@@ -188,7 +188,7 @@ RUN gu install ruby \
     && ln -s /opt/graalvm-ce-java11-$GRAALVM/bin/truffleruby /usr/bin/truffleruby
 
 # https://kotlinlang.org/docs/tutorials/command-line.html
-ARG KOTLIN=1.3.71
+ARG KOTLIN=1.3.72
 RUN wget --progress=dot:giga \
     https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
     && unzip kotlin-compiler-$KOTLIN.zip \

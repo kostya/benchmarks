@@ -59,6 +59,8 @@ echo C# System.Text.Json
 ../xtime.rb dotnet json-core/bin/Release/netcoreapp3.0/json-core.dll
 echo Ruby
 ../xtime.rb ruby test.rb
+echo Ruby JIT
+../xtime.rb ruby --jit test.rb
 echo Ruby YAJL
 ../xtime.rb ruby test_yajl.rb
 echo Scala
@@ -81,8 +83,10 @@ echo Haskell
 ../xtime.rb ./json_hs
 echo JRuby
 ../xtime.rb jruby test.rb
-echo TruffleRuby
+echo TruffleRuby JVM
 ../xtime.rb truffleruby --jvm test.rb
+echo TruffleRuby Native
+../xtime.rb truffleruby test.rb
 echo Julia
 ../xtime.rb julia --optimize=3 --check-bounds=no test.jl
 echo Clojure

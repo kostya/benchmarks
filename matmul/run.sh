@@ -55,10 +55,14 @@ echo Python NumPy
 ../xtime.rb python3 matmul-numpy.py 1500
 echo Ruby
 ../xtime.rb ruby matmul.rb 1500
+echo Ruby JIT
+../xtime.rb ruby --jit matmul.rb 1500
 echo JRuby
 ../xtime.rb jruby matmul.rb 1500
-echo TruffleRuby
+echo TruffleRuby JVM
 ../xtime.rb truffleruby --jvm matmul.rb 1500
+echo TruffleRuby Native
+../xtime.rb truffleruby matmul.rb 1500
 echo Perl
 ../xtime.rb perl matmul.pl 1500
 echo Tcl

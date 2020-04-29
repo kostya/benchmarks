@@ -55,8 +55,12 @@ echo Ruby
 ../xtime.rb ruby bf.rb bench.b
 echo JRuby
 ../xtime.rb jruby bf.rb bench.b
-echo TruffleRuby
+echo TruffleRuby JVM
 ../xtime.rb truffleruby --jvm bf.rb bench.b
+echo TruffleRuby Native
+../xtime.rb truffleruby bf.rb bench.b
+echo Ruby JIT
+../xtime.rb ruby --jit bf.rb bench.b
 echo Python
 ../xtime.rb python3 bf3.py bench.b
 echo Standard ML MLton
