@@ -41,10 +41,14 @@ echo Python
 ../xtime.rb python3 test.py
 echo Ruby
 ../xtime.rb ruby test.rb
+echo Ruby JIT
+../xtime.rb ruby --jit test.rb
 echo JRuby
 ../xtime.rb jruby test.rb
-echo TruffleRuby
+echo TruffleRuby JVM
 ../xtime.rb truffleruby --jvm test.rb
+echo TruffleRuby Native
+../xtime.rb truffleruby test.rb
 echo Mono
 ../xtime.rb mono -O=all --gc=sgen test.exe
 echo C# .Net Core

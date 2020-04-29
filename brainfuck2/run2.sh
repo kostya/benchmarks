@@ -57,8 +57,10 @@ echo V Gcc
 ../xtime.rb ./bin_v_gcc mandel.b > /dev/null
 echo V Clang
 ../xtime.rb ./bin_v_clang mandel.b > /dev/null
-echo TruffleRuby
+echo TruffleRuby JVM
 ../xtime.rb truffleruby --jvm bf.rb mandel.b > /dev/null
+echo TruffleRuby Native
+../xtime.rb truffleruby bf.rb mandel.b > /dev/null
 echo Julia
 ../xtime.rb julia --check-bounds=no bf.jl mandel.b > /dev/null
 echo C Clang

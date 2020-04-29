@@ -67,6 +67,8 @@ while IO.select([server], nil, nil, 0.01).nil?
   mm = m if m > mm
   energy_stats.update
 end
+client = server.accept
+client.gets
 
 energy_stats.update
 t_diff = Process.clock_gettime(Process::CLOCK_MONOTONIC) - t

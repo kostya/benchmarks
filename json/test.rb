@@ -17,6 +17,8 @@ if engine == 'truffleruby'
   elsif desc.include?('JVM')
     engine = 'TruffleRuby JVM'
   end
+elsif engine == 'ruby' && RubyVM::MJIT.enabled?
+  engine = 'Ruby JIT'
 end
 
 text = IO.read('/tmp/1.json')
