@@ -33,6 +33,11 @@ echo Nim Gcc
 ../xtime.rb ./json_nim_gcc
 echo Nim Clang
 ../xtime.rb ./json_nim_clang
+echo Nim Packedjson Gcc
+../xtime.rb ./packedjson_nim_clang
+echo Nim Packedjson Clang
+../xtime.rb ./packedjson_nim_clang
+
 echo Python PyPy
 ../xtime.rb pypy3 test.py
 echo Python

@@ -17,6 +17,9 @@ gdc -o json_d_gdc -O3 -frelease -finline test.d
 ldc2 -ofjson_d_ldc -O5 -release test.d
 nim c -o:json_nim_gcc -d:danger --cc:gcc --verbosity:0 test.nim
 nim c -o:json_nim_clang -d:danger --cc:clang --verbosity:0 test.nim
+nimble -y install packedjson
+nim c -o:packedjson_nim_gcc -d:danger --cc:gcc --verbosity:0 test_packedjson.nim
+nim c -o:packedjson_nim_clang -d:danger --cc:clang --verbosity:0 test_packedjson.nim
 go build -o json_go test.go
 gccgo -O3 -g -o json_go_gccgo test.go
 g++ -O3 test_boost.cpp -o json_boost_cpp -I../common/libnotify -L../common/libnotify -lnotify
