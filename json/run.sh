@@ -34,7 +34,7 @@ echo Nim Gcc
 echo Nim Clang
 ../xtime.rb ./json_nim_clang
 echo Nim Packedjson Gcc
-../xtime.rb ./packedjson_nim_clang
+../xtime.rb ./packedjson_nim_gcc
 echo Nim Packedjson Clang
 ../xtime.rb ./packedjson_nim_clang
 
