@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <OutputPath>bin_cs</OutputPath>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="bf.cs" />
