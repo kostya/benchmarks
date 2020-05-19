@@ -59,22 +59,24 @@ func notify(_ msg: String) {
     }
 }
 
-notify("Swift\t\(getpid())")
-
 var n = 100;
 
-if CommandLine.argc != 2 {
-    print("Usage: ./matmulswift {arg}")
-    exit(1)
+if CommandLine.argc > 1 {
+    let end = Int(CommandLine.arguments[1])!
+    n = end
+    n = n / 2 * 2
 }
 
-let end = Int(CommandLine.arguments[1])!
-n = end
-n = n / 2 * 2
+let t = matmul(matgen(100), b: matgen(100))
+if abs(t[1][1] + 19.5) > 0.5 {
+    exit(-1)
+}
 
-var a = matgen(n);
-var b = matgen(n);
-var x = matmul(a, b: b)
+notify("Swift\t\(getpid())")
+
+let a = matgen(n)
+let b = matgen(n)
+let x = matmul(a, b: b)
 print(x[n/2][n/2])
 
 notify("stop")

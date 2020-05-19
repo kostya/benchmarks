@@ -5,6 +5,8 @@ import std.numeric, std.stdio, std.string, std.conv;
 import std.socket;
 import std.compiler;
 import std.format;
+import std.math;
+import core.stdc.stdlib;
 import core.thread;
 
 double[][] matGen(in int n) {
@@ -55,10 +57,16 @@ void notify(string msg) {
 }
 
 void main(in string[] args) {
-  notify("%s\t%d".format(name, getpid()));
-
   int n = 100;
   if (args.length >= 2) n = to!int(args[1]) / 2 * 2;
+
+  auto t = matMul(matGen(100), matGen(100));
+  if (abs(t[1][1] + 19.5) > 0.5) {
+      exit(-1);
+  }
+
+  notify("%s\t%d".format(name, getpid()));
+
   auto a = matGen(n);
   auto b = matGen(n);
   auto x = matMul(a, b);

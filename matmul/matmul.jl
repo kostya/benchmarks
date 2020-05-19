@@ -58,10 +58,11 @@ function test()
     n = parse(Int, ARGS[1])
   end
 
-  println("JIT warming up")
-  main(200)
+  t = mul(matgen(100), matgen(100))
+  if abs(t[1][1] + 19.5) > 0.5
+    exit(-1)
+  end
 
-  println("bench")
   notify("Julia (no BLAS)\t$(getpid())")
 
   x = @timed main(n)

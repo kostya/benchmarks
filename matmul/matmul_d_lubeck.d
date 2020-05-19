@@ -1,15 +1,17 @@
 #!/usr/bin/env dub
 /+dub.sdl:
-dependency "lubeck" version="~>1.1.7"
+dependency "lubeck" version="~>1.3.0"
 libs "lapack" "blas"
 +/
 
 import core.stdc.stdio, std.conv, std.array;
 import mir.ndslice;
-import lubeck: mtimes;
+import kaleidic.lubeck: mtimes;
 import std.socket;
 import std.compiler;
 import std.format;
+import std.math;
+import core.stdc.stdlib;
 import core.thread;
 
 alias Matrix = Slice!(double*, 2);
@@ -58,11 +60,17 @@ void notify(string msg) {
 
 void main(in string[] args)
 {
-    notify("LDC lubeck\t%d".format(getpid()));
-
     size_t n = 100;
     if (args.length >= 2)
        n = to!size_t(args[1]) / 2 * 2;
+
+    auto t = mul(buildMatrix(100), buildMatrix(100));
+    if (abs(t[1][1] + 19.5) > 0.5) {
+      exit(-1);
+    }
+
+    notify("LDC lubeck\t%d".format(getpid()));
+
     auto ab = generate2(n);
     auto x = mul(ab[0], ab[1]);
     printf("%.6f\n", x[n / 2, n / 2]);

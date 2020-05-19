@@ -25,11 +25,16 @@ def notify(msg):
 if __name__=='__main__':
     import sys
 
+    n = 100
+    if len(sys.argv) > 1:
+        n = int(sys.argv[1]) * 2 // 2
+
+    t = matmul(build_matrix_np(100), build_matrix_np(100))
+    if abs(t[1][1] + 19.5) > 0.5:
+        quit(-1)
+
     notify("Python NumPy\t%d" % (os.getpid()))
 
-    if len(sys.argv) > 1:
-        main(int(sys.argv[1]))
-    else:
-        main(100)
+    main(n)
 
     notify("stop")

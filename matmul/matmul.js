@@ -40,10 +40,7 @@ matgen = function (n) {
     return y
 }
 
-function main() {
-    var n = 100;
-    if (process.argv[2]) n = parseInt(process.argv[2]);
-
+function main(n) {
     var a = matgen(n);
     var b = matgen(n);
     var c = matrix.mul(a, b, n);
@@ -62,7 +59,15 @@ function notify(msg) {
 }
 
 (async function() {
+    var n = 100;
+    if (process.argv[2]) n = parseInt(process.argv[2]);
+
+    var t = matrix.mul(matgen(100), matgen(100), 100);
+    if (Math.abs(t[1][1] + 19.5) > 0.5) {
+        process.exit(-1);
+    }
+
     await notify(`Node.js\t${require('process').pid}`);
-    main();
+    main(n);
     await notify('stop');
 })();

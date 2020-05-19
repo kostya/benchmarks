@@ -5,6 +5,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"math"
 	"net"
 	"os"
 	"runtime"
@@ -57,13 +58,20 @@ func notify(msg string) {
 }
 
 func main() {
-	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
-
 	n := int(100)
 	flag.Parse()
 	if flag.NArg() > 0 {
 		n, _ = strconv.Atoi(flag.Arg(0))
 	}
+	n = n / 2 * 2
+
+	t := matmul(matgen(100), matgen(100))
+	if math.Abs(t[1][1] + 19.5) > 0.5 {
+		os.Exit(-1)
+	}
+
+	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
+
 	a := matgen(n)
 	b := matgen(n)
 	x := matmul(a, b)

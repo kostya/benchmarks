@@ -47,11 +47,17 @@ def notify(msg)
   end
 end
 
+n = (ARGV[0]? || 100).to_i
+n = n >> 1 << 1
+
+t = matmul(matgen(100), matgen(100))
+if (t[1][1] + 19.5).abs > 0.5
+  exit(-1)
+end
+
 pid = Process.pid
 notify("Crystal\t#{pid}")
 
-n = (ARGV[0]? || 100).to_i
-n = n >> 1 << 1
 a = matgen(n)
 b = matgen(n)
 c = matmul(a, b)

@@ -32,10 +32,10 @@ function test()
     n = parse(Int, ARGS[1])
   end
 
-  println("JIT warming up")
-  main(200)
-
-  println("bench")
+  t = matgen(100) * matgen(100)
+  if abs(t[1][1] + 19.5) > 0.5
+    exit(-1)
+  end
 
   # Assuming openblas64, may not work for all environments
   num_threads = ccall((:openblas_get_num_threads64_, Base.libblas_name), Int32, ())

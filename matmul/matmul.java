@@ -27,7 +27,7 @@ class matmul {
             }
         return x;
     }
-	
+
     private static void notify(final String msg) {
         try (var socket = new java.net.Socket("localhost", 9001);
              var out = socket.getOutputStream()) {
@@ -44,8 +44,10 @@ class matmul {
 
         matmul m = new matmul();
 
-        double[][] t = m.matmul(m.matgen(500), m.matgen(500));
-        System.out.println("JIT warming up: " + t[1][1]);
+        double[][] t = m.matmul(m.matgen(100), m.matgen(100));
+        if (Math.abs(t[1][1] + 19.5) > 0.5) {
+            System.exit(-1);
+        }
 
         notify("Java\t" + ProcessHandle.current().pid());
         long start_time = System.currentTimeMillis();

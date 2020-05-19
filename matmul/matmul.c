@@ -54,16 +54,26 @@ double **mm_mul(int n, double *const *a, double *const *b)
 
 int main(int argc, char *argv[])
 {
+  int n = 100;
+  if (argc > 1) n = atoi(argv[1]);
+  n = (n/2) * 2;
+
+  double **t1 = mm_gen(100);
+  double **t2 = mm_gen(100);
+  double **t = mm_mul(100, t1, t2);
+  double p = t[1][1];
+  mm_destroy(100, t1); mm_destroy(100, t2); mm_destroy(100, t);
+  if (abs(p + 19.5) > 0.5) {
+      exit(-1);
+  }
+
   char msg[32];
   size_t len = snprintf(msg, sizeof(msg), "C\t%d", getpid());
   notify(msg, len);
 
-  int n = 100;
-  double **a, **b, **m;
-  if (argc > 1) n = atoi(argv[1]);
-  n = (n/2) * 2;
-  a = mm_gen(n); b = mm_gen(n);
-  m = mm_mul(n, a, b);
+  double **a = mm_gen(n);
+  double **b = mm_gen(n);
+  double **m = mm_mul(n, a, b);
   fprintf(stderr, "%lf\n", m[n/2][n/2]);
   mm_destroy(n, a); mm_destroy(n, b); mm_destroy(n, m);
 

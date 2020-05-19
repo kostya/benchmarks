@@ -51,11 +51,17 @@ sub notify {
     close($socket);
 }
 
+my $n = @ARGV ? shift : 100;
+$n = $n / 2 * 2;
+
+my $t = matmul(matgen(100), matgen(100));
+if (abs($t->[1]->[1] + 19.5) > 0.5) {
+   exit(-1);
+}
+
 my $pid = $$;
 notify("Perl\t${pid}");
 
-my $n = @ARGV ? shift : 100;
-$n = $n / 2 * 2;
 my $a = matgen($n);
 my $b = matgen($n);
 my $c = matmul($a, $b);

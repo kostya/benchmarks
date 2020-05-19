@@ -52,8 +52,10 @@ object MatMul {
 
     n = n / 2 * 2;
 
-    val t = matmul(matgen(500), matgen(500))
-    println("JIT warming up: " + t(1)(1))
+    val t = matmul(matgen(100), matgen(100))
+    if (Math.abs(t(1)(1) + 19.5) > 0.5) {
+      System.exit(-1);
+    }
 
     notify(s"Scala\t${ProcessHandle.current().pid()}")
 

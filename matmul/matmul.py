@@ -30,11 +30,7 @@ def build_matrix(n):
             m[i][j] = t * (i - j) * (i + j)
     return m
 
-def main(argv):
-    n = 100
-    if len(sys.argv) > 1:
-        n = int(sys.argv[1])
-
+def main(n):
     a = build_matrix(n)
     b = build_matrix(n)
 
@@ -47,8 +43,16 @@ def notify(msg):
             s.sendall(bytes(msg, 'utf8'))
 
 if __name__ == "__main__":
+    n = 100
+    if len(sys.argv) > 1:
+        n = int(sys.argv[1]) * 2 // 2
+
+    t = matmul(build_matrix(100), build_matrix(100))
+    if abs(t[1][1] + 19.5) > 0.5:
+        quit(-1)
+
     notify("%s\t%d" % (platform.python_implementation(), os.getpid()))
 
-    main(sys.argv)
+    main(n)
 
     notify("stop")

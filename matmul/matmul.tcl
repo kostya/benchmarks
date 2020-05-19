@@ -15,7 +15,7 @@ proc generate n {
     return $M
 }
 
-proc main {{n 100}} {
+proc main n {
     set A [generate $n]
     set B $A
 
@@ -34,8 +34,19 @@ proc notify msg {
     }
 }
 
+if {[llength $argv] > 0} {
+    set n [expr int([lindex $argv 0] / 2 * 2)]
+} else {
+    set n 100
+}
+
+set t [::math::linearalgebra::matmul [generate 100] [generate 100]]
+if {[expr abs([lindex $t 1 1] + 19.5)] > 0.5} {
+    exit -1
+}
+
 notify [format "%s\t%d" "Tcl" [pid]]
 
-main [lindex $argv 0]
+main $n
 
 notify "stop"

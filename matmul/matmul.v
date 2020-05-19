@@ -1,4 +1,5 @@
 import os
+import math
 import net
 
 fn make_matrix(n int, m int) [] []f64 {
@@ -64,22 +65,27 @@ fn notify(msg string) {
 }
 
 fn main() {
+    n := if os.args.len > 1 {
+        os.args[1].int() / 2 * 2
+    } else {
+        100
+    }
+
+    t := matmul(matgen(100), matgen(100))
+    if math.abs(t[1][1] + 19.5) > 0.5 {
+      exit(-1)
+    }
+
     mut lang := "V GCC"
     $if clang {
-      lang = "V Clang"
+        lang = "V Clang"
     }
     notify('${lang}\t${C.getpid()}')
 
-  n := if os.args.len != 2 {
-    100
-  } else {
-    os.args[1].int()
-  }
-
-  a := matgen(n)
-  b := matgen(n)
-  c := matmul(a, b)
-  println(c[n / 2] [n / 2])
+    a := matgen(n)
+    b := matgen(n)
+    c := matmul(a, b)
+    println(c[n / 2] [n / 2])
 
     notify("stop")
 }

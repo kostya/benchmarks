@@ -29,10 +29,12 @@ class matmulnd4j {
         int n = 100;
         if (args.length >= 1) n = Integer.parseInt(args[0]);
         n = n / 2 * 2;
-		
-        INDArray t =  Nd4j.matmul(matgen(500), matgen(500));
-        System.out.println("JIT warming up: " + t.getDouble(1, 1));
-		
+
+        INDArray t =  Nd4j.matmul(matgen(100), matgen(100));
+        if (Math.abs(t.getDouble(1, 1) + 19.5) > 0.5) {
+            System.exit(-1);
+        }
+
         notify("Java ND4J\t" + ProcessHandle.current().pid());
         long start_time = System.currentTimeMillis();
 

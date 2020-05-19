@@ -23,15 +23,19 @@ proc notify(msg: string) =
     discard
 
 proc main() =
+    var n = 100
+
+    if paramCount() > 0:
+        n = parseInt(paramStr(1))
+
+    let t = matmul(matgen(100), matgen(100))
+    if abs(t[1, 1] + 19.5) > 0.5:
+        quit(-1)
+
     var compiler = "Nim Clang"
     when defined(gcc):
         compiler = "Nim GCC"
     notify(&"{compiler} Arraymancer\t{getpid()}")
-
-    var n = 100
-
-    if paramCount()>0:
-        n = parseInt(paramStr(1))
 
     let a, b = matgen(n)
     let c = matmul(a, b)

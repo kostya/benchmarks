@@ -66,12 +66,18 @@ elsif engine == 'ruby' && RubyVM::MJIT.enabled?
   engine = 'Ruby JIT'
 end
 pid = Process.pid
-notify("#{engine}\t#{pid}")
 
 n = 100
 n = ARGV[0].to_i if ARGV.length >= 1
-
 n = n / 2 * 2
+
+t = matmul(matgen(100), matgen(100))
+if (t[1][1] + 19.5).abs > 0.5
+  exit(-1)
+end
+
+notify("#{engine}\t#{pid}")
+
 a = matgen(n)
 b = matgen(n)
 c = matmul(a, b)

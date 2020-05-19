@@ -49,13 +49,18 @@ fn notify(msg: &str) {
 }
 
 fn main() {
-    notify(&format!("Rust\t{}", std::process::id()));
-
     let n = std::env::args()
             .nth(1)
             .unwrap_or("1500".into())
             .parse::<usize>()
             .unwrap() / 2 * 2;
+
+    let t = mat_mul(&mat_gen(100), &mat_gen(100));
+    if (t[1][1] + 19.5).abs() > 0.5 {
+        std::process::exit(-1);
+    }
+
+    notify(&format!("Rust\t{}", std::process::id()));
 
     let a = mat_gen(n);
     let b = mat_gen(n);
