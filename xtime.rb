@@ -51,9 +51,18 @@ end
 
 energy_stats = EnergyStats.new
 server = TCPServer.new 9001
-Process.spawn(*ARGV.to_a)
+pid = Process.spawn(*ARGV.to_a)
 
-client = server.accept
+begin
+  client = server.accept_nonblock
+rescue IO::WaitReadable
+  if !Process.waitpid(pid, Process::WNOHANG).nil?
+    exit(1)
+  end
+  IO.select([server], nil, nil, 1)
+  retry
+end
+
 test_data = client.gets.strip.split("\t")
 test_name = test_data[0]
 pid = test_data[1].to_i

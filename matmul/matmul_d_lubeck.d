@@ -2,6 +2,7 @@
 /+dub.sdl:
 dependency "lubeck" version="~>1.3.0"
 libs "lapack" "blas"
+targetPath "target"
 +/
 
 import core.stdc.stdio, std.conv, std.array;

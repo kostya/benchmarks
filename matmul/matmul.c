@@ -52,30 +52,34 @@ double **mm_mul(int n, double *const *a, double *const *b)
   return m;
 }
 
+double calc(int n) {
+  n = n / 2 * 2;
+  double **a = mm_gen(n);
+  double **b = mm_gen(n);
+  double **m = mm_mul(n, a, b);
+  double result = m[n / 2][n / 2];
+  mm_destroy(n, a);
+  mm_destroy(n, b);
+  mm_destroy(n, m);
+  return result;
+}
+
 int main(int argc, char *argv[])
 {
-  int n = 100;
-  if (argc > 1) n = atoi(argv[1]);
-  n = (n/2) * 2;
+  int n = argc > 1 ? atoi(argv[1]) : 100;
 
-  double **t1 = mm_gen(100);
-  double **t2 = mm_gen(100);
-  double **t = mm_mul(100, t1, t2);
-  double p = t[1][1];
-  mm_destroy(100, t1); mm_destroy(100, t2); mm_destroy(100, t);
-  if (abs(p + 19.5) > 0.5) {
-      exit(-1);
+  double left = calc(101);
+  double right = -9.34;
+  if (abs(left - right) > 0.5) {
+    fprintf(stderr, "%f != %f\n", left, right);
+    exit(1);
   }
 
   char msg[32];
   size_t len = snprintf(msg, sizeof(msg), "C\t%d", getpid());
   notify(msg, len);
 
-  double **a = mm_gen(n);
-  double **b = mm_gen(n);
-  double **m = mm_mul(n, a, b);
-  fprintf(stderr, "%lf\n", m[n/2][n/2]);
-  mm_destroy(n, a); mm_destroy(n, b); mm_destroy(n, m);
+  printf("%f\n", calc(n));
 
   char stop_msg[] = "stop";
   notify(stop_msg, sizeof(stop_msg));

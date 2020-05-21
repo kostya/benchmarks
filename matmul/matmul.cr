@@ -38,29 +38,33 @@ def matgen(n)
 end
 
 def notify(msg)
-  begin
-    TCPSocket.open("localhost", 9001) { |s|
-      s.puts msg
-    }
-  rescue
-    # standalone usage
-  end
+  TCPSocket.open("localhost", 9001) { |s|
+    s.puts msg
+  }
+rescue
+  # standalone usage
+end
+
+def calc(n)
+  n = n >> 1 << 1
+  a = matgen(n)
+  b = matgen(n)
+  c = matmul(a, b)
+  c[n >> 1][n >> 1]
 end
 
 n = (ARGV[0]? || 100).to_i
-n = n >> 1 << 1
 
-t = matmul(matgen(100), matgen(100))
-if (t[1][1] + 19.5).abs > 0.5
+left = calc(101)
+right = -9.34
+if (left - right).abs > 0.1
+  STDERR.puts "#{left} != #{right}"
   exit(-1)
 end
 
 pid = Process.pid
 notify("Crystal\t#{pid}")
 
-a = matgen(n)
-b = matgen(n)
-c = matmul(a, b)
-puts c[n >> 1][n >> 1]
+puts calc(n)
 
 notify("stop")

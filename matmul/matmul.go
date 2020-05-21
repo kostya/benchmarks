@@ -5,6 +5,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"math"
 	"net"
 	"os"
@@ -57,25 +58,30 @@ func notify(msg string) {
 	}
 }
 
+func calc(n int) float64 {
+	n = n / 2 * 2
+	a := matgen(n)
+	b := matgen(n)
+	x := matmul(a, b)
+	return x[n/2][n/2]
+}
+
 func main() {
 	n := int(100)
 	flag.Parse()
 	if flag.NArg() > 0 {
 		n, _ = strconv.Atoi(flag.Arg(0))
 	}
-	n = n / 2 * 2
 
-	t := matmul(matgen(100), matgen(100))
-	if math.Abs(t[1][1] + 19.5) > 0.5 {
-		os.Exit(-1)
+	left := calc(101)
+	right := -9.34
+	if math.Abs(left-right) > 0.1 {
+		log.Fatalf("%f != %f\n", left, right)
 	}
 
 	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
 
-	a := matgen(n)
-	b := matgen(n)
-	x := matmul(a, b)
-	fmt.Printf("%f\n", x[n/2][n/2])
+	fmt.Printf("%f\n", calc(n))
 
 	notify("stop")
 }

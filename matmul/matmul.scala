@@ -1,7 +1,7 @@
 object MatMul {
   type Matrix = Array[Array[Double]]
 
-  def matgen(n: Int) : Matrix = {
+  def matgen(n: Int): Matrix = {
     var a = Array.ofDim[Double](n, n);
     val tmp = 1.0 / n / n
     for (i <- 0 until n) {
@@ -39,8 +39,10 @@ object MatMul {
   }
 
   def notify(msg: String): Unit = {
-    scala.util.Using((new java.net.Socket("localhost", 9001)).getOutputStream()) {
-        _.write(msg.getBytes())
+    scala.util.Using(
+      (new java.net.Socket("localhost", 9001)).getOutputStream()
+    ) {
+      _.write(msg.getBytes())
     }
   }
 
@@ -65,8 +67,8 @@ object MatMul {
     val b = matgen(n)
     val x = matmul(a, b)
 
-    println(x(n/2)(n/2))
-    println("time: "+(System.nanoTime-start_time)/1e9+"s")
+    println(x(n / 2)(n / 2))
+    println("time: " + (System.nanoTime - start_time) / 1e9 + "s")
 
     notify("stop")
   }

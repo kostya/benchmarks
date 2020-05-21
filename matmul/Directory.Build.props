@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>target</BaseIntermediateOutputPath>
+    <BaseOutputPath>target</BaseOutputPath>
+  </PropertyGroup>
+</Project>
