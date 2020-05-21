@@ -369,11 +369,13 @@ Please note that the actual measurements provided in the project are taken semi-
 
 ## Manual Execution
 
-The tests should be built first (using `build.sh`) and after that executed (using `run.sh` and `run2.sh` where applicable). The measurements are taken using `analyze.rb` script:
+The Makefiles contain recipes for building and executing tests with the proper dependencies.
+Please use `make run` (and `make run2` where applicable).
+The measurements are taken using `analyze.rb` script:
 
-    $ cd <test>
-    $ ../analyze.rb ./run.sh
-    $ ../analyze.rb ../xtime.rb <single test>
+    $ cd <test suite>
+    $ ../analyze.rb make run
+    $ ../analyze.rb make run[<single test>]
 
 Please note that the measurements could take hours (it uses 10 iterations by default).
 
@@ -422,3 +424,20 @@ Please follow the criteria specified in the [Overview](#overview). Besides that 
   1. The beginning message having the format *name of the test*/t*process ID* (the process ID is used to measure the memory consumption). Please note that the name of the test couldn't use Tab character as it's a delimiter;
   2. The end message with any content (mostly it's "stop" for consistency).
  - The test runner could be unavailable (if the test is launched as is) and the test should gracefully handle it.
+
+## Makefile guide
+
+### Binary executables
+
+If the test is compiled into a single binary, then only two sections of
+the `Makefile` require changes:
+
+ - append a new target (the final binary location) into `executables` variable;
+ - the proper target recipe.
+
+The recipe format (for `<compiler> -o:<binary> <source>`):
+
+```
+target/<binary>: <source> | target
+	<compiler> -o:$@ $^
+```

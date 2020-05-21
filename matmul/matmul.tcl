@@ -15,15 +15,16 @@ proc generate n {
     return $M
 }
 
-proc main n {
-    set A [generate $n]
-    set B $A
+proc calc n {
+    set size [expr int($n / 2) * 2]
+    set A [generate $size]
+    set B [generate $size]
 
     set C [::math::linearalgebra::matmul $A $B]
 
-    set halfN [expr { $n / 2 }]
+    set halfN [expr { $size / 2 }]
 
-    puts [lindex $C $halfN $halfN]
+    return [lindex $C $halfN $halfN]
 }
 
 proc notify msg {
@@ -34,19 +35,17 @@ proc notify msg {
     }
 }
 
-if {[llength $argv] > 0} {
-    set n [expr int([lindex $argv 0] / 2 * 2)]
-} else {
-    set n 100
-}
+set n [expr [llength $argv] > 0 ? [lindex $argv 0] : 100]
 
-set t [::math::linearalgebra::matmul [generate 100] [generate 100]]
-if {[expr abs([lindex $t 1 1] + 19.5)] > 0.5} {
-    exit -1
+set left [calc 101]
+set right -9.34
+if {[expr abs($left - $right)] > 0.1} {
+    puts stderr [format "%f != %f" $left $right]
+    exit 1
 }
 
 notify [format "%s\t%d" "Tcl" [pid]]
 
-main $n
+puts [calc $n]
 
 notify "stop"

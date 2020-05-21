@@ -59,7 +59,7 @@ left = calc(101)
 right = -9.34
 if (left - right).abs > 0.1
   STDERR.puts "#{left} != #{right}"
-  exit(-1)
+  exit(1)
 end
 
 pid = Process.pid

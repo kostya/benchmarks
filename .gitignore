@@ -1,3 +1,6 @@
+.dub/
+target/
+
 base64/aklomp-base64*
 base64/base64_*
 brainfuck/.libs
@@ -32,4 +35,3 @@ json/daw_json_link_all
 **/nimcache
 **/obj
 **/perllib
-**/target

@@ -2,7 +2,7 @@ object MatMul {
   type Matrix = Array[Array[Double]]
 
   def matgen(n: Int): Matrix = {
-    var a = Array.ofDim[Double](n, n);
+    var a = Array.ofDim[Double](n, n)
     val tmp = 1.0 / n / n
     for (i <- 0 until n) {
       for (j <- 0 until n) {
@@ -46,28 +46,28 @@ object MatMul {
     }
   }
 
+  def calc(n: Int): Double = {
+    val size = n / 2 * 2
+    val a = matgen(size)
+    val b = matgen(size)
+    val x = matmul(a, b)
+    x(size / 2)(size / 2)
+  }
+
   def main(args: Array[String]): Unit = {
-    var n = 100
+    val n = if (args.length > 0) args(0).toInt else 100
 
-    if (args.length >= 1)
-      n = args(0).toInt
-
-    n = n / 2 * 2;
-
-    val t = matmul(matgen(100), matgen(100))
-    if (Math.abs(t(1)(1) + 19.5) > 0.5) {
-      System.exit(-1);
+    val left = calc(101)
+    val right = -9.34
+    if (Math.abs(left - right) > 0.1) {
+      System.err.println(s"${left} != ${right}")
+      System.exit(-1)
     }
 
     notify(s"Scala\t${ProcessHandle.current().pid()}")
 
     val start_time = System.nanoTime
-
-    val a = matgen(n)
-    val b = matgen(n)
-    val x = matmul(a, b)
-
-    println(x(n / 2)(n / 2))
+    println(calc(n))
     println("time: " + (System.nanoTime - start_time) / 1e9 + "s")
 
     notify("stop")

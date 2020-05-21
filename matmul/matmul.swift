@@ -1,7 +1,7 @@
 // Written by Kajal Sinha; distributed under the MIT license
 import Glibc
 
-func matgen(_ n: Int) -> [[Double]]{
+func matgen(_ n: Int) -> [[Double]] {
     var a = Array(repeating: Array<Double>(repeating: 0, count: n), count: n)
     let divideBy = Double(n)
     let tmp = 1.0 / divideBy / divideBy
@@ -24,7 +24,7 @@ func matmul(_ a : [[Double]], b : [[Double]]) ->[[Double]] {
             c[j][i] = b[i][j];
         }
     }
-    
+
     for i in 0..<m {
         for j in 0..<p {
             var s = 0.0
@@ -59,24 +59,25 @@ func notify(_ msg: String) {
     }
 }
 
-var n = 100;
-
-if CommandLine.argc > 1 {
-    let end = Int(CommandLine.arguments[1])!
-    n = end
-    n = n / 2 * 2
+func calc(_ n: Int) -> Double {
+    let size = n / 2 * 2
+    let a = matgen(size)
+    let b = matgen(size)
+    let x = matmul(a, b: b)
+    return x[size / 2][size / 2]
 }
 
-let t = matmul(matgen(100), b: matgen(100))
-if abs(t[1][1] + 19.5) > 0.5 {
-    exit(-1)
+let n = CommandLine.argc > 1 ? Int(CommandLine.arguments[1])! : 100
+
+let left = calc(101)
+let right = -9.34
+if abs(left - right) > 0.1 {
+    fputs("\(left) != \(right)\n", stderr)
+    exit(1)
 }
 
 notify("Swift\t\(getpid())")
 
-let a = matgen(n)
-let b = matgen(n)
-let x = matmul(a, b: b)
-print(x[n/2][n/2])
+print(calc(n))
 
 notify("stop")

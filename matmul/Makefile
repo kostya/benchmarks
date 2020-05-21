@@ -1,4 +1,6 @@
-run_opts := 1500
+# The matrix size
+SIZE := 1500
+
 nim_opts := -d:danger --opt:speed --verbosity:0
 julia_opts := --optimize=3 --check-bounds=no
 crystal_opts := --release --no-debug
@@ -8,7 +10,7 @@ dmd_opts := -O -release -inline
 gdc_opts := -O3 -frelease -finline
 ldc2_opts := -O5 -release
 dub_opts := --build=release --compiler=ldc2
-gcc_opts := -O3 -I../common/libnotify -L../common/libnotify -lnotify
+gcc_opts := -O3
 v_opts := -prod
 mcs_opts := -debug- -optimize+
 
@@ -67,6 +69,7 @@ target/matmul_go: matmul.go | target
 	go build -o $@ $^
 
 target/matmul_go_gccgo: matmul.go | target
+	gofmt -s -w $^
 	gccgo $(gccgo_opts) -o $@ $^
 
 target/matmul_rs: matmul.rs | target
@@ -100,15 +103,17 @@ target/matmul_nim_arraymancer_clang:matmul_arraymancer.nim | target
 
 target/matmul_c: matmul.c | target
 	make -C ../common/libnotify
-	gcc $(gcc_opts) -o $@ $^
+	gcc $(gcc_opts) -o $@ $^ -I../common/libnotify -L../common/libnotify -lnotify
 
 java-nd4j/target/application: java-nd4j/src/main/java/bench/matmulnd4j.java
 	make -C java-nd4j target/application
 
 target/matmul_v_gcc: matmul.v | target
+	v fmt -w $^
 	v $(v_opts) -cc gcc -o $@ $^
 
 target/matmul_v_clang: matmul.v | target
+	v fmt -w $^
 	v $(v_opts) -cc clang -o $@ $^
 
 target/matmul_scala.jar: matmul.scala | target
@@ -139,67 +144,71 @@ $(all_runners)::
 ## Runners
 executable_runners := $(patsubst %,run[%], $(executables))
 $(executable_runners):: run[%] : %
-	../xtime.rb $^ $(run_opts)
+	../xtime.rb $^ $(SIZE)
 
 run[target/matmul_scala.jar]:: run[%]: %
-	../xtime.rb scala -classpath $^ MatMul $(run_opts)
+	../xtime.rb scala -classpath $^ MatMul $(SIZE)
 
 run[target/matmul.class]:: run[%]: %
-	../xtime.rb java -cp $(^D) $(basename $(^F)) $(run_opts)
+	../xtime.rb java -cp $(^D) $(basename $(^F)) $(SIZE)
 
 run[target/matmul-kt.jar]:: run[%]: %
-	../xtime.rb java -jar $^ $(run_opts)
+	../xtime.rb java -jar $^ $(SIZE)
 
 run[target/matmul.exe]:: run[%]: %
-	../xtime.rb mono -O=all --gc=sgen $^ $(run_opts)
+	../xtime.rb mono -O=all --gc=sgen $^ $(SIZE)
 
 run[target/Release/netcoreapp3.0/matmul.dll]:: run[%]: %
-	../xtime.rb dotnet $^ $(run_opts)
+	../xtime.rb dotnet $^ $(SIZE)
 
 run[matmul.js]:: run[%]: %
-	../xtime.rb node $^ $(run_opts)
+	../xtime.rb node $^ $(SIZE)
 
 run[matmul-native.jl]:: run[%]: %
-	../xtime.rb julia $(julia_opts) $^ $(run_opts)
+	../xtime.rb julia $(julia_opts) $^ $(SIZE)
 
 run[single_thread][matmul-native.jl]:: run[single_thread][%]: %
-	OPENBLAS_NUM_THREADS=1 ../xtime.rb julia $(julia_opts) $^ $(run_opts)
+	OPENBLAS_NUM_THREADS=1 ../xtime.rb julia $(julia_opts) $^ $(SIZE)
 
 run[matmul.jl]:: run[%]: %
-	../xtime.rb julia $(julia_opts) $^ $(run_opts)
+	../xtime.rb julia $(julia_opts) $^ $(SIZE)
 
 run[pypy][matmul.py]:: run[pypy][%]: %
-	../xtime.rb pypy3 $^ $(run_opts)
+	../xtime.rb pypy3 $^ $(SIZE)
 
 run[matmul.py]:: run[%]: %
-	../xtime.rb python3 $^ $(run_opts)
+	../xtime.rb python3 $^ $(SIZE)
 
 run[matmul-numpy.py]:: run[%]: %
-	../xtime.rb python3 $^ $(run_opts)
+	../xtime.rb python3 $^ $(SIZE)
 
 run[matmul.pl]:: run[%]: %
-	../xtime.rb perl $^ $(run_opts)
+	../xtime.rb perl $^ $(SIZE)
 
 run[matmul.tcl]:: run[%]: %
-	../xtime.rb tclsh $^ $(run_opts)
+	../xtime.rb tclsh $^ $(SIZE)
 
 run[matmul.swift]:: run[%]: %
-	../xtime.rb swift -O $^ $(run_opts)
+	../xtime.rb swift -O $^ $(SIZE)
 
-run[matmul.rb]:: run[%]: %
-	../xtime.rb ruby $^ $(run_opts)
+target/matmul.rubocop: *.rb | target
+	rubocop $^
+	touch target/matmul.rubocop
 
-run[jit][matmul.rb]:: run[jit][%]: %
-	../xtime.rb ruby --jit $^ $(run_opts)
+run[matmul.rb]:: run[%]: % | target/matmul.rubocop
+	../xtime.rb ruby $^ $(SIZE)
 
-run[truby-jvm][matmul.rb]:: run[truby-jvm][%]: %
-	../xtime.rb truffleruby --jvm $^ $(run_opts)
+run[jit][matmul.rb]:: run[jit][%]: % | target/matmul.rubocop
+	../xtime.rb ruby --jit $^ $(SIZE)
 
-run[truby-native][matmul.rb]:: run[truby-native][%]: %
-	../xtime.rb truffleruby $^ $(run_opts)
+run[truby-jvm][matmul.rb]:: run[truby-jvm][%]: % | target/matmul.rubocop
+	../xtime.rb truffleruby --jvm $^ $(SIZE)
 
-run[jruby][matmul.rb]:: run[jruby][%]: %
-	../xtime.rb jruby $^ $(run_opts)
+run[truby-native][matmul.rb]:: run[truby-native][%]: % | target/matmul.rubocop
+	../xtime.rb truffleruby $^ $(SIZE)
+
+run[jruby][matmul.rb]:: run[jruby][%]: % | target/matmul.rubocop
+	../xtime.rb jruby $^ $(SIZE)
 
 # Utilities
 

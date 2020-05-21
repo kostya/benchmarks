@@ -48,25 +48,31 @@ fn notify(msg: &str) {
     }
 }
 
+fn calc(n: usize) -> f64 {
+    let size = n / 2 * 2;
+    let a = mat_gen(size);
+    let b = mat_gen(size);
+    let c = mat_mul(&a, &b);
+    c[size / 2][size / 2]
+}
+
 fn main() {
     let n = std::env::args()
             .nth(1)
-            .unwrap_or("1500".into())
+            .unwrap_or("100".into())
             .parse::<usize>()
-            .unwrap() / 2 * 2;
+            .unwrap();
 
-    let t = mat_mul(&mat_gen(100), &mat_gen(100));
-    if (t[1][1] + 19.5).abs() > 0.5 {
+    let left = calc(101);
+    let right = -9.34;
+    if (left - right).abs() > 0.1 {
+        eprintln!("{} != {}", left, right);
         std::process::exit(-1);
     }
 
     notify(&format!("Rust\t{}", std::process::id()));
 
-    let a = mat_gen(n);
-    let b = mat_gen(n);
-    let c = mat_mul(&a, &b);
-
-    println!("{}", c[n / 2][n / 2]);
+    println!("{}", calc(n));
 
     notify("stop");
 }

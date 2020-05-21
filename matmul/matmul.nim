@@ -50,23 +50,32 @@ proc notify(msg: string) =
   except:
     discard
 
-var n = 100
-if paramCount() > 0:
-  n = parseInt(paramStr(1))
-n = n div 2 * 2
+proc calc(n: int): auto =
+  let size = (n div 2) * 2
+  let a = matgen(size)
+  let b = matgen(size)
+  let c = matmul(a, b)
+  c[size div 2][size div 2]
 
-let t = matmul(matgen(100), matgen(100))
-if abs(t[1][1] + 19.5) > 0.5:
-  quit(-1)
+proc main() =
+  let n = if paramCount() > 0:
+            parseInt(paramStr(1))
+          else:
+            100
 
-var compiler = "Nim Clang"
-when defined(gcc):
-  compiler = "Nim GCC"
-notify(&"{compiler}\t{getpid()}")
+  let left = calc(101)
+  let right = -9.34
+  if abs(left - right) > 0.1:
+    stderr.writeLine(&"{left} != {right}")
+    quit(1)
 
-let a = matgen(n)
-let b = matgen(n)
-let c = matmul(a, b)
-echo formatFloat(c[n div 2][n div 2], ffDefault, 8)
+  var compiler = "Nim Clang"
+  when defined(gcc):
+    compiler = "Nim GCC"
+  notify(&"{compiler}\t{getpid()}")
 
-notify("stop")
+  echo formatFloat(calc(n), ffDefault, 8)
+
+  notify("stop")
+
+main()

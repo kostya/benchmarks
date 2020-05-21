@@ -5,7 +5,7 @@ libs "lapack" "blas"
 targetPath "target"
 +/
 
-import core.stdc.stdio, std.conv, std.array;
+import std.conv, std.array, std.stdio;
 import mir.ndslice;
 import kaleidic.lubeck: mtimes;
 import std.socket;
@@ -17,64 +17,67 @@ import core.thread;
 
 alias Matrix = Slice!(double*, 2);
 
-Matrix buildMatrix(size_t n)
+Matrix buildMatrix(in size_t n)
 {
-	auto len = n * n;
-	double tmp = 1.0 / len;
-	auto a = slice!double(n, n);
-	size_t i;
-	foreach (ref row; a)
-	{
-		sizediff_t u = i, v = i;
-		foreach (ref x; row)
-		{
-			x = tmp * (u * v);
-			u--;
-			v++;
-		}
-		i++;
-	}
-	return a;
+  auto len = n * n;
+  auto tmp = 1.0 / len;
+  auto a = slice!double(n, n);
+  size_t i;
+  foreach (ref row; a) {
+    sizediff_t u = i, v = i;
+    foreach (ref x; row) {
+      x = tmp * (u * v);
+      u--;
+      v++;
+    }
+    i++;
+  }
+  return a;
 }
 
-Matrix[2] generate2(size_t n)
+Matrix[2] generate2(in size_t n)
 {
-	auto a = buildMatrix(n);
-	auto b = buildMatrix(n);
-	return [a, b];
+  auto a = buildMatrix(n);
+  auto b = buildMatrix(n);
+  return [a, b];
 }
 
 Matrix mul(Matrix a, Matrix b)
 {
-	return a.mtimes(b);
+  return mtimes(a, b);
 }
 
-void notify(string msg) {
-    try {
-        auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
-        scope(exit) socket.close();
-        socket.send(msg);
-    } catch (SocketOSException) {
-        // standalone usage
-    }
+void notify(in string msg) {
+  try {
+    auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+    scope(exit) socket.close();
+    socket.send(msg);
+  } catch (SocketOSException) {
+    // standalone usage
+  }
+}
+
+double calc(in size_t n) {
+  auto size = n / 2 * 2;
+  auto ab = generate2(size);
+  auto x = mul(ab[0], ab[1]);
+  return x[size / 2, size / 2];
 }
 
 void main(in string[] args)
 {
-    size_t n = 100;
-    if (args.length >= 2)
-       n = to!size_t(args[1]) / 2 * 2;
+  auto n = args.length > 1 ? to!size_t(args[1]) : 100;
 
-    auto t = mul(buildMatrix(100), buildMatrix(100));
-    if (abs(t[1][1] + 19.5) > 0.5) {
-      exit(-1);
-    }
+  auto left = calc(101);
+  auto right = -9.34;
+  if (abs(left - right) > 0.1) {
+    stderr.writefln("%f != %f", left, right);
+    exit(1);
+  }
 
-    notify("LDC lubeck\t%d".format(getpid()));
+  notify("LDC lubeck\t%d".format(getpid()));
 
-    auto ab = generate2(n);
-    auto x = mul(ab[0], ab[1]);
-    printf("%.6f\n", x[n / 2, n / 2]);
+  printf("%.6f\n", calc(n));
 
-    notify("stop");
+  notify("stop");
 }

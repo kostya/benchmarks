@@ -54,6 +54,23 @@ rescue SystemCallError
   # standalone usage
 end
 
+def calc(n)
+  n = n >> 1 << 1
+  a = matgen(n)
+  b = matgen(n)
+  c = matmul(a, b)
+  c[n >> 1][n >> 1]
+end
+
+n = ARGV.length.positive? ? ARGV[0].to_i : 100
+
+left = calc(101)
+right = -9.34
+if (left - right).abs > 0.1
+  warn "#{left} != #{right}"
+  exit(1)
+end
+
 engine = RUBY_ENGINE
 if engine == 'truffleruby'
   desc = RUBY_DESCRIPTION
@@ -65,22 +82,10 @@ if engine == 'truffleruby'
 elsif engine == 'ruby' && RubyVM::MJIT.enabled?
   engine = 'Ruby JIT'
 end
+
 pid = Process.pid
-
-n = 100
-n = ARGV[0].to_i if ARGV.length >= 1
-n = n / 2 * 2
-
-t = matmul(matgen(100), matgen(100))
-if (t[1][1] + 19.5).abs > 0.5
-  exit(-1)
-end
-
 notify("#{engine}\t#{pid}")
 
-a = matgen(n)
-b = matgen(n)
-c = matmul(a, b)
-puts c[n / 2][n / 2]
+puts calc(n)
 
 notify('stop')

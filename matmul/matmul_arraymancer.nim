@@ -4,14 +4,14 @@ import strformat
 import posix
 
 proc matgen*(n: int): auto =
-    result = newTensor[float](@[n,n])
-    let tmp = 1.0 / (n*n).float
-    for i in 0 ..< n:
-        for j in 0 ..< n:
-            result[i,j] = tmp * (i - j).float * (i + j).float
+  result = newTensor[float](@[n,n])
+  let tmp = 1.0 / (n*n).float
+  for i in 0 ..< n:
+    for j in 0 ..< n:
+      result[i,j] = tmp * (i - j).float * (i + j).float
 
 proc matmul*[T](a: Tensor[T], b: Tensor[T]) : auto =
-    a * b
+  a * b
 
 proc notify(msg: string) =
   try:
@@ -22,25 +22,32 @@ proc notify(msg: string) =
   except:
     discard
 
+proc calc(n: int): auto =
+  let size = (n div 2) * 2
+  let a = matgen(size)
+  let b = matgen(size)
+  let c = matmul(a, b)
+  c[size div 2, size div 2]
+
 proc main() =
-    var n = 100
+  let n = if paramCount() > 0:
+            parseInt(paramStr(1))
+          else:
+            100
 
-    if paramCount() > 0:
-        n = parseInt(paramStr(1))
+  let left = calc(101)
+  let right = -9.34
+  if abs(left - right) > 0.1:
+    stderr.writeLine(&"{left} != {right}")
+    quit(1)
 
-    let t = matmul(matgen(100), matgen(100))
-    if abs(t[1, 1] + 19.5) > 0.5:
-        quit(-1)
+  var compiler = "Nim Clang"
+  when defined(gcc):
+    compiler = "Nim GCC"
+  notify(&"{compiler} Arraymancer\t{getpid()}")
 
-    var compiler = "Nim Clang"
-    when defined(gcc):
-        compiler = "Nim GCC"
-    notify(&"{compiler} Arraymancer\t{getpid()}")
+  echo formatFloat(calc(n), ffDefault, 8)
 
-    let a, b = matgen(n)
-    let c = matmul(a, b)
-    echo formatFloat(c[n div 2, n div 2], ffDefault, 16)
-
-    notify("stop")
+  notify("stop")
 
 main()

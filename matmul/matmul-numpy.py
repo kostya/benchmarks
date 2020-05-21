@@ -11,11 +11,12 @@ def build_matrix_np(n):
 def matmul(a, b):
     return np.dot(a, b)
 
-def main(n):
+def calc(n):
+    n = n // 2 * 2
     a = build_matrix_np(n)
     b = build_matrix_np(n)
     d = matmul(a, b)
-    print(d[n // 2][n // 2])
+    return d[n // 2][n // 2]
 
 def notify(msg):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -25,16 +26,16 @@ def notify(msg):
 if __name__=='__main__':
     import sys
 
-    n = 100
-    if len(sys.argv) > 1:
-        n = int(sys.argv[1]) * 2 // 2
+    n = int(sys.argv[1]) if len(sys.argv) > 1 else 100
 
-    t = matmul(build_matrix_np(100), build_matrix_np(100))
-    if abs(t[1][1] + 19.5) > 0.5:
-        quit(-1)
+    left = calc(101)
+    right = -9.34
+    if abs(left - right) > 0.1:
+        print("%f != %f" % (left, right), file=sys.stderr)
+        quit(1)
 
     notify("Python NumPy\t%d" % (os.getpid()))
 
-    main(n)
+    print(calc(n))
 
     notify("stop")

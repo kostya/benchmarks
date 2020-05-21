@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 
   double left = calc(101);
   double right = -9.34;
-  if (abs(left - right) > 0.5) {
+  if (abs(left - right) > 0.1) {
     fprintf(stderr, "%f != %f\n", left, right);
     exit(1);
   }

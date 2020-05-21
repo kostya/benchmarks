@@ -9,9 +9,9 @@ import std.math;
 import core.stdc.stdlib;
 import core.thread;
 
-double[][] matGen(in int n) {
+double[][] matGen(in size_t n) {
   auto len = n * n;
-  double tmp = 1.0 / len;
+  auto tmp = 1.0 / len;
   auto a = new double[][](n, n);
   size_t i;
   foreach (ref row; a)
@@ -29,7 +29,7 @@ double[][] matGen(in int n) {
 }
 
 double[][] matMul(in double[][] a, in double[][] b) {
-  ulong m = a.length, n = a[0].length, p = b[0].length;
+  auto m = a.length, n = a[0].length, p = b[0].length;
 
   // transpose
   auto c = new double[][](p, n);
@@ -47,30 +47,36 @@ double[][] matMul(in double[][] a, in double[][] b) {
 }
 
 void notify(string msg) {
-    try {
-        auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
-        scope(exit) socket.close();
-        socket.send(msg);
-    } catch (SocketOSException) {
-        // standalone usage
-    }
+  try {
+    auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
+    scope(exit) socket.close();
+    socket.send(msg);
+  } catch (SocketOSException) {
+    // standalone usage
+  }
+}
+
+double calc(in size_t n) {
+  auto size = n / 2 * 2;
+  auto a = matGen(size);
+  auto b = matGen(size);
+  auto x = matMul(a, b);
+  return x[size / 2][size / 2];
 }
 
 void main(in string[] args) {
-  int n = 100;
-  if (args.length >= 2) n = to!int(args[1]) / 2 * 2;
+  auto n = args.length > 1 ? to!size_t(args[1]) : 100;
 
-  auto t = matMul(matGen(100), matGen(100));
-  if (abs(t[1][1] + 19.5) > 0.5) {
-      exit(-1);
+  auto left = calc(101);
+  auto right = -9.34;
+  if (abs(left - right) > 0.1) {
+    stderr.writefln("%f != %f", left, right);
+    exit(1);
   }
 
   notify("%s\t%d".format(name, getpid()));
 
-  auto a = matGen(n);
-  auto b = matGen(n);
-  auto x = matMul(a, b);
-  printf("%.6f\n", x[n / 2][n / 2]);
+  printf("%.6f\n", calc(n));
 
   notify("stop");
 }

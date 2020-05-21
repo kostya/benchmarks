@@ -4,7 +4,7 @@
 
 require 'fileutils'
 
-RESULTS_LOG = 'results.log'
+RESULTS_LOG = 'target/results.log'
 ATTEMPTS = 10
 
 if ARGV.length.positive?
