@@ -10,9 +10,9 @@ fn make_matrix(n, m int) [][]f64 {
 	return res
 }
 
-fn matgen(n int) [][]f64 {
+fn matgen(n int, seed f64) [][]f64 {
 	mut a := make_matrix(n, n)
-	tmp := f64(1.0) / n / n
+	tmp := seed / n / n
 	for i := 0; i < n; i++ {
 		for j := 0; j < n; j++ {
 			v := tmp * f64(i - j) * f64(i + j)
@@ -61,8 +61,8 @@ fn notify(msg string) {
 
 fn calc(n int) f64 {
 	size := n / 2 * 2
-	a := matgen(size)
-	b := matgen(size)
+	a := matgen(size, 1.0)
+	b := matgen(size, 2.0)
 	c := matmul(a, b)
 	return c[size / 2][size / 2]
 }
@@ -70,7 +70,7 @@ fn calc(n int) f64 {
 fn main() {
 	n := if os.args.len > 1 { os.args[1].int() } else { 100 }
 	left := calc(101)
-	right := -9.34
+	right := -18.67
 	if math.abs(left - right) > 0.1 {
 		panic('$left != $right')
 	}

@@ -1,8 +1,8 @@
-fun matgen(n: Int): Array<DoubleArray> {
+fun matgen(n: Int, seed: Double): Array<DoubleArray> {
     val a = Array<DoubleArray>(n, {
         DoubleArray(n)
     })
-    val tmp = 1.0 / n.toDouble() / n.toDouble()
+    val tmp = seed / n.toDouble() / n.toDouble()
 
     for (i in 0..n - 1) {
         for (j in 0..n - 1) {
@@ -56,8 +56,8 @@ fun notify(msg: String) {
 
 fun calc(n: Int): Double {
     val size = n / 2 * 2
-    val a = matgen(size)
-    val b = matgen(size)
+    val a = matgen(size, 1.0)
+    val b = matgen(size, 2.0)
     val x = matmul(a, b)
     return x[size / 2][size / 2]
 }
@@ -70,7 +70,7 @@ fun main(args: Array<String>) {
     }
 
     val left = calc(101)
-    val right = -9.34
+    val right = -18.67
     if (Math.abs(left - right) > 0.1) {
         System.err.println("${left} != ${right}")
         System.exit(1);

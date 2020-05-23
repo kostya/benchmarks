@@ -7,43 +7,43 @@ matrix.new = function (n) {
 }
 
 matrix.T = function (a, n) {
-    const y = matrix.new(n)
+    const y = matrix.new(n);
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++) {
-            y[i][j] = a[j][i]
+            y[i][j] = a[j][i];
         }
     }
-    return y
+    return y;
 }
 
 matrix.mul = function (a, b, n) {
-    const y = matrix.new(n)
-    const c = matrix.T(b, n)
+    const y = matrix.new(n);
+    const c = matrix.T(b, n);
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++) {
             let sum = 0;
-            for (let k = 0; k < n; k++) sum = sum + a[i][k] * c[j][k]
+            for (let k = 0; k < n; k++) sum = sum + a[i][k] * c[j][k];
             y[i][j] = sum;
         }
     }
-    return y
+    return y;
 }
 
-matgen = function (n) {
-    const y = matrix.new(n)
-    const tmp = 1 / n / n
+matgen = function (n, seed) {
+    const y = matrix.new(n);
+    const tmp = seed / n / n;
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++) {
-            y[i][j] = tmp * (i - j) * (i + j)
+            y[i][j] = tmp * (i - j) * (i + j);
         }
     }
-    return y
+    return y;
 }
 
 function calc(n) {
     n = n >> 1 << 1;
-    const a = matgen(n);
-    const b = matgen(n);
+    const a = matgen(n, 1.0);
+    const b = matgen(n, 2.0);
     const c = matrix.mul(a, b, n);
     return c[n / 2][n / 2];
 }
@@ -63,7 +63,7 @@ function notify(msg) {
     const n = process.argv.length > 1 ? parseInt(process.argv[2]) : 100;
 
     const left = calc(101);
-    const right = -9.34;
+    const right = -18.67;
     if (Math.abs(left - right) > 0.1) {
         console.error(`${left} != ${right}`)
         process.exit(1);

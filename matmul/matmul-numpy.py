@@ -2,10 +2,10 @@ import numpy as np
 import socket
 import os
 
-def build_matrix_np(n):
+def build_matrix_np(n, seed):
     i_idxs = np.atleast_2d(np.arange(n)).T
     j_idxs = np.atleast_2d(np.arange(n))
-    return (i_idxs - j_idxs) * (i_idxs + j_idxs) * (1.0 / n / n)
+    return (i_idxs - j_idxs) * (i_idxs + j_idxs) * (seed / n / n)
 
 
 def matmul(a, b):
@@ -13,8 +13,8 @@ def matmul(a, b):
 
 def calc(n):
     n = n // 2 * 2
-    a = build_matrix_np(n)
-    b = build_matrix_np(n)
+    a = build_matrix_np(n, 1.0)
+    b = build_matrix_np(n, 2.0)
     d = matmul(a, b)
     return d[n // 2][n // 2]
 
@@ -29,7 +29,7 @@ if __name__=='__main__':
     n = int(sys.argv[1]) if len(sys.argv) > 1 else 100
 
     left = calc(101)
-    right = -9.34
+    right = -18.67
     if abs(left - right) > 0.1:
         print("%f != %f" % (left, right), file=sys.stderr)
         quit(1)

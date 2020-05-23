@@ -26,6 +26,7 @@ RUN apt-get update \
 	luajit lua5.3 lua-socket lua-posix \
 	tcl tcllib php elixir clang-10 opam \
 	&& update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10 \
+	&& update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10 \
 	&& update-alternatives --install /usr/bin/gdc gdc /usr/bin/gdc-10 10 \
 	&& update-alternatives --install /usr/bin/gccgo gccgo /usr/bin/gccgo-10 10 \
 	&& update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 10 \

@@ -37,8 +37,8 @@ def matmul(matrix_a, matrix_b)
   multiplication(m, n, p, matrix_a, b2)
 end
 
-def matgen(num)
-  tmp = 1.0 / num / num
+def matgen(num, seed)
+  tmp = seed / num / num
   a = Array.new(num) { Array.new(num) { 0 } }
   num.times do |i|
     num.times do |j|
@@ -56,8 +56,8 @@ end
 
 def calc(n)
   n = n >> 1 << 1
-  a = matgen(n)
-  b = matgen(n)
+  a = matgen(n, 1.0)
+  b = matgen(n, 2.0)
   c = matmul(a, b)
   c[n >> 1][n >> 1]
 end
@@ -65,7 +65,7 @@ end
 n = ARGV.length.positive? ? ARGV[0].to_i : 100
 
 left = calc(101)
-right = -9.34
+right = -18.67
 if (left - right).abs > 0.1
   warn "#{left} != #{right}"
   exit(1)

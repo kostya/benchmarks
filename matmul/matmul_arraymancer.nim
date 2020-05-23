@@ -3,9 +3,9 @@ import net, times
 import strformat
 import posix
 
-proc matgen*(n: int): auto =
+proc matgen*(n: int, seed: float): auto =
   result = newTensor[float](@[n,n])
-  let tmp = 1.0 / (n*n).float
+  let tmp = seed / (n * n).float
   for i in 0 ..< n:
     for j in 0 ..< n:
       result[i,j] = tmp * (i - j).float * (i + j).float
@@ -24,8 +24,8 @@ proc notify(msg: string) =
 
 proc calc(n: int): auto =
   let size = (n div 2) * 2
-  let a = matgen(size)
-  let b = matgen(size)
+  let a = matgen(size, 1.0)
+  let b = matgen(size, 2.0)
   let c = matmul(a, b)
   c[size div 2, size div 2]
 
@@ -36,7 +36,7 @@ proc main() =
             100
 
   let left = calc(101)
-  let right = -9.34
+  let right = -18.67
   if abs(left - right) > 0.1:
     stderr.writeLine(&"{left} != {right}")
     quit(1)

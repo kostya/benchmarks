@@ -3,9 +3,9 @@ using System.Diagnostics;
 
 class Prog
 {
-    static double[,] MatGen(int n)
+    static double[,] MatGen(int n, double seed)
     {
-        var tmp = 1.0 / n / n;
+        var tmp = seed / n / n;
         var a = new double[n, n];
         for (var i = 0; i < n; ++i)
             for (var j = 0; j < n; ++j)
@@ -51,8 +51,8 @@ class Prog
 
     private static double Calc(int n) {
         n = n / 2 * 2;
-        var a = MatGen(n);
-        var b = MatGen(n);
+        var a = MatGen(n, 1.0);
+        var b = MatGen(n, 2.0);
         var x = MatMul(ref a, ref b);
         return x[n / 2, n / 2];
     }
@@ -62,7 +62,7 @@ class Prog
         var n = args.Length > 0 ? int.Parse(args[0]) : 100;
 
         var left = Calc(101);
-        var right = -9.34;
+        var right = -18.67;
         if (Math.Abs(left - right) > 0.1) {
             Console.Error.WriteLine($"{left} != {right}");
             System.Environment.Exit(-1);

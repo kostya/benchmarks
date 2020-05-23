@@ -11,9 +11,9 @@ proc newmat(x: int, y: int): Matrix =
   for i in 0 ..< x:
     result[i] = newSeq[float](y)
 
-proc matgen(n: int): Matrix =
+proc matgen(n: int, seed: float): Matrix =
   result = newmat(n, n)
-  let tmp = 1.0 / float(n) / float(n)
+  let tmp = seed / float(n) / float(n)
   for i in 0 ..< n:
     for j in 0 ..< n:
       result[i][j] = tmp * float(i - j) * float(i + j)
@@ -52,8 +52,8 @@ proc notify(msg: string) =
 
 proc calc(n: int): auto =
   let size = (n div 2) * 2
-  let a = matgen(size)
-  let b = matgen(size)
+  let a = matgen(size, 1.0)
+  let b = matgen(size, 2.0)
   let c = matmul(a, b)
   c[size div 2][size div 2]
 
@@ -64,7 +64,7 @@ proc main() =
             100
 
   let left = calc(101)
-  let right = -9.34
+  let right = -18.67
   if abs(left - right) > 0.1:
     stderr.writeLine(&"{left} != {right}")
     quit(1)

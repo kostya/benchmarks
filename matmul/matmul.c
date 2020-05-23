@@ -20,9 +20,9 @@ void mm_destroy(int n, double **m)
   for (i = 0; i < n; ++i) free(m[i]);
   free(m);
 }
-double **mm_gen(int n)
+double **mm_gen(int n, double seed)
 {
-  double **m, tmp = 1. / n / n;
+  double **m, tmp = seed / n / n;
   int i, j;
   m = mm_init(n);
   for (i = 0; i < n; ++i)
@@ -54,8 +54,8 @@ double **mm_mul(int n, double *const *a, double *const *b)
 
 double calc(int n) {
   n = n / 2 * 2;
-  double **a = mm_gen(n);
-  double **b = mm_gen(n);
+  double **a = mm_gen(n, 1.0);
+  double **b = mm_gen(n, 2.0);
   double **m = mm_mul(n, a, b);
   double result = m[n / 2][n / 2];
   mm_destroy(n, a);
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
   int n = argc > 1 ? atoi(argv[1]) : 100;
 
   double left = calc(101);
-  double right = -9.34;
+  double right = -18.67;
   if (abs(left - right) > 0.1) {
     fprintf(stderr, "%f != %f\n", left, right);
     exit(1);

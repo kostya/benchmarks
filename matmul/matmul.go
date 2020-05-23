@@ -13,9 +13,9 @@ import (
 	"strconv"
 )
 
-func matgen(n int) [][]float64 {
+func matgen(n int, seed float64) [][]float64 {
 	a := make([][]float64, n)
-	tmp := float64(1.0) / float64(n) / float64(n) // pretty silly...
+	tmp := seed / float64(n) / float64(n) // pretty silly...
 	for i := 0; i < n; i++ {
 		a[i] = make([]float64, n)
 		for j := 0; j < n; j++ {
@@ -60,8 +60,8 @@ func notify(msg string) {
 
 func calc(n int) float64 {
 	n = n / 2 * 2
-	a := matgen(n)
-	b := matgen(n)
+	a := matgen(n, 1.0)
+	b := matgen(n, 2.0)
 	x := matmul(a, b)
 	return x[n/2][n/2]
 }
@@ -74,7 +74,7 @@ func main() {
 	}
 
 	left := calc(101)
-	right := -9.34
+	right := -18.67
 	if math.Abs(left-right) > 0.1 {
 		log.Fatalf("%f != %f\n", left, right)
 	}

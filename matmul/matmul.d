@@ -9,9 +9,9 @@ import std.math;
 import core.stdc.stdlib;
 import core.thread;
 
-double[][] matGen(in size_t n) {
+double[][] matGen(in size_t n, in double seed) {
   auto len = n * n;
-  auto tmp = 1.0 / len;
+  auto tmp = seed / len;
   auto a = new double[][](n, n);
   size_t i;
   foreach (ref row; a)
@@ -46,7 +46,7 @@ double[][] matMul(in double[][] a, in double[][] b) {
   return x;
 }
 
-void notify(string msg) {
+void notify(in string msg) {
   try {
     auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
     scope(exit) socket.close();
@@ -58,8 +58,8 @@ void notify(string msg) {
 
 double calc(in size_t n) {
   auto size = n / 2 * 2;
-  auto a = matGen(size);
-  auto b = matGen(size);
+  auto a = matGen(size, 1.0);
+  auto b = matGen(size, 2.0);
   auto x = matMul(a, b);
   return x[size / 2][size / 2];
 }
@@ -68,7 +68,7 @@ void main(in string[] args) {
   auto n = args.length > 1 ? to!size_t(args[1]) : 100;
 
   auto left = calc(101);
-  auto right = -9.34;
+  auto right = -18.67;
   if (abs(left - right) > 0.1) {
     stderr.writefln("%f != %f", left, right);
     exit(1);

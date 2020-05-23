@@ -1,18 +1,7 @@
-# The matrix size
-SIZE := 1500
+# TODO: add seeds for matrix gen
 
-nim_opts := -d:danger --opt:speed --verbosity:0
-julia_opts := --optimize=3 --check-bounds=no
-crystal_opts := --release --no-debug
-gccgo_opts := -O3 -g
-rustc_opts := -C opt-level=3 -C lto
-dmd_opts := -O -release -inline
-gdc_opts := -O3 -frelease -finline
-ldc2_opts := -O5 -release
-dub_opts := --build=release --compiler=ldc2
-gcc_opts := -O3
-v_opts := -prod
-mcs_opts := -debug- -optimize+
+# The matrix size
+MSIZE := 1500
 
 executables := \
 	target/matmul_nim_gcc \
@@ -62,74 +51,75 @@ all_runners := $(patsubst %,run[%], $(artifacts)) \
 build: $(artifacts)
 
 target/matmul_cr: matmul.cr | target
-	crystal build $^ $(crystal_opts) -o $@
+	$(CRYSTAL_BUILD)
 
-target/matmul_go: matmul.go | target
-	gofmt -s -w $^
-	go build -o $@ $^
+target/matmul_go: matmul.go | $(gofmt)
+	$(GO_BUILD)
 
-target/matmul_go_gccgo: matmul.go | target
-	gofmt -s -w $^
-	gccgo $(gccgo_opts) -o $@ $^
+target/matmul_go_gccgo: matmul.go | $(gofmt)
+	$(GCC_GO_BUILD)
 
 target/matmul_rs: matmul.rs | target
-	rustc $(rustc_opts) $^ -o $@
+	$(RUSTC_BUILD)
 
 target/matmul_d: matmul.d | target
-	dmd -of$@ $(dmd_opts) $^
+	$(DMD_BUILD)
 
 target/matmul_d_gdc:matmul.d | target
-	gdc -o $@ $(gdc_opts) $^
+	$(GDC_BUILD)
 
 target/matmul_d_ldc:matmul.d | target
-	ldc2 -of$@ $(ldc2_opts) $^
+	$(LDC2_BUILD)
 
 target/matmul_d_lubeck: matmul_d_lubeck.d | target
-	dub build $(dub_opts) --single $^
+	dub build --build=release --compiler=ldc2 --single $^
 
 target/matmul_nim_gcc: matmul.nim | target
-	nim c -o:$@ $(nim_opts) $^
+	$(NIM_GCC_BUILD)
 
-target/matmul_nim_clang:matmul.nim | target
-	nim c -o:$@ --cc:clang $(nim_opts) $^
+target/matmul_nim_clang: matmul.nim | target
+	$(NIM_CLANG_BUILD)
 
-target/matmul_nim_arraymancer_gcc:matmul_arraymancer.nim | target
+.PHONY: arraymancer
+arraymancer:
 	nimble install -y arraymancer
-	nim c -o:$@ -d:openmp --cc:gcc $(nim_opts) $^
 
-target/matmul_nim_arraymancer_clang:matmul_arraymancer.nim | target
-	nimble install -y arraymancer
-	nim c -o:$@ -d:openmp --cc:clang $(nim_opts) $^
+target/matmul_nim_arraymancer_gcc: NIM_FLAGS += -d:openmp
+target/matmul_nim_arraymancer_gcc: matmul_arraymancer.nim | target arraymancer
+	$(NIM_GCC_BUILD)
 
-target/matmul_c: matmul.c | target
-	make -C ../common/libnotify
-	gcc $(gcc_opts) -o $@ $^ -I../common/libnotify -L../common/libnotify -lnotify
+target/matmul_nim_arraymancer_clang: NIM_FLAGS += -d:openmp
+target/matmul_nim_arraymancer_clang: matmul_arraymancer.nim | target arraymancer
+	$(NIM_CLANG_BUILD)
 
-java-nd4j/target/application: java-nd4j/src/main/java/bench/matmulnd4j.java
-	make -C java-nd4j target/application
+target/matmul_c: matmul.c | target libnotify
+	$(GCC_BUILD)
 
-target/matmul_v_gcc: matmul.v | target
-	v fmt -w $^
-	v $(v_opts) -cc gcc -o $@ $^
+# Marked phony to run always
+.PHONY: java-nd4j/target/application
+java-nd4j/target/application:
+	$(MAKE) -C java-nd4j target/application
 
-target/matmul_v_clang: matmul.v | target
-	v fmt -w $^
-	v $(v_opts) -cc clang -o $@ $^
+target/matmul_v_gcc: matmul.v | $(v_fmt)
+	$(V_GCC_BUILD)
+
+target/matmul_v_clang: matmul.v | $(v_fmt)
+	$(V_CLANG_BUILD)
 
 target/matmul_scala.jar: matmul.scala | target
-	scalac $^ -d $@
+	$(SCALAC_BUILD)
 
 target/matmul.class: matmul.java | target
-	javac -d $(@D) $^
+	$(JAVAC_BUILD)
 
 target/matmul-kt.jar: matmul.kt | target
-	kotlinc $^ -include-runtime -jvm-target 13 -d $@
+	$(KOTLINC_BUILD)
 
 target/matmul.exe: matmul.cs | target
-	mcs $(mcs_opts) -out:$@ $^
+	$(MCS_BUILD)
 
-target/Release/netcoreapp3.0/matmul.dll: matmul.cs | target
-	dotnet build -c Release
+target/Release/netcoreapp3.0/matmul.dll: matmul.csproj matmul.cs | target
+	$(DOTNET_BUILD)
 
 # Run
 
@@ -139,83 +129,78 @@ run: $(all_runners)
 ## Common recipe for all runners
 .PHONY: $(all_runners)
 $(all_runners)::
-	@echo "\e[1mmake $@\e[0m"
+	$(ECHO_RUN)
 
 ## Runners
 executable_runners := $(patsubst %,run[%], $(executables))
 $(executable_runners):: run[%] : %
-	../xtime.rb $^ $(SIZE)
+	$(EXECUTABLE_RUN) $(MSIZE)
 
 run[target/matmul_scala.jar]:: run[%]: %
-	../xtime.rb scala -classpath $^ MatMul $(SIZE)
+	$(SCALA_RUN) MatMul $(MSIZE)
 
 run[target/matmul.class]:: run[%]: %
-	../xtime.rb java -cp $(^D) $(basename $(^F)) $(SIZE)
+	$(JAVA_CLASS_RUN) $(MSIZE)
 
 run[target/matmul-kt.jar]:: run[%]: %
-	../xtime.rb java -jar $^ $(SIZE)
+	$(JAVA_JAR_RUN) $(MSIZE)
 
 run[target/matmul.exe]:: run[%]: %
-	../xtime.rb mono -O=all --gc=sgen $^ $(SIZE)
+	$(MONO_RUN) $(MSIZE)
 
 run[target/Release/netcoreapp3.0/matmul.dll]:: run[%]: %
-	../xtime.rb dotnet $^ $(SIZE)
+	$(DOTNET_RUN) $(MSIZE)
 
 run[matmul.js]:: run[%]: %
-	../xtime.rb node $^ $(SIZE)
+	$(NODE_RUN) $(MSIZE)
 
 run[matmul-native.jl]:: run[%]: %
-	../xtime.rb julia $(julia_opts) $^ $(SIZE)
+	$(JULIA_RUN) $(MSIZE)
 
 run[single_thread][matmul-native.jl]:: run[single_thread][%]: %
-	OPENBLAS_NUM_THREADS=1 ../xtime.rb julia $(julia_opts) $^ $(SIZE)
+	OPENBLAS_NUM_THREADS=1 $(JULIA_RUN) $(MSIZE)
 
 run[matmul.jl]:: run[%]: %
-	../xtime.rb julia $(julia_opts) $^ $(SIZE)
+	$(JULIA_RUN) $(MSIZE)
 
 run[pypy][matmul.py]:: run[pypy][%]: %
-	../xtime.rb pypy3 $^ $(SIZE)
+	$(PYPY3_RUN) $(MSIZE)
 
 run[matmul.py]:: run[%]: %
-	../xtime.rb python3 $^ $(SIZE)
+	$(PYTHON3_RUN) $(MSIZE)
 
 run[matmul-numpy.py]:: run[%]: %
-	../xtime.rb python3 $^ $(SIZE)
+	$(PYTHON3_RUN) $(MSIZE)
 
 run[matmul.pl]:: run[%]: %
-	../xtime.rb perl $^ $(SIZE)
+	$(PERL_RUN) $(MSIZE)
 
 run[matmul.tcl]:: run[%]: %
-	../xtime.rb tclsh $^ $(SIZE)
+	$(TCLSH_RUN) $(MSIZE)
 
 run[matmul.swift]:: run[%]: %
-	../xtime.rb swift -O $^ $(SIZE)
+	$(SWIFT_RUN) $(MSIZE)
 
-target/matmul.rubocop: *.rb | target
-	rubocop $^
-	touch target/matmul.rubocop
+run[matmul.rb]:: run[%]: % | $(rubocop)
+	$(RUBY_RUN) $(MSIZE)
 
-run[matmul.rb]:: run[%]: % | target/matmul.rubocop
-	../xtime.rb ruby $^ $(SIZE)
+run[jit][matmul.rb]:: run[jit][%]: % | $(rubocop)
+	$(RUBY_JIT_RUN) $(MSIZE)
 
-run[jit][matmul.rb]:: run[jit][%]: % | target/matmul.rubocop
-	../xtime.rb ruby --jit $^ $(SIZE)
+run[truby-jvm][matmul.rb]:: run[truby-jvm][%]: % | $(rubocop)
+	$(TRUBY_JVM_RUN) $(MSIZE)
 
-run[truby-jvm][matmul.rb]:: run[truby-jvm][%]: % | target/matmul.rubocop
-	../xtime.rb truffleruby --jvm $^ $(SIZE)
+run[truby-native][matmul.rb]:: run[truby-native][%]: % | $(rubocop)
+	$(TRUBY_NATIVE_RUN) $(MSIZE)
 
-run[truby-native][matmul.rb]:: run[truby-native][%]: % | target/matmul.rubocop
-	../xtime.rb truffleruby $^ $(SIZE)
-
-run[jruby][matmul.rb]:: run[jruby][%]: % | target/matmul.rubocop
-	../xtime.rb jruby $^ $(SIZE)
+run[jruby][matmul.rb]:: run[jruby][%]: % | $(rubocop)
+	$(JRUBY_RUN) $(MSIZE)
 
 # Utilities
-
-target:
-	mkdir -p target
 
 .PHONY: clean
 clean:
 	-rm -rf target
-	make -C java-nd4j clean
+	$(MAKE) -C java-nd4j clean
+
+include ../common/commands.mk

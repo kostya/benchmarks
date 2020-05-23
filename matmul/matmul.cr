@@ -26,8 +26,8 @@ def matmul(a, b)
   c
 end
 
-def matgen(n)
-  tmp = 1.0 / n / n
+def matgen(n, seed)
+  tmp = seed / n / n
   a = Array.new(n) { Array.new(n, 0.0) }
   (0...n).each do |i|
     (0...n).each do |j|
@@ -47,8 +47,8 @@ end
 
 def calc(n)
   n = n >> 1 << 1
-  a = matgen(n)
-  b = matgen(n)
+  a = matgen(n, 1.0)
+  b = matgen(n, 2.0)
   c = matmul(a, b)
   c[n >> 1][n >> 1]
 end
@@ -56,7 +56,7 @@ end
 n = (ARGV[0]? || 100).to_i
 
 left = calc(101)
-right = -9.34
+right = -18.67
 if (left - right).abs > 0.1
   STDERR.puts "#{left} != #{right}"
   exit(1)

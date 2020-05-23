@@ -31,8 +31,8 @@ sub matmul {
 }
 
 sub matgen {
-    my $n = shift;
-    my $tmp = 1.0 / $n / $n;
+    my ($n, $seed) = @_;
+    my $tmp = $seed / $n / $n;
     my @a;
     for my $i (0..$n) {
         for my $j (0..$n) {
@@ -54,8 +54,8 @@ sub notify {
 sub calc {
     my $n = shift;
     $n = int($n / 2) * 2;
-    my $a = matgen($n);
-    my $b = matgen($n);
+    my $a = matgen($n, 1.0);
+    my $b = matgen($n, 2.0);
     my $c = matmul($a, $b);
     $c->[$n/2]->[$n/2]
 }
@@ -63,7 +63,7 @@ sub calc {
 my $n = @ARGV ? shift : 100;
 
 my $left = calc(101);
-my $right = -9.34;
+my $right = -18.67;
 if (abs($left - $right) > 0.1) {
     print STDERR "${left} != ${right}\n";
     exit(1);

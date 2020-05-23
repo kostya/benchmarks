@@ -2,9 +2,9 @@
 
 final class matmul {
 
-    private static double[][] matgen(final int n) {
+    private static double[][] matgen(final int n, final double seed) {
         final var a = new double[n][n];
-        final var tmp = 1. / n / n;
+        final var tmp = seed / n / n;
         for (var i = 0; i < n; ++i)
             for (var j = 0; j < n; ++j)
                 a[i][j] = tmp * (i - j) * (i + j);
@@ -41,8 +41,8 @@ final class matmul {
 
     private static double calc(final int n) {
         final var size = n / 2 * 2;
-        final var a = matgen(size);
-        final var b = matgen(size);
+        final var a = matgen(size, 1.0);
+        final var b = matgen(size, 2.0);
         final var x = matmul(a, b);
         return x[size / 2][size / 2];
     }
@@ -51,7 +51,7 @@ final class matmul {
         final var n = args.length > 0 ? Integer.valueOf(args[0]) : 100;
 
         var left = calc(101);
-        var right = -9.34;
+        var right = -18.67;
         if (Math.abs(left - right) > 0.1) {
             System.err.printf("%f != %f\n", left, right);
             System.exit(1);

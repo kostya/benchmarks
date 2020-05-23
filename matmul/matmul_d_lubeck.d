@@ -17,10 +17,10 @@ import core.thread;
 
 alias Matrix = Slice!(double*, 2);
 
-Matrix buildMatrix(in size_t n)
+Matrix buildMatrix(in size_t n, in double seed)
 {
   auto len = n * n;
-  auto tmp = 1.0 / len;
+  auto tmp = seed / len;
   auto a = slice!double(n, n);
   size_t i;
   foreach (ref row; a) {
@@ -33,13 +33,6 @@ Matrix buildMatrix(in size_t n)
     i++;
   }
   return a;
-}
-
-Matrix[2] generate2(in size_t n)
-{
-  auto a = buildMatrix(n);
-  auto b = buildMatrix(n);
-  return [a, b];
 }
 
 Matrix mul(Matrix a, Matrix b)
@@ -59,8 +52,9 @@ void notify(in string msg) {
 
 double calc(in size_t n) {
   auto size = n / 2 * 2;
-  auto ab = generate2(size);
-  auto x = mul(ab[0], ab[1]);
+  auto a = buildMatrix(n, 1.0);
+  auto b = buildMatrix(n, 2.0);
+  auto x = mul(a, b);
   return x[size / 2, size / 2];
 }
 
@@ -69,7 +63,7 @@ void main(in string[] args)
   auto n = args.length > 1 ? to!size_t(args[1]) : 100;
 
   auto left = calc(101);
-  auto right = -9.34;
+  auto right = -18.67;
   if (abs(left - right) > 0.1) {
     stderr.writefln("%f != %f", left, right);
     exit(1);

@@ -1,9 +1,9 @@
 object MatMul {
   type Matrix = Array[Array[Double]]
 
-  def matgen(n: Int): Matrix = {
+  def matgen(n: Int, seed: Double): Matrix = {
     var a = Array.ofDim[Double](n, n)
-    val tmp = 1.0 / n / n
+    val tmp = seed / n / n
     for (i <- 0 until n) {
       for (j <- 0 until n) {
         a(i)(j) = tmp * (i - j) * (i + j)
@@ -48,8 +48,8 @@ object MatMul {
 
   def calc(n: Int): Double = {
     val size = n / 2 * 2
-    val a = matgen(size)
-    val b = matgen(size)
+    val a = matgen(size, 1.0)
+    val b = matgen(size, 2.0)
     val x = matmul(a, b)
     x(size / 2)(size / 2)
   }
@@ -58,7 +58,7 @@ object MatMul {
     val n = if (args.length > 0) args(0).toInt else 100
 
     val left = calc(101)
-    val right = -9.34
+    val right = -18.67
     if (Math.abs(left - right) > 0.1) {
       System.err.println(s"${left} != ${right}")
       System.exit(-1)

@@ -1,10 +1,10 @@
 // Written by Kajal Sinha; distributed under the MIT license
 import Glibc
 
-func matgen(_ n: Int) -> [[Double]] {
+func matgen(_ n: Int, _ seed: Double) -> [[Double]] {
     var a = Array(repeating: Array<Double>(repeating: 0, count: n), count: n)
     let divideBy = Double(n)
-    let tmp = 1.0 / divideBy / divideBy
+    let tmp = seed / divideBy / divideBy
     for i in 0..<n {
         for j in 0..<n {
             a[i][j] = tmp * Double(i - j) * Double(i + j)
@@ -61,8 +61,8 @@ func notify(_ msg: String) {
 
 func calc(_ n: Int) -> Double {
     let size = n / 2 * 2
-    let a = matgen(size)
-    let b = matgen(size)
+    let a = matgen(size, 1.0)
+    let b = matgen(size, 2.0)
     let x = matmul(a, b: b)
     return x[size / 2][size / 2]
 }
@@ -70,7 +70,7 @@ func calc(_ n: Int) -> Double {
 let n = CommandLine.argc > 1 ? Int(CommandLine.arguments[1])! : 100
 
 let left = calc(101)
-let right = -9.34
+let right = -18.67
 if abs(left - right) > 0.1 {
     fputs("\(left) != \(right)\n", stderr)
     exit(1)
