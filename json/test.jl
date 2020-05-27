@@ -1,3 +1,5 @@
+using Pkg; Pkg.add("JSON3")
+
 import JSON3
 using Sockets
 

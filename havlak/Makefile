@@ -56,7 +56,8 @@ target/havlak_nim_clang: havlak.nim | target
 target/havlak.exe: havlak.cs | target
 	$(MCS_BUILD)
 
-target/Release/netcoreapp3.0/havlak.dll: havlak.csproj havlak.cs | target
+.PHONY: target/Release/netcoreapp3.0/havlak.dll
+target/Release/netcoreapp3.0/havlak.dll: havlak.csproj | target
 	$(DOTNET_BUILD)
 
 # Run
@@ -76,7 +77,7 @@ $(executable_runners):: run[%] : %
 	$(EXECUTABLE_RUN)
 
 run[target/havlak_scala.jar]:: run[%]: %
-	$(SCALA_RUN) LoopTesterApp
+	$(SCALA_RUN)
 
 run[target/havlak.exe]:: run[%]: %
 	$(MONO_RUN)

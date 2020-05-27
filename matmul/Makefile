@@ -1,5 +1,3 @@
-# TODO: add seeds for matrix gen
-
 # The matrix size
 MSIZE := 1500
 
@@ -118,7 +116,8 @@ target/matmul-kt.jar: matmul.kt | target
 target/matmul.exe: matmul.cs | target
 	$(MCS_BUILD)
 
-target/Release/netcoreapp3.0/matmul.dll: matmul.csproj matmul.cs | target
+.PHONY: target/Release/netcoreapp3.0/matmul.dll
+target/Release/netcoreapp3.0/matmul.dll: matmul.csproj | target
 	$(DOTNET_BUILD)
 
 # Run
@@ -137,7 +136,7 @@ $(executable_runners):: run[%] : %
 	$(EXECUTABLE_RUN) $(MSIZE)
 
 run[target/matmul_scala.jar]:: run[%]: %
-	$(SCALA_RUN) MatMul $(MSIZE)
+	$(SCALA_RUN) $(MSIZE)
 
 run[target/matmul.class]:: run[%]: %
 	$(JAVA_CLASS_RUN) $(MSIZE)

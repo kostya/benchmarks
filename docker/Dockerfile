@@ -138,7 +138,7 @@ ENV CARGO_HOME="/opt/.cargo" PATH="/opt/.cargo/bin:${PATH}"
 RUN wget -O - https://sh.rustup.rs | sh -s -- -y
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.4.1
+ARG JULIA=julia-1.4.2
 RUN wget --progress=dot:giga -O - \
 	https://julialang-s3.julialang.org/bin/linux/x64/1.4/$JULIA-linux-x86_64.tar.gz \
 	| tar -xz
@@ -201,7 +201,8 @@ RUN wget --progress=dot:giga \
 ENV PATH="/opt/kotlinc/bin/:${PATH}"
 
 # https://github.com/vlang/v/releases
-ARG VLANG=0.1.27
+# skipping 0.1.27 - json doesn't work there
+ARG VLANG=0.1.24
 RUN wget --progress=dot:giga \
 	https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
 	&& unzip v_linux.zip -d v \

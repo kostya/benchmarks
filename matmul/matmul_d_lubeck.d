@@ -52,8 +52,8 @@ void notify(in string msg) {
 
 double calc(in size_t n) {
   auto size = n / 2 * 2;
-  auto a = buildMatrix(n, 1.0);
-  auto b = buildMatrix(n, 2.0);
+  auto a = buildMatrix(size, 1.0);
+  auto b = buildMatrix(size, 2.0);
   auto x = mul(a, b);
   return x[size / 2, size / 2];
 }
