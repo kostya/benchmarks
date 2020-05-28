@@ -22,7 +22,7 @@ RUN apt-get update \
 	libjq-dev libonig-dev \
 	python3-numpy python3 python3-ujson \
 	mono-devel nuget \
-	chezscheme gcc-10 gccgo-10 gdc-10 valac \
+	chezscheme gcc-10 gccgo-10 gdc-10 valac cpanminus \
 	luajit lua5.3 lua-socket lua-posix \
 	tcl tcllib php elixir clang-10 opam \
 	&& update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10 \

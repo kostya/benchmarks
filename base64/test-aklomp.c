@@ -33,7 +33,7 @@ int main() {
   char str2[encode_size(STR_SIZE)];
   str2[0] = 0;
   base64_encode(str, STR_SIZE, str2, &str2_size, 0);
-  printf("encode %s... to %s...: ", strndup(str, 4), strndup(str2, 4));
+  printf("encode %.4s... to %.4s...: ", str, str2);
 
   for (int i = 0; i < TRIES; i++) {
     size_t str2_size;
@@ -46,7 +46,7 @@ int main() {
   size_t str3_size;
   char str3[decode_size(str2_size)];
   base64_decode(str2, str2_size, str3, &str3_size, 0);
-  printf("decode %s... to %s...: ", strndup(str2, 4), strndup(str3, 4));
+  printf("decode %.4s... to %.4s...: ", str2, str3);
 
   s = 0;
   t = clock();

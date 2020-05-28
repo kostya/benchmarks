@@ -761,7 +761,7 @@ int buildBaseLoop(MaoCFG *cfg, int from) {
   return footer;
 }
 
-int main(int argc, char *argv[]) {
+int main() {
   std::stringstream ostr;
   ostr << "C++\t" << getpid();
   notify(ostr.str());

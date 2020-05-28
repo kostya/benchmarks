@@ -400,6 +400,7 @@ For C++:
 For Rust:
 
  - [libjq](https://stedolan.github.io/jq/) for jq test (Debian packages `libjq-dev`, `libonig-dev` and environment variable `JQ_LIB_DIR=/usr/lib/x86_64-linux-gnu/`)
+ - [rubocop](https://github.com/rubocop-hq/rubocop) for the static code analysis
 
 For Java, Scala:
 
@@ -413,6 +414,10 @@ For Lua:
 For Haskell:
 
  - [network-simple](http://hackage.haskell.org/package/network-simple) for TCP connectivity between the tests and the test runner
+
+For Perl:
+
+ - [cpanminus](https://metacpan.org/pod/App::cpanminus) for installing modules from CPAN (Debian package `cpanminus`)
 
 # Contribution
 

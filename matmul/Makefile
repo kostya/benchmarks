@@ -136,7 +136,7 @@ $(executable_runners):: run[%] : %
 	$(EXECUTABLE_RUN) $(MSIZE)
 
 run[target/matmul_scala.jar]:: run[%]: %
-	$(SCALA_RUN) $(MSIZE)
+	$(SCALA_RUN) MatMul $(MSIZE)
 
 run[target/matmul.class]:: run[%]: %
 	$(JAVA_CLASS_RUN) $(MSIZE)

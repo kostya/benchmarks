@@ -25,7 +25,7 @@ V_GCC_BUILD =		v $(V_FLAGS) -cc gcc -o $@ $^
 
 ECHO_RUN = @echo "\e[1m$(MAKE) $@\e[0m"
 XTIME := ../xtime.rb
-CPANM := wget -qO - https://cpanmin.us | perl - -L perllib
+CPANM := cpanm
 
 CLOJURE_RUN =		$(XTIME) clojure $^
 DOTNET_RUN =		$(XTIME) dotnet $^
@@ -36,7 +36,7 @@ JRUBY_RUN =		$(XTIME) jruby $^
 JULIA_RUN =		$(XTIME) julia --optimize=3 --check-bounds=no $^
 MONO_RUN =		$(XTIME) mono -O=all --gc=sgen $^
 NODE_RUN =		$(XTIME) node $^
-PERL_RUN =		$(XTIME) perl -Iperllib/lib/perl5 $^
+PERL_RUN =		$(XTIME) perl $^
 PHP_RUN =		$(XTIME) php $^
 PYPY3_RUN =		$(XTIME) pypy3 $^
 PYTHON3_RUN =		$(XTIME) python3 $^

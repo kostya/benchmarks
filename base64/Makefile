@@ -130,7 +130,7 @@ $(executable_runners):: run[%] : %
 	$(EXECUTABLE_RUN)
 
 run[target/base64_scala.jar]:: run[%]: %
-	$(SCALA_RUN)
+	$(SCALA_RUN) Base64
 
 run[target/Base64Java.class]:: run[%]: %
 	$(JAVA_CLASS_RUN)
@@ -191,7 +191,9 @@ run[test.php]:: run[%]: %
 
 .PHONY: clean
 clean:
-	$(MAKE) -C $(aklomp-base64-dir) clean
+	if [ -d $(aklomp-base64-dir) ]; then \
+		$(MAKE) -C $(aklomp-base64-dir) clean; \
+	fi
 	cargo clean --manifest-path $(base64-rs-toml)
 	-rm -rf target
 

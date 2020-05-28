@@ -77,7 +77,7 @@ $(executable_runners):: run[%] : %
 	$(EXECUTABLE_RUN)
 
 run[target/havlak_scala.jar]:: run[%]: %
-	$(SCALA_RUN)
+	$(SCALA_RUN) LoopTesterApp
 
 run[target/havlak.exe]:: run[%]: %
 	$(MONO_RUN)
