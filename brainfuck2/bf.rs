@@ -18,7 +18,7 @@ impl Tape {
   fn get(&self) -> i32 { self.tape[self.pos] }
   fn getc(&self) -> char { self.get() as u8 as char }
   fn inc(&mut self, x: i32) { self.tape[self.pos] += x; }
-  fn mov(&mut self, x: isize) { 
+  fn mov(&mut self, x: isize) {
     self.pos = (self.pos as isize + x) as usize;
     while self.pos >= self.tape.len() { self.tape.push(0); }
   }

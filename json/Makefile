@@ -270,7 +270,7 @@ run[test-xs.pl]:: run[%]: % | file-slurper cpanel-json-xs
 	$(PERL_RUN)
 
 run[json-scala/target/application.jar]:: run[%]: %
-	$(SCALA_RUN)
+	$(SCALA_RUN) JsonTest
 
 run[test.js]:: run[%]: %
 	$(NODE_RUN)
@@ -302,8 +302,9 @@ run[jruby][test.rb]:: run[jruby][%]: % | $(rubocop)
 run[test.php]:: run[%]: %
 	$(PHP_RUN)
 
+run[test.clj]:: CLOJURE_FLAGS := -Sdeps '{:deps {cheshire {:mvn/version "5.10.0"}}}'
 run[test.clj]:: run[%]: %
-	$(CLOJURE_RUN) -Sdeps '{:deps {cheshire {:mvn/version "5.10.0"}}}'
+	$(CLOJURE_RUN)
 
 # Utilities
 

@@ -21,8 +21,9 @@ struct Op {
 };
 
 class Tape {
-  int pos;
-  vector<int> tape;
+  using tape_type = vector<int>;
+  tape_type::size_type pos;
+  tape_type tape;
 
 public:
   Tape() {
@@ -95,6 +96,9 @@ string read_file(string filename){
 }
 
 int main(int argc, char** argv) {
+  if (argc < 2) {
+    exit(1);
+  }
   string text = read_file(string(argv[1]));
 
   stringstream ostr;
