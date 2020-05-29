@@ -5,7 +5,7 @@
 require 'fileutils'
 
 RESULTS_LOG = 'target/results.log'
-ATTEMPTS = 10
+ATTEMPTS = ENV.fetch('ATTEMPTS', 10).to_i
 
 if ARGV.length.positive?
   FileUtils.rm_f(RESULTS_LOG)

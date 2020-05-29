@@ -1,19 +1,19 @@
 BF_SRC := bench.b
 
 executables := \
-	target/bin_cr \
+	target/bin_hs \
 	target/bin_cpp \
-	target/bin_rs \
-	target/bin_go \
-	target/bin_go_gccgo \
 	target/bin_d \
 	target/bin_d_gdc \
 	target/bin_d_ldc \
+	target/bin_rs \
 	target/bin_nim_clang \
 	target/bin_nim_gcc \
-	target/bin_hs \
+	target/bin_cr \
 	target/bin_hs_marray \
 	target/bin_ocaml \
+	target/bin_go \
+	target/bin_go_gccgo \
 	target/bin_vala_gcc \
 	target/bin_vala_clang \
 	target/bin_sml \
@@ -23,31 +23,33 @@ executables := \
 	target/bin_c_clang
 
 artifacts := $(executables) \
+	target/bin_fs/netcoreapp3.0/brainfuck2.dll \
 	target/bf_scala.jar \
+	target/bf2-kt.jar \
 	target/bf.exe \
 	target/bin_cs/netcoreapp3.0/brainfuck2.dll \
-	target/bin_fs/netcoreapp3.0/brainfuck2.dll \
-	target/bf2-kt.jar \
 	target/bf.class
 
-all_runners := $(patsubst %,run[%], $(artifacts)) \
-	run[bf.ex] \
+fast_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[bf.js] \
 	run[pypy][bf3.py] \
+	run[jit][bf.lua] \
+	run[bf.rkt] \
+	run[bf.ss] \
+	run[truby-jvm][bf.rb] \
+	run[truby-native][bf.rb] \
+	run[bf.jl]
+
+all_runners := $(fast_runners) \
+	run[bf.ex] \
 	run[bf3.py] \
 	run[bf.pl] \
 	run[bf.rb] \
 	run[jit][bf.rb] \
-	run[truby-jvm][bf.rb] \
-	run[truby-native][bf.rb] \
 	run[jruby][bf.rb] \
 	run[bf.lua] \
-	run[jit][bf.lua] \
 	run[bf.tcl] \
 	run[bf_oo.tcl] \
-	run[bf.rkt] \
-	run[bf.ss] \
-	run[bf.jl]
 
 # Build
 
@@ -138,6 +140,10 @@ target/bf.class: bf.java | target
 
 .PHONY: run
 run: $(all_runners)
+
+.PHONY: run2
+run2: BF_SRC := mandel.b > /dev/null
+run2: $(fast_runners)
 
 ## Common recipe for all runners
 .PHONY: $(all_runners)
