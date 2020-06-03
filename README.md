@@ -29,11 +29,10 @@ The benchmarks follow the criteria:
 
     - The algorithms are implemented as cited in public sources;
     - The libraries are used as described in the tutorials, documentation and examples;
-    - Used data structures are idiomatic.
+    - The used data structures are idiomatic.
 
-  - The used algorithms are similar between the languages (reference implementations), variants are acceptable if the reference implementation exists.
+  - The used algorithms are similar between the languages (as the reference implementations), variants are acceptable if the reference implementation exists.
   - All final binaries are releases (optimized for performance if possible) as debug performance may vary too much depending on the compiler.
-  - JIT warming up is applied when necessary, and the actual measurements are taken only within the specified boundaries.
 
 UPDATE: 2020-04-28
 
@@ -135,7 +134,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 
 ## Base64
 
-Testing large blob base64 encoding/decoding into newly allocated buffers.
+Testing base64 encoding/decoding of the large blob into the newly allocated buffers.
 
 [Base64](base64)
 
@@ -379,13 +378,13 @@ There is a `Makefile` that could be used to simlify Docker usage:
 [git-markdown-toc](https://github.com/ildar-shaimordanov/git-markdown-toc)
 available in `PATH`).
 
-Please note that the `make shell` rule require `cpupower` utility installed
+Please note that the `make shell` rule requires `cpupower` utility installed
 that is invoked with `sudo` to set cpufreq's performance governon
 (it runs the CPU at the maximum frequence to eliminate throttling issues).
 
 ## Manual Execution
 
-The Makefiles contain recipes for building and executing tests with the
+Makefiles contain recipes for building and executing tests with the
 proper dependencies. Please use `make run` (and `make run2` where applicable).
 The measurements are taken using `analyze.rb` script:
 
@@ -394,7 +393,7 @@ The measurements are taken using `analyze.rb` script:
     $ ../analyze.rb make run[<single test>]
 
 Please note that the measurements could take hours. It uses 10 iterations
-by default, could be changed with ATTEMPTS environment variable:
+by default, but it could be changed using ATTEMPTS environment variable:
 
     $ ATTEMPTS=1 ../analyze.rb make run
 
@@ -455,7 +454,7 @@ modules from CPAN (Debian package `cpanminus`).
 
 # Contribution
 
-Please follow the criteria specified in the [Overview](#overview). Besides
+Please follow the criteria specified in the [overview](#overview). Besides
 that please ensure that the communication protocol between a test and the
 test runner is satisfied:
 
@@ -464,10 +463,10 @@ test runner is satisfied:
 message has been sent;
  - There are two messages sent from a test (it establishes the measurement
 boundary):
-  1. The beginning message having the format *name of the test*/t*process ID*
+    1. The beginning message having the format *name of the test*/t*process ID*
 (the process ID is used to measure the memory consumption). Please note that
 the name of the test couldn't use Tab character as it's a delimiter;
-  2. The end message with any content (mostly it's "stop" for consistency).
+    2. The end message with any content (mostly it's "stop" for consistency).
  - The test runner could be unavailable (if the test is launched as is) and
 the test should gracefully handle it.
 
@@ -475,7 +474,7 @@ the test should gracefully handle it.
 
 ### Binary executables
 
-If the test is compiled into a single binary, then only two sections of
+If the test is compiled into a single binary, then two sections of
 the `Makefile` require changes:
 
  - append a new target (the final binary location) into `executables`
