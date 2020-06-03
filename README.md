@@ -2,7 +2,7 @@
 # Table of Content
 * [Overview](#overview)
 * [Test Cases](#test-cases)
-  * [Brainfuck v2.0](#brainfuck-v20)
+  * [Brainfuck](#brainfuck)
     * [bench.b](#benchb)
     * [mandel.b](#mandelb)
   * [Base64](#base64)
@@ -35,12 +35,11 @@ UPDATE: 2020-04-28
 
 # Test Cases
 
-## Brainfuck v2.0
+## Brainfuck
 
 Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 
-[Brainfuck v2.0](brainfuck2)
-[Brainfuck v1.0](brainfuck)
+[Brainfuck](brainfuck)
 
 ### bench.b
 
@@ -92,7 +91,7 @@ Testing brainfuck implementations using two code samples (bench.b and mandel.b).
 
 ### mandel.b
 
-[Mandel in Brainfuck](brainfuck2/mandel.b)
+[Mandel in Brainfuck](brainfuck/mandel.b)
 
 |           Language |        Time, s |    Memory, MiB |        Energy, J |
 | :----------------- | -------------: | -------------: | ---------------: |
@@ -356,79 +355,115 @@ Run the image:
 
 where <cmd> is:
 
- - `versions` (print installed language versions)
- - `shell` (start the shell)
- - `brainfuck2 bench` (build and run Brainfuck2 bench.b benchmarks)
- - `brainfuck2 mandel` (build and run Brainfuck2 mandel.b benchmarks)
- - `base64` (build and run Base64 benchmarks)
- - `json` (build and run Json benchmarks)
- - `matmul` (build and run Matmul benchmarks)
- - `havlak` (build and run Havlak benchmarks)
+ - `versions` (print installed language versions);
+ - `shell` (start the shell);
+ - `brainfuck bench` (build and run Brainfuck bench.b benchmarks);
+ - `brainfuck mandel` (build and run Brainfuck mandel.b benchmarks);
+ - `base64` (build and run Base64 benchmarks);
+ - `json` (build and run Json benchmarks);
+ - `matmul` (build and run Matmul benchmarks);
+ - `havlak` (build and run Havlak benchmarks).
 
 Please note that the actual measurements provided in the project are taken semi-manually (via `shell`) as the full update takes days and could have occassional issues in Docker.
 
+There is a `Makefile` that could be used to simlify Docker usage:
+
+ - `make build` (build the image);
+ - `make versions` (run the image with the `versions` command);
+ - `make shell` (run the image with the `shell' command);
+ - `make toc` (utility rule to add TOC to this README).
+
+Please note that the `make shell` rule require `cpupower` utility installed
+that is invoked with `sudo` to set cpufreq's performance governon
+(it runs the CPU at the maximum frequence to eliminate throttling issues).
+
 ## Manual Execution
 
-The Makefiles contain recipes for building and executing tests with the proper dependencies.
-Please use `make run` (and `make run2` where applicable).
+The Makefiles contain recipes for building and executing tests with the
+proper dependencies. Please use `make run` (and `make run2` where applicable).
 The measurements are taken using `analyze.rb` script:
 
     $ cd <test suite>
     $ ../analyze.rb make run
     $ ../analyze.rb make run[<single test>]
 
-Please note that the measurements could take hours (it uses 10 iterations by default).
+Please note that the measurements could take hours. It uses 10 iterations
+by default, could be changed with ATTEMPTS environment variable:
+
+    $ ATTEMPTS=1 ../analyze.rb make run
 
 ### Prerequisites
 
-Please use [Dockerfile](docker/Dockerfile) as a reference regarding which packages and tools are required.
+Please use [Dockerfile](docker/Dockerfile) as a reference regarding which
+packages and tools are required.
 
 For all (optional):
 
- - [Powercap](https://github.com/powercap/powercap) for reading energy counters in Linux (Debian package `powercap-utils`)
+ - [Powercap](https://github.com/powercap/powercap) for reading energy
+counters in Linux (Debian package `powercap-utils`).
 
 For Python:
 
- - [NumPy](https://numpy.org/) for matmul tests (Debian package `python3-numpy`)
- - [UltraJSON](https://pypi.org/project/ujson/) for JSON tests (Debian package `python3-ujson`)
+ - [NumPy](https://numpy.org/) for matmul tests
+(Debian package `python3-numpy`).
+ - [UltraJSON](https://pypi.org/project/ujson/) for JSON tests
+(Debian package `python3-ujson`).
+
 
 For C++:
 
- - [Boost](https://www.boost.org/) for JSON tests (Debian package `libboost-dev`)
- - [JSON-C](https://github.com/json-c/json-c) for JSON tests (Debian package `libjson-c-dev`)
+ - [Boost](https://www.boost.org/) for JSON tests
+(Debian package `libboost-dev`).
+ - [JSON-C](https://github.com/json-c/json-c) for JSON tests
+(Debian package `libjson-c-dev`).
 
 For Rust:
 
- - [libjq](https://stedolan.github.io/jq/) for jq test (Debian packages `libjq-dev`, `libonig-dev` and environment variable `JQ_LIB_DIR=/usr/lib/x86_64-linux-gnu/`)
- - [rubocop](https://github.com/rubocop-hq/rubocop) for the static code analysis
+ - [libjq](https://stedolan.github.io/jq/) for jq test
+(Debian packages `libjq-dev`, `libonig-dev` and environment variable
+`JQ_LIB_DIR=/usr/lib/x86_64-linux-gnu/`).
+ - [rubocop](https://github.com/rubocop-hq/rubocop) for the static code
+analysis.
 
 For Java, Scala:
 
- - [Coursier](https://get-coursier.io/) for downloading Maven artifacts
+ - [Coursier](https://get-coursier.io/) for downloading Maven artifacts.
 
 For Lua:
 
- - [LuaSocket](http://w3.impa.br/~diego/software/luasocket/) for TCP connectivity between the tests and the test runner (Debian package `lua-socket`)
- - [luaposix](http://luaposix.github.io/luaposix/) for getting PID of the tests (Debian package `lua-posix`)
+ - [LuaSocket](http://w3.impa.br/~diego/software/luasocket/) for TCP
+connectivity between the tests and the test runner
+(Debian package `lua-socket`).
+ - [luaposix](http://luaposix.github.io/luaposix/) for getting PID of the
+tests (Debian package `lua-posix`).
 
 For Haskell:
 
- - [network-simple](http://hackage.haskell.org/package/network-simple) for TCP connectivity between the tests and the test runner
+ - [network-simple](http://hackage.haskell.org/package/network-simple) for
+TCP connectivity between the tests and the test runner.
 
 For Perl:
 
- - [cpanminus](https://metacpan.org/pod/App::cpanminus) for installing modules from CPAN (Debian package `cpanminus`)
+ - [cpanminus](https://metacpan.org/pod/App::cpanminus) for installing
+modules from CPAN (Debian package `cpanminus`).
 
 # Contribution
 
-Please follow the criteria specified in the [Overview](#overview). Besides that please ensure that the communication protocol between a test and the test runner is satisfied:
+Please follow the criteria specified in the [Overview](#overview). Besides
+that please ensure that the communication protocol between a test and the
+test runner is satisfied:
 
  - The test runner listens on localhost:9001;
- - All messages are sent using TCP sockets closed immediately after the message has been sent;
- - There are two messages sent from a test (it establishes the measurement boundary):
-  1. The beginning message having the format *name of the test*/t*process ID* (the process ID is used to measure the memory consumption). Please note that the name of the test couldn't use Tab character as it's a delimiter;
+ - All messages are sent using TCP sockets closed immediately after the
+message has been sent;
+ - There are two messages sent from a test (it establishes the measurement
+boundary):
+  1. The beginning message having the format *name of the test*/t*process ID*
+(the process ID is used to measure the memory consumption). Please note that
+the name of the test couldn't use Tab character as it's a delimiter;
   2. The end message with any content (mostly it's "stop" for consistency).
- - The test runner could be unavailable (if the test is launched as is) and the test should gracefully handle it.
+ - The test runner could be unavailable (if the test is launched as is) and
+the test should gracefully handle it.
 
 ## Makefile guide
 
@@ -437,12 +472,24 @@ Please follow the criteria specified in the [Overview](#overview). Besides that 
 If the test is compiled into a single binary, then only two sections of
 the `Makefile` require changes:
 
- - append a new target (the final binary location) into `executables` variable;
- - the proper target recipe.
+ - append a new target (the final binary location) into `executables`
+variable;
+ - append the proper target rule.
 
-The recipe format (for `<compiler> -o:<binary> <source>`):
+### Compiled artifacts
 
-```
-target/<binary>: <source> | target
-	<compiler> -o:$@ $^
-```
+If the test is compiled, but can't be executed directly as a binary, then
+three sections of the `Makefile` require changes:
+
+ - append a new target (the final artifact location) into `artifacts`
+variable;
+ - append the proper target rule to compile the test;
+ - append `run[<target_artifact>]` rule to run the test.
+
+### Scripting language
+
+If the test doesn't require compilation, then two sections of the `Makefile`
+requires changes:
+
+ - append `run[<script_file>]` into `all_runners` variable;
+ - append `run[<script_file>]` rule to run the test.

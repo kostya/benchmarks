@@ -3,5 +3,6 @@
     <BaseIntermediateOutputPath>target</BaseIntermediateOutputPath>
     <BaseOutputPath>target</BaseOutputPath>
     <ServerGarbageCollection>true</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
   </PropertyGroup>
 </Project>

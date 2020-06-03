@@ -13,7 +13,7 @@ GCC_BUILD =		gcc $(GCC_FLAGS) -std=c17 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++17 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_GO_BUILD =		gccgo -O3 -o $@ $^
 GDC_BUILD =		gdc -o $@ -O3 -frelease -finline $^
-GHC_BUILD =		ghc -O2 -fforce-recomp $^ -o $@
+GHC_BUILD =		ghc -O2 -fforce-recomp $^ -o $@ -outputdir $(@D)
 GO_BUILD =		go build -o $@ $^
 JAVAC_BUILD =		javac -d $(@D) $^
 KOTLINC_BUILD =	kotlinc -include-runtime -jvm-target 13 -d $@ $^
@@ -22,13 +22,16 @@ MCS_BUILD =		mcs -debug- -optimize+ -out:$@ $^
 MLTON_BUILD =		mlton -output $@ $^
 NIM_CLANG_BUILD =	nim c -o:$@ --cc:clang $(NIM_FLAGS) $^
 NIM_GCC_BUILD =	nim c -o:$@ --cc:gcc $(NIM_FLAGS) $^
-OCAML_BUILD =		ocamlopt -unsafe unix.cmxa $^ -o $@
 RUSTC_BUILD =		rustc -C opt-level=3 -C lto -o $@ $^
 SCALAC_BUILD =		scalac -d $@ $^
 VALAC_CLANG_BUILD =	valac $^ --cc=clang -D CLANG_TEST $(VALAC_FLAGS) -o $@
 VALAC_GCC_BUILD =	valac $^ --cc=gcc -D GCC_TEST $(VALAC_FLAGS) -o $@
 V_CLANG_BUILD =	v $(V_FLAGS) -cc clang -o $@ $^
 V_GCC_BUILD =		v $(V_FLAGS) -cc gcc -o $@ $^
+
+define OCAML_BUILD =
+cp $^ target && cd target && ocamlopt -O3 -unsafe unix.cmxa $^ -o $(@F)
+endef
 
 ECHO_RUN = @echo "\e[1m$(MAKE) $@\e[0m"
 XTIME := ../xtime.rb
