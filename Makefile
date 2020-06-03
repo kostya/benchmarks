@@ -15,3 +15,7 @@ shell: performance_governor
 .PHONY: versions
 versions:
 	$(docker_run) versions
+
+.PHONY: toc
+toc:
+	git-md-toc -u -t

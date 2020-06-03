@@ -15,6 +15,10 @@
   * [Manual Execution](#manual-execution)
     * [Prerequisites](#prerequisites)
 * [Contribution](#contribution)
+  * [Makefile guide](#makefile-guide)
+    * [Binary executables](#binary-executables)
+    * [Compiled artifacts](#compiled-artifacts)
+    * [Scripting language](#scripting-language)
 <!-- md-toc-end -->
 
 # Overview
@@ -371,7 +375,9 @@ There is a `Makefile` that could be used to simlify Docker usage:
  - `make build` (build the image);
  - `make versions` (run the image with the `versions` command);
  - `make shell` (run the image with the `shell' command);
- - `make toc` (utility rule to add TOC to this README).
+ - `make toc` (utility rule to update ToC in this README, requires
+[git-markdown-toc](https://github.com/ildar-shaimordanov/git-markdown-toc)
+available in `PATH`).
 
 Please note that the `make shell` rule require `cpupower` utility installed
 that is invoked with `sudo` to set cpufreq's performance governon
