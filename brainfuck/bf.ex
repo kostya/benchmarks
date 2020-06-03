@@ -96,4 +96,3 @@ defmodule Benchmark do
 end
 
 Benchmark.run()
-

@@ -94,19 +94,11 @@ namespace Test
         static void Main(string[] args)
         {
             string text = File.ReadAllText(args[0]);
-            var stopWatch = new Stopwatch();
-            Console.Error.WriteLine("JIT warming up");
 
-            stopWatch.Start();
-            new Program(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++").run();
-            stopWatch.Stop();
-            Console.Error.WriteLine("time: " + stopWatch.ElapsedMilliseconds / 1e3 + "s");
-
-            Console.Error.WriteLine("run");
             var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
             Notify($"C# {runtime}\t{Process.GetCurrentProcess().Id}");
+            var stopWatch = new Stopwatch();
 
-            stopWatch.Restart();
             var p = new Program(text);
             p.run();
             stopWatch.Stop();

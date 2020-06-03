@@ -64,6 +64,7 @@ RUN mkdir dotnet && wget --progress=dot:giga -O - \
 	https://download.visualstudio.microsoft.com/download/pr/c9c8cca6-2281-4ce8-980f-f49723057f09/06fef88edc9d38fbfefc315953e368ea/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
 	| tar -xz -C dotnet
 ENV PATH="/opt/dotnet:${PATH}"
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://pypy.org/download.html
 ARG PYPY=pypy3.6-v7.3.1-linux64

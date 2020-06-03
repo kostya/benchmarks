@@ -127,15 +127,9 @@ public final class bf {
     public static void main( final String[] args ) throws IOException {
         final String code = new String(Files.readAllBytes( Paths.get( args[0] ) ));
 
-        long start_time = System.currentTimeMillis();
-        System.err.println("JIT warming up");
-        new Program(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++").run();
-        System.err.println("time: " + (System.currentTimeMillis()-start_time)/1e3+"s");
-
-        System.err.println("run");
         notify("Java\t" + ProcessHandle.current().pid());
+        var start_time = System.currentTimeMillis();
 
-        start_time = System.currentTimeMillis();
         final Program program = new Program(code);
         program.run();
         System.err.println("time: " + (System.currentTimeMillis()-start_time)/1e3+"s");

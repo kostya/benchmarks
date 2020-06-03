@@ -29,11 +29,6 @@ function main(tries)
   print("$s, $(time() - t)\n")
 end
 
-println("JIT warming up")
-main(5)
-
-println("bench")
-
 function notify(msg)
   try
     socket = connect("localhost", 9001)

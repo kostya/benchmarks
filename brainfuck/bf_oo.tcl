@@ -3,20 +3,20 @@ package require Tcl 8.6
 namespace eval bf {} {
     ::oo::class create Tape {
         variable tape pos
-        
+
         constructor {} {
             set tape 0
             set pos 0
         }
-        
+
         method current {} {
             return [lindex $tape $pos]
         }
-        
+
         method inc x {
             lset tape $pos [expr {[lindex $tape $pos] + $x}]
         }
-        
+
         method move x {
             incr pos $x
             while {$pos >= [llength $tape]} {

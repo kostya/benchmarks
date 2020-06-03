@@ -29,10 +29,6 @@ text = open("/tmp/1.json") do file
   read(file, String)
 end
 
-for i in 1:4
-  test(text)
-end
-
 function notify(msg)
   try
     socket = connect("localhost", 9001)

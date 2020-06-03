@@ -13,11 +13,11 @@ sealed class Op() {
 class Tape {
     private var tape: IntArray = IntArray(1)
     private var pos: Int = 0
-    
+
     fun get(): Int {
         return tape[pos]
     }
-    
+
     fun inc(x: Int) {
         tape[pos] += x
     }
@@ -72,15 +72,6 @@ class Program(code: String) {
     }
 }
 
-fun warming() {
-    val WARM_PROGRAM = ">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++"
-    
-    System.err.println("JIT warming up")
-    val start_time = System.currentTimeMillis()
-    Program(WARM_PROGRAM).run()
-    System.err.println("time: ${(System.currentTimeMillis() - start_time) / 1e3}s")
-}
-
 fun notify(msg: String) {
     try {
         java.net.Socket("localhost", 9001).getOutputStream().use {
@@ -94,16 +85,14 @@ fun notify(msg: String) {
 @Throws(IOException::class)
 fun main(args: Array<String>) {
     val code = String(Files.readAllBytes(Paths.get(args[0])))
-    
-    warming()
 
-    System.err.println("run")
     val pid = ProcessHandle.current().pid()
     notify("Kotlin\t${pid}")
-
     val start_time = System.currentTimeMillis()
+
     val program = Program(code)
     program.run()
     System.err.println("time: ${(System.currentTimeMillis() - start_time) / 1e3}s")
+
     notify("stop")
 }

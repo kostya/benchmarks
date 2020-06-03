@@ -19,8 +19,6 @@
     (catch java.io.IOException e ())))
 
 (let [text (slurp "/tmp/1.json")]
-  (dotimes [i 4] (parse text))
-
   (notify (format "Clojure\t%d" (.pid (java.lang.ProcessHandle/current))))
   (parse text)
   (notify "stop"))

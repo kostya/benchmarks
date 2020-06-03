@@ -84,11 +84,6 @@ function main(text)
   interpret(text)
 end
 
-println("JIT warming up")
-main(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++")
-
-println("bench")
-
 text = open(ARGS[1]) do file
   read(file, String)
 end

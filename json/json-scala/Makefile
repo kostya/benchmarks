@@ -1,11 +1,12 @@
 sources=$(shell find src/ -type f -name '*.scala')
 main=JsonTest
 
+.PHONY: all
 all: target/library.jar
 
 # contains jars of all dependencies (including transitive ones)
-target/dependencies.list: Maven.list
-	mkdir -p target
+.PHONY: target/dependencies.list
+target/dependencies.list: Maven.list | target
 	coursier fetch $(shell sed '/^#/d' Maven.list) > $@
 	sed -i '/scala-.*/d' $@
 
@@ -32,7 +33,9 @@ target/application.jar: target/library.jar target/dependencies.list
 	mkdir -p target
 	../../common/jvm/combinejars.sh $@ $(shell cat target/dependencies.list) $<
 
+.PHONY: clean
 clean:
 	rm -rf target
 
-.PHONY: clean all
+target:
+	mkdir -p target

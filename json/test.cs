@@ -60,10 +60,6 @@ namespace Test
         static void Main(string[] args)
         {
             var text = File.ReadAllText("/tmp/1.json");
-            for (int i = 0; i < 4; i++)
-            {
-                ParseJson(text);
-            }
 
             var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
             Notify($"C# {runtime}\t{Process.GetCurrentProcess().Id}");

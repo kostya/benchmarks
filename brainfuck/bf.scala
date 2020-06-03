@@ -12,7 +12,7 @@ class Tape() {
 
   def get = tape(pos)
   def inc(x: Int) = tape(pos) += x
-  def move(x: Int) = { 
+  def move(x: Int) = {
     pos += x
     while (pos >= tape.length) {
       tape = Array.copyOf(tape, tape.length * 2)
@@ -71,14 +71,6 @@ object BrainFuck {
   def main(args: Array[String]): Unit = {
     val text = scala.util.Using(scala.io.Source.fromFile(args(0))) { _.mkString }.get
 
-    // JIT warming up
-    System.err.print("JIT warming up\n")
-    time {
-      new Program(">++[<+++++++++++++>-]<[[>+>+<<-]>[<+>-]++++++++[>++++++++<-]>[-]<<>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[>++++++++++[-]<-]<-]<-]<-]<-]<-]<-]++++++++++").run
-    }
-    //
-
-    System.err.print("run\n")
     notify(s"Scala\t${ProcessHandle.current().pid()}")
 
     time {
