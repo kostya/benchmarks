@@ -31,6 +31,8 @@ The benchmarks follow the criteria:
   - All final binaries are releases (optimized for performance if possible) as debug performance may vary too much depending on the compiler.
   - JIT warming up is applied when necessary, and the actual measurements are taken only within the specified boundaries.
 
+My other benchmarks: [jit-benchmarks](https://github.com/kostya/jit-benchmarks), [crystal-benchmarks-game](https://github.com/kostya/crystal-benchmarks-game)
+
 UPDATE: 2020-04-28
 
 # Test Cases
