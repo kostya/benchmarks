@@ -65,7 +65,7 @@ class Prog
         var right = -18.67;
         if (Math.Abs(left - right) > 0.1) {
             Console.Error.WriteLine($"{left} != {right}");
-            System.Environment.Exit(-1);
+            System.Environment.Exit(1);
         }
 
         var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";

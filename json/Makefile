@@ -1,5 +1,8 @@
 json_file := /tmp/1.json
 
+include ../common/commands.mk
+.DEFAULT_GOAL := build
+
 json-rs-targets := \
 	json.rs/target/release/json-pull-rs \
 	json.rs/target/release/json-struct-rs \
@@ -14,14 +17,15 @@ executables := \
 	target/json_d \
 	target/json_d_gdc \
 	target/json_d_ldc \
+	target/json_d_gdc_fast \
 	target/json_nim_gcc \
 	target/json_nim_clang \
 	target/packedjson_nim_gcc \
 	target/packedjson_nim_clang \
 	target/json_go \
 	target/json_go_gccgo \
+	target/json_iter_go \
 	target/json_boost_cpp \
-	target/json_d_gdc_fast \
 	target/json_rapid_cpp \
 	target/json_rapid_sax_cpp \
 	target/json_gason_cpp \
@@ -31,7 +35,6 @@ executables := \
 	target/json_simdjson_cpp \
 	target/json_v_gcc \
 	target/json_v_clang \
-	target/json_iter_go \
 	target/json_dawjsonlink_cpp
 
 artifacts := $(executables) \
@@ -76,13 +79,13 @@ json-rs-toml := json.rs/Cargo.toml
 $(json-rs-targets) &: $(json-rs-toml)
 	$(CARGO_BUILD)
 
-target/json_d: test.d | target
+target/json_d: test.d | $(dfmt)
 	$(DMD_BUILD)
 
-target/json_d_gdc: test.d | target
+target/json_d_gdc: test.d | $(dfmt)
 	$(GDC_BUILD)
 
-target/json_d_ldc: test.d | target
+target/json_d_ldc: test.d | $(dfmt)
 	$(LDC2_BUILD)
 
 target/json_nim_gcc: test.nim | target
@@ -114,7 +117,7 @@ fast-dir := target/fast
 $(fast-dir): | target
 	git clone --depth 1 "https://github.com/mleise/fast.git" $@
 
-target/json_d_gdc_fast: test_fast.d | $(fast-dir)
+target/json_d_gdc_fast: test_fast.d | $(fast-dir) $(dfmt)
 	$(GDC_BUILD) \
 		$(fast-dir)/source/fast/cstring.d \
 		$(fast-dir)/source/fast/buffer.d \
@@ -319,5 +322,3 @@ clean:
 
 $(json_file):
 	ruby generate_json.rb
-
-include ../common/commands.mk

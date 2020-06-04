@@ -1,5 +1,8 @@
 BF_SRC := bench.b
 
+include ../common/commands.mk
+.DEFAULT_GOAL := build
+
 executables := \
 	target/bin_hs \
 	target/bin_cpp \
@@ -88,13 +91,13 @@ target/bin_go: bf.go | target
 target/bin_go_gccgo: bf.go | target
 	$(GCC_GO_BUILD)
 
-target/bin_d: bf.d | target
+target/bin_d: bf.d | $(dfmt)
 	$(DMD_BUILD)
 
-target/bin_d_gdc: bf.d | target
+target/bin_d_gdc: bf.d | $(dfmt)
 	$(GDC_BUILD)
 
-target/bin_d_ldc: bf.d | target
+target/bin_d_ldc: bf.d | $(dfmt)
 	$(LDC2_BUILD)
 
 target/bin_nim_clang: bf.nim | target
@@ -229,5 +232,3 @@ run[bf.jl]:: run[%]: %
 .PHONY: clean
 clean:
 	-rm -rf target
-
-include ../common/commands.mk

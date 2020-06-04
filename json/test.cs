@@ -15,6 +15,68 @@ namespace Test
             public double X { get; set; }
             public double Y { get; set; }
             public double Z { get; set; }
+
+            public Coordinate() {}
+
+            public Coordinate(double x, double y, double z)
+            {
+                X = x;
+                Y = y;
+                Z = z;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return this.Equals(obj as Coordinate);
+            }
+
+            public bool Equals(Coordinate p)
+            {
+                if (Object.ReferenceEquals(p, null))
+                {
+                    return false;
+                }
+
+                if (Object.ReferenceEquals(this, p))
+                {
+                    return true;
+                }
+
+                if (this.GetType() != p.GetType())
+                {
+                    return false;
+                }
+
+                return X == p.X && Y == p.Y && Z == p.Z;
+            }
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(X, Y, Z);
+            }
+
+            public static bool operator ==(Coordinate lhs, Coordinate rhs)
+            {
+                if (Object.ReferenceEquals(lhs, null))
+                {
+                    if (Object.ReferenceEquals(rhs, null))
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                return lhs.Equals(rhs);
+            }
+
+            public static bool operator !=(Coordinate lhs, Coordinate rhs)
+            {
+                return !(lhs == rhs);
+            }
+
+            public override string ToString()
+            {
+                return $"Coordinate {{X: {X}, Y: {Y}, Z: {Z}}}";
+            }
         }
 
         public class Root
@@ -22,10 +84,8 @@ namespace Test
             public List<Coordinate> Coordinates { get; set; }
         }
 
-        static void ParseJson(string text)
+        static Coordinate Calc(string text)
         {
-            var sw = Stopwatch.StartNew();
-
             var root = JsonConvert.DeserializeObject<Root>(text);
 
             double x = 0;
@@ -41,9 +101,7 @@ namespace Test
                 z += c.Z;
             };
 
-            Console.WriteLine("{0}\n{1}\n{2}", x/count, y/count, z/count);
-            sw.Stop();
-            Console.WriteLine("time: {0}s", sw.Elapsed.TotalSeconds);
+            return new Coordinate(x / count, y / count, z / count);
         }
 
         private static void Notify(string msg) {
@@ -59,12 +117,24 @@ namespace Test
 
         static void Main(string[] args)
         {
+            var left =
+                Calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
+            var right = new Coordinate(1.1, 2.2, 3.3);
+            if (left != right) {
+                Console.Error.WriteLine($"{left} != {right}");
+                System.Environment.Exit(1);
+            }
+
             var text = File.ReadAllText("/tmp/1.json");
 
             var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
             Notify($"C# {runtime}\t{Process.GetCurrentProcess().Id}");
+            var sw = Stopwatch.StartNew();
 
-            ParseJson(text);
+            Console.WriteLine(Calc(text));
+
+            sw.Stop();
+            Console.WriteLine("time: {0}s", sw.Elapsed.TotalSeconds);
 
             Notify("stop");}
     }

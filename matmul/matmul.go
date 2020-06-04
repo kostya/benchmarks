@@ -75,7 +75,7 @@ func main() {
 
 	left := calc(101)
 	right := -18.67
-	if math.Abs(left-right) > 0.1 {
+	if math.Abs(left - right) > 0.1 {
 		log.Fatalf("%f != %f\n", left, right)
 	}
 

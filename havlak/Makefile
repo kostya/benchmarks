@@ -1,3 +1,6 @@
+include ../common/commands.mk
+.DEFAULT_GOAL := build
+
 executables := \
 	target/havlak_cr \
 	target/havlak_go \
@@ -35,13 +38,13 @@ target/havlak_go_gccgo: havlak.go | $(gofmt)
 target/havlak_cpp: havlak.cpp | target libnotify
 	$(GCC_CPP_BUILD)
 
-target/havlak_d: havlak.d | target
+target/havlak_d: havlak.d | $(dfmt)
 	$(DMD_BUILD)
 
-target/havlak_d_gdc: havlak.d | target
+target/havlak_d_gdc: havlak.d | $(dfmt)
 	$(GDC_BUILD)
 
-target/havlak_d_ldc: havlak.d | target
+target/havlak_d_ldc: havlak.d | $(dfmt)
 	$(LDC2_BUILD)
 
 target/havlak_scala.jar: havlak.scala | target
@@ -96,5 +99,3 @@ run[havlak.py]:: run[%]: %
 .PHONY: clean
 clean:
 	-rm -rf target
-
-include ../common/commands.mk

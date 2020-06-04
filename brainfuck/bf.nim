@@ -74,15 +74,16 @@ proc notify(msg: string) =
   except:
     discard
 
-import os
+when isMainModule:
+  import os
 
-var text = paramStr(1).readFile()
+  let text = paramStr(1).readFile()
 
-var compiler = "Nim Clang"
-when defined(gcc):
-  compiler = "Nim GCC"
-notify(&"{compiler}\t{getpid()}")
+  var compiler = "Nim Clang"
+  when defined(gcc):
+    compiler = "Nim GCC"
+  notify(&"{compiler}\t{getpid()}")
 
-text.parse().run()
+  text.parse().run()
 
-notify("stop")
+  notify("stop")

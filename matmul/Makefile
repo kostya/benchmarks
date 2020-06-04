@@ -1,6 +1,9 @@
 # The matrix size
 MSIZE := 1500
 
+include ../common/commands.mk
+.DEFAULT_GOAL := build
+
 executables := \
 	target/matmul_nim_gcc \
 	target/matmul_nim_clang \
@@ -60,16 +63,16 @@ target/matmul_go_gccgo: matmul.go | $(gofmt)
 target/matmul_rs: matmul.rs | target
 	$(RUSTC_BUILD)
 
-target/matmul_d: matmul.d | target
+target/matmul_d: matmul.d | $(dfmt)
 	$(DMD_BUILD)
 
-target/matmul_d_gdc:matmul.d | target
+target/matmul_d_gdc:matmul.d | $(dfmt)
 	$(GDC_BUILD)
 
-target/matmul_d_ldc:matmul.d | target
+target/matmul_d_ldc:matmul.d | $(dfmt)
 	$(LDC2_BUILD)
 
-target/matmul_d_lubeck: matmul_d_lubeck.d | target
+target/matmul_d_lubeck: matmul_d_lubeck.d | $(dfmt)
 	dub build --build=release --compiler=ldc2 --single $^
 
 target/matmul_nim_gcc: matmul.nim | target
@@ -201,5 +204,3 @@ run[jruby][matmul.rb]:: run[jruby][%]: % | $(rubocop)
 clean:
 	-rm -rf target
 	$(MAKE) -C java-nd4j clean
-
-include ../common/commands.mk

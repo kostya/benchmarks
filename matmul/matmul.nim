@@ -57,7 +57,7 @@ proc calc(n: int): auto =
   let c = matmul(a, b)
   c[size div 2][size div 2]
 
-proc main() =
+when isMainModule:
   let n = if paramCount() > 0:
             parseInt(paramStr(1))
           else:
@@ -77,5 +77,3 @@ proc main() =
   echo formatFloat(calc(n), ffDefault, 8)
 
   notify("stop")
-
-main()

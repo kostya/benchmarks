@@ -4,7 +4,6 @@ NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off
 VALAC_FLAGS := --disable-assert -X -O3 --pkg gio-2.0 --pkg posix
 V_FLAGS := -prod
 
-CARGO_BUILD =		cargo build --manifest-path $< --release
 CLANG_BUILD =		clang -O3 -o $@ $^ $(LIBNOTIFY_FLAGS)
 CRYSTAL_BUILD =	crystal build --release --no-debug -o $@ $^
 DMD_BUILD =		dmd -of$@ -O -release -inline $^
@@ -31,6 +30,12 @@ V_GCC_BUILD =		v $(V_FLAGS) -cc gcc -o $@ $^
 
 define OCAML_BUILD =
 cp $^ target && cd target && ocamlopt -O3 -unsafe unix.cmxa $^ -o $(@F)
+endef
+
+define CARGO_BUILD =
+cargo fmt --manifest-path $<
+cargo clippy --manifest-path $<
+cargo build --manifest-path $< --release
 endef
 
 ECHO_RUN = @echo "\e[1m$(MAKE) $@\e[0m"
@@ -76,6 +81,11 @@ $(rubocop): *.rb | target
 v_fmt := target/.v_fmt
 $(v_fmt): *.v | target
 	v fmt -w $^
+	@touch $@
+
+dfmt := target/.dfmt
+$(dfmt): *.d | target
+	dub run -y dfmt -- -i $^
 	@touch $@
 
 .PHONY: libnotify

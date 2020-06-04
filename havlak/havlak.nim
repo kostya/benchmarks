@@ -432,7 +432,7 @@ proc run(self: var LoopTesterApp) =
   var loops = h.findLoops
 
   echo "Another 50 iterations..."
- 
+
   var sum = 0
   for i in 1..50:
     write stdout, "."
@@ -440,7 +440,6 @@ proc run(self: var LoopTesterApp) =
     var hlf = NewHavlakLoopFinder(self.cfg, NewLsg())
     sum += hlf.findLoops
   echo "\nFound ", loops, " loops (including artificial root node) (", sum, ")"
-
 proc notify(msg: string) =
   try:
     var socket = newSocket()
@@ -450,12 +449,13 @@ proc notify(msg: string) =
   except:
     discard
 
-var compiler = "Nim Clang"
-when defined(gcc):
-  compiler = "Nim GCC"
-notify(&"{compiler}\t{getpid()}")
+when isMainModule:
+  var compiler = "Nim Clang"
+  when defined(gcc):
+    compiler = "Nim GCC"
+  notify(&"{compiler}\t{getpid()}")
 
-var l = NewLoopTesterApp()
-l.run
+  var l = NewLoopTesterApp()
+  l.run
 
-notify("stop")
+  notify("stop")

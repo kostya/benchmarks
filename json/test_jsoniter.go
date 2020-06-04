@@ -7,6 +7,7 @@ import (
 	"net"
 	"os"
 	"strings"
+	"log"
 )
 
 type Coordinate struct {
@@ -25,21 +26,12 @@ func notify(msg string) {
 	}
 }
 
-func main() {
-	bytes, err := ioutil.ReadFile("/tmp/1.json")
-	if err != nil {
-		panic(fmt.Sprintf("%v", err))
-	}
-	content := string(bytes)
-	reader := strings.NewReader(content)
-
-	notify(fmt.Sprintf("Go jsoniter\t%d", os.Getpid()))
-
+func calc(reader *strings.Reader) Coordinate {
 	// Add jsoniter
 	var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 	jobj := TestStruct{}
-	err = json.NewDecoder(reader).Decode(&jobj)
+	err := json.NewDecoder(reader).Decode(&jobj)
 	if err != nil {
 		panic(err)
 	}
@@ -53,7 +45,26 @@ func main() {
 	}
 
 	len := float64(len(jobj.Coordinates))
-	fmt.Printf("%.8f\n%.8f\n%.8f\n", x/len, y/len, z/len)
+	return Coordinate{x / len, y / len, z / len}
+}
+
+func main() {
+	left := calc(strings.NewReader(`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`))
+	right := Coordinate{1.1, 2.2, 3.3}
+	if left != right {
+		log.Fatalf("%+v != %+v\n", left, right)
+	}
+
+	bytes, err := ioutil.ReadFile("/tmp/1.json")
+	if err != nil {
+		panic(fmt.Sprintf("%v", err))
+	}
+	content := string(bytes)
+	reader := strings.NewReader(content)
+
+	notify(fmt.Sprintf("Go jsoniter\t%d", os.Getpid()))
+
+	fmt.Printf("%+v\n", calc(reader))
 
 	notify("stop")
 }

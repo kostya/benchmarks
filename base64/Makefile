@@ -1,3 +1,6 @@
+include ../common/commands.mk
+.DEFAULT_GOAL := build
+
 executables := \
 	target/base64_cr \
 	target/base64_go \
@@ -65,13 +68,13 @@ target/Base64Java.class: Base64Java.java | target
 target/Test-kt.jar: Test.kt | target
 	$(KOTLINC_BUILD)
 
-target/base64_d: test.d | target
+target/base64_d: test.d | $(dfmt)
 	$(DMD_BUILD)
 
-target/base64_d_gdc: test.d | target
+target/base64_d_gdc: test.d | $(dfmt)
 	$(GDC_BUILD)
 
-target/base64_d_ldc: test.d | target
+target/base64_d_ldc: test.d | $(dfmt)
 	$(LDC2_BUILD)
 
 target/base64_nim_gcc: test.nim | target
@@ -196,5 +199,3 @@ clean:
 	fi
 	cargo clean --manifest-path $(base64-rs-toml)
 	-rm -rf target
-
-include ../common/commands.mk
