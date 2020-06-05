@@ -100,13 +100,15 @@
   (call-with-input-file path
     (lambda (port) (get-string-all port))))
 
-(define text '())
-(set! text (file->string (get-file-arg-or-exit)))
+((lambda ()
+   (define text '())
+   (set! text (file->string (get-file-arg-or-exit)))
 
-(notify (format "Chez Scheme\t~s" (get-process-id)))
+   (notify (format "Chez Scheme\t~s" (get-process-id)))
 
-(run
-  (parse text)
-  (make-tape (make-vector 1) 0))
+   (run
+    (parse text)
+    (make-tape (make-vector 1) 0))
 
-(notify "stop")
+   (notify "stop"))
+ )

@@ -67,17 +67,19 @@ func calc(_ n: Int) -> Double {
     return x[size / 2][size / 2]
 }
 
-let n = CommandLine.argc > 1 ? Int(CommandLine.arguments[1])! : 100
+let _ = { () -> () in
+    let n = CommandLine.argc > 1 ? Int(CommandLine.arguments[1])! : 100
 
-let left = calc(101)
-let right = -18.67
-if abs(left - right) > 0.1 {
-    fputs("\(left) != \(right)\n", stderr)
-    exit(1)
-}
+    let left = calc(101)
+    let right = -18.67
+    if abs(left - right) > 0.1 {
+        fputs("\(left) != \(right)\n", stderr)
+        exit(1)
+    }
 
-notify("Swift\t\(getpid())")
+    notify("Swift\t\(getpid())")
 
-print(calc(n))
+    print(calc(n))
 
-notify("stop")
+    notify("stop")
+} ()

@@ -30,36 +30,36 @@ namespace Test {
         public OpT op;
         public int v;
         public Op[] loop;
- 
+
         public Op(OpT _op, int _v) { op = _op; v = _v; loop = null; }
         public Op.vnull(OpT _op, Op[] _l) { op = _op; loop = _l; v = 0; }
     }
-    
+
     public class Tape {
         public int pos;
         public int[] tape;
- 
+
         public Tape() {
             pos = 0;
             tape = new int[1];
         }
- 
+
         public int Get() { return tape[pos]; }
         public void Inc(int x) { tape[pos] += x; }
         public void Move(int x) { pos += x; while (pos >= tape.length) tape.resize(tape.length*2);}
     }
-    
+
     class Program {
         public string code;
         public  int pos;
         public  Op[] ops;
- 
+
         Program(string text) {
             code = text;
             pos = 0;
             ops = parse();
         }
- 
+
         private Op[] parse() {
             Op[] res = {};
             while (pos < code.length) {
@@ -77,11 +77,11 @@ namespace Test {
             }
             return res;
         }
- 
+
         public void run() {
             _run(ops, new Tape());
         }
- 
+
         private void _run(Op[] program, Tape tape) {
             for (int i=0;i<program.length;i++) {
                 switch (program[i].op) {

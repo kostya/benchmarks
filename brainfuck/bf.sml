@@ -88,16 +88,25 @@ fun notify msg =
     end
     handle OS.SysErr _ => ()
 
-val args = CommandLine.arguments ()
-val source =
-    case args of
-        [filename] => read_file filename
-      | _ => OS.Process.exit(OS.Process.failure)
+fun main source =
+    let
+        val (_, ops) = parse(source, [])
+    in
+        run ops { data = Array.fromList [0], pos = 0 }
+    end
 
-val pid = LargeWord.toInt (Posix.Process.pidToWord (Posix.ProcEnv.getpid ()));
-notify("MLton\t" ^ Int.toString pid);
-
-val (_, ops) = parse(source, [])
-val _ = run ops { data = Array.fromList [0], pos = 0 };
-
-notify("stop");
+val () =
+    let
+        val args = CommandLine.arguments ()
+        val source =
+            case args of
+                [filename] => read_file filename
+              | _ => OS.Process.exit(OS.Process.failure)
+        val pid = LargeWord.toInt
+                      (Posix.Process.pidToWord
+                           (Posix.ProcEnv.getpid ()));
+    in
+        notify("MLton\t" ^ Int.toString pid);
+        main(source);
+        notify("stop")
+    end
