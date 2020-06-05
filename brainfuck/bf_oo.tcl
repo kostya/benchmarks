@@ -87,11 +87,12 @@ proc notify msg {
     }
 }
 
-lassign $argv filename
-set f [open $filename]
-set text [split [read $f] {}]
-close $f
+apply {{filename} {
+    set f [open $filename]
+    set text [split [read $f] {}]
+    close $f
 
-notify [format "%s\t%d" "Tcl (OO)" [pid]]
-main $text
-notify "stop"
+    notify [format "%s\t%d" "Tcl (OO)" [pid]]
+    main $text
+    notify "stop"
+}} {*}$argv

@@ -9,25 +9,25 @@ def notify(msg):
         if not s.connect_ex(("localhost", 9001)):
             s.sendall(bytes(msg, 'utf8'))
 
+if __name__ == '__main__':
+    text = Path('/tmp/1.json').read_text()
 
-text = Path('/tmp/1.json').read_text()
+    notify("%s\t%d" % (platform.python_implementation(), os.getpid()))
 
-notify("%s\t%d" % (platform.python_implementation(), os.getpid()))
+    jobj = json.loads(text)
+    len = 0
+    x = 0
+    y = 0
+    z = 0
 
-jobj = json.loads(text)
-len = 0
-x = 0
-y = 0
-z = 0
+    for coord in jobj['coordinates']:
+      x += coord['x']
+      y += coord['y']
+      z += coord['z']
+      len += 1
 
-for coord in jobj['coordinates']:
-  x += coord['x']
-  y += coord['y']
-  z += coord['z']
-  len += 1
+    print(x / len)
+    print(y / len)
+    print(z / len)
 
-print(x / len)
-print(y / len)
-print(z / len)
-
-notify("stop")
+    notify("stop")

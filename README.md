@@ -427,8 +427,6 @@ For Rust:
  - [libjq](https://stedolan.github.io/jq/) for jq test
 (Debian packages `libjq-dev`, `libonig-dev` and environment variable
 `JQ_LIB_DIR=/usr/lib/x86_64-linux-gnu/`).
- - [rubocop](https://github.com/rubocop-hq/rubocop) for the static code
-analysis.
 
 For Java, Scala:
 

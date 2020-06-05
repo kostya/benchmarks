@@ -33,18 +33,20 @@ def calc(text)
   Coordinate.new(x / len, y / len, z / len)
 end
 
-left = calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}")
-right = Coordinate.new(1.1, 2.2, 3.3)
-if left != right
-  STDERR.puts "#{left} != #{right}"
-  exit(1)
+class EntryPoint
+  left = calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}")
+  right = Coordinate.new(1.1, 2.2, 3.3)
+  if left != right
+    STDERR.puts "#{left} != #{right}"
+    exit(1)
+  end
+
+  text = File.read("/tmp/1.json")
+
+  pid = Process.pid
+  notify("Crystal\t#{pid}")
+
+  p calc(text)
+
+  notify("stop")
 end
-
-text = File.read("/tmp/1.json")
-
-pid = Process.pid
-notify("Crystal\t#{pid}")
-
-p calc(text)
-
-notify("stop")

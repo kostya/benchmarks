@@ -26,30 +26,32 @@ def calc(text)
   Coordinate.new(x / len, y / len, z / len)
 end
 
-engine = RUBY_ENGINE
-if engine == 'truffleruby'
-  desc = RUBY_DESCRIPTION
-  if desc.include?('Native')
-    engine = 'TruffleRuby Native'
-  elsif desc.include?('JVM')
-    engine = 'TruffleRuby JVM'
+if __FILE__ == $PROGRAM_NAME
+  left = calc('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}')
+  right = Coordinate.new(1.1, 2.2, 3.3)
+  if left != right
+    warn "#{left} != #{right}"
+    exit(1)
   end
-elsif engine == 'ruby' && RubyVM::MJIT.enabled?
-  engine = 'Ruby JIT'
+
+  text = IO.read('/tmp/1.json')
+
+  engine = RUBY_ENGINE
+  if engine == 'truffleruby'
+    desc = RUBY_DESCRIPTION
+    if desc.include?('Native')
+      engine = 'TruffleRuby Native'
+    elsif desc.include?('JVM')
+      engine = 'TruffleRuby JVM'
+    end
+  elsif engine == 'ruby' && RubyVM::MJIT.enabled?
+    engine = 'Ruby JIT'
+  end
+
+  pid = Process.pid
+  notify("#{engine}\t#{pid}")
+
+  p calc(text)
+
+  notify('stop')
 end
-
-left = calc('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}')
-right = Coordinate.new(1.1, 2.2, 3.3)
-if left != right
-  warn "#{left} != #{right}"
-  exit(1)
-end
-
-text = IO.read('/tmp/1.json')
-
-pid = Process.pid
-notify("#{engine}\t#{pid}")
-
-p calc(text)
-
-notify('stop')

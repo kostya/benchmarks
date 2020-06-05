@@ -18,29 +18,31 @@ sub notify {
     close($socket);
 }
 
-my $pid = $$;
-notify("Perl MIME::Base64\t${pid}");
-my ($t, $s) = (time, 0);
+if ($0 eq __FILE__) {
+    my $pid = $$;
+    notify("Perl MIME::Base64\t${pid}");
+    my ($t, $s) = (time, 0);
 
-my $str2 = encode_base64 $str, '';
-printf("encode %s... to %s...: ",
-       substr($str, 0, 4), substr($str2, 0, 4));
+    my $str2 = encode_base64 $str, '';
+    printf("encode %s... to %s...: ",
+           substr($str, 0, 4), substr($str2, 0, 4));
 
-for (1..TRIES) {
-  $str2 = encode_base64 $str, '';
-  $s += length $str2;
+    for (1..TRIES) {
+        $str2 = encode_base64 $str, '';
+        $s += length $str2;
+    }
+    printf("%d, %.2f\n", $s, time - $t);
+
+    my $str3 = decode_base64 $str2;
+    printf("decode %s... to %s...: ",
+           substr($str2, 0, 4), substr($str3, 0, 4));
+
+    ($t, $s) = (time, 0);
+    for (1..TRIES) {
+        $str3 = decode_base64 $str2;
+        $s += length $str3;
+    }
+    printf("%d, %.2f\n", $s, time - $t);
+
+    notify("stop");
 }
-printf("%d, %.2f\n", $s, time - $t);
-
-my $str3 = decode_base64 $str2;
-printf("decode %s... to %s...: ",
-       substr($str2, 0, 4), substr($str3, 0, 4));
-
-($t, $s) = (time, 0);
-for (1..TRIES) {
-  $str3 = decode_base64 $str2;
-  $s += length $str3;
-}
-printf("%d, %.2f\n", $s, time - $t);
-
-notify("stop");

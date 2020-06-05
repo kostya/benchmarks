@@ -53,18 +53,20 @@ def calc(n)
   c[n >> 1][n >> 1]
 end
 
-n = (ARGV[0]? || 100).to_i
+class EntryPoint
+  n = (ARGV[0]? || 100).to_i
 
-left = calc(101)
-right = -18.67
-if (left - right).abs > 0.1
-  STDERR.puts "#{left} != #{right}"
-  exit(1)
+  left = calc(101)
+  right = -18.67
+  if (left - right).abs > 0.1
+    STDERR.puts "#{left} != #{right}"
+    exit(1)
+  end
+
+  pid = Process.pid
+  notify("Crystal\t#{pid}")
+
+  puts calc(n)
+
+  notify("stop")
 end
-
-pid = Process.pid
-notify("Crystal\t#{pid}")
-
-puts calc(n)
-
-notify("stop")

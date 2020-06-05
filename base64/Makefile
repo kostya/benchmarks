@@ -154,16 +154,16 @@ base64_perl:
 run[test.pl]:: run[%]: % | base64_perl
 	$(PERL_RUN)
 
-run[test.jl]:: run[%]: %
+run[test.jl]:: run[%]: % | $(julia_fmt)
 	$(JULIA_RUN)
 
 run[test.js]:: run[%]: %
 	$(NODE_RUN)
 
-run[pypy][test.py]:: run[pypy][%]: %
+run[pypy][test.py]:: run[pypy][%]: % | $(py_fmt)
 	$(PYPY3_RUN)
 
-run[test.py]:: run[%]: %
+run[test.py]:: run[%]: % | $(py_fmt)
 	$(PYTHON3_RUN)
 
 run[test.rb]:: run[%]: % | $(rubocop)

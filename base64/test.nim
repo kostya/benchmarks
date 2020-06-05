@@ -2,10 +2,6 @@ import base64, times, strutils, strformat
 import net
 import posix
 
-const STR_SIZE = 131072
-const TRIES = 8192
-let str = strutils.repeat('a', STR_SIZE)
-
 proc notify(msg: string) =
   try:
     var socket = newSocket()
@@ -16,6 +12,10 @@ proc notify(msg: string) =
     discard
 
 when isMainModule:
+  const STR_SIZE = 131072
+  const TRIES = 8192
+  let str = strutils.repeat('a', STR_SIZE)
+
   var compiler = "Nim Clang"
   when defined(gcc):
     compiler = "Nim GCC"

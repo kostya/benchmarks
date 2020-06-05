@@ -35,17 +35,17 @@ proc notify msg {
     }
 }
 
-set n [expr [llength $argv] > 0 ? [lindex $argv 0] : 100]
+apply {{{n 100}} {
+    set left [calc 101]
+    set right -18.67
+    if {[expr abs($left - $right)] > 0.1} {
+        puts stderr [format "%f != %f" $left $right]
+        exit 1
+    }
 
-set left [calc 101]
-set right -18.67
-if {[expr abs($left - $right)] > 0.1} {
-    puts stderr [format "%f != %f" $left $right]
-    exit 1
-}
+    notify [format "%s\t%d" "Tcl" [pid]]
 
-notify [format "%s\t%d" "Tcl" [pid]]
+    puts [calc $n]
 
-puts [calc $n]
-
-notify "stop"
+    notify "stop"
+}} {*}$argv

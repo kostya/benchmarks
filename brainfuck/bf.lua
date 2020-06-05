@@ -95,15 +95,17 @@ local function notify(msg)
   end)()
 end
 
-local f = io.open(arg[1])
-local text = f:read("*a")
-f:close()
+(function(arg)
+  local f = io.open(arg[1])
+  local text = f:read("*a")
+  f:close()
 
-local compiler = type(jit) == 'table' and "LuaJIT" or "Lua"
-local getpid = require 'posix.unistd'.getpid
-notify(string.format("%s\t%d", compiler, getpid()))
+  local compiler = type(jit) == 'table' and "LuaJIT" or "Lua"
+  local getpid = require 'posix.unistd'.getpid
+  notify(string.format("%s\t%d", compiler, getpid()))
 
-local brainfuck = Brainfuck(text)
-brainfuck.run()
+  local brainfuck = Brainfuck(text)
+  brainfuck.run()
 
-notify("stop")
+  notify("stop")
+end)(arg)

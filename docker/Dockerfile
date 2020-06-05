@@ -20,7 +20,7 @@ RUN apt-get update \
 	libgmp-dev libssl-dev libssl1.1 libxml2 lbzip2 libtinfo5 libtool zlib1g libicu63 \
 	libpcre3-dev libevent-dev libboost-dev libjson-c-dev libblas-dev liblapack-dev libopenblas-dev \
 	libjq-dev libonig-dev \
-	python3-numpy python3 python3-ujson \
+	python3-numpy python3 python3-ujson python3-pip \
 	mono-devel nuget \
 	chezscheme gcc-10 gccgo-10 gdc-10 valac cpanminus \
 	luajit lua5.3 lua-socket lua-posix \
@@ -56,7 +56,6 @@ RUN export VERSION=ruby-2.7.1 \
 	&& ./configure --prefix=/opt/ruby && make -j && make install \
 	&& cd .. && rm -rf $VERSION
 ENV PATH="/opt/ruby/bin:${PATH}"
-RUN gem install rubocop
 
 # https://github.com/dotnet/core/tree/master/release-notes
 ARG DOTNET_CORE=3.1.104

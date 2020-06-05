@@ -38,7 +38,7 @@ cargo clippy --manifest-path $<
 cargo build --manifest-path $< --release
 endef
 
-ECHO_RUN = @echo "\e[1m$(MAKE) $@\e[0m"
+ECHO_RUN = @tput bold; echo "$(MAKE) $@"; tput sgr0
 XTIME := ../xtime.rb
 CPANM := cpanm
 
@@ -49,7 +49,6 @@ EXECUTABLE_RUN =	$(XTIME) $^
 JAVA_CLASS_RUN =	$(XTIME) java -cp $(^D) $(basename $(^F))
 JAVA_JAR_RUN =		$(XTIME) java -jar $^
 JRUBY_RUN =		$(XTIME) jruby $^
-JULIA_RUN =		$(XTIME) julia --optimize=3 --check-bounds=no $^
 LUA_JIT_RUN =		$(XTIME) luajit $^
 LUA_RUN =		$(XTIME) lua5.3 $^
 MONO_RUN =		$(XTIME) mono -O=all --gc=sgen $^
@@ -67,6 +66,18 @@ TCLSH_RUN =		$(XTIME) tclsh $^
 TRUBY_JVM_RUN =	$(XTIME) truffleruby --jvm $^
 TRUBY_NATIVE_RUN =	$(XTIME) truffleruby $^
 SCHEME_RUN =		$(XTIME) scheme --optimize-level 3 --program $^
+JULIA_RUN =		$(XTIME) julia --optimize=3 --check-bounds=no $^
+
+py_fmt := target/.py_fmt
+$(py_fmt): *.py | target
+	@pip install -q black
+	black $^
+	@touch $@
+
+julia_fmt := target/.julia_fmt
+$(julia_fmt): *.jl | target
+	../common/julia/julia_fmt.jl $^
+	@touch $@
 
 gofmt := target/.gofmt
 $(gofmt): *.go | target
@@ -75,6 +86,7 @@ $(gofmt): *.go | target
 
 rubocop := target/.rubocop
 $(rubocop): *.rb | target
+	@gem i --conservative rubocop
 	rubocop $^
 	@touch $@
 

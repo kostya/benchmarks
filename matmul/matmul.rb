@@ -62,30 +62,32 @@ def calc(n)
   c[n >> 1][n >> 1]
 end
 
-n = ARGV.length.positive? ? ARGV[0].to_i : 100
+if __FILE__ == $PROGRAM_NAME
+  n = ARGV.length.positive? ? ARGV[0].to_i : 100
 
-left = calc(101)
-right = -18.67
-if (left - right).abs > 0.1
-  warn "#{left} != #{right}"
-  exit(1)
-end
-
-engine = RUBY_ENGINE
-if engine == 'truffleruby'
-  desc = RUBY_DESCRIPTION
-  if desc.include?('Native')
-    engine = 'TruffleRuby Native'
-  elsif desc.include?('JVM')
-    engine = 'TruffleRuby JVM'
+  left = calc(101)
+  right = -18.67
+  if (left - right).abs > 0.1
+    warn "#{left} != #{right}"
+    exit(1)
   end
-elsif engine == 'ruby' && RubyVM::MJIT.enabled?
-  engine = 'Ruby JIT'
+
+  engine = RUBY_ENGINE
+  if engine == 'truffleruby'
+    desc = RUBY_DESCRIPTION
+    if desc.include?('Native')
+      engine = 'TruffleRuby Native'
+    elsif desc.include?('JVM')
+      engine = 'TruffleRuby JVM'
+    end
+  elsif engine == 'ruby' && RubyVM::MJIT.enabled?
+    engine = 'Ruby JIT'
+  end
+
+  pid = Process.pid
+  notify("#{engine}\t#{pid}")
+
+  puts calc(n)
+
+  notify('stop')
 end
-
-pid = Process.pid
-notify("#{engine}\t#{pid}")
-
-puts calc(n)
-
-notify('stop')

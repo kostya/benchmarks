@@ -84,10 +84,6 @@ function main(text)
   interpret(text)
 end
 
-text = open(ARGS[1]) do file
-  read(file, String)
-end
-
 function notify(msg)
   try
     socket = connect("localhost", 9001)
@@ -98,9 +94,15 @@ function notify(msg)
   end
 end
 
-notify("Julia\t$(getpid())")
+if abspath(PROGRAM_FILE) == @__FILE__
+    text = open(ARGS[1]) do file
+        read(file, String)
+    end
 
-x = @timed main(text)
-println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+    notify("Julia\t$(getpid())")
 
-notify("stop")
+    x = @timed main(text)
+    println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+
+    notify("stop")
+end

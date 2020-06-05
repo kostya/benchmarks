@@ -182,10 +182,10 @@ run[bf.ex]:: run[%]: %
 run[bf.js]:: run[%]: %
 	$(NODE_RUN) $(BF_SRC)
 
-run[pypy][bf3.py]:: run[pypy][%]: %
+run[pypy][bf3.py]:: run[pypy][%]: % | $(py_fmt)
 	$(PYPY3_RUN) $(BF_SRC)
 
-run[bf3.py]:: run[%]: %
+run[bf3.py]:: run[%]: % | $(py_fmt)
 	$(PYTHON3_RUN) $(BF_SRC)
 
 run[bf.pl]:: run[%]: %
@@ -224,7 +224,7 @@ run[bf.rkt]:: run[%]: %
 run[bf.ss]:: run[%]: %
 	$(SCHEME_RUN) $(BF_SRC)
 
-run[bf.jl]:: run[%]: %
+run[bf.jl]:: run[%]: % | $(julia_fmt)
 	$(JULIA_RUN) $(BF_SRC)
 
 # Utilities

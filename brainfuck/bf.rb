@@ -76,23 +76,25 @@ rescue SystemCallError
   # standalone usage
 end
 
-engine = RUBY_ENGINE
-if engine == 'truffleruby'
-  desc = RUBY_DESCRIPTION
-  if desc.include?('Native')
-    engine = 'TruffleRuby Native'
-  elsif desc.include?('JVM')
-    engine = 'TruffleRuby JVM'
+if __FILE__ == $PROGRAM_NAME
+  engine = RUBY_ENGINE
+  if engine == 'truffleruby'
+    desc = RUBY_DESCRIPTION
+    if desc.include?('Native')
+      engine = 'TruffleRuby Native'
+    elsif desc.include?('JVM')
+      engine = 'TruffleRuby JVM'
+    end
+  elsif engine == 'ruby' && RubyVM::MJIT.enabled?
+    engine = 'Ruby JIT'
   end
-elsif engine == 'ruby' && RubyVM::MJIT.enabled?
-  engine = 'Ruby JIT'
+
+  text = IO.read(ARGV[0])
+
+  pid = Process.pid
+  notify("#{engine}\t#{pid}")
+
+  Program.new(text).run
+
+  notify('stop')
 end
-
-text = IO.read(ARGV[0])
-
-pid = Process.pid
-notify("#{engine}\t#{pid}")
-
-Program.new(text).run
-
-notify('stop')

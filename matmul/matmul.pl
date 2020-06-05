@@ -60,18 +60,20 @@ sub calc {
     $c->[$n/2]->[$n/2]
 }
 
-my $n = @ARGV ? shift : 100;
+if ($0 eq __FILE__) {
+    my $n = @ARGV ? shift : 100;
 
-my $left = calc(101);
-my $right = -18.67;
-if (abs($left - $right) > 0.1) {
-    print STDERR "${left} != ${right}\n";
-    exit(1);
+    my $left = calc(101);
+    my $right = -18.67;
+    if (abs($left - $right) > 0.1) {
+        print STDERR "${left} != ${right}\n";
+        exit(1);
+    }
+
+    my $pid = $$;
+    notify("Perl\t${pid}");
+
+    print calc($n), "\n";
+
+    notify("stop");
 }
-
-my $pid = $$;
-notify("Perl\t${pid}");
-
-print calc($n), "\n";
-
-notify("stop");

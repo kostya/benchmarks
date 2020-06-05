@@ -49,7 +49,7 @@ function notify(msg)
     end
 end
 
-function test()
+if abspath(PROGRAM_FILE) == @__FILE__
     n = length(ARGS) > 0 ? parse(Int, ARGS[1]) : 100
 
     left = calc(101)
@@ -67,5 +67,3 @@ function test()
 
     notify("stop")
 end
-
-test()

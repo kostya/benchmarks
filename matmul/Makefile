@@ -156,22 +156,22 @@ run[target/Release/netcoreapp3.0/matmul.dll]:: run[%]: %
 run[matmul.js]:: run[%]: %
 	$(NODE_RUN) $(MSIZE)
 
-run[matmul-native.jl]:: run[%]: %
+run[matmul-native.jl]:: run[%]: % | $(julia_fmt)
 	$(JULIA_RUN) $(MSIZE)
 
-run[single_thread][matmul-native.jl]:: run[single_thread][%]: %
+run[single_thread][matmul-native.jl]:: run[single_thread][%]: % | $(julia_fmt)
 	OPENBLAS_NUM_THREADS=1 $(JULIA_RUN) $(MSIZE)
 
-run[matmul.jl]:: run[%]: %
+run[matmul.jl]:: run[%]: %  | $(julia_fmt)
 	$(JULIA_RUN) $(MSIZE)
 
-run[pypy][matmul.py]:: run[pypy][%]: %
+run[pypy][matmul.py]:: run[pypy][%]: % | $(py_fmt)
 	$(PYPY3_RUN) $(MSIZE)
 
-run[matmul.py]:: run[%]: %
+run[matmul.py]:: run[%]: % | $(py_fmt)
 	$(PYTHON3_RUN) $(MSIZE)
 
-run[matmul-numpy.py]:: run[%]: %
+run[matmul-numpy.py]:: run[%]: % | $(py_fmt)
 	$(PYTHON3_RUN) $(MSIZE)
 
 run[matmul.pl]:: run[%]: %

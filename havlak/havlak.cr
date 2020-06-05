@@ -437,57 +437,59 @@ def notify(msg)
   end
 end
 
-pid = Process.pid
-notify("Crystal\t#{pid}")
+class EntryPoint
+  pid = Process.pid
+  notify("Crystal\t#{pid}")
 
-TOP_CFG = CFG.new
+  TOP_CFG = CFG.new
 
-puts "Welcome to LoopTesterApp, Crystal edition"
+  puts "Welcome to LoopTesterApp, Crystal edition"
 
-puts "Constructing Simple CFG..."
+  puts "Constructing Simple CFG..."
 
-TOP_CFG.create_node(0) # top
-build_base_loop(0)
-TOP_CFG.create_node(1) # bottom
-build_connect(0, 2)
+  TOP_CFG.create_node(0) # top
+  build_base_loop(0)
+  TOP_CFG.create_node(1) # bottom
+  build_connect(0, 2)
 
-# execute loop recognition 15000 times to force compilation
-puts "15000 dummy loops"
-15000.times do
-  HavlakLoopFinder.new(TOP_CFG, LSG.new).find_loops
-end
-
-puts "Constructing CFG..."
-n = 2
-
-10.times do |parlooptrees|
-  TOP_CFG.create_node(n + 1)
-  build_connect(2, n + 1)
-  n = n + 1
-  100.times do |i|
-    top = n
-    n = build_straight(n, 1)
-    25.times { n = build_base_loop(n) }
-
-    bottom = build_straight(n, 1)
-    build_connect(n, top)
-    n = bottom
+  # execute loop recognition 15000 times to force compilation
+  puts "15000 dummy loops"
+  15000.times do
+    HavlakLoopFinder.new(TOP_CFG, LSG.new).find_loops
   end
 
-  build_connect(n, 1)
+  puts "Constructing CFG..."
+  n = 2
+
+  10.times do |parlooptrees|
+    TOP_CFG.create_node(n + 1)
+    build_connect(2, n + 1)
+    n = n + 1
+    100.times do |i|
+      top = n
+      n = build_straight(n, 1)
+      25.times { n = build_base_loop(n) }
+
+      bottom = build_straight(n, 1)
+      build_connect(n, top)
+      n = bottom
+    end
+
+    build_connect(n, 1)
+  end
+
+  puts "Performing Loop Recognition\n1 Iteration"
+  loops = HavlakLoopFinder.new(TOP_CFG, LSG.new).find_loops
+
+  puts "Another 50 iterations..."
+
+  sum = 0
+  50.times do |i|
+    print "."
+    sum += HavlakLoopFinder.new(TOP_CFG, LSG.new).find_loops
+  end
+
+  puts "\nFound #{loops} loops (including artificial root node) (#{sum})\n"
+
+  notify("stop")
 end
-
-puts "Performing Loop Recognition\n1 Iteration"
-loops = HavlakLoopFinder.new(TOP_CFG, LSG.new).find_loops
-
-puts "Another 50 iterations..."
-
-sum = 0
-50.times do |i|
-  print "."
-  sum += HavlakLoopFinder.new(TOP_CFG, LSG.new).find_loops
-end
-
-puts "\nFound #{loops} loops (including artificial root node) (#{sum})\n"
-
-notify("stop")

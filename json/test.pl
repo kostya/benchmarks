@@ -13,24 +13,26 @@ sub notify {
     close($socket);
 }
 
-my $bytes = read_binary '/tmp/1.json';
+if ($0 eq __FILE__) {
+    my $bytes = read_binary '/tmp/1.json';
 
-my $pid = $$;
-notify("Perl JSON::Tiny\t${pid}");
+    my $pid = $$;
+    notify("Perl JSON::Tiny\t${pid}");
 
-my $jobj = decode_json $bytes;
-my $coordinates = $jobj->{coordinates};
-my $len = @$coordinates;
-my $x = my $y = my $z = 0;
+    my $jobj = decode_json $bytes;
+    my $coordinates = $jobj->{coordinates};
+    my $len = @$coordinates;
+    my $x = my $y = my $z = 0;
 
-foreach my $coord (@$coordinates) {
-  $x += $coord->{x};
-  $y += $coord->{y};
-  $z += $coord->{z};
+    foreach my $coord (@$coordinates) {
+        $x += $coord->{x};
+        $y += $coord->{y};
+        $z += $coord->{z};
+    }
+
+    print $x / $len, "\n";
+    print $y / $len, "\n";
+    print $z / $len, "\n";
+
+    notify("stop");
 }
-
-print $x / $len, "\n";
-print $y / $len, "\n";
-print $z / $len, "\n";
-
-notify("stop");

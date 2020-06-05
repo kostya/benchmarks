@@ -84,11 +84,12 @@
   (parameterize ([current-locale "C"])
     (file->string path)))
 
-(define text null)
-(set! text (read-c (command-line #:args (filename) filename)))
+(module+ main
+  (define text null)
+  (set! text (read-c (command-line #:args (filename) filename)))
 
-(notify (format "Racket\t~s" (getpid)))
+  (notify (format "Racket\t~s" (getpid)))
 
-(run (parse text) (tape (vector 0) 0))
+  (run (parse text) (tape (vector 0) 0))
 
-(notify "stop")
+  (notify "stop"))

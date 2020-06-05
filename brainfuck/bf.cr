@@ -88,11 +88,13 @@ def notify(msg)
   end
 end
 
-text = File.read(ARGV[0])
+class EntryPoint
+  text = File.read(ARGV[0])
 
-pid = Process.pid
-notify("Crystal\t#{pid}")
+  pid = Process.pid
+  notify("Crystal\t#{pid}")
 
-Program.new(text).run
+  Program.new(text).run
 
-notify("stop")
+  notify("stop")
+end
