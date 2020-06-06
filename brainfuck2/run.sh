@@ -33,6 +33,8 @@ echo Javascript Node
 ../xtime.rb node bf.js bench.b
 echo Go
 ../xtime.rb ./bin_go bench.b
+echo Functional Go
+../xtime.rb ./bin_go_func bench.b
 echo Go Gcc
 ../xtime.rb ./bin_go_gccgo bench.b
 echo D Dmd
