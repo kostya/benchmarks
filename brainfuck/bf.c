@@ -240,8 +240,7 @@ void eval(const struct op_list *ops, struct tape *tape)
 	}
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	FILE *f;
 	int fsize, notify_len;
 	const char *filename;
@@ -253,7 +252,7 @@ int main(int argc, char *argv[])
 
 	if (argc < 2) {
 		fprintf(stderr, "Expected filename\n");
-		return 1;
+		return EXIT_FAILURE;
 	}
 
 	filename = argv[1];
@@ -261,7 +260,7 @@ int main(int argc, char *argv[])
 	f = fopen(filename, "r");
 	if (f == NULL) {
 		perror("bfc: fopen");
-		return 1;
+		return EXIT_FAILURE;
 	}
 
 	fseek(f, 0, SEEK_END);
@@ -289,6 +288,4 @@ int main(int argc, char *argv[])
 	op_list_free(&ops);
 
 	notify("stop", 4);
-
-	return 0;
 }

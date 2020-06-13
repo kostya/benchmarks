@@ -1,18 +1,37 @@
-#include "rapidjson/reader.h"
-#include <rapidjson/istreamwrapper.h>
 #include <cstdio>
+#include <fstream>
+#include <functional>
 #include <iostream>
 #include <libnotify.hpp>
+#include <rapidjson/istreamwrapper.h>
+#include <rapidjson/reader.h>
 #include <sstream>
 #include <unistd.h>
-#include <fstream>
 
 using namespace std;
 using namespace rapidjson;
 
+struct coordinate_t {
+  double x;
+  double y;
+  double z;
+
+  auto operator<=>(const coordinate_t&) const = default;
+
+  friend ostream& operator<< (ostream &out, const coordinate_t &point) {
+    out << "coordinate_t {x: " << point.x
+        << ", y: " << point.y
+        << ", z: " << point.z << "}";
+    return out;
+  }
+};
+
+using TCallback = function<void(const coordinate_t&)>;
+
 class CoordinateHandler : public BaseReaderHandler<UTF8<>, CoordinateHandler> {
 public:
-  CoordinateHandler() : state_(kStart), x_(), y_(), z_() {}
+  CoordinateHandler(const TCallback& callback):
+    state_(kStart), x_(), y_(), z_(), callback_(callback) {}
 
   bool Double(double d) {
     switch (state_) {
@@ -69,9 +88,7 @@ public:
   bool EndArray(SizeType len) {
     switch (state_) {
       case kCoordinatesArray:
-        std::cout << x_ / len << std::endl;
-        std::cout << y_ / len << std::endl;
-        std::cout << z_ / len << std::endl;
+        callback_(coordinate_t(x_ / len, y_ / len, z_ / len));
         state_ = kCoordinates;
         break;
 
@@ -90,9 +107,13 @@ private:
     kX,
     kY,
     kZ
-  }state_;
+  } state_;
+
   double x_, y_, z_;
+
+  TCallback callback_;
 };
+
 
 void read_file(const string& filename, stringstream &buffer) {
   ifstream f(filename);
@@ -101,18 +122,36 @@ void read_file(const string& filename, stringstream &buffer) {
   }
 }
 
+void calc(stringstream& ss, const TCallback& callback) {
+  IStreamWrapper isw(ss);
+  Reader reader;
+  CoordinateHandler handler(callback);
+  reader.Parse(isw, handler);
+}
+
 int main() {
-    stringstream ss;
-    read_file("/tmp/1.json", ss);
+  auto json =
+    stringstream("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
+  calc(json,
+       [](const coordinate_t& left) {
+         auto right = coordinate_t(1.1, 2.2, 3.3);
+         if (left != right) {
+           cerr << left << " != " << right << endl;
+           exit(EXIT_FAILURE);
+         }
+       });
 
-    stringstream ostr;
-    ostr << "C++ RapidJSON SAX\t" << getpid();
-    notify(ostr.str());
+  stringstream ss;
+  read_file("/tmp/1.json", ss);
 
-    IStreamWrapper isw(ss);
-    Reader reader;
-    CoordinateHandler handler;
-    reader.Parse(isw, handler);
+  stringstream ostr;
+  ostr << "C++ RapidJSON SAX\t" << getpid();
+  notify(ostr.str());
 
-    notify("stop");
+  calc(ss,
+       [](const coordinate_t& result) {
+           cout << result << endl;
+       });
+
+  notify("stop");
 }

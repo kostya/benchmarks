@@ -180,11 +180,9 @@ json-scala/target/application.jar:
 
 simdjson-dir := target/simdjson
 $(simdjson-dir): | target
-	git clone --depth 1 --no-checkout \
-		https://github.com/simdjson/simdjson.git $@ \
-	&& cd $@ \
-	&& git sparse-checkout init --cone \
-	&& git sparse-checkout set singleheader
+	git clone --depth 1 https://github.com/simdjson/simdjson.git $@ \
+	&& cd $@/singleheader \
+	&& ./amalgamate.sh
 
 target/json_simdjson_cpp: test_simdjson.cpp | $(simdjson-dir)
 	$(GCC_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \

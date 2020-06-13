@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"github.com/json-iterator/go"
 	"io/ioutil"
+	"log"
 	"net"
 	"os"
 	"strings"
-	"log"
 )
 
 type Coordinate struct {
@@ -49,7 +49,8 @@ func calc(reader *strings.Reader) Coordinate {
 }
 
 func main() {
-	left := calc(strings.NewReader(`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`))
+	left := calc(strings.NewReader(
+		`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`))
 	right := Coordinate{1.1, 2.2, 3.3}
 	if left != right {
 		log.Fatalf("%+v != %+v\n", left, right)

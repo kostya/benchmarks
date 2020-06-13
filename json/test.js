@@ -1,4 +1,6 @@
-function main(text) {
+const assert = require("assert");
+
+function calc(text) {
     var jobj = JSON.parse(text);
 
     var coordinates = jobj['coordinates'];
@@ -14,9 +16,11 @@ function main(text) {
         z += coord['z'];
     }
 
-    console.log(x / len);
-    console.log(y / len);
-    console.log(z / len);
+    return {
+        x: x / len,
+        y: y / len,
+        z: z / len
+    };
 }
 
 function notify(msg) {
@@ -31,8 +35,12 @@ function notify(msg) {
 }
 
 (async function() {
+    left = calc(String.raw`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`);
+    right = {x: 1.1, y: 2.2, z: 3.3};
+    assert.deepStrictEqual(left, right);
+
     const text = require('fs').readFileSync("/tmp/1.json", "utf8");
     await notify(`Node.js\t${require('process').pid}`);
-    main(text);
+    console.log(calc(text));
     await notify('stop');
-})();
+})().catch(err => console.error(err));

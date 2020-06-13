@@ -4,7 +4,13 @@ Pkg.add("JSON3")
 import JSON3
 using Sockets
 
-function main(text)
+struct Coordinate
+    x::Float64
+    y::Float64
+    z::Float64
+end
+
+function calc(text)
     jobj = JSON3.read(text)
     coordinates = jobj["coordinates"]
     len = length(coordinates)
@@ -16,9 +22,7 @@ function main(text)
         z += coord["z"]
     end
 
-    println(x / len)
-    println(y / len)
-    println(z / len)
+    Coordinate(x / len, y / len, z / len)
 end
 
 function notify(msg)
@@ -32,6 +36,12 @@ function notify(msg)
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
+    left = calc("""{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}""")
+    right = Coordinate(1.1, 2.2, 3.3)
+    if left != right
+        println(stderr, "$(left) != $(right)")
+        exit(1)
+    end
 
     text = open("/tmp/1.json") do file
         read(file, String)
@@ -39,8 +49,7 @@ if abspath(PROGRAM_FILE) == @__FILE__
 
     notify("Julia JSON3\t$(getpid())")
 
-    x = @timed main(text)
-    println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
+    println(calc(text))
 
     notify("stop")
 end

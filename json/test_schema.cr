@@ -2,20 +2,20 @@ require "json"
 require "socket"
 
 struct Coordinate
-  JSON.mapping({
-    x: Float64,
-    y: Float64,
-    z: Float64,
-  })
+  include JSON::Serializable
 
-  def initialize(@x : Float64, @y : Float64, @z : Float64)
+  property x : Float64
+  property y : Float64
+  property z : Float64
+
+  def initialize(@x, @y, @z)
   end
 end
 
 class Coordinates
-  JSON.mapping({
-    coordinates: {type: Array(Coordinate)},
-  })
+  include JSON::Serializable
+
+  property coordinates : Array(Coordinate)
 end
 
 def notify(msg)

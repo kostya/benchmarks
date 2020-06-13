@@ -1,5 +1,15 @@
 <?php
 
+class Coordinate {
+    public $x, $y, $z;
+
+    function __construct(float $x, float $y, float $z) {
+        $this->x = $x;
+        $this->y = $y;
+        $this->z = $z;
+    }
+}
+
 function notify($msg) {
     $socket = @fsockopen('localhost', 9001);
     if ($socket) {
@@ -8,12 +18,7 @@ function notify($msg) {
     }
 }
 
-if (isset($argv[0]) && realpath($argv[0]) == __FILE__) {
-    $text = file_get_contents("/tmp/1.json");
-
-    $pid = posix_getpid();
-    notify("PHP\t$pid");
-
+function calc($text) {
     $jobj = json_decode($text, true);
 
     $coordinates = $jobj['coordinates'];
@@ -29,9 +34,22 @@ if (isset($argv[0]) && realpath($argv[0]) == __FILE__) {
         $z += $coord['z'];
     }
 
-    printf("%.8f\n", $x / $len);
-    printf("%.8f\n", $y / $len);
-    printf("%.8f\n", $z / $len);
+    return new Coordinate($x / $len, $y / $len, $z / $len);
+}
+
+if (isset($argv[0]) && realpath($argv[0]) == __FILE__) {
+    $left = calc('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}');
+    $right = new Coordinate(1.1, 2.2, 3.3);
+    if ($left != $right) {
+        exit(sprintf("%s != %s", print_r($left, TRUE), print_r($right, TRUE)));
+    }
+
+    $text = file_get_contents("/tmp/1.json");
+
+    $pid = posix_getpid();
+    notify("PHP\t$pid");
+
+    print_r(calc($text));
 
     notify("stop");
 }

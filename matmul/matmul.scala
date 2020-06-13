@@ -61,7 +61,7 @@ object MatMul {
     val right = -18.67
     if (Math.abs(left - right) > 0.1) {
       System.err.println(s"${left} != ${right}")
-      System.exit(-1)
+      System.exit(1)
     }
 
     notify(s"Scala\t${ProcessHandle.current().pid()}")

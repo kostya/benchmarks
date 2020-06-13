@@ -1,4 +1,4 @@
-GCC_FLAGS := -O3 -Wall -Wextra -pedantic -flto
+GCC_FLAGS := -O3 -Wall -flto
 LIBNOTIFY_FLAGS := -I../common/libnotify -L../common/libnotify -lnotify
 NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off
 VALAC_FLAGS := --disable-assert -X -O3 --pkg gio-2.0 --pkg posix
@@ -9,7 +9,7 @@ CRYSTAL_BUILD =	crystal build --release --no-debug -o $@ $^
 DMD_BUILD =		dmd -of$@ -O -release -inline $^
 DOTNET_BUILD =		dotnet build $< -c Release
 GCC_BUILD =		gcc $(GCC_FLAGS) -std=c17 -o $@ $^ $(LIBNOTIFY_FLAGS)
-GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++17 -o $@ $^ $(LIBNOTIFY_FLAGS)
+GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++20 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_GO_BUILD =		gccgo -O3 -o $@ $^
 GDC_BUILD =		gdc -o $@ -O3 -frelease -finline $^
 GHC_BUILD =		ghc -O2 -fforce-recomp $^ -o $@ -outputdir $(@D)

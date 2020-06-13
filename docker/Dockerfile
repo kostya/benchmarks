@@ -58,9 +58,9 @@ RUN export VERSION=ruby-2.7.1 \
 ENV PATH="/opt/ruby/bin:${PATH}"
 
 # https://github.com/dotnet/core/tree/master/release-notes
-ARG DOTNET_CORE=3.1.104
+ARG DOTNET_CORE=3.1.105
 RUN mkdir dotnet && wget --progress=dot:giga -O - \
-	https://download.visualstudio.microsoft.com/download/pr/c9c8cca6-2281-4ce8-980f-f49723057f09/06fef88edc9d38fbfefc315953e368ea/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
+        https://download.visualstudio.microsoft.com/download/pr/37268c18-226d-436b-b13c-4b77b7f42140/17e8a85360206006a557d634d16713cd/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
 	| tar -xz -C dotnet
 ENV PATH="/opt/dotnet:${PATH}"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -87,9 +87,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/jdk-$JDK/bin:${PATH}"
 
 # https://github.com/crystal-lang/crystal/releases
-ARG CRYSTAL=crystal-0.34.0-1
+ARG CRYSTAL=crystal-0.35.0-1
 RUN wget --progress=dot:giga -O - \
-	https://github.com/crystal-lang/crystal/releases/download/0.34.0/$CRYSTAL-linux-x86_64.tar.gz \
+	https://github.com/crystal-lang/crystal/releases/download/0.35.0/$CRYSTAL-linux-x86_64.tar.gz \
 	| tar -xz
 ENV PATH="/opt/$CRYSTAL/bin:${PATH}"
 
@@ -109,12 +109,12 @@ ENV PATH="/opt/$NIM/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN wget --progress=dot:giga -O - \
-	http://downloads.dlang.org/releases/2.x/2.092.0/dmd.2.092.0.linux.tar.xz \
+        http://downloads.dlang.org/releases/2.x/2.092.1/dmd.2.092.1.linux.tar.xz \
 	| tar -xJ
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v14.3.0
+ARG NODE=v14.4.0
 RUN wget --progress=dot:giga -O - \
 	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
 	| tar -xJ
@@ -129,7 +129,7 @@ RUN wget --progress=dot:giga -O - \
 
 # https://golang.org/dl/
 RUN wget --progress=dot:giga -O - \
-	https://dl.google.com/go/go1.14.3.linux-amd64.tar.gz \
+	https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz \
 	| tar -xz
 ENV PATH="/opt/go/bin/:${PATH}"
 
@@ -201,12 +201,11 @@ RUN wget --progress=dot:giga \
 ENV PATH="/opt/kotlinc/bin/:${PATH}"
 
 # https://github.com/vlang/v/releases
-# skipping 0.1.27 - json doesn't work there
-ARG VLANG=0.1.24
-RUN wget --progress=dot:giga \
-	https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
-	&& unzip v_linux.zip -d v \
-	&& rm v_linux.zip
+# Using source code for now as json doesn't work in binary archive
+# hash 0115c5e76cd5f611030e71d4816f6e6c49024bf2
+RUN git clone https://github.com/vlang/v.git /opt/v \
+	&& cd v \
+	&& make -j
 ENV PATH="/opt/v/:${PATH}"
 
 ARG SCRIPTS_VER=unknown

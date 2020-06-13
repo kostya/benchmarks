@@ -97,7 +97,7 @@ string read_file(string filename){
 
 int main(int argc, char** argv) {
   if (argc < 2) {
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   string text = read_file(string(argv[1]));
 
@@ -109,5 +109,4 @@ int main(int argc, char** argv) {
   p.run();
 
   notify("stop");
-  return 0;
 }

@@ -1,9 +1,10 @@
 // Writen by Attractive Chaos; distributed under the MIT license
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
 #include <libnotify.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 double **mm_init(int n)
 {
@@ -64,15 +65,14 @@ double calc(int n) {
   return result;
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   int n = argc > 1 ? atoi(argv[1]) : 100;
 
   double left = calc(101);
   double right = -18.67;
-  if (abs(left - right) > 0.1) {
+  if (fabs(left - right) > 0.1) {
     fprintf(stderr, "%f != %f\n", left, right);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   char msg[32];
@@ -83,6 +83,4 @@ int main(int argc, char *argv[])
 
   char stop_msg[] = "stop";
   notify(stop_msg, sizeof(stop_msg));
-
-  return 0;
 }
