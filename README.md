@@ -306,45 +306,45 @@ Base Docker image: Debian GNU/Linux bullseye/sid
 
 | Language     | Version                         |
 | ------------ | ------------------------------- |
-| .NET Core    | 3.1.103                         |
+| .NET Core    | 3.1.105                         |
 | C# .NET Core | 3.4.1-beta4-20127-10 (d8180a5e) |
-| C# Mono      | 6.8.0.105                       |
+| C# Mono      | 6.8.0.123                       |
 | Chez Scheme  | 9.5                             |
-| Clang        | 9.0.1                           |
+| Clang        | 10.0.0                          |
 | Clojure      | "1.10.1"                        |
-| Crystal      | 0.34.0                          |
-| DMD          | v2.091.1                        |
-| Elixir       | 1.9.1                           |
+| Crystal      | 0.35.0                          |
+| DMD          | v2.092.1                        |
+| Elixir       | 1.10.3                          |
 | F# .NET Core | 10.7.0.0 for F# 4.7             |
-| GCC          | 9.3.0                           |
-| GCC Go       | 9.3.0                           |
-| GDC          | 9.3.0                           |
-| Go           | go1.14.2                        |
+| GCC          | 10.1.0                          |
+| GCC Go       | 10.1.0                          |
+| GDC          | 10.1.0                          |
+| Go           | go1.14.4                        |
 | Haskell      | 8.10.1                          |
 | JRuby        | 9.2.11.1                        |
 | Java         | 14.0.1                          |
-| Julia        | v"1.4.1"                        |
+| Julia        | v"1.4.2"                        |
 | Kotlin       | 1.3.72                          |
 | LDC          | 1.21.0                          |
 | Lua          | Lua 5.3                         |
 | LuaJIT       | LuaJIT 2.1.0-beta3              |
 | MLton        | 20180207                        |
 | Nim          | 1.2.0                           |
-| Node.js      | v14.0.0                         |
+| Node.js      | v14.4.0                         |
 | OCaml        | 4.10.0                          |
 | PHP          | 7.3.15-3                        |
-| Perl         | v5.30.0                         |
+| Perl         | v5.30.2                         |
 | PyPy         | 7.3.1-final0 for Python 3.6.9   |
-| Python       | 3.8.2                           |
-| Racket       | "7.6"                           |
+| Python       | 3.8.3                           |
+| Racket       | "7.7"                           |
 | Ruby         | 2.7.1p83                        |
-| Rust         | 1.43.0                          |
+| Rust         | 1.44.0                          |
 | Scala        | 2.13.2                          |
-| Swift        | swift-5.2.2-RELEASE             |
+| Swift        | swift-5.2.4-RELEASE             |
 | Tcl          | 8.6                             |
-| TruffleRuby  | 20.0.0                          |
-| V            | 0.1.24                          |
-| Vala         | 0.48.2                          |
+| TruffleRuby  | 20.1.0                          |
+| V            | 0.1.27                          |
+| Vala         | 0.48.6                          |
 
 ## Using Docker
 

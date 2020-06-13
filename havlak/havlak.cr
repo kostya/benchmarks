@@ -394,39 +394,6 @@ class HavlakLoopFinder
   end
 end
 
-def build_diamond(start)
-  bb0 = start
-  BasicBlockEdge.add(TOP_CFG, bb0, bb0 + 1)
-  BasicBlockEdge.add(TOP_CFG, bb0, bb0 + 2)
-  BasicBlockEdge.add(TOP_CFG, bb0 + 1, bb0 + 3)
-  BasicBlockEdge.add(TOP_CFG, bb0 + 2, bb0 + 3)
-  bb0 + 3
-end
-
-def build_connect(_start, _end)
-  BasicBlockEdge.add(TOP_CFG, _start, _end)
-end
-
-def build_straight(start, n)
-  n.times do |i|
-    build_connect(start + i, start + i + 1)
-  end
-  start + n
-end
-
-def build_base_loop(from)
-  header = build_straight(from, 1)
-  diamond1 = build_diamond(header)
-  d11 = build_straight(diamond1, 1)
-  diamond2 = build_diamond(d11)
-  footer = build_straight(diamond2, 1)
-  build_connect(diamond2, d11)
-  build_connect(diamond1, header)
-
-  build_connect(footer, from)
-  build_straight(footer, 1)
-end
-
 def notify(msg)
   begin
     TCPSocket.open("localhost", 9001) { |s|
@@ -438,6 +405,39 @@ def notify(msg)
 end
 
 class EntryPoint
+  def self.build_diamond(start)
+    bb0 = start
+    BasicBlockEdge.add(TOP_CFG, bb0, bb0 + 1)
+    BasicBlockEdge.add(TOP_CFG, bb0, bb0 + 2)
+    BasicBlockEdge.add(TOP_CFG, bb0 + 1, bb0 + 3)
+    BasicBlockEdge.add(TOP_CFG, bb0 + 2, bb0 + 3)
+    bb0 + 3
+  end
+
+  def self.build_connect(_start, _end)
+    BasicBlockEdge.add(TOP_CFG, _start, _end)
+  end
+
+  def self.build_straight(start, n)
+    n.times do |i|
+      build_connect(start + i, start + i + 1)
+    end
+    start + n
+  end
+
+  def self.build_base_loop(from)
+    header = build_straight(from, 1)
+    diamond1 = build_diamond(header)
+    d11 = build_straight(diamond1, 1)
+    diamond2 = build_diamond(d11)
+    footer = build_straight(diamond2, 1)
+    build_connect(diamond2, d11)
+    build_connect(diamond1, header)
+
+    build_connect(footer, from)
+    build_straight(footer, 1)
+  end
+
   pid = Process.pid
   notify("Crystal\t#{pid}")
 

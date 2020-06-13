@@ -631,8 +631,8 @@ if __name__=='__main__':
         x = finder.findLoops()
         del lsglocal
 
-        print("Constructing CFG...")
-        n = 2
+    print("Constructing CFG...")
+    n = 2
 
     for parlooptrees in range(10):
         cfg.createNode(n + 1)

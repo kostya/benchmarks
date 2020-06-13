@@ -14,12 +14,17 @@ static if (__VERSION__ < 2068)
 else
     import std.meta : Erase;
 
-void notify(string msg) {
-    try {
+void notify(string msg)
+{
+    try
+    {
         auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
-        scope(exit) socket.close();
+        scope (exit)
+            socket.close();
         socket.send(msg);
-    } catch (SocketOSException) {
+    }
+    catch (SocketOSException)
+    {
         // standalone usage
     }
 }
@@ -56,12 +61,38 @@ struct Tape
     uint pos;
     int[] tape = [0];
 
-    int  get()      { return tape[pos]; }
-    void inc()      { tape[pos]++; }
-    void dec()      { tape[pos]--; }
-    void movePrev() { pos--; }
-    void moveNext() { pos++; if (pos == tape.length) tape ~= 0; }
-    void print()    { write(cast(char)get()); stdout.flush(); }
+    int get()
+    {
+        return tape[pos];
+    }
+
+    void inc()
+    {
+        tape[pos]++;
+    }
+
+    void dec()
+    {
+        tape[pos]--;
+    }
+
+    void movePrev()
+    {
+        pos--;
+    }
+
+    void moveNext()
+    {
+        pos++;
+        if (pos == tape.length)
+            tape ~= 0;
+    }
+
+    void print()
+    {
+        write(cast(char) get());
+        stdout.flush();
+    }
 }
 
 struct Program
@@ -89,17 +120,20 @@ struct Program
             code = code[1 .. $];
             switch (c)
             {
-                case '+': case '-': case '.':
-                case '>': case '<':
-                    res ~= Op(cast(OpT)c);
-                    break;
-                case '[':
-                    res ~= Op(OpT.loop, parse(code));
-                    break;
-                case ']':
-                    return res;
-                default:
-                    break;
+            case '+':
+            case '-':
+            case '.':
+            case '>':
+            case '<':
+                res ~= Op(cast(OpT) c);
+                break;
+            case '[':
+                res ~= Op(OpT.loop, parse(code));
+                break;
+            case ']':
+                return res;
+            default:
+                break;
             }
         }
 
@@ -112,16 +146,16 @@ struct Program
         {
             switch (op.op)
             {
-            foreach (type; Erase!(OpT.loop, EnumMembers!OpT))
-                case type:
+                foreach (type; Erase!(OpT.loop, EnumMembers!OpT))
+            case type:
                     mixin("tape." ~ type.to!string ~ "(); continue loop;");
 
-                case OpT.loop:
-                    while (tape.get() > 0)
-                        run(op.loop, tape);
-                    break;
-                default:
-                    break;
+            case OpT.loop:
+                while (tape.get() > 0)
+                    run(op.loop, tape);
+                break;
+            default:
+                break;
             }
         }
     }

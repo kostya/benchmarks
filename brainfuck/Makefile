@@ -124,10 +124,10 @@ target/bin_vala_clang: bf.vala | target
 target/bin_sml: bf.sml | target
 	$(MLTON_BUILD)
 
-target/bin_v_gcc: bf.v | target
+target/bin_v_gcc: bf.v | $(v_fmt)
 	$(V_GCC_BUILD)
 
-target/bin_v_clang: bf.v | target
+target/bin_v_clang: bf.v | $(v_fmt)
 	$(V_CLANG_BUILD)
 
 target/bin_c_gcc: bf.c | target
