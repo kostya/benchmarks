@@ -27,7 +27,7 @@ artifacts := $(executables) \
 	target/matmul.class \
 	target/matmul-kt.jar \
 	target/matmul.exe \
-	target/Release/netcoreapp3.0/matmul.dll
+	target/Release/netcoreapp3.1/matmul.dll
 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[matmul.js] \
@@ -119,8 +119,8 @@ target/matmul-kt.jar: matmul.kt | target
 target/matmul.exe: matmul.cs | target
 	$(MCS_BUILD)
 
-.PHONY: target/Release/netcoreapp3.0/matmul.dll
-target/Release/netcoreapp3.0/matmul.dll: matmul.csproj | target
+.PHONY: target/Release/netcoreapp3.1/matmul.dll
+target/Release/netcoreapp3.1/matmul.dll: matmul.csproj | target
 	$(DOTNET_BUILD)
 
 # Run
@@ -150,7 +150,7 @@ run[target/matmul-kt.jar]:: run[%]: %
 run[target/matmul.exe]:: run[%]: %
 	$(MONO_RUN) $(MSIZE)
 
-run[target/Release/netcoreapp3.0/matmul.dll]:: run[%]: %
+run[target/Release/netcoreapp3.1/matmul.dll]:: run[%]: %
 	$(DOTNET_RUN) $(MSIZE)
 
 run[matmul.js]:: run[%]: %

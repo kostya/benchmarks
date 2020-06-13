@@ -7,7 +7,7 @@ V_FLAGS := -prod
 CLANG_BUILD =		clang -O3 -o $@ $^ $(LIBNOTIFY_FLAGS)
 CRYSTAL_BUILD =	crystal build --release --no-debug -o $@ $^
 DMD_BUILD =		dmd -of$@ -O -release -inline $^
-DOTNET_BUILD =		dotnet build $< -c Release
+DOTNET_BUILD =		dotnet build --force $< -c Release
 GCC_BUILD =		gcc $(GCC_FLAGS) -std=c17 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++20 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_GO_BUILD =		gccgo -O3 -o $@ $^

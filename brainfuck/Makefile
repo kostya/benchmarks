@@ -26,11 +26,11 @@ executables := \
 	target/bin_c_clang
 
 artifacts := $(executables) \
-	target/bin_fs/netcoreapp3.0/brainfuck2.dll \
+	fsharp/target/Release/netcoreapp3.1/brainfuck.dll \
 	target/bf_scala.jar \
 	target/bf2-kt.jar \
 	target/bf.exe \
-	target/bin_cs/netcoreapp3.0/brainfuck2.dll \
+	target/Release/netcoreapp3.1/brainfuck.dll \
 	target/bf.class
 
 fast_runners := $(patsubst %,run[%], $(artifacts)) \
@@ -74,12 +74,12 @@ target/bf_scala.jar: bf.scala | target
 target/bf.exe: bf.cs | target
 	$(MCS_BUILD)
 
-.PHONY: target/bin_cs/netcoreapp3.0/brainfuck2.dll
-target/bin_cs/netcoreapp3.0/brainfuck2.dll: brainfuck2.csproj | target
+.PHONY: target/Release/netcoreapp3.1/brainfuck.dll
+target/Release/netcoreapp3.1/brainfuck.dll: brainfuck.csproj | target
 	$(DOTNET_BUILD)
 
-.PHONY: target/bin_fs/netcoreapp3.0/brainfuck2.dll
-target/bin_fs/netcoreapp3.0/brainfuck2.dll: brainfuck2.fsproj | target
+.PHONY: fsharp/target/Release/netcoreapp3.1/brainfuck.dll
+fsharp/target/Release/netcoreapp3.1/brainfuck.dll: fsharp/brainfuck.fsproj | target
 	$(DOTNET_BUILD)
 
 target/bf2-kt.jar: bf2.kt | target
@@ -164,10 +164,10 @@ run[target/bf_scala.jar]:: run[%]: %
 run[target/bf.exe]:: run[%]: %
 	$(MONO_RUN) $(BF_SRC)
 
-run[target/bin_cs/netcoreapp3.0/brainfuck2.dll]:: run[%]: %
+run[target/Release/netcoreapp3.1/brainfuck.dll]:: run[%]: %
 	$(DOTNET_RUN) $(BF_SRC)
 
-run[target/bin_fs/netcoreapp3.0/brainfuck2.dll]:: run[%]: %
+run[fsharp/target/Release/netcoreapp3.1/brainfuck.dll]:: run[%]: %
 	$(DOTNET_RUN) $(BF_SRC)
 
 run[target/bf2-kt.jar]:: run[%]: %
@@ -231,4 +231,5 @@ run[bf.jl]:: run[%]: % | $(julia_fmt)
 
 .PHONY: clean
 clean:
+	dotnet clean fsharp/brainfuck.fsproj
 	-rm -rf target

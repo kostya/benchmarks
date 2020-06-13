@@ -15,7 +15,7 @@ executables := \
 artifacts := $(executables) \
 	target/havlak_scala.jar \
 	target/havlak.exe \
-	target/Release/netcoreapp3.0/havlak.dll
+	target/Release/netcoreapp3.1/havlak.dll
 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[pypy][havlak.py] \
@@ -59,8 +59,8 @@ target/havlak_nim_clang: havlak.nim | target
 target/havlak.exe: havlak.cs | target
 	$(MCS_BUILD)
 
-.PHONY: target/Release/netcoreapp3.0/havlak.dll
-target/Release/netcoreapp3.0/havlak.dll: havlak.csproj | target
+.PHONY: target/Release/netcoreapp3.1/havlak.dll
+target/Release/netcoreapp3.1/havlak.dll: havlak.csproj | target
 	$(DOTNET_BUILD)
 
 # Run
@@ -85,7 +85,7 @@ run[target/havlak_scala.jar]:: run[%]: %
 run[target/havlak.exe]:: run[%]: %
 	$(MONO_RUN)
 
-run[target/Release/netcoreapp3.0/havlak.dll]:: run[%]: %
+run[target/Release/netcoreapp3.1/havlak.dll]:: run[%]: %
 	$(DOTNET_RUN)
 
 run[pypy][havlak.py]:: run[pypy][%]: %
