@@ -6,6 +6,7 @@ import socket
 import sys
 import os
 
+
 def matmul(a, b):
     c = [array.array("d", [0.0]) * len(b) for _ in range(len(b[0]))]
     for i in range(len(b[0])):
@@ -22,6 +23,7 @@ def matmul(a, b):
             d[i][j] = s
     return d
 
+
 def build_matrix(n, seed):
     t = seed / n / n
     m = [array.array("d", [0.0]) * n for _ in range(n)]
@@ -29,6 +31,7 @@ def build_matrix(n, seed):
         for j in range(n):
             m[i][j] = t * (i - j) * (i + j)
     return m
+
 
 def calc(n):
     n = n // 2 * 2
@@ -38,10 +41,12 @@ def calc(n):
     d = matmul(a, b)
     return d[n // 2][n // 2]
 
+
 def notify(msg):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         if not s.connect_ex(("localhost", 9001)):
-            s.sendall(bytes(msg, 'utf8'))
+            s.sendall(bytes(msg, "utf8"))
+
 
 if __name__ == "__main__":
     n = int(sys.argv[1]) if len(sys.argv) > 1 else 100

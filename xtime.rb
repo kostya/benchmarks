@@ -10,8 +10,12 @@ RESULTS_LOG = 'target/results.log'
 
 def mem(pid)
   if HAS_MEM
-    stat = IO.read("/proc/#{pid}/statm").split
-    PAGE_SIZE * stat[1].to_i # man 5 proc
+    begin
+      stat = IO.read("/proc/#{pid}/statm").split
+      PAGE_SIZE * stat[1].to_i # man 5 proc
+    rescue Errno::ENOENT
+      0
+    end
   else
     0
   end

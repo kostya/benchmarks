@@ -2,9 +2,9 @@
 using Sockets
 
 mutable struct Tape
-  count::Int
-  pos::Int
-  tape::Vector{UInt8}
+    count::Int
+    pos::Int
+    tape::Vector{UInt8}
 end
 
 Tape() = Tape(0, 1, [0])
@@ -13,67 +13,62 @@ Base.getindex(t::Tape) = t.tape[t.pos]
 Base.setindex!(t::Tape, v) = t.tape[t.pos] = v
 
 function Base.show(io::IO, t::Tape)
-  print(io, "[$(t.count)] ")
-  for i = 1:length(t.tape)
-    print(io, t.tape[i], i == t.pos ? "* " : " ")
-  end
+    print(io, "[$(t.count)] ")
+    for i = 1:length(t.tape)
+        print(io, t.tape[i], i == t.pos ? "* " : " ")
+    end
 end
 
 Base.:(==)(a::Tape, b::Tape) = a.tape == b.tape
 
 function left!(t::Tape)
-  t.pos == length(t.tape) && t.tape[end] == 0 && pop!(t.tape)
-  t.pos == 1 ? pushfirst!(t.tape, 0) : (t.pos -= 1)
-  return
+    t.pos == length(t.tape) && t.tape[end] == 0 && pop!(t.tape)
+    t.pos == 1 ? pushfirst!(t.tape, 0) : (t.pos -= 1)
+    return
 end
 
 function right!(t::Tape)
-  t.pos == 1 && t.tape[1] == 0 && (popfirst!(t.tape); t.pos -= 1)
-  t.pos == length(t.tape) && push!(t.tape, 0)
-  t.pos += 1
-  return
+    t.pos == 1 && t.tape[1] == 0 && (popfirst!(t.tape); t.pos -= 1)
+    t.pos == length(t.tape) && push!(t.tape, 0)
+    t.pos += 1
+    return
 end
 
 inc!(t::Tape) = t[] += 0x01
 dec!(t::Tape) = t[] -= 0x01
 
 function read!(t::Tape, io::IO)
-  t[] = read(io, UInt8)
+    t[] = read(io, UInt8)
 end
 
 function write!(t::Tape, io::IO)
-  write(io, t[])
+    write(io, t[])
 end
 
 # Gets ~370 MHz
 
 function interpret(t::Tape, bf; input::IO = stdin, output::IO = stdout)
-  loops = Int[]
-  scan = 0
-  ip = 1
-  @inbounds while ip <= length(bf)
-    t.count += 1
-    op = bf[ip]
-    if op == '['
-      scan > 0 || t[] == 0 ? (scan += 1) :
-      push!(loops, ip)
-    elseif op == ']'
-      scan > 0 ? (scan -= 1) :
-      t[] == 0 ? pop!(loops) :
-      (ip = loops[end])
-    elseif scan == 0
-      op == '+' ? inc!(t) :
-      op == '-' ? dec!(t) :
-      op == '<' ? left!(t) :
-      op == '>' ? right!(t) :
-      op == ',' ? read!(t, input) :
-      op == '.' ? write!(t, output) :
-      op == '#' ? println(t) :
-        nothing
+    loops = Int[]
+    scan = 0
+    ip = 1
+    @inbounds while ip <= length(bf)
+        t.count += 1
+        op = bf[ip]
+        if op == '['
+            scan > 0 || t[] == 0 ? (scan += 1) : push!(loops, ip)
+        elseif op == ']'
+            scan > 0 ? (scan -= 1) : t[] == 0 ? pop!(loops) : (ip = loops[end])
+        elseif scan == 0
+            op == '+' ? inc!(t) :
+            op == '-' ? dec!(t) :
+            op == '<' ? left!(t) :
+            op == '>' ? right!(t) :
+            op == ',' ? read!(t, input) :
+            op == '.' ? write!(t, output) : op == '#' ? println(t) : nothing
+        end
+        ip += 1
     end
-    ip += 1
-  end
-  return t
+    return t
 end
 
 interpret(t::Tape, bf::String; kws...) = interpret(t, collect(bf); kws...)
@@ -81,17 +76,17 @@ interpret(t::Tape, bf::String; kws...) = interpret(t, collect(bf); kws...)
 interpret(bf; kws...) = interpret(Tape(), bf; kws...)
 
 function main(text)
-  interpret(text)
+    interpret(text)
 end
 
 function notify(msg)
-  try
-    socket = connect("localhost", 9001)
-    write(socket, msg)
-    close(socket)
-  catch
-    # standalone usage
-  end
+    try
+        socket = connect("localhost", 9001)
+        write(socket, msg)
+        close(socket)
+    catch
+        # standalone usage
+    end
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__

@@ -4,6 +4,7 @@ require 'socket'
 
 class Op
   attr_accessor :op, :val
+
   def initialize(op, val)
     @op = op
     @val = val
