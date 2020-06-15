@@ -79,7 +79,7 @@
         (else (run rst t))))))
 
 ;;; I/O.
-(load-shared-object "../common/libnotify/dyn/libnotify.so")
+(load-shared-object "../common/libnotify/target/libnotify.so")
 
 (define notify-internal
   (foreign-procedure "notify" (u8* size_t) void))

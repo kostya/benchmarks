@@ -1,9 +1,9 @@
 undefine GHC_PACKAGE_PATH
 
 all:
-	cabal update
-	cabal build
-	cabal install --overwrite-policy=always --installdir=../target/
+	cabal update --builddir=target
+	cabal build --builddir=target
+	cabal install --overwrite-policy=always --installdir=../target/ --builddir=target
 
 clean:
-	-rm -rf dist-newstyle
+	-rm -rf target

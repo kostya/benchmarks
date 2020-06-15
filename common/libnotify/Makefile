@@ -1,30 +1,26 @@
 NAME    :=  libnotify
-SNAME   :=  $(NAME).a
-DDIR    := dyn
-DNAME   :=  $(DDIR)/$(NAME).so
-SRC     :=  $(wildcard *.c)
-OBJ     :=  $(SRC:.c=.o)
+SNAME   :=  target/$(NAME).a
+DNAME   :=  target/$(NAME).so
+OBJ := $(addprefix target/, $(patsubst %.c, %.o, $(wildcard *.c)))
 CFLAGS  :=  -pedantic -Wall -W -Werror -fPIC
 LDFLAGS :=  -L.
 
-.PHONY: all clean fclean re
+.PHONY: all clean
 
 all: $(SNAME) $(DNAME)
+
+target/%.o: %.c | target
+	$(COMPILE.c) $(OUTPUT_OPTION) $<
 
 $(SNAME): $(OBJ)
 	$(AR) $(ARFLAGS) $@ $^
 
 $(DNAME): LDFLAGS += -shared
-$(DNAME): $(OBJ) | $(DDIR)
+$(DNAME): $(OBJ)
 	$(CC) $(LDFLAGS) $^ -o $@
 
-$(DDIR):
-	@mkdir $@
+target:
+	mkdir -p $@
 
 clean:
-	$(RM) $(OBJ)
-
-fclean: clean
-	$(RM) $(SNAME) $(DNAME)
-
-re: fclean all
+	-rm -rf target
