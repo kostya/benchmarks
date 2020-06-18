@@ -62,7 +62,7 @@ build: $(artifacts)
 target/bin_cr: bf.cr | target
 	$(CRYSTAL_BUILD)
 
-target/bin_cpp: bf.cpp | target
+target/bin_cpp: bf.cpp | target libnotify
 	$(GCC_CPP_BUILD)
 
 target/bin_rs: bf.rs | target
@@ -130,10 +130,10 @@ target/bin_v_gcc: bf.v | $(v_fmt)
 target/bin_v_clang: bf.v | $(v_fmt)
 	$(V_CLANG_BUILD)
 
-target/bin_c_gcc: bf.c | target
+target/bin_c_gcc: bf.c | target libnotify
 	$(GCC_BUILD)
 
-target/bin_c_clang: bf.c | target
+target/bin_c_clang: bf.c | target libnotify
 	$(CLANG_BUILD)
 
 target/bf.class: bf.java | target
@@ -221,7 +221,7 @@ run[bf_oo.tcl]:: run[%]: %
 run[bf.rkt]:: run[%]: %
 	$(RACKET_RUN) $(BF_SRC)
 
-run[bf.ss]:: run[%]: %
+run[bf.ss]:: run[%]: % | libnotify
 	$(SCHEME_RUN) $(BF_SRC)
 
 run[bf.jl]:: run[%]: % | $(julia_fmt)
@@ -231,5 +231,5 @@ run[bf.jl]:: run[%]: % | $(julia_fmt)
 
 .PHONY: clean
 clean:
-	dotnet clean fsharp/brainfuck.fsproj
+	$(DOTNET_CLEAN) fsharp/brainfuck.fsproj
 	-rm -rf target

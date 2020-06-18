@@ -85,18 +85,15 @@ target/base64_nim_clang: test.nim | target
 
 aklomp-base64-dir := target/aklomp-base64
 $(aklomp-base64-dir): | target
-	git clone --depth 1 "https://github.com/aklomp/base64.git" $@
+	$(GIT_CLONE) "https://github.com/aklomp/base64.git" $@
 
 aklomp-base64-lib := lib/libbase64.o
 $(aklomp-base64-dir)/$(aklomp-base64-lib): $(aklomp-base64-dir)
-	AVX2_CFLAGS=-mavx2 \
-	SSSE3_CFLAGS=-mssse3 \
-	SSE41_CFLAGS=-msse4.1 \
-	SSE42_CFLAGS=-msse4.2 \
-	AVX_CFLAGS=-mavx \
+	AVX2_CFLAGS=-mavx2 SSSE3_CFLAGS=-mssse3 SSE41_CFLAGS=-msse4.1 \
+	SSE42_CFLAGS=-msse4.2 AVX_CFLAGS=-mavx \
 	$(MAKE) -C $< $(aklomp-base64-lib)
 
-target/base64_c_ak: $(aklomp-base64-dir)/$(aklomp-base64-lib) test-aklomp.c
+target/base64_c_ak: $(aklomp-base64-dir)/$(aklomp-base64-lib) test-aklomp.c | target libnotify
 	$(GCC_BUILD) -I$(aklomp-base64-dir)/include/
 
 base64-rs-toml := base64.rs/Cargo.toml

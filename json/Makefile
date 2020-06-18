@@ -76,7 +76,7 @@ target/json_schema_cr: test_schema.cr | target
 
 json-rs-toml := json.rs/Cargo.toml
 .PHONY: $(json-rs-targets)
-$(json-rs-targets) &: $(json-rs-toml)
+$(json-rs-targets): $(json-rs-toml)
 	$(CARGO_BUILD)
 
 target/json_d: test.d | $(dfmt)
@@ -115,7 +115,7 @@ target/json_boost_cpp: test_boost.cpp | target libnotify
 
 fast-dir := target/fast
 $(fast-dir): | target
-	git clone --depth 1 "https://github.com/mleise/fast.git" $@
+	$(GIT_CLONE) "https://github.com/mleise/fast.git" $@
 
 target/json_d_gdc_fast: test_fast.d | $(fast-dir) $(dfmt)
 	$(GDC_BUILD) \
@@ -132,28 +132,28 @@ target/json_d_gdc_fast: test_fast.d | $(fast-dir) $(dfmt)
 
 rapidjson-dir := target/rapidjson
 $(rapidjson-dir): | target
-	git clone --depth 1 "https://github.com/miloyip/rapidjson.git" $@
+	$(GIT_CLONE) "https://github.com/miloyip/rapidjson.git" $@
 
-target/json_rapid_cpp: test_rapid.cpp | $(rapidjson-dir)
+target/json_rapid_cpp: test_rapid.cpp | $(rapidjson-dir) libnotify
 	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include
 
-target/json_rapid_sax_cpp: test_rapid_sax.cpp | $(rapidjson-dir)
+target/json_rapid_sax_cpp: test_rapid_sax.cpp | $(rapidjson-dir) libnotify
 	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include
 
 gason-dir := target/gason
 $(gason-dir): | target
-	git clone --depth 1 "https://github.com/vivkin/gason.git" $@
+	$(GIT_CLONE) "https://github.com/vivkin/gason.git" $@
 
-target/json_gason_cpp: test_gason.cpp | $(gason-dir)
+target/json_gason_cpp: test_gason.cpp | $(gason-dir) libnotify
 	$(GCC_CPP_BUILD) -I$(gason-dir)/src $(gason-dir)/src/gason.cpp
 
-target/json_libjson_cpp: test_libjson.cpp | target
+target/json_libjson_cpp: test_libjson.cpp | target libnotify
 	$(GCC_CPP_BUILD) -ljson-c
 
 newtonsoft_json_dir := target/Newtonsoft.Json/lib/net45
 newtonsoft_json := $(newtonsoft_json_dir)/Newtonsoft.Json.dll
 $(newtonsoft_json): | target
-	nuget install Newtonsoft.Json -ExcludeVersion -OutputDirectory target
+	$(NUGET_INSTALL) Newtonsoft.Json -OutputDirectory target
 
 target/test.exe: test.cs | $(newtonsoft_json)
 	$(MCS_BUILD) -r:$(newtonsoft_json)
@@ -180,11 +180,11 @@ json-scala/target/application.jar:
 
 simdjson-dir := target/simdjson
 $(simdjson-dir): | target
-	git clone --depth 1 https://github.com/simdjson/simdjson.git $@ \
+	$(GIT_CLONE) "https://github.com/simdjson/simdjson.git" $@ \
 	&& cd $@/singleheader \
 	&& ./amalgamate.sh
 
-target/json_simdjson_cpp: test_simdjson.cpp | $(simdjson-dir)
+target/json_simdjson_cpp: test_simdjson.cpp | $(simdjson-dir) libnotify
 	$(GCC_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \
 		-I$(simdjson-dir)/singleheader/
 
@@ -203,17 +203,11 @@ target/json_iter_go: test_jsoniter.go | json-iterator
 
 daw_json_link_all := target/daw_json_link_all
 $(daw_json_link_all): | target
-	git clone --depth 1 \
-		"https://github.com/beached/daw_json_link.git" \
-		$@/daw_json_link
-	git clone --depth 1 \
-		"https://github.com/beached/header_libraries.git" \
-		$@/header_libraries
-	git clone --depth 1 \
-		"https://github.com/beached/utf_range.git" \
-		$@/utf_range
+	$(GIT_CLONE) "https://github.com/beached/daw_json_link.git" $@/daw_json_link
+	$(GIT_CLONE) "https://github.com/beached/header_libraries.git" $@/header_libraries
+	$(GIT_CLONE) "https://github.com/beached/utf_range.git" $@/utf_range
 
-target/json_dawjsonlink_cpp: test_dawjsonlink.cpp | $(daw_json_link_all)
+target/json_dawjsonlink_cpp: test_dawjsonlink.cpp | $(daw_json_link_all) libnotify
 	$(GCC_CPP_BUILD) -I$(daw_json_link_all)/daw_json_link/include \
 		-I$(daw_json_link_all)/header_libraries/include \
 		-I$(daw_json_link_all)/utf_range/include
@@ -314,8 +308,8 @@ clean:
 	$(MAKE) -C json-scala clean
 	$(MAKE) -C json-java clean
 	$(MAKE) -C json-hs clean
+	$(DOTNET_CLEAN) json-core/json-core.csproj
 	cargo clean --manifest-path $(json-rs-toml)
-	dotnet clean json-core/json-core.csproj
 	-rm -rf target
 
 $(json_file):

@@ -73,7 +73,7 @@ target/matmul_d_ldc:matmul.d | $(dfmt)
 	$(LDC2_BUILD)
 
 target/matmul_d_lubeck: matmul_d_lubeck.d | $(dfmt)
-	dub build --build=release --compiler=ldc2 --single $^
+	$(DUB_BUILD)
 
 target/matmul_nim_gcc: matmul.nim | target
 	$(NIM_GCC_BUILD)
