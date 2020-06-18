@@ -1,15 +1,21 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'fileutils'
 require 'socket'
 
 PAGE_SIZE = `getconf PAGESIZE`.to_i
 HAS_MEM = File.file?('/proc/self/statm')
+RESULTS_LOG = 'target/results.log'
 
 def mem(pid)
   if HAS_MEM
-    stat = IO.read("/proc/#{pid}/statm").split
-    PAGE_SIZE * stat[1].to_i # man 5 proc
+    begin
+      stat = IO.read("/proc/#{pid}/statm").split
+      PAGE_SIZE * stat[1].to_i # man 5 proc
+    rescue Errno::ENOENT
+      0
+    end
   else
     0
   end
@@ -51,9 +57,16 @@ end
 
 energy_stats = EnergyStats.new
 server = TCPServer.new 9001
-Process.spawn(*ARGV.to_a)
+pid = Process.spawn(*ARGV.to_a)
 
-client = server.accept
+begin
+  client = server.accept_nonblock
+rescue IO::WaitReadable
+  exit(1) unless Process.waitpid(pid, Process::WNOHANG).nil?
+  IO.select([server], nil, nil, 1)
+  retry
+end
+
 test_data = client.gets.strip.split("\t")
 test_name = test_data[0]
 pid = test_data[1].to_i
@@ -74,14 +87,16 @@ energy_stats.update
 t_diff = Process.clock_gettime(Process::CLOCK_MONOTONIC) - t
 mm_mb = mm / 1_048_576.0
 stats = "#{t_diff.round(2)} s, #{mm_mb.round(1)} Mb"
+FileUtils.mkdir_p File.dirname(RESULTS_LOG)
+
 if energy_stats.has_energy_metrics
   stats += ", #{energy_stats.val.round(1)} J"
-  open('results.log', 'a') do |f|
+  File.open(RESULTS_LOG, 'a') do |f|
     f.puts "#{test_name}\t#{t_diff}\t#{mm_mb}\t#{energy_stats.val}"
   end
 else
   stats += ', 0.0 J'
-  open('results.log', 'a') do |f|
+  File.open(RESULTS_LOG, 'a') do |f|
     f.puts "#{test_name}\t#{t_diff}\t#{mm_mb}\t0.0"
   end
 end

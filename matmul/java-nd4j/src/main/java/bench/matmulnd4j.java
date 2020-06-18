@@ -6,42 +6,49 @@ import org.nd4j.linalg.api.buffer.DataType;
 import java.net.Socket;
 import java.io.OutputStream;
 
-class matmulnd4j {
+final class matmulnd4j {
 
-    public static INDArray matgen(int n) {
-        INDArray idxs = Nd4j.linspace(DataType.DOUBLE, 0, n, 1);
-        INDArray iIdxs = idxs.reshape(n,1);
-        INDArray jIdxs = idxs.reshape(1, n);
+    private static INDArray matgen(final int n) {
+        final var idxs = Nd4j.linspace(DataType.DOUBLE, 0, n, 1);
+        final var iIdxs = idxs.reshape(n,1);
+        final var jIdxs = idxs.reshape(1, n);
 
-        return (iIdxs.sub(jIdxs)).muli((iIdxs.add(jIdxs))).muli(1.0/n/n);
+        return (iIdxs.sub(jIdxs)).muli((iIdxs.add(jIdxs))).muli(1.0 / n / n);
     }
 
     private static void notify(final String msg) {
-        try (var socket = new java.net.Socket("localhost", 9001);
-             var out = socket.getOutputStream()) {
+        try (final var socket = new java.net.Socket("localhost", 9001);
+             final var out = socket.getOutputStream()) {
             out.write(msg.getBytes("UTF-8"));
-        } catch (java.io.IOException e) {
+        } catch (final java.io.IOException e) {
             // standalone usage
         }
     }
 
-    public static void main(String[] args) {
-        int n = 100;
-        if (args.length >= 1) n = Integer.parseInt(args[0]);
-        n = n / 2 * 2;
-		
-        INDArray t =  Nd4j.matmul(matgen(500), matgen(500));
-        System.out.println("JIT warming up: " + t.getDouble(1, 1));
-		
-        notify("Java ND4J\t" + ProcessHandle.current().pid());
-        long start_time = System.currentTimeMillis();
+    private static double calc(final int n) {
+        final var size = n / 2 * 2;
+        final var a = matgen(size);
+        final var b = matgen(size);
+        final var x = Nd4j.matmul(a, b);
+        return x.getDouble(size / 2, size / 2);
+    }
 
-        INDArray a, b, x;
-        a = matgen(n);
-        b = matgen(n);
-        x = Nd4j.matmul(a, b);
-        System.out.println(x.getDouble(n/2, n/2));
-        System.out.println("time: " + (System.currentTimeMillis()-start_time)/1e3+"s");
+    public static void main(String[] args) {
+        final var n = args.length > 0 ? Integer.valueOf(args[0]) : 100;
+
+        final var left = calc(101);
+        final var right = -9.34;
+        if (Math.abs(left - right) > 0.5) {
+            System.err.printf("%f != %f\n", left, right);
+            System.exit(1);
+        }
+
+        notify("Java ND4J\t" + ProcessHandle.current().pid());
+        final var start_time = System.currentTimeMillis();
+
+        System.out.println(calc(n));
+        final var time_diff = System.currentTimeMillis() - start_time;
+        System.out.printf("time: %f s\n", time_diff / 1e3);
 
         notify("stop");
     }

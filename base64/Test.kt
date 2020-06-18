@@ -19,11 +19,6 @@ fun notify(msg: String) {
 fun main(args: Array<String>) {
     val str = "a".repeat(STR_SIZE).toByteArray()
 
-    println("JIT warming up")
-    repeat(5) {
-        dec.decode(enc.encodeToString(str))
-    }
-
     val pid = ProcessHandle.current().pid()
     notify("Kotlin\t${pid}")
 

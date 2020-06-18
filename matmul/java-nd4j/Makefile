@@ -1,11 +1,12 @@
 sources=$(shell find src/ -type f -name '*.java')
 main=bench.matmulnd4j
 
+.PHONY: all
 all: target/library.jar
 
 # contains jars of all dependencies (including transitive ones)
-target/dependencies.list: Maven.list
-	mkdir -p target
+.PHONY: target/dependencies.list
+target/dependencies.list: Maven.list | target
 	coursier fetch $(shell sed '/^#/d' Maven.list) > $@
 
 # concatenate dependencies to be parseable as a classpath argument
@@ -38,7 +39,9 @@ target/application: target/application.jar
 	cat target/application.jar >> target/application
 	chmod +x target/application
 
+.PHONY: clean
 clean:
 	rm -rf target
 
-.PHONY: clean all
+target:
+	mkdir -p target

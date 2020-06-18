@@ -24,7 +24,7 @@ void init_decode_table() {
     char code = -1;
     if (ch >= 'A' && ch <= 'Z') code = ch - 0x41;
     if (ch >= 'a' && ch <= 'z') code = ch - 0x47;
-    if (ch >= '0' && ch <= '9') code = ch + 0x04; 
+    if (ch >= '0' && ch <= '9') code = ch + 0x04;
     if (ch == '+' || ch == '-') code = 0x3E;
     if (ch == '/' || ch == '_') code = 0x3F;
     decode_table[i] = code;
@@ -114,9 +114,9 @@ int main() {
   size_t str2_size;
   char str2[encode_size(STR_SIZE)];
   encode(STR_SIZE, str, &str2_size, str2);
-  printf("encode %s... to %s...: ", strndup(str, 4), strndup(str2, 4));
+  printf("encode %.4s... to %.4s...: ", str, str2);
 
-  for (int i = 0; i < TRIES; i++) { 
+  for (int i = 0; i < TRIES; i++) {
     size_t str2_size;
     char str2[encode_size(STR_SIZE)];
     encode(STR_SIZE, str, &str2_size, str2);
@@ -128,7 +128,7 @@ int main() {
   size_t str3_size;
   char str3[decode_size(str2_size)];
   decode(str2_size, str2, &str3_size, str3);
-  printf("decode %s... to %s...: ", strndup(str2, 4), strndup(str3, 4));
+  printf("decode %.4s... to %.4s...: ", str2, str3);
 
   s = 0;
   t = clock();

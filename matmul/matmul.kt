@@ -1,9 +1,9 @@
-fun matgen(n: Int): Array<DoubleArray> {
+fun matgen(n: Int, seed: Double): Array<DoubleArray> {
     val a = Array<DoubleArray>(n, {
         DoubleArray(n)
     })
-    val tmp = 1.0 / n.toDouble() / n.toDouble()
-    
+    val tmp = seed / n.toDouble() / n.toDouble()
+
     for (i in 0..n - 1) {
         for (j in 0..n - 1) {
             a[i][j] = tmp * (i - j).toDouble() * (i + j).toDouble()
@@ -33,14 +33,14 @@ fun matmul(a: Array<DoubleArray>, b: Array<DoubleArray>): Array<DoubleArray> {
     for (i in 0..m - 1) {
         for (j in 0..p - 1) {
             var s = 0.0
-            
+
             for (k in 0..n - 1) {
                 s += a[i][k] * c[j][k]
             }
             x[i][j] = s
         }
     }
-    
+
     return x
 }
 
@@ -54,23 +54,34 @@ fun notify(msg: String) {
     }
 }
 
-fun main(args: Array<String>) {
-    val n =
-        if (args.size >= 1) { Integer.parseInt(args[0]) / 2 * 2 }
-        else { 25 }
+fun calc(n: Int): Double {
+    val size = n / 2 * 2
+    val a = matgen(size, 1.0)
+    val b = matgen(size, 2.0)
+    val x = matmul(a, b)
+    return x[size / 2][size / 2]
+}
 
-    val t = matmul(matgen(500), matgen(500))
-    println("JIT warming up: ${t[1][1]}")
+fun main(args: Array<String>) {
+    val n = if (args.size > 0) {
+        Integer.parseInt(args[0])
+    } else {
+        100
+    }
+
+    val left = calc(101)
+    val right = -18.67
+    if (Math.abs(left - right) > 0.1) {
+        System.err.println("${left} != ${right}")
+        System.exit(1);
+    }
 
     val pid = ProcessHandle.current().pid()
     notify("Kotlin\t${pid}")
 
     val start_time = System.currentTimeMillis()
-    val a = matgen(n)
-    val b = matgen(n)
-    val x = matmul(a, b)
-    
-    println(x[n / 2][n / 2])
+    println(calc(n))
     println("time: ${(System.currentTimeMillis() - start_time) / 1e3}s")
+
     notify("stop")
 }

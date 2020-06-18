@@ -4,8 +4,8 @@
 
 require 'fileutils'
 
-RESULTS_LOG = 'results.log'
-ATTEMPTS = 10
+RESULTS_LOG = 'target/results.log'
+ATTEMPTS = ENV.fetch('ATTEMPTS', 10).to_i
 
 if ARGV.length.positive?
   FileUtils.rm_f(RESULTS_LOG)

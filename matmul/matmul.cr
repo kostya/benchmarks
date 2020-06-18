@@ -26,8 +26,8 @@ def matmul(a, b)
   c
 end
 
-def matgen(n)
-  tmp = 1.0 / n / n
+def matgen(n, seed)
+  tmp = seed / n / n
   a = Array.new(n) { Array.new(n, 0.0) }
   (0...n).each do |i|
     (0...n).each do |j|
@@ -38,23 +38,35 @@ def matgen(n)
 end
 
 def notify(msg)
-  begin
-    TCPSocket.open("localhost", 9001) { |s|
-      s.puts msg
-    }
-  rescue
-    # standalone usage
-  end
+  TCPSocket.open("localhost", 9001) { |s|
+    s.puts msg
+  }
+rescue
+  # standalone usage
 end
 
-pid = Process.pid
-notify("Crystal\t#{pid}")
+def calc(n)
+  n = n >> 1 << 1
+  a = matgen(n, 1.0)
+  b = matgen(n, 2.0)
+  c = matmul(a, b)
+  c[n >> 1][n >> 1]
+end
 
-n = (ARGV[0]? || 100).to_i
-n = n >> 1 << 1
-a = matgen(n)
-b = matgen(n)
-c = matmul(a, b)
-puts c[n >> 1][n >> 1]
+class EntryPoint
+  n = (ARGV[0]? || 100).to_i
 
-notify("stop")
+  left = calc(101)
+  right = -18.67
+  if (left - right).abs > 0.1
+    STDERR.puts "#{left} != #{right}"
+    exit(1)
+  end
+
+  pid = Process.pid
+  notify("Crystal\t#{pid}")
+
+  puts calc(n)
+
+  notify("stop")
+end

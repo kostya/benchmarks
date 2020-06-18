@@ -2,6 +2,13 @@ use serde_json::Value;
 use std::fs;
 use std::str;
 
+#[derive(Debug, PartialEq)]
+pub struct Coordinate {
+    x: f64,
+    y: f64,
+    z: f64,
+}
+
 fn notify(msg: &str) {
     use std::io::Write;
 
@@ -10,11 +17,7 @@ fn notify(msg: &str) {
     }
 }
 
-fn main() {
-    let content = fs::read_to_string("/tmp/1.json").unwrap();
-
-    notify(&format!("Rust Serde Untyped\t{}", std::process::id()));
-
+fn calc(content: &str) -> Coordinate {
     let value: Value = serde_json::from_str(&content).unwrap();
 
     let coordinates = value.get("coordinates").unwrap().as_array().unwrap();
@@ -30,9 +33,30 @@ fn main() {
         z += coord.get("z").unwrap().as_f64().unwrap();
     }
 
-    println!("{}", x / len);
-    println!("{}", y / len);
-    println!("{}", z / len);
+    Coordinate {
+        x: x / len,
+        y: y / len,
+        z: z / len,
+    }
+}
+
+fn main() {
+    let left = calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
+    let right = Coordinate {
+        x: 1.1,
+        y: 2.2,
+        z: 3.3,
+    };
+    if left != right {
+        eprintln!("{:?} != {:?}", left, right);
+        std::process::exit(-1);
+    }
+
+    let content = fs::read_to_string("/tmp/1.json").unwrap();
+
+    notify(&format!("Rust Serde Untyped\t{}", std::process::id()));
+
+    println!("{:?}", calc(&content));
 
     notify("stop");
 }

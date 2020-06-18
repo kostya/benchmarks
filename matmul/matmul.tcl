@@ -1,9 +1,9 @@
 package require Tcl 8.6
 package require math::linearalgebra
 
-proc generate n {
+proc generate {n seed} {
     set M {}
-    set t [expr { 1.0 / $n / $n }]
+    set t [expr { $seed / $n / $n }]
 
     for {set i 0} {$i < $n} {incr i} {
         set v {}
@@ -15,15 +15,16 @@ proc generate n {
     return $M
 }
 
-proc main {{n 100}} {
-    set A [generate $n]
-    set B $A
+proc calc n {
+    set size [expr int($n / 2) * 2]
+    set A [generate $size 1.0]
+    set B [generate $size 2.0]
 
     set C [::math::linearalgebra::matmul $A $B]
 
-    set halfN [expr { $n / 2 }]
+    set halfN [expr { $size / 2 }]
 
-    puts [lindex $C $halfN $halfN]
+    return [lindex $C $halfN $halfN]
 }
 
 proc notify msg {
@@ -34,8 +35,17 @@ proc notify msg {
     }
 }
 
-notify [format "%s\t%d" "Tcl" [pid]]
+apply {{{n 100}} {
+    set left [calc 101]
+    set right -18.67
+    if {[expr abs($left - $right)] > 0.1} {
+        puts stderr [format "%f != %f" $left $right]
+        exit 1
+    }
 
-main [lindex $argv 0]
+    notify [format "%s\t%d" "Tcl" [pid]]
 
-notify "stop"
+    puts [calc $n]
+
+    notify "stop"
+}} {*}$argv

@@ -25,12 +25,6 @@ namespace Test
             var str1 = Encoding.ASCII.GetBytes(new String('a', STR_SIZE));
             var s = 0;
 
-            Console.WriteLine("JIT warming up");
-            for (var i = 0; i < 5; i++)
-            {
-                Convert.FromBase64String(Convert.ToBase64String(str1));
-            }
-
             var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
             Notify($"C# {runtime}\t{Process.GetCurrentProcess().Id}");
             var sw = Stopwatch.StartNew();

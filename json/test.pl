@@ -3,6 +3,11 @@ use warnings;
 use File::Slurper 'read_binary';
 use JSON::Tiny 'decode_json';
 use Socket;
+use Class::Struct;
+use Data::Dumper;
+use Test::More tests => 1;
+
+struct(Coordinate => [x => '$', y => '$', z => '$']);
 
 sub notify {
     my $msg = shift;
@@ -13,24 +18,40 @@ sub notify {
     close($socket);
 }
 
-my $bytes = read_binary '/tmp/1.json';
+sub calc {
+    my $bytes = shift;
+    my $jobj = decode_json $bytes;
+    my $coordinates = $jobj->{coordinates};
+    my $len = @$coordinates;
+    my $x = my $y = my $z = 0;
 
-my $pid = $$;
-notify("Perl JSON::Tiny\t${pid}");
+    foreach my $coord (@$coordinates) {
+        $x += $coord->{x};
+        $y += $coord->{y};
+        $z += $coord->{z};
+    }
 
-my $jobj = decode_json $bytes;
-my $coordinates = $jobj->{coordinates};
-my $len = @$coordinates;
-my $x = my $y = my $z = 0;
-
-foreach my $coord (@$coordinates) {
-  $x += $coord->{x};
-  $y += $coord->{y};
-  $z += $coord->{z};
+    return Coordinate->new(x=>$x / $len, y=>$y / $len, z=>$z / $len);
 }
 
-print $x / $len, "\n";
-print $y / $len, "\n";
-print $z / $len, "\n";
+if ($0 eq __FILE__) {
+    $Data::Dumper::Terse = 1;
+    $Data::Dumper::Indent = 0;
 
-notify("stop");
+    my $left = calc('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}');
+    my $right = Coordinate->new(x=>1.1, y=>2.2, z=>3.3);
+    my $ok = is_deeply($left, $right);
+    if (!$ok) {
+        print STDERR "@{[ Dumper($left) ]} != @{[ Dumper($right) ]}\n";
+        exit(1);
+    }
+
+    my $bytes = read_binary '/tmp/1.json';
+
+    my $pid = $$;
+    notify("Perl JSON::Tiny\t${pid}");
+
+    print Dumper(calc($bytes)), "\n";
+
+    notify("stop");
+}

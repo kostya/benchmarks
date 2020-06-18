@@ -30,79 +30,97 @@
 #include <string_view>
 #include <unistd.h>
 
+using namespace std;
+
 struct coordinate_t {
-	double x;
-	double y;
-	double z;
-	// ignore string name
-	// ignore object opts
+  double x;
+  double y;
+  double z;
+
+  auto operator<=>(const coordinate_t&) const = default;
+
+  friend ostream& operator<< (ostream &out, const coordinate_t &point) {
+    out << "coordinate_t {x: " << point.x
+        << ", y: " << point.y
+        << ", z: " << point.z << "}";
+    return out;
+  }
 };
 
 struct coordinates_t {
-	std::vector<coordinate_t> coordinates;
+  vector<coordinate_t> coordinates;
 };
 
 namespace daw::json {
-	template<>
-	struct json_data_contract<coordinate_t> {
+  template<>
+  struct json_data_contract<coordinate_t> {
 #ifdef __cpp_nontype_template_parameter_class
-		using type =
-		  json_member_list<json_number<"x">, json_number<"y">, json_number<"z">>;
+    using type =
+      json_member_list<json_number<"x">, json_number<"y">, json_number<"z">>;
 #else
-		constexpr inline static char const x[] = "x";
-		constexpr inline static char const y[] = "y";
-		constexpr inline static char const z[] = "z";
-		using type =
-		  json_member_list<json_number<x>, json_number<y>, json_number<z>>;
+    constexpr inline static char const x[] = "x";
+    constexpr inline static char const y[] = "y";
+    constexpr inline static char const z[] = "z";
+    using type =
+      json_member_list<json_number<x>, json_number<y>, json_number<z>>;
 #endif
-	};
+  };
 
-	template<>
-	struct json_data_contract<coordinates_t> {
+  template<>
+  struct json_data_contract<coordinates_t> {
 #ifdef __cpp_nontype_template_parameter_class
-		using type = json_member_list<json_array<"coordinates", coordinate_t>>;
+    using type = json_member_list<json_array<"coordinates", coordinate_t>>;
 #else
-		constexpr inline static char const coordinates[] = "coordinates";
-		using type = json_member_list<json_array<coordinates, coordinate_t>>;
+    constexpr inline static char const coordinates[] = "coordinates";
+    using type = json_member_list<json_array<coordinates, coordinate_t>>;
 #endif
-	};
+  };
 } // namespace daw::json
 
-std::string read_file( std::string const &filename ) {
-	std::ifstream f( filename );
-	if( !f ) {
-		return { };
-	}
-	return std::string( std::istreambuf_iterator<char>( f ),
-	                    std::istreambuf_iterator<char>( ) );
+string read_file(const string& filename) {
+  ifstream f(filename);
+  if (!f) {
+    return {};
+  }
+  return string(istreambuf_iterator<char>(f),
+                istreambuf_iterator<char>());
 }
 
-int main( int argc, char *argv[] ) {
-	std::string const text = read_file( "/tmp/1.json" );
+coordinate_t calc(const string& text) {
+  auto const json_sv = string_view(text.data(), text.size());
+  auto x = 0.0, y = 0.0, z = 0.0;
+  auto len = 0;
 
-	auto const json_sv = std::string_view( text.data( ), text.size( ) );
-	double x = 0, y = 0, z = 0;
-	int len = 0;
+  using range_t = daw::json::json_array_range<coordinate_t, true>;
+  auto rng = range_t(json_sv, "coordinates");
 
-	{
-		std::stringstream ostr;
-		ostr << "C++ DAW JSON Link\t" << getpid( );
-		notify( ostr.str( ) );
-	}
-	using range_t = daw::json::json_array_range<coordinate_t, true>;
-	auto rng = range_t( json_sv, "coordinates" );
+  for (auto c : rng) {
+    ++len;
+    x += c.x;
+    y += c.y;
+    z += c.z;
+  }
 
-	for( auto c : rng ) {
-		++len;
-		x += c.x;
-		y += c.y;
-		z += c.z;
-	}
-	std::cout << x / len << '\n';
-	std::cout << y / len << '\n';
-	std::cout << z / len << '\n';
+  return coordinate_t(x / len, y / len, z / len);
+}
 
-	notify( "stop" );
+int main() {
+  auto left = calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
+  auto right = coordinate_t(1.1, 2.2, 3.3);
+  if (left != right) {
+    cerr << left << " != " << right << endl;
+    exit(EXIT_FAILURE);
+  }
 
-	return EXIT_SUCCESS;
+  string const text = read_file( "/tmp/1.json" );
+
+  {
+    stringstream ostr;
+    ostr << "C++ DAW JSON Link\t" << getpid();
+    notify(ostr.str());
+  }
+
+  cout << calc(text) << endl;
+
+  notify( "stop" );
 }

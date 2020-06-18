@@ -1,11 +1,6 @@
 package require Tcl 8.6
 
-set STR_SIZE 131072
-set TRIES 8192
-set str [string repeat a $STR_SIZE]
-
-proc main {tries} {
-    global str
+proc main {str tries} {
     set t [clock milliseconds]
     set length 0
 
@@ -38,8 +33,14 @@ proc notify msg {
     }
 }
 
-notify [format "%s\t%d" "Tcl" [pid]]
+apply {{} {
+    set STR_SIZE 131072
+    set TRIES 8192
+    set str [string repeat a $STR_SIZE]
 
-main $TRIES
+    notify [format "%s\t%d" "Tcl" [pid]]
 
-notify "stop"
+    main $str $TRIES
+
+    notify "stop"
+}}

@@ -1,10 +1,10 @@
 // Written by Kajal Sinha; distributed under the MIT license
 import Glibc
 
-func matgen(_ n: Int) -> [[Double]]{
+func matgen(_ n: Int, _ seed: Double) -> [[Double]] {
     var a = Array(repeating: Array<Double>(repeating: 0, count: n), count: n)
     let divideBy = Double(n)
-    let tmp = 1.0 / divideBy / divideBy
+    let tmp = seed / divideBy / divideBy
     for i in 0..<n {
         for j in 0..<n {
             a[i][j] = tmp * Double(i - j) * Double(i + j)
@@ -24,7 +24,7 @@ func matmul(_ a : [[Double]], b : [[Double]]) ->[[Double]] {
             c[j][i] = b[i][j];
         }
     }
-    
+
     for i in 0..<m {
         for j in 0..<p {
             var s = 0.0
@@ -59,22 +59,27 @@ func notify(_ msg: String) {
     }
 }
 
-notify("Swift\t\(getpid())")
-
-var n = 100;
-
-if CommandLine.argc != 2 {
-    print("Usage: ./matmulswift {arg}")
-    exit(1)
+func calc(_ n: Int) -> Double {
+    let size = n / 2 * 2
+    let a = matgen(size, 1.0)
+    let b = matgen(size, 2.0)
+    let x = matmul(a, b: b)
+    return x[size / 2][size / 2]
 }
 
-let end = Int(CommandLine.arguments[1])!
-n = end
-n = n / 2 * 2
+let _ = { () -> () in
+    let n = CommandLine.argc > 1 ? Int(CommandLine.arguments[1])! : 100
 
-var a = matgen(n);
-var b = matgen(n);
-var x = matmul(a, b: b)
-print(x[n/2][n/2])
+    let left = calc(101)
+    let right = -18.67
+    if abs(left - right) > 0.1 {
+        fputs("\(left) != \(right)\n", stderr)
+        exit(1)
+    }
 
-notify("stop")
+    notify("Swift\t\(getpid())")
+
+    print(calc(n))
+
+    notify("stop")
+} ()

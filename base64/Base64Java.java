@@ -23,11 +23,6 @@ class Base64Java {
         final byte[] str = new byte[STR_SIZE];
         Arrays.fill(str, (byte)'a');
 
-        out.println("JIT warming up");
-        for (int i = 0 ; i < 5 ; i++) {
-            dec.decode(enc.encodeToString(str));
-        }
-
         notify("Java\t" + ProcessHandle.current().pid());
         int s = 0;
         final Long t = System.nanoTime();

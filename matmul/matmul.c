@@ -1,9 +1,10 @@
 // Writen by Attractive Chaos; distributed under the MIT license
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
 #include <libnotify.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 double **mm_init(int n)
 {
@@ -20,9 +21,9 @@ void mm_destroy(int n, double **m)
   for (i = 0; i < n; ++i) free(m[i]);
   free(m);
 }
-double **mm_gen(int n)
+double **mm_gen(int n, double seed)
 {
-  double **m, tmp = 1. / n / n;
+  double **m, tmp = seed / n / n;
   int i, j;
   m = mm_init(n);
   for (i = 0; i < n; ++i)
@@ -52,23 +53,34 @@ double **mm_mul(int n, double *const *a, double *const *b)
   return m;
 }
 
-int main(int argc, char *argv[])
-{
+double calc(int n) {
+  n = n / 2 * 2;
+  double **a = mm_gen(n, 1.0);
+  double **b = mm_gen(n, 2.0);
+  double **m = mm_mul(n, a, b);
+  double result = m[n / 2][n / 2];
+  mm_destroy(n, a);
+  mm_destroy(n, b);
+  mm_destroy(n, m);
+  return result;
+}
+
+int main(int argc, char *argv[]) {
+  int n = argc > 1 ? atoi(argv[1]) : 100;
+
+  double left = calc(101);
+  double right = -18.67;
+  if (fabs(left - right) > 0.1) {
+    fprintf(stderr, "%f != %f\n", left, right);
+    exit(EXIT_FAILURE);
+  }
+
   char msg[32];
   size_t len = snprintf(msg, sizeof(msg), "C\t%d", getpid());
   notify(msg, len);
 
-  int n = 100;
-  double **a, **b, **m;
-  if (argc > 1) n = atoi(argv[1]);
-  n = (n/2) * 2;
-  a = mm_gen(n); b = mm_gen(n);
-  m = mm_mul(n, a, b);
-  fprintf(stderr, "%lf\n", m[n/2][n/2]);
-  mm_destroy(n, a); mm_destroy(n, b); mm_destroy(n, m);
+  printf("%f\n", calc(n));
 
   char stop_msg[] = "stop";
   notify(stop_msg, sizeof(stop_msg));
-
-  return 0;
 }

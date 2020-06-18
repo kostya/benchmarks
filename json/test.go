@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net"
 	"os"
 	"runtime"
@@ -25,14 +26,7 @@ func notify(msg string) {
 	}
 }
 
-func main() {
-	bytes, err := ioutil.ReadFile("/tmp/1.json")
-	if err != nil {
-		panic(fmt.Sprintf("%v", err))
-	}
-
-	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
-
+func calc(bytes []byte) Coordinate {
 	jobj := TestStruct{}
 	json.Unmarshal(bytes, &jobj)
 
@@ -45,7 +39,24 @@ func main() {
 	}
 
 	len := float64(len(jobj.Coordinates))
-	fmt.Printf("%.8f\n%.8f\n%.8f\n", x/len, y/len, z/len)
+	return Coordinate{x / len, y / len, z / len}
+}
+
+func main() {
+	left := calc([]byte(`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`))
+	right := Coordinate{1.1, 2.2, 3.3}
+	if left != right {
+		log.Fatalf("%+v != %+v\n", left, right)
+	}
+
+	bytes, err := ioutil.ReadFile("/tmp/1.json")
+	if err != nil {
+		panic(fmt.Sprintf("%v", err))
+	}
+
+	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
+
+	fmt.Printf("%+v\n", calc(bytes))
 
 	notify("stop")
 }

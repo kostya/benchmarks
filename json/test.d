@@ -1,42 +1,80 @@
-import std.json;
-import std.stdio;
-import std.file;
-import std.socket;
-import std.compiler;
-import std.format;
+import core.stdc.stdlib;
 import core.thread;
+import std.compiler;
+import std.conv;
+import std.file;
+import std.format;
+import std.json;
+import std.socket;
+import std.stdio;
 
-void notify(string msg) {
-    try {
+struct Coordinate
+{
+    double x, y, z;
+
+    void toString(scope void delegate(const(char)[]) sink) const
+    {
+        sink("Coordinate {x: ");
+        sink(to!string(x));
+        sink(", y: ");
+        sink(to!string(y));
+        sink(", z: ");
+        sink(to!string(z));
+        sink("}");
+    }
+}
+
+void notify(string msg)
+{
+    try
+    {
         auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
-        scope(exit) socket.close();
+        scope (exit)
+            socket.close();
         socket.send(msg);
-    } catch (SocketOSException) {
+    }
+    catch (SocketOSException)
+    {
         // standalone usage
     }
 }
 
-int main(string[] args) {
-  string text = readText("/tmp/1.json");
+Coordinate calc(string text)
+{
+    auto jobj = parseJSON(text).object;
+    auto coordinates = jobj["coordinates"].array;
+    auto len = coordinates.length;
+    auto x = 0.0;
+    auto y = 0.0;
+    auto z = 0.0;
 
-  notify("%s\t%d".format(name, getpid()));
+    for (auto i = 0; i < coordinates.length; i++)
+    {
+        auto coord = coordinates[i];
+        x += coord["x"].floating;
+        y += coord["y"].floating;
+        z += coord["z"].floating;
+    }
 
-  auto jobj = parseJSON(text).object;
-  auto coordinates = jobj["coordinates"].array;
-  ulong len = coordinates.length;
-  double x = 0;
-  double y = 0;
-  double z = 0;
+    return Coordinate(x / len, y / len, z / len);
+}
 
-  for (int i = 0; i < coordinates.length; i++) {
-    auto coord = coordinates[i];
-    x += coord["x"].floating;
-    y += coord["y"].floating;
-    z += coord["z"].floating;
-  }
+int main(string[] args)
+{
+    auto left = calc(`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`);
+    auto right = Coordinate(1.1, 2.2, 3.3);
+    if (left != right)
+    {
+        stderr.writefln("%s != %s", left, right);
+        exit(1);
+    }
 
-  printf("%.8f\n%.8f\n%.8f\n", x / len, y / len, z / len);
+    auto text = readText("/tmp/1.json");
 
-  notify("stop");
-  return 0;
+    notify("%s\t%d".format(name, getpid()));
+
+    writeln(calc(text));
+
+    notify("stop");
+    return 0;
 }

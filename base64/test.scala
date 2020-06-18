@@ -16,11 +16,6 @@ object Base64 {
     val TRIES = 8192
     val str = Array.fill[Byte](STR_SIZE)('a')
 
-    println("JIT warming up")
-    for (_ <- 1 to 5) {
-      decode(encode(str))
-    }
-
     notify(s"Scala\t${ProcessHandle.current().pid()}")
     val t = System.nanoTime
     var s = 0

@@ -4,9 +4,9 @@ fn new_mat(x: usize, y: usize) -> Vec<Vec<f64>> {
     vec![vec![0f64; y]; x]
 }
 
-fn mat_gen(n: usize) -> Vec<Vec<f64>> {
+fn mat_gen(n: usize, seed: f64) -> Vec<Vec<f64>> {
     let mut m = new_mat(n, n);
-    let tmp = 1f64 / (n as f64) / (n as f64);
+    let tmp = seed / (n as f64) / (n as f64);
 
     for i in 0 .. n {
         for j in 0 .. n {
@@ -48,20 +48,31 @@ fn notify(msg: &str) {
     }
 }
 
-fn main() {
-    notify(&format!("Rust\t{}", std::process::id()));
+fn calc(n: usize) -> f64 {
+    let size = n / 2 * 2;
+    let a = mat_gen(size, 1.0);
+    let b = mat_gen(size, 2.0);
+    let c = mat_mul(&a, &b);
+    c[size / 2][size / 2]
+}
 
+fn main() {
     let n = std::env::args()
             .nth(1)
-            .unwrap_or("1500".into())
+            .unwrap_or("100".into())
             .parse::<usize>()
-            .unwrap() / 2 * 2;
+            .unwrap();
 
-    let a = mat_gen(n);
-    let b = mat_gen(n);
-    let c = mat_mul(&a, &b);
+    let left = calc(101);
+    let right = -18.67;
+    if (left - right).abs() > 0.1 {
+        eprintln!("{} != {}", left, right);
+        std::process::exit(-1);
+    }
 
-    println!("{}", c[n / 2][n / 2]);
+    notify(&format!("Rust\t{}", std::process::id()));
+
+    println!("{}", calc(n));
 
     notify("stop");
 }

@@ -6,38 +6,48 @@
 #include <fstream>
 
 using namespace simdjson;
+using namespace std;
 
-void read_file(const std::string& filename, std::stringstream &buffer) {
-  std::ifstream f(filename);
-  if (f.good()) {
-    buffer << f.rdbuf();
+struct coordinate_t {
+  double x;
+  double y;
+  double z;
+
+  auto operator<=>(const coordinate_t&) const = default;
+
+  friend ostream& operator<< (ostream &out, const coordinate_t &point) {
+    out << "coordinate_t {x: " << point.x
+        << ", y: " << point.y
+        << ", z: " << point.z << "}";
+    return out;
   }
+};
+
+string read_file(const string& filename) {
+  ifstream f(filename);
+  if (!f) {
+    return {};
+  }
+  return string(istreambuf_iterator<char>(f),
+                istreambuf_iterator<char>());
 }
 
-int main(int argc, char *argv[]) {
-  std::stringstream ss;
-  read_file("/tmp/1.json", ss);
-  std::string text = ss.str();
-
-  std::stringstream ostr;
-  ostr << "C++ simdjson\t" << getpid();
-  notify(ostr.str());
-
+coordinate_t calc(const string& text) {
   dom::parser pj(0);
   auto allocate_error = pj.allocate(text.size()); // allocate memory for parsing up to p.size() bytes
   if (allocate_error) {
-    std::cerr << allocate_error << std::endl;
-    exit(1); 
+    cerr << allocate_error << endl;
+    exit(EXIT_FAILURE);
   }
 
   auto [doc, error] = pj.parse(text); // do the parsing, return 0 on success
   if (error) {
-    std::cerr << error << std::endl;
-    exit(1); 
+    cerr << error << endl;
+    exit(EXIT_FAILURE);
   }
 
-  double x = 0, y = 0, z = 0;
-  int len = 0;
+  auto x = 0.0, y = 0.0, z = 0.0;
+  auto len = 0;
 
   for (auto coord : doc["coordinates"]) {
     double x_coord = coord["x"];
@@ -52,10 +62,24 @@ int main(int argc, char *argv[]) {
     len++;
   }
 
-  std::cout << x / len << std::endl;
-  std::cout << y / len << std::endl;
-  std::cout << z / len << std::endl;
+  return coordinate_t(x / len, y / len, z / len);
+}
+
+int main() {
+  auto left = calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
+  auto right = coordinate_t(1.1, 2.2, 3.3);
+  if (left != right) {
+    cerr << left << " != " << right << endl;
+    exit(EXIT_FAILURE);
+  }
+
+  auto text = read_file("/tmp/1.json");
+
+  stringstream ostr;
+  ostr << "C++ simdjson\t" << getpid();
+  notify(ostr.str());
+
+  cout << calc(text) << endl;
 
   notify("stop");
-  return EXIT_SUCCESS;
 }

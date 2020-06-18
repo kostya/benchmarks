@@ -11,9 +11,9 @@ proc newmat(x: int, y: int): Matrix =
   for i in 0 ..< x:
     result[i] = newSeq[float](y)
 
-proc matgen(n: int): Matrix =
+proc matgen(n: int, seed: float): Matrix =
   result = newmat(n, n)
-  let tmp = 1.0 / float(n) / float(n)
+  let tmp = seed / float(n) / float(n)
   for i in 0 ..< n:
     for j in 0 ..< n:
       result[i][j] = tmp * float(i - j) * float(i + j)
@@ -50,19 +50,30 @@ proc notify(msg: string) =
   except:
     discard
 
-var compiler = "Nim Clang"
-when defined(gcc):
-  compiler = "Nim GCC"
-notify(&"{compiler}\t{getpid()}")
+proc calc(n: int): auto =
+  let size = (n div 2) * 2
+  let a = matgen(size, 1.0)
+  let b = matgen(size, 2.0)
+  let c = matmul(a, b)
+  c[size div 2][size div 2]
 
-var n = 100
-if paramCount() > 0:
-  n = parseInt(paramStr(1))
-n = n div 2 * 2
+when isMainModule:
+  let n = if paramCount() > 0:
+            parseInt(paramStr(1))
+          else:
+            100
 
-let a = matgen(n)
-let b = matgen(n)
-let c = matmul(a, b)
-echo formatFloat(c[n div 2][n div 2], ffDefault, 8)
+  let left = calc(101)
+  let right = -18.67
+  if abs(left - right) > 0.1:
+    stderr.writeLine(&"{left} != {right}")
+    quit(1)
 
-notify("stop")
+  var compiler = "Nim Clang"
+  when defined(gcc):
+    compiler = "Nim GCC"
+  notify(&"{compiler}\t{getpid()}")
+
+  echo formatFloat(calc(n), ffDefault, 8)
+
+  notify("stop")

@@ -1,71 +1,86 @@
 #!/usr/bin/env dub
 /+dub.sdl:
-dependency "lubeck" version="~>1.1.7"
+dependency "lubeck" version="~>1.3.0"
 libs "lapack" "blas"
+targetPath "target"
 +/
 
-import core.stdc.stdio, std.conv, std.array;
+import std.conv, std.array, std.stdio;
 import mir.ndslice;
-import lubeck: mtimes;
+import kaleidic.lubeck : mtimes;
 import std.socket;
 import std.compiler;
 import std.format;
+import std.math;
+import core.stdc.stdlib;
 import core.thread;
 
 alias Matrix = Slice!(double*, 2);
 
-Matrix buildMatrix(size_t n)
+Matrix buildMatrix(in size_t n, in double seed)
 {
-	auto len = n * n;
-	double tmp = 1.0 / len;
-	auto a = slice!double(n, n);
-	size_t i;
-	foreach (ref row; a)
-	{
-		sizediff_t u = i, v = i;
-		foreach (ref x; row)
-		{
-			x = tmp * (u * v);
-			u--;
-			v++;
-		}
-		i++;
-	}
-	return a;
-}
-
-Matrix[2] generate2(size_t n)
-{
-	auto a = buildMatrix(n);
-	auto b = buildMatrix(n);
-	return [a, b];
+    auto len = n * n;
+    auto tmp = seed / len;
+    auto a = slice!double(n, n);
+    size_t i;
+    foreach (ref row; a)
+    {
+        sizediff_t u = i, v = i;
+        foreach (ref x; row)
+        {
+            x = tmp * (u * v);
+            u--;
+            v++;
+        }
+        i++;
+    }
+    return a;
 }
 
 Matrix mul(Matrix a, Matrix b)
 {
-	return a.mtimes(b);
+    return mtimes(a, b);
 }
 
-void notify(string msg) {
-    try {
+void notify(in string msg)
+{
+    try
+    {
         auto socket = new TcpSocket(new InternetAddress("localhost", 9001));
-        scope(exit) socket.close();
+        scope (exit)
+            socket.close();
         socket.send(msg);
-    } catch (SocketOSException) {
+    }
+    catch (SocketOSException)
+    {
         // standalone usage
     }
 }
 
+double calc(in size_t n)
+{
+    auto size = n / 2 * 2;
+    auto a = buildMatrix(size, 1.0);
+    auto b = buildMatrix(size, 2.0);
+    auto x = mul(a, b);
+    return x[size / 2, size / 2];
+}
+
 void main(in string[] args)
 {
+    auto n = args.length > 1 ? to!size_t(args[1]) : 100;
+
+    auto left = calc(101);
+    auto right = -18.67;
+    if (abs(left - right) > 0.1)
+    {
+        stderr.writefln("%f != %f", left, right);
+        exit(1);
+    }
+
     notify("LDC lubeck\t%d".format(getpid()));
 
-    size_t n = 100;
-    if (args.length >= 2)
-       n = to!size_t(args[1]) / 2 * 2;
-    auto ab = generate2(n);
-    auto x = mul(ab[0], ab[1]);
-    printf("%.6f\n", x[n / 2, n / 2]);
+    printf("%.6f\n", calc(n));
 
     notify("stop");
 }

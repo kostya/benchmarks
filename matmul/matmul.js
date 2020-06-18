@@ -1,53 +1,51 @@
 var matrix = {}
 
 matrix.new = function (n) {
-    var a = new Array(n);
-    for (var i = 0; i < n; i++) a[i] = new Float64Array(n);
+    const a = new Array(n);
+    for (let i = 0; i < n; i++) a[i] = new Float64Array(n);
     return a;
 }
 
 matrix.T = function (a, n) {
-    var y = matrix.new(n)
-    for (var i = 0; i < n; i++) {
-        for (var j = 0; j < n; j++) {
-            y[i][j] = a[j][i]
+    const y = matrix.new(n);
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            y[i][j] = a[j][i];
         }
     }
-    return y
+    return y;
 }
 
 matrix.mul = function (a, b, n) {
-    var y = matrix.new(n)
-    var c = matrix.T(b, n)
-    for (var i = 0; i < n; i++) {
-        for (var j = 0; j < n; j++) {
-            var sum = 0;
-            for (var k = 0; k < n; k++) sum = sum + a[i][k] * c[j][k]
+    const y = matrix.new(n);
+    const c = matrix.T(b, n);
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            let sum = 0;
+            for (let k = 0; k < n; k++) sum = sum + a[i][k] * c[j][k];
             y[i][j] = sum;
         }
     }
-    return y
+    return y;
 }
 
-matgen = function (n) {
-    var y = matrix.new(n)
-    var tmp = 1 / n / n
-    for (var i = 0; i < n; i++) {
-        for (var j = 0; j < n; j++) {
-            y[i][j] = tmp * (i - j) * (i + j)
+matgen = function (n, seed) {
+    const y = matrix.new(n);
+    const tmp = seed / n / n;
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            y[i][j] = tmp * (i - j) * (i + j);
         }
     }
-    return y
+    return y;
 }
 
-function main() {
-    var n = 100;
-    if (process.argv[2]) n = parseInt(process.argv[2]);
-
-    var a = matgen(n);
-    var b = matgen(n);
-    var c = matrix.mul(a, b, n);
-    console.log(c[(n/2)][(n / 2)]);
+function calc(n) {
+    n = n >> 1 << 1;
+    const a = matgen(n, 1.0);
+    const b = matgen(n, 2.0);
+    const c = matrix.mul(a, b, n);
+    return c[n / 2][n / 2];
 }
 
 function notify(msg) {
@@ -62,7 +60,16 @@ function notify(msg) {
 }
 
 (async function() {
+    const n = process.argv.length > 1 ? parseInt(process.argv[2]) : 100;
+
+    const left = calc(101);
+    const right = -18.67;
+    if (Math.abs(left - right) > 0.1) {
+        console.error(`${left} != ${right}`)
+        process.exit(1);
+    }
+
     await notify(`Node.js\t${require('process').pid}`);
-    main();
+    console.log(calc(n))
     await notify('stop');
 })();

@@ -394,39 +394,6 @@ class HavlakLoopFinder
   end
 end
 
-def build_diamond(start)
-  bb0 = start
-  BasicBlockEdge.add(TOP_CFG, bb0, bb0 + 1)
-  BasicBlockEdge.add(TOP_CFG, bb0, bb0 + 2)
-  BasicBlockEdge.add(TOP_CFG, bb0 + 1, bb0 + 3)
-  BasicBlockEdge.add(TOP_CFG, bb0 + 2, bb0 + 3)
-  bb0 + 3
-end
-
-def build_connect(_start, _end)
-  BasicBlockEdge.add(TOP_CFG, _start, _end)
-end
-
-def build_straight(start, n)
-  n.times do |i|
-    build_connect(start + i, start + i + 1)
-  end
-  start + n
-end
-
-def build_base_loop(from)
-  header = build_straight(from, 1)
-  diamond1 = build_diamond(header)
-  d11 = build_straight(diamond1, 1)
-  diamond2 = build_diamond(d11)
-  footer = build_straight(diamond2, 1)
-  build_connect(diamond2, d11)
-  build_connect(diamond1, header)
-
-  build_connect(footer, from)
-  build_straight(footer, 1)
-end
-
 def notify(msg)
   begin
     TCPSocket.open("localhost", 9001) { |s|
@@ -437,57 +404,92 @@ def notify(msg)
   end
 end
 
-pid = Process.pid
-notify("Crystal\t#{pid}")
-
-TOP_CFG = CFG.new
-
-puts "Welcome to LoopTesterApp, Crystal edition"
-
-puts "Constructing Simple CFG..."
-
-TOP_CFG.create_node(0) # top
-build_base_loop(0)
-TOP_CFG.create_node(1) # bottom
-build_connect(0, 2)
-
-# execute loop recognition 15000 times to force compilation
-puts "15000 dummy loops"
-15000.times do
-  HavlakLoopFinder.new(TOP_CFG, LSG.new).find_loops
-end
-
-puts "Constructing CFG..."
-n = 2
-
-10.times do |parlooptrees|
-  TOP_CFG.create_node(n + 1)
-  build_connect(2, n + 1)
-  n = n + 1
-  100.times do |i|
-    top = n
-    n = build_straight(n, 1)
-    25.times { n = build_base_loop(n) }
-
-    bottom = build_straight(n, 1)
-    build_connect(n, top)
-    n = bottom
+class EntryPoint
+  def self.build_diamond(start)
+    bb0 = start
+    BasicBlockEdge.add(TOP_CFG, bb0, bb0 + 1)
+    BasicBlockEdge.add(TOP_CFG, bb0, bb0 + 2)
+    BasicBlockEdge.add(TOP_CFG, bb0 + 1, bb0 + 3)
+    BasicBlockEdge.add(TOP_CFG, bb0 + 2, bb0 + 3)
+    bb0 + 3
   end
 
-  build_connect(n, 1)
+  def self.build_connect(_start, _end)
+    BasicBlockEdge.add(TOP_CFG, _start, _end)
+  end
+
+  def self.build_straight(start, n)
+    n.times do |i|
+      build_connect(start + i, start + i + 1)
+    end
+    start + n
+  end
+
+  def self.build_base_loop(from)
+    header = build_straight(from, 1)
+    diamond1 = build_diamond(header)
+    d11 = build_straight(diamond1, 1)
+    diamond2 = build_diamond(d11)
+    footer = build_straight(diamond2, 1)
+    build_connect(diamond2, d11)
+    build_connect(diamond1, header)
+
+    build_connect(footer, from)
+    build_straight(footer, 1)
+  end
+
+  pid = Process.pid
+  notify("Crystal\t#{pid}")
+
+  TOP_CFG = CFG.new
+
+  puts "Welcome to LoopTesterApp, Crystal edition"
+
+  puts "Constructing Simple CFG..."
+
+  TOP_CFG.create_node(0) # top
+  build_base_loop(0)
+  TOP_CFG.create_node(1) # bottom
+  build_connect(0, 2)
+
+  # execute loop recognition 15000 times to force compilation
+  puts "15000 dummy loops"
+  15000.times do
+    HavlakLoopFinder.new(TOP_CFG, LSG.new).find_loops
+  end
+
+  puts "Constructing CFG..."
+  n = 2
+
+  10.times do |parlooptrees|
+    TOP_CFG.create_node(n + 1)
+    build_connect(2, n + 1)
+    n = n + 1
+    100.times do |i|
+      top = n
+      n = build_straight(n, 1)
+      25.times { n = build_base_loop(n) }
+
+      bottom = build_straight(n, 1)
+      build_connect(n, top)
+      n = bottom
+    end
+
+    build_connect(n, 1)
+  end
+
+  puts "Performing Loop Recognition\n1 Iteration"
+  loops = HavlakLoopFinder.new(TOP_CFG, LSG.new).find_loops
+
+  puts "Another 50 iterations..."
+
+  sum = 0
+  50.times do |i|
+    print "."
+    sum += HavlakLoopFinder.new(TOP_CFG, LSG.new).find_loops
+  end
+
+  puts "\nFound #{loops} loops (including artificial root node) (#{sum})\n"
+
+  notify("stop")
 end
-
-puts "Performing Loop Recognition\n1 Iteration"
-loops = HavlakLoopFinder.new(TOP_CFG, LSG.new).find_loops
-
-puts "Another 50 iterations..."
-
-sum = 0
-50.times do |i|
-  print "."
-  sum += HavlakLoopFinder.new(TOP_CFG, LSG.new).find_loops
-end
-
-puts "\nFound #{loops} loops (including artificial root node) (#{sum})\n"
-
-notify("stop")
