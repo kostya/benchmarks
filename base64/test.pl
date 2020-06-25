@@ -1,11 +1,13 @@
-use strict;
+use v5.12;
 use warnings;
+use feature qw(signatures);
+no warnings qw(experimental::signatures);
+
 use MIME::Base64::Perl qw(encode_base64 decode_base64);
 use Time::HiRes 'time';
 use Socket;
 
-sub notify {
-    my $msg = shift;
+sub notify ($msg) {
     socket(my $socket, Socket::PF_INET, Socket::SOCK_STREAM, (getprotobyname('tcp'))[2]);
     if (connect($socket, Socket::pack_sockaddr_in(9001, Socket::inet_aton('localhost')))) {
         print $socket $msg;
