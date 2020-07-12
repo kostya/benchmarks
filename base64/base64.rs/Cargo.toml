@@ -4,7 +4,8 @@ version = "0.0.1"
 edition = "2018"
 
 [dependencies]
-base64 = "0.12.1"
+radix64 = "0.6.1"
+stopwatch = "0.0.7"
 
 [profile.release]
 lto = true
