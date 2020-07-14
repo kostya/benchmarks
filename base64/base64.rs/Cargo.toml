@@ -4,7 +4,21 @@ version = "0.0.1"
 edition = "2018"
 
 [dependencies]
+# https://github.com/rust-lang/cargo/issues/1982
+# base64
 base64 = "0.12.1"
+# radix64
+radix64 = "0.6.1"
+stopwatch = "0.0.7"
+
 
 [profile.release]
 lto = true
+
+[[bin]]
+name = "base64"
+path = "src/bin/base64.rs"
+
+[[bin]]
+name = "radix64"
+path = "src/bin/radix64.rs"
