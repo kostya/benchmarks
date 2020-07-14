@@ -13,12 +13,11 @@ fn notify(msg: &[u8]) {
 
 fn main() {
     let input = vec![b'a'; STR_SIZE];
-    let mut buffer = Vec::with_capacity(STR_SIZE);
 
     notify(&format!("Rust\t{}", std::process::id()).as_bytes());
     let mut sum = 0;
 
-    let mut output = base64.encode_with_buffer(&input, &mut buffer);
+    let mut output = base64.encode(&input);
     print!(
         "encode {}... to {}...: ",
         str::from_utf8(&input[..4]).unwrap(),
@@ -27,7 +26,7 @@ fn main() {
 
     let mut sw = Stopwatch::start_new();
     for _ in 0..TRIES {
-        output = base64.encode_with_buffer(&input, &mut buffer);
+        output = base64.encode(&input);
         sum += output.len();
     }
     let mut tim = sw.elapsed_ms();
