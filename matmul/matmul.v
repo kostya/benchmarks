@@ -53,10 +53,8 @@ fn notify(msg string) {
 	sock := net.dial('127.0.0.1', 9001) or {
 		return
 	}
-	sock.write(msg) or {
-	}
-	sock.close() or {
-	}
+	sock.write(msg) or { }
+	sock.close() or { }
 }
 
 fn calc(n int) f64 {
@@ -78,7 +76,7 @@ fn main() {
 	$if clang {
 		lang = 'V Clang'
 	}
-	notify('${lang}\t${C.getpid()}')
+	notify('$lang\t$C.getpid()')
 	println(calc(n))
 	notify('stop')
 }
