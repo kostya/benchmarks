@@ -206,10 +206,20 @@ run[truby-native][bf.rb]:: run[truby-native][%]: % | $(rubocop)
 run[jruby][bf.rb]:: run[jruby][%]: % | $(rubocop)
 	$(JRUBY_RUN) $(BF_SRC)
 
-run[bf.lua]:: run[%]: %
+.PHONY: lua-deps
+lua-deps:
+	$(LUAROCKS_LUA) install luasocket
+	$(LUAROCKS_LUA) install luaposix
+
+.PHONY: luajit-deps
+luajit-deps:
+	$(LUAROCKS_LUAJIT) install luasocket
+	$(LUAROCKS_LUAJIT) install luaposix
+
+run[bf.lua]:: run[%]: % | lua-deps
 	$(LUA_RUN) $(BF_SRC)
 
-run[jit][bf.lua]:: run[jit][%]: %
+run[jit][bf.lua]:: run[jit][%]: % | luajit-deps
 	$(LUA_JIT_RUN) $(BF_SRC)
 
 run[bf.tcl]:: run[%]: %

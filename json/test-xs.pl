@@ -1,5 +1,8 @@
-use strict;
+use v5.12;
 use warnings;
+use feature qw(signatures);
+no warnings qw(experimental::signatures);
+
 use File::Slurper 'read_binary';
 use Cpanel::JSON::XS 'decode_json';
 use Socket;
@@ -9,8 +12,7 @@ use Test::More tests => 1;
 
 struct(Coordinate => [x => '$', y => '$', z => '$']);
 
-sub notify {
-    my $msg = shift;
+sub notify ($msg) {
     socket(my $socket, Socket::PF_INET, Socket::SOCK_STREAM, (getprotobyname('tcp'))[2]);
     if (connect($socket, Socket::pack_sockaddr_in(9001, Socket::inet_aton('localhost')))) {
         print $socket $msg;
@@ -18,8 +20,7 @@ sub notify {
     close($socket);
 }
 
-sub calc {
-    my $bytes = shift;
+sub calc ($bytes) {
     my $jobj = decode_json $bytes;
     my $coordinates = $jobj->{coordinates};
     my $len = @$coordinates;
