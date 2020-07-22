@@ -1,6 +1,12 @@
+docker_build = docker build docker/ -t benchmarks
+
 .PHONY: build
 build:
-	docker build docker/ -t benchmarks
+	$(docker_build)
+
+.PHONY: rebuild
+rebuild:
+	$(docker_build) --no-cache
 
 docker_run = docker run -it --rm -v $(shell pwd):/src benchmarks
 

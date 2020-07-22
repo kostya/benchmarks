@@ -62,7 +62,7 @@ struct Program {
 }
 
 fn new_program(code string) Program {
-	si := new_si(code)
+	mut si := new_si(code)
 	return Program{
 		ops: parse(mut si)
 	}
@@ -142,10 +142,8 @@ fn notify(msg string) {
 	sock := net.dial('127.0.0.1', 9001) or {
 		return
 	}
-	sock.write(msg) or {
-	}
-	sock.close() or {
-	}
+	sock.write(msg) or { }
+	sock.close() or { }
 }
 
 fn main() {
@@ -165,7 +163,7 @@ fn main() {
 	$if clang {
 		lang = 'V Clang'
 	}
-	notify('${lang}\t${C.getpid()}')
+	notify('$lang\t$C.getpid()')
 	new_program(code).run()
 	notify('stop')
 }
