@@ -36,7 +36,7 @@ The benchmarks follow the criteria:
 
 My other benchmarks: [jit-benchmarks](https://github.com/kostya/jit-benchmarks), [crystal-benchmarks-game](https://github.com/kostya/crystal-benchmarks-game)
 
-UPDATE: 2020-06-14
+UPDATE: 2020-07-21
 
 # Test Cases
 
