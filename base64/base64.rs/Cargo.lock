@@ -2,15 +2,15 @@
 # It is not intended for manual editing.
 [[package]]
 name = "base64"
-version = "0.12.1"
+version = "0.12.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "base64_rs"
 version = "0.0.1"
 dependencies = [
- "base64 0.12.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "base64 0.12.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [metadata]
-"checksum base64 0.12.1 (registry+https://github.com/rust-lang/crates.io-index)" = "53d1ccbaf7d9ec9537465a97bf19edc1a4e158ecb49fc16178202238c569cc42"
+"checksum base64 0.12.3 (registry+https://github.com/rust-lang/crates.io-index)" = "3441f0f7b02788e948e47f457ca01f1d7e6d92c693bc132c22b087d3141c03ff"

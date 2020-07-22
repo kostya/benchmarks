@@ -1,36 +1,27 @@
 FROM debian:testing
 
+ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 RUN apt-get update \
-	&& apt-get install -y --no-install-recommends gnupg dirmngr \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& export GNUPGHOME="$(mktemp -d)" \
-	&& gpg --batch --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
-	&& gpg --batch --export --armor 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF > /etc/apt/trusted.gpg.d/mono.gpg.asc \
-	&& gpgconf --kill all \
-	&& rm -rf "$GNUPGHOME" \
-	&& apt-key list | grep Xamarin \
-	&& apt-get purge -y --auto-remove gnupg dirmngr
-
-# https://www.mono-project.com/download/stable/
-ARG MONO_VERSION=6.8.0.123
-RUN echo "deb http://download.mono-project.com/repo/debian stable-stretch/snapshots/$MONO_VERSION main" > /etc/apt/sources.list.d/mono-official-vs.list
-
-RUN apt-get update \
+        && apt-get install -y --no-install-recommends apt-transport-https dirmngr gnupg ca-certificates \
+        && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
+        && echo "deb https://download.mono-project.com/repo/debian stable-buster main" > /etc/apt/sources.list.d/mono-official-stable.list \
+        && apt-get update \
 	&& apt-get install -y wget xz-utils build-essential libtool-bin cmake git curl vim powercap-utils \
-	libgmp-dev libssl-dev libssl1.1 libxml2 lbzip2 libtinfo5 libtool zlib1g libicu63 \
+	libgmp-dev libssl-dev libssl1.1 libxml2 lbzip2 libtinfo5 libtool zlib1g \
 	libpcre3-dev libevent-dev libboost-dev libjson-c-dev libblas-dev liblapack-dev libopenblas-dev \
 	libjq-dev libonig-dev \
 	python3-numpy python3 python3-ujson python3-pip \
 	mono-devel nuget \
 	chezscheme gcc-10 gccgo-10 gdc-10 valac cpanminus \
-	luajit lua5.3 lua-socket lua-posix \
-	tcl tcllib php elixir clang-10 opam \
-	&& update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10 \
+	luajit lua5.4 liblua5.4-dev libluajit-5.1-dev \
+        tcl tcllib php elixir clang-10 opam
+
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10 \
 	&& update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10 \
 	&& update-alternatives --install /usr/bin/gdc gdc /usr/bin/gdc-10 10 \
 	&& update-alternatives --install /usr/bin/gccgo gccgo /usr/bin/gccgo-10 10 \
-	&& update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 10 \
-	&& rm -rf /var/lib/apt/lists/* /tmp/*
+        && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 10 \
+        && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Requires for https://crates.io/crates/jq-sys in Debian
 ENV JQ_LIB_DIR=/usr/lib/x86_64-linux-gnu/
@@ -58,9 +49,9 @@ RUN export VERSION=ruby-2.7.1 \
 ENV PATH="/opt/ruby/bin:${PATH}"
 
 # https://github.com/dotnet/core/tree/master/release-notes
-ARG DOTNET_CORE=3.1.105
+ARG DOTNET_CORE=3.1.106
 RUN mkdir dotnet && wget --progress=dot:giga -O - \
-        https://download.visualstudio.microsoft.com/download/pr/37268c18-226d-436b-b13c-4b77b7f42140/17e8a85360206006a557d634d16713cd/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
+        https://download.visualstudio.microsoft.com/download/pr/03bf81cd-0275-4998-8a24-dc359fc5fed3/7450f821f9cd33c205378e1a0a5b2cb2/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
 	| tar -xz -C dotnet
 ENV PATH="/opt/dotnet:${PATH}"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -73,35 +64,35 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$PYPY/bin:${PATH}"
 
 # https://www.scala-lang.org/download/
-ARG SCALA=2.13.2
+ARG SCALA=2.13.3
 RUN wget --progress=dot:giga -O - \
 	https://downloads.lightbend.com/scala/$SCALA/scala-$SCALA.tgz \
 	| tar -xz
 ENV PATH="/opt/scala-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=14.0.1
+ARG JDK=14.0.2
 RUN wget --progress=dot:giga -O - \
-	https://download.java.net/java/GA/jdk${JDK}/664493ef4a6946b186ff29eb326336a2/7/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
+        https://download.java.net/java/GA/jdk${JDK}/205943a0976c4ed48cb16f1043c5c647/12/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
 	| tar -xz
 ENV PATH="/opt/jdk-$JDK/bin:${PATH}"
 
 # https://github.com/crystal-lang/crystal/releases
-ARG CRYSTAL=crystal-0.35.0-1
+ARG CRYSTAL=crystal-0.35.1-1
 RUN wget --progress=dot:giga -O - \
-	https://github.com/crystal-lang/crystal/releases/download/0.35.0/$CRYSTAL-linux-x86_64.tar.gz \
+	https://github.com/crystal-lang/crystal/releases/download/0.35.1/$CRYSTAL-linux-x86_64.tar.gz \
 	| tar -xz
 ENV PATH="/opt/$CRYSTAL/bin:${PATH}"
 
 # https://github.com/ldc-developers/ldc/releases
-ARG LDC=ldc2-1.21.0-linux-x86_64
+ARG LDC=ldc2-1.22.0-linux-x86_64
 RUN wget --progress=dot:giga -O - \
-	https://github.com/ldc-developers/ldc/releases/download/v1.21.0/$LDC.tar.xz \
+	https://github.com/ldc-developers/ldc/releases/download/v1.22.0/$LDC.tar.xz \
 	| tar -xJ
 ENV PATH="/opt/$LDC/bin/:${PATH}"
 
 # https://nim-lang.org/install_unix.html
-ARG NIM=nim-1.2.0
+ARG NIM=nim-1.2.4
 RUN wget --progress=dot:giga -O - \
 	https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
 	| tar -xJ
@@ -109,19 +100,19 @@ ENV PATH="/opt/$NIM/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN wget --progress=dot:giga -O - \
-        http://downloads.dlang.org/releases/2.x/2.092.1/dmd.2.092.1.linux.tar.xz \
+        http://downloads.dlang.org/releases/2.x/2.093.0/dmd.2.093.0.linux.tar.xz \
 	| tar -xJ
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v14.4.0
+ARG NODE=v14.5.0
 RUN wget --progress=dot:giga -O - \
 	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
 	| tar -xJ
 ENV PATH="/opt/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://www.jruby.org/download
-ARG JRUBY=9.2.11.1
+ARG JRUBY=9.2.12.0
 RUN wget --progress=dot:giga -O - \
 	https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
 	| tar -xz \
@@ -129,7 +120,7 @@ RUN wget --progress=dot:giga -O - \
 
 # https://golang.org/dl/
 RUN wget --progress=dot:giga -O - \
-	https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz \
+        https://golang.org/dl/go1.14.6.linux-amd64.tar.gz \
 	| tar -xz
 ENV PATH="/opt/go/bin/:${PATH}"
 
@@ -176,7 +167,7 @@ ENV PATH="/opt/.ghcup/bin/:${PATH}"
 
 # https://www.haskell.org/ghc/
 ARG GHC_VER=8.10.1
-RUN ghcup install $GHC_VER && ghcup set $GHC_VER
+RUN ghcup install ghc $GHC_VER && ghcup set ghc $GHC_VER
 
 # Shared packages for all Haskell code
 RUN cabal update && cabal install network-simple --lib
@@ -207,6 +198,18 @@ RUN git clone https://github.com/vlang/v.git /opt/v \
 	&& cd v \
 	&& make -j
 ENV PATH="/opt/v/:${PATH}"
+
+# https://github.com/luarocks/luarocks/wiki/Download
+ARG LUAROCKS=3.3.1
+RUN wget --progress=dot:giga -O - \
+        http://luarocks.org/releases/luarocks-$LUAROCKS.tar.gz \
+        | tar -xz \
+        && cd luarocks-$LUAROCKS \
+        && ./configure --prefix=/opt/luarocks/lua \
+        && make -j && make install \
+        && ./configure --with-lua-interpreter=luajit --prefix=/opt/luarocks/luajit \
+        && make -j && make install \
+	&& cd .. && rm -rf luarocks-$LUAROCKS
 
 ARG SCRIPTS_VER=unknown
 COPY *.rb ./

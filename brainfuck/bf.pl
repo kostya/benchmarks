@@ -1,18 +1,15 @@
 #! /usr/bin/env perl
 
-use 5.10.1;
-use strict;
+use v5.12;
 use warnings;
+use feature qw(signatures);
+no warnings qw(experimental);
+
 use Socket;
-no warnings 'experimental';
 
 package Op;
 
-sub new {
-    my $class = shift;
-    my $op = shift;
-    my $val = shift;
-
+sub new ($class, $op, $val = undef) {
     my $self = {
         op => $op,
         val => $val,
@@ -24,9 +21,7 @@ sub new {
 
 package Tape;
 
-sub new {
-    my $class = shift;
-
+sub new ($class) {
     my $self = {
         tape => [0],
         pos => 0,
@@ -35,23 +30,15 @@ sub new {
     return $self;
 }
 
-sub get {
-    my $self = shift;
-
+sub get ($self) {
     return $self->{tape}[$self->{pos}];
 }
 
-sub inc {
-    my $self = shift;
-    my $x = shift;
-
+sub inc ($self, $x) {
     $self->{tape}[$self->{pos}] += $x;
 }
 
-sub move {
-    my $self = shift;
-    my $x = shift;
-
+sub move ($self, $x) {
     $self->{pos} += $x;
     my $missing = $self->{pos} - @{$self->{tape}} + 1;
     for (my $i = 0; $i < $missing; $i++) {
@@ -67,10 +54,7 @@ my $MOVE  = 2;
 my $PRINT = 3;
 my $LOOP  = 4;
 
-sub parse {
-    my $source = shift;
-    my $i = shift || 0;
-
+sub parse ($source, $i = 0) {
     my $repr = [];
     for (; $i < @{$source}; $i++) {
         given ($source->[$i]) {
@@ -90,9 +74,7 @@ sub parse {
     return ($repr, $i);
 }
 
-sub run {
-    my $parsed = shift;
-    my $tape = shift;
+sub run ($parsed, $tape) {
     foreach my $op (@$parsed) {
         CORE::given ($op->{op}) {
             when ($INC)   { $tape->inc($op->{val}); }
@@ -107,8 +89,7 @@ sub run {
     }
 }
 
-sub notify {
-    my $msg = shift;
+sub notify ($msg) {
     socket(my $socket, Socket::PF_INET, Socket::SOCK_STREAM, (getprotobyname('tcp'))[2]);
     if (connect($socket, Socket::pack_sockaddr_in(9001, Socket::inet_aton('localhost')))) {
         print $socket $msg;

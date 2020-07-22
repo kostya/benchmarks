@@ -1,8 +1,12 @@
 # rurban; distributed under the MIT license
+use v5.12;
+use warnings;
+use feature qw(signatures);
+no warnings qw(experimental::signatures);
+
 use Socket;
 
-sub matmul {
-    my ($a, $b) = @_;
+sub matmul ($a, $b) {
     my $m = $#{$a} - 1;
     my $n = $#{$a->[0]} - 1;
     my $p = $#{$b->[0]} - 1;
@@ -30,8 +34,7 @@ sub matmul {
     \@c
 }
 
-sub matgen {
-    my ($n, $seed) = @_;
+sub matgen ($n, $seed) {
     my $tmp = $seed / $n / $n;
     my @a;
     for my $i (0..$n) {
@@ -42,8 +45,7 @@ sub matgen {
     \@a
 }
 
-sub notify {
-    my $msg = shift;
+sub notify ($msg) {
     socket(my $socket, Socket::PF_INET, Socket::SOCK_STREAM, (getprotobyname('tcp'))[2]);
     if (connect($socket, Socket::pack_sockaddr_in(9001, Socket::inet_aton('localhost')))) {
         print $socket $msg;
@@ -51,8 +53,7 @@ sub notify {
     close($socket);
 }
 
-sub calc {
-    my $n = shift;
+sub calc ($n) {
     $n = int($n / 2) * 2;
     my $a = matgen($n, 1.0);
     my $b = matgen($n, 2.0);
