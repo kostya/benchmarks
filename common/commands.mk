@@ -1,10 +1,12 @@
-GCC_FLAGS := -O3 -Wall -flto
+GCC_FLAGS := -O3 -Wall -flto -Wa,-mbranches-within-32B-boundaries
+# Eventually, enable clang optimization: --x86-branches-within-32B-boundaries
+CLANG_FLAGS := -O3
 LIBNOTIFY_FLAGS := -I../common/libnotify ../common/libnotify/target/libnotify.a
 NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off
 VALAC_FLAGS := --disable-assert -X -O3 --pkg gio-2.0 --pkg posix
 V_FLAGS := -prod
 
-CLANG_BUILD =		clang -O3 -o $@ $^ $(LIBNOTIFY_FLAGS)
+CLANG_BUILD =		clang $(CLANG_FLAGS) -o $@ $^ $(LIBNOTIFY_FLAGS)
 CRYSTAL_BUILD =	crystal build --release --no-debug -o $@ $^
 DMD_BUILD =		dmd -of$@ -O -release -inline $^
 DOTNET_BUILD =		dotnet build --nologo -v q $< -c Release
@@ -73,7 +75,7 @@ SCHEME_RUN =		$(XTIME) scheme --optimize-level 3 --program $^
 JULIA_RUN =		$(XTIME) julia --optimize=3 --check-bounds=no $^
 
 GIT_CLONE = git clone -q --depth 1
-DOTNET_CLEAN = dotnet clean --nologo -v q
+DOTNET_CLEAN = -dotnet clean --nologo -v q
 NUGET_INSTALL = nuget install -ExcludeVersion -Verbosity quiet
 
 py_fmt := target/.py_fmt
