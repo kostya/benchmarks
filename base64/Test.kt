@@ -16,7 +16,7 @@ fun notify(msg: String) {
     }
 }
 
-fun main(args: Array<String>) {
+fun main() {
     val str = "a".repeat(STR_SIZE).toByteArray()
 
     val pid = ProcessHandle.current().pid()
