@@ -108,7 +108,7 @@ LANGS = {
   'Tcl' => -> { `echo 'puts "$tcl_version"' | tclsh` },
   'Kotlin' => lambda do
     prog = <<~KOTLIN
-      fun main(args: Array<String>){
+      fun main(){
         println(KotlinVersion.CURRENT)
       }
     KOTLIN
