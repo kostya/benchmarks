@@ -9,7 +9,7 @@ x = []
     'x' => rand,
     'y' => rand,
     'z' => rand,
-    'name' => ('a'..'z').to_a.sample(6).join + ' ' + rand(10_000).to_s,
+    'name' => "#{('a'..'z').to_a.sample(6).join} #{rand(10_000)}",
     'opts' => { '1' => [1, true] }
   }
   x << h
