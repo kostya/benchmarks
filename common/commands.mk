@@ -1,6 +1,5 @@
 GCC_FLAGS := -O3 -Wall -flto -Wa,-mbranches-within-32B-boundaries
-# Eventually, enable clang optimization: --x86-branches-within-32B-boundaries
-CLANG_FLAGS := -O3
+CLANG_FLAGS := -O3 -mbranches-within-32B-boundaries
 LIBNOTIFY_FLAGS := -I../common/libnotify ../common/libnotify/target/libnotify.a
 NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off
 VALAC_FLAGS := --disable-assert -X -O3 --pkg gio-2.0 --pkg posix
