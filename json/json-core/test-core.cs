@@ -129,7 +129,7 @@ namespace Test
 
             var text = File.ReadAllText("/tmp/1.json");
 
-            Notify($"C# System.Text.Json\t{Process.GetCurrentProcess().Id}");
+            Notify($"C#/.NET Core (System.Text.Json)\t{Process.GetCurrentProcess().Id}");
             var sw = Stopwatch.StartNew();
 
             Console.WriteLine(Calc(text));

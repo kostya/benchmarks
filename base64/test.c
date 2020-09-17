@@ -106,7 +106,7 @@ int main() {
   str[STR_SIZE] = '\0';
 
   char msg[32];
-  size_t len = snprintf(msg, sizeof(msg), "C\t%d", getpid());
+  size_t len = snprintf(msg, sizeof(msg), "C/gcc\t%d", getpid());
   notify(msg, len);
   int s = 0;
   clock_t t = clock();

@@ -63,7 +63,7 @@ int main() {
   read_file("/tmp/1.json", text);
 
   stringstream ostr;
-  ostr << "C++ Boost\t" << getpid();
+  ostr << "C++/g++ (Boost)\t" << getpid();
   notify(ostr.str());
 
   cout << calc(text) << endl;

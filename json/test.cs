@@ -128,7 +128,7 @@ namespace Test
             var text = File.ReadAllText("/tmp/1.json");
 
             var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
-            Notify($"C# {runtime}\t{Process.GetCurrentProcess().Id}");
+            Notify($"C#/{runtime}\t{Process.GetCurrentProcess().Id}");
             var sw = Stopwatch.StartNew();
 
             Console.WriteLine(Calc(text));

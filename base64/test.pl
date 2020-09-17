@@ -22,7 +22,7 @@ if ($0 eq __FILE__) {
     my $str = 'a' x STR_SIZE;
 
     my $pid = $$;
-    notify("Perl MIME::Base64::Perl\t${pid}");
+    notify("Perl (MIME::Base64::Perl)\t${pid}");
     my ($t, $s) = (time, 0);
 
     my $str2 = encode_base64 $str, '';

@@ -72,7 +72,7 @@ let main argv =
       |> String.concat "\n"
 
     let runtime = if isNull(Type.GetType("Mono.Runtime")) then ".NET Core" else "Mono"
-    notify(String.Format("F# {0}\t{1}", runtime, Process.GetCurrentProcess().Id))
+    notify(String.Format("F#/{0}\t{1}", runtime, Process.GetCurrentProcess().Id))
     let stopWatch = new Stopwatch()
 
     let (_, ops) = parse(source, [])

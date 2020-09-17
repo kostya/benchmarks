@@ -96,7 +96,7 @@ namespace Test
             string text = File.ReadAllText(args[0]);
 
             var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
-            Notify($"C# {runtime}\t{Process.GetCurrentProcess().Id}");
+            Notify($"C#/{runtime}\t{Process.GetCurrentProcess().Id}");
             var stopWatch = new Stopwatch();
 
             var p = new Program(text);

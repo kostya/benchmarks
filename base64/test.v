@@ -14,9 +14,9 @@ fn main() {
 	str_size := 131072
 	tries := 8192
 	str := 'a'.repeat(str_size)
-	mut lang := 'V GCC'
+	mut lang := 'V/gcc'
 	$if clang {
-		lang = 'V Clang'
+		lang = 'V/clang'
 	}
 	notify('$lang\t$C.getpid()')
 	mut bench := benchmark.new_benchmark()

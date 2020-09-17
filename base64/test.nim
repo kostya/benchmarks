@@ -16,9 +16,9 @@ when isMainModule:
   const TRIES = 8192
   let str = strutils.repeat('a', STR_SIZE)
 
-  var compiler = "Nim Clang"
+  var compiler = "Nim/clang"
   when defined(gcc):
-    compiler = "Nim GCC"
+    compiler = "Nim/gcc"
   notify(&"{compiler}\t{getpid()}")
 
   var t = times.epochTime()

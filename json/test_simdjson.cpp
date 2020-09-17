@@ -76,7 +76,7 @@ int main() {
   auto text = read_file("/tmp/1.json");
 
   stringstream ostr;
-  ostr << "C++ simdjson\t" << getpid();
+  ostr << "C++/g++ (simdjson)\t" << getpid();
   notify(ostr.str());
 
   cout << calc(text) << endl;

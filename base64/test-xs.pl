@@ -22,7 +22,7 @@ sub notify ($msg) {
 
 if ($0 eq __FILE__) {
     my $pid = $$;
-    notify("Perl MIME::Base64\t${pid}");
+    notify("Perl (MIME::Base64)\t${pid}");
     my ($t, $s) = (time, 0);
 
     my $str2 = encode_base64 $str, '';

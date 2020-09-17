@@ -129,3 +129,6 @@ Style/SingleArgumentDig:
 
 Style/StringConcatenation:
   Enabled: true
+
+AllCops:
+  NewCops: enable
