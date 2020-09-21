@@ -184,7 +184,7 @@ Testing parsing and simple calculating of values from a big JSON file.
 
 |                        Language |       Time, s |     Memory, MiB |       Energy, J |
 | :------------------------------ | ------------: | --------------: | --------------: |
-|         C++/g++ (DAW JSON Link) |  0.09 ± 00.00 |  109.22 ± 00.04 |    1.74 ± 00.04 |
+|         C++/g++ (DAW JSON Link) |  0.09 ± 00.00 |  109.18 ± 00.04 |    2.04 ± 00.11 |
 |                    D/gdc (fast) |  0.11 ± 00.00 |  231.32 ± 00.35 |    2.13 ± 00.05 |
 |             Rust (Serde Custom) |  0.14 ± 00.01 |  108.42 ± 00.09 |    2.48 ± 00.20 |
 |              Rust (Serde Typed) |  0.14 ± 00.01 |  120.10 ± 00.14 |    2.89 ± 00.32 |
