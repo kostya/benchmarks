@@ -43,7 +43,7 @@ final class matmulnd4j {
             System.exit(1);
         }
 
-        notify("Java ND4J\t" + ProcessHandle.current().pid());
+        notify("Java (ND4J)\t" + ProcessHandle.current().pid());
         final var start_time = System.currentTimeMillis();
 
         System.out.println(calc(n));

@@ -78,7 +78,7 @@ void main(in string[] args)
         exit(1);
     }
 
-    notify("LDC lubeck\t%d".format(getpid()));
+    notify("D/ldc2 (lubeck)\t%d".format(getpid()));
 
     printf("%.6f\n", calc(n));
 

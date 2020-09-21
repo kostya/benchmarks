@@ -159,9 +159,9 @@ fn main() {
 		eprintln('Failed to open file $filename')
 		return
 	}
-	mut lang := 'V GCC'
+	mut lang := 'V/gcc'
 	$if clang {
-		lang = 'V Clang'
+		lang = 'V/clang'
 	}
 	notify('$lang\t$C.getpid()')
 	new_program(code).run()

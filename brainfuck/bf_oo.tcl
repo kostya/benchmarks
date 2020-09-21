@@ -92,7 +92,7 @@ apply {{filename} {
     set text [split [read $f] {}]
     close $f
 
-    notify [format "%s\t%d" "Tcl (OO)" [pid]]
+    notify [format "%s\t%d" "Tcl (OOP)" [pid]]
     main $text
     notify "stop"
 }} {*}$argv

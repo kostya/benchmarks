@@ -38,7 +38,7 @@ if __name__ == "__main__":
         print("%f != %f" % (left, right), file=sys.stderr)
         quit(1)
 
-    notify("Python NumPy\t%d" % (os.getpid()))
+    notify("Python (NumPy)\t%d" % (os.getpid()))
 
     print(calc(n))
 

@@ -50,7 +50,7 @@ if ($0 eq __FILE__) {
     my $bytes = read_binary '/tmp/1.json';
 
     my $pid = $$;
-    notify("Perl JSON::Tiny\t${pid}");
+    notify("Perl (JSON::Tiny)\t${pid}");
 
     print Dumper(calc($bytes)), "\n";
 

@@ -5,9 +5,9 @@
 #include <libnotify.h>
 
 #ifdef __clang__
-# define COMPILER "Clang"
+# define COMPILER "clang"
 #else
-# define COMPILER "GCC"
+# define COMPILER "gcc"
 #endif
 
 struct op_list;
@@ -273,7 +273,7 @@ int main(int argc, char *argv[]) {
 	code[fsize] = 0;
 
 	notify_len = snprintf(notify_msg, sizeof(notify_msg),
-			"C " COMPILER "\t%d", getpid());
+			"C/" COMPILER "\t%d", getpid());
 	notify(notify_msg, notify_len);
 
 	tape_init(&tape);

@@ -76,12 +76,12 @@ if __FILE__ == $PROGRAM_NAME
   if engine == 'truffleruby'
     desc = RUBY_DESCRIPTION
     if desc.include?('Native')
-      engine = 'TruffleRuby Native'
+      engine = 'Ruby/truffleruby'
     elsif desc.include?('JVM')
-      engine = 'TruffleRuby JVM'
+      engine = 'Ruby/truffleruby (--jvm)'
     end
   elsif engine == 'ruby' && RubyVM::MJIT.enabled?
-    engine = 'Ruby JIT'
+    engine = 'Ruby (--jit)'
   end
 
   pid = Process.pid

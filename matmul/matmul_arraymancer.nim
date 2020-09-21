@@ -41,10 +41,10 @@ when isMainModule:
     stderr.writeLine(&"{left} != {right}")
     quit(1)
 
-  var compiler = "Nim Clang"
+  var compiler = "Nim/clang"
   when defined(gcc):
-    compiler = "Nim GCC"
-  notify(&"{compiler} Arraymancer\t{getpid()}")
+    compiler = "Nim/gcc"
+  notify(&"{compiler} (Arraymancer)\t{getpid()}")
 
   echo formatFloat(calc(n), ffDefault, 8)
 

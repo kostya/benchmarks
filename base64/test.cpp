@@ -97,7 +97,7 @@ int main() {
   bio_string str("a", STR_SIZE);
 
   stringstream ostr;
-  ostr << "C++ libcrypto\t" << getpid();
+  ostr << "C++/g++ (libcrypto)\t" << getpid();
   notify(ostr.str());
 
   long s = 0;

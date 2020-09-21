@@ -20,12 +20,14 @@ Row = Struct.new(:name, :secs, :mb, :joules)
 
 name_repl = {
   'ruby' => 'Ruby',
-  'jruby' => 'JRuby',
-  'gccgo' => 'GCC Go',
+  'jruby' => 'Ruby/jruby',
+  'gccgo' => 'Go/gccgo',
   'gc' => 'Go',
   'CPython' => 'Python',
-  'Digital Mars D' => 'DMD',
-  'GNU D' => 'GDC'
+  'PyPy' => 'Python/pypy',
+  'Digital Mars D' => 'D/dmd',
+  'GNU D' => 'D/gdc',
+  'LDC' => 'D/ldc2'
 }
 
 lines = File.open(RESULTS_LOG) do |f|

@@ -102,7 +102,7 @@ int main(int argc, char** argv) {
   string text = read_file(string(argv[1]));
 
   stringstream ostr;
-  ostr << "C++\t" << getpid();
+  ostr << "C++/g++\t" << getpid();
   notify(ostr.str());
 
   Program p(text);

@@ -26,7 +26,7 @@ namespace Test
             var s = 0;
 
             var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
-            Notify($"C# {runtime}\t{Process.GetCurrentProcess().Id}");
+            Notify($"C#/{runtime}\t{Process.GetCurrentProcess().Id}");
             var sw = Stopwatch.StartNew();
 
             var str2 = Convert.ToBase64String(str1);

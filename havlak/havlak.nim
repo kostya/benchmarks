@@ -450,9 +450,9 @@ proc notify(msg: string) =
     discard
 
 when isMainModule:
-  var compiler = "Nim Clang"
+  var compiler = "Nim/clang"
   when defined(gcc):
-    compiler = "Nim GCC"
+    compiler = "Nim/gcc"
   notify(&"{compiler}\t{getpid()}")
 
   var l = NewLoopTesterApp()

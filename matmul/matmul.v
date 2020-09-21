@@ -72,9 +72,9 @@ fn main() {
 	if math.abs(left - right) > 0.1 {
 		panic('$left != $right')
 	}
-	mut lang := 'V GCC'
+	mut lang := 'V/gcc'
 	$if clang {
-		lang = 'V Clang'
+		lang = 'V/clang'
 	}
 	notify('$lang\t$C.getpid()')
 	println(calc(n))
