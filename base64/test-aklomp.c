@@ -24,7 +24,7 @@ int main() {
   str[STR_SIZE] = '\0';
 
   char msg[32];
-  size_t len = snprintf(msg, sizeof(msg), "C aklomp\t%d", getpid());
+  size_t len = snprintf(msg, sizeof(msg), "C/gcc (aklomp)\t%d", getpid());
   notify(msg, len);
   int s = 0;
   clock_t t = clock();

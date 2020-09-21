@@ -53,9 +53,9 @@ fn main() {
 	s := os.read_file('/tmp/1.json') or {
 		panic('Failed to open file 1.json')
 	}
-	mut lang := 'V GCC'
+	mut lang := 'V/gcc'
 	$if clang {
-		lang = 'V Clang'
+		lang = 'V/clang'
 	}
 	notify('$lang\t$C.getpid()')
 	println(calc(s))

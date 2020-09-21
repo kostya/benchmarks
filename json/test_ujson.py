@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
     text = Path("/tmp/1.json").read_text()
 
-    notify("%s UltraJSON\t%d" % (platform.python_implementation(), os.getpid()))
+    notify("%s (UltraJSON)\t%d" % (platform.python_implementation(), os.getpid()))
 
     print(calc(text))
 

@@ -116,7 +116,7 @@ int main() {
 
   {
     stringstream ostr;
-    ostr << "C++ DAW JSON Link\t" << getpid();
+    ostr << "C++/g++ (DAW JSON Link)\t" << getpid();
     notify(ostr.str());
   }
 

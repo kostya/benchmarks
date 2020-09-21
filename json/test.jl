@@ -47,7 +47,7 @@ if abspath(PROGRAM_FILE) == @__FILE__
         read(file, String)
     end
 
-    notify("Julia JSON3\t$(getpid())")
+    notify("Julia (JSON3)\t$(getpid())")
 
     println(calc(text))
 

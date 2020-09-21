@@ -72,7 +72,7 @@ void main()
     // We need to append 16 zero bytes for SSE to work
     text ~= "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
 
-    notify("GDC fast\t%d".format(getpid()));
+    notify("D/gdc (fast)\t%d".format(getpid()));
 
     writeln(calc(text));
 

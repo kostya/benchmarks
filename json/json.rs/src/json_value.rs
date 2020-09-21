@@ -54,7 +54,7 @@ fn main() {
 
     let content = fs::read_to_string("/tmp/1.json").unwrap();
 
-    notify(&format!("Rust Serde Untyped\t{}", std::process::id()));
+    notify(&format!("Rust (Serde Untyped)\t{}", std::process::id()));
 
     println!("{:?}", calc(&content));
 

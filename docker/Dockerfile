@@ -48,14 +48,6 @@ RUN export VERSION=ruby-2.7.1 \
 	&& cd .. && rm -rf $VERSION
 ENV PATH="/opt/ruby/bin:${PATH}"
 
-# https://github.com/dotnet/core/tree/master/release-notes
-ARG DOTNET_CORE=3.1.107
-RUN mkdir dotnet && wget --progress=dot:giga -O - \
-        https://download.visualstudio.microsoft.com/download/pr/b8ea2bd6-57e1-41cd-a369-c0fa1a2e42cb/ca094f98bc3c6388d048f0633f6f0f79/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
-	| tar -xz -C dotnet
-ENV PATH="/opt/dotnet:${PATH}"
-ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
-
 # https://pypy.org/download.html
 ARG PYPY=pypy3.6-v7.3.1-linux64
 RUN wget --progress=dot:giga -O - \
@@ -71,9 +63,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/scala-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=14.0.2
+ARG JDK=15
 RUN wget --progress=dot:giga -O - \
-        https://download.java.net/java/GA/jdk${JDK}/205943a0976c4ed48cb16f1043c5c647/12/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
+        https://download.java.net/java/GA/jdk${JDK}/779bf45e88a44cbd9ea6621d33e33db1/36/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
 	| tar -xz
 ENV PATH="/opt/jdk-$JDK/bin:${PATH}"
 
@@ -104,29 +96,12 @@ RUN wget --progress=dot:giga -O - \
 	| tar -xJ
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
-# https://nodejs.org/en/download/current/
-ARG NODE=v14.9.0
-RUN wget --progress=dot:giga -O - \
-	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
-	| tar -xJ
-ENV PATH="/opt/node-$NODE-linux-x64/bin/:${PATH}"
-
 # https://www.jruby.org/download
 ARG JRUBY=9.2.13.0
 RUN wget --progress=dot:giga -O - \
 	https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
 	| tar -xz \
 	&& ln -s /opt/jruby-$JRUBY/bin/jruby /usr/bin/jruby
-
-# https://golang.org/dl/
-RUN wget --progress=dot:giga -O - \
-        https://golang.org/dl/go1.15.linux-amd64.tar.gz \
-	| tar -xz
-ENV PATH="/opt/go/bin/:${PATH}"
-
-# https://www.rust-lang.org/tools/install
-ENV CARGO_HOME="/opt/.cargo" PATH="/opt/.cargo/bin:${PATH}"
-RUN wget -O - https://sh.rustup.rs | sh -s -- -y
 
 # https://julialang.org/downloads/
 ARG JULIA=julia-1.5.1
@@ -141,11 +116,6 @@ RUN wget --progress=dot:giga -O - \
 	https://swift.org/builds/swift-5.2.5-release/ubuntu2004/swift-5.2.5-RELEASE/$SWIFT.tar.gz \
 	| tar -xz \
 	&& ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
-
-# https://ocaml.org/releases/
-ARG OCAML=4.11.0
-RUN opam init --disable-sandboxing -n --root=/opt/opam --compiler=$OCAML
-ENV PATH="/opt/opam/$OCAML/bin/:${PATH}"
 
 # https://clojure.org/community/downloads
 ARG CLOJURE=1.10.1.561
@@ -183,8 +153,50 @@ RUN gu install ruby \
 	&& /opt/graalvm-ce-java11-$GRAALVM/languages/ruby/lib/truffle/post_install_hook.sh \
 	&& ln -s /opt/graalvm-ce-java11-$GRAALVM/bin/truffleruby /usr/bin/truffleruby
 
+# https://github.com/luarocks/luarocks/wiki/Download
+ARG LUAROCKS=3.3.1
+RUN wget --progress=dot:giga -O - \
+        http://luarocks.org/releases/luarocks-$LUAROCKS.tar.gz \
+        | tar -xz \
+        && cd luarocks-$LUAROCKS \
+        && ./configure --prefix=/opt/luarocks/lua \
+        && make -j && make install \
+        && ./configure --with-lua-interpreter=luajit --prefix=/opt/luarocks/luajit \
+        && make -j && make install \
+	&& cd .. && rm -rf luarocks-$LUAROCKS
+
+# https://github.com/dotnet/core/tree/master/release-notes
+ARG DOTNET_CORE=3.1.108
+RUN mkdir dotnet && wget --progress=dot:giga -O - \
+        https://download.visualstudio.microsoft.com/download/pr/b6100b24-89dc-4e8e-9778-0c7bc06cd79d/5237c0d25d08028e33dec42e9875fcc1/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
+	| tar -xz -C dotnet
+ENV PATH="/opt/dotnet:${PATH}"
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+# https://nodejs.org/en/download/current/
+ARG NODE=v14.10.1
+RUN wget --progress=dot:giga -O - \
+	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
+	| tar -xJ
+ENV PATH="/opt/node-$NODE-linux-x64/bin/:${PATH}"
+
+# https://golang.org/dl/
+RUN wget --progress=dot:giga -O - \
+        https://golang.org/dl/go1.15.2.linux-amd64.tar.gz \
+	| tar -xz
+ENV PATH="/opt/go/bin/:${PATH}"
+
+# https://www.rust-lang.org/tools/install
+ENV CARGO_HOME="/opt/.cargo" PATH="/opt/.cargo/bin:${PATH}"
+RUN wget -O - https://sh.rustup.rs | sh -s -- -y
+
+# https://ocaml.org/releases/
+ARG OCAML=4.11.1
+RUN opam init --disable-sandboxing -n --root=/opt/opam --compiler=$OCAML
+ENV PATH="/opt/opam/$OCAML/bin/:${PATH}"
+
 # https://kotlinlang.org/docs/tutorials/command-line.html
-ARG KOTLIN=1.4.0
+ARG KOTLIN=1.4.10
 RUN wget --progress=dot:giga \
 	https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
 	&& unzip kotlin-compiler-$KOTLIN.zip \
@@ -198,18 +210,6 @@ RUN git clone https://github.com/vlang/v.git /opt/v \
 	&& cd v \
 	&& make -j
 ENV PATH="/opt/v/:${PATH}"
-
-# https://github.com/luarocks/luarocks/wiki/Download
-ARG LUAROCKS=3.3.1
-RUN wget --progress=dot:giga -O - \
-        http://luarocks.org/releases/luarocks-$LUAROCKS.tar.gz \
-        | tar -xz \
-        && cd luarocks-$LUAROCKS \
-        && ./configure --prefix=/opt/luarocks/lua \
-        && make -j && make install \
-        && ./configure --with-lua-interpreter=luajit --prefix=/opt/luarocks/luajit \
-        && make -j && make install \
-	&& cd .. && rm -rf luarocks-$LUAROCKS
 
 ARG SCRIPTS_VER=unknown
 COPY *.rb ./

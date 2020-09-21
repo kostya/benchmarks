@@ -509,7 +509,7 @@ namespace Test
             static void Main(string[] args)
             {
                 var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
-                Notify($"C# {runtime}\t{Process.GetCurrentProcess().Id}");
+                Notify($"C#/{runtime}\t{Process.GetCurrentProcess().Id}");
 
                 var l = new LoopTesterApp();
                 l.Run();

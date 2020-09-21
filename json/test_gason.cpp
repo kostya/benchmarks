@@ -80,7 +80,7 @@ int main() {
   auto text = read_file("/tmp/1.json");
 
   stringstream ostr;
-  ostr << "C++ gason\t" << getpid();
+  ostr << "C++/g++ (gason)\t" << getpid();
   notify(ostr.str());
 
   cout << calc(text) << endl;

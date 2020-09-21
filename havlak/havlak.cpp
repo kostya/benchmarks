@@ -763,7 +763,7 @@ int buildBaseLoop(MaoCFG *cfg, int from) {
 
 int main() {
   std::stringstream ostr;
-  ostr << "C++\t" << getpid();
+  ostr << "C++/g++\t" << getpid();
   notify(ostr.str());
 
   fprintf(stderr, "Welcome to LoopTesterApp, C++ edition\n");

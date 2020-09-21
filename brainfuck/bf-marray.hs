@@ -81,7 +81,7 @@ main = do
     source <- readFile filename
 
     pid <- getProcessID
-    notify $ "Haskell MArray\t" ++ show pid
+    notify $ "Haskell (MArray)\t" ++ show pid
 
     let (_, ops) = parse (source, [])
     empty <- MArray.newListArray (0, 0) [0]

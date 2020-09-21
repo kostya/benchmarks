@@ -79,9 +79,9 @@ when isMainModule:
 
   let text = paramStr(1).readFile()
 
-  var compiler = "Nim Clang"
+  var compiler = "Nim/clang"
   when defined(gcc):
-    compiler = "Nim GCC"
+    compiler = "Nim/gcc"
   notify(&"{compiler}\t{getpid()}")
 
   text.parse().run()

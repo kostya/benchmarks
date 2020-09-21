@@ -39,9 +39,9 @@ when isMainModule:
 
   var text = "/tmp/1.json".readFile()
 
-  var compiler = "Nim Packedjson Clang"
+  var compiler = "Nim/clang (Packedjson)"
   when defined(gcc):
-    compiler = "Nim Packedjson GCC"
+    compiler = "Nim/gcc (Packedjson)"
   notify(&"{compiler}\t{getpid()}")
 
   echo calc(text)

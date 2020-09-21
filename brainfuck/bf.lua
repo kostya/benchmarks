@@ -100,7 +100,7 @@ end
   local text = f:read("*a")
   f:close()
 
-  local compiler = type(jit) == 'table' and "LuaJIT" or "Lua"
+  local compiler = type(jit) == 'table' and "Lua/luajit" or "Lua"
   local getpid = require 'posix.unistd'.getpid
   notify(string.format("%s\t%d", compiler, getpid()))
 

@@ -11,11 +11,11 @@ void notify(string message) {
 }
 
 void start() {
-    var msg = "Vala ";
+    var msg = "Vala/";
 #if GCC_TEST
-    msg += "GCC";
+    msg += "gcc";
 #elif CLANG_TEST
-    msg += "Clang";
+    msg += "clang";
 #else
     // The preprocessor directive for the test should be specified
     Process.exit(-1);

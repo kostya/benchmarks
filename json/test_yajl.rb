@@ -37,7 +37,7 @@ if __FILE__ == $PROGRAM_NAME
   text = IO.read('/tmp/1.json')
 
   pid = Process.pid
-  notify("Ruby YAJL\t#{pid}")
+  notify("Ruby (YAJL)\t#{pid}")
 
   p calc(text)
 

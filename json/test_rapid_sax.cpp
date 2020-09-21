@@ -145,7 +145,7 @@ int main() {
   read_file("/tmp/1.json", ss);
 
   stringstream ostr;
-  ostr << "C++ RapidJSON SAX\t" << getpid();
+  ostr << "C++/g++ (RapidJSON SAX)\t" << getpid();
   notify(ostr.str());
 
   calc(ss,
