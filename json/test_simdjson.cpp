@@ -61,11 +61,11 @@ int main() {
   auto left = calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}"_padded);
   auto right = coordinate_t(1.1, 2.2, 3.3);
   if (left != right) {
-    std::cerr << left << " != " << right << std::endl;
+    cerr << left << " != " << right << endl;
     exit(EXIT_FAILURE);
   }
   auto [text, error] = simdjson::padded_string::load("/tmp/1.json");
-  if(error) { std::cerr << "could not load file" << std::endl; return EXIT_FAILURE; }
+  if(error) { cerr << "could not load file" << endl; return EXIT_FAILURE; }
   stringstream ostr;
   ostr << "C++/g++ (simdjson)\t" << getpid();
   notify(ostr.str());
