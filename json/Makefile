@@ -179,6 +179,7 @@ json-scala/target/application.jar:
 	$(MAKE) -C json-scala target/application.jar
 
 simdjson-dir := target/simdjson
+
 $(simdjson-dir): | target
 	$(GIT_CLONE) "https://github.com/simdjson/simdjson.git" $@ \
 	&& cd $@/singleheader \
