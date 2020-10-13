@@ -185,7 +185,7 @@ $(simdjson-dir): | target
 	&& ./amalgamate.sh
 
 target/json_simdjson_cpp: test_simdjson.cpp | $(simdjson-dir) libnotify
-	$(GCC_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \
+	$(GCC_CPP_BUILD) -march=native $(simdjson-dir)/singleheader/simdjson.cpp \
 		-I$(simdjson-dir)/singleheader/
 
 target/json_v_gcc: test.v | $(v_fmt)
