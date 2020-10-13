@@ -1,4 +1,4 @@
-GCC_FLAGS := -O3 -Wall -flto -Wa,-mbranches-within-32B-boundaries
+GCC_FLAGS := -O3 -march=native -Wall -flto -Wa,-mbranches-within-32B-boundaries
 CLANG_FLAGS := -O3 -mbranches-within-32B-boundaries
 LIBNOTIFY_FLAGS := -I../common/libnotify ../common/libnotify/target/libnotify.a
 NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off

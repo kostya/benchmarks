@@ -180,15 +180,13 @@ json-scala/target/application.jar:
 
 simdjson-dir := target/simdjson
 
-# We specify the simdjson commit to ensure reproducible builds.
 $(simdjson-dir): | target
 	$(GIT_CLONE) "https://github.com/simdjson/simdjson.git" $@ \
 	&& cd $@/singleheader \
-	&& git checkout bb2bc98a22b68471f193a3f3a60effd9d15183e2 \
 	&& ./amalgamate.sh
 
 target/json_simdjson_cpp: test_simdjson.cpp | $(simdjson-dir) libnotify
-	$(GCC_CPP_BUILD) -march=native $(simdjson-dir)/singleheader/simdjson.cpp \
+	$(GCC_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \
 		-I$(simdjson-dir)/singleheader/
 
 target/json_v_gcc: test.v | $(v_fmt)

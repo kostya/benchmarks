@@ -58,7 +58,7 @@ coordinate_t calc(const simdjson::padded_string& json) {
 }
 
 int main() {
-  auto left = calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}"_padded);
+  auto left = calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}"_padded); // The _padded suffix creates a simdjson::padded_string instance
   auto right = coordinate_t(1.1, 2.2, 3.3);
   if (left != right) {
     cerr << left << " != " << right << endl;
