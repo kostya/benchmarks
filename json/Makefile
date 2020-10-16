@@ -33,6 +33,7 @@ executables := \
 	target/json_hs \
 	json-java/target/application \
 	target/json_simdjson_cpp \
+	target/json_simdjson_dom_cpp \
 	target/json_v_gcc \
 	target/json_v_clang \
 	target/json_dawjsonlink_cpp
@@ -186,6 +187,10 @@ $(simdjson-dir): | target
 	&& ./amalgamate.sh
 
 target/json_simdjson_cpp: test_simdjson.cpp | $(simdjson-dir) libnotify
+	$(GCC_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \
+		-I$(simdjson-dir)/singleheader/
+
+target/json_simdjson_dom_cpp: test_simdjson_dom.cpp | $(simdjson-dir) libnotify
 	$(GCC_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \
 		-I$(simdjson-dir)/singleheader/
 
