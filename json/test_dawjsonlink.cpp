@@ -105,11 +105,15 @@ coordinate_t calc(const string& text) {
 }
 
 int main() {
-  auto left = calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
   auto right = coordinate_t(1.1, 2.2, 3.3);
-  if (left != right) {
-    cerr << left << " != " << right << endl;
-    exit(EXIT_FAILURE);
+  for (auto v : {
+          "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
+          "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}"}) {
+    auto left = calc(v);
+    if (left != right) {
+        cerr << left << " != " << right << endl;
+        exit(EXIT_FAILURE);
+    }
   }
 
   string const text = read_file( "/tmp/1.json" );

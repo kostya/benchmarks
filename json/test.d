@@ -61,12 +61,18 @@ Coordinate calc(string text)
 
 int main(string[] args)
 {
-    auto left = calc(`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`);
     auto right = Coordinate(1.1, 2.2, 3.3);
-    if (left != right)
+    foreach (v; [
+            `{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`,
+            `{"coordinates":[{"y":2.2,"x":1.1,"z":3.3}]}`
+        ])
     {
-        stderr.writefln("%s != %s", left, right);
-        exit(1);
+        auto left = calc(v);
+        if (left != right)
+        {
+            stderr.writefln("%s != %s", left, right);
+            exit(1);
+        }
     }
 
     auto text = readText("/tmp/1.json");

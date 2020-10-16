@@ -31,11 +31,13 @@ proc calc(text: string): Coordinate =
   result = (x: x / len, y: y / len, z: z / len)
 
 when isMainModule:
-  let left = calc("""{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}""")
   let right = (x: 1.1, y: 2.2, z: 3.3)
-  if left != right:
-    stderr.writeLine(&"{left} != {right}")
-    quit(1)
+  for v in ["""{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}""",
+            """{"coordinates":[{"y":2.2,"x":1.1,"z":3.3}]}"""]:
+    let left = calc(v)
+    if left != right:
+      stderr.writeLine(&"{left} != {right}")
+      quit(1)
 
   let text = "/tmp/1.json".readFile()
 

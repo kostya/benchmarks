@@ -75,13 +75,16 @@ public class TestJava {
     }
 
     public static void main(String[] args) throws IOException {
-        var json = "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}"
-            .getBytes();
-        var left = calc(json);
-        var right = new Coordinate(1.1, 2.2, 3.3);
-        if (!left.equals(right)) {
-            System.err.printf("%s != %s\n", left, right);
-            System.exit(1);
+        final var right = new Coordinate(1.1, 2.2, 3.3);
+        for (final var v : new String[] {
+                "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
+                "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}"}) {
+            final var json = v.getBytes();
+            final var left = calc(json);
+            if (!left.equals(right)) {
+                System.err.printf("%s != %s\n", left, right);
+                System.exit(1);
+            }
         }
 
         var bytes = Files.readAllBytes(Paths.get("/tmp/1.json"));

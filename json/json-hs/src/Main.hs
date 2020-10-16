@@ -36,17 +36,25 @@ calc f = do
   op (Res xsum ysum zsum count) (Coordinate{..}) =
     Res (xsum + x) (ysum + y) (zsum + z) (count + 1)
 
+verify :: (Coordinate, BL.ByteString) -> IO ()
+verify (right, v) = do
+  let left = calc $ v
+  if left /= right
+    then die $ show(left) ++ " != " ++ show(right)
+  else return ()
+
 main :: IO ()
 main = do
-    let left = calc $ "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}"
-    let right = Coordinate 1.1 2.2 3.3
-    if left /= right
-        then die $ show(left) ++ " != " ++ show(right)
-    else do
-        f <- BL.readFile "/tmp/1.json"
-        pid <- getProcessID
-        notify $ "Haskell\t" ++ show pid
+  let right = Coordinate 1.1 2.2 3.3
+  let verification_pairs = map (\x -> (right, x))
+        ["{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
+         "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}"]
+  _ <- sequence (map verify verification_pairs)
 
-        print $ calc $ f
+  f <- BL.readFile "/tmp/1.json"
+  pid <- getProcessID
+  notify $ "Haskell\t" ++ show pid
 
-        notify "stop"
+  print $ calc $ f
+
+  notify "stop"
