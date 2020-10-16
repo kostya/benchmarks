@@ -45,10 +45,12 @@ fn calc(s string) Coordinate {
 }
 
 fn main() {
-	left := calc('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}')
 	right := Coordinate{1.1, 2.2, 3.3}
-	if !left.equals(right) {
-		panic('$left != $right')
+	for v in ['{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}', '{"coordinates":[{"y":2.2,"x":1.1,"z":3.3}]}'] {
+		left := calc(v)
+		if !left.equals(right) {
+			panic('$left != $right')
+		}
 	}
 	s := os.read_file('/tmp/1.json') or {
 		panic('Failed to open file 1.json')

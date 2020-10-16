@@ -43,10 +43,14 @@ func calc(bytes []byte) Coordinate {
 }
 
 func main() {
-	left := calc([]byte(`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`))
 	right := Coordinate{1.1, 2.2, 3.3}
-	if left != right {
-		log.Fatalf("%+v != %+v\n", left, right)
+	for _, v := range []string{
+		`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`,
+		`{"coordinates":[{"y":2.2,"x":1.1,"z":3.3}]}`} {
+		left := calc([]byte(v))
+		if left != right {
+			log.Fatalf("%+v != %+v\n", left, right)
+		}
 	}
 
 	bytes, err := ioutil.ReadFile("/tmp/1.json")

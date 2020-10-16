@@ -36,11 +36,16 @@ function notify(msg)
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
-    left = calc("""{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}""")
     right = Coordinate(1.1, 2.2, 3.3)
-    if left != right
-        println(stderr, "$(left) != $(right)")
-        exit(1)
+    for v in [
+        """{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}""",
+        """{"coordinates":[{"y":2.2,"x":1.1,"z":3.3}]}""",
+    ]
+        left = calc(v)
+        if left != right
+            println(stderr, "$(left) != $(right)")
+            exit(1)
+        end
     end
 
     text = open("/tmp/1.json") do file

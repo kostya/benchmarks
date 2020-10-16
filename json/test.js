@@ -35,9 +35,13 @@ function notify(msg) {
 }
 
 (async function() {
-    left = calc(String.raw`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`);
-    right = {x: 1.1, y: 2.2, z: 3.3};
-    assert.deepStrictEqual(left, right);
+    const right = {x: 1.1, y: 2.2, z: 3.3};
+    [String.raw`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`,
+     String.raw`{"coordinates":[{"y":2.2,"x":1.1,"z":3.3}]}`].forEach(
+         function(v) {
+             const left = calc(v);
+             assert.deepStrictEqual(left, right);
+         });
 
     const text = require('fs').readFileSync("/tmp/1.json", "utf8");
     await notify(`Node.js\t${require('process').pid}`);

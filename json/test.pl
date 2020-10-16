@@ -8,7 +8,7 @@ use JSON::Tiny 'decode_json';
 use Socket;
 use Class::Struct;
 use Data::Dumper;
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 struct(Coordinate => [x => '$', y => '$', z => '$']);
 
@@ -39,12 +39,15 @@ if ($0 eq __FILE__) {
     $Data::Dumper::Terse = 1;
     $Data::Dumper::Indent = 0;
 
-    my $left = calc('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}');
     my $right = Coordinate->new(x=>1.1, y=>2.2, z=>3.3);
-    my $ok = is_deeply($left, $right);
-    if (!$ok) {
-        print STDERR "@{[ Dumper($left) ]} != @{[ Dumper($right) ]}\n";
-        exit(1);
+    foreach('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}',
+            '{"coordinates":[{"y":2.2,"x":1.1,"z":3.3}]}') {
+        my $left = calc($_);
+        my $ok = is_deeply($left, $right);
+        if (!$ok) {
+            print STDERR "@{[ Dumper($left) ]} != @{[ Dumper($right) ]}\n";
+            exit(1);
+        }
     }
 
     my $bytes = read_binary '/tmp/1.json';
