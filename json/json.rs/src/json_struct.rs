@@ -48,15 +48,20 @@ fn calc(s: &str) -> Coordinate {
 }
 
 fn main() {
-    let left = calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
     let right = Coordinate {
         x: 1.1,
         y: 2.2,
         z: 3.3,
     };
-    if left != right {
-        eprintln!("{:?} != {:?}", left, right);
-        std::process::exit(-1);
+    for v in &[
+        "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
+        "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}",
+    ] {
+        let left = calc(v);
+        if left != right {
+            eprintln!("{:?} != {:?}", left, right);
+            std::process::exit(-1);
+        }
     }
 
     let s = fs::read_to_string("/tmp/1.json").unwrap();

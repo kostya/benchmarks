@@ -130,16 +130,19 @@ void calc(stringstream& ss, const TCallback& callback) {
 }
 
 int main() {
-  auto json =
-    stringstream("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
-  calc(json,
-       [](const coordinate_t& left) {
-         auto right = coordinate_t(1.1, 2.2, 3.3);
-         if (left != right) {
-           cerr << left << " != " << right << endl;
-           exit(EXIT_FAILURE);
-         }
-       });
+  auto right = coordinate_t(1.1, 2.2, 3.3);
+  for (auto v : {
+          "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
+          "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}"}) {
+    auto json = stringstream(v);
+    calc(json,
+         [right](const coordinate_t& left) {
+             if (left != right) {
+                 cerr << left << " != " << right << endl;
+                 exit(EXIT_FAILURE);
+             }
+         });
+  }
 
   stringstream ss;
   read_file("/tmp/1.json", ss);

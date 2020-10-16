@@ -119,12 +119,16 @@ namespace Test
 
         static void Main(string[] args)
         {
-            var left =
-                Calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
             var right = new Coordinate(1.1, 2.2, 3.3);
-            if (left != right) {
-                Console.Error.WriteLine($"{left} != {right}");
-                System.Environment.Exit(1);
+            foreach (var v in new List<string> {
+                    "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
+                    "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}"
+                }) {
+                var left = Calc(v);
+                if (left != right) {
+                    Console.Error.WriteLine($"{left} != {right}");
+                    System.Environment.Exit(1);
+                }
             }
 
             var text = File.ReadAllText("/tmp/1.json");

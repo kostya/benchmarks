@@ -47,7 +47,7 @@ CPANM := cpanm
 LUAROCKS_LUA = PATH=$(PATH):/opt/luarocks/lua/bin luarocks
 LUAROCKS_LUAJIT = PATH=$(PATH):/opt/luarocks/luajit/bin luarocks
 
-CLOJURE_RUN =		$(XTIME) clojure $(CLOJURE_FLAGS) $^
+CLOJURE_RUN =		$(XTIME) clojure $(CLOJURE_FLAGS) -M $^
 DOTNET_RUN =		$(XTIME) dotnet $^
 ELIXIR_RUN =		$(XTIME) elixir $^
 EXECUTABLE_RUN =	$(XTIME) $^

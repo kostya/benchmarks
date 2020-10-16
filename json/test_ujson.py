@@ -31,11 +31,15 @@ def notify(msg):
 
 
 if __name__ == "__main__":
-    left = calc('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}')
     right = Coordinate(1.1, 2.2, 3.3)
-    if left != right:
-        print("%s != %s" % (left, right), file=sys.stderr)
-        quit(1)
+    for v in [
+        """{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}""",
+        """{"coordinates":[{"y":2.2,"x":1.1,"z":3.3}]}""",
+    ]:
+        left = calc(v)
+        if left != right:
+            print("%s != %s" % (left, right), file=sys.stderr)
+            quit(1)
 
     text = Path("/tmp/1.json").read_text()
 

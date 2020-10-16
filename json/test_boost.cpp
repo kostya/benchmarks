@@ -50,13 +50,16 @@ coordinate_t calc(stringstream& text) {
 }
 
 int main() {
-  auto json =
-    stringstream("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
-  auto left = calc(json);
   auto right = coordinate_t(1.1, 2.2, 3.3);
-  if (left != right) {
-    cerr << left << " != " << right << endl;
-    exit(EXIT_FAILURE);
+  for (auto v : {
+          "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
+          "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}"}) {
+    auto json = stringstream(v);
+    auto left = calc(json);
+    if (left != right) {
+        cerr << left << " != " << right << endl;
+        exit(EXIT_FAILURE);
+    }
   }
 
   stringstream text;

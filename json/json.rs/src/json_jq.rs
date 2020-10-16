@@ -29,18 +29,20 @@ fn calc(program: &mut jq_rs::JqProgram, content: &str) -> Coordinate {
 fn main() {
     let mut program = jq_rs::compile(".coordinates | length as $len | (map(.x) | add) / $len, (map(.y) | add) / $len, (map(.z) | add) / $len").unwrap();
 
-    let left = calc(
-        &mut program,
-        "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
-    );
     let right = Coordinate {
         x: 1.1,
         y: 2.2,
         z: 3.3,
     };
-    if left != right {
-        eprintln!("{:?} != {:?}", left, right);
-        std::process::exit(-1);
+    for v in &[
+        "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
+        "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}",
+    ] {
+        let left = calc(&mut program, v);
+        if left != right {
+            eprintln!("{:?} != {:?}", left, right);
+            std::process::exit(-1);
+        }
     }
 
     let content = fs::read_to_string("/tmp/1.json").unwrap();

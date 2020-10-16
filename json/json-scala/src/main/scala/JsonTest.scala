@@ -44,13 +44,16 @@ object JsonTest {
   }
 
   def main(args: Array[String]): Unit = {
-    val json = "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}"
-            .getBytes()
-    val left = calc(json)
     val right = Coordinate(1.1, 2.2, 3.3)
-    if (left != right) {
-      System.err.println(s"${left} != ${right}")
-      System.exit(1)
+    for (v <- Array(
+      "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
+      "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}")) {
+      val json = v.getBytes()
+      val left = calc(json)
+      if (left != right) {
+        System.err.println(s"${left} != ${right}")
+        System.exit(1)
+      }
     }
 
     val bytes = Files.readAllBytes(Paths.get("/tmp/1.json"))
