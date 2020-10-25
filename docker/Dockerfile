@@ -8,7 +8,7 @@ RUN apt-get update \
         && apt-get update \
 	&& apt-get install -y wget xz-utils build-essential libtool-bin cmake git curl vim powercap-utils \
 	libgmp-dev libssl-dev libssl1.1 libxml2 lbzip2 libtinfo5 libtool zlib1g \
-	libpcre3-dev libevent-dev libboost-dev libjson-c-dev libblas-dev liblapack-dev libopenblas-dev \
+	libpcre3-dev libevent-dev libjson-c-dev libblas-dev liblapack-dev libopenblas-dev \
 	libjq-dev libonig-dev \
 	python3-numpy python3 python3-ujson python3-pip \
 	mono-devel nuget \
@@ -63,9 +63,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/scala-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=15
+ARG JDK=15.0.1
 RUN wget --progress=dot:giga -O - \
-        https://download.java.net/java/GA/jdk${JDK}/779bf45e88a44cbd9ea6621d33e33db1/36/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
+        https://download.java.net/java/GA/jdk15.0.1/51f4f36ad4ef43e39d0dfdbaf6549e32/9/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
 	| tar -xz
 ENV PATH="/opt/jdk-$JDK/bin:${PATH}"
 
@@ -77,14 +77,14 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$CRYSTAL/bin:${PATH}"
 
 # https://github.com/ldc-developers/ldc/releases
-ARG LDC=ldc2-1.23.0-linux-x86_64
+ARG LDC=ldc2-1.24.0-linux-x86_64
 RUN wget --progress=dot:giga -O - \
-	https://github.com/ldc-developers/ldc/releases/download/v1.23.0/$LDC.tar.xz \
+	https://github.com/ldc-developers/ldc/releases/download/v1.24.0/$LDC.tar.xz \
 	| tar -xJ
 ENV PATH="/opt/$LDC/bin/:${PATH}"
 
 # https://nim-lang.org/install_unix.html
-ARG NIM=nim-1.2.6
+ARG NIM=nim-1.4.0
 RUN wget --progress=dot:giga -O - \
 	https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
 	| tar -xJ
@@ -92,7 +92,7 @@ ENV PATH="/opt/$NIM/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN wget --progress=dot:giga -O - \
-        http://downloads.dlang.org/releases/2.x/2.094.0/dmd.2.094.0.linux.tar.xz \
+        http://downloads.dlang.org/releases/2.x/2.094.1/dmd.2.094.1.linux.tar.xz \
 	| tar -xJ
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
@@ -118,7 +118,7 @@ RUN wget --progress=dot:giga -O - \
 	&& ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
 
 # https://clojure.org/community/downloads
-ARG CLOJURE=1.10.1.708
+ARG CLOJURE=1.10.1.727
 RUN wget --progress=dot:giga -O - \
 	https://download.clojure.org/install/linux-install-$CLOJURE.sh \
 	| bash -s
@@ -167,13 +167,13 @@ RUN wget --progress=dot:giga -O - \
 
 # https://github.com/dotnet/core/tree/master/release-notes
 RUN mkdir dotnet && wget --progress=dot:giga -O - \
-        https://download.visualstudio.microsoft.com/download/pr/401ae772-3b16-40c7-a332-e7c0622c97fd/58016e724bc0dfa0c1f2ef0233b95aed/dotnet-sdk-3.1.109-linux-x64.tar.gz \
+        https://download.visualstudio.microsoft.com/download/pr/fdd9ecec-56b4-40f4-b762-d7efe24fc3cd/ffef51844c92afa6714528e10609a30f/dotnet-sdk-3.1.403-linux-x64.tar.gz \
 	| tar -xz -C dotnet
 ENV PATH="/opt/dotnet:${PATH}"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v14.13.1
+ARG NODE=v15.0.1
 RUN wget --progress=dot:giga -O - \
 	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
 	| tar -xJ
@@ -181,7 +181,7 @@ ENV PATH="/opt/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN wget --progress=dot:giga -O - \
-        https://golang.org/dl/go1.15.2.linux-amd64.tar.gz \
+        https://golang.org/dl/go1.15.3.linux-amd64.tar.gz \
 	| tar -xz
 ENV PATH="/opt/go/bin/:${PATH}"
 

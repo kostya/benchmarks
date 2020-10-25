@@ -1,4 +1,5 @@
-docker_build = docker build docker/ -t benchmarks
+docker := env docker
+docker_build := $(docker) build docker/ -t benchmarks
 
 .PHONY: build
 build:
@@ -8,7 +9,7 @@ build:
 rebuild:
 	$(docker_build) --no-cache
 
-docker_run = docker run -it --rm -v $(shell pwd):/src benchmarks
+docker_run = $(docker) run -it --rm -v $(shell pwd):/src benchmarks
 
 .PHONY: scaling_governor
 performance_governor:
