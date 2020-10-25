@@ -1,7 +1,7 @@
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/foreach.hpp>
+#include <boost/json.hpp>
+#include <boost/json/src.hpp>
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <string>
 #include <libnotify.hpp>
@@ -10,9 +10,9 @@
 using namespace std;
 
 struct coordinate_t {
-  double x;
-  double y;
-  double z;
+  float x;
+  float y;
+  float z;
 
   auto operator<=>(const coordinate_t&) const = default;
 
@@ -24,26 +24,27 @@ struct coordinate_t {
   }
 };
 
-void read_file(string filename, stringstream &buffer) {
-  ifstream file(filename.c_str());
-  if (file) {
-    buffer << file.rdbuf();
-    file.close();
+string read_file(const string& filename) {
+  ifstream f(filename);
+  if (!f) {
+    return {};
   }
+  return string(istreambuf_iterator<char>(f),
+                istreambuf_iterator<char>());
 }
 
-coordinate_t calc(stringstream& text) {
-  boost::property_tree::ptree jobj;
-  boost::property_tree::read_json(text, jobj);
+coordinate_t calc(const string& text) {
   auto x = 0.0, y = 0.0, z = 0.0;
   auto len = 0;
 
-  BOOST_FOREACH(boost::property_tree::ptree::value_type &coord,
-                jobj.get_child("coordinates")) {
+  auto jv = boost::json::parse(text);
+  auto &obj = jv.get_object();
+  for (auto& v: obj["coordinates"].get_array()) {
     len += 1;
-    x += coord.second.get<double>("x");
-    y += coord.second.get<double>("y");
-    z += coord.second.get<double>("z");
+    auto& coord = v.get_object();
+    x += value_to<float>(coord["x"]);
+    y += value_to<float>(coord["y"]);
+    z += value_to<float>(coord["z"]);
   }
 
   return coordinate_t(x / len, y / len, z / len);
@@ -54,19 +55,17 @@ int main() {
   for (auto v : {
           "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
           "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}"}) {
-    auto json = stringstream(v);
-    auto left = calc(json);
+    auto left = calc(v);
     if (left != right) {
         cerr << left << " != " << right << endl;
         exit(EXIT_FAILURE);
     }
   }
 
-  stringstream text;
-  read_file("/tmp/1.json", text);
+  const auto& text = read_file("/tmp/1.json");
 
   stringstream ostr;
-  ostr << "C++/g++ (Boost)\t" << getpid();
+  ostr << "C++/g++ (Boost.JSON)\t" << getpid();
   notify(ostr.str());
 
   cout << calc(text) << endl;

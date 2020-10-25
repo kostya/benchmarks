@@ -25,7 +25,8 @@ executables := \
 	target/json_go \
 	target/json_go_gccgo \
 	target/json_iter_go \
-	target/json_boost_cpp \
+	target/json_boost_ptree_cpp \
+	target/json_boost_json_cpp \
 	target/json_rapid_cpp \
 	target/json_rapid_sax_cpp \
 	target/json_gason_cpp \
@@ -111,8 +112,21 @@ target/json_go: test.go | $(gofmt)
 target/json_go_gccgo: test.go | $(gofmt)
 	$(GCC_GO_BUILD)
 
-target/json_boost_cpp: test_boost.cpp | target libnotify
-	$(GCC_CPP_BUILD)
+# NOTE: very time consuming
+# TODO: switch to new release after 1.74.0
+# https://www.boost.org/users/download/
+boost = target/boost
+$(boost): | target
+	$(GIT_CLONE) "https://github.com/boostorg/boost.git" $@
+	cd $(boost) && \
+	./bootstrap.sh && \
+	./b2 headers
+
+target/json_boost_ptree_cpp: test_boost_ptree.cpp | $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(boost)
+
+target/json_boost_json_cpp: test_boost_json.cpp | $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(boost)
 
 fast-dir := target/fast
 $(fast-dir): | target
