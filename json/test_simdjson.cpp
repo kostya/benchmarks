@@ -60,11 +60,11 @@ coordinate_t calc(const padded_string& json) {
 }
 
 int main() {
-  auto right = coordinate_t(1.1, 2.2, 3.3);
+  auto right = coordinate_t(2.0, 0.5, 0.25);
   // The _padded suffix creates a simdjson::padded_string instance
   for (const padded_string &v : {
-      "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}"_padded,
-      "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}"_padded}) {
+      "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}"_padded,
+      "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"_padded}) {
     auto left = calc(v);
     if (left != right) {
       cerr << left << " != " << right << endl;

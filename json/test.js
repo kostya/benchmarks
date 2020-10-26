@@ -35,9 +35,9 @@ function notify(msg) {
 }
 
 (async function() {
-    const right = {x: 1.1, y: 2.2, z: 3.3};
-    [String.raw`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`,
-     String.raw`{"coordinates":[{"y":2.2,"x":1.1,"z":3.3}]}`].forEach(
+    const right = {x: 2.0, y: 0.5, z: 0.25};
+    [String.raw`{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}`,
+     String.raw`{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}`].forEach(
          function(v) {
              const left = calc(v);
              assert.deepStrictEqual(left, right);

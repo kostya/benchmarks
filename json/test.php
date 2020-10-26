@@ -38,9 +38,9 @@ function calc($text) {
 }
 
 if (isset($argv[0]) && realpath($argv[0]) == __FILE__) {
-    $right = new Coordinate(1.1, 2.2, 3.3);
-    foreach(['{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}',
-             '{"coordinates":[{"y":2.2,"x":1.1,"z":3.3}]}'] as &$v) {
+    $right = new Coordinate(2.0, 0.5, 0.25);
+    foreach(['{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}',
+             '{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}'] as &$v) {
         $left = calc($v);
         if ($left != $right) {
             exit(

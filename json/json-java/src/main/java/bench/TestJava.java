@@ -75,10 +75,10 @@ public class TestJava {
     }
 
     public static void main(String[] args) throws IOException {
-        final var right = new Coordinate(1.1, 2.2, 3.3);
+        final var right = new Coordinate(2.0, 0.5, 0.25);
         for (final var v : new String[] {
-                "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
-                "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}"}) {
+                "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
+                "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"}) {
             final var json = v.getBytes();
             final var left = calc(json);
             if (!left.equals(right)) {

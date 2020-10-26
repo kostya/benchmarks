@@ -49,13 +49,13 @@ fn calc(s: &str) -> Coordinate {
 
 fn main() {
     let right = Coordinate {
-        x: 1.1,
-        y: 2.2,
-        z: 3.3,
+        x: 2.0,
+        y: 0.5,
+        z: 0.25,
     };
     for v in &[
-        "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
-        "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}",
+        "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
+        "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}",
     ] {
         let left = calc(v);
         if left != right {

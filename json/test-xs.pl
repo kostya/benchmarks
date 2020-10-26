@@ -39,9 +39,9 @@ if ($0 eq __FILE__) {
     $Data::Dumper::Terse = 1;
     $Data::Dumper::Indent = 0;
 
-    my $right = Coordinate->new(x=>1.1, y=>2.2, z=>3.3);
-    foreach('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}',
-            '{"coordinates":[{"y":2.2,"x":1.1,"z":3.3}]}') {
+    my $right = Coordinate->new(x=>2.0, y=>0.5, z=>0.25);
+    foreach('{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}',
+            '{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}') {
         my $left = calc($_);
         my $ok = is_deeply($left, $right);
         if (!$ok) {
