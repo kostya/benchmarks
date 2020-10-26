@@ -45,10 +45,10 @@ verify (right, v) = do
 
 main :: IO ()
 main = do
-  let right = Coordinate 1.1 2.2 3.3
+  let right = Coordinate 2.0 0.5 0.25
   let verification_pairs = map (\x -> (right, x))
-        ["{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
-         "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}"]
+        ["{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
+         "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"]
   _ <- sequence (map verify verification_pairs)
 
   f <- BL.readFile "/tmp/1.json"
