@@ -10,9 +10,9 @@
 using namespace std;
 
 struct coordinate_t {
-  float x;
-  float y;
-  float z;
+  double x;
+  double y;
+  double z;
 
   auto operator<=>(const coordinate_t&) const = default;
 
@@ -42,19 +42,19 @@ coordinate_t calc(const string& text) {
   for (auto& v: obj["coordinates"].get_array()) {
     len += 1;
     auto& coord = v.get_object();
-    x += value_to<float>(coord["x"]);
-    y += value_to<float>(coord["y"]);
-    z += value_to<float>(coord["z"]);
+    x += coord["x"].get_double();
+    y += coord["y"].get_double();
+    z += coord["z"].get_double();
   }
 
   return coordinate_t(x / len, y / len, z / len);
 }
 
-int main() {
-  auto right = coordinate_t(1.1, 2.2, 3.3);
+      int main() {
+  auto right = coordinate_t(2.0, 0.5, 0.25);
   for (auto v : {
-          "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
-          "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}"}) {
+          "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
+          "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"}) {
     auto left = calc(v);
     if (left != right) {
         cerr << left << " != " << right << endl;

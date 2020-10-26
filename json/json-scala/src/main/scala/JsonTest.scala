@@ -44,10 +44,10 @@ object JsonTest {
   }
 
   def main(args: Array[String]): Unit = {
-    val right = Coordinate(1.1, 2.2, 3.3)
+    val right = Coordinate(2.0, 0.5, 0.25)
     for (v <- Array(
-      "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
-      "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}")) {
+      "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
+      "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}")) {
       val json = v.getBytes()
       val left = calc(json)
       if (left != right) {

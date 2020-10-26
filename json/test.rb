@@ -27,21 +27,14 @@ def calc(text)
 end
 
 if __FILE__ == $PROGRAM_NAME
-  right = Coordinate.new(1.1, 2.2, 3.3)
-  ['{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}',
-   '{"coordinates":[{"y":2.2,"x":1.1,"z":3.3}]}'].each do |v|
+  right = Coordinate.new(2.0, 0.5, 0.25)
+  ['{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}',
+   '{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}'].each do |v|
     left = calc(v)
     if left != right
       warn "#{left} != #{right}"
       exit(1)
     end
-  end
-
-  left = calc('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}')
-  right = Coordinate.new(1.1, 2.2, 3.3)
-  if left != right
-    warn "#{left} != #{right}"
-    exit(1)
   end
 
   text = IO.read('/tmp/1.json')

@@ -117,10 +117,10 @@ namespace Test
 
         static void Main(string[] args)
         {
-            var right = new Coordinate(1.1, 2.2, 3.3);
+            var right = new Coordinate(2.0, 0.5, 0.25);
             foreach (var v in new List<string> {
-                    "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}",
-                    "{\"coordinates\":[{\"y\":2.2,\"x\":1.1,\"z\":3.3}]}"
+                    "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
+                    "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"
                 }) {
                 var left = Calc(v);
                 if (left != right) {
