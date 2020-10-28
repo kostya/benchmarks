@@ -54,7 +54,7 @@ def sd(list)
   list_median = median(list)
   deviations = list.map { |x| (x - list_median).abs }
   mad = median(deviations)
-  format('%.2<median>f<sub>%05.2<mad>f</sub>',
+  format('%.2<median>f<sub>±%05.2<mad>f</sub>',
          median: list_median, mad: mad)
 end
 
