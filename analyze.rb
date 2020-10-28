@@ -43,12 +43,19 @@ lines = File.open(RESULTS_LOG) do |f|
 end
 keys = lines.map(&:name).uniq
 
+def median(array)
+  return nil if array.empty?
+  sorted = array.sort
+  len = sorted.length
+  (sorted[(len - 1) / 2] + sorted[len / 2]) / 2.0
+end
+
 def sd(list)
-  mean = list.inject(:+) / list.length.to_f
-  var_sum = list.map { |n| (n - mean)**2 }.inject(:+).to_f
-  sample_variance = list.length > 1 ? var_sum / (list.length - 1) : 0
-  format('%.2<mean>f ± %05.2<dev>f',
-         mean: mean, dev: Math.sqrt(sample_variance))
+  list_median = median(list)
+  deviations = list.map { |x| (x - list_median).abs }
+  mad = median(deviations)
+  format('%.2<median>f<sub>%05.2<mad>f</sub>',
+         median: list_median, mad: mad)
 end
 
 results = keys.map do |k|
