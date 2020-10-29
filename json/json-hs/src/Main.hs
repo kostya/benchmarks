@@ -53,8 +53,9 @@ main = do
 
   f <- BL.readFile "/tmp/1.json"
   pid <- getProcessID
+
   notify $ "Haskell\t" ++ show pid
-
-  print $ calc $ f
-
+  results <- return $! calc $ f
   notify "stop"
+
+  print results

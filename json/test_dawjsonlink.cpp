@@ -23,6 +23,7 @@
 #include <daw/json/daw_json_iterator.h>
 #include <daw/json/daw_json_link.h>
 
+#include <boost/format.hpp>
 #include <fstream>
 #include <iostream>
 #include <libnotify.hpp>
@@ -116,15 +117,11 @@ int main() {
     }
   }
 
-  string const text = read_file( "/tmp/1.json" );
+  const auto& text = read_file( "/tmp/1.json" );
 
-  {
-    stringstream ostr;
-    ostr << "C++/g++ (DAW JSON Link)\t" << getpid();
-    notify(ostr.str());
-  }
-
-  cout << calc(text) << endl;
-
+  notify(str(boost::format("C++/g++ (DAW JSON Link)\t%d") % getpid()));
+  const auto& results = calc(text);
   notify( "stop" );
+
+  cout << results << endl;
 }

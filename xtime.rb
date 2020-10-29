@@ -57,12 +57,12 @@ end
 
 energy_stats = EnergyStats.new
 server = TCPServer.new 9001
-pid = Process.spawn(*ARGV.to_a)
+spawned_pid = Process.spawn(*ARGV.to_a)
 
 begin
   client = server.accept_nonblock
 rescue IO::WaitReadable
-  exit(1) unless Process.waitpid(pid, Process::WNOHANG).nil?
+  exit(1) unless Process.waitpid(spawned_pid, Process::WNOHANG).nil?
   IO.select([server], nil, nil, 1)
   retry
 end
@@ -101,4 +101,6 @@ else
     f.puts "#{test_name}\t#{t_diff}\t#{base_mb}\t#{mm_mb}\t0.0"
   end
 end
+
+Process.wait spawned_pid
 warn stats

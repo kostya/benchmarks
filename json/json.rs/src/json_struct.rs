@@ -67,8 +67,8 @@ fn main() {
     let s = fs::read_to_string("/tmp/1.json").unwrap();
 
     notify(&format!("Rust (Serde Typed)\t{}", std::process::id()));
-
-    println!("{:?}", calc(&s));
-
+    let results = calc(&s);
     notify("stop");
+
+    println!("{:?}", results);
 }

@@ -1,10 +1,11 @@
 #include "gason.h"
-#include <iostream>
+#include <boost/format.hpp>
 #include <fstream>
-#include <sstream>
-#include <string>
-#include <string.h>
+#include <iostream>
 #include <libnotify.hpp>
+#include <sstream>
+#include <string.h>
+#include <string>
 #include <unistd.h>
 
 using namespace std;
@@ -81,13 +82,11 @@ int main() {
     }
   }
 
-  auto text = read_file("/tmp/1.json");
+  const auto& text = read_file("/tmp/1.json");
 
-  stringstream ostr;
-  ostr << "C++/g++ (gason)\t" << getpid();
-  notify(ostr.str());
-
-  cout << calc(text) << endl;
-
+  notify(str(boost::format("C++/g++ (gason)\t%d") % getpid()));
+  const auto& results = calc(text);
   notify("stop");
+
+  cout << results << endl;
 }

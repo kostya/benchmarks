@@ -51,10 +51,9 @@ if __FILE__ == $PROGRAM_NAME
     engine = 'Ruby (--jit)'
   end
 
-  pid = Process.pid
-  notify("#{engine}\t#{pid}")
-
-  p calc(text)
-
+  notify("#{engine}\t#{Process.pid}")
+  results = calc(text)
   notify('stop')
+
+  p results
 end

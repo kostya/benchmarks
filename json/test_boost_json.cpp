@@ -1,10 +1,11 @@
+#include <boost/format.hpp>
 #include <boost/json.hpp>
 #include <boost/json/src.hpp>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <libnotify.hpp>
 #include <sstream>
 #include <string>
-#include <libnotify.hpp>
 #include <unistd.h>
 
 using namespace std;
@@ -64,11 +65,9 @@ coordinate_t calc(const string& text) {
 
   const auto& text = read_file("/tmp/1.json");
 
-  stringstream ostr;
-  ostr << "C++/g++ (Boost.JSON)\t" << getpid();
-  notify(ostr.str());
-
-  cout << calc(text) << endl;
-
+  notify(str(boost::format("C++/g++ (Boost.JSON)\t%d") % getpid()));
+  const auto& results = calc(text);
   notify("stop");
+
+  cout << results << endl;
 }
