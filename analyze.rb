@@ -16,7 +16,8 @@ if ARGV.length.positive?
   end
 end
 
-Row = Struct.new(:name, :secs, :mb, :joules)
+Row = Struct.new(:name, :secs, :base, :mb, :joules)
+FinalRow = Struct.new(:name, :secs, :mb, :joules)
 
 name_repl = {
   'ruby' => 'Ruby',
@@ -37,7 +38,8 @@ lines = File.open(RESULTS_LOG) do |f|
       name_repl.fetch(values[0], values[0]),
       values[1],
       values[2],
-      values[3].strip
+      values[3],
+      values[4].strip
     )
   end
 end
@@ -62,9 +64,10 @@ results = keys.map do |k|
   rows = lines.select { |line| line.name == k }
   abort("Integrity check failed (#{k})") if rows.length != ATTEMPTS
   secs = sd(rows.map { |row| row.secs.to_f })
-  mb = sd(rows.map { |row| row.mb.to_f })
+  base = sd(rows.map { |row| row.base.to_f })
+  mb = sd(rows.map { |row| row.mb.to_f - row.base.to_f })
   joules = sd(rows.map { |row| row.joules.to_f })
-  Row.new(k, secs, mb, joules)
+  FinalRow.new(k, secs, "#{base} + #{mb}", joules)
 end
 
 results.sort! { |a, b| [a.secs.to_f, a.mb.to_f] <=> [b.secs.to_f, b.mb.to_f] }

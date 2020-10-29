@@ -74,6 +74,7 @@ puts test_name
 
 t = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 mm = mem(pid)
+base_mb = mm / 1_048_576.0
 energy_stats.update
 while IO.select([server], nil, nil, 0.01).nil?
   m = mem(pid)
@@ -92,12 +93,12 @@ FileUtils.mkdir_p File.dirname(RESULTS_LOG)
 if energy_stats.has_energy_metrics
   stats += ", #{energy_stats.val.round(1)} J"
   File.open(RESULTS_LOG, 'a') do |f|
-    f.puts "#{test_name}\t#{t_diff}\t#{mm_mb}\t#{energy_stats.val}"
+    f.puts "#{test_name}\t#{t_diff}\t#{base_mb}\t#{mm_mb}\t#{energy_stats.val}"
   end
 else
   stats += ', 0.0 J'
   File.open(RESULTS_LOG, 'a') do |f|
-    f.puts "#{test_name}\t#{t_diff}\t#{mm_mb}\t0.0"
+    f.puts "#{test_name}\t#{t_diff}\t#{base_mb}\t#{mm_mb}\t0.0"
   end
 end
 warn stats
