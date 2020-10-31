@@ -52,20 +52,20 @@ def median(array)
   (sorted[(len - 1) / 2] + sorted[len / 2]) / 2.0
 end
 
-def sd(list)
+def sd(list, scale=1, precision=2)
   list_median = median(list)
   deviations = list.map { |x| (x - list_median).abs }
   mad = median(deviations)
-  format('%.2<median>f<sub>±%05.2<mad>f</sub>',
-         median: list_median, mad: mad)
+  format("%.#{precision}<median>f<sub>±%05.#{precision}<mad>f</sub>",
+         median: list_median / scale, mad: mad / scale)
 end
 
 results = keys.map do |k|
   rows = lines.select { |line| line.name == k }
   abort("Integrity check failed (#{k})") if rows.length != ATTEMPTS
-  secs = sd(rows.map { |row| row.secs.to_f })
-  base = sd(rows.map { |row| row.base.to_f })
-  mb = sd(rows.map { |row| row.mb.to_f - row.base.to_f })
+  secs = sd(rows.map { |row| row.secs.to_f }, 1e9, 3)
+  base = sd(rows.map { |row| row.base.to_f }, 1_048_576)
+  mb = sd(rows.map { |row| row.mb.to_f - row.base.to_f }, 1_048_576)
   joules = sd(rows.map { |row| row.joules.to_f })
   FinalRow.new(k, secs, "#{base} + #{mb}", joules)
 end
