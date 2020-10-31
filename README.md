@@ -1,6 +1,7 @@
 <!-- md-toc-begin -->
 # Table of Content
 * [Overview](#overview)
+  * [Measurements](#measurements)
 * [Test Cases](#test-cases)
   * [Brainfuck](#brainfuck)
     * [bench.b](#benchb)
