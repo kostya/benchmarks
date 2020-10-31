@@ -41,7 +41,7 @@ My other benchmarks: [jit-benchmarks](https://github.com/kostya/jit-benchmarks),
 
 The measured values are:
 
- - time for the benchmark execution (loading required data and code self-testing are not measured);
+ - time spent for the benchmark execution (loading required data and code self-testing are not measured);
  - memory consumption of the benchmark process, reported as `base` + `increase`, where `base` is the RSS before the benchmark and `increase` is the peak increase of the RSS during the benchmark;
  - energy consumption of the CPU (PP0 package) during the benchmark.
 
