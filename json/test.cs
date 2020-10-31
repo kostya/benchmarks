@@ -132,14 +132,12 @@ namespace Test
             var text = File.ReadAllText("/tmp/1.json");
 
             var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
+
             Notify($"C#/{runtime}\t{Process.GetCurrentProcess().Id}");
-            var sw = Stopwatch.StartNew();
+            var results = Calc(text);
+            Notify("stop");
 
-            Console.WriteLine(Calc(text));
-
-            sw.Stop();
-            Console.WriteLine("time: {0}s", sw.Elapsed.TotalSeconds);
-
-            Notify("stop");}
+            Console.WriteLine(results);
+        }
     }
 }

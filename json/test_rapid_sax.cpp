@@ -1,3 +1,4 @@
+#include <boost/format.hpp>
 #include <cstdio>
 #include <fstream>
 #include <functional>
@@ -147,14 +148,10 @@ int main() {
   stringstream ss;
   read_file("/tmp/1.json", ss);
 
-  stringstream ostr;
-  ostr << "C++/g++ (RapidJSON SAX)\t" << getpid();
-  notify(ostr.str());
+  notify(str(boost::format("C++/g++ (RapidJSON SAX)\t%d") % getpid()));
+  calc(ss, [](const coordinate_t& results) {
+    notify("stop");
 
-  calc(ss,
-       [](const coordinate_t& result) {
-           cout << result << endl;
-       });
-
-  notify("stop");
+    cout << results << endl;
+  });
 }

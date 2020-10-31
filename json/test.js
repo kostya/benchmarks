@@ -44,7 +44,10 @@ function notify(msg) {
          });
 
     const text = require('fs').readFileSync("/tmp/1.json", "utf8");
+
     await notify(`Node.js\t${require('process').pid}`);
-    console.log(calc(text));
+    const results = calc(text);
     await notify('stop');
+
+    console.log(results);
 })().catch(err => console.error(err));

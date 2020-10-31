@@ -52,10 +52,9 @@ if ($0 eq __FILE__) {
 
     my $bytes = read_binary '/tmp/1.json';
 
-    my $pid = $$;
-    notify("Perl (Cpanel::JSON::XS)\t${pid}");
-
-    print Dumper(calc($bytes)), "\n";
-
+    notify("Perl (Cpanel::JSON::XS)\t" . $$);
+    my $results = calc($bytes);
     notify("stop");
+
+    print Dumper($results), "\n";
 }

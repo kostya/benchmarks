@@ -14,7 +14,7 @@ struct Op {
 	loop []Op
 }
 
-fn new_op(op, v int) Op {
+fn new_op(op int, v int) Op {
 	return Op{
 		o: op
 		v: v
@@ -73,15 +73,33 @@ fn parse(mut si StringIterator) []Op {
 	for true {
 		c := si.next()
 		match c {
-			`+` { res << new_op(inc, 1) }
-			`-` { res << new_op(inc, -1) }
-			`>` { res << new_op(move, 1) }
-			`<` { res << new_op(move, -1) }
-			`.` { res << new_op(print, 0) }
-			`[` { res << new_op_loop(loop, parse(mut si)) }
-			`]` { return res }
-			`\0` { return res }
-			else { continue }
+			`+` {
+				res << new_op(inc, 1)
+			}
+			`-` {
+				res << new_op(inc, -1)
+			}
+			`>` {
+				res << new_op(move, 1)
+			}
+			`<` {
+				res << new_op(move, -1)
+			}
+			`.` {
+				res << new_op(print, 0)
+			}
+			`[` {
+				res << new_op_loop(loop, parse(mut si))
+			}
+			`]` {
+				return res
+			}
+			`\0` {
+				return res
+			}
+			else {
+				continue
+			}
 		}
 	}
 	return res

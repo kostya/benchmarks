@@ -67,8 +67,8 @@ func main() {
 	reader := strings.NewReader(content)
 
 	notify(fmt.Sprintf("Go (jsoniter)\t%d", os.Getpid()))
-
-	fmt.Printf("%+v\n", calc(reader))
-
+	results := calc(reader)
 	notify("stop")
+
+	fmt.Printf("%+v\n", results)
 }

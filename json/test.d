@@ -59,7 +59,7 @@ Coordinate calc(string text)
     return Coordinate(x / len, y / len, z / len);
 }
 
-int main(string[] args)
+void main()
 {
     auto right = Coordinate(2.0, 0.5, 0.25);
     foreach (v; [
@@ -75,12 +75,11 @@ int main(string[] args)
         }
     }
 
-    auto text = readText("/tmp/1.json");
+    immutable text = readText("/tmp/1.json");
 
     notify("%s\t%d".format(name, getpid()));
-
-    writeln(calc(text));
-
+    immutable results = calc(text);
     notify("stop");
-    return 0;
+
+    writeln(results);
 }

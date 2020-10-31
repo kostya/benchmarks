@@ -1,12 +1,13 @@
 #define RAPIDJSON_HAS_STDSTRING 1
 
 #include "rapidjson/document.h"
+#include <boost/format.hpp>
 #include <cstdio>
+#include <fstream>
 #include <iostream>
 #include <libnotify.hpp>
 #include <sstream>
 #include <unistd.h>
-#include <fstream>
 
 using namespace std;
 using namespace rapidjson;
@@ -65,13 +66,11 @@ int main() {
     }
   }
 
-  auto text = read_file("/tmp/1.json");
+  const auto& text = read_file("/tmp/1.json");
 
-  stringstream ostr;
-  ostr << "C++/g++ (RapidJSON)\t" << getpid();
-  notify(ostr.str());
-
-  cout << calc(text) << endl;
-
+  notify(str(boost::format("C++/g++ (RapidJSON)\t%d") % getpid()));
+  const auto& results = calc(text);
   notify("stop");
+
+  cout << results << endl;
 }

@@ -45,7 +45,7 @@ if __name__ == "__main__":
     text = Path("/tmp/1.json").read_text()
 
     notify("%s\t%d" % (platform.python_implementation(), os.getpid()))
-
-    print(calc(text))
-
+    results = calc(text)
     notify("stop")
+
+    print(results)

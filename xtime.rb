@@ -8,7 +8,7 @@ PAGE_SIZE = `getconf PAGESIZE`.to_i
 HAS_MEM = File.file?('/proc/self/statm')
 RESULTS_LOG = 'target/results.log'
 
-def mem(pid)
+def read_mem(pid)
   if HAS_MEM
     begin
       stat = IO.read("/proc/#{pid}/statm").split
@@ -57,12 +57,12 @@ end
 
 energy_stats = EnergyStats.new
 server = TCPServer.new 9001
-pid = Process.spawn(*ARGV.to_a)
+spawned_pid = Process.spawn(*ARGV.to_a)
 
 begin
   client = server.accept_nonblock
 rescue IO::WaitReadable
-  exit(1) unless Process.waitpid(pid, Process::WNOHANG).nil?
+  exit(1) unless Process.waitpid(spawned_pid, Process::WNOHANG).nil?
   IO.select([server], nil, nil, 1)
   retry
 end
@@ -70,34 +70,36 @@ end
 test_data = client.gets.strip.split("\t")
 test_name = test_data[0]
 pid = test_data[1].to_i
-puts test_name
+p test_name
 
-t = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-mm = mem(pid)
+t = Process.clock_gettime(Process::CLOCK_MONOTONIC, :nanosecond)
+mem = read_mem(pid)
+base_mem = mem
 energy_stats.update
 while IO.select([server], nil, nil, 0.01).nil?
-  m = mem(pid)
-  mm = m if m > mm
+  m = read_mem(pid)
+  mem = m if m > mem
   energy_stats.update
 end
 client = server.accept
 client.gets
 
 energy_stats.update
-t_diff = Process.clock_gettime(Process::CLOCK_MONOTONIC) - t
-mm_mb = mm / 1_048_576.0
-stats = "#{t_diff.round(2)} s, #{mm_mb.round(1)} Mb"
+t_diff = Process.clock_gettime(Process::CLOCK_MONOTONIC, :nanosecond) - t
+stats = "#{(t_diff / 1e9).round(3)} s, #{(mem / 1_048_576).round(1)} Mb"
 FileUtils.mkdir_p File.dirname(RESULTS_LOG)
 
 if energy_stats.has_energy_metrics
   stats += ", #{energy_stats.val.round(1)} J"
   File.open(RESULTS_LOG, 'a') do |f|
-    f.puts "#{test_name}\t#{t_diff}\t#{mm_mb}\t#{energy_stats.val}"
+    f.puts "#{test_name}\t#{t_diff}\t#{base_mem}\t#{mem}\t#{energy_stats.val}"
   end
 else
   stats += ', 0.0 J'
   File.open(RESULTS_LOG, 'a') do |f|
-    f.puts "#{test_name}\t#{t_diff}\t#{mm_mb}\t0.0"
+    f.puts "#{test_name}\t#{t_diff}\t#{base_mem}\t#{mem}\t0.0"
   end
 end
+
+Process.wait spawned_pid
 warn stats

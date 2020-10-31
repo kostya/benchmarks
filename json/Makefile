@@ -149,21 +149,21 @@ rapidjson-dir := target/rapidjson
 $(rapidjson-dir): | target
 	$(GIT_CLONE) "https://github.com/miloyip/rapidjson.git" $@
 
-target/json_rapid_cpp: test_rapid.cpp | $(rapidjson-dir) libnotify
-	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include
+target/json_rapid_cpp: test_rapid.cpp | $(rapidjson-dir) $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost)
 
-target/json_rapid_sax_cpp: test_rapid_sax.cpp | $(rapidjson-dir) libnotify
-	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include
+target/json_rapid_sax_cpp: test_rapid_sax.cpp | $(rapidjson-dir) $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost)
 
 gason-dir := target/gason
 $(gason-dir): | target
 	$(GIT_CLONE) "https://github.com/vivkin/gason.git" $@
 
-target/json_gason_cpp: test_gason.cpp | $(gason-dir) libnotify
-	$(GCC_CPP_BUILD) -I$(gason-dir)/src $(gason-dir)/src/gason.cpp
+target/json_gason_cpp: test_gason.cpp | $(gason-dir) $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(gason-dir)/src -I$(boost) $(gason-dir)/src/gason.cpp
 
-target/json_libjson_cpp: test_libjson.cpp | target libnotify
-	$(GCC_CPP_BUILD) -ljson-c
+target/json_libjson_cpp: test_libjson.cpp | $(boost) target libnotify
+	$(GCC_CPP_BUILD) -I$(boost) -ljson-c
 
 newtonsoft_json_dir := target/Newtonsoft.Json/lib/net45
 newtonsoft_json := $(newtonsoft_json_dir)/Newtonsoft.Json.dll
@@ -200,13 +200,13 @@ $(simdjson-dir): | target
 	&& cd $@/singleheader \
 	&& ./amalgamate.sh
 
-target/json_simdjson_cpp: test_simdjson.cpp | $(simdjson-dir) libnotify
+target/json_simdjson_cpp: test_simdjson.cpp | $(simdjson-dir) $(boost) libnotify
 	$(GCC_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \
-		-I$(simdjson-dir)/singleheader/
+		-I$(simdjson-dir)/singleheader/ -I$(boost)
 
-target/json_simdjson_dom_cpp: test_simdjson_dom.cpp | $(simdjson-dir) libnotify
+target/json_simdjson_dom_cpp: test_simdjson_dom.cpp | $(simdjson-dir) $(boost) libnotify
 	$(GCC_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \
-		-I$(simdjson-dir)/singleheader/
+		-I$(simdjson-dir)/singleheader/ -I$(boost)
 
 target/json_v_gcc: test.v | $(v_fmt)
 	$(V_GCC_BUILD)
@@ -227,10 +227,10 @@ $(daw_json_link_all): | target
 	$(GIT_CLONE) "https://github.com/beached/header_libraries.git" $@/header_libraries
 	$(GIT_CLONE) "https://github.com/beached/utf_range.git" $@/utf_range
 
-target/json_dawjsonlink_cpp: test_dawjsonlink.cpp | $(daw_json_link_all) libnotify
+target/json_dawjsonlink_cpp: test_dawjsonlink.cpp | $(daw_json_link_all) $(boost) libnotify
 	$(GCC_CPP_BUILD) -I$(daw_json_link_all)/daw_json_link/include \
 		-I$(daw_json_link_all)/header_libraries/include \
-		-I$(daw_json_link_all)/utf_range/include
+		-I$(daw_json_link_all)/utf_range/include -I$(boost)
 
 # Run
 

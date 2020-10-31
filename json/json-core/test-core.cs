@@ -134,14 +134,10 @@ namespace Test
             var text = File.ReadAllText("/tmp/1.json");
 
             Notify($"C#/.NET Core (System.Text.Json)\t{Process.GetCurrentProcess().Id}");
-            var sw = Stopwatch.StartNew();
-
-            Console.WriteLine(Calc(text));
-
-            sw.Stop();
-            Console.WriteLine("time: {0}s", sw.Elapsed.TotalSeconds);
-
+            var results = Calc(text);
             Notify("stop");
+
+            Console.WriteLine(results);
         }
     }
 }

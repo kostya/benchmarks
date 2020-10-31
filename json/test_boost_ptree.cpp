@@ -65,11 +65,9 @@ int main() {
   stringstream text;
   read_file("/tmp/1.json", text);
 
-  stringstream ostr;
-  ostr << "C++/g++ (Boost.PropertyTree)\t" << getpid();
-  notify(ostr.str());
-
-  cout << calc(text) << endl;
-
+  notify(str(boost::format("C++/g++ (Boost.PropertyTree)\t%d") % getpid()));
+  const auto& results = calc(text);
   notify("stop");
+
+  cout << results << endl;
 }

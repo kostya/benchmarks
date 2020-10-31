@@ -53,8 +53,8 @@ if abspath(PROGRAM_FILE) == @__FILE__
     end
 
     notify("Julia (JSON3)\t$(getpid())")
-
-    println(calc(text))
-
+    results = calc(text)
     notify("stop")
+
+    println(results)
 end

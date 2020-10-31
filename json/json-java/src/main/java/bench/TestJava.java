@@ -58,13 +58,6 @@ public class TestJava {
         return new Coordinate(x / total, y / total, z / total);
     }
 
-    public static void parse(byte[] bytes) throws IOException {
-        var start_time = System.currentTimeMillis();
-        System.out.println(calc(bytes));
-        var time_diff = (System.currentTimeMillis() - start_time) / 1e3;
-        System.out.println("time: " + time_diff + " s");
-    }
-
     private static void notify(final String msg) {
         try (var socket = new java.net.Socket("localhost", 9001);
              var out = socket.getOutputStream()) {
@@ -87,12 +80,12 @@ public class TestJava {
             }
         }
 
-        var bytes = Files.readAllBytes(Paths.get("/tmp/1.json"));
+        final var bytes = Files.readAllBytes(Paths.get("/tmp/1.json"));
 
         notify("Java\t" + ProcessHandle.current().pid());
-
-        parse(bytes);
-
+        final var results = calc(bytes);
         notify("stop");
+
+        System.out.println(results);
     }
 }
