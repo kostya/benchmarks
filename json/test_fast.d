@@ -79,8 +79,8 @@ void main()
     text ~= "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
 
     notify("D/gdc (fast)\t%d".format(getpid()));
-
-    writeln(calc(text));
-
+    immutable results = calc(text);
     notify("stop");
+
+    writeln(results);
 }

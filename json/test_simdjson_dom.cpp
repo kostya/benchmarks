@@ -1,8 +1,9 @@
+#include <boost/format.hpp>
+#include <fstream>
 #include <iostream>
 #include <libnotify.hpp>
 #include <sstream>
 #include <unistd.h>
-#include <fstream>
 
 #include "simdjson.h"
 
@@ -72,11 +73,12 @@ int main() {
     }
   }
 
-  auto [text, error] = padded_string::load("/tmp/1.json");
+  const auto& [text, error] = padded_string::load("/tmp/1.json");
   if(error) { cerr << "could not load file" << endl; return EXIT_FAILURE; }
-  stringstream ostr;
-  ostr << "C++/g++ (simdjson DOM)\t" << getpid();
-  notify(ostr.str());
-  cout << calc(text) << endl;
+
+  notify(str(boost::format("C++/g++ (simdjson DOM)\t%d") % getpid()));
+  const auto& results = calc(text);
   notify("stop");
+
+  cout << results << endl;
 }

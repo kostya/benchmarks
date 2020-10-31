@@ -37,12 +37,6 @@ object JsonTest {
     Coordinate(x / len, y / len, z / len)
   }
 
-  private def parseJson(bytes: Array[Byte]): Unit = {
-    val start_time = System.nanoTime
-    println(calc(bytes))
-    println("time: " + (System.nanoTime - start_time) / 1e9 + "s")
-  }
-
   def main(args: Array[String]): Unit = {
     val right = Coordinate(2.0, 0.5, 0.25)
     for (v <- Array(
@@ -59,7 +53,9 @@ object JsonTest {
     val bytes = Files.readAllBytes(Paths.get("/tmp/1.json"))
 
     notify(s"Scala\t${ProcessHandle.current().pid()}")
-    parseJson(bytes)
+    val results = calc(bytes)
     notify("stop")
+
+    println(results)
   }
 }

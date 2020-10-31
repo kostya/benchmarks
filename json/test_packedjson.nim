@@ -44,8 +44,9 @@ when isMainModule:
   var compiler = "Nim/clang (Packedjson)"
   when defined(gcc):
     compiler = "Nim/gcc (Packedjson)"
+
   notify(&"{compiler}\t{getpid()}")
-
-  echo calc(text)
-
+  let results = calc(text)
   notify("stop")
+
+  echo results

@@ -59,8 +59,8 @@ func main() {
 	}
 
 	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
-
-	fmt.Printf("%+v\n", calc(bytes))
-
+	results := calc(bytes)
 	notify("stop")
+
+	fmt.Printf("%+v\n", results)
 }

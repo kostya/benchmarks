@@ -55,10 +55,9 @@ class EntryPoint
 
   text = File.read("/tmp/1.json")
 
-  pid = Process.pid
-  notify("Crystal (Schema)\t#{pid}")
-
-  p calc(text)
-
+  notify("Crystal (Schema)\t#{Process.pid}")
+  results = calc(text)
   notify("stop")
+
+  p results
 end

@@ -2,7 +2,7 @@ import os
 import math
 import net
 
-fn make_matrix(n, m int) [][]f64 {
+fn make_matrix(n int, m int) [][]f64 {
 	mut res := [[f64(0.0)].repeat(m)]
 	for i := 1; i < n; i++ {
 		res << [f64(0.0)].repeat(m)
@@ -22,7 +22,7 @@ fn matgen(n int, seed f64) [][]f64 {
 	return a
 }
 
-fn matmul(a, b [][]f64) [][]f64 {
+fn matmul(a [][]f64, b [][]f64) [][]f64 {
 	m := a.len
 	n := a[0].len
 	p := b[0].len

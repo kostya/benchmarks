@@ -44,8 +44,9 @@ when isMainModule:
   var compiler = "Nim/clang"
   when defined(gcc):
     compiler = "Nim/gcc"
+
   notify(&"{compiler}\t{getpid()}")
-
-  echo calc(text)
-
+  let results = calc(text)
   notify("stop")
+
+  echo results

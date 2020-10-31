@@ -1,3 +1,4 @@
+#include <boost/format.hpp>
 #include <json-c/json.h>
 #include <stdio.h>
 #include <iostream>
@@ -71,13 +72,11 @@ int main() {
     }
   }
 
-  auto text = read_file("/tmp/1.json");
+  const auto& text = read_file("/tmp/1.json");
 
-  stringstream ostr;
-  ostr << "C++/g++ (json-c)\t" << getpid();
-  notify(ostr.str());
-
-  cout << calc(text) << endl;
-
+  notify(str(boost::format("C++/g++ (json-c)\t%d") % getpid()));
+  const auto& results = calc(text);
   notify("stop");
+
+  cout << results << endl;
 }

@@ -60,6 +60,7 @@ fn main() {
 		lang = 'V/clang'
 	}
 	notify('$lang\t$C.getpid()')
-	println(calc(s))
+	results := calc(s)
 	notify('stop')
+	println(results)
 }

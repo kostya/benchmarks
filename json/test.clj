@@ -12,9 +12,6 @@
         (recur (+ sx x) (+ sy y) (+ sz z) coords)
         (Coordinate. (/ sx len) (/ sy len) (/ sz len))))))
 
-(defn parse [text]
-  (time (println (calc text))))
-
 (defn notify [msg]
   (try
     (with-open [sock (java.net.Socket. "localhost" 9001)
@@ -39,5 +36,7 @@
     (run! verify verification_pairs)
     (let [text (slurp "/tmp/1.json")]
       (notify (format "Clojure\t%d" (.pid (java.lang.ProcessHandle/current))))
-      (parse text)
-      (notify "stop"))))
+      (let [results (calc text)]
+        (do
+          (notify "stop")
+          (println results))))))
