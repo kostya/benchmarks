@@ -5,8 +5,8 @@ executables := \
 	target/base64_cr \
 	target/base64_go \
 	target/base64_go_gccgo \
-	target/base64_cpp \
-	target/base64_c \
+	target/base64_cpp_crypto \
+	target/base64_c_nolib \
 	target/base64_d \
 	target/base64_d_gdc \
 	target/base64_d_ldc \
@@ -53,10 +53,10 @@ target/base64_go: test.go | $(gofmt)
 target/base64_go_gccgo: test.go | $(gofmt)
 	$(GCC_GO_BUILD)
 
-target/base64_cpp: test.cpp | target libnotify
+target/base64_cpp_crypto: test-crypto.cpp | target libnotify
 	$(GCC_CPP_BUILD) -lcrypto
 
-target/base64_c: test.c | target libnotify
+target/base64_c_nolib: test-nolib.c | target libnotify
 	$(GCC_BUILD)
 
 target/base64_scala.jar: test.scala | target
