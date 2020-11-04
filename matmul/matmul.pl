@@ -71,10 +71,9 @@ if ($0 eq __FILE__) {
         exit(1);
     }
 
-    my $pid = $$;
-    notify("Perl\t${pid}");
-
-    print calc($n), "\n";
-
+    notify("Perl\t" . $$);
+    my $results = calc($n);
     notify("stop");
+
+    print $results, "\n";
 }

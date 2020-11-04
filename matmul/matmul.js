@@ -70,6 +70,8 @@ function notify(msg) {
     }
 
     await notify(`Node.js\t${require('process').pid}`);
-    console.log(calc(n))
+    const results = calc(n);
     await notify('stop');
+
+    console.log(results);
 })();

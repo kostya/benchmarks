@@ -44,8 +44,8 @@ apply {{{n 100}} {
     }
 
     notify [format "%s\t%d" "Tcl" [pid]]
-
-    puts [calc $n]
-
+    set results [calc $n]
     notify "stop"
+
+    puts results
 }} {*}$argv
