@@ -58,7 +58,7 @@ if __name__ == "__main__":
         quit(1)
 
     notify("%s\t%d" % (platform.python_implementation(), os.getpid()))
-
-    print(calc(n))
-
+    results = calc(n)
     notify("stop")
+
+    print(results)

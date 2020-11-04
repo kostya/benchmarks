@@ -73,7 +73,7 @@ when isMainModule:
   when defined(gcc):
     compiler = "Nim/gcc"
   notify(&"{compiler}\t{getpid()}")
-
-  echo formatFloat(calc(n), ffDefault, 8)
-
+  let results = calc(n)
   notify("stop")
+
+  echo formatFloat(results, ffDefault, 8)

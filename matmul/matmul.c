@@ -79,8 +79,10 @@ int main(int argc, char *argv[]) {
   size_t len = snprintf(msg, sizeof(msg), "C/gcc\t%d", getpid());
   notify(msg, len);
 
-  printf("%f\n", calc(n));
+  double results = calc(n);
 
   char stop_msg[] = "stop";
   notify(stop_msg, sizeof(stop_msg));
+
+  printf("%f\n", results);
 }

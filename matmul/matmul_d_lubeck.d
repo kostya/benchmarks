@@ -79,8 +79,8 @@ void main(in string[] args)
     }
 
     notify("D/ldc2 (lubeck)\t%d".format(getpid()));
-
-    printf("%.6f\n", calc(n));
-
+    immutable results = calc(n);
     notify("stop");
+
+    printf("%.6f\n", results);
 }

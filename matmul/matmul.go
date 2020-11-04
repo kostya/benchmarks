@@ -80,8 +80,8 @@ func main() {
 	}
 
 	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
-
-	fmt.Printf("%f\n", calc(n))
-
+	results := calc(n)
 	notify("stop")
+
+	fmt.Printf("%f\n", results)
 }
