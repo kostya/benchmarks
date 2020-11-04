@@ -12,38 +12,41 @@ proc notify(msg: string) =
     discard
 
 when isMainModule:
+  for (src, dst) in [("hello", "aGVsbG8="), ("world", "d29ybGQ=")]:
+    let encoded = base64.encode(src)
+    if encoded != dst:
+      stderr.writeLine(&"{encoded} != {dst}")
+      quit(1)
+    let decoded = base64.decode(dst)
+    if decoded != src:
+      stderr.writeLine(&"{decoded} != {src}")
+      quit(1)
+
   const STR_SIZE = 131072
   const TRIES = 8192
+
   let str = strutils.repeat('a', STR_SIZE)
+  let str2 = base64.encode(str)
+  let str3 = base64.decode(str2)
 
   var compiler = "Nim/clang"
   when defined(gcc):
     compiler = "Nim/gcc"
   notify(&"{compiler}\t{getpid()}")
 
-  var t = times.epochTime()
-  var i = 0
-  var s:int64 = 0
+  let t = times.epochTime()
+  var s_encoded = 0
+  for i in 1 .. TRIES:
+    s_encoded += len(base64.encode(str))
+  let t_encoded = formatFloat(times.epochTime() - t, ffDefault, 6)
 
-  var str2 = base64.encode(str)
-  stdout.write(fmt"encode {str[..3]}... to {str2[..3]}...: ")
-
-  while i < TRIES:
-    str2 = base64.encode(str)
-    s += len(str2)
-    i += 1
-  echo(fmt"{s}, {formatFloat(times.epochTime() - t, ffDefault, 6)}")
-
-  var str3 = base64.decode(str2)
-  stdout.write(fmt"decode {str2[..3]}... to {str3[..3]}...: ")
-
-  t = times.epochTime()
-  i = 0
-  s = 0
-  while i < TRIES:
-    str3 = base64.decode(str2)
-    s += len(str3)
-    i += 1
-  echo(fmt"{s}, {formatFloat(times.epochTime() - t, ffDefault, 6)}")
+  let t1 = times.epochTime()
+  var s_decoded = 0
+  for i in 1 .. TRIES:
+    s_decoded += len(base64.decode(str2))
+  let t_decoded = formatFloat(times.epochTime() - t1, ffDefault, 6)
 
   notify("stop")
+
+  echo(fmt"encode {str[..3]}... to {str2[..3]}...: {s_encoded}, {t_encoded}")
+  echo(fmt"decode {str2[..3]}... to {str3[..3]}...: {s_decoded}, {t_decoded}")

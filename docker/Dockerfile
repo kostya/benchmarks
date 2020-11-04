@@ -124,7 +124,7 @@ RUN wget --progress=dot:giga -O - \
 	| bash -s
 
 # https://download.racket-lang.org/
-ARG RACKET=7.8
+ARG RACKET=7.9
 RUN wget --progress=dot:giga \
 	https://mirror.racket-lang.org/installers/$RACKET/racket-$RACKET-x86_64-linux.sh \
 	&& sh racket-$RACKET-x86_64-linux.sh --unix-style --dest /usr/ \
