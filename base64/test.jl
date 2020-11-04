@@ -1,32 +1,33 @@
 using Base64
 using Sockets
 
-function main(tries)
+function main()
     str_size = 131072
+    tries = 8192
     str = repeat("a", str_size)
-
-    t = time()
-    s = 0
-
     str2 = base64encode(str)
-    print("encode $(str[1:4])... to $(str2[1:4]): ")
+    str3 = String(base64decode(str2))
 
-    for i = 1:tries
-        str2 = base64encode(str)
-        s += length(str2)
-    end
-    print("$s, $(time() - t)\n")
-
-    str3 = base64decode(str2)
-    print("decode $(str2[1:4])... to $(String(str3[1:4])): ")
+    notify("Julia\t$(getpid())")
 
     t = time()
-    s = 0
+    s_encoded = 0
     for i = 1:tries
-        str3 = base64decode(str2)
-        s += length(str3)
+        s_encoded += length(base64encode(str))
     end
-    print("$s, $(time() - t)\n")
+    t_encoded = time() - t
+
+    t = time()
+    s_decoded = 0
+    for i = 1:tries
+        s_decoded += length(base64decode(str2))
+    end
+    t_decoded = time() - t
+
+    notify("stop")
+
+    print("encode $(str[1:4])... to $(str2[1:4]): $s_encoded, $t_encoded\n")
+    print("decode $(str2[1:4])... to $(str3[1:4]): $s_decoded, $t_decoded\n")
 end
 
 function notify(msg)
@@ -40,10 +41,18 @@ function notify(msg)
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
-    notify("Julia\t$(getpid())")
+    for (src, dst) in [["hello", "aGVsbG8="], ["world", "d29ybGQ="]]
+        encoded = base64encode(src)
+        if encoded != dst
+            println(stderr, "$(encoded) != $(dst)")
+            exit(1)
+        end
+        decoded = String(base64decode(dst))
+        if decoded != src
+            println(stderr, "$(decoded) != $(src)")
+            exit(1)
+        end
+    end
 
-    x = @timed main(8192)
-    println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
-
-    notify("stop")
+    main()
 end

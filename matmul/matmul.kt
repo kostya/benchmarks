@@ -73,7 +73,7 @@ fun main(args: Array<String>) {
     val right = -18.67
     if (Math.abs(left - right) > 0.1) {
         System.err.println("${left} != ${right}")
-        System.exit(1);
+        System.exit(1)
     }
 
     val pid = ProcessHandle.current().pid()

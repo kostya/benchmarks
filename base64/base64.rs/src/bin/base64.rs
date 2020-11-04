@@ -14,38 +14,54 @@ fn notify(msg: &str) {
 }
 
 fn main() {
+    for [src, dst] in &[["hello", "aGVsbG8="], ["world", "d29ybGQ="]] {
+        let encoded = encode(&src);
+        if encoded != *dst {
+            eprintln!("{:?} != {:?}", encoded, dst);
+            std::process::exit(-1);
+        }
+        let decoded = String::from_utf8(decode(&dst).unwrap()).unwrap();
+        if decoded != *src {
+            eprintln!("{:?} != {:?}", decoded, src);
+            std::process::exit(-1);
+        }
+    }
+
     let input = vec![b'a'; STR_SIZE];
+    let output = encode(&input);
+    let str3 = decode(&output).unwrap();
 
     notify(&format!("Rust\t{}", std::process::id()));
-    let mut time_start = Instant::now();
-    let mut sum = 0;
 
-    let mut output = encode(&input);
-    print!(
-        "encode {}... to {}...: ",
-        str::from_utf8(&input[..4]).unwrap(),
-        &output[..4]
-    );
-
+    let time_start = Instant::now();
+    let mut sum_encoded = 0;
     for _ in 0..TRIES {
-        output = encode(&input);
-        sum += output.len();
+        sum_encoded += encode(&input).len();
     }
-    println!("{}, {}", sum, time_start.elapsed().as_secs_f32());
+    let t_encoded = time_start.elapsed().as_secs_f32();
 
-    let mut str3 = decode(&output).unwrap();
-    print!(
-        "decode {}... to {}...: ",
-        &output[..4],
-        str::from_utf8(&str3[..4]).unwrap()
-    );
-    sum = 0;
-    time_start = Instant::now();
+    let t1_start = Instant::now();
+    let mut sum_decoded = 0;
     for _ in 0..TRIES {
-        str3 = decode(&output).unwrap();
-        sum += str3.len();
+        sum_decoded += decode(&output).unwrap().len();
     }
-    println!("{}, {}", sum, time_start.elapsed().as_secs_f32());
+    let t_decoded = t1_start.elapsed().as_secs_f32();
 
     notify("stop");
+
+    println!(
+        "encode {}... to {}...: {}, {}",
+        str::from_utf8(&input[..4]).unwrap(),
+        &output[..4],
+        sum_encoded,
+        t_encoded
+    );
+
+    println!(
+        "decode {}... to {}...: {}, {}",
+        &output[..4],
+        str::from_utf8(&str3[..4]).unwrap(),
+        sum_decoded,
+        t_decoded
+    );
 }
