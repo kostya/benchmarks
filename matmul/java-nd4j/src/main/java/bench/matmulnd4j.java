@@ -45,11 +45,11 @@ final class matmulnd4j {
 
         notify("Java (ND4J)\t" + ProcessHandle.current().pid());
         final var start_time = System.currentTimeMillis();
-
-        System.out.println(calc(n));
+        final var results = calc(n);
         final var time_diff = System.currentTimeMillis() - start_time;
-        System.out.printf("time: %f s\n", time_diff / 1e3);
-
         notify("stop");
+
+        System.out.println(results);
+        System.out.printf("time: %f s\n", time_diff / 1e3);
     }
 }

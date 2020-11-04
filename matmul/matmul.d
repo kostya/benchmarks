@@ -85,8 +85,8 @@ void main(in string[] args)
     }
 
     notify("%s\t%d".format(name, getpid()));
-
-    printf("%.6f\n", calc(n));
-
+    immutable results = calc(n);
     notify("stop");
+
+    printf("%.6f\n", results);
 }

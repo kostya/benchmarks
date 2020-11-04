@@ -71,8 +71,8 @@ fn main() {
     }
 
     notify(&format!("Rust\t{}", std::process::id()));
-
-    println!("{}", calc(n));
-
+    let results = calc(n);
     notify("stop");
+
+    println!("{}", results);
 }

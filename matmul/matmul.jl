@@ -60,10 +60,11 @@ if abspath(PROGRAM_FILE) == @__FILE__
     end
 
     notify("Julia (no BLAS)\t$(getpid())")
-
     t = time()
-    println(calc(n))
-    println("time: $(time() - t) s")
-
+    results = calc(n)
+    elapsed = time() - t
     notify("stop")
+
+    println(results)
+    println("time: $(elapsed) s")
 end
