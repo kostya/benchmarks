@@ -9,6 +9,26 @@
 (define-match-expander* op (syntax-rules () [(_ op val) (cons op val)]))
 (define-match-expander* tape (syntax-rules () [(_ data pos) (mcons data pos)]))
 
+;;; Printer.
+
+(struct printer ([sum1 #:mutable] [sum2 #:mutable] quiet))
+
+(define (print p n)
+  (if (printer-quiet p)
+      (begin
+          (set-printer-sum1! p (remainder
+                                (+ (printer-sum1 p) n)
+                                255))
+          (set-printer-sum2! p (remainder
+                                (+ (printer-sum2 p) (printer-sum1 p))
+                                255)))
+      (begin
+          (display (integer->char n))
+          (flush-output))))
+
+(define (get-checksum p)
+  (bitwise-ior (arithmetic-shift (printer-sum2 p) 8) (printer-sum1 p)))
+
 ;;; Vector and tape ops.
 
 (define (vector-grow-if-needed vec len)
@@ -57,13 +77,12 @@
 
 ;;; Interpreter.
 
-(define (run parsed t)
+(define (run parsed t p)
   (define step-op!
     (match-lambda
       [(op 'inc x) (tape-inc! t x)]
       [(op 'move x) (tape-move! t x)]
-      ['print (display (integer->char (tape-get t)))
-              (flush-output)]
+      ['print (print p (tape-get t))]
       [(op 'loop body) (let loop ()
                          (when (> (tape-get t) 0)
                            (step-ops! body)
@@ -86,10 +105,11 @@
 
 (module+ main
   (define text null)
+  (define p (printer 0 0 (getenv "QUIET")))
   (set! text (read-c (command-line #:args (filename) filename)))
 
   (notify (format "Racket\t~s" (getpid)))
+  (run (parse text) (tape (vector 0) 0) p)
+  (notify "stop")
 
-  (run (parse text) (tape (vector 0) 0))
-
-  (notify "stop"))
+  (if (printer-quiet p) (printf "Output checksum: ~s\n" (get-checksum p)) null))

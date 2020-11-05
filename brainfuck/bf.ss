@@ -3,6 +3,26 @@
 (define-record-type op (fields op val))
 (define-record-type tape (fields data pos))
 
+;;; Printer.
+
+(define-record-type printer (fields (mutable sum1) (mutable sum2) quiet))
+
+(define (print p n)
+  (if (printer-quiet p)
+      (begin
+          (printer-sum1-set! p (remainder
+                                (+ (printer-sum1 p) n)
+                                255))
+          (printer-sum2-set! p (remainder
+                                (+ (printer-sum2 p) (printer-sum1 p))
+                                255)))
+      (begin
+          (display (integer->char n))
+          (flush-output-port))))
+
+(define (get-checksum p)
+  (bitwise-ior (ash (printer-sum2 p) 8) (printer-sum1 p)))
+
 ;;; Vector and tape ops.
 
 (define (vector-copy! dest dest-start src)
@@ -59,24 +79,23 @@
 
 ;;; Interpreter.
 
-(define (run parsed t)
+(define (run parsed t p)
   (if (null? parsed)
     t
     (let* ((op (op-op (car parsed)))
            (val (op-val (car parsed)))
            (rst (cdr parsed)))
       (case op
-        ((inc) (run rst (tape-inc! t val)))
-        ((move) (run rst (tape-move t val)))
+        ((inc) (run rst (tape-inc! t val) p))
+        ((move) (run rst (tape-move t val) p))
         ((print)
-         (display (integer->char (tape-get t)))
-         (flush-output-port)
-         (run rst t))
+         (print p (tape-get t))
+         (run rst t p))
         ((loop)
          (if (> (tape-get t) 0)
-             (run parsed (run val t))
-             (run rst t)))
-        (else (run rst t))))))
+             (run parsed (run val t p) p)
+             (run rst t p)))
+        (else (run rst t p))))))
 
 ;;; I/O.
 (load-shared-object "../common/libnotify/target/libnotify.so")
@@ -102,13 +121,11 @@
 
 ((lambda ()
    (define text '())
+   (define p (make-printer 0 0 (getenv "QUIET")))
    (set! text (file->string (get-file-arg-or-exit)))
 
    (notify (format "Chez Scheme\t~s" (get-process-id)))
+   (run (parse text) (make-tape (make-vector 1) 0) p)
+   (notify "stop")
 
-   (run
-    (parse text)
-    (make-tape (make-vector 1) 0))
-
-   (notify "stop"))
- )
+   (if (printer-quiet p) (printf "Output checksum: ~s\n" (get-checksum p)))))
