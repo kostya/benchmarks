@@ -119,13 +119,33 @@
   (call-with-input-file path
     (lambda (port) (get-string-all port))))
 
+(define (verify)
+  (define text "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
+---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.")
+  (define p-left (make-printer 0 0 #t))
+  (define p-right (make-printer 0 0 #t))
+
+  (run (parse text) (make-tape (make-vector 1) 0) p-left)
+  (for-each
+   (lambda (c) (print p-right (char->integer c)))
+   (string->list "Hello World!\n"))
+
+  (let ((left (get-checksum p-left))
+        (right (get-checksum p-right)))
+    (if (not (eq? left right))
+        (errorf 'verify "~s != ~s" left right))))
+
+(define (main)
+  (define text (file->string (get-file-arg-or-exit)))
+  (define p (make-printer 0 0 (getenv "QUIET")))
+
+  (notify (format "Chez Scheme\t~s" (get-process-id)))
+  (run (parse text) (make-tape (make-vector 1) 0) p)
+  (notify "stop")
+
+  (if (printer-quiet p) (printf "Output checksum: ~s\n" (get-checksum p))))
+
 ((lambda ()
-   (define text '())
-   (define p (make-printer 0 0 (getenv "QUIET")))
-   (set! text (file->string (get-file-arg-or-exit)))
-
-   (notify (format "Chez Scheme\t~s" (get-process-id)))
-   (run (parse text) (make-tape (make-vector 1) 0) p)
-   (notify "stop")
-
-   (if (printer-quiet p) (printf "Output checksum: ~s\n" (get-checksum p)))))
+   (verify)
+   (main)
+))

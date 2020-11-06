@@ -100,10 +100,26 @@
   (parameterize ([current-locale "C"])
     (file->string path)))
 
+(define (verify)
+  (define text "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
+---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.")
+  (define p-left (printer 0 0 #t))
+  (define p-right (printer 0 0 #t))
+
+  (run (parse text) (tape (vector 0) 0) p-left)
+  (for-each
+   (lambda (c) (print p-right (char->integer c)))
+   (string->list "Hello World!\n"))
+
+  (let ((left (get-checksum p-left))
+        (right (get-checksum p-right)))
+    (when (not (eq? left right))
+        (error 'verify "~s != ~s" left right))))
+
 (module+ main
-  (define text null)
+  (verify)
+  (define text (read-c (command-line #:args (filename) filename)))
   (define p (printer 0 0 (getenv "QUIET")))
-  (set! text (read-c (command-line #:args (filename) filename)))
 
   (notify (format "Racket\t~s" (getpid)))
   (run (parse text) (tape (vector 0) 0) p)
