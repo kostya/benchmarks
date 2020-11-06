@@ -5,9 +5,8 @@
                     [unsafe-vector-set! vector-set!]
                     [unsafe-fx+ +]))
 
-(define-syntax-rule (define-match-expander* k r) (define-match-expander k r r))
-(define-match-expander* op (syntax-rules () [(_ op val) (cons op val)]))
-(define-match-expander* tape (syntax-rules () [(_ data pos) (mcons data pos)]))
+(struct op (op val))
+(struct tape ([data #:mutable] [pos #:mutable]))
 
 ;;; Printer.
 
@@ -42,17 +41,15 @@
                        new-vec]))]))
 
 (define (tape-get t)
-  (match-let ([(tape data pos) t])
-    (vector-ref data pos)))
+  (vector-ref (tape-data t) (tape-pos t)))
 
 (define (tape-move! t n)
-  (match-let ([(tape data pos) t])
-    (let ([new-pos (+ n pos)])
-      (set-mcar! t (vector-grow-if-needed data new-pos))
-      (set-mcdr! t new-pos))))
+  (let ([new-pos (+ n (tape-pos t))])
+    (set-tape-data! t (vector-grow-if-needed (tape-data t) new-pos))
+    (set-tape-pos! t new-pos)))
 
 (define (tape-inc! t n)
-  (match-let ([(tape data pos) t])
+  (let ((data (tape-data t)) (pos (tape-pos t)))
     (vector-set! data pos (+ n (vector-ref data pos)))))
 
 ;;; Parser.
@@ -112,4 +109,4 @@
   (run (parse text) (tape (vector 0) 0) p)
   (notify "stop")
 
-  (if (printer-quiet p) (printf "Output checksum: ~s\n" (get-checksum p)) null))
+  (when (printer-quiet p) (printf "Output checksum: ~s\n" (get-checksum p))))

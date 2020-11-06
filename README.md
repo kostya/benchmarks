@@ -54,6 +54,10 @@ UPDATE: 2020-10-30
 ## Brainfuck
 
 Testing brainfuck implementations using two code samples (bench.b and mandel.b).
+Supports two mode:
+
+ - Verbose (default). Prints the output immediately.
+ - Quiet (if QUIET environment variable is set). Accumulates the output using Fletcher-16 checksum, and prints it out after the benchmark.
 
 [Brainfuck](brainfuck)
 
