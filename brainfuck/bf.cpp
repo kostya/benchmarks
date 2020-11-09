@@ -126,7 +126,7 @@ void verify() {
   const auto left = p_left.get_checksum();
 
   Printer p_right(true);
-  for(const auto& c : string("Hello World!\n")) {
+  for (const auto& c : string("Hello World!\n")) {
     p_right.print(c);
   }
   const auto right = p_right.get_checksum();

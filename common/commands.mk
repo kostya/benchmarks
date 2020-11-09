@@ -7,18 +7,18 @@ V_FLAGS := -prod
 
 CLANG_BUILD =		clang $(CLANG_FLAGS) -o $@ $^ $(LIBNOTIFY_FLAGS)
 CRYSTAL_BUILD =	crystal build --release --no-debug -o $@ $^
-DMD_BUILD =		dmd -of$@ -O -release -inline $^
+DMD_BUILD =		dmd -of$@ -O -release -inline -boundscheck=off $^
 DOTNET_BUILD =		dotnet build --nologo -v q $< -c Release
 DUB_BUILD =		dub -q build --build=release --compiler=ldc2 --single $^
 GCC_BUILD =		gcc $(GCC_FLAGS) -std=c17 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++2a -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_GO_BUILD =		gccgo -O3 -o $@ $^
-GDC_BUILD =		gdc -o $@ -O3 -frelease -finline $^
+GDC_BUILD =		gdc -o $@ -O3 -frelease -finline -fbounds-check=off $^
 GHC_BUILD =		ghc -v0 -O2 -fforce-recomp $^ -o $@ -outputdir $(@D)
 GO_BUILD =		go build -o $@ $^
 JAVAC_BUILD =		javac -d $(@D) $^
 KOTLINC_BUILD =	kotlinc -include-runtime -jvm-target 14 -d $@ $^
-LDC2_BUILD =		ldc2 -of$@ -O5 -release $^
+LDC2_BUILD =		ldc2 -of$@ -O5 -release -boundscheck=off $^
 MCS_BUILD =		mcs -debug- -optimize+ -out:$@ $^
 MLTON_BUILD =		mlton -output $@ $^
 NIM_CLANG_BUILD =	nim c -o:$@ --cc:clang $(NIM_FLAGS) $^
