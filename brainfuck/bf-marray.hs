@@ -34,7 +34,7 @@ move m tape = do
     return $ Tape newData newPos
   where
     curData = tapeData tape
-    newPos = (tapePos tape) + m
+    newPos = tapePos tape + m
 
 parse :: ([Char], [Op]) -> ([Char], [Op])
 parse ([], acc) = ([], reverse acc)
@@ -62,7 +62,7 @@ run (op:ops) tape = do
             run ops newTape
         Print -> do
             x <- current tape
-            putStr $ [chr x]
+            putStr [chr x]
             hFlush stdout
             run ops tape
         Loop loop ->
@@ -72,10 +72,12 @@ run (op:ops) tape = do
                 else run loop tape >>= go
             in go tape
 
+notify :: String -> IO ()
 notify msg = do
     connect "localhost" "9001" $ \(socket, _) -> do
       send socket $ C.pack msg
 
+main :: IO ()
 main = do
     [filename] <- getArgs
     source <- readFile filename

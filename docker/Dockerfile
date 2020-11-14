@@ -104,16 +104,16 @@ RUN wget --progress=dot:giga -O - \
 	&& ln -s /opt/jruby-$JRUBY/bin/jruby /usr/bin/jruby
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.5.2
+ARG JULIA=julia-1.5.3
 RUN wget --progress=dot:giga -O - \
 	https://julialang-s3.julialang.org/bin/linux/x64/1.5/$JULIA-linux-x86_64.tar.gz \
 	| tar -xz
 ENV PATH="/opt/$JULIA/bin/:${PATH}"
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.3-RELEASE-ubuntu20.04
+ARG SWIFT=swift-5.3.1-RELEASE-ubuntu20.04
 RUN wget --progress=dot:giga -O - \
-	https://swift.org/builds/swift-5.3-release/ubuntu2004/swift-5.3-RELEASE/$SWIFT.tar.gz \
+	https://swift.org/builds/swift-5.3.1-release/ubuntu2004/swift-5.3.1-RELEASE/$SWIFT.tar.gz \
 	| tar -xz \
 	&& ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
 
@@ -140,7 +140,9 @@ ARG GHC_VER=8.10.2
 RUN ghcup install ghc $GHC_VER && ghcup set ghc $GHC_VER
 
 # Shared packages for all Haskell code
-RUN cabal update && cabal install network-simple --lib
+RUN cabal update \
+        && cabal install network-simple raw-strings-qq --lib \
+        && cabal install hlint
 ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
 
 # https://github.com/graalvm/graalvm-ce-builds/releases
@@ -167,13 +169,13 @@ RUN wget --progress=dot:giga -O - \
 
 # https://github.com/dotnet/core/tree/master/release-notes
 RUN mkdir dotnet && wget --progress=dot:giga -O - \
-        https://download.visualstudio.microsoft.com/download/pr/fdd9ecec-56b4-40f4-b762-d7efe24fc3cd/ffef51844c92afa6714528e10609a30f/dotnet-sdk-3.1.403-linux-x64.tar.gz \
+        https://download.visualstudio.microsoft.com/download/pr/820db713-c9a5-466e-b72a-16f2f5ed00e2/628aa2a75f6aa270e77f4a83b3742fb8/dotnet-sdk-5.0.100-linux-x64.tar.gz \
 	| tar -xz -C dotnet
 ENV PATH="/opt/dotnet:${PATH}"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v15.0.1
+ARG NODE=v15.2.0
 RUN wget --progress=dot:giga -O - \
 	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
 	| tar -xJ
@@ -181,7 +183,7 @@ ENV PATH="/opt/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN wget --progress=dot:giga -O - \
-        https://golang.org/dl/go1.15.3.linux-amd64.tar.gz \
+        https://golang.org/dl/go1.15.5.linux-amd64.tar.gz \
 	| tar -xz
 ENV PATH="/opt/go/bin/:${PATH}"
 

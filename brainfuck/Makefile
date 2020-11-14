@@ -106,10 +106,10 @@ target/bin_nim_clang: bf.nim | target
 target/bin_nim_gcc: bf.nim | target
 	$(NIM_GCC_BUILD)
 
-target/bin_hs: bf.hs | target
+target/bin_hs: bf.hs | $(hlint)
 	$(GHC_BUILD)
 
-target/bin_hs_marray: bf-marray.hs | target
+target/bin_hs_marray: bf-marray.hs | $(hlint)
 	$(GHC_BUILD)
 
 target/bin_ocaml: bf.ml | target

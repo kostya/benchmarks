@@ -1,4 +1,8 @@
+'use strict';
+
 const assert = require("assert");
+const fs = require("fs");
+const net = require('net');
 
 function calc(text) {
     var jobj = JSON.parse(text);
@@ -25,7 +29,7 @@ function calc(text) {
 
 function notify(msg) {
     return new Promise(resolve => {
-        const client = require('net').connect(9001, 'localhost', () => {
+        const client = net.connect(9001, 'localhost', () => {
             client.end(msg, 'utf8', () => {
                 client.destroy();
                 resolve();
@@ -43,9 +47,9 @@ function notify(msg) {
              assert.deepStrictEqual(left, right);
          });
 
-    const text = require('fs').readFileSync("/tmp/1.json", "utf8");
+    const text = fs.readFileSync("/tmp/1.json", "utf8");
 
-    await notify(`Node.js\t${require('process').pid}`);
+    await notify(`Node.js\t${process.pid}`);
     const results = calc(text);
     await notify('stop');
 

@@ -1,4 +1,7 @@
+'use strict';
+
 const assert = require("assert");
+const net = require('net');
 const util = require('util');
 
 const STR_SIZE = 131072;
@@ -9,7 +12,7 @@ async function main() {
     const str2 = b.toString('base64');
     const str3 = Buffer.from(str2, 'base64');
 
-    await notify(`Node.js\t${require('process').pid}`);
+    await notify(`Node.js\t${process.pid}`);
 
     var s_encoded = 0;
     const start = new Date();
@@ -40,7 +43,7 @@ async function main() {
 
 function notify(msg) {
     return new Promise(resolve => {
-        const client = require('net').connect(9001, 'localhost', () => {
+        const client = net.connect(9001, 'localhost', () => {
             client.end(msg, 'utf8', () => {
                 client.destroy();
                 resolve();

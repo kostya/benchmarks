@@ -14,7 +14,7 @@ GCC_BUILD =		gcc $(GCC_FLAGS) -std=c17 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++2a -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_GO_BUILD =		gccgo -O3 -o $@ $^
 GDC_BUILD =		gdc -o $@ -O3 -frelease -finline -fbounds-check=off $^
-GHC_BUILD =		ghc -v0 -O2 -fforce-recomp $^ -o $@ -outputdir $(@D)
+GHC_BUILD =		ghc -v0 -O2 -fforce-recomp -Wall $^ -o $@ -outputdir $(@D)
 GO_BUILD =		go build -o $@ $^
 JAVAC_BUILD =		javac -d $(@D) $^
 KOTLINC_BUILD =	kotlinc -include-runtime -jvm-target 14 -d $@ $^
@@ -110,6 +110,11 @@ $(v_fmt): *.v | target
 dfmt := target/.dfmt
 $(dfmt): *.d | target
 	dub -q run -y dfmt -- -i $^
+	@touch $@
+
+hlint := target/.hlint
+$(hlint): *.hs | target
+	~/.cabal/bin/hlint $^
 	@touch $@
 
 .PHONY: libnotify

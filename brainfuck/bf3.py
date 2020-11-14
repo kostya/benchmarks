@@ -47,7 +47,8 @@ class Printer(object):
             sys.stdout.write(chr(n))
             sys.stdout.flush()
 
-    def get_checksum(self):
+    @property
+    def checksum(self):
         return (self.sum2 << 8) | self.sum1
 
 
@@ -109,12 +110,12 @@ def verify():
     ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."""
     p_left = Printer(True)
     Program(text).run(p_left)
-    left = p_left.get_checksum()
+    left = p_left.checksum
 
     p_right = Printer(True)
     for c in "Hello World!\n":
         p_right.print(ord(c))
-    right = p_right.get_checksum()
+    right = p_right.checksum
     if left != right:
         print("%s != %s" % (left, right), file=sys.stderr)
         quit(1)
@@ -130,4 +131,4 @@ if __name__ == "__main__":
     notify("stop")
 
     if p.quiet:
-        print("Output checksum:", p.get_checksum())
+        print("Output checksum:", p.checksum)

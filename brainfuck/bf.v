@@ -57,6 +57,35 @@ fn (mut t Tape) move(x int) {
 	}
 }
 
+struct Printer {
+	quiet bool
+mut:
+	sum1  int
+	sum2  int
+}
+
+fn new_printer(quiet bool) Printer {
+	return Printer{
+		sum1: 0
+		sum2: 0
+		quiet: quiet
+	}
+}
+
+fn (mut p Printer) print(n int) {
+	if p.quiet {
+		p.sum1 = (p.sum1 + n) % 255
+		p.sum2 = (p.sum2 + p.sum1) % 255
+	} else {
+		print(byte(n).str())
+		os.flush()
+	}
+}
+
+fn (p Printer) get_checksum() int {
+	return (p.sum2 << 8) | p.sum1
+}
+
 struct Program {
 	ops []Op
 }
@@ -105,12 +134,12 @@ fn parse(mut si StringIterator) []Op {
 	return res
 }
 
-fn (p Program) run() {
+fn (p Program) run(mut printer Printer) {
 	mut t := new_tape()
-	run_ops(p.ops, mut t)
+	run_ops(p.ops, mut t, mut printer)
 }
 
-fn run_ops(ops []Op, mut tape Tape) {
+fn run_ops(ops []Op, mut tape Tape, mut p Printer) {
 	for op in ops {
 		match op.o {
 			inc {
@@ -120,12 +149,11 @@ fn run_ops(ops []Op, mut tape Tape) {
 				tape.move(op.v)
 			}
 			print {
-				print(byte(tape.get()).str())
-				os.flush()
+				p.print(tape.get())
 			}
 			loop {
 				for tape.get() > 0 {
-					run_ops(op.loop, mut tape)
+					run_ops(op.loop, mut tape, mut p)
 				}
 			}
 			else {}
@@ -164,7 +192,24 @@ fn notify(msg string) {
 	sock.close() or { }
 }
 
+fn verify() {
+	text := '++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.'
+	mut p_left := new_printer(true)
+	new_program(text).run(mut p_left)
+	left := p_left.get_checksum()
+	mut p_right := new_printer(true)
+	for c in 'Hello World!\n' {
+		p_right.print(c)
+	}
+	right := p_right.get_checksum()
+	if left != right {
+		panic('$left != $right')
+	}
+}
+
 fn main() {
+	verify()
 	args := os.args
 	mut filename := ''
 	if args.len == 2 {
@@ -177,11 +222,15 @@ fn main() {
 		eprintln('Failed to open file $filename')
 		return
 	}
+	mut p := new_printer(os.getenv('QUIET') != '')
 	mut lang := 'V/gcc'
 	$if clang {
 		lang = 'V/clang'
 	}
 	notify('$lang\t$C.getpid()')
-	new_program(code).run()
+	new_program(code).run(mut p)
 	notify('stop')
+	if p.quiet {
+		println('Output checksum: $p.get_checksum()')
+	}
 }

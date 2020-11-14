@@ -1,3 +1,7 @@
+'use strict';
+
+const net = require('net');
+
 var matrix = {}
 
 matrix.new = function (n) {
@@ -50,7 +54,7 @@ function calc(n) {
 
 function notify(msg) {
     return new Promise(resolve => {
-        const client = require('net').connect(9001, 'localhost', () => {
+        const client = net.connect(9001, 'localhost', () => {
             client.end(msg, 'utf8', () => {
                 client.destroy();
                 resolve();
@@ -69,7 +73,7 @@ function notify(msg) {
         process.exit(1);
     }
 
-    await notify(`Node.js\t${require('process').pid}`);
+    await notify(`Node.js\t${process.pid}`);
     const results = calc(n);
     await notify('stop');
 

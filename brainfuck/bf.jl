@@ -7,6 +7,12 @@ mutable struct Tape
     tape::Vector{UInt8}
 end
 
+mutable struct Printer
+    sum1: Int
+    sum2: Int
+    quiet: Bool
+end
+
 Tape() = Tape(0, 1, [0])
 
 Base.getindex(t::Tape) = t.tape[t.pos]
@@ -75,10 +81,6 @@ interpret(t::Tape, bf::String; kws...) = interpret(t, collect(bf); kws...)
 
 interpret(bf; kws...) = interpret(Tape(), bf; kws...)
 
-function main(text)
-    interpret(text)
-end
-
 function notify(msg)
     try
         socket = connect("localhost", 9001)
@@ -95,9 +97,6 @@ if abspath(PROGRAM_FILE) == @__FILE__
     end
 
     notify("Julia\t$(getpid())")
-
-    x = @timed main(text)
-    println("Elapsed: $(x[2]), Allocated: $(x[3]), GC Time: $(x[4])")
-
+    interpret(text)
     notify("stop")
 end

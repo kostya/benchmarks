@@ -87,7 +87,7 @@ func NewPrinter(quiet bool) *Printer {
 }
 
 func (p *Printer) Print(n int) {
-	if (p.quiet) {
+	if p.quiet {
 		p.sum1 = (p.sum1 + n) % 255
 		p.sum2 = (p.sum2 + p.sum1) % 255
 	} else {
@@ -196,7 +196,7 @@ func main() {
 	NewProgram(text).Run(p)
 	notify("stop")
 
-	if (p.quiet) {
+	if p.quiet {
 		fmt.Printf("Output checksum: %d\n", p.GetChecksum())
 	}
 }
