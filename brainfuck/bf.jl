@@ -4,26 +4,23 @@ using Sockets
 mutable struct Tape
     count::Int
     pos::Int
-    tape::Vector{UInt8}
-end
-
-mutable struct Printer
-    sum1: Int
-    sum2: Int
-    quiet: Bool
+    tape::Vector{Int}
 end
 
 Tape() = Tape(0, 1, [0])
 
+mutable struct Printer
+    sum1::Int
+    sum2::Int
+    quiet::Bool
+end
+
+Printer(quiet) = Printer(0, 0, quiet)
+
+getChecksum(p::Printer) = (p.sum2 << 8) | p.sum1
+
 Base.getindex(t::Tape) = t.tape[t.pos]
 Base.setindex!(t::Tape, v) = t.tape[t.pos] = v
-
-function Base.show(io::IO, t::Tape)
-    print(io, "[$(t.count)] ")
-    for i = 1:length(t.tape)
-        print(io, t.tape[i], i == t.pos ? "* " : " ")
-    end
-end
 
 Base.:(==)(a::Tape, b::Tape) = a.tape == b.tape
 
@@ -43,17 +40,16 @@ end
 inc!(t::Tape) = t[] += 0x01
 dec!(t::Tape) = t[] -= 0x01
 
-function read!(t::Tape, io::IO)
-    t[] = read(io, UInt8)
+function write!(n::Int, p::Printer)
+    if p.quiet
+        p.sum1 = (p.sum1 + n) % 255
+        p.sum2 = (p.sum2 + p.sum1) % 255
+    else
+        write(stdout, n)
+    end
 end
 
-function write!(t::Tape, io::IO)
-    write(io, t[])
-end
-
-# Gets ~370 MHz
-
-function interpret(t::Tape, bf; input::IO = stdin, output::IO = stdout)
+function interpret(t::Tape, bf, p::Printer)
     loops = Int[]
     scan = 0
     ip = 1
@@ -65,21 +61,22 @@ function interpret(t::Tape, bf; input::IO = stdin, output::IO = stdout)
         elseif op == ']'
             scan > 0 ? (scan -= 1) : t[] == 0 ? pop!(loops) : (ip = loops[end])
         elseif scan == 0
-            op == '+' ? inc!(t) :
-            op == '-' ? dec!(t) :
-            op == '<' ? left!(t) :
-            op == '>' ? right!(t) :
-            op == ',' ? read!(t, input) :
-            op == '.' ? write!(t, output) : op == '#' ? println(t) : nothing
+            if op == '+'
+                inc!(t)
+            elseif op == '-'
+                dec!(t)
+            elseif op == '<'
+                left!(t)
+            elseif op == '>'
+                right!(t)
+            elseif op == '.'
+                write!(t[], p)
+            end
         end
         ip += 1
     end
     return t
 end
-
-interpret(t::Tape, bf::String; kws...) = interpret(t, collect(bf); kws...)
-
-interpret(bf; kws...) = interpret(Tape(), bf; kws...)
 
 function notify(msg)
     try
@@ -91,12 +88,37 @@ function notify(msg)
     end
 end
 
+function verify()
+    text = """++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+        ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."""
+    pLeft = Printer(true)
+    interpret(Tape(), collect(text), pLeft)
+    left = getChecksum(pLeft)
+
+    pRight = Printer(true)
+    for c in "Hello World!\n"
+        write!(convert(Int, c), pRight)
+    end
+    right = getChecksum(pRight)
+
+    if left != right
+        println(stderr, "$(left) != $(right)")
+        exit(1)
+    end
+end
+
 if abspath(PROGRAM_FILE) == @__FILE__
+    verify()
     text = open(ARGS[1]) do file
         read(file, String)
     end
+    p = Printer(haskey(ENV, "QUIET"))
 
     notify("Julia\t$(getpid())")
-    interpret(text)
+    interpret(Tape(), collect(text), p)
     notify("stop")
+
+    if p.quiet
+        println("Output checksum: $(getChecksum(p))")
+    end
 end

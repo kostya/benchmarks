@@ -463,6 +463,8 @@ For Haskell:
 
  - [network-simple](http://hackage.haskell.org/package/network-simple) for
 TCP connectivity between the tests and the test runner.
+ - [raw-strings-qq](http://hackage.haskell.org/package/raw-strings-qq) for
+raw string literals used in tests.
 
 For Perl:
 
