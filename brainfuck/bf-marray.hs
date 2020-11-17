@@ -1,19 +1,43 @@
+{-# LANGUAGE QuasiQuotes #-}
+
 module Main where
 
 import qualified Data.Array.Base as ArrayBase
 import qualified Data.Array.IO as IOUArray
 import qualified Data.Array.MArray as MArray
 import qualified Data.ByteString.Char8 as C
+import Control.Monad
+import Data.Bits
+import Data.Char
+import Data.Maybe
 import Network.Simple.TCP
-import Data.Char (chr)
-import System.Environment (getArgs)
+import System.Environment
+import System.Exit
 import System.IO (hFlush, stdout)
 import System.Posix (getProcessID)
+import Text.RawString.QQ
 
 data Op = Inc !Int | Move !Int | Print | Loop ![Op] deriving Show
 data Tape = Tape { tapeData :: IOUArray.IOUArray Int Int
                  , tapePos :: !Int
                  }
+data Printer = Printer { sum1 :: Int
+                       , sum2 :: Int
+                       , quiet :: Bool
+                       }
+
+write :: Printer -> Int -> IO Printer
+write p n = if quiet p
+  then do
+  let newP = p {sum1 = mod (sum1 p + n) 255}
+  return newP {sum2 = mod (sum1 newP + sum2 newP) 255}
+  else do
+  putStr [chr n]
+  hFlush stdout
+  return p
+
+getChecksum :: Printer -> Int
+getChecksum p = (sum2 p `shiftL` 8) .|. sum1 p
 
 current :: Tape -> IO Int
 current tape = ArrayBase.unsafeRead (tapeData tape) (tapePos tape)
@@ -30,7 +54,7 @@ move m tape = do
                then return curData
                else do
                  el <- MArray.getElems curData
-                 MArray.newListArray (0, newPos) (el ++ [0 | i <- [len..newPos]])
+                 MArray.newListArray (0, newPos) el
     return $ Tape newData newPos
   where
     curData = tapeData tape
@@ -50,43 +74,65 @@ parse (c:cs, acc) =
         ']' -> (cs, reverse acc)
         _   -> parse (cs, acc)
 
-run :: [Op] -> Tape -> IO Tape
-run [] tape = return tape
-run (op:ops) tape = do
+run :: [Op] -> Tape -> Printer -> IO (Tape, Printer)
+run [] tape p = return (tape, p)
+run (op:ops) tape p = do
     case op of
         Inc d -> do
             inc d tape
-            run ops tape
+            run ops tape p
         Move m -> do
             newTape <- move m tape
-            run ops newTape
+            run ops newTape p
         Print -> do
             x <- current tape
-            putStr [chr x]
-            hFlush stdout
-            run ops tape
+            newP <- write p x
+            run ops tape newP
         Loop loop ->
-            let go tape = do
-                x <- current tape
-                if x == 0 then run ops tape
-                else run loop tape >>= go
-            in go tape
+            let go (newTape, newP) = do
+                x <- current newTape
+                if x == 0 then run ops newTape newP
+                else run loop newTape newP >>= go
+            in go (tape, p)
 
 notify :: String -> IO ()
 notify msg = do
     connect "localhost" "9001" $ \(socket, _) -> do
       send socket $ C.pack msg
 
+
+verify :: IO ()
+verify = do
+    let source = [r|++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
+                   ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.|]
+    let (_, ops) = parse (source, [])
+    empty <- MArray.newListArray (0, 0) [0]
+    (_, pLeft) <- run ops
+      (Tape empty 0)
+      Printer {sum1=0, sum2=0, quiet=True}
+    let left = getChecksum pLeft
+
+    pRight <- foldM (\p c -> write p $ ord c)
+                 (Printer {sum1=0, sum2=0, quiet=True})
+                 "Hello World!\n"
+    let right = getChecksum pRight
+    when (left /= right)
+      $ die $ show left ++ " != " ++ show right
+
 main :: IO ()
 main = do
+    verify
     [filename] <- getArgs
     source <- readFile filename
+    quiet_env <- lookupEnv "QUIET"
+    let p = Printer {sum1=0, sum2=0, quiet=isJust quiet_env}
 
     pid <- getProcessID
     notify $ "Haskell (MArray)\t" ++ show pid
-
     let (_, ops) = parse (source, [])
     empty <- MArray.newListArray (0, 0) [0]
-    run ops $ Tape empty 0
-
+    (_, newP) <- run ops (Tape empty 0) p
     notify "stop"
+
+    when (quiet newP)
+      $ do putStrLn $ "Output checksum: " ++ show (getChecksum newP)

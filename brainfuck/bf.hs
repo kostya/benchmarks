@@ -25,8 +25,8 @@ data Printer = Printer { sum1 :: Int
                        , quiet :: Bool
                        }
 
-print :: Printer -> Int -> IO Printer
-print p n = if quiet p
+write :: Printer -> Int -> IO Printer
+write p n = if quiet p
   then do
   let newP = p {sum1 = mod (sum1 p + n) 255}
   return newP {sum2 = mod (sum1 newP + sum2 newP) 255}
@@ -82,7 +82,7 @@ run (op:ops) tape p = do
         Inc d -> run ops (inc d tape) p
         Move m -> run ops (move m tape) p
         Print -> do
-          newP <- Main.print p $ current tape
+          newP <- write p $ current tape
           run ops tape newP
         Loop loop -> do
             if current tape == 0
@@ -106,7 +106,7 @@ verify = do
       Printer {sum1=0, sum2=0, quiet=True}
     let left = getChecksum pLeft
 
-    pRight <- foldM (\p c -> Main.print p $ ord c)
+    pRight <- foldM (\p c -> write p $ ord c)
                  (Printer {sum1=0, sum2=0, quiet=True})
                  "Hello World!\n"
     let right = getChecksum pRight
