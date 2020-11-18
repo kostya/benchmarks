@@ -209,8 +209,7 @@ void tape_inc(struct tape tape, int amount)
   tape.tape[tape.pos] += amount;
 }
 
-void eval(const struct op_list *ops, struct tape *tape, struct printer *p)
-{
+void eval(const struct op_list *ops, struct tape *tape, struct printer *p) {
   int i, len;
   struct op op;
 

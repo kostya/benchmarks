@@ -2,6 +2,7 @@ import platform
 import socket
 import sys
 import os
+import itertools
 from pathlib import Path
 
 INC = 1
@@ -30,7 +31,7 @@ class Tape(object):
     def move(self, x):
         self.pos += x
         while self.pos >= len(self.tape):
-            self.tape.append(0)
+            self.tape.extend(itertools.repeat(0, len(self.tape)))
 
 
 class Printer(object):
@@ -92,7 +93,7 @@ def _run(program, tape, p):
 
 
 class Program(object):
-    def __init__(self, code, p):
+    def __init__(self, code):
         self.ops = parse(iter(code))
 
     def run(self, p):
