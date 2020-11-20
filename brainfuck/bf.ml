@@ -11,13 +11,14 @@ type printer =
 
 let print p n =
   if p.quiet then
-    let newP = { p with sum1 = (p.sum1 + n) mod 255 } in
-    { newP with sum2 = (newP.sum1 + newP.sum2) mod 255}
-  else begin
-      print_char (Char.chr n);
-      flush stdout;
-      p
-    end
+    let new_sum1 = (p.sum1 + n) mod 255 in
+    let new_sum2 = (new_sum1 + p.sum2) mod 255 in
+    { sum1 = new_sum1; sum2 = new_sum2; quiet = true }
+  else (
+    print_char (Char.chr n);
+    flush stdout;
+    p
+  )
 
 let get_checksum p = (p.sum2 lsl 8) lor p.sum1
 
@@ -60,8 +61,8 @@ let rec run program t p =
      run ops t p
   | Move m :: ops -> run ops (move m t) p
   | Print :: ops ->
-     let newP = print p (current t) in
-     run ops t newP
+     let new_p = print p (current t) in
+     run ops t new_p
   | Loop loop_code :: ops ->
      let rec loop (t, p) =
        if current t = 0 then run ops t p
@@ -89,23 +90,23 @@ let notify msg =
   with Unix.Unix_error _ -> ()
 
 let verify =
-  let source = {|++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
-                ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.|} in
+  let source = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
+                ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++." in
   let (_, ops) = parse(source, []) in
   let p = { sum1 = 0; sum2 = 0; quiet = true } in
-  let (_, pLeft) = run ops { data = [| 0 |]; pos = 0 } p in
-  let left = get_checksum pLeft in
+  let (_, p_left) = run ops { data = [| 0 |]; pos = 0 } p in
+  let left = get_checksum p_left in
 
   let s = "Hello World!\n" in
   let seq = List.init
               (String.length s)
               (fun i -> (Char.code (String.get s i))) in
-  let pRight = List.fold_left print p seq in
-  let right = get_checksum pRight in
-  if left != right then begin
-      Printf.eprintf "%d != %d\n" left right;
-      exit 1
-    end
+  let p_right = List.fold_left print p seq in
+  let right = get_checksum p_right in
+  if left != right then (
+    Printf.eprintf "%d != %d\n" left right;
+    exit 1
+  )
 
 let main =
   verify;
@@ -117,9 +118,9 @@ let main =
 
      notify(Printf.sprintf "OCaml\t%d" (Unix.getpid()));
      let (_, ops) = parse(source, []) in
-     let (_, newP) = run ops { data = [| 0 |]; pos = 0 } p in
+     let (_, new_p) = run ops { data = [| 0 |]; pos = 0 } p in
      notify "stop";
 
-     if newP.quiet then
-       Printf.printf "Output checksum: %d\n" (get_checksum newP)
+     if new_p.quiet then
+       Printf.printf "Output checksum: %d\n" (get_checksum new_p)
   | _ -> exit 1

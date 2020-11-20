@@ -41,8 +41,8 @@ executables := \
 
 artifacts := $(executables) \
 	target/test.exe \
-	target/Release/netcoreapp3.1/json.dll \
-	json-core/target/Release/netcoreapp3.1/json-core.dll \
+	target/Release/net5.0/json.dll \
+	json-core/target/Release/net5.0/json-core.dll \
 	json-scala/target/application.jar
 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
@@ -173,12 +173,12 @@ $(newtonsoft_json): | target
 target/test.exe: test.cs | $(newtonsoft_json)
 	$(MCS_BUILD) -r:$(newtonsoft_json)
 
-.PHONY: target/Release/netcoreapp3.1/json.dll
-target/Release/netcoreapp3.1/json.dll: json.csproj | target
+.PHONY: target/Release/net5.0/json.dll
+target/Release/net5.0/json.dll: json.csproj | target
 	$(DOTNET_BUILD)
 
-.PHONY: json-core/target/Release/netcoreapp3.1/json-core.dll
-json-core/target/Release/netcoreapp3.1/json-core.dll: json-core/json-core.csproj
+.PHONY: json-core/target/Release/net5.0/json-core.dll
+json-core/target/Release/net5.0/json-core.dll: json-core/json-core.csproj
 	$(DOTNET_BUILD)
 
 .PHONY: target/json_hs
@@ -253,10 +253,10 @@ run[test.jl]:: run[%]: % | $(julia_fmt)
 run[target/test.exe]:: run[%]: %
 	MONO_PATH=$(newtonsoft_json_dir) $(MONO_RUN)
 
-run[target/Release/netcoreapp3.1/json.dll]:: run[%]: %
+run[target/Release/net5.0/json.dll]:: run[%]: %
 	$(DOTNET_RUN)
 
-run[json-core/target/Release/netcoreapp3.1/json-core.dll]:: run[%]: %
+run[json-core/target/Release/net5.0/json-core.dll]:: run[%]: %
 	$(DOTNET_RUN)
 
 .PHONY: yajl-ruby

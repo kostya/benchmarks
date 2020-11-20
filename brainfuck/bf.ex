@@ -31,8 +31,9 @@ defmodule Printer do
 
   def print(n, p) do
     if p.quiet do
-      p = %Printer{p | sum1: rem(p.sum1 + n, 255)}
-      %Printer{p | sum2: rem(p.sum2 + p.sum1, 255)}
+      new_sum1 = rem(p.sum1 + n, 255)
+      new_sum2 = rem(p.sum2 + new_sum1, 255)
+      %Printer{p | sum1: new_sum1, sum2: new_sum2}
     else
       :ok = IO.binwrite([n])
       :file.sync(:stdout)

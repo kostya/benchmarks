@@ -5,10 +5,10 @@ type printer = { sum1 : int, sum2: int, quiet: bool }
 fun print (n, (p : printer)) =
     if #quiet p then
         let
-            val new_sum1 = (#sum1 p + n) mod 255
-            val new_sum2 = (new_sum1 + #sum2 p) mod 255
+            val newSum1 = (#sum1 p + n) mod 255
+            val newSum2 = (newSum1 + #sum2 p) mod 255
         in
-            { sum1 = new_sum1, sum2 = new_sum2, quiet = true }
+            { sum1 = newSum1, sum2 = newSum2, quiet = true }
         end
     else
         (
@@ -17,7 +17,7 @@ fun print (n, (p : printer)) =
           p
         )
 
-fun get_checksum (p : printer) =
+fun getChecksum (p : printer) =
     let
         val left = IntInf.<< (IntInf.fromInt (#sum2 p), Word.fromInt 8)
     in
@@ -32,19 +32,19 @@ fun inc delta (t : tape) =
 
 fun move m (t : tape) =
     let
-        val new_pos = (#pos t) + m
+        val newPos = (#pos t) + m
         val len = Array.length (#data t)
-        val new_data =
-            if new_pos < len then #data t
+        val newData =
+            if newPos < len then #data t
             else
                 let
-                    val arr = Array.array (new_pos + 1, 0)
+                    val arr = Array.array (newPos + 1, 0)
                     val _ = Array.copy { src = #data t, dst = arr, di = 0 }
                 in
                     arr
                 end
     in
-        { data = new_data, pos = new_pos }
+        { data = newData, pos = newPos }
     end
 
 fun parse (s, acc) =
@@ -62,9 +62,9 @@ fun parse (s, acc) =
               | #"." => parse (rest, PRINT :: acc)
               | #"[" =>
                 let
-                    val (new_s, loop_code) = parse (rest, [])
+                    val (newS, loopCode) = parse (rest, [])
                 in
-                    parse (new_s, LOOP loop_code :: acc)
+                    parse (newS, LOOP loopCode :: acc)
                 end
               | #"]" => (rest, List.rev acc)
               | _ => parse (rest, acc)
@@ -76,13 +76,13 @@ fun run program (t : tape) (p : printer)=
       | INC d :: ops => (inc d t; run ops t p)
       | MOVE m :: ops => run ops (move m t) p
       | PRINT :: ops => run ops t (print ((current t), p))
-      | LOOP loop_code :: ops =>
+      | LOOP loopCode :: ops =>
         if current t = 0 then run ops t p
         else
             let
-                val (new_tape, new_p) = run loop_code t p
+                val (newTape, newP) = run loopCode t p
             in
-                run program new_tape new_p
+                run program newTape newP
             end
 
 fun read_file filename =
@@ -118,12 +118,12 @@ fun verify () =
         val source = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>" ^
                      "---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
         val p = { sum1 = 0, sum2 = 0, quiet = true }
-        val (_, p_left) = main source p
-        val left = IntInf.toString (get_checksum p_left)
+        val (_, pLeft) = main source p
+        val left = IntInf.toString (getChecksum pLeft)
 
         val seq = List.map Char.ord (explode("Hello World!\n"))
-        val p_right = List.foldl print p seq
-        val right = IntInf.toString (get_checksum p_right)
+        val pRight = List.foldl print p seq
+        val right = IntInf.toString (getChecksum pRight)
     in
         if left <> right then (
             TextIO.output (TextIO.stdErr, left ^ " != " ^ right ^ "\n");
@@ -147,12 +147,12 @@ val () =
         verify();
         notify("MLton\t" ^ Int.toString pid);
         let
-            val (_, new_p) = main source p
+            val (_, newP) = main source p
         in
             notify("stop");
-            if #quiet new_p then
+            if #quiet newP then
                 let
-                    val checksum = IntInf.toString (get_checksum new_p)
+                    val checksum = IntInf.toString (getChecksum newP)
                 in
                     TextIO.print ("Output checksum: " ^ checksum ^ "\n")
                 end
