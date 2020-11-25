@@ -1,7 +1,6 @@
-#! /usr/bin/env perl
-
-use v5.12;
+use v5.32;
 use warnings;
+no feature qw(indirect);
 use feature qw(signatures);
 no warnings qw(experimental);
 

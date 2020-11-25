@@ -14,13 +14,13 @@ RUN apt-get update \
 	mono-devel nuget \
 	chezscheme gcc-10 gccgo-10 gdc-10 valac cpanminus \
 	luajit lua5.4 liblua5.4-dev libluajit-5.1-dev \
-        tcl tcllib php elixir clang-10 opam
+        tcl tcllib php elixir clang-11 opam
 
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10 \
 	&& update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10 \
 	&& update-alternatives --install /usr/bin/gdc gdc /usr/bin/gdc-10 10 \
 	&& update-alternatives --install /usr/bin/gccgo gccgo /usr/bin/gccgo-10 10 \
-        && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 10 \
+        && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 10 \
         && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Requires for https://crates.io/crates/jq-sys in Debian
@@ -49,14 +49,14 @@ RUN export VERSION=ruby-2.7.2 \
 ENV PATH="/opt/ruby/bin:${PATH}"
 
 # https://pypy.org/download.html
-ARG PYPY=pypy3.7-v7.3.2-linux64
+ARG PYPY=pypy3.7-v7.3.3-linux64
 RUN wget --progress=dot:giga -O - \
         https://downloads.python.org/pypy/$PYPY.tar.bz2 \
 	| tar -xj
 ENV PATH="/opt/$PYPY/bin:${PATH}"
 
 # https://www.scala-lang.org/download/
-ARG SCALA=2.13.3
+ARG SCALA=2.13.4
 RUN wget --progress=dot:giga -O - \
 	https://downloads.lightbend.com/scala/$SCALA/scala-$SCALA.tgz \
 	| tar -xz
@@ -92,7 +92,7 @@ ENV PATH="/opt/$NIM/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN wget --progress=dot:giga -O - \
-        http://downloads.dlang.org/releases/2.x/2.094.1/dmd.2.094.1.linux.tar.xz \
+        http://downloads.dlang.org/releases/2.x/2.094.2/dmd.2.094.2.linux.tar.xz \
 	| tar -xJ
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
@@ -118,7 +118,7 @@ RUN wget --progress=dot:giga -O - \
 	&& ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
 
 # https://clojure.org/community/downloads
-ARG CLOJURE=1.10.1.727
+ARG CLOJURE=1.10.1.739
 RUN wget --progress=dot:giga -O - \
 	https://download.clojure.org/install/linux-install-$CLOJURE.sh \
 	| bash -s
@@ -146,7 +146,7 @@ RUN cabal update \
 ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
 
 # https://github.com/graalvm/graalvm-ce-builds/releases
-ARG GRAALVM=20.2.0
+ARG GRAALVM=20.3.0
 RUN wget --progress=dot:giga -O - \
 	https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-$GRAALVM/graalvm-ce-java11-linux-amd64-$GRAALVM.tar.gz \
 	| tar -xz \
@@ -175,7 +175,7 @@ ENV PATH="/opt/dotnet:${PATH}"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v15.2.0
+ARG NODE=v15.3.0
 RUN wget --progress=dot:giga -O - \
 	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
 	| tar -xJ
@@ -193,11 +193,11 @@ RUN wget -O - https://sh.rustup.rs | sh -s -- -y
 
 # https://ocaml.org/releases/
 ARG OCAML=4.11.1
-RUN opam init --disable-sandboxing -n --root=/opt/opam --compiler=$OCAML
+RUN opam init --disable-sandboxing -n --root=/opt/opam --compiler=ocaml-base-compiler.$OCAML
 ENV PATH="/opt/opam/$OCAML/bin/:${PATH}"
 
 # https://kotlinlang.org/docs/tutorials/command-line.html
-ARG KOTLIN=1.4.10
+ARG KOTLIN=1.4.20
 RUN wget --progress=dot:giga \
 	https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
 	&& unzip kotlin-compiler-$KOTLIN.zip \
