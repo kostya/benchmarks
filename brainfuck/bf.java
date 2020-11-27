@@ -179,6 +179,8 @@ public final class bf {
         notify("stop");
 
         System.err.println("time: " + elapsed +"s");
-        System.out.println("Output checksum: " + p.getChecksum());
+        if (p.quiet) {
+            System.out.println("Output checksum: " + p.getChecksum());
+        }
     }
 }

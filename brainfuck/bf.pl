@@ -46,6 +46,32 @@ sub move ($self, $x) {
 }
 
 
+package Printer;
+
+sub new ($class, $quiet) {
+    my $self = {
+        sum1 => 0,
+        sum2 => 0,
+        quiet => $quiet
+    };
+    bless $self, $class;
+    return $self;
+}
+
+sub print ($self, $n) {
+    if ($self->{quiet}) {
+        $self->{sum1} = ($self->{sum1} + $n) % 255;
+        $self->{sum2} = ($self->{sum2} + $self->{sum1}) % 255;
+    } else {
+        printf "%c", $n;
+    }
+}
+
+sub checksum ($self) {
+    return ($self->{sum2} << 8) | $self->{sum1};
+}
+
+
 package Main;
 
 my $INC   = 1;
@@ -73,15 +99,15 @@ sub parse ($source, $i = 0) {
     return ($repr, $i);
 }
 
-sub run ($parsed, $tape) {
+sub run ($parsed, $tape, $p) {
     foreach my $op (@$parsed) {
         CORE::given ($op->{op}) {
             when ($INC)   { $tape->inc($op->{val}); }
             when ($MOVE)  { $tape->move($op->{val}); }
-            when ($PRINT) { printf "%c", $tape->get(); }
+            when ($PRINT) { $p->print($tape->get()); }
             when ($LOOP)  {
                 while ($tape->get() > 0) {
-                    run($op->{val}, $tape);
+                    run($op->{val}, $tape, $p);
                 }
             }
         }
@@ -96,19 +122,43 @@ sub notify ($msg) {
     close($socket);
 }
 
+sub verify {
+    my $text = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+       ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
+    my $p_left = Printer->new(1);
+    my @source = split(//, $text);
+    my ($parsed, $n) = parse(\@source);
+    run($parsed, Tape->new(), $p_left);
+    my $left = $p_left->checksum;
+
+    my $p_right = Printer->new(1);
+    foreach my $c (split //, "Hello World!\n") {
+        $p_right->print(ord($c));
+    }
+    my $right = $p_right->checksum;
+
+    if ($left != $right) {
+        print STDERR "${left} != ${right}\n";
+        exit(1);
+    }
+}
+
 if ($0 eq __FILE__) {
+    verify;
     open (FH, "<", shift) or die $!;
     undef $/;
     $| = 1;
-    my $text = [split //, <FH>];
+    read FH, my $text, -s FH;
     close(FH);
+    my $p = Printer->new($ENV{'QUIET'});
 
-    my $pid = $$;
-    notify("Perl\t${pid}");
-
-    my ($parsed, $n) = parse($text);
-    my $tape = Tape->new();
-    run($parsed, $tape);
-
+    notify("Perl\t". $$);
+    my @source = split(//, $text);
+    my ($parsed, $n) = parse(\@source);
+    run($parsed, Tape->new(), $p);
     notify("stop");
+
+    if ($p->{quiet}) {
+        printf("Output checksum: %d\n", $p->checksum);
+    }
 }

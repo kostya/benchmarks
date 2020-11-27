@@ -208,15 +208,13 @@ run[jruby][bf.rb]:: run[jruby][%]: % | $(rubocop)
 
 .PHONY: lua-deps
 lua-deps:
-	$(LUAROCKS_LUA) install luasocket
-	$(LUAROCKS_LUA) install luaposix
-	$(LUAROCKS_LUA) install bit32
+	$(LUAROCKS_LUA) install luasocket > /dev/null
+	$(LUAROCKS_LUA) install luaposix > /dev/null
 
 .PHONY: luajit-deps
 luajit-deps:
-	$(LUAROCKS_LUAJIT) install luasocket
-	$(LUAROCKS_LUAJIT) install luaposix
-	$(LUAROCKS_LUAJIT) install bit32
+	$(LUAROCKS_LUAJIT) install luasocket > /dev/null
+	$(LUAROCKS_LUAJIT) install luaposix > /dev/null
 
 run[bf.lua]:: run[%]: % | lua-deps
 	$(LUA_RUN) $(BF_SRC)

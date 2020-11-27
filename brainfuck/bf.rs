@@ -1,4 +1,6 @@
 use std::io;
+use std::fs;
+use std::env;
 
 enum Op {
     Inc(i32),
@@ -9,32 +11,54 @@ enum Op {
 use Op::*;
 
 struct Tape {
-  pos: usize,
-  tape: Vec<i32>
+    pos: usize,
+    tape: Vec<i32>
 }
 
 impl Tape {
-  fn new() -> Tape { Tape { pos: 0, tape: vec![0] } }
-  fn get(&self) -> i32 { self.tape[self.pos] }
-  fn getc(&self) -> char { self.get() as u8 as char }
-  fn inc(&mut self, x: i32) { self.tape[self.pos] += x; }
-  fn mov(&mut self, x: isize) {
-    self.pos = (self.pos as isize + x) as usize;
-    while self.pos >= self.tape.len() { self.tape.push(0); }
-  }
+    fn new() -> Tape { Tape { pos: 0, tape: vec![0] } }
+    fn get(&self) -> i32 { self.tape[self.pos] }
+    fn inc(&mut self, x: i32) { self.tape[self.pos] += x; }
+    fn mov(&mut self, x: isize) {
+        self.pos = (self.pos as isize + x) as usize;
+        while self.pos >= self.tape.len() { self.tape.push(0); }
+    }
 }
 
-fn _run(program: &[Op], tape: &mut Tape) {
+struct Printer {
+    sum1: i32,
+    sum2: i32,
+    quiet: bool
+}
+
+impl Printer {
+    fn new(quiet: bool) -> Printer { Printer { sum1: 0, sum2: 0, quiet: quiet} }
+
+    fn print(&mut self, n: i32) {
+        if self.quiet {
+            self.sum1 = (self.sum1 + n) % 255;
+            self.sum2 = (self.sum2 + self.sum1) % 255;
+        } else {
+            print!("{}", n as u8 as char);
+            io::Write::flush(&mut io::stdout()).unwrap();
+        }
+    }
+
+    fn get_checksum(&self) -> i32 {
+        (self.sum2 << 8) | self.sum1
+    }
+}
+
+fn _run(program: &[Op], tape: &mut Tape, p: &mut Printer) {
     for op in program {
         match *op {
             Inc(x) => tape.inc(x),
             Move(x) => tape.mov(x),
             Loop(ref program) => while tape.get() > 0 {
-              _run(program, tape);
+                _run(program, tape, p);
             },
             Print => {
-              print!("{}", tape.getc());
-              io::Write::flush(&mut io::stdout()).unwrap();
+                p.print(tape.get());
             }
         }
     }
@@ -58,15 +82,15 @@ fn parse<I: Iterator<Item=char>>(it: &mut I) -> Box<[Op]> {
 }
 
 struct Program {
-  ops: Box<[Op]>
+    ops: Box<[Op]>
 }
 
 impl Program {
-  fn new(code: String) -> Program { Program { ops: parse(&mut code.chars()) } }
-  fn run(&self) { 
-    let mut tape = Tape::new();
-    _run(&self.ops, &mut tape);
-  }
+    fn new(code: String) -> Program { Program { ops: parse(&mut code.chars()) } }
+    fn run(&self, p: &mut Printer) {
+        let mut tape = Tape::new();
+        _run(&self.ops, &mut tape, p);
+    }
 }
 
 fn notify(msg: &str) {
@@ -77,17 +101,36 @@ fn notify(msg: &str) {
     }
 }
 
+fn verify() {
+    let s = String::from("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+        ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.");
+    let mut p_left = Printer::new(true);
+    Program::new(s).run(&mut p_left);
+    let left = p_left.get_checksum();
+
+    let mut p_right = Printer::new(true);
+    for c in "Hello World!\n".chars() {
+        p_right.print(c as i32);
+    }
+    let right = p_right.get_checksum();
+    if left != right {
+        eprintln!("{:?} != {:?}", left, right);
+        std::process::exit(-1);
+    }
+}
+
 fn main() {
-    use std::fs;
-    use std::env;
+    verify();
 
     let arg1 = env::args().nth(1).unwrap();
     let s = fs::read_to_string(arg1).unwrap();
+    let mut p = Printer::new(std::env::var("QUIET").is_ok());
 
     notify(&format!("Rust\t{}", std::process::id()));
-
-    let program = Program::new(s);
-    program.run();
-
+    Program::new(s).run(&mut p);
     notify("stop");
+
+    if p.quiet {
+        println!("Output checksum: {}", p.get_checksum());
+    }
 }
