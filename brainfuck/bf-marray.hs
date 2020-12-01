@@ -1,4 +1,5 @@
 {-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module Main where
 
@@ -6,11 +7,13 @@ import qualified Data.Array.Base as ArrayBase
 import qualified Data.Array.IO as IOUArray
 import qualified Data.Array.MArray as MArray
 import qualified Data.ByteString.Char8 as C
+import Control.Exception
 import Control.Monad
 import Data.Bits
 import Data.Char
 import Data.Maybe
-import Network.Simple.TCP
+import Network.Socket
+import Network.Socket.ByteString
 import System.Environment
 import System.Exit
 import System.IO (hFlush, stdout)
@@ -28,9 +31,13 @@ data Printer = Printer { sum1 :: Int
 
 write :: Printer -> Int -> IO Printer
 write p n = if quiet p
-  then do
-  let newP = p {sum1 = mod (sum1 p + n) 255}
-  return newP {sum2 = mod (sum1 newP + sum2 newP) 255}
+  then do let s1 = mod (sum1 p + n) 255
+          let s2 = mod (s1 + sum2 p) 255
+          return Printer {
+            sum1=s1,
+            sum2=s2,
+            quiet=True
+            }
   else do
   putStr [chr n]
   hFlush stdout
@@ -54,7 +61,8 @@ move m tape = do
                then return curData
                else do
                  el <- MArray.getElems curData
-                 MArray.newListArray (0, newPos) el
+                 MArray.newListArray (0, newPos)
+                   (el ++ replicate (newPos - len + 1) 0)
     return $ Tape newData newPos
   where
     curData = tapeData tape
@@ -96,10 +104,17 @@ run (op:ops) tape p = do
             in go (tape, p)
 
 notify :: String -> IO ()
-notify msg = do
-    connect "localhost" "9001" $ \(socket, _) -> do
-      send socket $ C.pack msg
-
+notify msg = withSocketsDo $ do
+  addr <- resolve
+  catch (_notify addr) (\(_ :: IOException) -> return ())
+  where
+    writeMsg s = sendAll s $ C.pack msg
+    resolve = do
+      let hints = defaultHints { addrSocketType = Stream }
+      head <$> getAddrInfo (Just hints) (Just "localhost") (Just "9001")
+    _notify addr = bracket (openSocket addr) close $ \sock -> do
+      connect sock $ addrAddress addr
+      writeMsg sock
 
 verify :: IO ()
 verify = do

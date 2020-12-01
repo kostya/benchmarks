@@ -196,9 +196,7 @@ json-scala/target/application.jar:
 simdjson-dir := target/simdjson
 
 $(simdjson-dir): | target
-	$(GIT_CLONE) "https://github.com/simdjson/simdjson.git" $@ \
-	&& cd $@/singleheader \
-	&& ./amalgamate.sh
+	$(GIT_CLONE) "https://github.com/simdjson/simdjson.git" $@
 
 target/json_simdjson_cpp: test_simdjson.cpp | $(simdjson-dir) $(boost) libnotify
 	$(GCC_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \

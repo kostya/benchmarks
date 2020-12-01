@@ -2,15 +2,18 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE TupleSections #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 import qualified Data.Aeson             as J
 import qualified Data.ByteString.Lazy   as BL
 import qualified Data.ByteString.Char8 as C
+import Control.Exception
 import Control.Monad
 import Data.JsonStream.Parser
 import Data.List (foldl')
 import GHC.Generics
-import Network.Simple.TCP
+import Network.Socket
+import Network.Socket.ByteString
 import System.Exit
 import System.Posix (getProcessID)
 
@@ -22,9 +25,17 @@ instance J.FromJSON Coordinate
 data Res = Res !Double !Double !Double !Int
 
 notify :: String -> IO ()
-notify msg = do
-    connect "localhost" "9001" $ \(socket, _) -> do
-      send socket $ C.pack msg
+notify msg = withSocketsDo $ do
+  addr <- resolve
+  catch (_notify addr) (\(_ :: IOException) -> return ())
+  where
+    writeMsg s = sendAll s $ C.pack msg
+    resolve = do
+      let hints = defaultHints { addrSocketType = Stream }
+      head <$> getAddrInfo (Just hints) (Just "localhost") (Just "9001")
+    _notify addr = bracket (openSocket addr) close $ \sock -> do
+      connect sock $ addrAddress addr
+      writeMsg sock
 
 calc :: BL.ByteString -> Coordinate
 calc f = do

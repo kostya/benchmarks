@@ -1,18 +1,21 @@
 {-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module Main where
 
 import qualified Data.Array.Base as ArrayBase
 import qualified Data.Array.Unboxed as UArray
 import qualified Data.ByteString.Char8 as C
+import Control.Exception
 import Control.Monad
 import Data.Bits
 import Data.Char
 import Data.Maybe
-import Network.Simple.TCP
+import Network.Socket
+import Network.Socket.ByteString
 import System.Environment
 import System.Exit
-import System.IO (hFlush, stdout)
+import System.IO
 import System.Posix (getProcessID)
 import Text.RawString.QQ
 
@@ -92,9 +95,17 @@ run (op:ops) tape p = do
                 run (op:ops) newTape newP
 
 notify :: String -> IO ()
-notify msg = do
-    connect "localhost" "9001" $ \(socket, _) -> do
-      send socket $ C.pack msg
+notify msg = withSocketsDo $ do
+  addr <- resolve
+  catch (_notify addr) (\(_ :: IOException) -> return ())
+  where
+    writeMsg s = sendAll s $ C.pack msg
+    resolve = do
+      let hints = defaultHints { addrSocketType = Stream }
+      head <$> getAddrInfo (Just hints) (Just "localhost") (Just "9001")
+    _notify addr = bracket (openSocket addr) close $ \sock -> do
+      connect sock $ addrAddress addr
+      writeMsg sock
 
 verify :: IO ()
 verify = do

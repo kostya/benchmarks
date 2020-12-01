@@ -145,7 +145,8 @@ target/bf.class: bf.java | target
 run: $(all_runners)
 
 .PHONY: run2
-run2: BF_SRC := mandel.b > /dev/null
+#run2: BF_SRC := mandel.b > /dev/null
+run2: BF_SRC := mandel.b
 run2: $(fast_runners)
 
 ## Common recipe for all runners

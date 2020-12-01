@@ -139,12 +139,6 @@ ENV PATH="/opt/.ghcup/bin/:${PATH}"
 ARG GHC_VER=8.10.2
 RUN ghcup install ghc $GHC_VER && ghcup set ghc $GHC_VER
 
-# Shared packages for all Haskell code
-RUN cabal update \
-        && cabal install network-simple raw-strings-qq --lib \
-        && cabal install hlint
-ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
-
 # https://github.com/graalvm/graalvm-ce-builds/releases
 ARG GRAALVM=20.3.0
 RUN wget --progress=dot:giga -O - \
@@ -211,6 +205,12 @@ RUN git clone https://github.com/vlang/v.git /opt/v \
 	&& cd v \
 	&& make -j
 ENV PATH="/opt/v/:${PATH}"
+
+# Shared packages for all Haskell code
+RUN cabal update \
+        && cabal install network raw-strings-qq --lib \
+        && cabal install hlint
+ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
 
 ARG SCRIPTS_VER=unknown
 COPY *.rb ./
