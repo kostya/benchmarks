@@ -2,38 +2,36 @@
 
 const net = require('net');
 
-var matrix = {}
-
-matrix.new = function (n) {
-    const a = new Array(n);
-    for (let i = 0; i < n; i++) a[i] = new Float64Array(n);
-    return a;
-}
-
-matrix.T = function (a, n) {
-    const y = matrix.new(n);
-    for (let i = 0; i < n; i++) {
-        for (let j = 0; j < n; j++) {
-            y[i][j] = a[j][i];
+const matrix = {
+    new: function (n) {
+        const a = new Array(n);
+        for (let i = 0; i < n; i++) a[i] = new Float64Array(n);
+        return a;
+    },
+    T: function (a, n) {
+        const y = matrix.new(n);
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                y[i][j] = a[j][i];
+            }
         }
-    }
-    return y;
-}
-
-matrix.mul = function (a, b, n) {
-    const y = matrix.new(n);
-    const c = matrix.T(b, n);
-    for (let i = 0; i < n; i++) {
-        for (let j = 0; j < n; j++) {
-            let sum = 0;
-            for (let k = 0; k < n; k++) sum = sum + a[i][k] * c[j][k];
-            y[i][j] = sum;
+        return y;
+    },
+    mul: function (a, b, n) {
+        const y = matrix.new(n);
+        const c = matrix.T(b, n);
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                let sum = 0;
+                for (let k = 0; k < n; k++) sum = sum + a[i][k] * c[j][k];
+                y[i][j] = sum;
+            }
         }
+        return y;
     }
-    return y;
-}
+};
 
-matgen = function (n, seed) {
+function matgen(n, seed) {
     const y = matrix.new(n);
     const tmp = seed / n / n;
     for (let i = 0; i < n; i++) {

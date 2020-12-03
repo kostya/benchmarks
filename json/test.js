@@ -5,16 +5,16 @@ const fs = require("fs");
 const net = require('net');
 
 function calc(text) {
-    var jobj = JSON.parse(text);
+    const jobj = JSON.parse(text);
 
-    var coordinates = jobj['coordinates'];
-    var len = coordinates.length;
-    var x = 0;
-    var y = 0;
-    var z = 0;
+    const coordinates = jobj['coordinates'];
+    const len = coordinates.length;
+    let x = 0;
+    let y = 0;
+    let z = 0;
 
-    for (var i = 0; i < coordinates.length; i++) {
-        coord = coordinates[i];
+    for (let i = 0; i < coordinates.length; i++) {
+        const coord = coordinates[i];
         x += coord['x'];
         y += coord['y'];
         z += coord['z'];
