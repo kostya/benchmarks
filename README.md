@@ -9,7 +9,6 @@
   * [Base64](#base64)
   * [Json](#json)
   * [Matmul](#matmul)
-  * [Havlak](#havlak)
 * [Tests Execution](#tests-execution)
   * [Environment](#environment)
   * [Using Docker](#using-docker)
@@ -295,29 +294,6 @@ Testing allocating and multiplying matrices.
 |                     Perl |  402.099<sub>±5.437</sub> |   8.96<sub>±00.08</sub> + 599.69<sub>±00.05</sub> |  8531.93<sub>±821.67</sub> |
 |               Ruby/jruby | 488.395<sub>±11.851</sub> | 279.21<sub>±05.66</sub> + 658.86<sub>±07.14</sub> | 10808.74<sub>±390.65</sub> |
 
-## Havlak
-
-Testing Havlak's loop finder implementations.
-
-[Havlak](havlak)
-
-|     Language |                  Time, s |                                       Memory, MiB |                 Energy, J |
-| :----------- | -----------------------: | ------------------------------------------------: | ------------------------: |
-|      Crystal |   6.967<sub>±0.047</sub> |   3.35<sub>±00.02</sub> + 225.61<sub>±00.81</sub> |   168.07<sub>±01.75</sub> |
-|    Nim/clang |  13.876<sub>±0.242</sub> |   2.32<sub>±00.05</sub> + 504.98<sub>±00.32</sub> |   339.76<sub>±09.64</sub> |
-|      Nim/gcc |  13.951<sub>±0.290</sub> |   1.84<sub>±00.06</sub> + 514.59<sub>±02.96</sub> |   319.73<sub>±19.33</sub> |
-| C#/.NET Core |  14.376<sub>±0.124</sub> | 33.19<sub>±00.05</sub> + 1325.18<sub>±49.91</sub> |   354.88<sub>±02.69</sub> |
-|      C++/g++ |  14.675<sub>±0.092</sub> |   1.49<sub>±00.01</sub> + 176.74<sub>±00.02</sub> |   319.49<sub>±03.11</sub> |
-|        Scala |  18.237<sub>±0.566</sub> |  79.12<sub>±00.19</sub> + 307.60<sub>±05.21</sub> |   558.81<sub>±14.47</sub> |
-|           Go |  18.649<sub>±0.070</sub> |   3.58<sub>±00.01</sub> + 365.72<sub>±03.81</sub> |   427.89<sub>±02.08</sub> |
-|       D/ldc2 |  18.784<sub>±0.311</sub> |   2.98<sub>±00.04</sub> + 475.59<sub>±00.64</sub> |   496.34<sub>±11.13</sub> |
-|        D/gdc |  21.677<sub>±0.106</sub> |   6.27<sub>±00.03</sub> + 345.24<sub>±00.01</sub> |   500.98<sub>±06.03</sub> |
-|        D/dmd |  23.556<sub>±0.149</sub> |   3.24<sub>±00.03</sub> + 438.52<sub>±00.27</sub> |   573.23<sub>±05.91</sub> |
-|      C#/Mono |  25.040<sub>±0.277</sub> |  19.86<sub>±00.07</sub> + 316.46<sub>±01.31</sub> |   636.95<sub>±27.02</sub> |
-|     Go/gccgo |  26.036<sub>±0.202</sub> |  20.96<sub>±00.13</sub> + 358.92<sub>±06.52</sub> |   662.70<sub>±08.52</sub> |
-|  Python/pypy |  28.213<sub>±0.522</sub> |  65.76<sub>±00.21</sub> + 560.36<sub>±51.36</sub> |   677.92<sub>±15.99</sub> |
-|       Python | 101.997<sub>±2.348</sub> |   9.03<sub>±00.04</sub> + 398.56<sub>±00.00</sub> | 2319.85<sub>±150.21</sub> |
-
 # Tests Execution
 
 ## Environment
@@ -387,7 +363,6 @@ where <cmd> is:
  - `base64` (build and run Base64 benchmarks);
  - `json` (build and run Json benchmarks);
  - `matmul` (build and run Matmul benchmarks);
- - `havlak` (build and run Havlak benchmarks).
 
 Please note that the actual measurements provided in the project are taken semi-manually (via `shell`) as the full update takes days and could have occassional issues in Docker.
 
