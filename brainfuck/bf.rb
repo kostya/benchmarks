@@ -31,9 +31,33 @@ class Tape
   end
 end
 
+class Printer
+  attr_reader :quiet
+
+  def initialize(quiet)
+    @sum1 = 0
+    @sum2 = 0
+    @quiet = quiet
+  end
+
+  def print(n)
+    if @quiet
+      @sum1 = (@sum1 + n) % 255
+      @sum2 = (@sum2 + @sum1) % 255
+    else
+      $stdout.print(n.chr)
+    end
+  end
+
+  def checksum
+    (@sum2 << 8) | @sum1
+  end
+end
+
 class Program
-  def initialize(code)
+  def initialize(code, p)
     @ops = parse code.chars.each
+    @p = p
   end
 
   def run
@@ -48,7 +72,7 @@ class Program
       when :inc then tape.inc(op.val)
       when :move then tape.move(op.val)
       when :loop then _run(op.val, tape) while tape.get.positive?
-      when :print then print(tape.get.chr)
+      when :print then @p.print(tape.get)
       end
     end
   end
@@ -77,7 +101,26 @@ rescue SystemCallError
   # standalone usage
 end
 
+def verify
+  text = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+       ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
+  p_left = Printer.new(true)
+  Program.new(text, p_left).run
+  left = p_left.checksum
+
+  p_right = Printer.new(true)
+  "Hello World!\n".each_char { |c| p_right.print(c.ord) }
+
+  right = p_right.checksum
+  return unless left != right
+
+  warn "#{left} != #{right}"
+  exit(1)
+end
+
 if __FILE__ == $PROGRAM_NAME
+  verify
+
   engine = RUBY_ENGINE
   if engine == 'truffleruby'
     desc = RUBY_DESCRIPTION
@@ -91,11 +134,11 @@ if __FILE__ == $PROGRAM_NAME
   end
 
   text = IO.read(ARGV[0])
+  p = Printer.new(ENV.key?('QUIET'))
 
-  pid = Process.pid
-  notify("#{engine}\t#{pid}")
-
-  Program.new(text).run
-
+  notify("#{engine}\t#{Process.pid}")
+  Program.new(text, p).run
   notify('stop')
+
+  puts "Output checksum: #{p.checksum}" if p.quiet
 end

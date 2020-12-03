@@ -2,4 +2,4 @@
 #
 # lines starting with # are ignored
 #
-com.dslplatform:dsl-json-scala_2.13:1.9.6
+com.dslplatform:dsl-json-scala_2.13:1.9.7

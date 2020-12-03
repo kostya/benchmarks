@@ -1,7 +1,8 @@
-use v5.12;
+use v5.32;
 use warnings;
+no feature qw(indirect);
 use feature qw(signatures);
-no warnings qw(experimental::signatures);
+no warnings qw(experimental);
 
 use File::Slurper 'read_binary';
 use Cpanel::JSON::XS 'decode_json';

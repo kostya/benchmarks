@@ -12,6 +12,7 @@ if ARGV.length.positive?
 
   ATTEMPTS.times do |n|
     puts "--- Iteration #{n + 1}"
+    ENV['QUIET'] = '1'
     exit unless system(*ARGV)
   end
 end

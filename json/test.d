@@ -61,13 +61,13 @@ Coordinate calc(string text)
 
 void main()
 {
-    auto right = Coordinate(2.0, 0.5, 0.25);
+    immutable right = Coordinate(2.0, 0.5, 0.25);
     foreach (v; [
             `{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}`,
             `{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}`
         ])
     {
-        auto left = calc(v);
+        immutable left = calc(v);
         if (left != right)
         {
             stderr.writefln("%s != %s", left, right);

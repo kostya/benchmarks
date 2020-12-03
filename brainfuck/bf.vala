@@ -35,29 +35,51 @@ namespace Test {
         public Op.vnull(OpT _op, Op[] _l) { op = _op; loop = _l; v = 0; }
     }
 
-    public class Tape {
-        public int pos;
-        public int[] tape;
-
-        public Tape() {
-            pos = 0;
-            tape = new int[1];
-        }
+    class Tape {
+        private int pos = 0;
+        private int[] tape = new int[1];
 
         public int Get() { return tape[pos]; }
         public void Inc(int x) { tape[pos] += x; }
         public void Move(int x) { pos += x; while (pos >= tape.length) tape.resize(tape.length*2);}
     }
 
-    class Program {
-        public string code;
-        public  int pos;
-        public  Op[] ops;
+    class Printer {
+        private int sum1 = 0;
+        private int sum2 = 0;
+        public bool quiet;
 
-        Program(string text) {
+        public Printer(bool quiet) {
+            this.quiet = quiet;
+        }
+
+        public void print(int n) {
+            if (quiet) {
+                sum1 = (sum1 + n) % 255;
+                sum2 = (sum2 + sum1) % 255;
+            } else {
+                stdout.printf("%c", (char)n);
+                stdout.flush();
+            }
+        }
+
+        public int checksum {
+            get {
+                return (sum2 << 8) | sum1;
+            }
+        }
+    }
+
+    class Program {
+        private string code;
+        private int pos = 0;
+        private Op[] ops;
+        private Printer p;
+
+        Program(string text, Printer p) {
             code = text;
-            pos = 0;
             ops = parse();
+            this.p = p;
         }
 
         private Op[] parse() {
@@ -85,15 +107,34 @@ namespace Test {
         private void _run(Op[] program, Tape tape) {
             for (int i=0;i<program.length;i++) {
                 switch (program[i].op) {
-                    case OpT.INC: tape.Inc(program[i].v); break;
-                    case OpT.MOVE: tape.Move(program[i].v); break;
-                    case OpT.LOOP: while (tape.Get() > 0) _run(program[i].loop, tape); break;
-                    case OpT.PRINT: stdout.printf("%c", (char)tape.Get()); stdout.flush(); break;
+                case OpT.INC: tape.Inc(program[i].v); break;
+                case OpT.MOVE: tape.Move(program[i].v); break;
+                case OpT.LOOP: while (tape.Get() > 0) _run(program[i].loop, tape); break;
+                case OpT.PRINT: p.print(tape.Get());break;
                 }
             }
         }
 
+        static void verify() {
+            var text = """++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+                ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.""";
+            var p_left = new Printer(true);
+            new Program(text, p_left).run();
+            var left = p_left.checksum;
+
+            var p_right = new Printer(true);
+            foreach (int c in "Hello World!\n".data) {
+                p_right.print(c);
+            }
+            var right = p_left.checksum;
+            if (left != right) {
+                stderr.printf("%d != %d\n", left, right);
+                Process.exit(1);
+            }
+        }
+
         static void main(string[] args) {
+            verify();
             string text;
             try {
                 FileUtils.get_contents(args[1], out text);
@@ -101,18 +142,21 @@ namespace Test {
                 stdout.printf("Error: %s\n", e.message);
             }
             if (text.length == 0) {
-                Process.exit(-1);
+                Process.exit(1);
             }
+            var p = new Printer(Environment.get_variable("QUIET") != null);
 
             start();
-            message("run");
-            Timer timer = new Timer ();
-            var p = new Program(text);
-            p.run();
+            var timer = new Timer();
+            new Program(text, p).run();
             timer.stop();
+            notify("stop");
+
             message("time: " + timer.elapsed().to_string() + " s");
 
-            notify("stop");
+            if (p.quiet) {
+                stdout.printf("Output checksum: %d\n", p.checksum);
+            }
         }
     }
 }

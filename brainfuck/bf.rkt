@@ -5,9 +5,28 @@
                     [unsafe-vector-set! vector-set!]
                     [unsafe-fx+ +]))
 
-(define-syntax-rule (define-match-expander* k r) (define-match-expander k r r))
-(define-match-expander* op (syntax-rules () [(_ op val) (cons op val)]))
-(define-match-expander* tape (syntax-rules () [(_ data pos) (mcons data pos)]))
+(struct op (op val))
+(struct tape ([data #:mutable] [pos #:mutable]))
+
+;;; Printer.
+
+(struct printer ([sum1 #:mutable] [sum2 #:mutable] quiet))
+
+(define (print p n)
+  (if (printer-quiet p)
+      (begin
+          (set-printer-sum1! p (remainder
+                                (+ (printer-sum1 p) n)
+                                255))
+          (set-printer-sum2! p (remainder
+                                (+ (printer-sum2 p) (printer-sum1 p))
+                                255)))
+      (begin
+          (display (integer->char n))
+          (flush-output))))
+
+(define (get-checksum p)
+  (bitwise-ior (arithmetic-shift (printer-sum2 p) 8) (printer-sum1 p)))
 
 ;;; Vector and tape ops.
 
@@ -22,17 +41,15 @@
                        new-vec]))]))
 
 (define (tape-get t)
-  (match-let ([(tape data pos) t])
-    (vector-ref data pos)))
+  (vector-ref (tape-data t) (tape-pos t)))
 
 (define (tape-move! t n)
-  (match-let ([(tape data pos) t])
-    (let ([new-pos (+ n pos)])
-      (set-mcar! t (vector-grow-if-needed data new-pos))
-      (set-mcdr! t new-pos))))
+  (let ([new-pos (+ n (tape-pos t))])
+    (set-tape-data! t (vector-grow-if-needed (tape-data t) new-pos))
+    (set-tape-pos! t new-pos)))
 
 (define (tape-inc! t n)
-  (match-let ([(tape data pos) t])
+  (let ((data (tape-data t)) (pos (tape-pos t)))
     (vector-set! data pos (+ n (vector-ref data pos)))))
 
 ;;; Parser.
@@ -57,13 +74,12 @@
 
 ;;; Interpreter.
 
-(define (run parsed t)
+(define (run parsed t p)
   (define step-op!
     (match-lambda
       [(op 'inc x) (tape-inc! t x)]
       [(op 'move x) (tape-move! t x)]
-      ['print (display (integer->char (tape-get t)))
-              (flush-output)]
+      ['print (print p (tape-get t))]
       [(op 'loop body) (let loop ()
                          (when (> (tape-get t) 0)
                            (step-ops! body)
@@ -84,12 +100,29 @@
   (parameterize ([current-locale "C"])
     (file->string path)))
 
+(define (verify)
+  (define text "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
+---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.")
+  (define p-left (printer 0 0 #t))
+  (define p-right (printer 0 0 #t))
+
+  (run (parse text) (tape (vector 0) 0) p-left)
+  (for-each
+   (lambda (c) (print p-right (char->integer c)))
+   (string->list "Hello World!\n"))
+
+  (let ((left (get-checksum p-left))
+        (right (get-checksum p-right)))
+    (when (not (eq? left right))
+        (error 'verify "~s != ~s" left right))))
+
 (module+ main
-  (define text null)
-  (set! text (read-c (command-line #:args (filename) filename)))
+  (verify)
+  (define text (read-c (command-line #:args (filename) filename)))
+  (define p (printer 0 0 (getenv "QUIET")))
 
   (notify (format "Racket\t~s" (getpid)))
+  (run (parse text) (tape (vector 0) 0) p)
+  (notify "stop")
 
-  (run (parse text) (tape (vector 0) 0))
-
-  (notify "stop"))
+  (when (printer-quiet p) (printf "Output checksum: ~s\n" (get-checksum p))))

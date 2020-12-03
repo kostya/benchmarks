@@ -3,11 +3,13 @@ import net
 import time
 
 fn notify(msg string) {
-	sock := net.dial('127.0.0.1', 9001) or {
+	sock := net.dial_tcp('127.0.0.1:9001') or {
 		return
 	}
-	sock.write(msg) or { }
-	sock.close() or { }
+	defer {
+		sock.close()
+	}
+	sock.write_str(msg) or { }
 }
 
 fn main() {

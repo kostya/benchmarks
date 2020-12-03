@@ -29,11 +29,35 @@ class Tape
   end
 end
 
+class Printer
+  getter quiet
+
+  def initialize(quiet : Bool)
+    @sum1 = 0
+    @sum2 = 0
+    @quiet = quiet
+  end
+
+  def print(n : Int32)
+    if @quiet
+      @sum1 = (@sum1 + n) % 255
+      @sum2 = (@sum2 + @sum1) % 255
+    else
+      print(n.chr)
+    end
+  end
+
+  def checksum
+    (@sum2 << 8) | @sum1
+  end
+end
+
 class Program
   @ops : Array(Op::T)
 
-  def initialize(code : String)
+  def initialize(code : String, p : Printer)
     @ops = parse(code.each_char)
+    @p = p
   end
 
   def run
@@ -52,7 +76,7 @@ class Program
           _run(op, tape)
         end
       when Op::Print
-        print(tape.get.chr)
+        @p.print(tape.get)
       else
         # pass
       end
@@ -88,13 +112,33 @@ def notify(msg)
   end
 end
 
+def verify
+  text = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+       ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
+  p_left = Printer.new(true)
+  Program.new(text, p_left).run
+  left = p_left.checksum
+
+  p_right = Printer.new(true)
+  "Hello World!\n".each_char { |c| p_right.print(c.ord) }
+
+  right = p_right.checksum
+  if left != right
+    STDERR.puts "#{left} != #{right}"
+    exit(1)
+  end
+end
+
 class EntryPoint
+  verify
   text = File.read(ARGV[0])
+  p = Printer.new(ENV.has_key?("QUIET"))
 
-  pid = Process.pid
-  notify("Crystal\t#{pid}")
-
-  Program.new(text).run
-
+  notify("Crystal\t#{Process.pid}")
+  Program.new(text, p).run
   notify("stop")
+
+  if p.quiet
+    puts "Output checksum: #{p.checksum}"
+  end
 end

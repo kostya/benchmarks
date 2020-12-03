@@ -63,12 +63,37 @@ public final class bf {
         }
     }
 
+    static final class Printer {
+        private int sum1 = 0;
+        private int sum2 = 0;
+        final boolean quiet;
+
+        Printer(boolean quiet) {
+            this.quiet = quiet;
+        }
+
+        void print(int n) {
+            if (quiet) {
+                sum1 = (sum1 + n) % 255;
+                sum2 = (sum2 + sum1) % 255;
+            } else {
+                System.out.print((char)n);
+            }
+        }
+
+        int getChecksum() {
+            return (sum2 << 8) | sum1;
+        }
+    }
+
     public static final class Program {
         private final Op[] ops;
+        private final Printer p;
 
-        public Program(final String code) {
+        public Program(final String code, final Printer p) {
             CharacterIterator it = new CharacterIterator(code);
             ops = parse(it);
+            this.p = p;
         }
 
         private Op[] parse(final CharacterIterator it) {
@@ -110,7 +135,7 @@ public final class bf {
                     case INC: tape.inc(op.v); break;
                     case MOVE: tape.move(op.v); break;
                     case LOOP: while (tape.get() > 0) _run(op.loop, tape); break;
-                    case PRINT: System.out.print( (char) tape.get() ); break;
+                    case PRINT: p.print(tape.get()); break;
                 }
         }
     }
@@ -124,16 +149,38 @@ public final class bf {
         }
     }
 
+    private static void verify() {
+        final var text = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>" +
+            "---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
+        final var pLeft = new Printer(true);
+        new Program(text, pLeft).run();
+        final var left = pLeft.getChecksum();
+
+        final var pRight = new Printer(true);
+        for (final var c : "Hello World!\n".toCharArray()) {
+            pRight.print(c);
+        }
+        final var right = pRight.getChecksum();
+        if (left != right) {
+            System.err.printf("%d != %d\n", left, right);
+            System.exit(1);
+        }
+    }
+
     public static void main( final String[] args ) throws IOException {
-        final String code = new String(Files.readAllBytes( Paths.get( args[0] ) ));
+        verify();
+        final var code = new String(Files.readAllBytes( Paths.get( args[0] ) ));
+        final var p = new Printer(System.getenv("QUIET") != null);
 
         notify("Java\t" + ProcessHandle.current().pid());
-        var start_time = System.currentTimeMillis();
-
-        final Program program = new Program(code);
-        program.run();
-        System.err.println("time: " + (System.currentTimeMillis()-start_time)/1e3+"s");
-
+        final var startTime = System.currentTimeMillis();
+        new Program(code, p).run();
+        final var elapsed = (System.currentTimeMillis()-startTime) / 1e3;
         notify("stop");
+
+        System.err.println("time: " + elapsed +"s");
+        if (p.quiet) {
+            System.out.println("Output checksum: " + p.getChecksum());
+        }
     }
 }

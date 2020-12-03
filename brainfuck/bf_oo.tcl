@@ -25,6 +25,30 @@ namespace eval bf {} {
         }
     }
 
+    ::oo::class create Printer {
+        variable sum1 sum2 quiet
+
+        constructor q {
+            set sum1 0
+            set sum2 0
+            set quiet $q
+        }
+
+        method print n {
+            if {$quiet} {
+                set sum1 [expr ($sum1 + $n) % 255]
+                set sum2 [expr ($sum2 + $sum1) % 255]
+            } else {
+                puts -nonewline [format %c $n]
+                flush stdout
+            }
+        }
+
+        method checksum {} {
+            return [expr ($sum2 << 8) | $sum1]
+        }
+    }
+
     proc parse source {
         set res {}
         while 1 {
@@ -48,7 +72,7 @@ namespace eval bf {} {
         return [list $res $source]
     }
 
-    proc run {program tape} {
+    proc run {program tape p} {
         foreach x $program {
             lassign $x op val
             switch -exact -- $op {
@@ -59,23 +83,22 @@ namespace eval bf {} {
                     $tape move $val
                 }
                 PRINT {
-                    puts -nonewline [format %c [$tape current]]
-                    flush stdout
+                    $p print [$tape current]
                 }
                 LOOP {
                     while {[$tape current] > 0} {
-                        run $val $tape
+                        run $val $tape $p
                     }
                 }
             }
         }
     }
-}   
+}
 
-proc main text {
-    lassign [::bf::parse $text] program
+proc main {text p} {
+    lassign [::bf::parse [split $text {}]] program
     set tape [::bf::Tape new]
-    ::bf::run $program $tape
+    ::bf::run $program $tape $p
     $tape destroy
 }
 
@@ -87,12 +110,40 @@ proc notify msg {
     }
 }
 
+proc verify {} {
+    set text {++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+        ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.}
+    set p_left [::bf::Printer new 1]
+    main $text $p_left
+    set left [$p_left checksum]
+    $p_left destroy
+
+    set p_right [::bf::Printer new 1]
+    foreach c [split "Hello World!\n" ""] {
+        $p_right print [scan $c %c]
+    }
+    set right [$p_right checksum]
+    $p_right destroy
+    if {$left != $right} {
+        puts stderr [format "%d != %d" $left $right]
+        exit 1
+    }
+}
+
 apply {{filename} {
+    verify
     set f [open $filename]
-    set text [split [read $f] {}]
+    set text [read $f]
     close $f
+    set quiet [info exists ::env(QUIET)]
+    set p [::bf::Printer new $quiet]
 
     notify [format "%s\t%d" "Tcl (OOP)" [pid]]
-    main $text
+    main $text $p
     notify "stop"
+
+    if {$quiet} {
+        puts [format "Output checksum: %d" [$p checksum]]
+    }
+    $p destroy
 }} {*}$argv
