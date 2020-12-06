@@ -19,9 +19,6 @@ when 'brainfuck'
 when 'base64'
   Dir.chdir('/src/base64')
   exec('make run')
-when 'havlak'
-  Dir.chdir('/src/havlak')
-  exec('make run')
 when 'json'
   Dir.chdir('/src/json')
   exec('make run')
@@ -41,5 +38,4 @@ puts <<~USAGE
     base64                Build and run Base64 benchmarks
     json                  Build and run Json benchmarks
     matmul                Build and run Matmul benchmarks
-    havlak                Build and run Havlak benchmarks
 USAGE
