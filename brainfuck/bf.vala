@@ -60,7 +60,7 @@ namespace Test {
                 sum1 = (sum1 + n) % 255;
                 sum2 = (sum2 + sum1) % 255;
             } else {
-                stdout.printf("%c", (char)n);
+                stdout.putc((char)n);
                 stdout.flush();
             }
         }
