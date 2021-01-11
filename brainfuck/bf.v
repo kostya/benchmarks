@@ -185,9 +185,7 @@ fn (mut si StringIterator) next() byte {
 }
 
 fn notify(msg string) {
-	sock := net.dial_tcp('127.0.0.1:9001') or {
-		return
-	}
+	sock := net.dial_tcp('127.0.0.1:9001') or { return }
 	defer {
 		sock.close()
 	}
@@ -212,10 +210,9 @@ fn verify() {
 
 fn main() {
 	verify()
-	args := os.args
 	mut filename := ''
-	if args.len == 2 {
-		filename = args[1]
+	if os.args.len == 2 {
+		filename = os.args[1]
 	} else {
 		eprintln('Usage: bf2 filename.b')
 		return

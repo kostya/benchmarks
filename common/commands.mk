@@ -73,10 +73,7 @@ TRUBY_NATIVE_RUN =	$(XTIME) truffleruby $^
 SCHEME_RUN =		$(XTIME) scheme --optimize-level 3 --program $^
 JULIA_RUN =		$(XTIME) julia --optimize=3 --check-bounds=no $^
 
-# NOTE: temporarily, to track boost download
-# TODO: return back `-q` and remove submodules ops after switched
-# to boost releases
-GIT_CLONE = git clone --depth 1 --recursive --shallow-submodules
+GIT_CLONE = git clone --depth 1 -q
 DOTNET_CLEAN = -dotnet clean --nologo -v q
 NUGET_INSTALL = nuget install -ExcludeVersion -Verbosity quiet
 

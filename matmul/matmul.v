@@ -50,9 +50,7 @@ fn matmul(a [][]f64, b [][]f64) [][]f64 {
 }
 
 fn notify(msg string) {
-	sock := net.dial_tcp('127.0.0.1:9001') or {
-		return
-	}
+	sock := net.dial_tcp('127.0.0.1:9001') or { return }
 	defer {
 		sock.close()
 	}

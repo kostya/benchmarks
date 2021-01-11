@@ -112,15 +112,19 @@ target/json_go: test.go | $(gofmt)
 target/json_go_gccgo: test.go | $(gofmt)
 	$(GCC_GO_BUILD)
 
-# NOTE: very time consuming
-# TODO: switch to new release after 1.74.0
+# NOTE: quite time consuming
+# TODO: switch to Debian package as soon as they update to 1.75.0
+# https://packages.debian.org/bullseye/libboost-dev
+
+# Boost releases:
 # https://www.boost.org/users/download/
-boost = target/boost
+BOOST_VERSION := boost_1_75_0
+boost = target/$(BOOST_VERSION)
 $(boost): | target
-	$(GIT_CLONE) "https://github.com/boostorg/boost.git" $@
-	cd $(boost) && \
-	./bootstrap.sh && \
-	./b2 headers
+	cd target && \
+	wget --progress=dot:giga -O - \
+	https://dl.bintray.com/boostorg/release/1.75.0/source/$(BOOST_VERSION).tar.bz2 \
+	| tar -xj
 
 target/json_boost_ptree_cpp: test_boost_ptree.cpp | $(boost) libnotify
 	$(GCC_CPP_BUILD) -I$(boost)
