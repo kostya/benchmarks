@@ -26,7 +26,6 @@ struct coordinate_t {
 
 
 using namespace simdjson;
-using namespace simdjson::builtin;
 
 class on_demand {
 public:
