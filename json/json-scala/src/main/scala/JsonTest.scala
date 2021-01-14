@@ -37,26 +37,25 @@ object JsonTest {
     Coordinate(x / len, y / len, z / len)
   }
 
-  private def parseJson(bytes: Array[Byte]): Unit = {
-    val start_time = System.nanoTime
-    println(calc(bytes))
-    println("time: " + (System.nanoTime - start_time) / 1e9 + "s")
-  }
-
   def main(args: Array[String]): Unit = {
-    val json = "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}"
-            .getBytes()
-    val left = calc(json)
-    val right = Coordinate(1.1, 2.2, 3.3)
-    if (left != right) {
-      System.err.println(s"${left} != ${right}")
-      System.exit(1)
+    val right = Coordinate(2.0, 0.5, 0.25)
+    for (v <- Array(
+      "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
+      "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}")) {
+      val json = v.getBytes()
+      val left = calc(json)
+      if (left != right) {
+        System.err.println(s"${left} != ${right}")
+        System.exit(1)
+      }
     }
 
     val bytes = Files.readAllBytes(Paths.get("/tmp/1.json"))
 
     notify(s"Scala\t${ProcessHandle.current().pid()}")
-    parseJson(bytes)
+    val results = calc(bytes)
     notify("stop")
+
+    println(results)
   }
 }

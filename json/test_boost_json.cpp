@@ -1,10 +1,10 @@
-#include "gason.h"
 #include <boost/format.hpp>
+#include <boost/json.hpp>
+#include <boost/json/src.hpp>
 #include <fstream>
 #include <iostream>
 #include <libnotify.hpp>
 #include <sstream>
-#include <string.h>
 #include <string>
 #include <unistd.h>
 
@@ -35,42 +35,23 @@ string read_file(const string& filename) {
 }
 
 coordinate_t calc(const string& text) {
-  char *endptr;
-  JsonValue jobj;
-  JsonAllocator allocator;
-  auto status = jsonParse((char *)text.c_str(), &endptr, &jobj, allocator);
-  if (status != JSON_OK) {
-    exit(EXIT_FAILURE);
-  }
-
-  JsonValue coordinates;
-  for (auto data : jobj) {
-    if (strcmp(data->key, "coordinates") == 0) {
-      coordinates = data->value;
-    }
-  }
-
   auto x = 0.0, y = 0.0, z = 0.0;
   auto len = 0;
 
-  for (auto coord : coordinates) {
-    len++;
-    for (auto c : coord->value) {
-      auto key = c->key;
-      if (strcmp(key, "x") == 0) {
-        x += c->value.toNumber();
-      } else if (strcmp(key, "y") == 0) {
-        y += c->value.toNumber();
-      } else if (strcmp(key, "z") == 0) {
-        z += c->value.toNumber();
-      }
-    }
+  auto jv = boost::json::parse(text);
+  auto &obj = jv.get_object();
+  for (auto& v: obj["coordinates"].get_array()) {
+    len += 1;
+    auto& coord = v.get_object();
+    x += coord["x"].get_double();
+    y += coord["y"].get_double();
+    z += coord["z"].get_double();
   }
 
   return coordinate_t(x / len, y / len, z / len);
 }
 
-int main() {
+      int main() {
   auto right = coordinate_t(2.0, 0.5, 0.25);
   for (auto v : {
           "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
@@ -84,7 +65,7 @@ int main() {
 
   const auto& text = read_file("/tmp/1.json");
 
-  notify(str(boost::format("C++/g++ (gason)\t%d") % getpid()));
+  notify(str(boost::format("C++/g++ (Boost.JSON)\t%d") % getpid()));
   const auto& results = calc(text);
   notify("stop");
 

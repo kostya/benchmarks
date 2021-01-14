@@ -32,16 +32,20 @@ def notify(msg):
 
 
 if __name__ == "__main__":
-    left = calc('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}')
-    right = Coordinate(1.1, 2.2, 3.3)
-    if left != right:
-        print("%s != %s" % (left, right), file=sys.stderr)
-        quit(1)
+    right = Coordinate(2.0, 0.5, 0.25)
+    for v in [
+        """{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}""",
+        """{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}""",
+    ]:
+        left = calc(v)
+        if left != right:
+            print("%s != %s" % (left, right), file=sys.stderr)
+            quit(1)
 
     text = Path("/tmp/1.json").read_text()
 
     notify("%s\t%d" % (platform.python_implementation(), os.getpid()))
-
-    print(calc(text))
-
+    results = calc(text)
     notify("stop")
+
+    print(results)

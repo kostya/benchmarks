@@ -2,7 +2,7 @@ import os
 import math
 import net
 
-fn make_matrix(n, m int) [][]f64 {
+fn make_matrix(n int, m int) [][]f64 {
 	mut res := [[f64(0.0)].repeat(m)]
 	for i := 1; i < n; i++ {
 		res << [f64(0.0)].repeat(m)
@@ -22,7 +22,7 @@ fn matgen(n int, seed f64) [][]f64 {
 	return a
 }
 
-fn matmul(a, b [][]f64) [][]f64 {
+fn matmul(a [][]f64, b [][]f64) [][]f64 {
 	m := a.len
 	n := a[0].len
 	p := b[0].len
@@ -50,11 +50,11 @@ fn matmul(a, b [][]f64) [][]f64 {
 }
 
 fn notify(msg string) {
-	sock := net.dial('127.0.0.1', 9001) or {
-		return
+	sock := net.dial_tcp('127.0.0.1:9001') or { return }
+	defer {
+		sock.close()
 	}
-	sock.write(msg) or { }
-	sock.close() or { }
+	sock.write_str(msg) or { }
 }
 
 fn calc(n int) f64 {
@@ -77,6 +77,7 @@ fn main() {
 		lang = 'V/clang'
 	}
 	notify('$lang\t$C.getpid()')
-	println(calc(n))
+	results := calc(n)
 	notify('stop')
+	println(results)
 }

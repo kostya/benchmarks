@@ -38,8 +38,11 @@ if abspath(PROGRAM_FILE) == @__FILE__
     notify("Julia (threads: $(num_threads))\t$(getpid())")
 
     t = time()
-    println(calc(n))
-    println("time: $(time() - t) s")
+    results = calc(n)
+    elapsed = time() - t
 
     notify("stop")
+
+    println(results)
+    println("time: $(elapsed) s")
 end

@@ -28,34 +28,36 @@ struct coordinate_t {
 using namespace simdjson;
 using namespace simdjson::builtin;
 
-class on_demand {
-public:
-  bool run(const padded_string &json);
-  coordinate_t my_point{};
-  size_t count{};
-private:
-  ondemand::parser parser{};
-};
-
-bool on_demand::run(const padded_string &json) {
-  count = 0;
-  auto doc = parser.iterate(json);
-  for (ondemand::object point_object : doc["coordinates"]) {
-    my_point.x += double(point_object["x"]);
-    my_point.y += double(point_object["y"]);
-    my_point.z += double(point_object["z"]);
-    count++;
+coordinate_t calc(const padded_string& text) {
+  dom::parser pj(0);
+  // allocate memory for parsing up to p.size() bytes
+  auto allocate_error = pj.allocate(text.size());
+  if (allocate_error) {
+    cerr << allocate_error << endl;
+    exit(EXIT_FAILURE);
   }
-  return true;
-}
 
-coordinate_t calc(const padded_string& json) {
-  on_demand reader;
-  reader.run(json);
-  reader.my_point.x /= reader.count;
-  reader.my_point.y /= reader.count;
-  reader.my_point.z /= reader.count;
-  return reader.my_point;
+  auto [doc, error] = pj.parse(text); // do the parsing, return 0 on success
+  if (error) {
+    cerr << error << endl;
+    exit(EXIT_FAILURE);
+  }
+
+  auto x = 0.0, y = 0.0, z = 0.0;
+  auto len = 0;
+
+  for (auto coord : doc["coordinates"]) {
+    double x_coord = coord["x"];
+    x += x_coord;
+
+    double y_coord = coord["y"];
+    y += y_coord;
+
+    double z_coord = coord["z"];
+    z += z_coord;
+    len++;
+  }
+  return coordinate_t(x / len, y / len, z / len);
 }
 
 int main() {
@@ -74,7 +76,7 @@ int main() {
   const auto& [text, error] = padded_string::load("/tmp/1.json");
   if(error) { cerr << "could not load file" << endl; return EXIT_FAILURE; }
 
-  notify(str(boost::format("C++/g++ (simdjson On-Demand)\t%d") % getpid()));
+  notify(str(boost::format("C++/g++ (simdjson DOM)\t%d") % getpid()));
   const auto& results = calc(text);
   notify("stop");
 

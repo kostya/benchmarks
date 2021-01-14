@@ -50,23 +50,24 @@ coordinate_t calc(stringstream& text) {
 }
 
 int main() {
-  auto json =
-    stringstream("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
-  auto left = calc(json);
-  auto right = coordinate_t(1.1, 2.2, 3.3);
-  if (left != right) {
-    cerr << left << " != " << right << endl;
-    exit(EXIT_FAILURE);
+  auto right = coordinate_t(2.0, 0.5, 0.25);
+  for (auto v : {
+          "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
+          "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"}) {
+    auto json = stringstream(v);
+    auto left = calc(json);
+    if (left != right) {
+        cerr << left << " != " << right << endl;
+        exit(EXIT_FAILURE);
+    }
   }
 
   stringstream text;
   read_file("/tmp/1.json", text);
 
-  stringstream ostr;
-  ostr << "C++/g++ (Boost)\t" << getpid();
-  notify(ostr.str());
-
-  cout << calc(text) << endl;
-
+  notify(str(boost::format("C++/g++ (Boost.PropertyTree)\t%d") % getpid()));
+  const auto& results = calc(text);
   notify("stop");
+
+  cout << results << endl;
 }

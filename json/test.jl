@@ -36,11 +36,16 @@ function notify(msg)
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
-    left = calc("""{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}""")
-    right = Coordinate(1.1, 2.2, 3.3)
-    if left != right
-        println(stderr, "$(left) != $(right)")
-        exit(1)
+    right = Coordinate(2.0, 0.5, 0.25)
+    for v in [
+        """{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}""",
+        """{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}""",
+    ]
+        left = calc(v)
+        if left != right
+            println(stderr, "$(left) != $(right)")
+            exit(1)
+        end
     end
 
     text = open("/tmp/1.json") do file
@@ -48,8 +53,8 @@ if abspath(PROGRAM_FILE) == @__FILE__
     end
 
     notify("Julia (JSON3)\t$(getpid())")
-
-    println(calc(text))
-
+    results = calc(text)
     notify("stop")
+
+    println(results)
 end

@@ -20,31 +20,48 @@ namespace Test
 
     public class Tape
     {
-        int pos;
-        int[] tape;
-
-        public Tape()
-        {
-            pos = 0;
-            tape = new int[1];
-        }
+        int pos = 0;
+        int[] tape = new int[1];
 
         public int Get() { return tape[pos]; }
         public void Inc(int x) { tape[pos] += x; }
         public void Move(int x) { pos += x; while (pos >= tape.Length) Array.Resize(ref tape, tape.Length*2); }
     }
 
+    class Printer {
+        int sum1 = 0;
+        int sum2 = 0;
+
+        public bool Quiet { get; set; }
+
+        public void Print(int n) {
+            if (Quiet) {
+                sum1 = (sum1 + n) % 255;
+                sum2 = (sum2 + sum1) % 255;
+            } else {
+                Console.Write((char)n);
+            }
+        }
+
+        public int Checksum {
+            get {
+                return (sum2 << 8) | sum1;
+            }
+        }
+    }
+
     class Program
     {
         string code;
-        int pos;
+        int pos = 0;
         Op[] ops;
+        Printer p;
 
-        Program(string text)
+        Program(string text, Printer p)
         {
             code = text;
-            pos = 0;
             ops = parse();
+            this.p = p;
         }
 
         private Op[] parse() {
@@ -75,7 +92,7 @@ namespace Test
                     case OpT.INC: tape.Inc(op.v); break;
                     case OpT.MOVE: tape.Move(op.v); break;
                     case OpT.LOOP: while (tape.Get() > 0) _run(op.loop, tape); break;
-                    case OpT.PRINT: Console.Write((char)tape.Get()); break;
+                    case OpT.PRINT: p.Print(tape.Get()); break;
                 }
             }
         }
@@ -91,20 +108,46 @@ namespace Test
             }
         }
 
+        private static void Verify() {
+            var text = @"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+                ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
+            var p_left = new Printer{Quiet = true};
+            new Program(text, p_left).run();
+            var left = p_left.Checksum;
+
+            var p_right = new Printer{Quiet = true};
+            foreach (var c in "Hello World!\n") {
+                p_right.Print(c);
+            }
+            var right = p_right.Checksum;
+            if (left != right) {
+                Console.Error.WriteLine($"{left} != {right}");
+                System.Environment.Exit(1);
+            }
+        }
+
         static void Main(string[] args)
         {
-            string text = File.ReadAllText(args[0]);
+            Verify();
+            var text = File.ReadAllText(args[0]);
+            var p = new Printer {
+                Quiet = Environment.GetEnvironmentVariable("QUIET") != null
+            };
 
             var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
             Notify($"C#/{runtime}\t{Process.GetCurrentProcess().Id}");
-            var stopWatch = new Stopwatch();
+            var stopWatch = Stopwatch.StartNew();
 
-            var p = new Program(text);
-            p.run();
+            new Program(text, p).run();
             stopWatch.Stop();
-            Console.Error.WriteLine("time: " + stopWatch.ElapsedMilliseconds / 1e3 + "s");
+            var elapsed = stopWatch.ElapsedMilliseconds / 1e3;
 
             Notify("stop");
+            Console.Error.WriteLine($"time: {elapsed}s");
+
+            if (p.Quiet) {
+                Console.WriteLine($"Output checksum: {p.Checksum}");
+            }
         }
     }
 }

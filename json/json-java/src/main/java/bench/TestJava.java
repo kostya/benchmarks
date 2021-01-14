@@ -58,13 +58,6 @@ public class TestJava {
         return new Coordinate(x / total, y / total, z / total);
     }
 
-    public static void parse(byte[] bytes) throws IOException {
-        var start_time = System.currentTimeMillis();
-        System.out.println(calc(bytes));
-        var time_diff = (System.currentTimeMillis() - start_time) / 1e3;
-        System.out.println("time: " + time_diff + " s");
-    }
-
     private static void notify(final String msg) {
         try (var socket = new java.net.Socket("localhost", 9001);
              var out = socket.getOutputStream()) {
@@ -75,21 +68,24 @@ public class TestJava {
     }
 
     public static void main(String[] args) throws IOException {
-        var json = "{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}"
-            .getBytes();
-        var left = calc(json);
-        var right = new Coordinate(1.1, 2.2, 3.3);
-        if (!left.equals(right)) {
-            System.err.printf("%s != %s\n", left, right);
-            System.exit(1);
+        final var right = new Coordinate(2.0, 0.5, 0.25);
+        for (final var v : new String[] {
+                "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
+                "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"}) {
+            final var json = v.getBytes();
+            final var left = calc(json);
+            if (!left.equals(right)) {
+                System.err.printf("%s != %s\n", left, right);
+                System.exit(1);
+            }
         }
 
-        var bytes = Files.readAllBytes(Paths.get("/tmp/1.json"));
+        final var bytes = Files.readAllBytes(Paths.get("/tmp/1.json"));
 
         notify("Java\t" + ProcessHandle.current().pid());
-
-        parse(bytes);
-
+        final var results = calc(bytes);
         notify("stop");
+
+        System.out.println(results);
     }
 }

@@ -26,11 +26,11 @@ executables := \
 	target/bin_c_clang
 
 artifacts := $(executables) \
-	fsharp/target/Release/netcoreapp3.1/brainfuck.dll \
+	fsharp/target/Release/net5.0/brainfuck.dll \
 	target/bf_scala.jar \
 	target/bf2-kt.jar \
 	target/bf.exe \
-	target/Release/netcoreapp3.1/brainfuck.dll \
+	target/Release/net5.0/brainfuck.dll \
 	target/bf.class
 
 fast_runners := $(patsubst %,run[%], $(artifacts)) \
@@ -74,12 +74,12 @@ target/bf_scala.jar: bf.scala | target
 target/bf.exe: bf.cs | target
 	$(MCS_BUILD)
 
-.PHONY: target/Release/netcoreapp3.1/brainfuck.dll
-target/Release/netcoreapp3.1/brainfuck.dll: brainfuck.csproj | target
+.PHONY: target/Release/net5.0/brainfuck.dll
+target/Release/net5.0/brainfuck.dll: brainfuck.csproj | target
 	$(DOTNET_BUILD)
 
-.PHONY: fsharp/target/Release/netcoreapp3.1/brainfuck.dll
-fsharp/target/Release/netcoreapp3.1/brainfuck.dll: fsharp/brainfuck.fsproj | target
+.PHONY: fsharp/target/Release/net5.0/brainfuck.dll
+fsharp/target/Release/net5.0/brainfuck.dll: fsharp/brainfuck.fsproj | target
 	$(DOTNET_BUILD)
 
 target/bf2-kt.jar: bf2.kt | target
@@ -106,10 +106,10 @@ target/bin_nim_clang: bf.nim | target
 target/bin_nim_gcc: bf.nim | target
 	$(NIM_GCC_BUILD)
 
-target/bin_hs: bf.hs | target
+target/bin_hs: bf.hs | $(hlint)
 	$(GHC_BUILD)
 
-target/bin_hs_marray: bf-marray.hs | target
+target/bin_hs_marray: bf-marray.hs | $(hlint)
 	$(GHC_BUILD)
 
 target/bin_ocaml: bf.ml | target
@@ -164,10 +164,10 @@ run[target/bf_scala.jar]:: run[%]: %
 run[target/bf.exe]:: run[%]: %
 	$(MONO_RUN) $(BF_SRC)
 
-run[target/Release/netcoreapp3.1/brainfuck.dll]:: run[%]: %
+run[target/Release/net5.0/brainfuck.dll]:: run[%]: %
 	$(DOTNET_RUN) $(BF_SRC)
 
-run[fsharp/target/Release/netcoreapp3.1/brainfuck.dll]:: run[%]: %
+run[fsharp/target/Release/net5.0/brainfuck.dll]:: run[%]: %
 	$(DOTNET_RUN) $(BF_SRC)
 
 run[target/bf2-kt.jar]:: run[%]: %
@@ -208,13 +208,14 @@ run[jruby][bf.rb]:: run[jruby][%]: % | $(rubocop)
 
 .PHONY: lua-deps
 lua-deps:
-	$(LUAROCKS_LUA) install luasocket
-	$(LUAROCKS_LUA) install luaposix
+	$(LUAROCKS_LUA) install luasocket > /dev/null
+	$(LUAROCKS_LUA) install luaposix > /dev/null
+	$(LUAROCKS_LUA) install bit32 > /dev/null
 
 .PHONY: luajit-deps
 luajit-deps:
-	$(LUAROCKS_LUAJIT) install luasocket
-	$(LUAROCKS_LUAJIT) install luaposix
+	$(LUAROCKS_LUAJIT) install luasocket > /dev/null
+	$(LUAROCKS_LUAJIT) install luaposix > /dev/null
 
 run[bf.lua]:: run[%]: % | lua-deps
 	$(LUA_RUN) $(BF_SRC)

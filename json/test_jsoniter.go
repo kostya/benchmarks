@@ -49,11 +49,14 @@ func calc(reader *strings.Reader) Coordinate {
 }
 
 func main() {
-	left := calc(strings.NewReader(
-		`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`))
-	right := Coordinate{1.1, 2.2, 3.3}
-	if left != right {
-		log.Fatalf("%+v != %+v\n", left, right)
+	right := Coordinate{2.0, 0.5, 0.25}
+	for _, v := range []string{
+		`{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}`,
+		`{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}`} {
+		left := calc(strings.NewReader(v))
+		if left != right {
+			log.Fatalf("%+v != %+v\n", left, right)
+		}
 	}
 
 	bytes, err := ioutil.ReadFile("/tmp/1.json")
@@ -64,8 +67,8 @@ func main() {
 	reader := strings.NewReader(content)
 
 	notify(fmt.Sprintf("Go (jsoniter)\t%d", os.Getpid()))
-
-	fmt.Printf("%+v\n", calc(reader))
-
+	results := calc(reader)
 	notify("stop")
+
+	fmt.Printf("%+v\n", results)
 }

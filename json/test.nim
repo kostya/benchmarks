@@ -31,19 +31,22 @@ proc calc(text: string): Coordinate =
   result = (x: x / len, y: y / len, z: z / len)
 
 when isMainModule:
-  let left = calc("""{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}""")
-  let right = (x: 1.1, y: 2.2, z: 3.3)
-  if left != right:
-    stderr.writeLine(&"{left} != {right}")
-    quit(1)
+  let right = (x: 2.0, y: 0.5, z: 0.25)
+  for v in ["""{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}""",
+            """{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}"""]:
+    let left = calc(v)
+    if left != right:
+      stderr.writeLine(&"{left} != {right}")
+      quit(1)
 
   let text = "/tmp/1.json".readFile()
 
   var compiler = "Nim/clang"
   when defined(gcc):
     compiler = "Nim/gcc"
+
   notify(&"{compiler}\t{getpid()}")
-
-  echo calc(text)
-
+  let results = calc(text)
   notify("stop")
+
+  echo results

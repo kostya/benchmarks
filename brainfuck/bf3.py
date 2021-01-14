@@ -2,6 +2,7 @@ import platform
 import socket
 import sys
 import os
+import itertools
 from pathlib import Path
 
 INC = 1
@@ -30,7 +31,26 @@ class Tape(object):
     def move(self, x):
         self.pos += x
         while self.pos >= len(self.tape):
-            self.tape.append(0)
+            self.tape.extend(itertools.repeat(0, len(self.tape)))
+
+
+class Printer(object):
+    def __init__(self, quiet):
+        self.sum1 = 0
+        self.sum2 = 0
+        self.quiet = quiet
+
+    def print(self, n):
+        if self.quiet:
+            self.sum1 = (self.sum1 + n) % 255
+            self.sum2 = (self.sum2 + self.sum1) % 255
+        else:
+            sys.stdout.write(chr(n))
+            sys.stdout.flush()
+
+    @property
+    def checksum(self):
+        return (self.sum2 << 8) | self.sum1
 
 
 def parse(iterator):
@@ -59,7 +79,7 @@ def parse(iterator):
     return res
 
 
-def _run(program, tape):
+def _run(program, tape, p):
     for op in program:
         if op.op == INC:
             tape.inc(op.val)
@@ -67,18 +87,17 @@ def _run(program, tape):
             tape.move(op.val)
         elif op.op == LOOP:
             while tape.get() > 0:
-                _run(op.val, tape)
+                _run(op.val, tape, p)
         elif op.op == PRINT:
-            sys.stdout.write(chr(tape.get()))
-            sys.stdout.flush()
+            p.print(tape.get())
 
 
 class Program(object):
     def __init__(self, code):
         self.ops = parse(iter(code))
 
-    def run(self):
-        _run(self.ops, Tape())
+    def run(self, p):
+        _run(self.ops, Tape(), p)
 
 
 def notify(msg):
@@ -87,9 +106,30 @@ def notify(msg):
             s.sendall(bytes(msg, "utf8"))
 
 
+def verify():
+    text = """++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+    ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."""
+    p_left = Printer(True)
+    Program(text).run(p_left)
+    left = p_left.checksum
+
+    p_right = Printer(True)
+    for c in "Hello World!\n":
+        p_right.print(ord(c))
+    right = p_right.checksum
+    if left != right:
+        print("%s != %s" % (left, right), file=sys.stderr)
+        quit(1)
+
+
 if __name__ == "__main__":
+    verify()
     text = Path(sys.argv[1]).read_text()
+    p = Printer(os.getenv("QUIET"))
 
     notify("%s\t%d" % (platform.python_implementation(), os.getpid()))
-    Program(text).run()
+    Program(text).run(p)
     notify("stop")
+
+    if p.quiet:
+        print("Output checksum:", p.checksum)

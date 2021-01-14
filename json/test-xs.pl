@@ -1,14 +1,15 @@
-use v5.12;
+use v5.32;
 use warnings;
+no feature qw(indirect);
 use feature qw(signatures);
-no warnings qw(experimental::signatures);
+no warnings qw(experimental);
 
 use File::Slurper 'read_binary';
 use Cpanel::JSON::XS 'decode_json';
 use Socket;
 use Class::Struct;
 use Data::Dumper;
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 struct(Coordinate => [x => '$', y => '$', z => '$']);
 
@@ -39,20 +40,22 @@ if ($0 eq __FILE__) {
     $Data::Dumper::Terse = 1;
     $Data::Dumper::Indent = 0;
 
-    my $left = calc('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}');
-    my $right = Coordinate->new(x=>1.1, y=>2.2, z=>3.3);
-    my $ok = is_deeply($left, $right);
-    if (!$ok) {
-        print STDERR "@{[ Dumper($left) ]} != @{[ Dumper($right) ]}\n";
-        exit(1);
+    my $right = Coordinate->new(x=>2.0, y=>0.5, z=>0.25);
+    foreach('{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}',
+            '{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}') {
+        my $left = calc($_);
+        my $ok = is_deeply($left, $right);
+        if (!$ok) {
+            print STDERR "@{[ Dumper($left) ]} != @{[ Dumper($right) ]}\n";
+            exit(1);
+        }
     }
 
     my $bytes = read_binary '/tmp/1.json';
 
-    my $pid = $$;
-    notify("Perl (Cpanel::JSON::XS)\t${pid}");
-
-    print Dumper(calc($bytes)), "\n";
-
+    notify("Perl (Cpanel::JSON::XS)\t" . $$);
+    my $results = calc($bytes);
     notify("stop");
+
+    print Dumper($results), "\n";
 }

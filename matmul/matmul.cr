@@ -63,10 +63,9 @@ class EntryPoint
     exit(1)
   end
 
-  pid = Process.pid
-  notify("Crystal\t#{pid}")
-
-  puts calc(n)
-
+  notify("Crystal\t#{Process.pid}")
+  results = calc(n)
   notify("stop")
+
+  puts results
 end

@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 	"runtime"
+	"log"
 )
 
 const (
@@ -75,6 +76,29 @@ func (t *Tape) Get() int {
 	return t.tape[t.pos]
 }
 
+type Printer struct {
+	sum1 int
+	sum2 int
+	quiet bool
+}
+
+func NewPrinter(quiet bool) *Printer {
+	return &Printer{sum1: 0, sum2: 0, quiet: quiet}
+}
+
+func (p *Printer) Print(n int) {
+	if p.quiet {
+		p.sum1 = (p.sum1 + n) % 255
+		p.sum2 = (p.sum2 + p.sum1) % 255
+	} else {
+		fmt.Printf("%c", n)
+	}
+}
+
+func (p *Printer) GetChecksum() int {
+	return (p.sum2 << 8) | p.sum1
+}
+
 type Program struct {
 	Ops []Op
 }
@@ -83,8 +107,8 @@ func NewProgram(code string) *Program {
 	return &Program{Ops: parse(NewStringIterator(code))}
 }
 
-func (p *Program) Run() {
-	_run(p.Ops, NewTape())
+func (p *Program) Run(printer *Printer) {
+	_run(p.Ops, NewTape(), printer)
 }
 
 func parse(si *StringIterator) []Op {
@@ -117,7 +141,7 @@ func parse(si *StringIterator) []Op {
 	return res
 }
 
-func _run(program []Op, tape *Tape) {
+func _run(program []Op, tape *Tape, p *Printer) {
 	for i := 0; i < len(program); i++ {
 		switch program[i].O {
 		case INC:
@@ -126,10 +150,10 @@ func _run(program []Op, tape *Tape) {
 			tape.Move(program[i].V)
 		case LOOP:
 			for tape.Get() > 0 {
-				_run(program[i].Loop, tape)
+				_run(program[i].Loop, tape, p)
 			}
 		case PRINT:
-			fmt.Printf("%c", tape.Get())
+			p.Print(tape.Get())
 		}
 	}
 }
@@ -142,15 +166,37 @@ func notify(msg string) {
 	}
 }
 
+func verify() {
+	text := `++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.`
+	p_left := NewPrinter(true)
+	NewProgram(text).Run(p_left)
+	left := p_left.GetChecksum()
+
+	p_right := NewPrinter(true)
+	for _, c := range "Hello World!\n" {
+		p_right.Print(int(c))
+	}
+	right := p_right.GetChecksum()
+	if left != right {
+		log.Fatalf("%+v != %+v\n", left, right)
+	}
+}
+
 func main() {
-	Code, err := ioutil.ReadFile(os.Args[1])
+	verify()
+	code, err := ioutil.ReadFile(os.Args[1])
 	if err != nil {
 		panic(fmt.Sprintf("%v", err))
 	}
+	text := string(code)
+	p := NewPrinter(os.Getenv("QUIET") != "")
 
 	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
-
-	NewProgram(string(Code)).Run()
-
+	NewProgram(text).Run(p)
 	notify("stop")
+
+	if p.quiet {
+		fmt.Printf("Output checksum: %d\n", p.GetChecksum())
+	}
 }

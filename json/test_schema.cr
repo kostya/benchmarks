@@ -43,19 +43,21 @@ def calc(text)
 end
 
 class EntryPoint
-  left = calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}")
-  right = Coordinate.new(1.1, 2.2, 3.3)
-  if left != right
-    STDERR.puts "#{left} != #{right}"
-    exit(1)
-  end
+  right = Coordinate.new(2.0, 0.5, 0.25)
+  ["{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
+   "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"].each { |v|
+    left = calc(v)
+    if left != right
+      STDERR.puts "#{left} != #{right}"
+      exit(1)
+    end
+  }
 
   text = File.read("/tmp/1.json")
 
-  pid = Process.pid
-  notify("Crystal (Schema)\t#{pid}")
-
-  p calc(text)
-
+  notify("Crystal (Schema)\t#{Process.pid}")
+  results = calc(text)
   notify("stop")
+
+  p results
 end

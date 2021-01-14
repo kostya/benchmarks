@@ -44,8 +44,9 @@ when isMainModule:
   var compiler = "Nim/clang"
   when defined(gcc):
     compiler = "Nim/gcc"
+
   notify(&"{compiler} (Arraymancer)\t{getpid()}")
-
-  echo formatFloat(calc(n), ffDefault, 8)
-
+  let results = calc(n)
   notify("stop")
+
+  echo formatFloat(results, ffDefault, 8)

@@ -72,10 +72,12 @@ class Prog
         Notify($"C#/{runtime}\t{Process.GetCurrentProcess().Id}");
 
         var sw = Stopwatch.StartNew();
-        Console.WriteLine(Calc(n));
+        var results = Calc(n);
         sw.Stop();
-        Console.WriteLine("time: {0}s", sw.Elapsed.TotalSeconds);
 
         Notify("stop");
+
+        Console.WriteLine(results);
+        Console.WriteLine("time: {0}s", sw.Elapsed.TotalSeconds);
     }
 }

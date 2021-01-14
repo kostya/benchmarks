@@ -1,14 +1,10 @@
+#include <iomanip>
+#include <iostream>
+#include <libnotify.hpp>
 #include <openssl/bio.h>
 #include <openssl/evp.h>
-#include <stdlib.h>
-#include <string>
-#include <stdio.h>
-#include <iostream>
-#include <time.h>
-#include <iostream>
-#include <iomanip>
-#include <libnotify.hpp>
 #include <sstream>
+#include <string>
 #include <unistd.h>
 
 using namespace std;
@@ -32,7 +28,7 @@ public:
   bio_string& operator=(bio_string&& obj) {
     if (this != &obj) {
       if (bio != nullptr) {
-	BIO_free_all(bio);
+        BIO_free_all(bio);
       }
       bio = exchange(obj.bio, nullptr);
     }
@@ -46,7 +42,7 @@ public:
     }
   }
 
-  bio_string base64_encode() {
+  bio_string base64_encode() const {
     BIO *base64_filter = BIO_new(BIO_f_base64());
     BIO_set_flags(base64_filter, BIO_FLAGS_BASE64_NO_NL);
     BIO *new_bio = BIO_new(BIO_s_mem());
@@ -59,7 +55,7 @@ public:
     return bio_string(new_bio);
   }
 
-  bio_string base64_decode() {
+  bio_string base64_decode() const {
     BIO *bio, *base64_filter, *bio_out;
     char inbuf[512];
     int inlen;
@@ -83,47 +79,71 @@ public:
     return BIO_get_mem_data(bio, &str);
   }
 
-  string substr(size_t pos = 0, size_t len = string::npos) {
+  string substr(size_t pos = 0, size_t len = string::npos) const {
     char *str;
     long size = BIO_get_mem_data(bio, &str);
     return string(str + pos, len == string::npos ? size - pos : len);
   }
+
+  friend bool operator==(const bio_string& lhs, const bio_string& rhs);
 };
 
-int main() {
-  const int STR_SIZE = 131072;
-  const int TRIES = 8192;
+bool operator==(const bio_string& lhs, const bio_string& rhs) {
+  return lhs.substr() == rhs.substr();
+}
 
-  bio_string str("a", STR_SIZE);
+int main() {
+  const char *fixtures[][2] =
+    {{"hello", "aGVsbG8="}, {"world", "d29ybGQ="}};
+  const int num_fixtures = sizeof(fixtures)/sizeof(fixtures[0]);
+  for (auto i = 0; i < num_fixtures; ++i) {
+    const bio_string src(fixtures[i][0]);
+    const bio_string dst(fixtures[i][1]);
+
+    const auto encoded = src.base64_encode();
+    if (encoded != dst) {
+      cerr << encoded.substr() << " != " << dst.substr() << endl;
+      exit(EXIT_FAILURE);
+    }
+
+    const auto decoded = dst.base64_decode();
+    if (decoded != src) {
+      cerr << decoded.substr() << " != " << src.substr() << endl;
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  const auto STR_SIZE = 131072;
+  const auto TRIES = 8192;
+
+  const bio_string str("a", STR_SIZE);
+  const auto str2 = str.base64_encode();
+  const auto str3 = str2.base64_decode();
 
   stringstream ostr;
   ostr << "C++/g++ (libcrypto)\t" << getpid();
   notify(ostr.str());
 
-  long s = 0;
-  clock_t t = clock();
-
-  bio_string str2 = str.base64_encode();
-
-  cout << fixed;
-  cout << "encode " << str.substr(0, 4) << "... to "<< str2.substr(0, 4) << "...: ";
-
-  for (int i = 0; i < TRIES; i++) {
-    str2 = str.base64_encode();
-    s += str2.length();
+  auto s_encoded = 0;
+  const auto t = clock();
+  for (auto i = 0; i < TRIES; i++) {
+    s_encoded += str.base64_encode().length();
   }
-  cout << s << ", " << setprecision(2) << (float)(clock() - t)/CLOCKS_PER_SEC << endl;
+  const auto t_encoded = (float)(clock() - t) / CLOCKS_PER_SEC;
 
-  bio_string str3 = str2.base64_decode();
-  cout << "decode " << str2.substr(0, 4) << "... to "<< str3.substr(0, 4) << "...: ";
-
-  s = 0;
-  t = clock();
-  for (int i = 0; i < TRIES; i++) {
-    str3 = str2.base64_decode();
-    s += str3.length();
+  auto s_decoded = 0;
+  const auto t1 = clock();
+  for (auto i = 0; i < TRIES; i++) {
+    s_decoded += str2.base64_decode().length();
   }
-  cout << s << ", " << setprecision(2) << (float)(clock() - t)/CLOCKS_PER_SEC << endl;
+  const auto t_decoded = (float)(clock() - t1) / CLOCKS_PER_SEC;
 
   notify("stop");
+
+  cout << fixed;
+  cout << "encode " << str.substr(0, 4) << "... to "<< str2.substr(0, 4)
+       << "...: " << s_encoded << ", " << setprecision(2) << t_encoded << endl;
+
+  cout << "decode " << str2.substr(0, 4) << "... to "<< str3.substr(0, 4)
+       << "...: " << s_decoded << ", " << setprecision(2) << t_decoded << endl;
 }

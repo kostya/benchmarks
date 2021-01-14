@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
+	"log"
 	"net"
 	"os"
 	"runtime"
@@ -19,35 +20,52 @@ func notify(msg string) {
 }
 
 func main() {
+	coder := base64.StdEncoding
+
+	for _, fixture := range [][]string{
+		{"hello", "aGVsbG8="},
+		{"world", "d29ybGQ="},
+	} {
+		src := fixture[0]
+		dst := fixture[1]
+		encoded := coder.EncodeToString([]byte(src))
+		if encoded != dst {
+			log.Fatalf("%+v != %+v\n", encoded, dst)
+		}
+		decoded, _ := coder.DecodeString(dst)
+		if string(decoded) != src {
+			log.Fatalf("%+v != %+v\n", decoded, src)
+		}
+	}
+
 	STR_SIZE := 131072
 	TRIES := 8192
 
 	bytes := []byte(strings.Repeat("a", STR_SIZE))
-	coder := base64.StdEncoding
+	str2 := coder.EncodeToString(bytes)
+	str3, _ := coder.DecodeString(str2)
 
 	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
+
 	t := time.Now()
-	s := 0
-
-	str2 := coder.EncodeToString(bytes)
-	fmt.Printf("encode %s... to %s...: ", string(bytes[:4]), str2[:4])
-
+	s_encoded := 0
 	for i := 0; i < TRIES; i += 1 {
-		str2 = coder.EncodeToString(bytes)
-		s += len(str2)
+		s_encoded += len(coder.EncodeToString(bytes))
 	}
-	fmt.Printf("%d, %.4f\n", s, time.Since(t).Seconds())
+	t_encoded := time.Since(t).Seconds()
 
-	t = time.Now()
-	s = 0
-	str3, _ := coder.DecodeString(str2)
-	fmt.Printf("decode %s... to %s...: ", str2[:4], string(str3[:4]))
-
+	t1 := time.Now()
+	s_decoded := 0
 	for i := 0; i < TRIES; i += 1 {
-		str3, _ = coder.DecodeString(str2)
-		s += len(str3)
+		decoded, _ := coder.DecodeString(str2)
+		s_decoded += len(decoded)
 	}
-	fmt.Printf("%d, %.4f\n", s, time.Since(t).Seconds())
+	t_decoded := time.Since(t1).Seconds()
 
 	notify("stop")
+
+	fmt.Printf("encode %s... to %s...: %d, %.4f\n",
+		string(bytes[:4]), str2[:4], s_encoded, t_encoded)
+	fmt.Printf("decode %s... to %s...: %d, %.4f\n",
+		str2[:4], string(str3[:4]), s_decoded, t_decoded)
 }

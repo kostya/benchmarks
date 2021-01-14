@@ -23,6 +23,7 @@
 #include <daw/json/daw_json_iterator.h>
 #include <daw/json/daw_json_link.h>
 
+#include <boost/format.hpp>
 #include <fstream>
 #include <iostream>
 #include <libnotify.hpp>
@@ -105,22 +106,22 @@ coordinate_t calc(const string& text) {
 }
 
 int main() {
-  auto left = calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
-  auto right = coordinate_t(1.1, 2.2, 3.3);
-  if (left != right) {
-    cerr << left << " != " << right << endl;
-    exit(EXIT_FAILURE);
+  auto right = coordinate_t(2.0, 0.5, 0.25);
+  for (auto v : {
+          "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
+          "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"}) {
+    auto left = calc(v);
+    if (left != right) {
+        cerr << left << " != " << right << endl;
+        exit(EXIT_FAILURE);
+    }
   }
 
-  string const text = read_file( "/tmp/1.json" );
+  const auto& text = read_file( "/tmp/1.json" );
 
-  {
-    stringstream ostr;
-    ostr << "C++/g++ (DAW JSON Link)\t" << getpid();
-    notify(ostr.str());
-  }
-
-  cout << calc(text) << endl;
-
+  notify(str(boost::format("C++/g++ (DAW JSON Link)\t%d") % getpid()));
+  const auto& results = calc(text);
   notify( "stop" );
+
+  cout << results << endl;
 }

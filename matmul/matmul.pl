@@ -1,8 +1,9 @@
 # rurban; distributed under the MIT license
-use v5.12;
+use v5.32;
 use warnings;
+no feature qw(indirect);
 use feature qw(signatures);
-no warnings qw(experimental::signatures);
+no warnings qw(experimental);
 
 use Socket;
 
@@ -71,10 +72,9 @@ if ($0 eq __FILE__) {
         exit(1);
     }
 
-    my $pid = $$;
-    notify("Perl\t${pid}");
-
-    print calc($n), "\n";
-
+    notify("Perl\t" . $$);
+    my $results = calc($n);
     notify("stop");
+
+    print $results, "\n";
 }

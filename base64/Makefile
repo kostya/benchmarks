@@ -5,8 +5,8 @@ executables := \
 	target/base64_cr \
 	target/base64_go \
 	target/base64_go_gccgo \
-	target/base64_cpp \
-	target/base64_c \
+	target/base64_cpp_crypto \
+	target/base64_c_nolib \
 	target/base64_d \
 	target/base64_d_gdc \
 	target/base64_d_ldc \
@@ -22,7 +22,7 @@ artifacts := $(executables) \
 	target/Base64Java.class \
 	target/Test-kt.jar \
 	target/test.exe \
-	target/Release/netcoreapp3.1/base64.dll
+	target/Release/net5.0/base64.dll
 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[test.pl] \
@@ -53,10 +53,10 @@ target/base64_go: test.go | $(gofmt)
 target/base64_go_gccgo: test.go | $(gofmt)
 	$(GCC_GO_BUILD)
 
-target/base64_cpp: test.cpp | target libnotify
+target/base64_cpp_crypto: test-crypto.cpp | target libnotify
 	$(GCC_CPP_BUILD) -lcrypto
 
-target/base64_c: test.c | target libnotify
+target/base64_c_nolib: test-nolib.c | target libnotify
 	$(GCC_BUILD)
 
 target/base64_scala.jar: test.scala | target
@@ -104,8 +104,8 @@ base64.rs/target/release/base64: $(base64-rs-toml)
 target/test.exe: test.cs | target
 	$(MCS_BUILD)
 
-.PHONY: target/Release/netcoreapp3.1/base64.dll
-target/Release/netcoreapp3.1/base64.dll: base64.csproj | target
+.PHONY: target/Release/net5.0/base64.dll
+target/Release/net5.0/base64.dll: base64.csproj | target
 	$(DOTNET_BUILD)
 
 target/base64_v_gcc: test.v | $(v_fmt)
@@ -141,7 +141,7 @@ run[target/Test-kt.jar]:: run[%]: %
 run[target/test.exe]:: run[%]: %
 	$(MONO_RUN)
 
-run[target/Release/netcoreapp3.1/base64.dll]:: run[%]: %
+run[target/Release/net5.0/base64.dll]:: run[%]: %
 	$(DOTNET_RUN)
 
 .PHONY: base64_perl

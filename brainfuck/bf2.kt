@@ -21,7 +21,7 @@ class Tape {
     fun inc(x: Int) {
         tape[pos] += x
     }
-    
+
     fun move(x: Int) {
         pos += x
         while (pos >= tape.size) {
@@ -29,8 +29,24 @@ class Tape {
         }
     }
 }
-  
-class Program(code: String) {
+
+class Printer(val quiet: Boolean) {
+    private var sum1: Int = 0
+    private var sum2: Int = 0
+
+    fun print(n: Int) {
+        if (quiet) {
+            sum1 = (sum1 + n) % 255
+            sum2 = (sum2 + sum1) % 255
+        } else {
+            print(n.toChar())
+        }
+    }
+
+    fun getChecksum() = (sum2 shl 8) or sum1
+}
+
+class Program(code: String, val p: Printer) {
     private val ops: Array<Op>
 
     init {
@@ -57,7 +73,7 @@ class Program(code: String) {
     fun run() {
         _run(ops, Tape())
     }
-    
+
     private fun _run(program: Array<Op>, tape: Tape) {
         for (op in program) {
             when (op) {
@@ -66,7 +82,7 @@ class Program(code: String) {
                 is Op.Loop -> while (tape.get() > 0) {
                     _run(op.loop, tape)
                 }
-                is Op.Print -> print(tape.get().toChar())
+                is Op.Print -> p.print(tape.get())
             }
         }
     }
@@ -82,17 +98,38 @@ fun notify(msg: String) {
     }
 }
 
+fun verify() {
+    val code = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>" +
+    "---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
+    val pLeft = Printer(true)
+    Program(code, pLeft).run()
+    val left = pLeft.getChecksum()
+
+    val pRight = Printer(true)
+    for (c in "Hello World!\n") {
+        pRight.print(c.toInt())
+    }
+    val right = pRight.getChecksum()
+    if (left != right) {
+        System.err.println("${left} != ${right}")
+        System.exit(1)
+    }
+}
+
 @Throws(IOException::class)
 fun main(args: Array<String>) {
+    verify()
     val code = String(Files.readAllBytes(Paths.get(args[0])))
+    val p = Printer(!System.getenv("QUIET").isNullOrEmpty())
 
-    val pid = ProcessHandle.current().pid()
-    notify("Kotlin\t${pid}")
-    val start_time = System.currentTimeMillis()
-
-    val program = Program(code)
-    program.run()
-    System.err.println("time: ${(System.currentTimeMillis() - start_time) / 1e3}s")
-
+    notify("Kotlin\t${ProcessHandle.current().pid()}")
+    val startTime = System.currentTimeMillis()
+    Program(code, p).run()
+    val timeDiff = (System.currentTimeMillis() - startTime) / 1e3
     notify("stop")
+
+    if (p.quiet) {
+        println("Output checksum: ${p.getChecksum()}")
+    }
+    System.err.println("time: ${timeDiff}s")
 }

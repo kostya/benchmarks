@@ -88,22 +88,27 @@ fn calc(content: &str) -> Coordinate {
 }
 
 fn main() {
-    let left = calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
     let right = Coordinate {
-        x: 1.1,
-        y: 2.2,
-        z: 3.3,
+        x: 2.0,
+        y: 0.5,
+        z: 0.25,
     };
-    if left != right {
-        eprintln!("{:?} != {:?}", left, right);
-        std::process::exit(-1);
+    for v in &[
+        "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
+        "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}",
+    ] {
+        let left = calc(v);
+        if left != right {
+            eprintln!("{:?} != {:?}", left, right);
+            std::process::exit(-1);
+        }
     }
 
     let content = fs::read_to_string("/tmp/1.json").unwrap();
 
     notify(&format!("Rust (Serde Custom)\t{}", std::process::id()));
-
-    println!("{:?}", calc(&content));
-
+    let results = calc(&content);
     notify("stop");
+
+    println!("{:?}", results);
 }

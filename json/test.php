@@ -38,18 +38,25 @@ function calc($text) {
 }
 
 if (isset($argv[0]) && realpath($argv[0]) == __FILE__) {
-    $left = calc('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}');
-    $right = new Coordinate(1.1, 2.2, 3.3);
-    if ($left != $right) {
-        exit(sprintf("%s != %s", print_r($left, TRUE), print_r($right, TRUE)));
+    $right = new Coordinate(2.0, 0.5, 0.25);
+    foreach(['{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}',
+             '{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}'] as &$v) {
+        $left = calc($v);
+        if ($left != $right) {
+            exit(
+                sprintf("%s != %s",
+                        print_r($left, TRUE),
+                        print_r($right, TRUE)));
+        }
     }
 
     $text = file_get_contents("/tmp/1.json");
 
     $pid = posix_getpid();
+
     notify("PHP\t$pid");
-
-    print_r(calc($text));
-
+    $results = calc($text);
     notify("stop");
+
+    print_r($results);
 }

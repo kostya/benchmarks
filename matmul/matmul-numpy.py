@@ -39,7 +39,7 @@ if __name__ == "__main__":
         quit(1)
 
     notify("Python (NumPy)\t%d" % (os.getpid()))
-
-    print(calc(n))
-
+    results = calc(n)
     notify("stop")
+
+    print(results)

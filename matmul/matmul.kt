@@ -73,15 +73,15 @@ fun main(args: Array<String>) {
     val right = -18.67
     if (Math.abs(left - right) > 0.1) {
         System.err.println("${left} != ${right}")
-        System.exit(1);
+        System.exit(1)
     }
 
-    val pid = ProcessHandle.current().pid()
-    notify("Kotlin\t${pid}")
-
+    notify("Kotlin\t${ProcessHandle.current().pid()}")
     val start_time = System.currentTimeMillis()
-    println(calc(n))
-    println("time: ${(System.currentTimeMillis() - start_time) / 1e3}s")
-
+    val results = calc(n)
+    val elapsed = (System.currentTimeMillis() - start_time) / 1e3
     notify("stop")
+
+    println(results)
+    println("time: ${elapsed}s")
 }

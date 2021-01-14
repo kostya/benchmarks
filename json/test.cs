@@ -117,25 +117,27 @@ namespace Test
 
         static void Main(string[] args)
         {
-            var left =
-                Calc("{\"coordinates\":[{\"x\":1.1,\"y\":2.2,\"z\":3.3}]}");
-            var right = new Coordinate(1.1, 2.2, 3.3);
-            if (left != right) {
-                Console.Error.WriteLine($"{left} != {right}");
-                System.Environment.Exit(1);
+            var right = new Coordinate(2.0, 0.5, 0.25);
+            foreach (var v in new List<string> {
+                    "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
+                    "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"
+                }) {
+                var left = Calc(v);
+                if (left != right) {
+                    Console.Error.WriteLine($"{left} != {right}");
+                    System.Environment.Exit(1);
+                }
             }
 
             var text = File.ReadAllText("/tmp/1.json");
 
             var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
+
             Notify($"C#/{runtime}\t{Process.GetCurrentProcess().Id}");
-            var sw = Stopwatch.StartNew();
+            var results = Calc(text);
+            Notify("stop");
 
-            Console.WriteLine(Calc(text));
-
-            sw.Stop();
-            Console.WriteLine("time: {0}s", sw.Elapsed.TotalSeconds);
-
-            Notify("stop");}
+            Console.WriteLine(results);
+        }
     }
 }

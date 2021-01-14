@@ -17,17 +17,15 @@ struct Coordinates {
 }
 
 fn notify(msg string) {
-	sock := net.dial('127.0.0.1', 9001) or {
-		return
+	sock := net.dial_tcp('127.0.0.1:9001') or { return }
+	defer {
+		sock.close()
 	}
-	sock.write(msg) or { }
-	sock.close() or { }
+	sock.write_str(msg) or { }
 }
 
 fn calc(s string) Coordinate {
-	j := json.decode(Coordinates, s) or {
-		panic('Failed to parse json')
-	}
+	j := json.decode(Coordinates, s) or { panic('Failed to parse json') }
 	mut x := 0.0
 	mut y := 0.0
 	mut z := 0.0
@@ -45,19 +43,20 @@ fn calc(s string) Coordinate {
 }
 
 fn main() {
-	left := calc('{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}')
-	right := Coordinate{1.1, 2.2, 3.3}
-	if !left.equals(right) {
-		panic('$left != $right')
+	right := Coordinate{2.0, 0.5, 0.25}
+	for v in ['{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}', '{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}'] {
+		left := calc(v)
+		if !left.equals(right) {
+			panic('$left != $right')
+		}
 	}
-	s := os.read_file('/tmp/1.json') or {
-		panic('Failed to open file 1.json')
-	}
+	s := os.read_file('/tmp/1.json') or { panic('Failed to open file 1.json') }
 	mut lang := 'V/gcc'
 	$if clang {
 		lang = 'V/clang'
 	}
 	notify('$lang\t$C.getpid()')
-	println(calc(s))
+	results := calc(s)
 	notify('stop')
+	println(results)
 }

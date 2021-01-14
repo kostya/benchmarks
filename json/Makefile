@@ -25,7 +25,8 @@ executables := \
 	target/json_go \
 	target/json_go_gccgo \
 	target/json_iter_go \
-	target/json_boost_cpp \
+	target/json_boost_ptree_cpp \
+	target/json_boost_json_cpp \
 	target/json_rapid_cpp \
 	target/json_rapid_sax_cpp \
 	target/json_gason_cpp \
@@ -33,14 +34,15 @@ executables := \
 	target/json_hs \
 	json-java/target/application \
 	target/json_simdjson_cpp \
+	target/json_simdjson_dom_cpp \
 	target/json_v_gcc \
 	target/json_v_clang \
 	target/json_dawjsonlink_cpp
 
 artifacts := $(executables) \
 	target/test.exe \
-	target/Release/netcoreapp3.1/json.dll \
-	json-core/target/Release/netcoreapp3.1/json-core.dll \
+	target/Release/net5.0/json.dll \
+	json-core/target/Release/net5.0/json-core.dll \
 	json-scala/target/application.jar
 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
@@ -110,8 +112,25 @@ target/json_go: test.go | $(gofmt)
 target/json_go_gccgo: test.go | $(gofmt)
 	$(GCC_GO_BUILD)
 
-target/json_boost_cpp: test_boost.cpp | target libnotify
-	$(GCC_CPP_BUILD)
+# NOTE: quite time consuming
+# TODO: switch to Debian package as soon as they update to 1.75.0
+# https://packages.debian.org/bullseye/libboost-dev
+
+# Boost releases:
+# https://www.boost.org/users/download/
+BOOST_VERSION := boost_1_75_0
+boost = target/$(BOOST_VERSION)
+$(boost): | target
+	cd target && \
+	wget --progress=dot:giga -O - \
+	https://dl.bintray.com/boostorg/release/1.75.0/source/$(BOOST_VERSION).tar.bz2 \
+	| tar -xj
+
+target/json_boost_ptree_cpp: test_boost_ptree.cpp | $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(boost)
+
+target/json_boost_json_cpp: test_boost_json.cpp | $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(boost)
 
 fast-dir := target/fast
 $(fast-dir): | target
@@ -134,21 +153,21 @@ rapidjson-dir := target/rapidjson
 $(rapidjson-dir): | target
 	$(GIT_CLONE) "https://github.com/miloyip/rapidjson.git" $@
 
-target/json_rapid_cpp: test_rapid.cpp | $(rapidjson-dir) libnotify
-	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include
+target/json_rapid_cpp: test_rapid.cpp | $(rapidjson-dir) $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost)
 
-target/json_rapid_sax_cpp: test_rapid_sax.cpp | $(rapidjson-dir) libnotify
-	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include
+target/json_rapid_sax_cpp: test_rapid_sax.cpp | $(rapidjson-dir) $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost)
 
 gason-dir := target/gason
 $(gason-dir): | target
 	$(GIT_CLONE) "https://github.com/vivkin/gason.git" $@
 
-target/json_gason_cpp: test_gason.cpp | $(gason-dir) libnotify
-	$(GCC_CPP_BUILD) -I$(gason-dir)/src $(gason-dir)/src/gason.cpp
+target/json_gason_cpp: test_gason.cpp | $(gason-dir) $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(gason-dir)/src -I$(boost) $(gason-dir)/src/gason.cpp
 
-target/json_libjson_cpp: test_libjson.cpp | target libnotify
-	$(GCC_CPP_BUILD) -ljson-c
+target/json_libjson_cpp: test_libjson.cpp | $(boost) target libnotify
+	$(GCC_CPP_BUILD) -I$(boost) -ljson-c
 
 newtonsoft_json_dir := target/Newtonsoft.Json/lib/net45
 newtonsoft_json := $(newtonsoft_json_dir)/Newtonsoft.Json.dll
@@ -158,12 +177,12 @@ $(newtonsoft_json): | target
 target/test.exe: test.cs | $(newtonsoft_json)
 	$(MCS_BUILD) -r:$(newtonsoft_json)
 
-.PHONY: target/Release/netcoreapp3.1/json.dll
-target/Release/netcoreapp3.1/json.dll: json.csproj | target
+.PHONY: target/Release/net5.0/json.dll
+target/Release/net5.0/json.dll: json.csproj | target
 	$(DOTNET_BUILD)
 
-.PHONY: json-core/target/Release/netcoreapp3.1/json-core.dll
-json-core/target/Release/netcoreapp3.1/json-core.dll: json-core/json-core.csproj
+.PHONY: json-core/target/Release/net5.0/json-core.dll
+json-core/target/Release/net5.0/json-core.dll: json-core/json-core.csproj
 	$(DOTNET_BUILD)
 
 .PHONY: target/json_hs
@@ -181,13 +200,15 @@ json-scala/target/application.jar:
 simdjson-dir := target/simdjson
 
 $(simdjson-dir): | target
-	$(GIT_CLONE) "https://github.com/simdjson/simdjson.git" $@ \
-	&& cd $@/singleheader \
-	&& ./amalgamate.sh
+	$(GIT_CLONE) "https://github.com/simdjson/simdjson.git" $@
 
-target/json_simdjson_cpp: test_simdjson.cpp | $(simdjson-dir) libnotify
+target/json_simdjson_cpp: test_simdjson.cpp | $(simdjson-dir) $(boost) libnotify
 	$(GCC_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \
-		-I$(simdjson-dir)/singleheader/
+		-I$(simdjson-dir)/singleheader/ -I$(boost)
+
+target/json_simdjson_dom_cpp: test_simdjson_dom.cpp | $(simdjson-dir) $(boost) libnotify
+	$(GCC_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \
+		-I$(simdjson-dir)/singleheader/ -I$(boost)
 
 target/json_v_gcc: test.v | $(v_fmt)
 	$(V_GCC_BUILD)
@@ -208,10 +229,10 @@ $(daw_json_link_all): | target
 	$(GIT_CLONE) "https://github.com/beached/header_libraries.git" $@/header_libraries
 	$(GIT_CLONE) "https://github.com/beached/utf_range.git" $@/utf_range
 
-target/json_dawjsonlink_cpp: test_dawjsonlink.cpp | $(daw_json_link_all) libnotify
+target/json_dawjsonlink_cpp: test_dawjsonlink.cpp | $(daw_json_link_all) $(boost) libnotify
 	$(GCC_CPP_BUILD) -I$(daw_json_link_all)/daw_json_link/include \
 		-I$(daw_json_link_all)/header_libraries/include \
-		-I$(daw_json_link_all)/utf_range/include
+		-I$(daw_json_link_all)/utf_range/include -I$(boost)
 
 # Run
 
@@ -234,10 +255,10 @@ run[test.jl]:: run[%]: % | $(julia_fmt)
 run[target/test.exe]:: run[%]: %
 	MONO_PATH=$(newtonsoft_json_dir) $(MONO_RUN)
 
-run[target/Release/netcoreapp3.1/json.dll]:: run[%]: %
+run[target/Release/net5.0/json.dll]:: run[%]: %
 	$(DOTNET_RUN)
 
-run[json-core/target/Release/netcoreapp3.1/json-core.dll]:: run[%]: %
+run[json-core/target/Release/net5.0/json-core.dll]:: run[%]: %
 	$(DOTNET_RUN)
 
 .PHONY: yajl-ruby
@@ -298,7 +319,7 @@ run[jruby][test.rb]:: run[jruby][%]: % | $(rubocop)
 run[test.php]:: run[%]: %
 	$(PHP_RUN)
 
-run[test.clj]:: CLOJURE_FLAGS := -Sdeps '{:deps {cheshire {:mvn/version "5.10.0"}}}'
+run[test.clj]:: CLOJURE_FLAGS := -Sdeps '{:deps {cheshire/cheshire {:mvn/version "5.10.0"}}}'
 run[test.clj]:: run[%]: %
 	$(CLOJURE_RUN)
 

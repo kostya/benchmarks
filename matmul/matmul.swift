@@ -78,8 +78,8 @@ let _ = { () -> () in
     }
 
     notify("Swift\t\(getpid())")
-
-    print(calc(n))
-
+    let results = calc(n)
     notify("stop")
+
+    print(results)
 } ()

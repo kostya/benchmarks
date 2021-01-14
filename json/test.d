@@ -59,22 +59,27 @@ Coordinate calc(string text)
     return Coordinate(x / len, y / len, z / len);
 }
 
-int main(string[] args)
+void main()
 {
-    auto left = calc(`{"coordinates":[{"x":1.1,"y":2.2,"z":3.3}]}`);
-    auto right = Coordinate(1.1, 2.2, 3.3);
-    if (left != right)
+    immutable right = Coordinate(2.0, 0.5, 0.25);
+    foreach (v; [
+            `{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}`,
+            `{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}`
+        ])
     {
-        stderr.writefln("%s != %s", left, right);
-        exit(1);
+        immutable left = calc(v);
+        if (left != right)
+        {
+            stderr.writefln("%s != %s", left, right);
+            exit(1);
+        }
     }
 
-    auto text = readText("/tmp/1.json");
+    immutable text = readText("/tmp/1.json");
 
     notify("%s\t%d".format(name, getpid()));
-
-    writeln(calc(text));
-
+    immutable results = calc(text);
     notify("stop");
-    return 0;
+
+    writeln(results);
 }

@@ -67,9 +67,12 @@ object MatMul {
     notify(s"Scala\t${ProcessHandle.current().pid()}")
 
     val start_time = System.nanoTime
-    println(calc(n))
-    println("time: " + (System.nanoTime - start_time) / 1e9 + "s")
+    val results = calc(n)
+    val elapsed = (System.nanoTime - start_time) / 1e9
 
     notify("stop")
+
+    println(results)
+    println("time: " + elapsed + "s")
   }
 }

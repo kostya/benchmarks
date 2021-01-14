@@ -8,19 +8,19 @@ RUN apt-get update \
         && apt-get update \
 	&& apt-get install -y wget xz-utils build-essential libtool-bin cmake git curl vim powercap-utils \
 	libgmp-dev libssl-dev libssl1.1 libxml2 lbzip2 libtinfo5 libtool zlib1g \
-	libpcre3-dev libevent-dev libboost-dev libjson-c-dev libblas-dev liblapack-dev libopenblas-dev \
+	libpcre3-dev libevent-dev libjson-c-dev libblas-dev liblapack-dev libopenblas-dev \
 	libjq-dev libonig-dev \
 	python3-numpy python3 python3-ujson python3-pip \
 	mono-devel nuget \
 	chezscheme gcc-10 gccgo-10 gdc-10 valac cpanminus \
 	luajit lua5.4 liblua5.4-dev libluajit-5.1-dev \
-        tcl tcllib php elixir clang-10 opam
+        tcl tcllib php elixir clang-11 opam
 
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10 \
 	&& update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10 \
 	&& update-alternatives --install /usr/bin/gdc gdc /usr/bin/gdc-10 10 \
 	&& update-alternatives --install /usr/bin/gccgo gccgo /usr/bin/gccgo-10 10 \
-        && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 10 \
+        && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 10 \
         && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Requires for https://crates.io/crates/jq-sys in Debian
@@ -32,16 +32,16 @@ RUN curl -Lo /usr/local/bin/coursier https://git.io/coursier-cli \
 	&& chmod +x /usr/local/bin/coursier
 
 # https://github.com/MLton/mlton/releases
-ARG MLTON=20200817
+ARG MLTON=20201002
 RUN wget --progress=dot:giga -O - \
 	https://github.com/MLton/mlton/releases/download/on-$MLTON-release/mlton-$MLTON-1.amd64-linux.tgz \
 	| tar -xz
 ENV PATH="/opt/mlton-$MLTON-1.amd64-linux/bin/:${PATH}"
 
 # https://www.ruby-lang.org/en/downloads/
-RUN export VERSION=ruby-2.7.1 \
+RUN export VERSION=ruby-3.0.0 \
 	&& wget --progress=dot:giga -O - \
-	https://cache.ruby-lang.org/pub/ruby/2.7/$VERSION.tar.gz \
+	https://cache.ruby-lang.org/pub/ruby/3.0/$VERSION.tar.gz \
 	| tar -xz \
 	&& cd $VERSION \
 	&& ./configure --prefix=/opt/ruby && make -j && make install \
@@ -49,23 +49,23 @@ RUN export VERSION=ruby-2.7.1 \
 ENV PATH="/opt/ruby/bin:${PATH}"
 
 # https://pypy.org/download.html
-ARG PYPY=pypy3.6-v7.3.1-linux64
+ARG PYPY=pypy3.7-v7.3.3-linux64
 RUN wget --progress=dot:giga -O - \
         https://downloads.python.org/pypy/$PYPY.tar.bz2 \
 	| tar -xj
 ENV PATH="/opt/$PYPY/bin:${PATH}"
 
 # https://www.scala-lang.org/download/
-ARG SCALA=2.13.3
+ARG SCALA=2.13.4
 RUN wget --progress=dot:giga -O - \
 	https://downloads.lightbend.com/scala/$SCALA/scala-$SCALA.tgz \
 	| tar -xz
 ENV PATH="/opt/scala-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=15
+ARG JDK=15.0.1
 RUN wget --progress=dot:giga -O - \
-        https://download.java.net/java/GA/jdk${JDK}/779bf45e88a44cbd9ea6621d33e33db1/36/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
+        https://download.java.net/java/GA/jdk15.0.1/51f4f36ad4ef43e39d0dfdbaf6549e32/9/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
 	| tar -xz
 ENV PATH="/opt/jdk-$JDK/bin:${PATH}"
 
@@ -77,14 +77,14 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$CRYSTAL/bin:${PATH}"
 
 # https://github.com/ldc-developers/ldc/releases
-ARG LDC=ldc2-1.23.0-linux-x86_64
+ARG LDC=ldc2-1.24.0-linux-x86_64
 RUN wget --progress=dot:giga -O - \
-	https://github.com/ldc-developers/ldc/releases/download/v1.23.0/$LDC.tar.xz \
+	https://github.com/ldc-developers/ldc/releases/download/v1.24.0/$LDC.tar.xz \
 	| tar -xJ
 ENV PATH="/opt/$LDC/bin/:${PATH}"
 
 # https://nim-lang.org/install_unix.html
-ARG NIM=nim-1.2.6
+ARG NIM=nim-1.4.2
 RUN wget --progress=dot:giga -O - \
 	https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
 	| tar -xJ
@@ -92,39 +92,39 @@ ENV PATH="/opt/$NIM/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN wget --progress=dot:giga -O - \
-        http://downloads.dlang.org/releases/2.x/2.093.1/dmd.2.093.1.linux.tar.xz \
+        http://downloads.dlang.org/releases/2.x/2.095.0/dmd.2.095.0.linux.tar.xz \
 	| tar -xJ
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
 # https://www.jruby.org/download
-ARG JRUBY=9.2.13.0
+ARG JRUBY=9.2.14.0
 RUN wget --progress=dot:giga -O - \
 	https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
 	| tar -xz \
 	&& ln -s /opt/jruby-$JRUBY/bin/jruby /usr/bin/jruby
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.5.1
+ARG JULIA=julia-1.5.3
 RUN wget --progress=dot:giga -O - \
 	https://julialang-s3.julialang.org/bin/linux/x64/1.5/$JULIA-linux-x86_64.tar.gz \
 	| tar -xz
 ENV PATH="/opt/$JULIA/bin/:${PATH}"
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.2.5-RELEASE-ubuntu20.04
+ARG SWIFT=swift-5.3.2-RELEASE-ubuntu20.04
 RUN wget --progress=dot:giga -O - \
-	https://swift.org/builds/swift-5.2.5-release/ubuntu2004/swift-5.2.5-RELEASE/$SWIFT.tar.gz \
+	https://swift.org/builds/swift-5.3.2-release/ubuntu2004/swift-5.3.2-RELEASE/$SWIFT.tar.gz \
 	| tar -xz \
 	&& ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
 
 # https://clojure.org/community/downloads
-ARG CLOJURE=1.10.1.561
+ARG CLOJURE=1.10.1.763
 RUN wget --progress=dot:giga -O - \
 	https://download.clojure.org/install/linux-install-$CLOJURE.sh \
 	| bash -s
 
 # https://download.racket-lang.org/
-ARG RACKET=7.8
+ARG RACKET=7.9
 RUN wget --progress=dot:giga \
 	https://mirror.racket-lang.org/installers/$RACKET/racket-$RACKET-x86_64-linux.sh \
 	&& sh racket-$RACKET-x86_64-linux.sh --unix-style --dest /usr/ \
@@ -136,15 +136,11 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org \
 ENV PATH="/opt/.ghcup/bin/:${PATH}"
 
 # https://www.haskell.org/ghc/
-ARG GHC_VER=8.10.2
+ARG GHC_VER=8.10.3
 RUN ghcup install ghc $GHC_VER && ghcup set ghc $GHC_VER
 
-# Shared packages for all Haskell code
-RUN cabal update && cabal install network-simple --lib
-ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
-
 # https://github.com/graalvm/graalvm-ce-builds/releases
-ARG GRAALVM=20.2.0
+ARG GRAALVM=20.3.0
 RUN wget --progress=dot:giga -O - \
 	https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-$GRAALVM/graalvm-ce-java11-linux-amd64-$GRAALVM.tar.gz \
 	| tar -xz \
@@ -154,7 +150,7 @@ RUN gu install ruby \
 	&& ln -s /opt/graalvm-ce-java11-$GRAALVM/bin/truffleruby /usr/bin/truffleruby
 
 # https://github.com/luarocks/luarocks/wiki/Download
-ARG LUAROCKS=3.3.1
+ARG LUAROCKS=3.5.0
 RUN wget --progress=dot:giga -O - \
         http://luarocks.org/releases/luarocks-$LUAROCKS.tar.gz \
         | tar -xz \
@@ -166,15 +162,14 @@ RUN wget --progress=dot:giga -O - \
 	&& cd .. && rm -rf luarocks-$LUAROCKS
 
 # https://github.com/dotnet/core/tree/master/release-notes
-ARG DOTNET_CORE=3.1.108
 RUN mkdir dotnet && wget --progress=dot:giga -O - \
-        https://download.visualstudio.microsoft.com/download/pr/b6100b24-89dc-4e8e-9778-0c7bc06cd79d/5237c0d25d08028e33dec42e9875fcc1/dotnet-sdk-$DOTNET_CORE-linux-x64.tar.gz \
+        https://download.visualstudio.microsoft.com/download/pr/a0487784-534a-4912-a4dd-017382083865/be16057043a8f7b6f08c902dc48dd677/dotnet-sdk-5.0.101-linux-x64.tar.gz \
 	| tar -xz -C dotnet
 ENV PATH="/opt/dotnet:${PATH}"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v14.10.1
+ARG NODE=v15.5.1
 RUN wget --progress=dot:giga -O - \
 	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
 	| tar -xJ
@@ -182,7 +177,7 @@ ENV PATH="/opt/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN wget --progress=dot:giga -O - \
-        https://golang.org/dl/go1.15.2.linux-amd64.tar.gz \
+        https://golang.org/dl/go1.15.6.linux-amd64.tar.gz \
 	| tar -xz
 ENV PATH="/opt/go/bin/:${PATH}"
 
@@ -192,23 +187,31 @@ RUN wget -O - https://sh.rustup.rs | sh -s -- -y
 
 # https://ocaml.org/releases/
 ARG OCAML=4.11.1
-RUN opam init --disable-sandboxing -n --root=/opt/opam --compiler=$OCAML
+RUN opam init --disable-sandboxing -n --root=/opt/opam --compiler=ocaml-base-compiler.$OCAML
 ENV PATH="/opt/opam/$OCAML/bin/:${PATH}"
 
 # https://kotlinlang.org/docs/tutorials/command-line.html
-ARG KOTLIN=1.4.10
+ARG KOTLIN=1.4.21
 RUN wget --progress=dot:giga \
 	https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
 	&& unzip kotlin-compiler-$KOTLIN.zip \
 	&& rm kotlin-compiler-$KOTLIN.zip
 ENV PATH="/opt/kotlinc/bin/:${PATH}"
 
+# Shared packages for all Haskell code
+RUN cabal update \
+        && cabal install network raw-strings-qq --lib \
+        && cabal install hlint
+ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
+
 # https://github.com/vlang/v/releases
 # Using source code for now as json doesn't work in binary archive
 # hash 0115c5e76cd5f611030e71d4816f6e6c49024bf2
-RUN git clone https://github.com/vlang/v.git /opt/v \
-	&& cd v \
-	&& make -j
+ARG VLANG=0.2.1
+RUN wget --progress=dot:giga \
+        https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
+        && unzip v_linux.zip \
+        && rm v_linux.zip
 ENV PATH="/opt/v/:${PATH}"
 
 ARG SCRIPTS_VER=unknown
