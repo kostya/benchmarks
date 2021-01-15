@@ -26,7 +26,6 @@ struct coordinate_t {
 
 
 using namespace simdjson;
-using namespace simdjson::builtin;
 
 class on_demand {
 public:
@@ -41,11 +40,9 @@ bool on_demand::run(const padded_string &json) {
   count = 0;
   auto doc = parser.iterate(json);
   for (ondemand::object point_object : doc["coordinates"]) {
-    for (auto field : point_object) {
-      if      (field.key() == "x") { my_point.x += double(field.value()); }
-      else if (field.key() == "y") { my_point.y += double(field.value()); }
-      else if (field.key() == "z") { my_point.z += double(field.value()); }
-    }
+    my_point.x += double(point_object["x"]);
+    my_point.y += double(point_object["y"]);
+    my_point.z += double(point_object["z"]);
     count++;
   }
   return true;
