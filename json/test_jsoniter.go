@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/json-iterator/go"
+	jsoniter "github.com/json-iterator/go"
 	"io/ioutil"
 	"log"
 	"net"

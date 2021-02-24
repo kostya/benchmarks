@@ -29,7 +29,7 @@ using namespace simdjson;
 using namespace simdjson::builtin;
 
 coordinate_t calc(const padded_string& text) {
-  dom::parser pj(0);
+  dom::parser pj;
   // allocate memory for parsing up to p.size() bytes
   auto allocate_error = pj.allocate(text.size());
   if (allocate_error) {
@@ -37,7 +37,8 @@ coordinate_t calc(const padded_string& text) {
     exit(EXIT_FAILURE);
   }
 
-  auto [doc, error] = pj.parse(text); // do the parsing, return 0 on success
+  dom::object doc;
+  const auto& error = pj.parse(text).get(doc);
   if (error) {
     cerr << error << endl;
     exit(EXIT_FAILURE);
@@ -73,8 +74,12 @@ int main() {
     }
   }
 
-  const auto& [text, error] = padded_string::load("/tmp/1.json");
-  if(error) { cerr << "could not load file" << endl; return EXIT_FAILURE; }
+  padded_string text;
+  const auto& error = padded_string::load("/tmp/1.json").get(text);
+  if (error) {
+    cerr << "could not load file" << endl;
+    return EXIT_FAILURE;
+  }
 
   notify(str(boost::format("C++/g++ (simdjson DOM)\t%d") % getpid()));
   const auto& results = calc(text);

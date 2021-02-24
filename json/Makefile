@@ -218,7 +218,7 @@ target/json_v_clang: test.v | $(v_fmt)
 
 .PHONY: json-iterator
 json-iterator:
-	go get github.com/json-iterator/go
+	GO111MODULE=auto go get github.com/json-iterator/go
 
 target/json_iter_go: test_jsoniter.go | json-iterator
 	$(GO_BUILD)

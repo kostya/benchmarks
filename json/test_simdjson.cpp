@@ -70,8 +70,12 @@ int main() {
     }
   }
 
-  const auto& [text, error] = padded_string::load("/tmp/1.json");
-  if(error) { cerr << "could not load file" << endl; return EXIT_FAILURE; }
+  padded_string text;
+  const auto& error = padded_string::load("/tmp/1.json").get(text);
+  if (error) {
+    cerr << "could not load file" << endl;
+    return EXIT_FAILURE;
+  }
 
   notify(str(boost::format("C++/g++ (simdjson On-Demand)\t%d") % getpid()));
   const auto& results = calc(text);
