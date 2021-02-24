@@ -117,7 +117,7 @@
   (define text (read-c (command-line #:args (filename) filename)))
   (define p (printer 0 0 (getenv "QUIET")))
 
-  (notify (format "Racket\t~s" (getpid)))
+  (notify (format "Racket (Syntax Objects)\t~s" (getpid)))
   (time (run (parse text) (tape (vector 0) 0) p))
   (notify "stop")
 
