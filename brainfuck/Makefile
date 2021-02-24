@@ -232,6 +232,9 @@ run[bf_oo.tcl]:: run[%]: %
 run[bf.rkt]:: run[%]: %
 	$(RACKET_RUN) $(BF_SRC)
 
+run[bf-syntax.rkt]:: run[%]: %
+	$(RACKET_RUN) $(BF_SRC)
+
 run[bf.ss]:: run[%]: % | libnotify
 	$(SCHEME_RUN) $(BF_SRC)
 
