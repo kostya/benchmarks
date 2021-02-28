@@ -15,7 +15,7 @@ GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++2a -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_GO_BUILD =		gccgo -O3 -o $@ $^
 GDC_BUILD =		gdc -o $@ -O3 -frelease -finline -fbounds-check=off $^
 GHC_BUILD =		ghc -v0 -O2 -fforce-recomp -Wall $^ -o $@ -outputdir $(@D)
-GO_BUILD =		go build -o $@ $^
+GO_BUILD =		GO111MODULE=auto go build -o $@ $^
 JAVAC_BUILD =		javac -d $(@D) $^
 KOTLINC_BUILD =	kotlinc -include-runtime -jvm-target 14 -d $@ $^
 LDC2_BUILD =		ldc2 -of$@ -O5 -release -boundscheck=off $^

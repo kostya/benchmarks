@@ -60,8 +60,8 @@ fn (mut t Tape) move(x int) {
 struct Printer {
 	quiet bool
 mut:
-	sum1  int
-	sum2  int
+	sum1 int
+	sum2 int
 }
 
 fn new_printer(quiet bool) Printer {
@@ -164,7 +164,7 @@ fn run_ops(ops []Op, mut tape Tape, mut p Printer) {
 struct StringIterator {
 	code string
 mut:
-	pos  int
+	pos int
 }
 
 fn new_si(s string) StringIterator {
@@ -185,9 +185,9 @@ fn (mut si StringIterator) next() byte {
 }
 
 fn notify(msg string) {
-	sock := net.dial_tcp('127.0.0.1:9001') or { return }
+	mut sock := net.dial_tcp('127.0.0.1:9001') or { return }
 	defer {
-		sock.close()
+		sock.close() or { }
 	}
 	sock.write_str(msg) or { }
 }

@@ -38,6 +38,7 @@ fast_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[pypy][bf3.py] \
 	run[jit][bf.lua] \
 	run[bf.rkt] \
+	run[bf-syntax.rkt] \
 	run[bf.ss] \
 	run[truby-jvm][bf.rb] \
 	run[truby-native][bf.rb] \
