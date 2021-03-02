@@ -73,6 +73,7 @@ Supports two mode:
 |                Nim/clang |    2.061<sub>±0.099</sub> |     2.32<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |     42.74<sub>±02.22</sub> |
 |                     Rust |    2.156<sub>±0.030</sub> |     2.02<sub>±00.10</sub> + 0.00<sub>±00.00</sub> |     42.93<sub>±03.62</sub> |
 |                     Java |    2.184<sub>±0.076</sub> |    37.52<sub>±00.13</sub> + 1.03<sub>±00.07</sub> |     40.80<sub>±02.68</sub> |
+|                   Racket |    2.219<sub>±0.091</sub> |   115.95<sub>±00.28</sub> + 1.93<sub>±00.64</sub> |     54.14<sub>±01.88</sub> |
 |                  C/clang |    2.270<sub>±0.083</sub> |     0.49<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |     44.68<sub>±03.72</sub> |
 |                    OCaml |    2.270<sub>±0.056</sub> |     2.56<sub>±00.02</sub> + 2.51<sub>±00.03</sub> |     46.23<sub>±05.72</sub> |
 |                       Go |    2.344<sub>±0.073</sub> |     3.47<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |     44.27<sub>±02.99</sub> |
@@ -94,7 +95,6 @@ Supports two mode:
 |         Haskell (MArray) |    4.648<sub>±0.172</sub> |     3.59<sub>±00.05</sub> + 1.16<sub>±00.00</sub> |     99.26<sub>±07.84</sub> |
 |             F#/.NET Core |    5.693<sub>±0.137</sub> |   36.44<sub>±00.05</sub> + 90.26<sub>±00.13</sub> |    129.51<sub>±03.24</sub> |
 |               Lua/luajit |    6.416<sub>±0.322</sub> |     2.89<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |    134.68<sub>±08.07</sub> |
-|                   Racket |    8.036<sub>±0.071</sub> |   113.36<sub>±00.66</sub> + 0.90<sub>±00.26</sub> |    159.76<sub>±17.61</sub> |
 |         Ruby/truffleruby |    9.975<sub>±0.264</sub> | 250.78<sub>±00.14</sub> + 750.14<sub>±20.30</sub> |    263.86<sub>±19.35</sub> |
 | Ruby/truffleruby (--jvm) |   10.610<sub>±0.952</sub> | 565.07<sub>±05.30</sub> + 546.80<sub>±66.01</sub> |    352.97<sub>±15.23</sub> |
 |              Python/pypy |   15.790<sub>±0.416</sub> |   63.91<sub>±00.24</sub> + 45.38<sub>±00.03</sub> |    344.53<sub>±22.25</sub> |
