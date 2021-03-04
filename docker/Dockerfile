@@ -123,13 +123,6 @@ RUN wget --progress=dot:giga -O - \
 	https://download.clojure.org/install/linux-install-$CLOJURE.sh \
 	| bash -s
 
-# https://download.racket-lang.org/
-ARG RACKET=8.0
-RUN wget --progress=dot:giga \
-	https://mirror.racket-lang.org/installers/$RACKET/racket-$RACKET-x86_64-linux.sh \
-	&& sh racket-$RACKET-x86_64-linux.sh --unix-style --dest /usr/ \
-	&& rm racket-$RACKET-x86_64-linux.sh
-
 ENV GHCUP_INSTALL_BASE_PREFIX="/opt"
 RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org \
 	| BOOTSTRAP_HASKELL_NONINTERACTIVE="y" sh
@@ -203,6 +196,13 @@ RUN wget --progress=dot:giga \
 	&& unzip kotlin-compiler-$KOTLIN.zip \
 	&& rm kotlin-compiler-$KOTLIN.zip
 ENV PATH="/opt/kotlinc/bin/:${PATH}"
+
+# https://download.racket-lang.org/
+ARG RACKET=8.0
+RUN wget --progress=dot:giga \
+	https://mirror.racket-lang.org/installers/$RACKET/racket-$RACKET-x86_64-linux-cs.sh \
+	&& sh racket-$RACKET-x86_64-linux-cs.sh --unix-style --dest /usr/ \
+	&& rm racket-$RACKET-x86_64-linux-cs.sh
 
 # https://github.com/vlang/v/releases
 ARG VLANG=weekly.2021.8
