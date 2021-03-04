@@ -2,11 +2,17 @@
 
 (require racket/file racket/list racket/match racket/cmdline racket/os racket/tcp
          (rename-in racket/unsafe/ops
-                    [unsafe-vector-ref vector-ref]
-                    [unsafe-vector-set! vector-set!]
-                    [unsafe-fx+ +]))
+                    [unsafe-vector*-ref vector-ref]
+                    [unsafe-vector*-set! vector-set!]
+                    [unsafe-vector*-length vector-length]
+                    [unsafe-fx+ +]
+                    [unsafe-fxremainder remainder]
+                    [unsafe-fx* *]
+                    [unsafe-fx< <]
+                    [unsafe-fx>= >=]))
 
-(struct tape ([data #:mutable] [pos #:mutable]))
+(#%declare #:unsafe)
+(struct tape (data pos))
 
 ;;; Printer.
 
@@ -28,69 +34,53 @@
 (define (get-checksum p)
   (bitwise-ior (arithmetic-shift (printer-sum2 p) 8) (printer-sum1 p)))
 
-;;; Vector and tape ops.
-
-(define (vector-grow-if-needed vec len)
-  (define old-len (vector-length vec))
-  (cond [(< len old-len) vec]
-        [else
-         (let loop ([new-len (* 2 old-len)])
-           (cond [(>= len new-len) (loop (* 2 new-len))]
-                 [else (define new-vec (make-vector new-len))
-                       (vector-copy! new-vec 0 vec)
-                       new-vec]))]))
-
-(define (tape-get t)
-  (vector-ref (tape-data t) (tape-pos t)))
-
-(define (tape-move! t n)
-  (let ([new-pos (+ n (tape-pos t))])
-    (set-tape-data! t (vector-grow-if-needed (tape-data t) new-pos))
-    (set-tape-pos! t new-pos)))
-
-(define (tape-inc! t n)
-  (let ((data (tape-data t)) (pos (tape-pos t)))
-    (vector-set! data pos (+ n (vector-ref data pos)))))
-
 ;;; Parser.
-
-(define (parse-helper lst acc)
-  (if (empty? lst)
-      (reverse acc)
-      (let ([rst (rest lst)])
-        (match (first lst)
-          [#\+ (parse-helper rst (cons (inc 1) acc))]
-          [#\- (parse-helper rst (cons (inc -1) acc))]
-          [#\> (parse-helper rst (cons (move 1) acc))]
-          [#\< (parse-helper rst (cons (move -1) acc))]
-          [#\. (parse-helper rst (cons -print acc))]
-          [#\[ (let ([subparsed (parse-helper rst empty)])
-                 (parse-helper (first subparsed)
-                               (cons (loop (rest subparsed)) acc)))]
-          [#\] (cons rst (reverse acc))]
-          [_ (parse-helper rst acc)]))))
-
-(define (parse bf-code) (parse-helper (string->list bf-code) empty))
+(define (parse bf-code)
+  (define in (open-input-string bf-code))
+  (let go ([e #'pos])
+    (match (read-char in)
+      [#\+ (go #`(tape-inc! #,e  1))]
+      [#\- (go #`(tape-inc! #,e -1))]
+      [#\> (go #`(tape-move #,e  1))]
+      [#\< (go #`(tape-move #,e -1))]
+      [#\. (go #`(tape-print #,e))]
+      [#\[ (let ([body (go #'pos)]
+                 [end  (go #'pos)])
+             #`(let loop ([pos #,e])
+                 (if (> (tape-get pos) 0) (loop #,body) #,end)))]
+      [#\] e]
+      [(? eof-object?) e]
+      [_ (go e)])))
 
 ;;; Interpreter.
-
-(define ((inc x) t p) #`(tape-inc! #,t #,x))
-(define ((move x) t p) #`(tape-move! #,t #,x))
-(define (-print t p) #`(print #,p (tape-get #,t)))
-(define ((loop ops) t p)
-  #`(let go ()
-      (when (> (tape-get #,t) 0)
-        #,@(map (λ (op) (op t p)) ops)
-        (go))))
-
 (define (run parsed t p)
-  ((eval #`(λ (t p) #,@(map (λ (op) (op #'t #'p)) parsed))) t p))
+  ((eval #`(λ (data pos p)
+             (define (tape-get pos) (vector-ref data pos))
+             (define (tape-move pos n)
+               (define pos* (+ n pos))
+               (vector-grow-if-needed! pos*)
+               pos*)
+             (define (tape-inc! pos n)
+               (vector-set! data pos (+ n (vector-ref data pos)))
+               pos)
+             (define (tape-print pos) (print p (tape-get pos)) pos)
+             (define (vector-grow-if-needed! len)
+               (define old-len (vector-length data))
+               (when (>= len old-len)
+                 (let loop ([new-len (* 2 old-len)])
+                   (cond [(>= len new-len) (loop (* 2 new-len))]
+                         [else (define new-vec (make-vector new-len))
+                               (vector-copy! new-vec 0 data)
+                               (set! data new-vec)]))))
+             (void #,parsed)))
+   (tape-data t) (tape-pos t) p))
 
 (define (notify msg)
-  (with-handlers ([exn:fail:network? (lambda (_) (void))])
+  (with-handlers ([exn:fail:network? void])
     (let-values ([(in out) (tcp-connect "localhost" 9001)])
       (display msg out)
-        (close-output-port out))))
+      (close-input-port in)
+      (close-output-port out))))
 
 (define (read-c path)
   (parameterize ([current-locale "C"])
@@ -118,7 +108,7 @@
   (define p (printer 0 0 (getenv "QUIET")))
 
   (notify (format "Racket (Syntax Objects)\t~s" (getpid)))
-  (time (run (parse text) (tape (vector 0) 0) p))
+  (run (parse text) (tape (vector 0) 0) p)
   (notify "stop")
 
   (when (printer-quiet p) (printf "Output checksum: ~s\n" (get-checksum p))))
