@@ -65,6 +65,7 @@ Supports two mode:
 |                 Language |                   Time, s |                                       Memory, MiB |                  Energy, J |
 | :----------------------- | ------------------------: | ------------------------------------------------: | -------------------------: |
 |                  C++/g++ |    0.892<sub>±0.022</sub> |     1.48<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |     18.30<sub>±00.92</sub> |
+|  Racket (Syntax Objects) |    1.375<sub>±0.019</sub> |   110.18<sub>±00.36</sub> + 0.00<sub>±00.00</sub> |     32.45<sub>±00.85</sub> |
 |                   Kotlin |    1.887<sub>±0.053</sub> |    38.23<sub>±00.10</sub> + 1.96<sub>±00.09</sub> |     35.30<sub>±01.29</sub> |
 |                   D/ldc2 |    1.888<sub>±0.048</sub> |     3.03<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |     37.00<sub>±02.52</sub> |
 |                  Nim/gcc |    1.900<sub>±0.091</sub> |     1.83<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |     40.81<sub>±02.49</sub> |
@@ -73,7 +74,7 @@ Supports two mode:
 |                Nim/clang |    2.061<sub>±0.099</sub> |     2.32<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |     42.74<sub>±02.22</sub> |
 |                     Rust |    2.156<sub>±0.030</sub> |     2.02<sub>±00.10</sub> + 0.00<sub>±00.00</sub> |     42.93<sub>±03.62</sub> |
 |                     Java |    2.184<sub>±0.076</sub> |    37.52<sub>±00.13</sub> + 1.03<sub>±00.07</sub> |     40.80<sub>±02.68</sub> |
-|                   Racket |    2.219<sub>±0.091</sub> |   115.95<sub>±00.28</sub> + 1.93<sub>±00.64</sub> |     54.14<sub>±01.88</sub> |
+|                   Racket |    2.194<sub>±0.194</sub> |   116.20<sub>±00.06</sub> + 1.55<sub>±00.26</sub> |     55.26<sub>±02.86</sub> |
 |                  C/clang |    2.270<sub>±0.083</sub> |     0.49<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |     44.68<sub>±03.72</sub> |
 |                    OCaml |    2.270<sub>±0.056</sub> |     2.56<sub>±00.02</sub> + 2.51<sub>±00.03</sub> |     46.23<sub>±05.72</sub> |
 |                       Go |    2.344<sub>±0.073</sub> |     3.47<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |     44.27<sub>±02.99</sub> |
@@ -89,7 +90,6 @@ Supports two mode:
 |              Chez Scheme |    3.059<sub>±0.083</sub> |    24.83<sub>±00.02</sub> + 4.21<sub>±00.04</sub> |     59.99<sub>±04.24</sub> |
 |                    Scala |    3.520<sub>±0.024</sub> |   80.43<sub>±00.92</sub> + 60.43<sub>±06.97</sub> |     69.69<sub>±01.65</sub> |
 |                    D/dmd |    3.590<sub>±0.105</sub> |     3.60<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |     70.59<sub>±04.10</sub> |
-|  Racket (Syntax Objects) |    3.715<sub>±0.208</sub> |   109.93<sub>±00.20</sub> + 0.00<sub>±00.00</sub> |     76.55<sub>±07.28</sub> |
 |                  Node.js |    4.171<sub>±0.210</sub> |    30.23<sub>±00.05</sub> + 1.76<sub>±00.00</sub> |     82.40<sub>±06.47</sub> |
 |                  C#/Mono |    4.475<sub>±0.155</sub> |    20.05<sub>±00.10</sub> + 0.00<sub>±00.00</sub> |     81.10<sub>±04.83</sub> |
 |         Haskell (MArray) |    4.648<sub>±0.172</sub> |     3.59<sub>±00.05</sub> + 1.16<sub>±00.00</sub> |     99.26<sub>±07.84</sub> |
@@ -123,6 +123,7 @@ Supports two mode:
 |                    V/gcc |  16.535<sub>±0.686</sub> |     0.52<sub>±00.03</sub> + 1.89<sub>±00.05</sub> |   310.30<sub>±22.82</sub> |
 |                   Kotlin |  16.541<sub>±0.824</sub> |    38.35<sub>±00.21</sub> + 2.50<sub>±00.25</sub> |   331.29<sub>±19.28</sub> |
 |                       Go |  16.760<sub>±0.574</sub> |     3.43<sub>±00.09</sub> + 1.29<sub>±00.00</sub> |   339.53<sub>±29.47</sub> |
+|  Racket (Syntax Objects) |  17.710<sub>±0.900</sub> |  110.05<sub>±00.13</sub> + 70.90<sub>±00.13</sub> |   362.86<sub>±07.00</sub> |
 |                  C/clang |  18.400<sub>±0.625</sub> |     0.49<sub>±00.00</sub> + 1.11<sub>±00.01</sub> |   363.79<sub>±24.65</sub> |
 |             C#/.NET Core |  18.763<sub>±0.666</sub> |    34.35<sub>±00.06</sub> + 1.00<sub>±00.00</sub> |   368.78<sub>±32.99</sub> |
 |                     Rust |  19.505<sub>±0.307</sub> |     2.00<sub>±00.04</sub> + 0.28<sub>±00.03</sub> |   456.28<sub>±08.89</sub> |
@@ -136,6 +137,7 @@ Supports two mode:
 |                 Go/gccgo |  26.182<sub>±0.458</sub> |    21.37<sub>±00.17</sub> + 1.28<sub>±00.04</sub> |   450.94<sub>±10.14</sub> |
 |                    OCaml |  38.179<sub>±1.251</sub> |     3.85<sub>±00.02</sub> + 6.95<sub>±00.26</sub> |   748.19<sub>±52.73</sub> |
 |              Chez Scheme |  40.251<sub>±0.542</sub> |    25.43<sub>±00.04</sub> + 3.67<sub>±00.02</sub> |   926.00<sub>±36.88</sub> |
+|                   Racket |  42.992<sub>±4.642</sub> |   115.71<sub>±00.18</sub> + 2.06<sub>±00.26</sub> |   832.01<sub>±71.41</sub> |
 |                    D/dmd |  45.225<sub>±1.074</sub> |     3.56<sub>±00.05</sub> + 0.77<sub>±00.00</sub> |   869.87<sub>±28.71</sub> |
 |                  C#/Mono |  46.198<sub>±1.532</sub> |    20.13<sub>±00.05</sub> + 0.88<sub>±00.00</sub> |   907.03<sub>±76.61</sub> |
 |                  Node.js |  47.642<sub>±0.449</sub> |    30.20<sub>±00.13</sub> + 5.83<sub>±00.11</sub> |   866.33<sub>±21.85</sub> |
@@ -143,10 +145,8 @@ Supports two mode:
 |                    Julia |  60.716<sub>±1.267</sub> |   168.63<sub>±00.28</sub> + 0.00<sub>±00.00</sub> |  1067.66<sub>±10.06</sub> |
 |         Haskell (MArray) |  61.456<sub>±0.617</sub> |     3.62<sub>±00.04</sub> + 2.68<sub>±00.00</sub> |  1401.97<sub>±26.08</sub> |
 |              Python/pypy |  67.820<sub>±0.658</sub> |   63.93<sub>±00.19</sub> + 45.90<sub>±00.04</sub> |  1575.02<sub>±56.96</sub> |
-|  Racket (Syntax Objects) |  82.335<sub>±1.936</sub> |  110.05<sub>±00.18</sub> + 31.32<sub>±00.13</sub> |  1542.10<sub>±58.77</sub> |
 | Ruby/truffleruby (--jvm) | 131.730<sub>±2.236</sub> | 565.14<sub>±10.92</sub> + 466.56<sub>±18.77</sub> |  2725.46<sub>±62.38</sub> |
 |             F#/.NET Core | 132.330<sub>±0.654</sub> |   36.47<sub>±00.08</sub> + 91.54<sub>±00.03</sub> |  2971.71<sub>±27.09</sub> |
-|                   Racket | 136.000<sub>±2.042</sub> |   113.11<sub>±00.28</sub> + 6.45<sub>±00.26</sub> |  2538.89<sub>±74.06</sub> |
 |         Ruby/truffleruby | 172.357<sub>±4.092</sub> | 251.03<sub>±00.30</sub> + 758.66<sub>±17.72</sub> | 3768.42<sub>±226.62</sub> |
 |                  Haskell | 216.273<sub>±4.050</sub> |    3.83<sub>±00.05</sub> + 26.16<sub>±00.00</sub> | 4543.18<sub>±330.08</sub> |
 |               Lua/luajit | 253.096<sub>±2.212</sub> |     2.86<sub>±00.02</sub> + 0.86<sub>±00.00</sub> |  4740.45<sub>±61.20</sub> |
