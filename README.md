@@ -93,8 +93,8 @@ Supports two mode:
 |                  Node.js |    4.171<sub>±0.210</sub> |    30.23<sub>±00.05</sub> + 1.76<sub>±00.00</sub> |     82.40<sub>±06.47</sub> |
 |                  C#/Mono |    4.475<sub>±0.155</sub> |    20.05<sub>±00.10</sub> + 0.00<sub>±00.00</sub> |     81.10<sub>±04.83</sub> |
 |         Haskell (MArray) |    4.648<sub>±0.172</sub> |     3.59<sub>±00.05</sub> + 1.16<sub>±00.00</sub> |     99.26<sub>±07.84</sub> |
-|             F#/.NET Core |    5.693<sub>±0.137</sub> |   36.44<sub>±00.05</sub> + 90.26<sub>±00.13</sub> |    129.51<sub>±03.24</sub> |
 |               Lua/luajit |    6.416<sub>±0.322</sub> |     2.89<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |    134.68<sub>±08.07</sub> |
+|             F#/.NET Core |    7.003<sub>±0.115</sub> |   36.61<sub>±00.07</sub> + 90.74<sub>±00.06</sub> |    146.30<sub>±01.74</sub> |
 |         Ruby/truffleruby |    9.975<sub>±0.264</sub> | 250.78<sub>±00.14</sub> + 750.14<sub>±20.30</sub> |    263.86<sub>±19.35</sub> |
 | Ruby/truffleruby (--jvm) |   10.610<sub>±0.952</sub> | 565.07<sub>±05.30</sub> + 546.80<sub>±66.01</sub> |    352.97<sub>±15.23</sub> |
 |              Python/pypy |   15.790<sub>±0.416</sub> |   63.91<sub>±00.24</sub> + 45.38<sub>±00.03</sub> |    344.53<sub>±22.25</sub> |
@@ -141,12 +141,12 @@ Supports two mode:
 |                    D/dmd |  45.225<sub>±1.074</sub> |     3.56<sub>±00.05</sub> + 0.77<sub>±00.00</sub> |   869.87<sub>±28.71</sub> |
 |                  C#/Mono |  46.198<sub>±1.532</sub> |    20.13<sub>±00.05</sub> + 0.88<sub>±00.00</sub> |   907.03<sub>±76.61</sub> |
 |                  Node.js |  47.642<sub>±0.449</sub> |    30.20<sub>±00.13</sub> + 5.83<sub>±00.11</sub> |   866.33<sub>±21.85</sub> |
+|             F#/.NET Core |  49.241<sub>±0.531</sub> |   36.77<sub>±00.09</sub> + 91.81<sub>±00.07</sub> |   988.64<sub>±12.11</sub> |
 |                    MLton |  50.890<sub>±0.252</sub> |     1.40<sub>±00.03</sub> + 4.11<sub>±00.00</sub> |  1172.41<sub>±15.11</sub> |
 |                    Julia |  60.716<sub>±1.267</sub> |   168.63<sub>±00.28</sub> + 0.00<sub>±00.00</sub> |  1067.66<sub>±10.06</sub> |
 |         Haskell (MArray) |  61.456<sub>±0.617</sub> |     3.62<sub>±00.04</sub> + 2.68<sub>±00.00</sub> |  1401.97<sub>±26.08</sub> |
 |              Python/pypy |  67.820<sub>±0.658</sub> |   63.93<sub>±00.19</sub> + 45.90<sub>±00.04</sub> |  1575.02<sub>±56.96</sub> |
 | Ruby/truffleruby (--jvm) | 131.730<sub>±2.236</sub> | 565.14<sub>±10.92</sub> + 466.56<sub>±18.77</sub> |  2725.46<sub>±62.38</sub> |
-|             F#/.NET Core | 132.330<sub>±0.654</sub> |   36.47<sub>±00.08</sub> + 91.54<sub>±00.03</sub> |  2971.71<sub>±27.09</sub> |
 |         Ruby/truffleruby | 172.357<sub>±4.092</sub> | 251.03<sub>±00.30</sub> + 758.66<sub>±17.72</sub> | 3768.42<sub>±226.62</sub> |
 |                  Haskell | 216.273<sub>±4.050</sub> |    3.83<sub>±00.05</sub> + 26.16<sub>±00.00</sub> | 4543.18<sub>±330.08</sub> |
 |               Lua/luajit | 253.096<sub>±2.212</sub> |     2.86<sub>±00.02</sub> + 0.86<sub>±00.00</sub> |  4740.45<sub>±61.20</sub> |
