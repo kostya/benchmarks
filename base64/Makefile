@@ -22,7 +22,8 @@ artifacts := $(executables) \
 	target/Base64Java.class \
 	target/Test-kt.jar \
 	target/test.exe \
-	target/Release/net5.0/base64.dll
+	target/Release/net5.0/base64.dll \
+	base64.fsharp/target/Release/net5.0/base64.dll
 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[test.pl] \
@@ -108,6 +109,9 @@ target/test.exe: test.cs | target
 target/Release/net5.0/base64.dll: base64.csproj | target
 	$(DOTNET_BUILD)
 
+base64.fsharp/target/Release/net5.0/base64.dll: base64.fsharp/base64.fsproj | target
+	$(DOTNET_BUILD)
+
 target/base64_v_gcc: test.v | $(v_fmt)
 	$(V_GCC_BUILD)
 
@@ -142,6 +146,9 @@ run[target/test.exe]:: run[%]: %
 	$(MONO_RUN)
 
 run[target/Release/net5.0/base64.dll]:: run[%]: %
+	$(DOTNET_RUN)
+
+run[base64.fsharp/target/Release/net5.0/base64.dll]:: run[%]: %
 	$(DOTNET_RUN)
 
 .PHONY: base64_perl
