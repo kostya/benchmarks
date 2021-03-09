@@ -79,6 +79,7 @@ Supports two mode:
 |                    OCaml |    2.270<sub>±0.056</sub> |     2.56<sub>±00.02</sub> + 2.51<sub>±00.03</sub> |     46.23<sub>±05.72</sub> |
 |                       Go |    2.344<sub>±0.073</sub> |     3.47<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |     44.27<sub>±02.99</sub> |
 |             C#/.NET Core |    2.362<sub>±0.124</sub> |    34.19<sub>±00.04</sub> + 0.01<sub>±00.00</sub> |     46.54<sub>±02.62</sub> |
+|             F#/.NET Core |    2.371<sub>±0.009</sub> |    36.78<sub>±00.11</sub> + 0.33<sub>±00.03</sub> |     42.51<sub>±00.85</sub> |
 |                 Vala/gcc |    2.419<sub>±0.098</sub> |     3.72<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |     45.36<sub>±02.88</sub> |
 |               Vala/clang |    2.492<sub>±0.076</sub> |     3.67<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |     51.39<sub>±04.14</sub> |
 |                    V/gcc |    2.536<sub>±0.121</sub> |     0.55<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |     54.42<sub>±03.05</sub> |
@@ -94,7 +95,6 @@ Supports two mode:
 |                  C#/Mono |    4.475<sub>±0.155</sub> |    20.05<sub>±00.10</sub> + 0.00<sub>±00.00</sub> |     81.10<sub>±04.83</sub> |
 |         Haskell (MArray) |    4.648<sub>±0.172</sub> |     3.59<sub>±00.05</sub> + 1.16<sub>±00.00</sub> |     99.26<sub>±07.84</sub> |
 |               Lua/luajit |    6.416<sub>±0.322</sub> |     2.89<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |    134.68<sub>±08.07</sub> |
-|             F#/.NET Core |    7.003<sub>±0.115</sub> |   36.61<sub>±00.07</sub> + 90.74<sub>±00.06</sub> |    146.30<sub>±01.74</sub> |
 |         Ruby/truffleruby |    9.975<sub>±0.264</sub> | 250.78<sub>±00.14</sub> + 750.14<sub>±20.30</sub> |    263.86<sub>±19.35</sub> |
 | Ruby/truffleruby (--jvm) |   10.610<sub>±0.952</sub> | 565.07<sub>±05.30</sub> + 546.80<sub>±66.01</sub> |    352.97<sub>±15.23</sub> |
 |              Python/pypy |   15.790<sub>±0.416</sub> |   63.91<sub>±00.24</sub> + 45.38<sub>±00.03</sub> |    344.53<sub>±22.25</sub> |
@@ -135,13 +135,13 @@ Supports two mode:
 |                 Vala/gcc |  22.723<sub>±0.469</sub> |     3.55<sub>±00.01</sub> + 2.05<sub>±00.01</sub> |   412.52<sub>±16.09</sub> |
 |                    Scala |  24.482<sub>±0.359</sub> |   80.25<sub>±00.58</sub> + 37.60<sub>±04.43</sub> |   465.50<sub>±11.89</sub> |
 |                 Go/gccgo |  26.182<sub>±0.458</sub> |    21.37<sub>±00.17</sub> + 1.28<sub>±00.04</sub> |   450.94<sub>±10.14</sub> |
+|             F#/.NET Core |  35.402<sub>±0.212</sub> |    36.83<sub>±00.06</sub> + 2.07<sub>±00.03</sub> |   643.00<sub>±19.63</sub> |
 |                    OCaml |  38.179<sub>±1.251</sub> |     3.85<sub>±00.02</sub> + 6.95<sub>±00.26</sub> |   748.19<sub>±52.73</sub> |
 |              Chez Scheme |  40.251<sub>±0.542</sub> |    25.43<sub>±00.04</sub> + 3.67<sub>±00.02</sub> |   926.00<sub>±36.88</sub> |
 |                   Racket |  42.992<sub>±4.642</sub> |   115.71<sub>±00.18</sub> + 2.06<sub>±00.26</sub> |   832.01<sub>±71.41</sub> |
 |                    D/dmd |  45.225<sub>±1.074</sub> |     3.56<sub>±00.05</sub> + 0.77<sub>±00.00</sub> |   869.87<sub>±28.71</sub> |
 |                  C#/Mono |  46.198<sub>±1.532</sub> |    20.13<sub>±00.05</sub> + 0.88<sub>±00.00</sub> |   907.03<sub>±76.61</sub> |
 |                  Node.js |  47.642<sub>±0.449</sub> |    30.20<sub>±00.13</sub> + 5.83<sub>±00.11</sub> |   866.33<sub>±21.85</sub> |
-|             F#/.NET Core |  49.241<sub>±0.531</sub> |   36.77<sub>±00.09</sub> + 91.81<sub>±00.07</sub> |   988.64<sub>±12.11</sub> |
 |                    MLton |  50.890<sub>±0.252</sub> |     1.40<sub>±00.03</sub> + 4.11<sub>±00.00</sub> |  1172.41<sub>±15.11</sub> |
 |                    Julia |  60.716<sub>±1.267</sub> |   168.63<sub>±00.28</sub> + 0.00<sub>±00.00</sub> |  1067.66<sub>±10.06</sub> |
 |         Haskell (MArray) |  61.456<sub>±0.617</sub> |     3.62<sub>±00.04</sub> + 2.68<sub>±00.00</sub> |  1401.97<sub>±26.08</sub> |
@@ -184,6 +184,7 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 |                    Python |  4.341<sub>±0.115</sub> |    10.03<sub>±00.03</sub> + 0.18<sub>±00.00</sub> |  77.43<sub>±02.75</sub> |
 |                       Tcl |  4.636<sub>±0.021</sub> |     4.78<sub>±00.10</sub> + 0.16<sub>±00.04</sub> | 102.14<sub>±00.80</sub> |
 |               Python/pypy |  5.054<sub>±0.128</sub> |   63.94<sub>±00.25</sub> + 45.73<sub>±00.05</sub> |  91.32<sub>±05.98</sub> |
+|              F#/.NET Core |  5.635<sub>±0.067</sub> |   37.12<sub>±00.04</sub> + 33.62<sub>±05.08</sub> |  91.11<sub>±01.41</sub> |
 |              C#/.NET Core |  5.836<sub>±0.042</sub> |   34.61<sub>±00.02</sub> + 33.39<sub>±06.29</sub> | 109.33<sub>±00.58</sub> |
 |  Ruby/truffleruby (--jvm) |  5.861<sub>±0.075</sub> | 552.67<sub>±06.94</sub> + 310.16<sub>±25.83</sub> | 132.20<sub>±05.92</sub> |
 |                     Julia |  6.010<sub>±0.117</sub> |  200.46<sub>±00.11</sub> + 42.95<sub>±00.25</sub> | 111.63<sub>±04.11</sub> |
