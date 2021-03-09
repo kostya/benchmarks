@@ -1,29 +1,25 @@
 open System
 module Tape =
-
-    [<Struct>]
-    type t = { data: int array; pos: int }
+    type t = { mutable data: int array; mutable pos: int }
 
     let create () = { data = [| 0 |]; pos = 0 }
     let current t = t.data.[t.pos]
     let inc t delta =
-        t.data.[t.pos] <- t.data.[t.pos] + delta
-        t
+        t.data.[t.pos] <- current t + delta
 
+    let put t ch =
+        t.data.[t.pos] <- ch
+        
     let move t m =
         let newPos = t.pos + m
-        let arrayLen = Array.length t.data
-        if newPos >= arrayLen then
-            let newData = Array.append t.data (Array.create (2 * arrayLen) 0)
-            { data = newData; pos = newPos }
-        else
-            { t with pos = newPos }
+        if newPos >= Array.length t.data then
+            Array.Resize (&t.data, 2 * newPos)
+        t.pos <- newPos
 
 module Printer =
-    [<Struct>]
     type sum =
-        { sum1: int
-          sum2: int }
+        { mutable sum1: int
+          mutable sum2: int }
     
     [<Struct>]
     type t =
@@ -38,12 +34,12 @@ module Printer =
         | Stdout ->
             Console.Out.Write(char n)
             Console.Out.Flush()
-            p
         | Quiet p ->
             let newSum1 = (p.sum1 + n) % 255
             let newSum2 = (newSum1 + p.sum2) % 255
-            Quiet { sum1 = newSum1; sum2 = newSum2 }
-            
+            p.sum1 <- newSum1
+            p.sum2 <- newSum2
+        p
     let checksum = function
         | Stdout -> 0
         | Quiet sm -> (sm.sum2 <<< 8) ||| sm.sum1
@@ -61,17 +57,17 @@ module Interpreter =
         | Print
         | Input
         | Loop of opcodes: List<Op>
-        | Comment 
+        | Ignore
 
     let parse (s: string) =
-        let rec _parse res s =
-            match s with
+        let opCodes = Set.ofSeq "+-<>,."
+        let rec _parse res = function
             | [] -> List.rev res, List.empty
             | ']' :: tail -> List.rev res, tail
             | '[' :: tail ->
                 let (codes, newTail) = _parse [] tail
                 _parse (Loop codes :: res) newTail
-            | ch :: tail ->
+            | ch :: tail when Set.contains ch opCodes  ->
                 let code =
                     match ch with
                     | '+' -> Inc 1
@@ -79,36 +75,43 @@ module Interpreter =
                     | '>' -> Move 1
                     | '<' -> Move -1
                     | '.' -> Print
-                    | _ -> Comment // | ',' -> Input
+                    | ',' -> Input
+                    | _ -> Ignore
                 _parse (code :: res) tail
+            | _ :: tail -> _parse res tail            
         Seq.toList s
             |> _parse []
             |> fst
 
     let rec run tape printer program = 
-        let rec _run (tape, printer) = function
-            | [] -> (tape, printer)
+        let rec _run = function
+            | [] -> ()
             | Inc delta :: restProgram ->
-                _run ((Tape.inc tape delta), printer) restProgram
+                Tape.inc tape delta
+                _run  restProgram
             | Move delta :: rest ->
-                _run ((Tape.move tape delta), printer) rest
+                Tape.move tape delta
+                _run rest
             | Print :: rest ->
-                let newP = Tape.current tape |> Printer.print printer
-                _run (tape, newP) rest
+                Tape.current tape |> Printer.print printer |> ignore
+                _run rest
             | Loop loopCode :: rest ->
-                let rec loop (tape, printer)  =
-                    if Tape.current tape = 0 then
-                        _run (tape, printer) rest
-                    else
-                        _run (tape, printer) loopCode |> loop 
-                loop (tape, printer)
-            | _ :: rest -> _run (tape, printer) rest // Comment and Input are not implemented, so just skip them
-        _run (tape, printer) program
+                    while Tape.current tape > 0 do
+                        _run loopCode
+                    _run rest
+            | Input :: rest ->
+                let c = Console.Read()
+                Tape.put tape c
+                _run rest
+            | Ignore :: rest -> _run rest
+        _run program
     
     let runWithNewTape printer program =
         run (Tape.create ()) printer program
-        |> snd
+        printer
 
+open System.Diagnostics
+open System.IO
 module Util =
     let notify (msg: string) =
         try
@@ -120,9 +123,10 @@ module Util =
         with _ -> ()
 
     let verify () =
-        let source = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
-            ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
-
+        let source = """
+            ++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+            ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
+            """
         let left =
             Interpreter.parse source
             |> Interpreter.runWithNewTape (Printer.createQuiet ())
@@ -135,19 +139,17 @@ module Util =
             |> Printer.checksum
 
         if left <> right
-        then sprintf "%d != %d" left right |> Result.Error
+        then Result.Error <| sprintf "%d != %d" left right 
         else Result.Ok None
 
     let isQuiet =
-        Environment.GetEnvironmentVariable("QUIET")
+        Environment.GetEnvironmentVariable "QUIET"
         <> null
 
-    let runtime =
-        if isNull (Type.GetType("Mono.Runtime")) then ".NET Core" else "Mono"
+    let runtimeId =
+        let runtime = if isNull (Type.GetType "Mono.Runtime") then ".NET Core" else "Mono"
+        sprintf "F#/%s\t%d" runtime (Process.GetCurrentProcess().Id)
 
-open System.Diagnostics
-open System.IO
-    
 [<EntryPoint>]
 let main argv =
     match Util.verify () with
@@ -158,12 +160,16 @@ let main argv =
 
     match argv with
     | [| filename |] ->
-        let source = File.ReadAllText filename
+        let source =
+            try
+                File.ReadAllText filename
+            with ex ->
+                printfn "Can't open file '%O': %A" filename ex.Message
+                exit 1
+
         let printer = if Util.isQuiet then Printer.createQuiet () else Printer.createStdout ()
 
-        (Util.runtime, Process.GetCurrentProcess().Id)
-        ||> sprintf "F#/%s\t%d"
-        |> Util.notify
+        Util.notify Util.runtimeId
 
         let stopWatch = Stopwatch.StartNew()
 
@@ -179,7 +185,7 @@ let main argv =
         printfn "time: %Os" elapsed
 
         if Printer.isQuiet pNew then
-            Printer.checksum pNew |> printf "Output checksum: %d\n"
+            Printer.checksum pNew |> printfn "Output checksum: %d"
         0
     | _ ->
         printfn "usage: bf.fs <brainfuck.b>"
