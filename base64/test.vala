@@ -11,10 +11,6 @@ namespace Test
 				var socket = new SocketClient();
 				var conn = socket.connect_to_host("localhost",9001,null);
 				conn.output_stream.write (msg.data);
-
-				//scope (exit)
-				//socket.close();
-				//socket.send(msg);
 			}
 			catch (Error e)
 			{
@@ -64,7 +60,7 @@ namespace Test
 			#elif CLANG_TEST
 				msg += "clang";
 			#else
-			// The preprocessor directive for the test should be specified
+				// The preprocessor directive for the test should be specified
 				Process.exit(-1);
 			#endif
 
