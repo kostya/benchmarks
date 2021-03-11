@@ -169,6 +169,8 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 |                    D/ldc2 |  2.000<sub>±0.008</sub> |     3.41<sub>±00.04</sub> + 3.66<sub>±00.00</sub> |  36.64<sub>±00.17</sub> |
 |                   Nim/gcc |  2.013<sub>±0.030</sub> |     2.21<sub>±00.06</sub> + 4.44<sub>±00.00</sub> |  44.68<sub>±01.82</sub> |
 |                     D/gdc |  2.023<sub>±0.077</sub> |     7.08<sub>±00.05</sub> + 3.46<sub>±00.00</sub> |  43.81<sub>±02.27</sub> |
+|                  Vala/gcc |  2.148<sub>±0.051</sub> |     4.94<sub>±00.05</sub> + 0.57<sub>±00.02</sub> |  42.36<sub>±01.27</sub> |
+|                Vala/clang |  2.198<sub>±0.055</sub> |     4.97<sub>±00.05</sub> + 0.56<sub>±00.06</sub> |  41.69<sub>±01.05</sub> |
 |                      Ruby |  2.312<sub>±0.028</sub> |   14.38<sub>±00.04</sub> + 55.53<sub>±01.54</sub> |  52.98<sub>±01.37</sub> |
 |                      Java |  2.328<sub>±0.051</sub> |  38.46<sub>±00.09</sub> + 288.62<sub>±20.60</sub> |  47.21<sub>±02.47</sub> |
 |              Ruby (--jit) |  2.342<sub>±0.054</sub> |   14.46<sub>±00.06</sub> + 57.15<sub>±01.20</sub> |  53.35<sub>±01.29</sub> |
