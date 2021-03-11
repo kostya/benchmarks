@@ -279,7 +279,9 @@ Testing allocating and multiplying matrices.
 |                  Nim/gcc |   3.499<sub>±0.024</sub> |    2.58<sub>±00.03</sub> + 70.12<sub>±00.13</sub> |     72.89<sub>±00.79</sub> |
 |                Nim/clang |   3.515<sub>±0.020</sub> |    3.10<sub>±00.03</sub> + 79.66<sub>±05.67</sub> |     74.79<sub>±01.28</sub> |
 |          Julia (no BLAS) |   3.568<sub>±0.025</sub> |  178.15<sub>±00.22</sub> + 69.76<sub>±00.06</sub> |     75.14<sub>±01.00</sub> |
+|                 Vala/gcc |   3.622<sub>±0.063</sub> |    5.24<sub>±00.06</sub> + 68.32<sub>±00.00</sub> |     63.98<sub>±02.77</sub> |
 |                       Go |   3.638<sub>±0.029</sub> |    3.86<sub>±00.09</sub> + 73.33<sub>±00.09</sub> |     79.54<sub>±02.48</sub> |
+|               Vala/clang |   3.639<sub>±0.028</sub> |    5.25<sub>±00.04</sub> + 68.32<sub>±00.00</sub> |     70.06<sub>±02.38</sub> |
 |                 Go/gccgo |   3.708<sub>±0.049</sub> |   21.82<sub>±00.58</sub> + 72.61<sub>±00.14</sub> |     75.63<sub>±01.61</sub> |
 |                    Swift |   3.720<sub>±0.060</sub> |  149.02<sub>±00.05</sub> + 59.60<sub>±00.06</sub> |     91.24<sub>±03.75</sub> |
 |                  Crystal |   3.766<sub>±0.092</sub> |    4.10<sub>±00.04</sub> + 59.69<sub>±00.04</sub> |     77.91<sub>±05.35</sub> |
