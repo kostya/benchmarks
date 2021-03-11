@@ -15,7 +15,9 @@ executables := \
 	base64.rs/target/release/base64 \
 	target/base64_c_ak \
 	target/base64_v_gcc \
-	target/base64_v_clang
+	target/base64_v_clang \
+	target/base64_vala_gcc \
+	target/base64_vala_clang
 
 artifacts := $(executables) \
 	target/base64_scala.jar \
@@ -117,6 +119,12 @@ target/base64_v_gcc: test.v | $(v_fmt)
 
 target/base64_v_clang: test.v | $(v_fmt)
 	$(V_CLANG_BUILD)
+
+target/base64_vala_gcc: test.vala | target
+	$(VALAC_GCC_BUILD)
+
+target/base64_vala_clang: test.vala | target
+	$(VALAC_CLANG_BUILD)
 
 # Run
 
