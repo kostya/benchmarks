@@ -20,7 +20,9 @@ executables := \
 	target/matmul_d_lubeck \
 	java-nd4j/target/application \
 	target/matmul_v_gcc \
-	target/matmul_v_clang
+	target/matmul_v_clang \
+	target/matmul_vala_gcc \
+	target/matmul_vala_clang
 
 artifacts := $(executables) \
 	target/matmul_scala.jar \
@@ -106,6 +108,12 @@ target/matmul_v_gcc: matmul.v | $(v_fmt)
 
 target/matmul_v_clang: matmul.v | $(v_fmt)
 	$(V_CLANG_BUILD)
+
+target/matmul_vala_gcc: matmul.vala | target
+	$(VALAC_GCC_BUILD)
+
+target/matmul_vala_clang: matmul.vala | target
+	$(VALAC_CLANG_BUILD)
 
 target/matmul_scala.jar: matmul.scala | target
 	$(SCALAC_BUILD)
