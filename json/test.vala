@@ -30,7 +30,7 @@ namespace Test
                 {
                     return false;
                 }
-				
+
                 return ((this.x == p.x) && (this.y == p.y) && (this.z == p.z));
             }
 
@@ -52,7 +52,6 @@ namespace Test
             {
                 
             }
-            
 
             var node = parser.get_root();
             var arr = node.get_object().get_array_member("coordinates");
@@ -75,19 +74,19 @@ namespace Test
             return new Coordinate.xyz(x / count, y / count, z / count);
         }
 
-		static void notify(string msg)
-		{
-			try
-			{
-				var socket = new SocketClient();
-				var conn = socket.connect_to_host("localhost",9001,null);
-				conn.output_stream.write (msg.data);
-			}
-			catch (Error e)
-			{
-				// standalone usage
-			}
-		}
+        static void notify(string msg)
+        {
+            try
+            {
+                var socket = new SocketClient();
+                var conn = socket.connect_to_host("localhost",9001,null);
+                conn.output_stream.write (msg.data);
+            }
+            catch (Error e)
+            {
+                // standalone usage
+            }
+        }
 
         static void main(string[] args)
         {
@@ -117,16 +116,15 @@ namespace Test
 
             }
             
-			var msg = "Vala/";
-			
-			#if GCC_TEST
-				msg += "gcc";
-			#elif CLANG_TEST
-				msg += "clang";
-			#else
-				// The preprocessor directive for the test should be specified
-				Process.exit(-1);
-			#endif
+            var msg = "Vala/";
+            #if GCC_TEST
+                msg += "gcc";
+            #elif CLANG_TEST
+                msg += "clang";
+            #else
+                // The preprocessor directive for the test should be specified
+                Process.exit(-1);
+            #endif
             msg += @"\t $((uint16)Posix.getpid())";
             
             notify(msg);
