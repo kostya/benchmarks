@@ -53,8 +53,8 @@ namespace Test
                 
             }
 
-            var node = parser.get_root();
-            var arr = node.get_object().get_array_member("coordinates");
+            var root = parser.get_root();
+            var arr = root.get_object().get_array_member("coordinates");
 
             double x = 0;
             double y = 0;
