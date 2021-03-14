@@ -1,4 +1,4 @@
-// valac --pkg posix --pkg json-glib-1.0 -D GCC_TEST test.vala
+// valac --pkg gio-2.0 --pkg posix --pkg json-glib-1.0 -D GCC_TEST test.vala
 
 namespace Test
 {
@@ -30,7 +30,7 @@ namespace Test
                 {
                     return false;
                 }
-
+				
                 return ((this.x == p.x) && (this.y == p.y) && (this.z == p.z));
             }
 
@@ -119,12 +119,12 @@ namespace Test
             
 			var msg = "Vala/";
 			
-            #if GCC_TEST
+			#if GCC_TEST
 				msg += "gcc";
 			#elif CLANG_TEST
 				msg += "clang";
 			#else
-			// The preprocessor directive for the test should be specified
+				// The preprocessor directive for the test should be specified
 				Process.exit(-1);
 			#endif
             msg += @"\t $((uint16)Posix.getpid())";
