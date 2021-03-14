@@ -117,16 +117,18 @@ namespace Test
 
             }
             
-			var msg = "Vala/";
-			
-			#if GCC_TEST
-				msg += "gcc";
-			#elif CLANG_TEST
-				msg += "clang";
-			#else
-				// The preprocessor directive for the test should be specified
-				Process.exit(-1);
-			#endif
+
+            var msg = "Vala/";
+
+            #if GCC_TEST
+                msg += "gcc";
+            #elif CLANG_TEST
+                msg += "clang";
+            #else
+                // The preprocessor directive for the test should be specified
+                Process.exit(-1);
+            #endif
+	    
             msg += @"\t $((uint16)Posix.getpid())";
             
             notify(msg);
