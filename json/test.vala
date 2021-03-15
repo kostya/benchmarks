@@ -42,30 +42,28 @@ namespace Test
 
         static Coordinate Calc(string text)
         {
-            var parser = new Json.Parser();
+            Json.Node root = null;
 
             try
             {
-                parser.load_from_data(text);
+                root = Json.from_string(text);
             }
             catch (Error e)
             {
                 
             }
 
-            var root = parser.get_root();
             var arr = root.get_object().get_array_member("coordinates");
 
             double x = 0;
             double y = 0;
             double z = 0;
-            int count = 0;
+            int count = (int)arr.get_length();
 
             foreach(var cnode in arr.get_elements())
             {   
                 var c = (Coordinate)Json.gobject_deserialize(typeof(Coordinate),cnode);
 
-                count += 1;
                 x += c.x;
                 y += c.y;
                 z += c.z;
