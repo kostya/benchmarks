@@ -37,6 +37,8 @@ executables := \
 	target/json_simdjson_dom_cpp \
 	target/json_v_gcc \
 	target/json_v_clang \
+	target/json_vala_gcc \
+	target/json_vala_clang \
 	target/json_dawjsonlink_cpp
 
 artifacts := $(executables) \
@@ -215,6 +217,12 @@ target/json_v_gcc: test.v | $(v_fmt)
 
 target/json_v_clang: test.v | $(v_fmt)
 	$(V_CLANG_BUILD)
+
+target/json_vala_gcc: test.vala | target
+	$(VALAC_GCC_BUILD) --pkg json-glib-1.0
+
+target/json_vala_clang: test.vala | target
+	$(VALAC_CLANG_BUILD) --pkg json-glib-1.0
 
 .PHONY: json-iterator
 json-iterator:
