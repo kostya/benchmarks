@@ -250,6 +250,8 @@ Testing parsing and simple calculating of values from a big JSON file.
 |                      Ruby/jruby |  3.887<sub>±0.102</sub> | 475.26<sub>±04.27</sub> + 1484.87<sub>±32.34</sub> | 114.97<sub>±02.68</sub> |
 |    C++/g++ (Boost.PropertyTree) |  4.359<sub>±0.073</sub> | 109.61<sub>±00.03</sub> + 1440.06<sub>±00.00</sub> | 101.74<sub>±01.57</sub> |
 |                           D/dmd |  5.029<sub>±0.101</sub> |  110.12<sub>±00.03</sub> + 680.10<sub>±00.03</sub> |  99.91<sub>±03.77</sub> |
+|                        Vala/gcc |  5.843<sub>±0.172</sub> |  111.17<sub>±00.07</sub> + 997.54<sub>±00.01</sub> | 106.11<sub>±02.27</sub> |
+|                      Vala/clang |  6.087<sub>±0.149</sub> |  111.21<sub>±00.05</sub> + 932.12<sub>±00.12</sub> | 108.56<sub>±03.08</sub> |
 |               Perl (JSON::Tiny) | 11.675<sub>±0.170</sub> |  122.00<sub>±00.04</sub> + 525.16<sub>±00.03</sub> | 266.13<sub>±04.55</sub> |
 |        Ruby/truffleruby (--jvm) | 18.393<sub>±0.585</sub> | 748.21<sub>±14.35</sub> + 1639.80<sub>±63.41</sub> | 495.50<sub>±12.87</sub> |
 |                Ruby/truffleruby | 42.147<sub>±1.079</sub> | 733.18<sub>±00.41</sub> + 2342.65<sub>±22.01</sub> | 885.48<sub>±36.81</sub> |
@@ -452,6 +454,11 @@ For Perl:
 
  - [cpanminus](https://metacpan.org/pod/App::cpanminus) for installing
 modules from CPAN (Debian package `cpanminus`).
+
+For Vala:
+
+ - [JSON-GLib](https://wiki.gnome.org/Projects/JsonGlib) for JSON tests
+ (Debian package `libjson-glib-dev`).
 
 # Contribution
 

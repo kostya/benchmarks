@@ -9,7 +9,7 @@ RUN apt-get update \
 	&& apt-get install -y wget xz-utils build-essential libtool-bin cmake git curl vim powercap-utils \
 	libgmp-dev libssl-dev libssl1.1 libxml2 lbzip2 libtinfo5 libtool zlib1g \
 	libpcre3-dev libevent-dev libjson-c-dev libblas-dev liblapack-dev libopenblas-dev \
-	libjq-dev libonig-dev \
+	libjq-dev libonig-dev libjson-glib-dev \
 	python3-numpy python3 python3-ujson python3-pip \
 	mono-devel nuget \
 	chezscheme gcc-10 gccgo-10 gdc-10 valac cpanminus \
@@ -77,9 +77,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$CRYSTAL/bin:${PATH}"
 
 # https://github.com/ldc-developers/ldc/releases
-ARG LDC=ldc2-1.25.0-linux-x86_64
+ARG LDC=ldc2-1.25.1-linux-x86_64
 RUN wget --progress=dot:giga -O - \
-	https://github.com/ldc-developers/ldc/releases/download/v1.25.0/$LDC.tar.xz \
+	https://github.com/ldc-developers/ldc/releases/download/v1.25.1/$LDC.tar.xz \
 	| tar -xJ
 ENV PATH="/opt/$LDC/bin/:${PATH}"
 
@@ -92,19 +92,19 @@ ENV PATH="/opt/$NIM/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN wget --progress=dot:giga -O - \
-        https://s3.us-west-2.amazonaws.com/downloads.dlang.org/releases/2021/dmd.2.095.1.linux.tar.xz \
-	| tar -xJ
+    https://s3.us-west-2.amazonaws.com/downloads.dlang.org/releases/2021/dmd.2.096.0.linux.tar.xz \
+    | tar -xJ
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
 # https://www.jruby.org/download
-ARG JRUBY=9.2.14.0
+ARG JRUBY=9.2.16.0
 RUN wget --progress=dot:giga -O - \
 	https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
 	| tar -xz \
 	&& ln -s /opt/jruby-$JRUBY/bin/jruby /usr/bin/jruby
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.5.3
+ARG JULIA=julia-1.5.4
 RUN wget --progress=dot:giga -O - \
 	https://julialang-s3.julialang.org/bin/linux/x64/1.5/$JULIA-linux-x86_64.tar.gz \
 	| tar -xz
@@ -162,13 +162,13 @@ RUN wget --progress=dot:giga -O - \
 
 # https://github.com/dotnet/core/tree/master/release-notes
 RUN mkdir dotnet && wget --progress=dot:giga -O - \
-        https://download.visualstudio.microsoft.com/download/pr/a2052604-de46-4cd4-8256-9bc222537d32/a798771950904eaf91c0c37c58f516e1/dotnet-sdk-5.0.103-linux-x64.tar.gz \
-	| tar -xz -C dotnet
+    https://download.visualstudio.microsoft.com/download/pr/e0707d53-0310-4767-9db1-67ddc41f6fd8/38761ffd39860954aa7c8a54cbb025ca/dotnet-sdk-5.0.104-linux-x64.tar.gz \
+    | tar -xz -C dotnet
 ENV PATH="/opt/dotnet:${PATH}"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v15.10.0
+ARG NODE=v15.11.0
 RUN wget --progress=dot:giga -O - \
 	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
 	| tar -xJ
@@ -176,8 +176,8 @@ ENV PATH="/opt/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN wget --progress=dot:giga -O - \
-        https://golang.org/dl/go1.16.linux-amd64.tar.gz \
-	| tar -xz
+    https://golang.org/dl/go1.16.2.linux-amd64.tar.gz \
+    | tar -xz
 ENV PATH="/opt/go/bin/:${PATH}"
 
 # https://www.rust-lang.org/tools/install
@@ -185,12 +185,12 @@ ENV CARGO_HOME="/opt/.cargo" PATH="/opt/.cargo/bin:${PATH}"
 RUN wget -O - https://sh.rustup.rs | sh -s -- -y
 
 # https://ocaml.org/releases/
-ARG OCAML=4.11.1
+ARG OCAML=4.12.0
 RUN opam init --disable-sandboxing -n --root=/opt/opam --compiler=ocaml-base-compiler.$OCAML
 ENV PATH="/opt/opam/$OCAML/bin/:${PATH}"
 
 # https://kotlinlang.org/docs/tutorials/command-line.html
-ARG KOTLIN=1.4.30
+ARG KOTLIN=1.4.31
 RUN wget --progress=dot:giga \
 	https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
 	&& unzip kotlin-compiler-$KOTLIN.zip \
@@ -205,7 +205,7 @@ RUN wget --progress=dot:giga \
 	&& rm racket-$RACKET-x86_64-linux-cs.sh
 
 # https://github.com/vlang/v/releases
-ARG VLANG=weekly.2021.8
+ARG VLANG=weekly.2021.11
 RUN wget --progress=dot:giga \
         https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
         && unzip v_linux.zip \
