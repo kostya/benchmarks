@@ -39,7 +39,8 @@ executables := \
 	target/json_v_clang \
 	target/json_vala_gcc \
 	target/json_vala_clang \
-	target/json_dawjsonlink_cpp
+	target/json_dawjsonlink_cpp \
+	json-fsharp/target/Release/net5.0/json-fsharp
 
 artifacts := $(executables) \
 	target/test.exe \
@@ -242,6 +243,9 @@ target/json_dawjsonlink_cpp: test_dawjsonlink.cpp | $(daw_json_link_all) $(boost
 		-I$(daw_json_link_all)/header_libraries/include \
 		-I$(daw_json_link_all)/utf_range/include -I$(boost)
 
+json-fsharp/target/Release/net5.0/json-fsharp: json-fsharp/json-fsharp.fsproj
+	$(DOTNET_BUILD)
+
 # Run
 
 .PHONY: run
@@ -339,6 +343,7 @@ clean:
 	$(MAKE) -C json-java clean
 	$(MAKE) -C json-hs clean
 	$(DOTNET_CLEAN) json-core/json-core.csproj
+	$(DOTNET_CLEAN) json-fsharp/json-fsharp.fsproj
 	cargo clean --manifest-path $(json-rs-toml)
 	-rm -rf target
 

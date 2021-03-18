@@ -74,7 +74,7 @@ SCHEME_RUN =		$(XTIME) scheme --optimize-level 3 --program $^
 JULIA_RUN =		$(XTIME) julia --optimize=3 --check-bounds=no $^
 
 GIT_CLONE = git clone --depth 1 -q
-DOTNET_CLEAN = -dotnet clean --nologo -v q
+DOTNET_CLEAN = -dotnet clean --nologo -v q -c Release
 NUGET_INSTALL = nuget install -ExcludeVersion -Verbosity quiet
 
 py_fmt := target/.py_fmt
