@@ -32,8 +32,7 @@ module Util =
         with _ -> ()
 
     let runtimeId =
-        sprintf "F#/%s\t%d" 
-            "F#/.NET Core (System.Text.Json)"
+        sprintf "F#/.NET Core (System.Text.Json)\t%d"
             (Process.GetCurrentProcess().Id)
 
     let validate () =

@@ -243,7 +243,7 @@ target/json_dawjsonlink_cpp: test_dawjsonlink.cpp | $(daw_json_link_all) $(boost
 		-I$(daw_json_link_all)/header_libraries/include \
 		-I$(daw_json_link_all)/utf_range/include -I$(boost)
 
-json-fsharp/target/Release/net5.0/json-fsharp: json-fsharp/json-fsharp.fsproj
+json-fsharp/target/Release/net5.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
 	$(DOTNET_BUILD)
 
 # Run
