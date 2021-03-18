@@ -32,8 +32,9 @@ module Util =
         with _ -> ()
 
     let runtimeId =
-        let runtime = if isNull (Type.GetType "Mono.Runtime") then ".NET Core" else "Mono"
-        sprintf "F#/%s\t%d" runtime (Process.GetCurrentProcess().Id)
+        sprintf "F#/%s\t%d" 
+            "F#/.NET Core (System.Text.Json)"
+            (Process.GetCurrentProcess().Id)
 
     let validate () =
         let expected = { x = 2.0; y = 0.5; z = 0.25 }
