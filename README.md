@@ -245,6 +245,7 @@ Testing parsing and simple calculating of values from a big JSON file.
 |                           D/gdc |  2.220<sub>±0.020</sub> |  113.29<sub>±00.02</sub> + 600.33<sub>±00.00</sub> |  50.18<sub>±00.93</sub> |
 |                     Ruby (YAJL) |  2.272<sub>±0.030</sub> |  120.47<sub>±00.05</sub> + 281.58<sub>±00.01</sub> |  52.01<sub>±01.72</sub> |
 |                    Ruby (--jit) |  2.300<sub>±0.076</sub> |  120.61<sub>±00.02</sub> + 410.78<sub>±00.01</sub> |  50.17<sub>±03.75</sub> |
+| F#/.NET Core (System.Text.Json) |  2.555<sub>±0.005</sub> |  471.58<sub>±00.05</sub> + 444.65<sub>±01.22</sub> |  52.43<sub>±00.74</sub> |
 |                          D/ldc2 |  2.561<sub>±0.025</sub> |  109.59<sub>±00.05</sub> + 680.20<sub>±00.04</sub> |  51.38<sub>±01.48</sub> |
 |                       Rust (jq) |  3.744<sub>±0.097</sub> |  110.43<sub>±00.03</sub> + 775.37<sub>±00.52</sub> |  69.39<sub>±05.88</sub> |
 |                      Ruby/jruby |  3.887<sub>±0.102</sub> | 475.26<sub>±04.27</sub> + 1484.87<sub>±32.34</sub> | 114.97<sub>±02.68</sub> |
