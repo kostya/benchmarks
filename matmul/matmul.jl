@@ -12,17 +12,17 @@ function mul(a, b)
 
     # transpose a for cache-friendliness
     aT = zeros(n, m)
-    @simd for i = 1:m
-        for j = 1:n
+    for i = 1:m
+        @simd for j = 1:n
             @inbounds aT[j, i] = a[i, j]
         end
     end
 
     out = zeros(m, p)
-    @simd for i = 1:m
+    for i = 1:m
         for j = 1:p
             z = 0.0
-            for k = 1:n
+            @simd for k = 1:n
                 @inbounds z += aT[k, i] * b[k, j]
             end
             @inbounds out[i, j] = z
