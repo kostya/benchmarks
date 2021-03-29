@@ -17,15 +17,15 @@ executables := \
 	target/base64_v_gcc \
 	target/base64_v_clang \
 	target/base64_vala_gcc \
-	target/base64_vala_clang
+	target/base64_vala_clang \
+	target/Release/net5.0/base64 \
+	base64.fsharp/target/Release/net5.0/base64
 
 artifacts := $(executables) \
 	target/base64_scala.jar \
 	target/Base64Java.class \
 	target/Test-kt.jar \
-	target/test.exe \
-	target/Release/net5.0/base64.dll \
-	base64.fsharp/target/Release/net5.0/base64.dll
+	target/test.exe
 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[test.pl] \
@@ -107,11 +107,11 @@ base64.rs/target/release/base64: $(base64-rs-toml)
 target/test.exe: test.cs | target
 	$(MCS_BUILD)
 
-.PHONY: target/Release/net5.0/base64.dll
-target/Release/net5.0/base64.dll: base64.csproj | target
+.PHONY: target/Release/net5.0/base64
+target/Release/net5.0/base64: base64.csproj | target
 	$(DOTNET_BUILD)
 
-base64.fsharp/target/Release/net5.0/base64.dll: base64.fsharp/base64.fsproj | target
+base64.fsharp/target/Release/net5.0/base64: base64.fsharp/base64.fsproj | target
 	$(DOTNET_BUILD)
 
 target/base64_v_gcc: test.v | $(v_fmt)
@@ -152,12 +152,6 @@ run[target/Test-kt.jar]:: run[%]: %
 
 run[target/test.exe]:: run[%]: %
 	$(MONO_RUN)
-
-run[target/Release/net5.0/base64.dll]:: run[%]: %
-	$(DOTNET_RUN)
-
-run[base64.fsharp/target/Release/net5.0/base64.dll]:: run[%]: %
-	$(DOTNET_RUN)
 
 .PHONY: base64_perl
 base64_perl:

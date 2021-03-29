@@ -23,14 +23,14 @@ executables := \
 	target/bin_v_gcc \
 	target/bin_v_clang \
 	target/bin_c_gcc \
-	target/bin_c_clang
+	target/bin_c_clang \
+	fsharp/target/Release/net5.0/brainfuck \
+	target/Release/net5.0/brainfuck
 
 artifacts := $(executables) \
-	fsharp/target/Release/net5.0/brainfuck.dll \
 	target/bf_scala.jar \
 	target/bf2-kt.jar \
 	target/bf.exe \
-	target/Release/net5.0/brainfuck.dll \
 	target/bf.class
 
 fast_runners := $(patsubst %,run[%], $(artifacts)) \
@@ -75,12 +75,12 @@ target/bf_scala.jar: bf.scala | target
 target/bf.exe: bf.cs | target
 	$(MCS_BUILD)
 
-.PHONY: target/Release/net5.0/brainfuck.dll
-target/Release/net5.0/brainfuck.dll: brainfuck.csproj | target
+.PHONY: target/Release/net5.0/brainfuck
+target/Release/net5.0/brainfuck: brainfuck.csproj | target
 	$(DOTNET_BUILD)
 
-.PHONY: fsharp/target/Release/net5.0/brainfuck.dll
-fsharp/target/Release/net5.0/brainfuck.dll: fsharp/brainfuck.fsproj | target
+.PHONY: fsharp/target/Release/net5.0/brainfuck
+fsharp/target/Release/net5.0/brainfuck: fsharp/brainfuck.fsproj | target
 	$(DOTNET_BUILD)
 
 target/bf2-kt.jar: bf2.kt | target
@@ -164,12 +164,6 @@ run[target/bf_scala.jar]:: run[%]: %
 
 run[target/bf.exe]:: run[%]: %
 	$(MONO_RUN) $(BF_SRC)
-
-run[target/Release/net5.0/brainfuck.dll]:: run[%]: %
-	$(DOTNET_RUN) $(BF_SRC)
-
-run[fsharp/target/Release/net5.0/brainfuck.dll]:: run[%]: %
-	$(DOTNET_RUN) $(BF_SRC)
 
 run[target/bf2-kt.jar]:: run[%]: %
 	$(JAVA_JAR_RUN) $(BF_SRC)
