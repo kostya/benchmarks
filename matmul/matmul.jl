@@ -6,29 +6,16 @@ function matgen(n, seed)
 end
 
 function mul(a, b)
-    m, n = size(a)
-    q, p = size(b)
-    @assert n == q
-
-    # transpose a for cache-friendliness
-    aT = zeros(n, m)
-    @simd for i = 1:m
-        for j = 1:n
-            @inbounds aT[j, i] = a[i, j]
-        end
-    end
-
-    out = zeros(m, p)
-    @simd for i = 1:m
-        for j = 1:p
-            z = 0.0
-            for k = 1:n
-                @inbounds z += aT[k, i] * b[k, j]
+    c = zeros(size(a, 1), size(b, 2))
+    M, N = size(c); K = size(b,1)
+    @inbounds Threads.@threads for n ∈ 1:N
+        for k ∈ 1:K
+            @simd ivdep for m ∈ 1:M
+                @fastmath c[m,n] += a[m,k] * b[k,n]
             end
-            @inbounds out[i, j] = z
         end
     end
-    out
+    return c
 end
 
 function calc(n)
