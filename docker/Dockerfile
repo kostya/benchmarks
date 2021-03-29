@@ -63,16 +63,16 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/scala-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=15.0.2
+ARG JDK=16
 RUN wget --progress=dot:giga -O - \
-        https://download.java.net/java/GA/jdk15.0.2/0d1cfde4252546c6931946de8db48ee2/7/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
-	| tar -xz
+    https://download.java.net/java/GA/jdk16/7863447f0ab643c585b9bdebf67c69db/36/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
+    | tar -xz
 ENV PATH="/opt/jdk-$JDK/bin:${PATH}"
 
 # https://github.com/crystal-lang/crystal/releases
-ARG CRYSTAL=crystal-0.36.1-1
+ARG CRYSTAL=crystal-1.0.0-1
 RUN wget --progress=dot:giga -O - \
-	https://github.com/crystal-lang/crystal/releases/download/0.36.1/$CRYSTAL-linux-x86_64.tar.gz \
+	https://github.com/crystal-lang/crystal/releases/download/1.0.0/$CRYSTAL-linux-x86_64.tar.gz \
 	| tar -xz
 ENV PATH="/opt/$CRYSTAL/bin:${PATH}"
 
@@ -104,9 +104,9 @@ RUN wget --progress=dot:giga -O - \
 	&& ln -s /opt/jruby-$JRUBY/bin/jruby /usr/bin/jruby
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.5.4
+ARG JULIA=julia-1.6.0
 RUN wget --progress=dot:giga -O - \
-	https://julialang-s3.julialang.org/bin/linux/x64/1.5/$JULIA-linux-x86_64.tar.gz \
+	https://julialang-s3.julialang.org/bin/linux/x64/1.6/$JULIA-linux-x86_64.tar.gz \
 	| tar -xz
 ENV PATH="/opt/$JULIA/bin/:${PATH}"
 
@@ -118,7 +118,7 @@ RUN wget --progress=dot:giga -O - \
 	&& ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
 
 # https://clojure.org/community/downloads
-ARG CLOJURE=1.10.2.796
+ARG CLOJURE=1.10.3.814
 RUN wget --progress=dot:giga -O - \
 	https://download.clojure.org/install/linux-install-$CLOJURE.sh \
 	| bash -s
@@ -169,7 +169,7 @@ ENV DOTNET_ROOT="/opt/dotnet"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v15.11.0
+ARG NODE=v15.12.0
 RUN wget --progress=dot:giga -O - \
 	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
 	| tar -xJ
@@ -206,7 +206,7 @@ RUN wget --progress=dot:giga \
 	&& rm racket-$RACKET-x86_64-linux-cs.sh
 
 # https://github.com/vlang/v/releases
-ARG VLANG=weekly.2021.11
+ARG VLANG=weekly.2021.12.2
 RUN wget --progress=dot:giga \
         https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
         && unzip v_linux.zip \
