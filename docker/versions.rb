@@ -106,14 +106,10 @@ LANGS = {
   'Perl' => -> { `perl -e 'print $^V;'` },
   'Haskell' => -> { `ghc --numeric-version` },
   'Tcl' => -> { `echo 'puts "$tcl_version"' | tclsh` },
+  # TODO: remove JAVA_OPTS as soon as new Kotlin is released
+  # (see https://youtrack.jetbrains.com/issue/KT-43704)
   'Kotlin' => lambda do
-    prog = <<~KOTLIN
-      fun main(){
-        println(KotlinVersion.CURRENT)
-      }
-    KOTLIN
-    `kotlinc #{cat('kt.kt', prog)} -include-runtime -d #{cat('kt.jar')} \
-     && java -jar #{cat('kt.jar')}`
+    `JAVA_OPTS="--illegal-access=permit" kotlin -e KotlinVersion.CURRENT`
   end,
   'PHP' => -> { `php -r "echo phpversion();"` },
   'Elixir' => -> { `elixir -e "IO.puts System.version"` },
@@ -123,7 +119,7 @@ LANGS = {
   'Racket' => -> { `racket -e "(version)"` },
   'Chez Scheme' => -> { `scheme --version 2>&1` },
   'V' => -> { `v version`.split[1] },
-  'Clojure' => -> { `clojure -e '(clojure-version)'` }
+  'Clojure' => -> { `clojure -M -e '(clojure-version)'` }
 }.freeze
 
 def pad(num, str, padstr)
