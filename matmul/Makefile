@@ -22,14 +22,14 @@ executables := \
 	target/matmul_v_gcc \
 	target/matmul_v_clang \
 	target/matmul_vala_gcc \
-	target/matmul_vala_clang
+	target/matmul_vala_clang \
+	target/Release/net5.0/matmul
 
 artifacts := $(executables) \
 	target/matmul_scala.jar \
 	target/matmul.class \
 	target/matmul-kt.jar \
-	target/matmul.exe \
-	target/Release/net5.0/matmul.dll
+	target/matmul.exe
 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[matmul.js] \
@@ -127,8 +127,8 @@ target/matmul-kt.jar: matmul.kt | target
 target/matmul.exe: matmul.cs | target
 	$(MCS_BUILD)
 
-.PHONY: target/Release/net5.0/matmul.dll
-target/Release/net5.0/matmul.dll: matmul.csproj | target
+.PHONY: target/Release/net5.0/matmul
+target/Release/net5.0/matmul: matmul.csproj | target
 	$(DOTNET_BUILD)
 
 # Run
@@ -157,9 +157,6 @@ run[target/matmul-kt.jar]:: run[%]: %
 
 run[target/matmul.exe]:: run[%]: %
 	$(MONO_RUN) $(MSIZE)
-
-run[target/Release/net5.0/matmul.dll]:: run[%]: %
-	$(DOTNET_RUN) $(MSIZE)
 
 run[matmul.js]:: run[%]: %
 	$(NODE_RUN) $(MSIZE)

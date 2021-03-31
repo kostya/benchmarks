@@ -1,6 +1,6 @@
 #!/usr/bin/env dub
 /+dub.sdl:
-dependency "lubeck" version="~>1.3.2"
+dependency "lubeck" version="~>1.3.4"
 libs "lapack" "blas"
 targetPath "target"
 +/

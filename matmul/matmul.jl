@@ -7,11 +7,12 @@ end
 
 function mul(a, b)
     c = zeros(size(a, 1), size(b, 2))
-    M, N = size(c); K = size(b,1)
+    M, N = size(c)
+    K = size(b, 1)
     @inbounds Threads.@threads for n ∈ 1:N
         for k ∈ 1:K
             @simd ivdep for m ∈ 1:M
-                @fastmath c[m,n] += a[m,k] * b[k,n]
+                @fastmath c[m, n] += a[m, k] * b[k, n]
             end
         end
     end

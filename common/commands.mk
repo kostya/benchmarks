@@ -17,7 +17,8 @@ GDC_BUILD =		gdc -o $@ -O3 -frelease -finline -fbounds-check=off $^
 GHC_BUILD =		ghc -v0 -O2 -fforce-recomp -Wall $^ -o $@ -outputdir $(@D)
 GO_BUILD =		GO111MODULE=auto go build -o $@ $^
 JAVAC_BUILD =		javac -d $(@D) $^
-KOTLINC_BUILD =	kotlinc -include-runtime -jvm-target 14 -d $@ $^
+# TODO: remove JAVA_OPTS as soon as new Kotlin is released (see https://youtrack.jetbrains.com/issue/KT-43704)
+KOTLINC_BUILD =	JAVA_OPTS="--illegal-access=permit" kotlinc -include-runtime -jvm-target 15 -d $@ $^
 LDC2_BUILD =		ldc2 -of$@ -O5 -release -boundscheck=off $^
 MCS_BUILD =		mcs -debug- -optimize+ -out:$@ $^
 MLTON_BUILD =		mlton -output $@ $^
@@ -48,7 +49,6 @@ LUAROCKS_LUA = PATH=$(PATH):/opt/luarocks/lua/bin luarocks
 LUAROCKS_LUAJIT = PATH=$(PATH):/opt/luarocks/luajit/bin luarocks
 
 CLOJURE_RUN =		$(XTIME) clojure $(CLOJURE_FLAGS) -M $^
-DOTNET_RUN =		$(XTIME) dotnet $^
 ELIXIR_RUN =		$(XTIME) elixir $^
 EXECUTABLE_RUN =	$(XTIME) $^
 JAVA_CLASS_RUN =	$(XTIME) java -cp $(^D) $(basename $(^F))

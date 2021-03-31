@@ -5,9 +5,9 @@ import time
 fn notify(msg string) {
 	mut sock := net.dial_tcp('127.0.0.1:9001') or { return }
 	defer {
-		sock.close() or { }
+		sock.close() or {}
 	}
-	sock.write_str(msg) or { }
+	sock.write_string(msg) or {}
 }
 
 fn main() {
@@ -17,18 +17,18 @@ fn main() {
 	] {
 		src := fixture[0]
 		dst := fixture[1]
-		encoded := base64.encode(src)
+		encoded := base64.encode(src.bytes())
 		if encoded != dst {
 			panic('$encoded != $dst')
 		}
 		decoded := base64.decode(dst)
-		if decoded != src {
+		if decoded != src.bytes() {
 			panic('$decoded != $src')
 		}
 	}
 	str_size := 131072
 	tries := 8192
-	str := 'a'.repeat(str_size)
+	str := 'a'.repeat(str_size).bytes()
 	str2 := base64.encode(str)
 	str3 := base64.decode(str2)
 	mut lang := 'V/gcc'
