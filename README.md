@@ -241,6 +241,7 @@ Testing parsing and simple calculating of values from a big JSON file.
 |                         Nim/gcc |  1.904<sub>±0.042</sub> |   108.78<sub>±00.04</sub> + 919.36<sub>±00.00</sub> |  35.23<sub>±00.52</sub> |
 |                       Nim/clang |  1.918<sub>±0.024</sub> |   109.19<sub>±00.05</sub> + 919.42<sub>±00.06</sub> |  35.93<sub>±01.38</sub> |
 |                         C#/Mono |  2.060<sub>±0.055</sub> |     462.41<sub>±00.12</sub> + 0.18<sub>±00.00</sub> |  46.42<sub>±03.45</sub> |
+|              C++/g++ (Nlohmann) |  2.173<sub>±0.030</sub> |   109.33<sub>±00.01</sub> + 448.31<sub>±00.00</sub> |  43.76<sub>±00.42</sub> |
 |                           D/gdc |  2.227<sub>±0.080</sub> |   113.16<sub>±00.06</sub> + 600.28<sub>±00.00</sub> |  49.11<sub>±01.80</sub> |
 |                            Ruby |  2.286<sub>±0.056</sub> |   120.58<sub>±00.03</sub> + 410.67<sub>±00.01</sub> |  43.07<sub>±01.79</sub> |
 |                     Ruby (YAJL) |  2.300<sub>±0.082</sub> |   120.54<sub>±00.02</sub> + 281.58<sub>±00.00</sub> |  48.46<sub>±03.87</sub> |
