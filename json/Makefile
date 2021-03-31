@@ -42,7 +42,8 @@ executables := \
 	target/json_dawjsonlink_cpp \
 	json-fsharp/target/Release/net5.0/json-fsharp \
 	target/Release/net5.0/json \
-	json-core/target/Release/net5.0/json-core
+	json-core/target/Release/net5.0/json-core \
+	target/json_nlohmann_json_cpp
 
 artifacts := $(executables) \
 	target/test.exe \
@@ -134,6 +135,13 @@ target/json_boost_ptree_cpp: test_boost_ptree.cpp | $(boost) libnotify
 
 target/json_boost_json_cpp: test_boost_json.cpp | $(boost) libnotify
 	$(GCC_CPP_BUILD) -I$(boost)
+
+nlohmann_json := target/nlohmann_json
+$(nlohmann_json): | target
+	$(GIT_CLONE) "https://github.com/nlohmann/json.git" $@
+
+target/json_nlohmann_json_cpp: test_nlohmann_json.cpp | $(nlohmann_json) $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(nlohmann_json)/single_include -I$(boost)
 
 fast-dir := target/fast
 $(fast-dir): | target

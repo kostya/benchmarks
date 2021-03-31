@@ -1,6 +1,5 @@
+#include <nlohmann/json.hpp>
 #include <boost/format.hpp>
-#include <boost/json.hpp>
-#include <boost/json/src.hpp>
 #include <fstream>
 #include <iostream>
 #include <libnotify.hpp>
@@ -37,14 +36,13 @@ coordinate_t calc(const string& text) {
   auto x = 0.0, y = 0.0, z = 0.0;
   auto len = 0;
 
-  auto jv = boost::json::parse(text);
-  auto &obj = jv.get_object();
-  for (auto& v: obj["coordinates"].get_array()) {
+  auto jv = nlohmann::json::parse(text);
+  auto &obj = jv["coordinates"];
+  for (auto& coord: obj) {
     len += 1;
-    auto& coord = v.get_object();
-    x += coord["x"].get_double();
-    y += coord["y"].get_double();
-    z += coord["z"].get_double();
+    x += coord["x"].get<double>();
+    y += coord["y"].get<double>();
+    z += coord["z"].get<double>();
   }
 
   return coordinate_t(x / len, y / len, z / len);
@@ -64,7 +62,7 @@ int main() {
 
   const auto& text = read_file("/tmp/1.json");
 
-  notify(str(boost::format("C++/g++ (Boost.JSON)\t%d") % getpid()));
+  notify(str(boost::format("C++/g++ (Nlohmann)\t%d") % getpid()));
   const auto& results = calc(text);
   notify("stop");
 
