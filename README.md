@@ -270,6 +270,7 @@ Testing allocating and multiplying matrices.
 |           Python (NumPy) |    0.094<sub>±0.001</sub> |   27.66<sub>±00.09</sub> + 57.68<sub>±00.03</sub> |      5.36<sub>±00.09</sub> |
 |  Nim/clang (Arraymancer) |    0.147<sub>±0.041</sub> |    6.51<sub>±00.06</sub> + 57.42<sub>±00.01</sub> |      7.35<sub>±01.78</sub> |
 |    Nim/gcc (Arraymancer) |    0.167<sub>±0.011</sub> |    5.78<sub>±00.04</sub> + 57.66<sub>±00.02</sub> |      8.97<sub>±00.55</sub> |
+|          C++/g++ (Eigen) |    0.186<sub>±0.003</sub> |    3.54<sub>±00.03</sub> + 85.25<sub>±00.00</sub> |      3.76<sub>±00.03</sub> |
 |              Java (ND4J) |    0.220<sub>±0.013</sub> |  144.24<sub>±01.82</sub> + 87.51<sub>±00.10</sub> |      9.75<sub>±00.49</sub> |
 |       Julia (threads: 8) |    0.293<sub>±0.003</sub> |  238.60<sub>±00.19</sub> + 30.86<sub>±00.23</sub> |     15.18<sub>±00.33</sub> |
 |       Julia (threads: 1) |    0.632<sub>±0.005</sub> |  238.50<sub>±00.24</sub> + 31.28<sub>±00.17</sub> |     11.72<sub>±00.30</sub> |

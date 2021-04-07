@@ -23,7 +23,8 @@ executables := \
 	target/matmul_v_clang \
 	target/matmul_vala_gcc \
 	target/matmul_vala_clang \
-	target/Release/net5.0/matmul
+	target/Release/net5.0/matmul \
+	target/matmul_cpp
 
 artifacts := $(executables) \
 	target/matmul_scala.jar \
@@ -130,6 +131,13 @@ target/matmul.exe: matmul.cs | target
 .PHONY: target/Release/net5.0/matmul
 target/Release/net5.0/matmul: matmul.csproj | target
 	$(DOTNET_BUILD)
+
+eigen := target/eigen
+$(eigen): | target
+	$(GIT_CLONE) "https://gitlab.com/libeigen/eigen.git" $@
+
+target/matmul_cpp: matmul.cpp | $(eigen) libnotify
+	$(GCC_CPP_BUILD) -I$(eigen)
 
 # Run
 
