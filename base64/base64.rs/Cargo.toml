@@ -5,6 +5,7 @@ edition = "2018"
 
 [profile.release]
 lto = true
+codegen-units = 1
 
 [dependencies]
 base64 = "0.13.0"

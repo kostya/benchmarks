@@ -1,9 +1,10 @@
-GCC_FLAGS := -O3 -march=native -Wall -flto -Wa,-mbranches-within-32B-boundaries
-CLANG_FLAGS := -O3 -mbranches-within-32B-boundaries
+COMMON_FLAGS := -march=native -flto -Wa,-mbranches-within-32B-boundaries
+GCC_FLAGS := -Wall -O3 $(COMMON_FLAGS)
+CLANG_FLAGS := -Wall -O3 $(COMMON_FLAGS)
 LIBNOTIFY_FLAGS := -I../common/libnotify ../common/libnotify/target/libnotify.a
-NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off
-RUSTC_FLAGS := -C opt-level=3 -C target-cpu=native -C codegen-units=1 -C llvm-args=--x86-branches-within-32B-boundaries
-VALAC_FLAGS := --disable-assert -X -O3 --pkg gio-2.0 --pkg posix
+NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off --passC:"$(COMMON_FLAGS)" --passL:"$(COMMON_FLAGS)"
+RUSTC_FLAGS := -C opt-level=3 -C target-cpu=native -C llvm-args=--x86-branches-within-32B-boundaries
+VALAC_FLAGS := --disable-assert -X -O3 -X -march=native -X -flto -X -Wa,-mbranches-within-32B-boundaries --pkg gio-2.0 --pkg posix
 V_FLAGS := -prod
 
 CLANG_BUILD =		clang $(CLANG_FLAGS) -o $@ $^ $(LIBNOTIFY_FLAGS)
@@ -13,7 +14,7 @@ DOTNET_BUILD =		dotnet build --nologo -v q $< -c Release
 DUB_BUILD =		dub -q build --build=release --compiler=ldc2 --single $^
 GCC_BUILD =		gcc $(GCC_FLAGS) -std=c17 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++2a -o $@ $^ $(LIBNOTIFY_FLAGS)
-GCC_GO_BUILD =		gccgo -O3 -o $@ $^
+GCC_GO_BUILD =	gccgo $(GCC_FLAGS) -o $@ $^
 GDC_BUILD =		gdc -o $@ -O3 -frelease -finline -fbounds-check=off $^
 GHC_BUILD =		ghc -v0 -O2 -fforce-recomp -Wall $^ -o $@ -outputdir $(@D)
 GO_BUILD =		GO111MODULE=auto go build -o $@ $^
@@ -24,8 +25,8 @@ LDC2_BUILD =		ldc2 -of$@ -O5 -release -boundscheck=off $^
 MCS_BUILD =		mcs -debug- -optimize+ -out:$@ $^
 MLTON_BUILD =		mlton -output $@ $^
 NIM_CLANG_BUILD =	nim c -o:$@ --cc:clang $(NIM_FLAGS) $^
-NIM_GCC_BUILD =	nim c -o:$@ --cc:gcc $(NIM_FLAGS) $^
-RUSTC_BUILD =		rustc $(RUSTC_FLAGS) -C lto -o $@ $^
+NIM_GCC_BUILD =	    nim c -o:$@ --cc:gcc $(NIM_FLAGS) $^
+RUSTC_BUILD =		rustc $(RUSTC_FLAGS) -C lto -C codegen-units=1 -o $@ $^
 SCALAC_BUILD =		scalac -d $@ $^
 VALAC_CLANG_BUILD =	valac $^ --cc=clang -D CLANG_TEST $(VALAC_FLAGS) -o $@
 VALAC_GCC_BUILD =	valac $^ --cc=gcc -D GCC_TEST $(VALAC_FLAGS) -o $@
