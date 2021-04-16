@@ -2,7 +2,7 @@ GCC_FLAGS := -O3 -march=native -Wall -flto -Wa,-mbranches-within-32B-boundaries
 CLANG_FLAGS := -O3 -mbranches-within-32B-boundaries
 LIBNOTIFY_FLAGS := -I../common/libnotify ../common/libnotify/target/libnotify.a
 NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off
-RUSTC_FLAGS := -C opt-level=3 -C target-cpu=native -C lto -C codegen-units=1 -C llvm-args="--x86-branches-within-32B-boundaries"
+RUSTC_FLAGS := -C opt-level=3 -C target-cpu=native -C lto -C codegen-units=1 -C llvm-args=--x86-branches-within-32B-boundaries
 VALAC_FLAGS := --disable-assert -X -O3 --pkg gio-2.0 --pkg posix
 V_FLAGS := -prod
 
@@ -39,7 +39,7 @@ endef
 define CARGO_BUILD =
 cargo fmt --manifest-path $<
 cargo clippy -q --manifest-path $<
-cargo build -q --manifest-path $< --release
+RUSTFLAGS="$(RUSTC_FLAGS)" cargo build -q --manifest-path $< --release
 endef
 
 ECHO_RUN = @tput bold; echo "$(MAKE) $@"; tput sgr0
