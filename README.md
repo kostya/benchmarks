@@ -69,9 +69,9 @@ Supports two mode:
 |                   D/ldc2 |    1.760<sub>±0.063</sub> |     3.03<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |     37.80<sub>±02.69</sub> |
 |                    C/gcc |    1.801<sub>±0.049</sub> |     0.50<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |     40.08<sub>±01.11</sub> |
 |                   Kotlin |    1.801<sub>±0.037</sub> |    38.80<sub>±00.08</sub> + 1.55<sub>±00.05</sub> |     33.84<sub>±01.23</sub> |
+|                     Rust |    1.879<sub>±0.028</sub> |     2.04<sub>±00.08</sub> + 0.00<sub>±00.00</sub> |     41.72<sub>±00.69</sub> |
 |                  Nim/gcc |    1.883<sub>±0.037</sub> |     1.87<sub>±00.06</sub> + 0.00<sub>±00.00</sub> |     35.48<sub>±01.09</sub> |
 |                    D/gdc |    1.973<sub>±0.054</sub> |     6.21<sub>±00.07</sub> + 0.00<sub>±00.00</sub> |     36.87<sub>±01.67</sub> |
-|                     Rust |    2.024<sub>±0.058</sub> |     2.09<sub>±00.10</sub> + 0.00<sub>±00.00</sub> |     40.52<sub>±04.29</sub> |
 |                Nim/clang |    2.029<sub>±0.017</sub> |     2.31<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |     38.04<sub>±01.06</sub> |
 |                   Racket |    2.177<sub>±0.067</sub> |   115.81<sub>±00.28</sub> + 2.06<sub>±00.26</sub> |     46.44<sub>±04.18</sub> |
 |                  C/clang |    2.215<sub>±0.026</sub> |     0.50<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |     44.48<sub>±02.20</sub> |
@@ -124,9 +124,9 @@ Supports two mode:
 |                  Nim/gcc |  15.904<sub>±0.191</sub> |     1.84<sub>±00.04</sub> + 0.51<sub>±00.00</sub> |   361.97<sub>±11.82</sub> |
 |  Racket (Syntax Objects) |  16.212<sub>±0.257</sub> |  109.92<sub>±00.07</sub> + 70.90<sub>±00.13</sub> |   371.05<sub>±13.45</sub> |
 |                       Go |  16.522<sub>±0.483</sub> |     3.46<sub>±00.06</sub> + 1.28<sub>±00.01</sub> |   315.59<sub>±23.17</sub> |
+|                     Rust |  17.527<sub>±0.598</sub> |     2.02<sub>±00.04</sub> + 0.28<sub>±00.03</sub> |   353.56<sub>±20.41</sub> |
 |                  C/clang |  18.029<sub>±0.435</sub> |     0.50<sub>±00.00</sub> + 1.13<sub>±00.01</sub> |   342.99<sub>±03.97</sub> |
 |             C#/.NET Core |  18.246<sub>±0.654</sub> |    34.30<sub>±00.10</sub> + 1.00<sub>±00.00</sub> |   365.05<sub>±36.17</sub> |
-|                     Rust |  18.784<sub>±0.326</sub> |     2.14<sub>±00.07</sub> + 0.25<sub>±00.00</sub> |   349.79<sub>±09.06</sub> |
 |                  V/clang |  20.060<sub>±0.249</sub> |     0.90<sub>±00.04</sub> + 2.01<sub>±00.14</sub> |   376.36<sub>±18.04</sub> |
 |                Nim/clang |  20.566<sub>±0.634</sub> |     2.33<sub>±00.05</sub> + 0.51<sub>±00.00</sub> |   418.74<sub>±31.06</sub> |
 |                     Java |  20.839<sub>±0.898</sub> |    38.23<sub>±00.13</sub> + 1.36<sub>±00.12</sub> |   440.21<sub>±16.34</sub> |
@@ -160,8 +160,8 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 |                  Language |                 Time, s |                                       Memory, MiB |               Energy, J |
 | :------------------------ | ----------------------: | ------------------------------------------------: | ----------------------: |
 |            C/gcc (aklomp) |  0.153<sub>±0.002</sub> |     1.91<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |   3.58<sub>±00.07</sub> |
+|                      Rust |  1.163<sub>±0.016</sub> |     2.54<sub>±00.05</sub> + 0.01<sub>±00.00</sub> |  23.27<sub>±01.58</sub> |
 |                     C/gcc |  1.179<sub>±0.014</sub> |     1.91<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |  23.10<sub>±01.62</sub> |
-|                      Rust |  1.254<sub>±0.033</sub> |     2.45<sub>±00.04</sub> + 0.07<sub>±00.06</sub> |  28.00<sub>±00.73</sub> |
 |                     V/gcc |  1.570<sub>±0.072</sub> |     1.49<sub>±00.01</sub> + 0.64<sub>±00.05</sub> |  29.90<sub>±02.52</sub> |
 |                   Crystal |  1.592<sub>±0.007</sub> |     3.77<sub>±00.04</sub> + 1.82<sub>±00.04</sub> |  37.17<sub>±00.21</sub> |
 |                 Nim/clang |  1.792<sub>±0.027</sub> |     2.73<sub>±00.03</sub> + 4.44<sub>±00.03</sub> |  32.45<sub>±00.45</sub> |
@@ -206,8 +206,8 @@ Testing parsing and simple calculating of values from a big JSON file.
 |         C++/g++ (DAW JSON Link) |  0.079<sub>±0.002</sub> |     109.22<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |   1.92<sub>±00.07</sub> |
 |    C++/g++ (simdjson On-Demand) |  0.081<sub>±0.002</sub> |    109.87<sub>±00.03</sub> + 59.55<sub>±00.00</sub> |   1.86<sub>±00.11</sub> |
 |                    D/gdc (fast) |  0.099<sub>±0.002</sub> |    219.96<sub>±00.07</sub> + 11.34<sub>±00.00</sub> |   2.44<sub>±00.17</sub> |
-|              Rust (Serde Typed) |  0.140<sub>±0.005</sub> |    108.44<sub>±00.05</sub> + 11.51<sub>±00.23</sub> |   2.98<sub>±00.31</sub> |
-|             Rust (Serde Custom) |  0.144<sub>±0.003</sub> |     108.38<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |   2.44<sub>±00.04</sub> |
+|              Rust (Serde Typed) |  0.125<sub>±0.004</sub> |    108.53<sub>±00.05</sub> + 11.77<sub>±00.26</sub> |   3.01<sub>±00.16</sub> |
+|             Rust (Serde Custom) |  0.133<sub>±0.002</sub> |     108.38<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |   2.53<sub>±00.12</sub> |
 |          C++/g++ (simdjson DOM) |  0.148<sub>±0.004</sub> |   109.88<sub>±00.04</sub> + 176.60<sub>±00.00</sub> |   3.69<sub>±00.23</sub> |
 |                 C++/g++ (gason) |  0.159<sub>±0.001</sub> |    109.21<sub>±00.01</sub> + 97.17<sub>±00.03</sub> |   3.02<sub>±00.09</sub> |
 |             C++/g++ (RapidJSON) |  0.221<sub>±0.006</sub> |   109.24<sub>±00.01</sub> + 128.82<sub>±00.00</sub> |   4.56<sub>±00.48</sub> |
@@ -218,11 +218,11 @@ Testing parsing and simple calculating of values from a big JSON file.
 |                         Node.js |  0.632<sub>±0.026</sub> |   242.44<sub>±00.02</sub> + 185.01<sub>±00.27</sub> |  15.47<sub>±01.24</sub> |
 |                   Go (jsoniter) |  0.653<sub>±0.014</sub> |    224.31<sub>±00.14</sub> + 13.69<sub>±00.22</sub> |  14.46<sub>±00.73</sub> |
 |                Crystal (Schema) |  0.783<sub>±0.008</sub> |    110.38<sub>±00.03</sub> + 46.88<sub>±00.11</sub> |  12.28<sub>±00.20</sub> |
+|            Rust (Serde Untyped) |  0.796<sub>±0.010</sub> |   108.39<sub>±00.04</sub> + 839.98<sub>±00.00</sub> |  18.27<sub>±00.23</sub> |
 |                  Crystal (Pull) |  0.796<sub>±0.021</sub> |    110.35<sub>±00.04</sub> + 18.24<sub>±00.02</sub> |  12.41<sub>±00.16</sub> |
 |                     Python/pypy |  0.798<sub>±0.031</sub> |   276.56<sub>±00.05</sub> + 127.96<sub>±00.00</sub> |  17.11<sub>±01.65</sub> |
 |                         V/clang |  0.829<sub>±0.011</sub> |   108.35<sub>±00.02</sub> + 484.14<sub>±00.06</sub> |  15.42<sub>±00.61</sub> |
 |                           V/gcc |  0.857<sub>±0.009</sub> |   107.64<sub>±00.26</sub> + 484.30<sub>±00.21</sub> |  20.14<sub>±00.74</sub> |
-|            Rust (Serde Untyped) |  0.859<sub>±0.024</sub> |   108.55<sub>±00.08</sub> + 840.01<sub>±00.03</sub> |  18.18<sub>±01.14</sub> |
 |                   Julia (JSON3) |  0.881<sub>±0.014</sub> |   388.56<sub>±05.34</sub> + 356.37<sub>±01.07</sub> |  20.51<sub>±00.45</sub> |
 |         Perl (Cpanel::JSON::XS) |  0.949<sub>±0.024</sub> |   121.29<sub>±00.05</sub> + 402.72<sub>±00.00</sub> |  21.81<sub>±01.24</sub> |
 | C#/.NET Core (System.Text.Json) |  0.969<sub>±0.028</sub> |   465.40<sub>±00.09</sub> + 135.69<sub>±00.00</sub> |  23.44<sub>±00.51</sub> |
@@ -248,7 +248,7 @@ Testing parsing and simple calculating of values from a big JSON file.
 |                    Ruby (--jit) |  2.335<sub>±0.039</sub> |   120.62<sub>±00.01</sub> + 410.78<sub>±00.01</sub> |  45.49<sub>±01.11</sub> |
 | F#/.NET Core (System.Text.Json) |  2.526<sub>±0.051</sub> |   471.70<sub>±00.09</sub> + 444.59<sub>±02.96</sub> |  46.50<sub>±00.91</sub> |
 |                          D/ldc2 |  2.541<sub>±0.050</sub> |   109.54<sub>±00.09</sub> + 680.29<sub>±00.02</sub> |  49.03<sub>±01.87</sub> |
-|                       Rust (jq) |  3.627<sub>±0.091</sub> |   110.41<sub>±00.06</sub> + 774.08<sub>±00.26</sub> |  70.64<sub>±06.21</sub> |
+|                       Rust (jq) |  3.587<sub>±0.033</sub> |   110.40<sub>±00.02</sub> + 774.21<sub>±00.64</sub> |  75.45<sub>±03.74</sub> |
 |                      Ruby/jruby |  3.641<sub>±0.138</sub> |  466.71<sub>±05.85</sub> + 1379.71<sub>±38.93</sub> |  98.45<sub>±07.39</sub> |
 |    C++/g++ (Boost.PropertyTree) |  4.423<sub>±0.178</sub> |  109.56<sub>±00.06</sub> + 1440.06<sub>±00.00</sub> |  97.00<sub>±07.24</sub> |
 |                           D/dmd |  4.910<sub>±0.071</sub> |   110.14<sub>±00.04</sub> + 680.23<sub>±00.04</sub> |  99.16<sub>±03.16</sub> |
@@ -282,10 +282,10 @@ Testing allocating and multiplying matrices.
 |                    C/gcc |    3.307<sub>±0.009</sub> |    2.04<sub>±00.06</sub> + 68.06<sub>±00.00</sub> |     76.20<sub>±01.67</sub> |
 |                 Vala/gcc |    3.336<sub>±0.006</sub> |     0.00<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |     67.47<sub>±01.18</sub> |
 |                    Scala |    3.356<sub>±0.049</sub> |   74.48<sub>±00.12</sub> + 74.42<sub>±03.95</sub> |     77.03<sub>±00.89</sub> |
-|                     Rust |    3.387<sub>±0.006</sub> |    2.59<sub>±00.09</sub> + 68.32<sub>±00.00</sub> |     70.70<sub>±01.44</sub> |
 |               Vala/clang |    3.430<sub>±0.006</sub> |     0.00<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |     72.64<sub>±00.29</sub> |
 |                  Nim/gcc |    3.435<sub>±0.014</sub> |    2.58<sub>±00.05</sub> + 71.29<sub>±01.16</sub> |     71.30<sub>±01.11</sub> |
 |                Nim/clang |    3.473<sub>±0.011</sub> |    3.08<sub>±00.05</sub> + 75.54<sub>±04.77</sub> |     71.60<sub>±01.04</sub> |
+|                     Rust |    3.519<sub>±0.062</sub> |    2.62<sub>±00.06</sub> + 68.32<sub>±00.00</sub> |     69.38<sub>±01.98</sub> |
 |                       Go |    3.572<sub>±0.018</sub> |    3.85<sub>±00.06</sub> + 73.33<sub>±00.18</sub> |     76.52<sub>±01.11</sub> |
 |                 Go/gccgo |    3.628<sub>±0.054</sub> |   21.31<sub>±00.19</sub> + 72.99<sub>±00.12</sub> |     75.17<sub>±00.55</sub> |
 |                  Crystal |    3.637<sub>±0.022</sub> |    4.18<sub>±00.12</sub> + 59.66<sub>±00.06</sub> |     78.60<sub>±01.31</sub> |
