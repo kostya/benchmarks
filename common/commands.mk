@@ -2,6 +2,7 @@ GCC_FLAGS := -O3 -march=native -Wall -flto -Wa,-mbranches-within-32B-boundaries
 CLANG_FLAGS := -O3 -mbranches-within-32B-boundaries
 LIBNOTIFY_FLAGS := -I../common/libnotify ../common/libnotify/target/libnotify.a
 NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off
+RUSTC_FLAGS := -C opt-level=3 -C target-cpu=native -C lto -C codegen-units=1 -C llvm-args=--x86-branches-within-32B-boundaries
 VALAC_FLAGS := --disable-assert -X -O3 --pkg gio-2.0 --pkg posix
 V_FLAGS := -prod
 
@@ -24,7 +25,7 @@ MCS_BUILD =		mcs -debug- -optimize+ -out:$@ $^
 MLTON_BUILD =		mlton -output $@ $^
 NIM_CLANG_BUILD =	nim c -o:$@ --cc:clang $(NIM_FLAGS) $^
 NIM_GCC_BUILD =	nim c -o:$@ --cc:gcc $(NIM_FLAGS) $^
-RUSTC_BUILD =		rustc -C opt-level=3 -C lto -o $@ $^
+RUSTC_BUILD =		rustc $(RUSTC_FLAGS) -o $@ $^
 SCALAC_BUILD =		scalac -d $@ $^
 VALAC_CLANG_BUILD =	valac $^ --cc=clang -D CLANG_TEST $(VALAC_FLAGS) -o $@
 VALAC_GCC_BUILD =	valac $^ --cc=gcc -D GCC_TEST $(VALAC_FLAGS) -o $@
@@ -38,7 +39,7 @@ endef
 define CARGO_BUILD =
 cargo fmt --manifest-path $<
 cargo clippy -q --manifest-path $<
-cargo build -q --manifest-path $< --release
+RUSTFLAGS="$(RUSTC_FLAGS)" cargo build -q --manifest-path $< --release
 endef
 
 ECHO_RUN = @tput bold; echo "$(MAKE) $@"; tput sgr0
