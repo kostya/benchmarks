@@ -4,8 +4,10 @@ use std::io::{self, prelude::*};
 use std::process;
 
 enum Op {
-    Inc(i32),
-    Move(isize),
+    Dec,
+    Inc,
+    Prev,
+    Next,
     Loop(Box<[Op]>),
     Print,
 }
@@ -22,15 +24,30 @@ impl Tape {
     }
 
     fn get(&self) -> i32 {
-        unsafe { *self.tape.get_unchecked(self.pos) } // Always safe
+        // Always safe
+        unsafe { *self.tape.get_unchecked(self.pos) }
     }
 
-    fn inc(&mut self, x: i32) {
-        unsafe { *self.tape.get_unchecked_mut(self.pos) += x; } // Always safe
+    fn dec(&mut self) {
+        // Always safe
+        unsafe {
+            *self.tape.get_unchecked_mut(self.pos) -= 1;
+        }
     }
 
-    fn mov(&mut self, x: isize) {
-        self.pos = (self.pos as isize + x) as usize;
+    fn inc(&mut self) {
+        // Always safe
+        unsafe {
+            *self.tape.get_unchecked_mut(self.pos) += 1;
+        }
+    }
+
+    fn prev(&mut self) {
+        self.pos -= 1;
+    }
+
+    fn next(&mut self) {
+        self.pos += 1;
         if self.pos >= self.tape.len() {
             self.tape.resize(self.pos << 1, 0);
         }
@@ -80,8 +97,10 @@ impl Printer {
 fn run(program: &[Op], tape: &mut Tape, p: &mut Printer) {
     for op in program {
         match *op {
-            Inc(x) => tape.inc(x),
-            Move(x) => tape.mov(x),
+            Dec => tape.dec(),
+            Inc => tape.inc(),
+            Prev => tape.prev(),
+            Next => tape.next(),
             Loop(ref program) => {
                 while tape.get() > 0 {
                     run(program, tape, p);
@@ -98,10 +117,10 @@ fn parse<I: Iterator<Item = char>>(it: &mut I) -> Box<[Op]> {
     let mut buf = vec![];
     while let Some(c) = it.next() {
         buf.push(match c {
-            '+' => Inc(1),
-            '-' => Inc(-1),
-            '>' => Move(1),
-            '<' => Move(-1),
+            '-' => Dec,
+            '+' => Inc,
+            '<' => Prev,
+            '>' => Next,
             '.' => Print,
             '[' => Loop(parse(it)),
             ']' => break,
