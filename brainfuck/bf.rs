@@ -116,7 +116,7 @@ struct Program {
 }
 
 impl Program {
-    fn new(code: String) -> Self {
+    fn new(code: &str) -> Self {
         Self {
             ops: parse(&mut code.chars()),
         }
@@ -135,10 +135,8 @@ fn notify(msg: &str) {
 }
 
 fn verify() {
-    let s = String::from(
-        "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
-        ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.",
-    );
+    let s = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+             ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
     let mut p_left = Printer::new(true);
     Program::new(s).run(&mut p_left);
     let left = p_left.get_checksum();
@@ -162,10 +160,11 @@ fn main() {
     let mut p = Printer::new(env::var("QUIET").is_ok());
 
     notify(&format!("Rust\t{}", process::id()));
-    Program::new(s).run(&mut p);
+    Program::new(&s).run(&mut p);
     notify("stop");
 
     if p.quiet {
         println!("Output checksum: {}", p.get_checksum());
     }
 }
+
