@@ -311,7 +311,7 @@ Testing allocating and multiplying matrices.
 
 Testing:
 
- - generating primes (using fast algorithm described by [https://doi.org/10.1016/j.eij.2020.05.002](Abd Elhakeem Abd Elnabya, A.H. El-Baz))
+ - generating primes (using fast algorithm described by [Abd Elhakeem Abd Elnabya, A.H. El-Baz](https://doi.org/10.1016/j.eij.2020.05.002) );
  - prefix search for their decimal numbers using Trie data structure.
 
 [Primes](primes)
