@@ -9,6 +9,7 @@
   * [Base64](#base64)
   * [Json](#json)
   * [Matmul](#matmul)
+  * [Primes](#primes)
 * [Tests Execution](#tests-execution)
   * [Environment](#environment)
   * [Using Docker](#using-docker)
@@ -305,6 +306,22 @@ Testing allocating and multiplying matrices.
 |                      Tcl |  360.078<sub>±7.343</sub> |   7.24<sub>±00.04</sub> + 400.44<sub>±00.03</sub> |  7082.90<sub>±189.15</sub> |
 |                     Perl |  401.651<sub>±3.072</sub> |   9.02<sub>±00.04</sub> + 599.67<sub>±00.08</sub> |  8472.06<sub>±125.86</sub> |
 |               Ruby/jruby | 498.988<sub>±15.692</sub> | 276.05<sub>±05.82</sub> + 983.96<sub>±46.89</sub> | 10919.65<sub>±202.22</sub> |
+
+## Primes
+
+Testing:
+
+ - generating primes (using fast algorithm described by [Abd Elhakeem Abd Elnabya, A.H. El-Baz](https://doi.org/10.1016/j.eij.2020.05.002) );
+ - prefix search for their decimal numbers using Trie data structure.
+
+[Primes](primes)
+
+|    Language |                Time, s |                                      Memory, MiB |              Energy, J |
+| :---------- | ---------------------: | -----------------------------------------------: | ---------------------: |
+|       Scala | 0.885<sub>±0.030</sub> | 73.33<sub>±00.95</sub> + 246.63<sub>±04.99</sub> | 27.42<sub>±00.37</sub> |
+| Python/pypy | 1.419<sub>±0.012</sub> | 64.51<sub>±00.08</sub> + 224.43<sub>±00.04</sub> | 31.85<sub>±01.61</sub> |
+|     Node.js | 1.746<sub>±0.007</sub> | 30.83<sub>±00.06</sub> + 307.78<sub>±00.35</sub> | 39.25<sub>±00.73</sub> |
+|      Python | 4.703<sub>±0.162</sub> |  9.61<sub>±00.03</sub> + 327.60<sub>±00.26</sub> | 98.40<sub>±06.32</sub> |
 
 # Tests Execution
 
