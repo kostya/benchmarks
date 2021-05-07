@@ -63,18 +63,20 @@ impl Default for Tape {
     }
 }
 
-#[derive(Default)]
-struct Printer {
+struct Printer<'a> {
+    output: io::StdoutLock<'a>,
     sum1: i32,
     sum2: i32,
     quiet: bool,
 }
 
-impl Printer {
-    fn new(quiet: bool) -> Self {
+impl<'a> Printer<'a> {
+    fn new(output: &'a io::Stdout, quiet: bool) -> Self {
         Self {
+            output: output.lock(),
+            sum1: 0,
+            sum2: 0,
             quiet,
-            ..Default::default()
         }
     }
 
@@ -83,9 +85,8 @@ impl Printer {
             self.sum1 = (self.sum1 + n) % 255;
             self.sum2 = (self.sum2 + self.sum1) % 255;
         } else {
-            let mut stdout = io::stdout();
-            stdout.lock().write_all(&[n as u8]).ok();
-            stdout.flush().ok();
+            self.output.write_all(&[n as u8]).ok();
+            self.output.flush().ok();
         }
     }
 
@@ -96,12 +97,12 @@ impl Printer {
 
 fn run(program: &[Op], tape: &mut Tape, p: &mut Printer) {
     for op in program {
-        match *op {
+        match op {
             Dec => tape.dec(),
             Inc => tape.inc(),
             Prev => tape.prev(),
             Next => tape.next(),
-            Loop(ref program) => {
+            Loop(program) => {
                 while tape.get() > 0 {
                     run(program, tape, p);
                 }
@@ -156,15 +157,23 @@ fn notify(msg: &str) {
 fn verify() {
     let s = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
              ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
-    let mut p_left = Printer::new(true);
-    Program::new(s).run(&mut p_left);
-    let left = p_left.get_checksum();
 
-    let mut p_right = Printer::new(true);
-    for c in "Hello World!\n".chars() {
-        p_right.print(c as i32);
-    }
-    let right = p_right.get_checksum();
+    let left = {
+        let output = io::stdout();
+        let mut p_left = Printer::new(&output, true);
+        Program::new(s).run(&mut p_left);
+        p_left.get_checksum()
+    };
+
+    let right = {
+        let output = io::stdout();
+        let mut p_right = Printer::new(&output, true);
+        for c in "Hello World!\n".chars() {
+            p_right.print(c as i32);
+        }
+        p_right.get_checksum()
+    };
+
     if left != right {
         eprintln!("{} != {}", left, right);
         process::exit(-1);
@@ -174,9 +183,12 @@ fn verify() {
 fn main() {
     verify();
 
-    let arg1 = env::args().nth(1).unwrap();
-    let s = fs::read_to_string(arg1).unwrap();
-    let mut p = Printer::new(env::var("QUIET").is_ok());
+    let s = {
+        let arg1 = env::args().nth(1).unwrap();
+        fs::read_to_string(arg1).unwrap()
+    };
+    let output = io::stdout();
+    let mut p = Printer::new(&output, env::var("QUIET").is_ok());
 
     notify(&format!("Rust\t{}", process::id()));
     Program::new(&s).run(&mut p);
@@ -186,4 +198,3 @@ fn main() {
         println!("Output checksum: {}", p.get_checksum());
     }
 }
-
