@@ -24,19 +24,19 @@ impl Tape {
     }
 
     fn get(&self) -> i32 {
-        // Always safe
+        // Safe: `self.pos` is already checked in `self.next()`
         unsafe { *self.tape.get_unchecked(self.pos) }
     }
 
     fn dec(&mut self) {
-        // Always safe
+        // Safe: `self.pos` is already checked in `self.next()`
         unsafe {
             *self.tape.get_unchecked_mut(self.pos) -= 1;
         }
     }
 
     fn inc(&mut self) {
-        // Always safe
+        // Safe: `self.pos` is already checked in `self.next()`
         unsafe {
             *self.tape.get_unchecked_mut(self.pos) += 1;
         }
