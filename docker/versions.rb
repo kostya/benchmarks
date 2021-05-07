@@ -31,7 +31,7 @@ LANGS = {
   'Swift' => -> { `swift --version`.split("\n")[0].match(/\((.*)\)/)[1] },
   'MLton' => -> { `mlton`.split[1] },
   'F#/.NET Core' => lambda do
-    fsharpc = File.join(dotnet_base_path, 'FSharp', 'fsc.exe')
+    fsharpc = File.join(dotnet_base_path, 'FSharp', 'fsc.dll')
     `dotnet #{fsharpc} --help | sed -n 1p`.match(/version\s(.*)/)[1]
   end,
   'C/gcc' => -> { `gcc -dumpfullversion` },
