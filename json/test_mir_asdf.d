@@ -1,12 +1,13 @@
 /+ dub.sdl:
-name "test_mir_asdf"
+name "json_d_mir_asdf"
+targetPath "target"
 dependency "asdf" version="~>0.7.8"
 dependency "mir_common_json" path="mir-common-json"
 dflags "-mcpu=native" "-linkonce-templates" "-enable-cross-module-inlining" platform="ldc"
 +/
 import mir_common_json;
-import asdf: deserialize;
-import std.file: read;
+import asdf : deserialize;
+import std.file : read;
 
 auto calc(string text)
 {
@@ -17,7 +18,7 @@ void main()
 {
     validate!calc;
     auto text = cast(string) "/tmp/1.json".read;
-    "D/ldc (Mir Amazon's Ion)".notifyStart;
+    "D/ldc2 (Mir Amazon's Ion)".notifyStart;
     auto coordinate = calc(text);
     notifyStop;
     coordinate.print;
