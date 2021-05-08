@@ -9,7 +9,7 @@ CLANG_BUILD =		clang $(CLANG_FLAGS) -o $@ $^ $(LIBNOTIFY_FLAGS)
 CRYSTAL_BUILD =	crystal build --release --no-debug -o $@ $^
 DMD_BUILD =		dmd -of$@ -O -release -inline -boundscheck=off $^
 DOTNET_BUILD =		dotnet build --nologo -v q $< -c Release
-DUB_BUILD =		dub -q build --build=release --compiler=ldc2 --single $^
+DUB_BUILD =		dub -q build --build=release-nobounds --compiler=ldc2 --single $^
 GCC_BUILD =		gcc $(GCC_FLAGS) -std=c17 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++2a -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_GO_BUILD =		gccgo -O3 -o $@ $^
