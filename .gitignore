@@ -1,3 +1,11 @@
 *~
 .dub/
 target/
+*.o
+*.s
+*.a
+.DS_Store
+json/test_asdf
+json/test_mir_asdf
+json/test_mir_ion
+json/test_mir_ion_file

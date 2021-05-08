@@ -1,0 +1,2 @@
+name "mir_common_json"
+dependency "mir-algorithm" version="~>3.10.59"

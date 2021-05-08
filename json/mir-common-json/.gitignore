@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/mir-common-json
+mir-common-json.so
+mir-common-json.dylib
+mir-common-json.dll
+mir-common-json.a
+mir-common-json.lib
+mir-common-json-test-*
+*.exe
+*.o
+*.obj
+*.lst

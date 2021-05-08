@@ -199,6 +199,8 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 
 Testing parsing and simple calculating of values from a big JSON file.
 
+D implementations except Mir (Ion and Asdf) have inaccurate number parsing.
+
 [Json](json)
 
 |                        Language |                 Time, s |                                        Memory, MiB |               Energy, J |
