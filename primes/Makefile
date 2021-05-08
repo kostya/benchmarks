@@ -1,14 +1,11 @@
 include ../common/commands.mk
 .DEFAULT_GOAL := build
 
-<<<<<<< HEAD
 executables := target/primes_cpp
-=======
-executables :=
->>>>>>> 3e9376e30656952760a44f1126a36c01e38fa2b7
 
 artifacts := $(executables) \
-	target/primes_scala.jar
+	target/primes_scala.jar \
+	target/Primes.class
 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[pypy][primes.py] \
@@ -23,12 +20,12 @@ build: $(artifacts)
 target/primes_scala.jar: primes.scala | target
 	$(SCALAC_BUILD)
 
-<<<<<<< HEAD
+target/Primes.class: Primes.java | target
+	$(JAVAC_BUILD)
+
 target/primes_cpp: primes.cpp | target libnotify
 	$(GCC_CPP_BUILD)
 
-=======
->>>>>>> 3e9376e30656952760a44f1126a36c01e38fa2b7
 # Run
 
 .PHONY: run
@@ -46,6 +43,9 @@ $(executable_runners):: run[%] : %
 
 run[target/primes_scala.jar]:: run[%]: %
 	$(SCALA_RUN) Primes
+
+run[target/Primes.class]:: run[%]: %
+	$(JAVA_CLASS_RUN)
 
 run[pypy][primes.py]:: run[pypy][%]: % | $(py_fmt)
 	$(PYPY3_RUN)
