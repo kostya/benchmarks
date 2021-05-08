@@ -200,7 +200,8 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 
 Testing parsing and simple calculating of values from a big JSON file.
 
-D implementations except Mir based (Ion and Asdf) [have](https://issues.dlang.org/show_bug.cgi?id=20967) inaccurate number parsing.
+NOTE: D implementations except Mir-based (like Ion and Asdf) have
+[inaccurate number parsing](https://issues.dlang.org/show_bug.cgi?id=20967).
 
 [Json](json)
 
@@ -215,6 +216,7 @@ D implementations except Mir based (Ion and Asdf) [have](https://issues.dlang.or
 |                 C++/g++ (gason) |  0.159<sub>±0.001</sub> |    109.21<sub>±00.01</sub> + 97.17<sub>±00.03</sub> |   3.02<sub>±00.09</sub> |
 |             C++/g++ (RapidJSON) |  0.221<sub>±0.006</sub> |   109.24<sub>±00.01</sub> + 128.82<sub>±00.00</sub> |   4.56<sub>±00.48</sub> |
 |       D/ldc2 (Mir Amazon's Ion) |  0.231<sub>±0.003</sub> |    109.38<sub>±00.07</sub> + 16.11<sub>±00.01</sub> |   4.86<sub>±00.12</sub> |
+|               D/ldc2 (Mir Asdf) |  0.238<sub>±0.005</sub> |    109.45<sub>±00.04</sub> + 57.83<sub>±00.00</sub> |   4.92<sub>±00.27</sub> |
 |            C++/g++ (Boost.JSON) |  0.498<sub>±0.009</sub> |   109.81<sub>±00.03</sub> + 435.70<sub>±00.00</sub> |  10.00<sub>±00.67</sub> |
 |                            Java |  0.508<sub>±0.007</sub> |    253.80<sub>±00.21</sub> + 70.03<sub>±01.09</sub> |  13.87<sub>±00.33</sub> |
 |         C++/g++ (RapidJSON SAX) |  0.530<sub>±0.008</sub> |     109.44<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |  11.80<sub>±00.31</sub> |
