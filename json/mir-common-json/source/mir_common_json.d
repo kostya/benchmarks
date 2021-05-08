@@ -1,4 +1,4 @@
-import mir_common_json;
+module mir_common_json;
 
 import core.stdc.stdio;
 import core.thread.osthread: getpid;
