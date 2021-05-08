@@ -68,7 +68,7 @@ function find(upperBound, prefix) {
 
     let [queue, result] = [[[head, strPrefix]], []]
     while (queue.length > 0) {
-        let [top, prefix] = queue.pop();
+        const [top, prefix] = queue.pop();
         if (top.terminal) {
             result.push(toInt(prefix));
         }

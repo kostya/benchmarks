@@ -1,7 +1,7 @@
 include ../common/commands.mk
 .DEFAULT_GOAL := build
 
-executables :=
+executables := target/primes_cpp
 
 artifacts := $(executables) \
 	target/primes_scala.jar
@@ -18,6 +18,9 @@ build: $(artifacts)
 
 target/primes_scala.jar: primes.scala | target
 	$(SCALAC_BUILD)
+
+target/primes_cpp: primes.cpp | target libnotify
+	$(GCC_CPP_BUILD)
 
 # Run
 
