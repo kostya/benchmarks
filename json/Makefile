@@ -20,7 +20,6 @@ executables := \
 	target/json_d_gdc_fast \
 	target/json_d_mir_asdf \
 	target/json_d_mir_ion \
-	target/json_d_mir_ion_file \
 	target/json_nim_gcc \
 	target/json_nim_clang \
 	target/packedjson_nim_gcc \
@@ -103,7 +102,10 @@ target/json_d_mir_asdf: test_mir_asdf.d | $(dfmt)
 target/json_d_mir_ion: test_mir_ion.d | $(dfmt)
 	$(DUB_BUILD)
 
-target/json_d_mir_ion_file: test_mir_ion_ssd.d | $(dfmt)
+# NOTE: the test is not used in the benchmark
+# as it operates the file directly, not string as other tests.
+# Left it here for the reference.
+target/json_d_mir_ion_file: test_mir_ion_file.d | $(dfmt)
 	$(DUB_BUILD)
 
 target/json_nim_gcc: test.nim | target
@@ -360,6 +362,7 @@ clean:
 	$(DOTNET_CLEAN) json-fsharp/json-fsharp.fsproj
 	cargo clean --manifest-path $(json-rs-toml)
 	-rm -rf target
+	-rm -rf mir-common-json/target
 
 $(json_file):
 	ruby generate_json.rb
