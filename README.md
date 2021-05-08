@@ -199,7 +199,7 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 
 Testing parsing and simple calculating of values from a big JSON file.
 
-D implementations except Mir (Ion and Asdf) have inaccurate number parsing.
+D implementations except Mir based (Ion and Asdf) [have](https://issues.dlang.org/show_bug.cgi?id=20967) inaccurate number parsing.
 
 [Json](json)
 
