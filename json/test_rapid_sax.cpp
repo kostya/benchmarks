@@ -127,7 +127,7 @@ void calc(stringstream& ss, const TCallback& callback) {
   IStreamWrapper isw(ss);
   Reader reader;
   CoordinateHandler handler(callback);
-  reader.Parse(isw, handler);
+  reader.Parse<kParseFullPrecisionFlag>(isw, handler);
 }
 
 int main() {

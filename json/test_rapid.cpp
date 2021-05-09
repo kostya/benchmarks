@@ -38,7 +38,7 @@ string read_file(const string& filename) {
 
 coordinate_t calc(const string& text) {
   Document jobj;
-  jobj.Parse(text);
+  jobj.Parse<kParseFullPrecisionFlag>(text);
 
   const Value& coordinates = jobj["coordinates"];
   auto len = coordinates.Size();
