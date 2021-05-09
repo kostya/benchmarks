@@ -6,8 +6,8 @@ x = []
 
 524_288.times do
   h = {
-    'x' => rand,
-    'y' => rand,
+    'x' => rand * -10e-30,
+    'y' => rand * 10e+30,
     'z' => rand,
     'name' => "#{('a'..'z').to_a.sample(6).join} #{rand(10_000)}",
     'opts' => { '1' => [1, true] }
