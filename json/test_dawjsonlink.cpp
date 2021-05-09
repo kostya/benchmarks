@@ -92,7 +92,7 @@ coordinate_t calc(const string& text) {
   auto x = 0.0, y = 0.0, z = 0.0;
   auto len = 0;
 
-  using range_t = daw::json::json_array_range<coordinate_t, daw::json::NoCommentSkippingPolicyUnchecked>;
+  using range_t = daw::json::json_array_range<coordinate_t>;
   auto rng = range_t(json_sv, "coordinates");
 
   for (auto c : rng) {
