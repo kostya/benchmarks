@@ -10,7 +10,7 @@ import mir.ion.deser.json : deserializeJsonFile;
 
 void main() @safe @nogc
 {
-    "D/ldc2 (Mir Amazon's Ion, file input)".notifyStart;
+    "D/ldc2 (Mir Amazon's Ion DOM, file input)".notifyStart;
     auto coordinate = "/tmp/1.json".deserializeJsonFile!Avg.coordinates.avg;
     notifyStop;
     coordinate.print;
