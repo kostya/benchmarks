@@ -200,14 +200,16 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 
 Testing parsing and simple calculating of values from a big JSON file.
 
-NOTE: [DAW JSON Link](https://github.com/beached/daw_json_link/blob/v2.9.2/include/daw/json/impl/daw_json_parse_real.h),
-[gason](https://github.com/vivkin/gason/blob/v1.0.0/src/gason.cpp#L73),
-and [D implementations](https://issues.dlang.org/show_bug.cgi?id=20967) except Mir-based (Ion and Asdf)
-have inaccurate number parsing.
+NOTE: DAW JSON Link, gason, 'fast', and D implementations except Mir-based (Ion and Asdf)
+have inaccurate IEEE incompatible number parsing.
+ - [DAW JSON Link's number parsing code](https://github.com/beached/daw_json_link/blob/v2.9.2/include/daw/json/impl/daw_json_parse_real.h), 
+ - [gason's number parsing code](https://github.com/vivkin/gason/blob/v1.0.0/src/gason.cpp#L73)
+ - ['fast' number parsing code](https://github.com/mleise/fast/blob/v0.3.5/source/fast/parsing.d#L130)
+ - [D stdlib number parsing issue](https://issues.dlang.org/show_bug.cgi?id=20967)
 
 NOTE: gason mutates input strings.
 
-NOTE: simdjson and _fast_ (D) require input strings with batch of trailing zeros: a special zerro padding for SIMD instructions.
+NOTE: simdjson and 'fast' (D) require input strings with batch of trailing zeros: a special zero padding for SIMD instructions.
 
 [Json](json)
 
