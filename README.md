@@ -202,10 +202,12 @@ Testing parsing and simple calculating of values from a big JSON file.
 
 NOTE: DAW JSON Link, gason, 'fast', and D implementations except Mir-based (Ion and Asdf)
 have inaccurate IEEE incompatible number parsing.
- - [DAW JSON Link's number parsing code](https://github.com/beached/daw_json_link/blob/v2.9.2/include/daw/json/impl/daw_json_parse_real.h), 
- - [gason's number parsing code](https://github.com/vivkin/gason/blob/v1.0.0/src/gason.cpp#L73)
- - ['fast' number parsing code](https://github.com/mleise/fast/blob/v0.3.5/source/fast/parsing.d#L130)
+<small>
+ - [DAW JSON Link's number parsing issue](https://github.com/beached/daw_json_link/issues/226),
+ - [gason's number parsing issue](https://github.com/vivkin/gason/issues/35)
+ - ['fast' number parsing issue](https://github.com/mleise/fast/issues/19)
  - [D stdlib number parsing issue](https://issues.dlang.org/show_bug.cgi?id=20967)
+</small>
 
 NOTE: gason mutates input strings.
 
