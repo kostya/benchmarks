@@ -200,27 +200,42 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 
 Testing parsing and simple calculating of values from a big JSON file.
 
-NOTE: D implementations except Mir-based (like Ion and Asdf) have
-[inaccurate number parsing](https://issues.dlang.org/show_bug.cgi?id=20967).
+NOTE: DAW JSON Link NoCheck doesn't perform JSON structure correctness checks.
+
+NOTE: DAW JSON Link, gason, 'fast', default (not Pricese) RapidJSON, and D implementations except Mir-based
+have inaccurate IEEE incompatible number parsing.
+<small>
+ - [DAW JSON Link's number parsing issue](https://github.com/beached/daw_json_link/issues/226),
+ - [gason's number parsing issue](https://github.com/vivkin/gason/issues/35)
+ - ['fast' number parsing issue](https://github.com/mleise/fast/issues/19)
+ - [D stdlib number parsing issue](https://issues.dlang.org/show_bug.cgi?id=20967)
+</small>
+
+NOTE: gason mutates input strings.
+
+NOTE: simdjson and 'fast' (D) require input strings with batch of trailing zeros: a special zero padding for SIMD instructions.
 
 [Json](json)
 
 |                        Language |                 Time, s |                                         Memory, MiB |               Energy, J |
 | :------------------------------ | ----------------------: | --------------------------------------------------: | ----------------------: |
-|         C++/g++ (DAW JSON Link) |  0.079<sub>±0.002</sub> |     109.22<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |   1.92<sub>±00.07</sub> |
+| C++/g++ (DAW JSON Link NoCheck) |  0.079<sub>±0.001</sub> |     112.82<sub>±00.23</sub> + 0.00<sub>±00.00</sub> |   2.24<sub>±00.04</sub> |
 |    C++/g++ (simdjson On-Demand) |  0.081<sub>±0.002</sub> |    109.87<sub>±00.03</sub> + 59.55<sub>±00.00</sub> |   1.86<sub>±00.11</sub> |
 |                    D/gdc (fast) |  0.099<sub>±0.002</sub> |    219.96<sub>±00.07</sub> + 11.34<sub>±00.00</sub> |   2.44<sub>±00.17</sub> |
+|         C++/g++ (DAW JSON Link) |  0.114<sub>±0.002</sub> |     112.64<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |   3.25<sub>±00.10</sub> |
 |              Rust (Serde Typed) |  0.125<sub>±0.004</sub> |    108.53<sub>±00.05</sub> + 11.77<sub>±00.26</sub> |   3.01<sub>±00.16</sub> |
 |             Rust (Serde Custom) |  0.133<sub>±0.002</sub> |     108.38<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |   2.53<sub>±00.12</sub> |
 |          C++/g++ (simdjson DOM) |  0.148<sub>±0.004</sub> |   109.88<sub>±00.04</sub> + 176.60<sub>±00.00</sub> |   3.69<sub>±00.23</sub> |
 |                 C++/g++ (gason) |  0.159<sub>±0.001</sub> |    109.21<sub>±00.01</sub> + 97.17<sub>±00.03</sub> |   3.02<sub>±00.09</sub> |
 |             C++/g++ (RapidJSON) |  0.221<sub>±0.006</sub> |   109.24<sub>±00.01</sub> + 128.82<sub>±00.00</sub> |   4.56<sub>±00.48</sub> |
-|       D/ldc2 (Mir Amazon's Ion) |  0.231<sub>±0.003</sub> |    109.38<sub>±00.07</sub> + 16.11<sub>±00.01</sub> |   4.86<sub>±00.12</sub> |
-|               D/ldc2 (Mir Asdf) |  0.238<sub>±0.005</sub> |    109.45<sub>±00.04</sub> + 57.83<sub>±00.00</sub> |   4.92<sub>±00.27</sub> |
+|   D/ldc2 (Mir Amazon's Ion DOM) |  0.231<sub>±0.003</sub> |    109.38<sub>±00.07</sub> + 16.11<sub>±00.01</sub> |   4.86<sub>±00.12</sub> |
+|           D/ldc2 (Mir Asdf DOM) |  0.238<sub>±0.005</sub> |    109.45<sub>±00.04</sub> + 57.83<sub>±00.00</sub> |   4.92<sub>±00.27</sub> |
+|     C++/g++ (RapidJSON Precise) |  0.283<sub>±0.003</sub> |   113.09<sub>±00.03</sub> + 128.71<sub>±00.06</sub> |   6.70<sub>±00.11</sub> |
 |            C++/g++ (Boost.JSON) |  0.498<sub>±0.009</sub> |   109.81<sub>±00.03</sub> + 435.70<sub>±00.00</sub> |  10.00<sub>±00.67</sub> |
 |                            Java |  0.508<sub>±0.007</sub> |    253.80<sub>±00.21</sub> + 70.03<sub>±01.09</sub> |  13.87<sub>±00.33</sub> |
 |         C++/g++ (RapidJSON SAX) |  0.530<sub>±0.008</sub> |     109.44<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |  11.80<sub>±00.31</sub> |
 |                           Scala |  0.589<sub>±0.011</sub> |    307.27<sub>±00.60</sub> + 74.61<sub>±00.32</sub> |  14.93<sub>±00.66</sub> |
+| C++/g++ (RapidJSON SAX Precise) |  0.600<sub>±0.008</sub> |     112.90<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |  14.76<sub>±00.25</sub> |
 |                         Node.js |  0.632<sub>±0.026</sub> |   242.44<sub>±00.02</sub> + 185.01<sub>±00.27</sub> |  15.47<sub>±01.24</sub> |
 |                   Go (jsoniter) |  0.653<sub>±0.014</sub> |    224.31<sub>±00.14</sub> + 13.69<sub>±00.22</sub> |  14.46<sub>±00.73</sub> |
 |                Crystal (Schema) |  0.783<sub>±0.008</sub> |    110.38<sub>±00.03</sub> + 46.88<sub>±00.11</sub> |  12.28<sub>±00.20</sub> |

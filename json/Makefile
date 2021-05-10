@@ -31,6 +31,8 @@ executables := \
 	target/json_boost_json_cpp \
 	target/json_rapid_cpp \
 	target/json_rapid_sax_cpp \
+	target/json_rapid_cpp_precised \
+	target/json_rapid_sax_cpp_precised \
 	target/json_gason_cpp \
 	target/json_libjson_cpp \
 	target/json_hs \
@@ -42,6 +44,7 @@ executables := \
 	target/json_vala_gcc \
 	target/json_vala_clang \
 	target/json_dawjsonlink_cpp \
+	target/json_dawjsonlink_cpp_unchecked \
 	json-fsharp/target/Release/net5.0/json-fsharp \
 	target/Release/net5.0/json \
 	json-core/target/Release/net5.0/json-core \
@@ -136,12 +139,12 @@ target/json_go_gccgo: test.go | $(gofmt)
 
 # Boost releases:
 # https://www.boost.org/users/download/
-BOOST_VERSION := boost_1_75_0
+BOOST_VERSION := boost_1_76_0
 boost = target/$(BOOST_VERSION)
 $(boost): | target
 	cd target && \
 	wget --progress=dot:giga -O - \
-	https://dl.bintray.com/boostorg/release/1.75.0/source/$(BOOST_VERSION).tar.bz2 \
+	https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/$(BOOST_VERSION).tar.bz2 \
 	| tar -xj
 
 target/json_boost_ptree_cpp: test_boost_ptree.cpp | $(boost) libnotify
@@ -181,8 +184,14 @@ $(rapidjson-dir): | target
 target/json_rapid_cpp: test_rapid.cpp | $(rapidjson-dir) $(boost) libnotify
 	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost)
 
+target/json_rapid_cpp_precised: test_rapid.cpp | $(rapidjson-dir) $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost) -DPRECISED
+
 target/json_rapid_sax_cpp: test_rapid_sax.cpp | $(rapidjson-dir) $(boost) libnotify
 	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost)
+
+target/json_rapid_sax_cpp_precised: test_rapid_sax.cpp | $(rapidjson-dir) $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost) -DPRECISED
 
 gason-dir := target/gason
 $(gason-dir): | target
@@ -264,6 +273,11 @@ target/json_dawjsonlink_cpp: test_dawjsonlink.cpp | $(daw_json_link_all) $(boost
 	$(GCC_CPP_BUILD) -I$(daw_json_link_all)/daw_json_link/include \
 		-I$(daw_json_link_all)/header_libraries/include \
 		-I$(daw_json_link_all)/utf_range/include -I$(boost)
+
+target/json_dawjsonlink_cpp_unchecked: test_dawjsonlink.cpp | $(daw_json_link_all) $(boost) libnotify
+	$(GCC_CPP_BUILD) -I$(daw_json_link_all)/daw_json_link/include \
+		-I$(daw_json_link_all)/header_libraries/include \
+		-I$(daw_json_link_all)/utf_range/include -I$(boost) -DUNCHECKED
 
 json-fsharp/target/Release/net5.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
 	$(DOTNET_BUILD)
