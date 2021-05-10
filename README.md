@@ -200,7 +200,9 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 
 Testing parsing and simple calculating of values from a big JSON file.
 
-NOTE: DAW JSON Link, gason, 'fast', and D implementations except Mir-based (Ion and Asdf)
+NOTE: DAW JSON Link NoCheck doesn't perform JSON structure correctness checks.
+
+NOTE: DAW JSON Link, gason, 'fast', default (not Pricese) RapidJSON, and D implementations except Mir-based
 have inaccurate IEEE incompatible number parsing.
 <small>
  - [DAW JSON Link's number parsing issue](https://github.com/beached/daw_json_link/issues/226),
