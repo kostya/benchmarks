@@ -18,7 +18,7 @@ GCC_GO_BUILD =	gccgo $(GCC_FLAGS) -o $@ $^
 GDC_BUILD =		gdc -o $@ -O3 -frelease -finline -fbounds-check=off $^
 GHC_BUILD =		ghc -v0 -O2 -fforce-recomp -Wall $^ -o $@ -outputdir $(@D)
 GO_BUILD =		GO111MODULE=auto go build -o $@ $^
-JAVAC_BUILD =		javac -d $(@D) $^
+JAVAC_BUILD =		javac -Xlint:unchecked -d $(@D) $^
 # TODO: remove JAVA_OPTS as soon as new Kotlin is released (see https://youtrack.jetbrains.com/issue/KT-43704)
 KOTLINC_BUILD =	JAVA_OPTS="--illegal-access=permit" kotlinc -include-runtime -jvm-target 15 -d $@ $^
 LDC2_BUILD =		ldc2 -of$@ -O5 -release -boundscheck=off $^

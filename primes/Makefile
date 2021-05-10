@@ -1,10 +1,12 @@
 include ../common/commands.mk
 .DEFAULT_GOAL := build
 
-executables := target/primes_cpp
+executables := target/primes_cpp \
+	target/primes_rs
 
 artifacts := $(executables) \
-	target/primes_scala.jar
+	target/primes_scala.jar \
+	target/Primes.class
 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[pypy][primes.py] \
@@ -19,8 +21,14 @@ build: $(artifacts)
 target/primes_scala.jar: primes.scala | target
 	$(SCALAC_BUILD)
 
+target/Primes.class: Primes.java | target
+	$(JAVAC_BUILD)
+
 target/primes_cpp: primes.cpp | target libnotify
 	$(GCC_CPP_BUILD)
+
+target/primes_rs: primes.rs | target
+	$(RUSTC_BUILD)
 
 # Run
 
@@ -39,6 +47,9 @@ $(executable_runners):: run[%] : %
 
 run[target/primes_scala.jar]:: run[%]: %
 	$(SCALA_RUN) Primes
+
+run[target/Primes.class]:: run[%]: %
+	$(JAVA_CLASS_RUN)
 
 run[pypy][primes.py]:: run[pypy][%]: % | $(py_fmt)
 	$(PYPY3_RUN)
