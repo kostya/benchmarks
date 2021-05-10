@@ -30,6 +30,9 @@ target/primes_cpp: primes.cpp | target libnotify
 target/primes_rs: primes.rs | target
 	$(RUSTC_BUILD)
 
+target/primes_cpp: primes.cpp | target libnotify
+	$(GCC_CPP_BUILD)
+
 # Run
 
 .PHONY: run
