@@ -38,7 +38,11 @@ string read_file(const string& filename) {
 
 coordinate_t calc(const string& text) {
   Document jobj;
+#ifdef PRECISED
   jobj.Parse<kParseFullPrecisionFlag>(text);
+#else
+  jobj.Parse(text);
+#endif
 
   const Value& coordinates = jobj["coordinates"];
   auto len = coordinates.Size();
@@ -68,7 +72,13 @@ int main() {
 
   const auto& text = read_file("/tmp/1.json");
 
-  notify(str(boost::format("C++/g++ (RapidJSON)\t%d") % getpid()));
+#ifdef PRECISED
+  const string suffix = " Precise";
+#else
+  const string suffix = "";
+#endif
+
+  notify(str(boost::format("C++/g++ (RapidJSON%s)\t%d") % suffix % getpid()));
   const auto& results = calc(text);
   notify("stop");
 
