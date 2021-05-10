@@ -14,7 +14,7 @@ const auto PREFIX = 32338;
 
 struct Node {
   std::unordered_map<char, std::shared_ptr<Node>> children;
-  bool terminal;
+  bool terminal = false;
 };
 
 std::unordered_set<int> generate_primes(int m) {
@@ -33,7 +33,7 @@ std::unordered_set<int> generate_primes(int m) {
   }
   k = j;
   for (auto i = 1; i < k + 1; ++i) {
-    for (auto n = 0; n <max_n(i - 1); ++n) {
+    for (auto n = 0; n < max_n(i - 1); ++n) {
       result.erase((2 * i + 1) * (2 * i + 2 * n + 1));
     }
   }
@@ -104,6 +104,8 @@ void verify() {
 }
 
 int main() {
+  verify();
+
   std::stringstream ostr;
   ostr << "C++/g++\t" << getpid();
   notify(ostr.str());
