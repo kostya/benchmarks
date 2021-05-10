@@ -127,7 +127,11 @@ void calc(stringstream& ss, const TCallback& callback) {
   IStreamWrapper isw(ss);
   Reader reader;
   CoordinateHandler handler(callback);
+#ifdef PRECISED
   reader.Parse<kParseFullPrecisionFlag>(isw, handler);
+#else
+  reader.Parse(isw, handler);
+#endif
 }
 
 int main() {
@@ -148,7 +152,13 @@ int main() {
   stringstream ss;
   read_file("/tmp/1.json", ss);
 
-  notify(str(boost::format("C++/g++ (RapidJSON SAX)\t%d") % getpid()));
+#ifdef PRECISED
+  const string suffix = " Precise";
+#else
+  const string suffix = "";
+#endif
+
+  notify(str(boost::format("C++/g++ (RapidJSON SAX%s)\t%d") % suffix % getpid()));
   calc(ss, [](const coordinate_t& results) {
     notify("stop");
 
