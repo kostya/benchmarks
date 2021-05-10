@@ -92,7 +92,11 @@ coordinate_t calc(const string& text) {
   auto x = 0.0, y = 0.0, z = 0.0;
   auto len = 0;
 
+#ifdef UNCHECKED
   using range_t = daw::json::json_array_range<coordinate_t, daw::json::NoCommentSkippingPolicyUnchecked>;
+#else
+  using range_t = daw::json::json_array_range<coordinate_t>;
+#endif
   auto rng = range_t(json_sv, "coordinates");
 
   for (auto c : rng) {
@@ -118,8 +122,12 @@ int main() {
   }
 
   const auto& text = read_file( "/tmp/1.json" );
-
-  notify(str(boost::format("C++/g++ (DAW JSON Link)\t%d") % getpid()));
+#ifdef UNCHECKED
+  const string suffix = " NoCheck";
+#else
+  const string suffix = "";
+#endif
+  notify(str(boost::format("C++/g++ (DAW JSON Link%s)\t%d") % suffix % getpid()));
   const auto& results = calc(text);
   notify( "stop" );
 

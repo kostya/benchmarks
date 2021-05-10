@@ -18,7 +18,7 @@ void main()
 {
     validate!calc;
     auto text = cast(string) "/tmp/1.json".read;
-    "D/ldc2 (Mir Asdf)".notifyStart;
+    "D/ldc2 (Mir Asdf DOM)".notifyStart;
     auto coordinate = calc(text);
     notifyStop;
     coordinate.print;
