@@ -17,7 +17,6 @@ executables := \
 	target/json_d \
 	target/json_d_gdc \
 	target/json_d_ldc \
-	target/json_d_gdc_fast \
 	target/json_d_mir_asdf \
 	target/json_d_mir_ion \
 	target/json_nim_gcc \
@@ -159,23 +158,6 @@ $(nlohmann_json): | target
 
 target/json_nlohmann_json_cpp: test_nlohmann_json.cpp | $(nlohmann_json) $(boost) libnotify
 	$(GCC_CPP_BUILD) -I$(nlohmann_json)/single_include -I$(boost)
-
-fast-dir := target/fast
-$(fast-dir): | target
-	$(GIT_CLONE) "https://github.com/mleise/fast.git" $@
-
-target/json_d_gdc_fast: test_fast.d | $(fast-dir) $(dfmt)
-	$(GDC_BUILD) \
-		$(fast-dir)/source/fast/cstring.d \
-		$(fast-dir)/source/fast/buffer.d \
-		$(fast-dir)/source/fast/json.d \
-		$(fast-dir)/source/fast/parsing.d \
-		$(fast-dir)/source/fast/intmath.d \
-		$(fast-dir)/source/fast/internal/sysdef.di \
-		$(fast-dir)/source/fast/internal/helpers.d \
-		$(fast-dir)/source/fast/unicode.d \
-		$(fast-dir)/source/fast/internal/unicode_tables.d \
-		$(fast-dir)/source/std/simd.d
 
 rapidjson-dir := target/rapidjson
 $(rapidjson-dir): | target

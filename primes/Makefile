@@ -24,11 +24,11 @@ target/primes_scala.jar: primes.scala | target
 target/Primes.class: Primes.java | target
 	$(JAVAC_BUILD)
 
-target/primes_cpp: primes.cpp | target libnotify
-	$(GCC_CPP_BUILD)
-
 target/primes_rs: primes.rs | target
 	$(RUSTC_BUILD)
+
+target/primes_cpp: primes.cpp | target libnotify
+	$(GCC_CPP_BUILD)
 
 # Run
 

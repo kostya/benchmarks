@@ -107,7 +107,7 @@ fun verify() {
 
     val pRight = Printer(true)
     for (c in "Hello World!\n") {
-        pRight.print(c.toInt())
+        pRight.print(c.code)
     }
     val right = pRight.getChecksum()
     if (left != right) {

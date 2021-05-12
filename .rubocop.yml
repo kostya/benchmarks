@@ -42,6 +42,7 @@ Layout/SpaceAroundMethodCallOperator:
 
 Style/ExponentialNotation:
   Enabled: true
+  EnforcedStyle: engineering
 
 Style/SlicingWithRange:
   Enabled: true
