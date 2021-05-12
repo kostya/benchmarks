@@ -24,7 +24,7 @@ public class TestJava {
 
         @Override
         public String toString() {
-            return String.format("Coordinate {x: %f, y: %f, z: %f}", x, y, z);
+            return String.format("Coordinate {x: %g, y: %g, z: %g}", x, y, z);
         }
 
         @Override
