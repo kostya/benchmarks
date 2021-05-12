@@ -1,12 +1,23 @@
 use serde_json::Value;
+use std::fmt;
 use std::fs;
 use std::str;
 
-#[derive(Debug, PartialEq)]
-pub struct Coordinate {
+#[derive(PartialEq)]
+struct Coordinate {
     x: f64,
     y: f64,
     z: f64,
+}
+
+impl fmt::Display for Coordinate {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            formatter,
+            "Coordinate {{ x: {:e}, y: {:e}, z: {} }}",
+            self.x, self.y, self.z
+        )
+    }
 }
 
 fn notify(msg: &str) {
@@ -52,7 +63,7 @@ fn main() {
     ] {
         let left = calc(v);
         if left != right {
-            eprintln!("{:?} != {:?}", left, right);
+            eprintln!("{} != {}", left, right);
             std::process::exit(-1);
         }
     }
@@ -63,5 +74,5 @@ fn main() {
     let results = calc(&content);
     notify("stop");
 
-    println!("{:?}", results);
+    println!("{}", results);
 }
