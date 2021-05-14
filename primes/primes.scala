@@ -1,4 +1,4 @@
-import scala.collection.mutable.{Set, HashMap, Queue, ArrayBuffer}
+import scala.collection.mutable.{HashMap, Queue, ArrayBuffer}
 
 object Primes {
   val UpperBound = 5000000
@@ -9,23 +9,49 @@ object Primes {
     var terminal: Boolean = false
   )
 
-  def generatePrimes(m: Int): Iterable[Int] = {
-    var result = Set(2)
-    for (i <- 1 to (m - 1) / 2) {
-      result += 2 * i + 1
+  def generatePrimes(limit: Int): Iterable[Int] = {
+    var prime = ArrayBuffer.fill(limit + 1)(0)
+
+    var x = 1
+    while (x * x < limit) {
+        var y = 1
+        while (y * y < limit) {
+            var n = (4 * x * x) + (y * y)
+            if (n <= limit && (n % 12 == 1 || n % 12 == 5)) {
+                prime(n) = 1 - prime(n)
+            }
+
+            n = (3 * x * x) + (y * y)
+            if (n <= limit && n % 12 == 7) {
+                prime(n) = 1 - prime(n)
+            }
+
+            n = (3 * x * x) - (y * y)
+            if (x > y && n <= limit && n % 12 == 11) {
+                prime(n) = 1 - prime(n)
+            }
+            y += 1
+        }
+        x += 1
     }
-    var (k, j) = (1, 1)
-    def sqr(i: Int): Int = i * i
-    def maxN(i: Int): Int = (m - sqr(2 * i + 1)) / (4 * i + 2)
-    while (k > 0) {
-      k = maxN(j)
-      j += 1
+
+    var r = 5
+    while (r * r < limit) {
+        if (prime(r) > 0) {
+            var i = r * r
+            while (i < limit) {
+                prime(i) = 0
+                i += r * r
+            }
+        }
+        r += 1
     }
-    k = j
-    for (i <- 1 to k) {
-      for (n <- 0 until maxN(i - 1)) {
-        result -= (2 * i + 1) * (2 * i + 2 * n + 1)
-      }
+
+    var result = ArrayBuffer(2, 3)
+    for (p <- 5 to limit) {
+        if (prime(p) > 0) {
+            result += p
+        }
     }
     result
   }

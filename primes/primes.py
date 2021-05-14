@@ -3,7 +3,6 @@ import platform
 import socket
 import sys
 
-
 UPPER_BOUND = 5000000
 PREFIX = 32338
 
@@ -14,20 +13,40 @@ class Node:
         self.terminal = False
 
 
-def generate_primes(m):
-    result = {2}
-    for i in range(1, 1 + (m - 1) // 2):
-        result.add(2 * i + 1)
-    k, j = 1, 1
-    sqr = lambda i: i * i
-    max_n = lambda i: (m - sqr(2 * i + 1)) // (4 * i + 2)
-    while k > 0:
-        k = max_n(j)
-        j += 1
-    k = j
-    for i in range(1, k + 1):
-        for n in range(max_n(i - 1)):
-            result.discard((2 * i + 1) * (2 * i + 2 * n + 1))
+def generate_primes(limit):
+    prime = [False] * (limit + 1)
+
+    x = 1
+    while x * x < limit:
+        y = 1
+        while y * y < limit:
+            n = (4 * x * x) + (y * y)
+            if n <= limit and (n % 12 == 1 or n % 12 == 5):
+                prime[n] = not prime[n]
+
+            n = (3 * x * x) + (y * y)
+            if n <= limit and n % 12 == 7:
+                prime[n] = not prime[n]
+
+            n = (3 * x * x) - (y * y)
+            if x > y and n <= limit and n % 12 == 11:
+                prime[n] = not prime[n]
+            y = y + 1
+        x = x + 1
+
+    r = 5
+    while r * r < limit:
+        if prime[r]:
+            i = r * r
+            while i < limit:
+                prime[i] = False
+                i = i + r * r
+        r = r + 1
+
+    result = [2, 3]
+    for p in range(5, limit + 1):
+        if prime[p]:
+            result.append(p)
     return result
 
 
@@ -36,7 +55,9 @@ def generate_trie(l):
     for el in l:
         head = root
         for ch in str(el):
-            head = head.children.setdefault(ch, Node())
+            if ch not in head.children:
+                head.children[ch] = Node()
+            head = head.children[ch]
         head.terminal = True
     return root
 
