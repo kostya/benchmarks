@@ -1,13 +1,12 @@
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.List;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 public final class Primes {
     private final static int UPPER_BOUND = 5000000;
@@ -18,24 +17,40 @@ public final class Primes {
         public boolean terminal = false;
     }
 
-    private static Iterable<Integer> generatePrimes(final int m) {
-        final var result = new HashSet<Integer>(Arrays.asList(2));
-        for (var i = 1; i < 1 + (m - 1) / 2; i++) {
-            result.add(2 * i + 1);
+    private static Iterable<Integer> generatePrimes(final int limit) {
+        final var prime = new BitSet(limit + 1);
+
+        for (var x = 1; x * x < limit; ++x) {
+            for (var y = 1; y * y < limit; ++y) {
+                var n = (4 * x * x) + (y * y);
+                if (n <= limit && (n % 12 == 1 || n % 12 == 5)) {
+                    prime.flip(n);
+                }
+
+                n = (3 * x * x) + (y * y);
+                if (n <= limit && n % 12 == 7) {
+                    prime.flip(n);
+                }
+
+                n = (3 * x * x) - (y * y);
+                if (x > y && n <= limit && n % 12 == 11) {
+                    prime.flip(n);
+                }
+            }
         }
-        var k = 1;
-        var j = 1;
-        final Function<Integer, Integer> sqr = (i) -> { return i * i; };
-        final Function<Integer, Integer> maxN = (i) -> {
-            return (m - sqr.apply(2 * i + 1)) / (4 * i + 2);
-        };
-        while (k > 0) {
-            k = maxN.apply(j++);
+
+        for (var r = 5; r * r < limit; ++r) {
+            if (prime.get(r)) {
+                for (var i = r * r; i < limit; i += r * r) {
+                    prime.clear(i);
+                }
+            }
         }
-        k = j;
-        for (var i = 1; i < k + 1; i++) {
-            for (var n = 0; n < maxN.apply(i - 1); n++) {
-                result.remove((2 * i + 1) * (2 * i + 2 * n + 1));
+
+        final var result = new ArrayList<Integer>(Arrays.asList(2, 3));
+        for (var p = 5; p <= limit; ++p) {
+            if (prime.get(p)) {
+                result.add(p);
             }
         }
         return result;

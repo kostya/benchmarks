@@ -1,7 +1,7 @@
-use std::collections::{HashSet, HashMap, VecDeque};
+use std::collections::{HashMap, VecDeque};
 
-const UPPER_BOUND: i32 = 5000000;
-const PREFIX: i32 = 32338;
+const UPPER_BOUND: usize = 5_000_000;
+const PREFIX: i32 = 32_338;
 
 #[derive(Debug)]
 struct Node {
@@ -18,28 +18,54 @@ impl Node {
     }
 }
 
-fn generate_primes(m: i32) -> HashSet<i32> {
-    let mut result: HashSet<i32> = [2].iter().cloned().collect();
-    for i in 1..=(m - 1) / 2 {
-        result.insert(2 * i + 1);
+fn generate_primes(limit: usize) -> Vec<usize> {
+    let mut prime = vec![false; limit + 1];
+
+    let mut x = 1;
+    while x * x < limit {
+        let mut y = 1;
+        while y * y < limit {
+            let mut n = (4 * x * x) + (y * y);
+            if n <= limit && (n % 12 == 1 || n % 12 == 5) {
+                prime[n] = !prime[n];
+            }
+
+            n = (3 * x * x) + (y * y);
+            if n <= limit && n % 12 == 7 {
+                prime[n] = !prime[n];
+            }
+
+            n = (3 * x * x) - (y * y);
+            if x > y && n <= limit && n % 12 == 11 {
+                prime[n] = !prime[n];
+            }
+            y = y + 1;
+        }
+        x = x + 1;
     }
-    let (mut k, mut j) = (1, 1);
-    let sqr = |i| i * i;
-    let max_n = |i| (m - sqr(2 * i + 1)) / (4 * i + 2);
-    while k > 0 {
-        k = max_n(j);
-        j += 1;
+
+    let mut r = 5;
+    while r * r < limit {
+        if prime[r] {
+            let mut i = r * r;
+            while i < limit {
+                prime[i] = false;
+                i = i + r * r;
+            }
+        }
+        r = r + 1;
     }
-    k = j;
-    for i in 1..=k {
-        for n in 0..max_n(i - 1) {
-            result.remove(&((2 * i + 1) * (2 * i + 2 * n + 1)));
+
+    let mut result = vec![2, 3];
+    for p in 5..=limit {
+        if prime[p] {
+            result.push(p);
         }
     }
     result
 }
 
-fn generate_trie(l: HashSet<i32>) -> Box<Node> {
+fn generate_trie(l: Vec<usize>) -> Box<Node> {
     let mut root: Box<Node> = Box::new(Node::new());
     for el in &l {
         let mut head = &mut root;
@@ -54,7 +80,7 @@ fn generate_trie(l: HashSet<i32>) -> Box<Node> {
     root
 }
 
-fn find(upper_bound: i32, prefix: i32) -> Vec<i32> {
+fn find(upper_bound: usize, prefix: i32) -> Vec<i32> {
     let primes = generate_primes(upper_bound);
     let root = generate_trie(primes);
     let str_prefix = prefix.to_string();

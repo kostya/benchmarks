@@ -16,23 +16,40 @@ const toInt = function(n) {
     return n >>> 0;
 }
 
-function generatePrimes(m) {
-    let result = new Set([2]);
-    for (let i = 1; i < toInt(1 + (m - 1) / 2); i++) {
-        result.add(2 * i + 1);
+function generatePrimes(limit) {
+    const prime = new Int8Array(limit + 1);
+
+    for (let x = 1; x * x < limit; ++x) {
+        for (let y = 1; y * y < limit; ++y) {
+            let n = (4 * x * x) + (y * y);
+            if (n <= limit && (n % 12 == 1 || n % 12 == 5)) {
+                prime[n] = !prime[n];
+            }
+
+            n = (3 * x * x) + (y * y);
+            if (n <= limit && n % 12 == 7) {
+                prime[n] = !prime[n];
+            }
+
+            n = (3 * x * x) - (y * y);
+            if (x > y && n <= limit && n % 12 == 11) {
+                prime[n] = !prime[n];
+            }
+        }
     }
-    let [k, j] = [1, 1];
-    const sqr = function(i) { return i * i; }
-    const maxN = function(i) {
-        return toInt((m - sqr(2 * i + 1)) / (4 * i + 2));
+
+    for (let r = 5; r * r < limit; ++r) {
+        if (prime[r]) {
+            for (let i = r * r; i < limit; i += r * r) {
+                prime[i] = 0;
+            }
+        }
     }
-    while (k > 0) {
-        k = maxN(j++);
-    }
-    k = j;
-    for (let i = 1; i < k + 1; i++) {
-        for (let n = 0; n <maxN(i - 1); n++) {
-            result.delete((2 * i + 1) * (2 * i + 2 * n + 1));
+
+    const result = [2, 3];
+    for (let p = 5; p <= limit; ++p) {
+        if (prime[p]) {
+            result.push(p);
         }
     }
     return result;

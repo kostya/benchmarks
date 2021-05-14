@@ -326,20 +326,20 @@ Testing allocating and multiplying matrices.
 
 Testing:
 
- - generating primes (using fast algorithm described by [Abd Elhakeem Abd Elnabya, A.H. El-Baz](https://doi.org/10.1016/j.eij.2020.05.002) );
+ - generating primes using the optimized [sieve of Atkin](https://www.geeksforgeeks.org/sieve-of-atkin/);
  - prefix search for their decimal numbers using Trie data structure.
 
 [Primes](primes)
 
 |    Language |                Time, s |                                      Memory, MiB |              Energy, J |
 | :---------- | ---------------------: | -----------------------------------------------: | ---------------------: |
-|        Rust | 0.790<sub>±0.008</sub> |   1.96<sub>±00.04</sub> + 87.42<sub>±00.51</sub> | 17.78<sub>±00.37</sub> |
-|        Java | 0.853<sub>±0.006</sub> | 37.99<sub>±00.09</sub> + 490.97<sub>±02.15</sub> | 23.37<sub>±00.28</sub> |
-|       Scala | 0.883<sub>±0.016</sub> | 73.20<sub>±00.49</sub> + 250.63<sub>±01.38</sub> | 27.75<sub>±00.54</sub> |
-|     C++/g++ | 0.991<sub>±0.008</sub> |  1.50<sub>±00.00</sub> + 172.02<sub>±00.01</sub> | 21.64<sub>±00.44</sub> |
-| Python/pypy | 1.441<sub>±0.026</sub> | 64.62<sub>±00.16</sub> + 224.43<sub>±00.02</sub> | 32.26<sub>±01.42</sub> |
-|     Node.js | 1.747<sub>±0.009</sub> | 30.74<sub>±00.04</sub> + 308.15<sub>±00.54</sub> | 38.11<sub>±00.26</sub> |
-|      Python | 4.708<sub>±0.127</sub> |  9.71<sub>±00.03</sub> + 327.08<sub>±00.39</sub> | 99.31<sub>±06.07</sub> |
+|        Java | 0.175<sub>±0.005</sub> | 37.15<sub>±00.16</sub> + 105.70<sub>±01.87</sub> |  5.75<sub>±00.10</sub> |
+|        Rust | 0.213<sub>±0.001</sub> |   2.32<sub>±00.12</sub> + 68.10<sub>±00.00</sub> |  4.32<sub>±00.04</sub> |
+|     Node.js | 0.281<sub>±0.002</sub> | 30.80<sub>±00.04</sub> + 171.14<sub>±00.09</sub> |  7.99<sub>±00.21</sub> |
+|     C++/g++ | 0.284<sub>±0.005</sub> |  3.22<sub>±00.03</sub> + 125.88<sub>±00.00</sub> |  6.04<sub>±00.22</sub> |
+|       Scala | 0.444<sub>±0.005</sub> | 72.45<sub>±00.34</sub> + 159.94<sub>±01.62</sub> | 17.05<sub>±00.79</sub> |
+| Python/pypy | 0.736<sub>±0.015</sub> | 64.72<sub>±00.02</sub> + 207.20<sub>±00.28</sub> | 16.24<sub>±00.90</sub> |
+|      Python | 3.765<sub>±0.142</sub> | 10.29<sub>±00.05</sub> + 198.18<sub>±00.77</sub> | 78.34<sub>±03.71</sub> |
 
 # Tests Execution
 

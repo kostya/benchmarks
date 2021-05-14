@@ -5,42 +5,57 @@
 #include <sstream>
 #include <unistd.h>
 #include <unordered_map>
-#include <unordered_set>
 #include <utility>
 #include <vector>
 
-const auto UPPER_BOUND = 5000000;
-const auto PREFIX = 32338;
+const auto UPPER_BOUND = 5'000'000;
+const auto PREFIX = 32'338;
 
 struct Node {
   std::unordered_map<char, std::shared_ptr<Node>> children;
   bool terminal = false;
 };
 
-std::unordered_set<int> generate_primes(int m) {
-  std::unordered_set<int> result({2});
-  for (auto i = 1; i < 1 + (m - 1) / 2; ++i) {
-    result.insert(2 * i + 1);
-  }
-  auto k = 1, j = 1;
-  const auto sqr = [m](int i) { return i * i; };
-  const auto max_n = [m, sqr](int i) {
-    return (m - sqr(2 * i + 1)) / (4 * i + 2);
-  };
+std::vector<int> generate_primes(int limit) {
+  std::vector<bool> prime(limit + 1, false);
 
-  while (k > 0) {
-    k = max_n(j++);
+  for (auto x = 1; x * x < limit; ++x) {
+    for (auto y = 1; y * y < limit; ++y) {
+      auto n = (4 * x * x) + (y * y);
+      if (n <= limit && (n % 12 == 1 || n % 12 == 5)) {
+        prime[n] = !prime[n];
+      }
+
+      n = (3 * x * x) + (y * y);
+      if (n <= limit && n % 12 == 7) {
+        prime[n] = !prime[n];
+      }
+
+      n = (3 * x * x) - (y * y);
+      if (x > y && n <= limit && n % 12 == 11) {
+        prime[n] = !prime[n];
+      }
+    }
   }
-  k = j;
-  for (auto i = 1; i < k + 1; ++i) {
-    for (auto n = 0; n < max_n(i - 1); ++n) {
-      result.erase((2 * i + 1) * (2 * i + 2 * n + 1));
+
+  for (auto r = 5; r * r < limit; ++r) {
+    if (prime[r]) {
+      for (auto i = r * r; i < limit; i += r * r) {
+        prime[i] = false;
+      }
+    }
+  }
+
+  std::vector<int> result({2, 3});
+  for (auto p = 5; p <= limit; ++p) {
+    if (prime[p]) {
+      result.push_back(p);
     }
   }
   return result;
 }
 
-std::shared_ptr<Node> generate_trie(const std::unordered_set<int>& l) {
+std::shared_ptr<Node> generate_trie(const std::vector<int>& l) {
   std::shared_ptr<Node> root(new Node);
   for (const auto el : l) {
     auto head = root;
@@ -81,7 +96,8 @@ std::vector<int> find(int upper_bound, int prefix) {
 }
 
 std::string to_string(std::vector<int> a) {
-  std::stringstream ss("[");
+  std::stringstream ss;
+  ss << "[";
   auto first = true;
   for (const auto el : a) {
     if (!first) {
@@ -96,7 +112,8 @@ std::string to_string(std::vector<int> a) {
 
 void verify() {
   std::vector<int> left({2, 23, 29});
-  const auto& right = find(100, 2);
+  auto right = find(100, 2);
+  std::sort(right.begin(), right.end());
   if (left != right) {
     std::cerr << to_string(left) << " != " << to_string(right) << std::endl;
     exit(EXIT_FAILURE);
