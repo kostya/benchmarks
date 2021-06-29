@@ -70,7 +70,7 @@ LANGS = {
     CLANG
     `clang -o #{cat('clang')} #{cat('clang.c', prog)} && ./#{cat('clang')}`
   end,
-  'Scala' => -> { `scala -e "print(util.Properties.versionNumberString)"` },
+  'Scala' => -> { `scala -version 2>&1`.split[3] },
   'Node.js' => -> { `node -e "console.log(process.version)"` },
   'Python' => lambda do
     `python3 -c "import platform;print(platform.python_version())"`
