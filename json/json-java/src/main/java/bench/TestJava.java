@@ -82,7 +82,7 @@ public class TestJava {
 
         final var bytes = Files.readAllBytes(Paths.get("/tmp/1.json"));
 
-        notify("Java\t" + ProcessHandle.current().pid());
+        notify("Java (DSL-JSON)\t" + ProcessHandle.current().pid());
         final var results = calc(bytes);
         notify("stop");
 

@@ -57,11 +57,11 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$PYPY/bin:${PATH}"
 
 # https://www.scala-lang.org/download/
-ARG SCALA=2.13.5
+ARG SCALA=3.0.0
 RUN wget --progress=dot:giga -O - \
-	https://downloads.lightbend.com/scala/$SCALA/scala-$SCALA.tgz \
-	| tar -xz
-ENV PATH="/opt/scala-$SCALA/bin/:${PATH}"
+    https://github.com/lampepfl/dotty/releases/download/$SCALA/scala3-$SCALA.tar.gz \
+    | tar -xz
+ENV PATH="/opt/scala3-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
 ARG JDK=16
@@ -191,8 +191,8 @@ ARG OCAML=4.12.0
 RUN opam init --disable-sandboxing -n --root=/opt/opam --compiler=ocaml-base-compiler.$OCAML
 ENV PATH="/opt/opam/$OCAML/bin/:${PATH}"
 
-# https://kotlinlang.org/docs/tutorials/command-line.html
-ARG KOTLIN=1.5.0
+# https://kotlinlang.org/docs/command-line.html
+ARG KOTLIN=1.5.20
 RUN wget --progress=dot:giga \
 	https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
 	&& unzip kotlin-compiler-$KOTLIN.zip \

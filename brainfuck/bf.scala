@@ -50,7 +50,7 @@ class Program(text: String, p: Printer) {
         case '.' => res += Print
         case '[' => res += Loop(parse(iterator))
         case ']' => return res.toArray
-	case _ =>
+        case _ =>
       }
     }
 

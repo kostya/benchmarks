@@ -1,14 +1,14 @@
 import java.nio.file.{Files, Paths}
-import com.dslplatform.json._
+import upickle.default.{read, ReadWriter}
 
 object JsonTest {
 
-  case class Root(coordinates: Seq[Coordinate])
+  case class Root(coordinates: Seq[Coordinate]) derives ReadWriter
 
   case class Coordinate(
     x: Double,
     y: Double,
-    z: Double)
+    z: Double) derives ReadWriter
 
   def notify(msg: String): Unit = {
     val socket = new java.net.Socket("localhost", 9001)
@@ -18,12 +18,7 @@ object JsonTest {
   }
 
   private def calc(bytes: Array[Byte]): Coordinate = {
-    val settings = new DslJson.Settings[Any]()
-      .doublePrecision(JsonReader.DoublePrecision.LOW)
-      .`with`(new ConfigureScala)
-    implicit val dslJson = new DslJson[Any](settings)
-
-    val root = dslJson.decode[Root](bytes)
+    val root = read[Root](bytes)
 
     var (x, y, z) = (0.0, 0.0, 0.0)
 
@@ -52,7 +47,7 @@ object JsonTest {
 
     val bytes = Files.readAllBytes(Paths.get("/tmp/1.json"))
 
-    notify(s"Scala\t${ProcessHandle.current().pid()}")
+    notify(s"Scala (uPickle)\t${ProcessHandle.current().pid()}")
     val results = calc(bytes)
     notify("stop")
 
