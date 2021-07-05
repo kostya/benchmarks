@@ -2,7 +2,8 @@ include ../common/commands.mk
 .DEFAULT_GOAL := build
 
 executables := target/primes_cpp \
-	target/primes_rs
+	target/primes_rs \
+	target/primes_cr
 
 artifacts := $(executables) \
 	target/primes_scala.jar \
@@ -11,7 +12,12 @@ artifacts := $(executables) \
 all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[pypy][primes.py] \
 	run[primes.py] \
-	run[primes.js]
+	run[primes.js] \
+	run[primes.rb] \
+	run[jit][primes.rb] \
+	run[truby-jvm][primes.rb] \
+	run[truby-native][primes.rb] \
+	run[jruby][primes.rb]
 
 # Build
 
@@ -29,6 +35,9 @@ target/primes_rs: primes.rs | target
 
 target/primes_cpp: primes.cpp | target libnotify
 	$(GCC_CPP_BUILD)
+
+target/primes_cr: primes.cr | target
+	$(CRYSTAL_BUILD)
 
 # Run
 
@@ -59,6 +68,21 @@ run[primes.py]:: run[%]: % | $(py_fmt)
 
 run[primes.js]:: run[%]: %
 	$(NODE_RUN)
+
+run[primes.rb]:: run[%]: % | $(rubocop)
+	$(RUBY_RUN)
+
+run[jit][primes.rb]:: run[jit][%]: % | $(rubocop)
+	$(RUBY_JIT_RUN)
+
+run[truby-jvm][primes.rb]:: run[truby-jvm][%]: % | $(rubocop)
+	$(TRUBY_JVM_RUN)
+
+run[truby-native][primes.rb]:: run[truby-native][%]: % | $(rubocop)
+	$(TRUBY_NATIVE_RUN)
+
+run[jruby][primes.rb]:: run[jruby][%]: % | $(rubocop)
+	$(JRUBY_RUN)
 
 # Utilities
 

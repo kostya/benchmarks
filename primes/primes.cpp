@@ -16,44 +16,74 @@ struct Node {
   bool terminal = false;
 };
 
-std::vector<int> generate_primes(int limit) {
-  std::vector<bool> prime(limit + 1, false);
+class Sieve {
+  int limit;
+  std::vector<bool> prime;
 
-  for (auto x = 1; x * x < limit; ++x) {
+  Sieve& omit_squares() {
+    for (auto r = 5; r * r < limit; ++r) {
+      if (prime[r]) {
+        for (auto i = r * r; i < limit; i += r * r) {
+          prime[i] = false;
+        }
+      }
+    }
+    return *this;
+  }
+
+  void step1(int x, int y) {
+    const auto n = (4 * x * x) + (y * y);
+    if (n <= limit && (n % 12 == 1 || n % 12 == 5)) {
+      prime[n] = !prime[n];
+    }
+  }
+
+  void step2(int x, int y) {
+    const auto n = (3 * x * x) + (y * y);
+    if (n <= limit && n % 12 == 7) {
+      prime[n] = !prime[n];
+    }
+  }
+
+  void step3(int x, int y) {
+    const auto n = (3 * x * x) - (y * y);
+    if (x > y && n <= limit && n % 12 == 11) {
+      prime[n] = !prime[n];
+    }
+  }
+
+  void loop_y(int x) {
     for (auto y = 1; y * y < limit; ++y) {
-      auto n = (4 * x * x) + (y * y);
-      if (n <= limit && (n % 12 == 1 || n % 12 == 5)) {
-        prime[n] = !prime[n];
-      }
-
-      n = (3 * x * x) + (y * y);
-      if (n <= limit && n % 12 == 7) {
-        prime[n] = !prime[n];
-      }
-
-      n = (3 * x * x) - (y * y);
-      if (x > y && n <= limit && n % 12 == 11) {
-        prime[n] = !prime[n];
-      }
+      step1(x, y);
+      step2(x, y);
+      step3(x, y);
     }
   }
 
-  for (auto r = 5; r * r < limit; ++r) {
-    if (prime[r]) {
-      for (auto i = r * r; i < limit; i += r * r) {
-        prime[i] = false;
-      }
+  void loop_x() {
+    for (auto x = 1; x * x < limit; ++x) {
+      loop_y(x);
     }
   }
 
-  std::vector<int> result({2, 3});
-  for (auto p = 5; p <= limit; ++p) {
-    if (prime[p]) {
-      result.push_back(p);
+public:
+  Sieve(int limit): limit(limit), prime(std::vector<bool>(limit + 1, false)) {}
+
+  std::vector<int> to_list() const {
+    std::vector<int> result({2, 3});
+    for (auto p = 5; p <= limit; ++p) {
+      if (prime[p]) {
+        result.push_back(p);
+      }
     }
+    return result;
   }
-  return result;
-}
+
+  Sieve& calc() {
+    loop_x();
+    return omit_squares();
+  }
+};
 
 std::shared_ptr<Node> generate_trie(const std::vector<int>& l) {
   std::shared_ptr<Node> root(new Node);
@@ -69,10 +99,9 @@ std::shared_ptr<Node> generate_trie(const std::vector<int>& l) {
 }
 
 std::vector<int> find(int upper_bound, int prefix) {
-  const auto primes = generate_primes(upper_bound);
-  const auto root = generate_trie(primes);
+  const auto primes = Sieve(upper_bound).calc();
   const auto& str_prefix = std::to_string(prefix);
-  auto head = root;
+  auto head = generate_trie(primes.to_list());
 
   for (const auto ch : str_prefix) {
     head = head->children.at(ch);

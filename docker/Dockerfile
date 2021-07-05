@@ -49,7 +49,7 @@ RUN export VERSION=ruby-3.0.1 \
 ENV PATH="/opt/ruby/bin:${PATH}"
 
 # https://pypy.org/download.html
-ARG PYPY=pypy3.7-v7.3.4-linux64
+ARG PYPY=pypy3.7-v7.3.5-linux64
 RUN wget --progress=dot:giga -O - \
     https://downloads.python.org/pypy/$PYPY.tar.bz2 \
     | tar -xj \
@@ -64,9 +64,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/scala3-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=16
+ARG JDK=16.0.1
 RUN wget --progress=dot:giga -O - \
-    https://download.java.net/java/GA/jdk16/7863447f0ab643c585b9bdebf67c69db/36/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
+    https://download.java.net/java/GA/jdk16.0.1/7147401fd7354114ac51ef3e1328291f/9/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
     | tar -xz
 ENV PATH="/opt/jdk-$JDK/bin:${PATH}"
 
@@ -85,7 +85,7 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$LDC/bin/:${PATH}"
 
 # https://nim-lang.org/install_unix.html
-ARG NIM=nim-1.4.6
+ARG NIM=nim-1.4.8
 RUN wget --progress=dot:giga -O - \
 	https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
 	| tar -xJ
@@ -93,12 +93,12 @@ ENV PATH="/opt/$NIM/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN wget --progress=dot:giga -O - \
-    https://s3.us-west-2.amazonaws.com/downloads.dlang.org/releases/2021/dmd.2.096.1.linux.tar.xz \
+    https://s3.us-west-2.amazonaws.com/downloads.dlang.org/releases/2021/dmd.2.097.0.linux.tar.xz \
     | tar -xJ
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
 # https://www.jruby.org/download
-ARG JRUBY=9.2.17.0
+ARG JRUBY=9.2.19.0
 RUN wget --progress=dot:giga -O - \
 	https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
 	| tar -xz \
@@ -112,14 +112,14 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$JULIA/bin/:${PATH}"
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.4-RELEASE-ubuntu20.04
+ARG SWIFT=swift-5.4.2-RELEASE-ubuntu20.04
 RUN wget --progress=dot:giga -O - \
-	https://swift.org/builds/swift-5.4-release/ubuntu2004/swift-5.4-RELEASE/$SWIFT.tar.gz \
+	https://swift.org/builds/swift-5.4.2-release/ubuntu2004/swift-5.4.2-RELEASE/$SWIFT.tar.gz \
 	| tar -xz \
 	&& ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
 
 # https://clojure.org/community/downloads
-ARG CLOJURE=1.10.3.822
+ARG CLOJURE=1.10.3.855
 RUN wget --progress=dot:giga -O - \
 	https://download.clojure.org/install/linux-install-$CLOJURE.sh \
 	| bash -s
@@ -130,7 +130,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org \
 ENV PATH="/opt/.ghcup/bin/:${PATH}"
 
 # https://www.haskell.org/ghc/
-ARG GHC_VER=8.10.4
+ARG GHC_VER=9.0.1
 RUN ghcup install ghc $GHC_VER && ghcup set ghc $GHC_VER
 
 # Shared packages for all Haskell code
@@ -163,14 +163,14 @@ RUN wget --progress=dot:giga -O - \
 
 # https://github.com/dotnet/core/tree/master/release-notes
 RUN mkdir dotnet && wget --progress=dot:giga -O - \
-    https://download.visualstudio.microsoft.com/download/pr/5f0f07ab-cd9a-4498-a9f7-67d90d582180/2a3db6698751e6cbb93ec244cb81cc5f/dotnet-sdk-5.0.202-linux-x64.tar.gz \
+    https://download.visualstudio.microsoft.com/download/pr/8d4759e7-b95e-4934-854b-088a3c719d47/bf4a2474c123ccf99405e9375d3439da/dotnet-sdk-5.0.204-linux-x64.tar.gz \
     | tar -xz -C dotnet
 ENV PATH="/opt/dotnet:${PATH}"
 ENV DOTNET_ROOT="/opt/dotnet"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v16.1.0
+ARG NODE=v16.4.0
 RUN wget --progress=dot:giga -O - \
 	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
 	| tar -xJ
@@ -178,7 +178,7 @@ ENV PATH="/opt/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN wget --progress=dot:giga -O - \
-    https://golang.org/dl/go1.16.4.linux-amd64.tar.gz \
+    https://golang.org/dl/go1.16.5.linux-amd64.tar.gz \
     | tar -xz
 ENV PATH="/opt/go/bin/:${PATH}"
 
@@ -202,12 +202,12 @@ ENV PATH="/opt/kotlinc/bin/:${PATH}"
 # https://download.racket-lang.org/
 ARG RACKET=8.1
 RUN wget --progress=dot:giga \
-	https://mirror.racket-lang.org/installers/$RACKET/racket-$RACKET-x86_64-linux-cs.sh \
-	&& sh racket-$RACKET-x86_64-linux-cs.sh --unix-style --dest /usr/ \
-	&& rm racket-$RACKET-x86_64-linux-cs.sh
+    https://www.cs.utah.edu/plt/installers/$RACKET/racket-$RACKET-x86_64-linux-cs.sh \
+    && sh racket-$RACKET-x86_64-linux-cs.sh --unix-style --dest /usr/ \
+    && rm racket-$RACKET-x86_64-linux-cs.sh
 
 # https://github.com/vlang/v/releases
-ARG VLANG=weekly.2021.18
+ARG VLANG=weekly.2021.26
 RUN wget --progress=dot:giga \
         https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
         && unzip v_linux.zip \

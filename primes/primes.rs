@@ -18,51 +18,87 @@ impl Node {
     }
 }
 
-fn generate_primes(limit: usize) -> Vec<usize> {
-    let mut prime = vec![false; limit + 1];
+struct Sieve {
+    limit: usize,
+    prime: Vec<bool>,
+}
 
-    let mut x = 1;
-    while x * x < limit {
+impl Sieve {
+    fn new(limit: usize) -> Sieve {
+        Sieve {
+            limit: limit,
+            prime: vec![false; limit + 1]
+        }
+    }
+
+    fn to_list(&self) -> Vec<usize> {
+        let mut result = vec![2, 3];
+        for p in 5..=self.limit {
+            if self.prime[p] {
+                result.push(p);
+            }
+        }
+        result
+    }
+
+    fn omit_squares(&mut self) -> &Self {
+        let mut r = 5;
+        while r * r < self.limit {
+            if self.prime[r] {
+                let mut i = r * r;
+                while i < self.limit {
+                    self.prime[i] = false;
+                    i = i + r * r;
+                }
+            }
+            r = r + 1;
+        }
+        self
+    }
+
+    fn step1(&mut self, x: usize, y: usize) {
+        let n = (4 * x * x) + (y * y);
+        if n <= self.limit && (n % 12 == 1 || n % 12 == 5) {
+            self.prime[n] = !self.prime[n];
+        }
+    }
+
+    fn step2(&mut self, x: usize, y: usize) {
+        let n = (3 * x * x) + (y * y);
+        if n <= self.limit && n % 12 == 7 {
+            self.prime[n] = !self.prime[n];
+        }
+    }
+
+    fn step3(&mut self, x: usize, y: usize) {
+        let n = (3 * x * x) - (y * y);
+        if x > y && n <= self.limit && n % 12 == 11 {
+            self.prime[n] = !self.prime[n];
+        }
+    }
+
+    fn loop_y(&mut self, x: usize) {
         let mut y = 1;
-        while y * y < limit {
-            let mut n = (4 * x * x) + (y * y);
-            if n <= limit && (n % 12 == 1 || n % 12 == 5) {
-                prime[n] = !prime[n];
-            }
-
-            n = (3 * x * x) + (y * y);
-            if n <= limit && n % 12 == 7 {
-                prime[n] = !prime[n];
-            }
-
-            n = (3 * x * x) - (y * y);
-            if x > y && n <= limit && n % 12 == 11 {
-                prime[n] = !prime[n];
-            }
-            y = y + 1;
-        }
-        x = x + 1;
-    }
-
-    let mut r = 5;
-    while r * r < limit {
-        if prime[r] {
-            let mut i = r * r;
-            while i < limit {
-                prime[i] = false;
-                i = i + r * r;
-            }
-        }
-        r = r + 1;
-    }
-
-    let mut result = vec![2, 3];
-    for p in 5..=limit {
-        if prime[p] {
-            result.push(p);
+        while y * y < self.limit {
+            self.step1(x, y);
+            self.step2(x, y);
+            self.step3(x, y);
+            y += 1;
         }
     }
-    result
+
+    fn loop_x(&mut self) {
+        let mut x = 1;
+        while x * x < self.limit {
+            self.loop_y(x);
+            x += 1;
+        }
+    }
+
+    fn calc(&mut self) -> &Self {
+        self.loop_x();
+        self.omit_squares()
+    }
 }
 
 fn generate_trie(l: Vec<usize>) -> Box<Node> {
@@ -81,17 +117,17 @@ fn generate_trie(l: Vec<usize>) -> Box<Node> {
 }
 
 fn find(upper_bound: usize, prefix: i32) -> Vec<i32> {
-    let primes = generate_primes(upper_bound);
-    let root = generate_trie(primes);
+    let mut sieve = Sieve::new(upper_bound);
+    let primes = sieve.calc();
     let str_prefix = prefix.to_string();
-    let mut head = &root;
+    let mut head = &generate_trie(primes.to_list());
 
     for ch in str_prefix.chars() {
         head = head.children.get(&ch).unwrap();
     }
 
     let mut queue: VecDeque<(&Box<Node>, String)> = VecDeque::new();
-    queue.push_front((head, str_prefix));
+    queue.push_front((&head, str_prefix));
     let mut result: Vec<i32> = Vec::new();
     while !queue.is_empty() {
         let (top, prefix) = queue.pop_back().unwrap();

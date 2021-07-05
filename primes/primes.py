@@ -13,41 +13,61 @@ class Node:
         self.terminal = False
 
 
-def generate_primes(limit):
-    prime = [False] * (limit + 1)
+class Sieve:
+    def __init__(self, limit):
+        self.limit = limit
+        self.prime = [False] * (limit + 1)
 
-    x = 1
-    while x * x < limit:
+    def to_list(self):
+        result = [2, 3]
+        for p in range(5, self.limit + 1):
+            if self.prime[p]:
+                result.append(p)
+        return result
+
+    def omit_squares(self):
+        r = 5
+        while r * r < self.limit:
+            if self.prime[r]:
+                i = r * r
+                while i < self.limit:
+                    self.prime[i] = False
+                    i = i + r * r
+            r = r + 1
+        return self
+
+    def step1(self, x, y):
+        n = (4 * x * x) + (y * y)
+        if n <= self.limit and (n % 12 == 1 or n % 12 == 5):
+            self.prime[n] = not self.prime[n]
+
+    def step2(self, x, y):
+        n = (3 * x * x) + (y * y)
+        if n <= self.limit and n % 12 == 7:
+            self.prime[n] = not self.prime[n]
+
+    def step3(self, x, y):
+        n = (3 * x * x) - (y * y)
+        if x > y and n <= self.limit and n % 12 == 11:
+            self.prime[n] = not self.prime[n]
+
+    def loop_y(self, x):
         y = 1
-        while y * y < limit:
-            n = (4 * x * x) + (y * y)
-            if n <= limit and (n % 12 == 1 or n % 12 == 5):
-                prime[n] = not prime[n]
-
-            n = (3 * x * x) + (y * y)
-            if n <= limit and n % 12 == 7:
-                prime[n] = not prime[n]
-
-            n = (3 * x * x) - (y * y)
-            if x > y and n <= limit and n % 12 == 11:
-                prime[n] = not prime[n]
+        while y * y < self.limit:
+            self.step1(x, y)
+            self.step2(x, y)
+            self.step3(x, y)
             y = y + 1
-        x = x + 1
 
-    r = 5
-    while r * r < limit:
-        if prime[r]:
-            i = r * r
-            while i < limit:
-                prime[i] = False
-                i = i + r * r
-        r = r + 1
+    def loop_x(self):
+        x = 1
+        while x * x < self.limit:
+            self.loop_y(x)
+            x = x + 1
 
-    result = [2, 3]
-    for p in range(5, limit + 1):
-        if prime[p]:
-            result.append(p)
-    return result
+    def calc(self):
+        self.loop_x()
+        return self.omit_squares()
 
 
 def generate_trie(l):
@@ -63,9 +83,9 @@ def generate_trie(l):
 
 
 def find(upper_bound, prefix):
-    primes = generate_primes(upper_bound)
-    root = generate_trie(primes)
-    head, str_prefix = root, str(prefix)
+    primes = Sieve(upper_bound).calc()
+    str_prefix = str(prefix)
+    head = generate_trie(primes.to_list())
     for ch in str_prefix:
         head = head.children.get(ch)
         if head is None:

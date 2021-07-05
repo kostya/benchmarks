@@ -6,10 +6,10 @@ org.nd4j:nd4j-native:1.0.0-beta7
 
 # NOTE: use avx512 as soon as the test server is upgraded
 # Usage reference: https://deeplearning4j.org/cpu
-org.nd4j:nd4j-native:1.0.0-beta7,classifier=linux-x86_64-avx2
-org.nd4j:nd4j-native:1.0.0-beta7,classifier=linux-x86_64
+org.nd4j:nd4j-native:1.0.0-M1,classifier=linux-x86_64-avx2
+org.nd4j:nd4j-native:1.0.0-M1,classifier=linux-x86_64
 
 # Proper logging makes the results more stable (and faster,
 # probably because less classpath checks are happening)
-org.slf4j:slf4j-api:1.7.30
-org.slf4j:slf4j-simple:1.7.30
+org.slf4j:slf4j-api:1.7.31
+org.slf4j:slf4j-simple:1.7.31
