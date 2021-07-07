@@ -35,30 +35,32 @@ namespace Test {
         public Op.vnull(OpT _op, Op[] _l) { op = _op; loop = _l; v = 0; }
     }
 
+    [Compact]
     class Tape {
-        private int pos = 0;
-        private int[] tape = new int[1];
+        public int pos = 0;
+        public int[] tape = new int[1];
 
-        public int Get() { return tape[pos]; }
-        public void Inc(int x) { tape[pos] += x; }
-        public void Move(int x) { pos += x; while (pos >= tape.length) tape.resize(tape.length*2);}
+        public inline int Get() { return tape[pos]; }
+        public inline void Inc(int x) { tape[pos] += x; }
+        public inline void Move(int x) { pos += x; while (pos >= tape.length) tape.resize(tape.length*2);}
     }
 
+    [Compact]
     class Printer {
-        private int sum1 = 0;
-        private int sum2 = 0;
+        public int sum1 = 0;
+        public int sum2 = 0;
         public bool quiet;
 
         public Printer(bool quiet) {
             this.quiet = quiet;
         }
 
-        public void print(int n) {
+        public inline void print(int n) {
             if (quiet) {
                 sum1 = (sum1 + n) % 255;
                 sum2 = (sum2 + sum1) % 255;
             } else {
-                stdout.printf("%c", (char)n);
+                stdout.putc((char)n);
                 stdout.flush();
             }
         }
@@ -74,7 +76,7 @@ namespace Test {
         private string code;
         private int pos = 0;
         private Op[] ops;
-        private Printer p;
+        private unowned Printer p;
 
         Program(string text, Printer p) {
             code = text;
