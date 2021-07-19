@@ -394,7 +394,7 @@ Base Docker image: Debian GNU/Linux bullseye/sid
 | Scala            | 3.0.0                           |
 | Swift            | swift-5.4.2-RELEASE             |
 | Tcl              | 8.6                             |
-| V                | 0.2.2                           |
+| V                | 0.2.2 0ac0ab6                   |
 | Vala             | 0.48.17                         |
 
 ## Using Docker
