@@ -214,6 +214,13 @@ RUN wget --progress=dot:giga \
         && rm v_linux.zip
 ENV PATH="/opt/v/:${PATH}"
 
+# https://ziglang.org/download
+ARG ZIG=zig-linux-x86_64-0.8.0
+RUN wget --progress=dot:giga -O - \
+    https://ziglang.org/download/0.8.0/$ZIG.tar.xz \
+    | tar -xJ
+ENV PATH="/opt/$ZIG/:${PATH}"
+
 ARG SCRIPTS_VER=unknown
 COPY *.rb ./
 

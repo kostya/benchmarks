@@ -3,7 +3,8 @@ include ../common/commands.mk
 
 executables := target/primes_cpp \
 	target/primes_rs \
-	target/primes_cr
+	target/primes_cr \
+	target/primes_zig
 
 artifacts := $(executables) \
 	target/primes_scala.jar \
@@ -38,6 +39,9 @@ target/primes_cpp: primes.cpp | target libnotify
 
 target/primes_cr: primes.cr | target
 	$(CRYSTAL_BUILD)
+
+target/primes_zig: primes.zig | target libnotify
+	$(ZIG_BUILD)
 
 # Run
 

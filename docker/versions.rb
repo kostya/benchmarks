@@ -119,7 +119,8 @@ LANGS = {
   'Racket' => -> { `racket -e "(version)"` },
   'Chez Scheme' => -> { `scheme --version 2>&1` },
   'V' => -> { `v version`.split[1, 2].join(' ') },
-  'Clojure' => -> { `clojure -M -e '(clojure-version)'` }
+  'Clojure' => -> { `clojure -M -e '(clojure-version)'` },
+  'Zig' => -> { `zig version` }
 }.freeze
 
 def pad(num, str, padstr)

@@ -25,6 +25,9 @@ when 'json'
 when 'matmul'
   Dir.chdir('/src/matmul')
   exec('make run')
+when 'primes'
+  Dir.chdir('/src/primes')
+  exec('make run')
 end
 
 puts <<~USAGE
