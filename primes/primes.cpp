@@ -4,15 +4,15 @@
 #include <queue>
 #include <sstream>
 #include <unistd.h>
-#include <unordered_map>
+#include <map>
 #include <utility>
 #include <vector>
 
-const auto UPPER_BOUND = 5'000'000;
-const auto PREFIX = 32'338;
+static const auto UPPER_BOUND = 5'000'000;
+static const auto PREFIX = 32'338;
 
 struct Node {
-  std::unordered_map<char, std::shared_ptr<Node>> children;
+  std::map<char, std::shared_ptr<Node>> children{};
   bool terminal = false;
 };
 
@@ -67,7 +67,7 @@ class Sieve {
   }
 
 public:
-  Sieve(int limit): limit(limit), prime(std::vector<bool>(limit + 1, false)) {}
+  Sieve(int limit): limit(limit), prime(limit + 1, false) {}
 
   std::vector<int> to_list() const {
     std::vector<int> result({2, 3});
@@ -86,11 +86,11 @@ public:
 };
 
 std::shared_ptr<Node> generate_trie(const std::vector<int>& l) {
-  std::shared_ptr<Node> root(new Node);
+  auto root = std::make_shared<Node>();
   for (const auto el : l) {
     auto head = root;
     for (const auto ch: std::to_string(el)) {
-      head->children.emplace(ch, std::shared_ptr<Node>(new Node));
+      head->children.emplace(ch, std::make_shared<Node>());
       head = head->children[ch];
     }
     head->terminal = true;
@@ -104,7 +104,7 @@ std::vector<int> find(int upper_bound, int prefix) {
   auto head = generate_trie(primes.to_list());
 
   for (const auto ch : str_prefix) {
-    head = head->children.at(ch);
+    head = head->children[ch];
   }
 
   std::queue<std::pair<std::shared_ptr<Node>, std::string>> queue(
@@ -124,7 +124,7 @@ std::vector<int> find(int upper_bound, int prefix) {
   return result;
 }
 
-std::string to_string(std::vector<int> a) {
+std::string to_string(const std::vector<int>& a) {
   std::stringstream ss;
   ss << "[";
   auto first = true;
