@@ -1,5 +1,4 @@
 const std = @import("std");
-const c = @cImport(@cInclude("libnotify.h"));
 
 const UPPER_BOUND: i32 = 5_000_000;
 const PREFIX: i32 = 32_338;
@@ -156,6 +155,13 @@ fn find(alloc: *std.mem.Allocator, upper_bound: i32, prefix: i32) std.ArrayList(
     return result;
 }
 
+fn notify(msg: []const u8) void {
+    const addr = std.net.Address.parseIp("127.0.0.1", 9001) catch unreachable;
+    var stream = std.net.tcpConnectToAddress(addr) catch unreachable;
+    _ = stream.write(msg) catch unreachable;
+    stream.close();
+}
+
 fn verify(alloc: *std.mem.Allocator) !void {
     const left = [_]i32{ 2, 23, 29 };
     const right = find(alloc, 100, 2).toOwnedSlice();
@@ -178,9 +184,9 @@ pub fn main() !void {
     const pid = std.os.linux.getpid();
     const pid_str = try std.fmt.allocPrint(alloc, "Zig\t{d}", .{pid});
 
-    c.notify(@ptrCast([*c]const u8, pid_str), pid_str.len);
+    notify(pid_str);
     const results = find(alloc, UPPER_BOUND, PREFIX);
-    c.notify("stop", 4);
+    notify("stop");
 
     std.debug.print("{d}\n", .{results.items});
 }
