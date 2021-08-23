@@ -396,6 +396,7 @@ Base Docker image: Debian GNU/Linux bullseye/sid
 | Tcl              | 8.6                             |
 | V                | 0.2.2 0ac0ab6                   |
 | Vala             | 0.48.17                         |
+| Zig              | 0.8.0                           |
 
 ## Using Docker
 
@@ -416,10 +417,11 @@ where <cmd> is:
  - `base64` (build and run Base64 benchmarks);
  - `json` (build and run Json benchmarks);
  - `matmul` (build and run Matmul benchmarks);
+ - `primes` (build and run Primes benchmarks);
 
 Please note that the actual measurements provided in the project are taken semi-manually (via `shell`) as the full update takes days and could have occassional issues in Docker.
 
-There is a `Makefile` that could be used to simlify Docker usage:
+There is a `Makefile` that could be used to simplify Docker usage:
 
  - `make build` (build the image);
  - `make versions` (run the image with the `versions` command);
