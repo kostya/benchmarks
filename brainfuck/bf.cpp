@@ -78,8 +78,7 @@ private:
   Ops parse(string::const_iterator &iterator, string::const_iterator end) {
     Ops res;
     while (iterator != end) {
-      const char c = *iterator;
-      iterator += 1;
+      const auto c = *iterator++;
       switch (c) {
         case '+': res.push_back(Op(INC, 1)); break;
         case '-': res.push_back(Op(INC, -1)); break;
