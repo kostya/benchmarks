@@ -113,7 +113,7 @@ func (p *Program) Run(printer *Printer) {
 
 func parse(si *StringIterator) []Op {
 	res := make([]Op, 0)
-	for true {
+	for {
 		c := si.Next()
 		var op Op
 		switch c {
