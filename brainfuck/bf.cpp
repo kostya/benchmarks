@@ -1,7 +1,6 @@
 #include <fstream>
 #include <iostream>
 #include <libnotify.hpp>
-#include <map>
 #include <sstream>
 #include <string>
 #include <unistd.h>
@@ -17,8 +16,8 @@ struct Op {
   op_type op;
   int val;
   Ops loop;
-  Op(Ops v) : op(LOOP), loop(v) {}
-  Op(op_type _op, int v = 0) : op(_op), val(v) {}
+  Op(Ops v) : op(LOOP), val{}, loop(v) {}
+  Op(op_type _op, int v = 0) : op(_op), val(v), loop{} {}
 };
 
 class Tape {
@@ -27,13 +26,13 @@ class Tape {
   tape_type tape;
 
 public:
-  Tape(): pos(0) {
+  Tape(): pos(0), tape{} {
     tape.push_back(0);
   }
 
   int get() { return tape[pos]; }
   void inc(int x) { tape[pos] += x; }
-  void move(int x) { pos += x; while (pos >= tape.size()) tape.resize(2 * tape.size()); }
+  void move(int x) { pos += x; if (pos >= tape.size()) tape.resize(2 * tape.size()); }
 };
 
 class Printer {
@@ -64,9 +63,9 @@ class Program {
 
 public:
 
-  Program(string code, Printer& p): p(p) {
-    string::iterator iterator = code.begin();
-    ops = parse(&iterator, code.end());
+  Program(const string& code, Printer& p): ops{}, p(p) {
+    string::const_iterator iterator = code.cbegin();
+    ops = parse(iterator, code.cend());
   }
 
   void run() {
@@ -76,11 +75,10 @@ public:
 
 private:
 
-  Ops parse(string::iterator *iterator, string::iterator end) {
+  Ops parse(string::const_iterator &iterator, string::const_iterator end) {
     Ops res;
-    while (*iterator != end) {
-      char c = **iterator;
-      *iterator += 1;
+    while (iterator != end) {
+      const auto c = *iterator++;
       switch (c) {
         case '+': res.push_back(Op(INC, 1)); break;
         case '-': res.push_back(Op(INC, -1)); break;
@@ -94,9 +92,8 @@ private:
     return res;
   }
 
-  void _run(Ops &program, Tape &tape) {
-    for (Ops::iterator it = program.begin(); it != program.end(); it++) {
-      Op &op = *it;
+  void _run(const Ops &program, Tape &tape) {
+    for (const auto& op : program) {
       switch (op.op) {
       case INC: tape.inc(op.val); break;
       case MOVE: tape.move(op.val); break;
@@ -107,13 +104,13 @@ private:
   }
 };
 
-string read_file(string filename){
-  ifstream textstream(filename.c_str());
+string read_file(const string& filename){
+  ifstream textstream(filename);
   textstream.seekg(0, ios_base::end);
-  const int lenght = textstream.tellg();
+  const int length = textstream.tellg();
   textstream.seekg(0);
-  string text(lenght, ' ');
-  textstream.read(&text[0], lenght);
+  string text(length, ' ');
+  textstream.read(&text[0], length);
   textstream.close();
   return text;
 }
