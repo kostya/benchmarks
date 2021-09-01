@@ -8,10 +8,17 @@ const OpType = enum {
 };
 
 const Printer = struct {
-    stdout: std.fs.File.Writer = std.io.getStdOut().writer(),
+    stdout: std.fs.File.Writer,
     sum1: i32 = 0,
     sum2: i32 = 0,
     quiet: bool,
+
+    fn init(args: anytype) Printer {
+        return Printer {
+            .stdout = if (!args.quiet) std.io.getStdOut().writer() else undefined,
+            .quiet = args.quiet
+        };
+    }
 
     fn print(self: *Printer, n: i32) void {
         if (self.quiet) {
@@ -145,11 +152,11 @@ fn verify(alloc: *std.mem.Allocator) void {
         \\---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
     ;
 
-    var p_left = Printer{ .quiet = true };
-    var p = Program.init(alloc, text, &p_left).run();
+    var p_left = Printer.init(.{.quiet = true});
+    Program.init(alloc, text, &p_left).run();
     const left = p_left.getChecksum();
 
-    var p_right = Printer{ .quiet = true };
+    var p_right = Printer.init(.{.quiet = true});
     for ("Hello World!\n") |c| {
         p_right.print(c);
     }
@@ -166,7 +173,7 @@ pub fn main() !void {
     var alloc: *std.mem.Allocator = &arena.allocator;
 
     verify(alloc);
-    var p = Printer{ .quiet = std.os.getenv("QUIET") != null };
+    var p = Printer.init(.{.quiet = std.os.getenv("QUIET") != null});
 
     var arg_iter = std.process.args();
     _ = arg_iter.skip(); // Skip binary name
