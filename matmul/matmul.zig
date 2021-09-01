@@ -1,4 +1,5 @@
 const std = @import("std");
+const unistd = @cImport(@cInclude("unistd.h"));
 
 fn matInit(alloc: *std.mem.Allocator, x: usize, y: usize) [][]f64 {
     var mat: [][]f64 = alloc.alloc([]f64, x) catch unreachable;
@@ -86,7 +87,7 @@ pub fn main() !void {
         std.debug.panic("{d} != {d}\n", .{left, right});
     }
 
-    const pid = std.os.linux.getpid();
+    const pid = unistd.getpid();
     const pid_str = try std.fmt.allocPrint(alloc, "Zig\t{d}", .{pid});
 
     notify(pid_str);
