@@ -24,7 +24,8 @@ executables := \
 	target/matmul_vala_gcc \
 	target/matmul_vala_clang \
 	target/Release/net5.0/matmul \
-	target/matmul_cpp
+	target/matmul_cpp \
+	target/matmul_zig
 
 artifacts := $(executables) \
 	target/matmul_scala.jar \
@@ -138,6 +139,9 @@ $(eigen): | target
 
 target/matmul_cpp: matmul.cpp | $(eigen) libnotify
 	$(GCC_CPP_BUILD) -I$(eigen)
+
+target/matmul_zig: matmul.zig | target
+	$(ZIG_BUILD)
 
 # Run
 
