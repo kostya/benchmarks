@@ -47,7 +47,8 @@ executables := \
 	json-fsharp/target/Release/net5.0/json-fsharp \
 	target/Release/net5.0/json \
 	json-core/target/Release/net5.0/json-core \
-	target/json_nlohmann_json_cpp
+	target/json_nlohmann_json_cpp \
+	target/json_zig
 
 artifacts := $(executables) \
 	target/test.exe \
@@ -263,6 +264,9 @@ target/json_dawjsonlink_cpp_unchecked: test_dawjsonlink.cpp | $(daw_json_link_al
 
 json-fsharp/target/Release/net5.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
 	$(DOTNET_BUILD)
+
+target/json_zig: test.zig | target
+	$(ZIG_BUILD)
 
 # Run
 
