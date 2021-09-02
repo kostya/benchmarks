@@ -1,4 +1,5 @@
 const std = @import("std");
+const unistd = @cImport(@cInclude("unistd.h"));
 
 const OpType = enum {
     INC,
@@ -183,7 +184,7 @@ pub fn main() !void {
     };
 
     const text = try readFile(alloc, name);
-    const pid = std.os.linux.getpid();
+    const pid = unistd.getpid();
     const pid_str = try std.fmt.allocPrint(alloc, "Zig\t{d}", .{pid});
 
     notify(pid_str);
