@@ -246,3 +246,4 @@ run[bf.jl]:: run[%]: % | $(julia_fmt)
 clean:
 	$(DOTNET_CLEAN) fsharp/brainfuck.fsproj
 	-rm -rf target
+	-rm -rf zig-cache

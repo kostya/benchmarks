@@ -221,3 +221,4 @@ run[jruby][matmul.rb]:: run[jruby][%]: % | $(rubocop)
 clean:
 	-rm -rf target
 	$(MAKE) -C java-nd4j clean
+	-rm -rf zig-cache

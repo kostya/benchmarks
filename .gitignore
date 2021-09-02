@@ -2,3 +2,4 @@
 .dub/
 target/
 .DS_Store
+zig-cache/
