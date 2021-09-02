@@ -158,9 +158,10 @@ fn find(alloc: *std.mem.Allocator, upper_bound: i32, prefix: i32) std.ArrayList(
 
 fn notify(msg: []const u8) void {
     const addr = std.net.Address.parseIp("127.0.0.1", 9001) catch unreachable;
-    var stream = std.net.tcpConnectToAddress(addr) catch unreachable;
-    _ = stream.write(msg) catch unreachable;
-    stream.close();
+    if (std.net.tcpConnectToAddress(addr)) |stream| {
+        defer stream.close();
+        _ = stream.write(msg) catch unreachable;
+    } else |_| {}
 }
 
 fn verify(alloc: *std.mem.Allocator) !void {
