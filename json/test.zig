@@ -17,9 +17,10 @@ const TestStruct = struct {
 
 fn notify(msg: []const u8) void {
     const addr = std.net.Address.parseIp("127.0.0.1", 9001) catch unreachable;
-    var stream = std.net.tcpConnectToAddress(addr) catch unreachable;
-    _ = stream.write(msg) catch unreachable;
-    stream.close();
+    if (std.net.tcpConnectToAddress(addr)) |stream| {
+        defer stream.close();
+        _ = stream.write(msg) catch unreachable;
+    } else |_| {}
 }
 
 fn readFile(alloc: *std.mem.Allocator, filename: []const u8) ![]const u8 {
