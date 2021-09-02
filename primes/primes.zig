@@ -1,4 +1,5 @@
 const std = @import("std");
+const unistd = @cImport(@cInclude("unistd.h"));
 
 const UPPER_BOUND: i32 = 5_000_000;
 const PREFIX: i32 = 32_338;
@@ -181,7 +182,7 @@ pub fn main() !void {
 
     try verify(alloc);
 
-    const pid = std.os.linux.getpid();
+    const pid = unistd.getpid();
     const pid_str = try std.fmt.allocPrint(alloc, "Zig\t{d}", .{pid});
 
     notify(pid_str);
