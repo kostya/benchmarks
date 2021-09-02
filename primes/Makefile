@@ -93,3 +93,4 @@ run[jruby][primes.rb]:: run[jruby][%]: % | $(rubocop)
 .PHONY: clean
 clean:
 	-rm -rf target
+	-rm -rf zig-cache

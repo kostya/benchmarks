@@ -363,6 +363,7 @@ clean:
 	cargo clean --manifest-path $(json-rs-toml)
 	-rm -rf target
 	-rm -rf mir-common-json/target
+	-rm -rf zig-cache
 
 $(json_file):
 	ruby generate_json.rb
