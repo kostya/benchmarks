@@ -25,7 +25,8 @@ executables := \
 	target/bin_c_gcc \
 	target/bin_c_clang \
 	fsharp/target/Release/net5.0/brainfuck \
-	target/Release/net5.0/brainfuck
+	target/Release/net5.0/brainfuck \
+	target/bin_zig
 
 artifacts := $(executables) \
 	target/bf_scala.jar \
@@ -139,6 +140,9 @@ target/bin_c_clang: bf.c | target libnotify
 
 target/bf.class: bf.java | target
 	$(JAVAC_BUILD)
+
+target/bin_zig: bf.zig | target
+	$(ZIG_BUILD)
 
 # Run
 
