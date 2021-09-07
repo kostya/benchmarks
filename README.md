@@ -72,6 +72,7 @@ Supports two mode:
 |                   D/ldc2 |    1.864<sub>±0.041</sub> |     2.97<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |     34.74<sub>±01.31</sub> |
 |                   Kotlin |    1.868<sub>±0.048</sub> |    40.89<sub>±00.11</sub> + 0.48<sub>±00.10</sub> |     35.11<sub>±02.66</sub> |
 |                    D/gdc |    1.943<sub>±0.066</sub> |     6.30<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |     41.12<sub>±02.40</sub> |
+|                      Zig |    2.084<sub>±0.039</sub> |     0.97<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |     42.66<sub>±02.35</sub> |
 |                    OCaml |    2.140<sub>±0.055</sub> |     2.59<sub>±00.04</sub> + 2.51<sub>±00.06</sub> |     48.78<sub>±02.79</sub> |
 |                 Go/gccgo |    2.175<sub>±0.057</sub> |    20.99<sub>±00.34</sub> + 0.00<sub>±00.00</sub> |     39.59<sub>±03.11</sub> |
 |                       Go |    2.201<sub>±0.075</sub> |     3.45<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |     48.46<sub>±01.43</sub> |
@@ -126,6 +127,7 @@ Supports two mode:
 |                    V/gcc |  17.119<sub>±0.737</sub> |      1.67<sub>±00.04</sub> + 1.03<sub>±00.00</sub> |   359.04<sub>±34.09</sub> |
 |  Racket (Syntax Objects) |  17.444<sub>±0.120</sub> |   106.37<sub>±00.15</sub> + 72.70<sub>±00.26</sub> |   332.19<sub>±21.78</sub> |
 |                  C/clang |  18.167<sub>±0.686</sub> |      0.54<sub>±00.01</sub> + 1.09<sub>±00.03</sub> |   381.14<sub>±34.92</sub> |
+|                      Zig |  18.327<sub>±0.367</sub> |      1.86<sub>±00.03</sub> + 0.52<sub>±00.00</sub> |   331.67<sub>±09.27</sub> |
 |             C#/.NET Core |  19.055<sub>±0.224</sub> |     34.28<sub>±00.02</sub> + 0.96<sub>±00.00</sub> |   341.42<sub>±04.72</sub> |
 |                 Vala/gcc |  19.880<sub>±0.559</sub> |      3.52<sub>±00.04</sub> + 2.06<sub>±00.02</sub> |   375.90<sub>±18.11</sub> |
 |               Vala/clang |  22.178<sub>±0.405</sub> |      3.54<sub>±00.03</sub> + 2.06<sub>±00.03</sub> |   424.87<sub>±38.99</sub> |
@@ -237,6 +239,7 @@ have some inaccuracies in number parsing:
 |            Rust (Serde Untyped) |  0.854<sub>±0.029</sub> |  111.89<sub>±00.08</sub> + 839.98<sub>±00.00</sub> |  17.32<sub>±01.54</sub> |
 |                     Python/pypy |  0.862<sub>±0.012</sub> |  285.48<sub>±00.09</sub> + 121.42<sub>±00.01</sub> |  16.56<sub>±00.28</sub> |
 |                         Node.js |  0.877<sub>±0.025</sub> |   251.02<sub>±00.03</sub> + 78.29<sub>±00.74</sub> |  23.02<sub>±00.55</sub> |
+|                             Zig |  0.878<sub>±0.007</sub> |   111.37<sub>±00.02</sub> + 11.92<sub>±00.00</sub> |  20.42<sub>±00.18</sub> |
 |                   Julia (JSON3) |  0.960<sub>±0.024</sub> |  368.78<sub>±00.22</sub> + 373.25<sub>±00.20</sub> |  18.56<sub>±00.83</sub> |
 |                           V/gcc |  0.969<sub>±0.043</sub> |  111.14<sub>±00.01</sub> + 496.21<sub>±00.00</sub> |  20.08<sub>±02.07</sub> |
 |         Perl (Cpanel::JSON::XS) |  0.986<sub>±0.010</sub> |  124.67<sub>±00.04</sub> + 402.78<sub>±00.03</sub> |  23.49<sub>±00.48</sub> |
@@ -302,6 +305,7 @@ Testing allocating and multiplying matrices.
 |                     Rust |   3.445<sub>±0.016</sub> |     2.71<sub>±00.12</sub> + 68.32<sub>±00.00</sub> |     74.65<sub>±00.66</sub> |
 |                    Scala |   3.449<sub>±0.027</sub> |   55.68<sub>±00.06</sub> + 153.92<sub>±00.12</sub> |     82.04<sub>±01.31</sub> |
 |                Nim/clang |   3.469<sub>±0.050</sub> |     3.07<sub>±00.02</sub> + 66.00<sub>±00.00</sub> |     74.45<sub>±00.98</sub> |
+|                      Zig |   3.475<sub>±0.009</sub> |     2.13<sub>±00.01</sub> + 68.58<sub>±00.00</sub> |     71.10<sub>±02.78</sub> |
 |                       Go |   3.543<sub>±0.023</sub> |     3.80<sub>±00.06</sub> + 73.36<sub>±00.09</sub> |     80.52<sub>±03.47</sub> |
 |                 Go/gccgo |   3.564<sub>±0.086</sub> |    21.59<sub>±00.18</sub> + 72.83<sub>±00.16</sub> |     78.12<sub>±02.04</sub> |
 |                    Swift |   3.646<sub>±0.088</sub> |   145.20<sub>±00.05</sub> + 60.64<sub>±00.03</sub> |     86.24<sub>±03.09</sub> |
