@@ -3,11 +3,7 @@ import math
 import net
 
 fn make_matrix(n int, m int) [][]f64 {
-	mut res := [[f64(0.0)].repeat(m)]
-	for i := 1; i < n; i++ {
-		res << [f64(0.0)].repeat(m)
-	}
-	return res
+	return [][]f64{len: m, init: []f64{len: n}}
 }
 
 fn matgen(n int, seed f64) [][]f64 {

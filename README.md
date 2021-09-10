@@ -308,11 +308,11 @@ Testing allocating and multiplying matrices.
 |                Nim/clang |    3.494<sub>±0.037</sub> |     3.08<sub>±00.03</sub> + 66.00<sub>±00.13</sub> |     74.08<sub>±01.21</sub> |
 |                 Go/gccgo |    3.526<sub>±0.024</sub> |    22.76<sub>±00.12</sub> + 73.50<sub>±00.16</sub> |     77.93<sub>±01.31</sub> |
 |                  Crystal |    3.652<sub>±0.027</sub> |     4.13<sub>±00.08</sub> + 59.71<sub>±00.04</sub> |     82.10<sub>±04.74</sub> |
-|                    V/gcc |    3.729<sub>±0.137</sub> |     1.91<sub>±00.04</sub> + 69.09<sub>±00.00</sub> |     82.03<sub>±08.11</sub> |
+|                    V/gcc |    3.694<sub>±0.073</sub> |     1.98<sub>±00.12</sub> + 68.58<sub>±00.13</sub> |     87.26<sub>±02.33</sub> |
 |                       Go |    3.733<sub>±0.115</sub> |     3.53<sub>±00.07</sub> + 73.11<sub>±00.14</sub> |     76.53<sub>±01.43</sub> |
+|                  V/clang |    3.750<sub>±0.064</sub> |     2.16<sub>±00.06</sub> + 68.84<sub>±00.00</sub> |     82.17<sub>±01.53</sub> |
 |                    Swift |    3.800<sub>±0.141</sub> |   145.23<sub>±00.06</sub> + 60.69<sub>±00.04</sub> |     75.24<sub>±04.58</sub> |
 |                   Kotlin |    3.817<sub>±0.046</sub> |    38.91<sub>±00.08</sub> + 80.19<sub>±00.43</sub> |     88.99<sub>±06.26</sub> |
-|                  V/clang |    3.822<sub>±0.123</sub> |     2.24<sub>±00.02</sub> + 69.09<sub>±00.00</sub> |     76.49<sub>±05.83</sub> |
 |                  Node.js |    3.874<sub>±0.086</sub> |    35.21<sub>±00.19</sub> + 72.29<sub>±00.41</sub> |     87.24<sub>±06.76</sub> |
 |              Python/pypy |    6.136<sub>±0.152</sub> |    65.95<sub>±00.17</sub> + 68.98<sub>±00.06</sub> |    139.27<sub>±04.09</sub> |
 |             C#/.NET Core |    7.476<sub>±0.204</sub> |    34.07<sub>±00.08</sub> + 69.11<sub>±00.01</sub> |    131.78<sub>±11.30</sub> |
