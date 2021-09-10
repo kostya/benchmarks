@@ -28,7 +28,7 @@ fn notify(msg: &str) {
 }
 
 fn calc(program: &mut jq_rs::JqProgram, content: &str) -> Coordinate {
-    let result = program.run(&content).unwrap();
+    let result = program.run(content).unwrap();
     let mut iter = result.split_whitespace();
     Coordinate {
         x: iter.next().unwrap().parse().unwrap(),

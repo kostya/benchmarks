@@ -8,9 +8,9 @@ lto = true
 codegen-units = 1
 
 [dependencies]
-serde = "1.0.126"
-serde_derive = "1.0.126"
-serde_json = "1.0.64"
+serde = "1.0.130"
+serde_derive = "1.0.130"
+serde_json = "1.0.67"
 jq-rs = "0.4.1"
 
 [[bin]]

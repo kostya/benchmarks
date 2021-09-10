@@ -29,7 +29,7 @@ fn notify(msg: &str) {
 }
 
 fn calc(content: &str) -> Coordinate {
-    let value: Value = serde_json::from_str(&content).unwrap();
+    let value: Value = serde_json::from_str(content).unwrap();
 
     let coordinates = value.get("coordinates").unwrap().as_array().unwrap();
 

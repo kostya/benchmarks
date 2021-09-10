@@ -36,7 +36,7 @@ fn main() {
 		lang = 'V/clang'
 	}
 	notify('$lang\t$C.getpid()')
-	mut sw := time.new_stopwatch({})
+	mut sw := time.new_stopwatch()
 	mut s_encoded := 0
 	for i := 0; i < tries; i++ {
 		str2_local := base64.encode(str)
