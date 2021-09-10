@@ -38,7 +38,7 @@ fn notify(msg: &str) {
 }
 
 fn calc(s: &str) -> Coordinate {
-    let jobj: TestStruct = serde_json::from_str(&s).unwrap();
+    let jobj: TestStruct = serde_json::from_str(s).unwrap();
 
     let len = jobj.coordinates.len() as f64;
     let mut x = 0_f64;

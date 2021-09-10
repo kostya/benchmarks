@@ -47,5 +47,5 @@ apply {{{n 100}} {
     set results [calc $n]
     notify "stop"
 
-    puts results
+    puts $results
 }} {*}$argv

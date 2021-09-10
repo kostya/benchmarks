@@ -87,7 +87,7 @@ fn notify(msg: &str) {
 }
 
 fn calc(content: &str) -> Coordinate {
-    let test: TestStruct = serde_json::from_str(&content).unwrap();
+    let test: TestStruct = serde_json::from_str(content).unwrap();
     let state = test.state;
     let len = state.len as f64;
     Coordinate {

@@ -77,7 +77,7 @@ fn (mut p Printer) print(n int) {
 		p.sum1 = (p.sum1 + n) % 255
 		p.sum2 = (p.sum2 + p.sum1) % 255
 	} else {
-		print(byte(n).str())
+		print(byte(n).ascii_str())
 		os.flush()
 	}
 }

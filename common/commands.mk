@@ -15,25 +15,24 @@ DOTNET_BUILD =		dotnet build --nologo -v q $< -c Release
 DUB_BUILD =		dub -q build --build=release-nobounds --compiler=ldc2 --single $^
 GCC_BUILD =		gcc $(GCC_FLAGS) -std=c17 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++2a -o $@ $^ $(LIBNOTIFY_FLAGS)
-GCC_GO_BUILD =	gccgo $(GCC_FLAGS) -o $@ $^
+GCC_GO_BUILD =		gccgo $(GCC_FLAGS) -o $@ $^
 GDC_BUILD =		gdc -o $@ -O3 -frelease -finline -fbounds-check=off $^
 GHC_BUILD =		ghc -v0 -O2 -fforce-recomp -Wall $^ -o $@ -outputdir $(@D)
 GO_BUILD =		GO111MODULE=auto go build -o $@ $^
 JAVAC_BUILD =		javac -Xlint:unchecked -d $(@D) $^
-# TODO: remove JAVA_OPTS as soon as new Kotlin is released (see https://youtrack.jetbrains.com/issue/KT-43704)
-KOTLINC_BUILD =	JAVA_OPTS="--illegal-access=permit" kotlinc -include-runtime -jvm-target 15 -d $@ $^
+KOTLINC_BUILD =	kotlinc -include-runtime -jvm-target 16 -d $@ $^
 LDC2_BUILD =		ldc2 -of$@ -O5 -release -boundscheck=off $^
 MCS_BUILD =		mcs -debug- -optimize+ -out:$@ $^
 MLTON_BUILD =		mlton -output $@ $^
 NIM_CLANG_BUILD =	nim c -o:$@ --cc:clang $(NIM_FLAGS) $^
-NIM_GCC_BUILD =	    nim c -o:$@ --cc:gcc $(NIM_FLAGS) $^
+NIM_GCC_BUILD =	nim c -o:$@ --cc:gcc $(NIM_FLAGS) $^
 RUSTC_BUILD =		rustc $(RUSTC_FLAGS) -C lto -C codegen-units=1 -o $@ $^
 SCALAC_BUILD =		scalac -d $@ $^
 VALAC_CLANG_BUILD =	valac $^ --cc=clang -D CLANG_TEST $(VALAC_FLAGS) -o $@
 VALAC_GCC_BUILD =	valac $^ --cc=gcc -D GCC_TEST $(VALAC_FLAGS) -o $@
 V_CLANG_BUILD =	v $(V_FLAGS) -cc clang -o $@ $^
 V_GCC_BUILD =		v $(V_FLAGS) -cc gcc -o $@ $^
-ZIG_BUILD = 		zig build-exe $(ZIG_FLAGS) -lc -femit-bin=$@ $^
+ZIG_BUILD =		zig build-exe $(ZIG_FLAGS) -lc -femit-bin=$@ $^
 
 define OCAML_BUILD =
 cp $^ target && cd target && ocamlopt -O3 -unsafe unix.cmxa $^ -o $(@F)

@@ -139,12 +139,12 @@ target/json_go_gccgo: test.go | $(gofmt)
 
 # Boost releases:
 # https://www.boost.org/users/download/
-BOOST_VERSION := boost_1_76_0
+BOOST_VERSION := boost_1_77_0
 boost = target/$(BOOST_VERSION)
 $(boost): | target
 	cd target && \
 	wget --progress=dot:giga -O - \
-	https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/$(BOOST_VERSION).tar.bz2 \
+	https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/$(BOOST_VERSION).tar.bz2 \
 	| tar -xj
 
 target/json_boost_ptree_cpp: test_boost_ptree.cpp | $(boost) libnotify
@@ -347,7 +347,7 @@ run[jruby][test.rb]:: run[jruby][%]: % | $(rubocop)
 run[test.php]:: run[%]: %
 	$(PHP_RUN)
 
-run[test.clj]:: CLOJURE_FLAGS := -Sdeps '{:deps {cheshire/cheshire {:mvn/version "5.10.0"}}}'
+run[test.clj]:: CLOJURE_FLAGS := -Sdeps '{:deps {cheshire/cheshire {:mvn/version "5.10.1"}}}'
 run[test.clj]:: run[%]: %
 	$(CLOJURE_RUN)
 
