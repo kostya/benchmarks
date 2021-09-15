@@ -38,10 +38,15 @@ pub fn main() !void {
     const TRIES = 8192;
 
     const str1 = "a" ** STR_SIZE;
-    const str2 = try alloc.alloc(u8, b64.Encoder.calcSize(STR_SIZE));
-    const encoded = b64.Encoder.encode(str2, str1);
-    const str3 = try alloc.alloc(u8, try b64.Decoder.calcSizeForSlice(encoded));
+    const encodeSize =  b64.Encoder.calcSize(STR_SIZE);
+    const str2 = try alloc.alloc(u8, encodeSize);
+    const encoded =  b64.Encoder.encode(str2, str1);
+    const decodeSize =  try b64.Decoder.calcSizeForSlice(encoded);
+    const str3 = try alloc.alloc(u8, decodeSize);
     b64.Decoder.decode(str3, str2) catch unreachable;
+
+    var buffer = try alloc.alloc(u8, @maximum(encodeSize, decodeSize));
+    const fb_alloc = &std.heap.FixedBufferAllocator.init(buffer).allocator;
 
     const pid = unistd.getpid();
     const pid_str = try std.fmt.allocPrint(alloc, "Zig\t{d}", .{pid});
@@ -52,7 +57,9 @@ pub fn main() !void {
     var s_encoded: usize = 0;
     const t1 = std.time.milliTimestamp();
     while (i < TRIES) : (i += 1) {
-        s_encoded += b64.Encoder.encode(str2, str1).len;
+        var str21 = fb_alloc.alloc(u8, encodeSize) catch unreachable;
+        s_encoded += b64.Encoder.encode(str21, str1).len;
+        fb_alloc.free(str21);
     }
     const t_encoded: f64 = @intToFloat(f64, std.time.milliTimestamp() - t1) / std.time.ms_per_s;
 
@@ -60,8 +67,10 @@ pub fn main() !void {
     var s_decoded: usize = 0;
     const t2 = std.time.milliTimestamp();
     while (i < TRIES) : (i += 1) {
-        b64.Decoder.decode(str3, str2) catch unreachable;
-        s_decoded += str3.len;
+        var str31 = fb_alloc.alloc(u8, decodeSize) catch unreachable;
+        b64.Decoder.decode(str31, str2) catch unreachable;
+        s_decoded += str31.len;
+        fb_alloc.free(str31);
     }
     const t_decoded: f64 = @intToFloat(f64, std.time.milliTimestamp() - t2) / std.time.ms_per_s;
 
