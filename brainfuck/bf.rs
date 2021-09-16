@@ -138,7 +138,7 @@ struct Program {
 impl Program {
     fn new(code: &[u8]) -> Self {
         Self {
-            ops: parse(&mut code.into_iter().copied()),
+            ops: parse(&mut code.iter().copied()),
         }
     }
 
