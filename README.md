@@ -187,6 +187,7 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 |                     D/gdc |  3.295<sub>±0.102</sub> |     7.04<sub>±00.02</sub> + 3.52<sub>±00.00</sub> |  69.16<sub>±03.88</sub> |
 |                     D/dmd |  3.718<sub>±0.055</sub> |     3.80<sub>±00.07</sub> + 3.61<sub>±00.00</sub> |  73.01<sub>±02.23</sub> |
 |                    Python |  3.971<sub>±0.063</sub> |     9.96<sub>±00.03</sub> + 0.18<sub>±00.00</sub> |  90.62<sub>±01.60</sub> |
+|                       Zig |  4.513<sub>±0.010</sub> |     1.88<sub>±00.02</sub> + 0.34<sub>±00.03</sub> |  82.21<sub>±01.46</sub> |
 |               Python/pypy |  4.886<sub>±0.142</sub> |   65.43<sub>±00.06</sub> + 45.75<sub>±00.09</sub> |  98.29<sub>±08.01</sub> |
 |                       Tcl |  4.998<sub>±0.026</sub> |     4.88<sub>±00.06</sub> + 0.19<sub>±00.03</sub> |  84.07<sub>±02.10</sub> |
 |                     Julia |  5.740<sub>±0.202</sub> |  218.99<sub>±00.04</sub> + 63.02<sub>±00.17</sub> | 128.13<sub>±09.02</sub> |
