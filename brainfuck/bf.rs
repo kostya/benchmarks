@@ -24,19 +24,19 @@ impl Tape {
     }
 
     fn get(&self) -> i32 {
-        // Safe: `self.pos` is already checked in `self.next()`
+        // SAFETY: `self.pos` is already checked in `self.next()`
         unsafe { *self.tape.get_unchecked(self.pos) }
     }
 
     fn dec(&mut self) {
-        // Safe: `self.pos` is already checked in `self.next()`
+        // SAFETY: `self.pos` is already checked in `self.next()`
         unsafe {
             *self.tape.get_unchecked_mut(self.pos) -= 1;
         }
     }
 
     fn inc(&mut self) {
-        // Safe: `self.pos` is already checked in `self.next()`
+        // SAFETY: `self.pos` is already checked in `self.next()`
         unsafe {
             *self.tape.get_unchecked_mut(self.pos) += 1;
         }
@@ -114,17 +114,17 @@ fn run(program: &[Op], tape: &mut Tape, p: &mut Printer) {
     }
 }
 
-fn parse<I: Iterator<Item = char>>(it: &mut I) -> Box<[Op]> {
+fn parse(it: &mut impl Iterator<Item = u8>) -> Box<[Op]> {
     let mut buf = vec![];
     while let Some(c) = it.next() {
         buf.push(match c {
-            '-' => Dec,
-            '+' => Inc,
-            '<' => Prev,
-            '>' => Next,
-            '.' => Print,
-            '[' => Loop(parse(it)),
-            ']' => break,
+            b'-' => Dec,
+            b'+' => Inc,
+            b'<' => Prev,
+            b'>' => Next,
+            b'.' => Print,
+            b'[' => Loop(parse(it)),
+            b']' => break,
             _ => continue,
         });
     }
@@ -136,9 +136,9 @@ struct Program {
 }
 
 impl Program {
-    fn new(code: &str) -> Self {
+    fn new(code: &[u8]) -> Self {
         Self {
-            ops: parse(&mut code.chars()),
+            ops: parse(&mut code.into_iter().copied()),
         }
     }
 
@@ -155,8 +155,8 @@ fn notify(msg: &str) {
 }
 
 fn verify() {
-    let s = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
-             ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
+    let s = b"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
+              ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
 
     let left = {
         let output = io::stdout();
@@ -168,7 +168,7 @@ fn verify() {
     let right = {
         let output = io::stdout();
         let mut p_right = Printer::new(&output, true);
-        for c in "Hello World!\n".chars() {
+        for &c in b"Hello World!\n" {
             p_right.print(c as i32);
         }
         p_right.get_checksum()
@@ -183,10 +183,7 @@ fn verify() {
 fn main() {
     verify();
 
-    let s = {
-        let arg1 = env::args().nth(1).unwrap();
-        fs::read_to_string(arg1).unwrap()
-    };
+    let s = fs::read(env::args().nth(1).unwrap()).unwrap();
     let output = io::stdout();
     let mut p = Printer::new(&output, env::var("QUIET").is_ok());
 
