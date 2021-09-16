@@ -19,7 +19,8 @@ executables := \
 	target/base64_vala_gcc \
 	target/base64_vala_clang \
 	target/Release/net5.0/base64 \
-	base64.fsharp/target/Release/net5.0/base64
+	base64.fsharp/target/Release/net5.0/base64 \
+	target/base64_zig
 
 artifacts := $(executables) \
 	target/base64_scala.jar \
@@ -126,6 +127,9 @@ target/base64_vala_gcc: test.vala | target
 target/base64_vala_clang: test.vala | target
 	$(VALAC_CLANG_BUILD)
 
+target/base64_zig: test.zig | target
+	$(ZIG_BUILD)
+
 # Run
 
 .PHONY: run
@@ -205,3 +209,4 @@ clean:
 	fi
 	cargo clean --manifest-path $(base64-rs-toml)
 	-rm -rf target
+	-rm -rf zig-cache
