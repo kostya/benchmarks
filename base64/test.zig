@@ -38,14 +38,14 @@ pub fn main() !void {
     const TRIES = 8192;
 
     const str1 = "a" ** STR_SIZE;
-    const encodeSize =  b64.Encoder.calcSize(STR_SIZE);
+    const encodeSize = b64.Encoder.calcSize(STR_SIZE);
     const str2 = try alloc.alloc(u8, encodeSize);
-    const encoded =  b64.Encoder.encode(str2, str1);
-    const decodeSize =  try b64.Decoder.calcSizeForSlice(encoded);
+    const encoded = b64.Encoder.encode(str2, str1);
+    const decodeSize = try b64.Decoder.calcSizeForSlice(encoded);
     const str3 = try alloc.alloc(u8, decodeSize);
     b64.Decoder.decode(str3, str2) catch unreachable;
 
-    var buffer = try alloc.alloc(u8, @maximum(encodeSize, decodeSize));
+    var buffer = try alloc.alloc(u8, std.math.max(encodeSize, decodeSize));
     const fb_alloc = &std.heap.FixedBufferAllocator.init(buffer).allocator;
 
     const pid = unistd.getpid();
