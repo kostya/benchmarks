@@ -90,7 +90,7 @@ impl<'a> Printer<'a> {
         }
     }
 
-    fn get_checksum(&self) -> i32 {
+    const fn get_checksum(&self) -> i32 {
         (self.sum2 << 8) | self.sum1
     }
 }
@@ -155,13 +155,13 @@ fn notify(msg: &str) {
 }
 
 fn verify() {
-    let s = b"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
-              ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
+    const S: &[u8] = b"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
+                       ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
 
     let left = {
         let output = io::stdout();
         let mut p_left = Printer::new(&output, true);
-        Program::new(s).run(&mut p_left);
+        Program::new(S).run(&mut p_left);
         p_left.get_checksum()
     };
 
