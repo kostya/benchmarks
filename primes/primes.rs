@@ -13,7 +13,7 @@ impl Node {
     fn new() -> Node {
         Node {
             children: HashMap::new(),
-            terminal: false
+            terminal: false,
         }
     }
 }
@@ -27,7 +27,7 @@ impl Sieve {
     fn new(limit: usize) -> Sieve {
         Sieve {
             limit: limit,
-            prime: vec![false; limit + 1]
+            prime: vec![false; limit + 1],
         }
     }
 

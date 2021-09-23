@@ -117,6 +117,11 @@ $(hlint): *.hs | target
 	~/.cabal/bin/hlint $^
 	@touch $@
 
+rs_fmt := target/.rs_fmt
+$(rs_fmt): *.rs | target
+	rustfmt $^
+	@touch $@
+
 .PHONY: libnotify
 libnotify:
 	$(MAKE) -C ../common/libnotify
