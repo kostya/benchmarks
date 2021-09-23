@@ -32,6 +32,7 @@ target/Primes.class: Primes.java | target
 	$(JAVAC_BUILD)
 
 target/primes_rs: primes.rs | $(rs_fmt)
+	$(RUST_CLIPPY)
 	$(RUSTC_BUILD)
 
 target/primes_cpp: primes.cpp | target libnotify

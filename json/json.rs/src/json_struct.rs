@@ -1,11 +1,8 @@
-extern crate serde;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde_json;
-
-use std::fmt;
-use std::fs;
-use std::str;
+use serde::Deserialize;
+use std::fmt::{self, Display, Formatter};
+use std::io::Write;
+use std::net::TcpStream;
+use std::{fs, process, str};
 
 #[derive(Deserialize, PartialEq)]
 struct Coordinate {
@@ -14,8 +11,8 @@ struct Coordinate {
     z: f64,
 }
 
-impl fmt::Display for Coordinate {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl Display for Coordinate {
+    fn fmt(&self, formatter: &mut Formatter<'_>) -> fmt::Result {
         write!(
             formatter,
             "Coordinate {{ x: {:e}, y: {:e}, z: {} }}",
@@ -30,15 +27,13 @@ struct TestStruct {
 }
 
 fn notify(msg: &str) {
-    use std::io::Write;
-
-    if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+    if let Ok(mut stream) = TcpStream::connect("localhost:9001") {
         stream.write_all(msg.as_bytes()).unwrap();
     }
 }
 
 fn calc(s: &str) -> Coordinate {
-    let jobj: TestStruct = serde_json::from_str(s).unwrap();
+    let jobj = serde_json::from_str::<TestStruct>(s).unwrap();
 
     let len = jobj.coordinates.len() as f64;
     let mut x = 0_f64;
@@ -71,13 +66,13 @@ fn main() {
         let left = calc(v);
         if left != right {
             eprintln!("{} != {}", left, right);
-            std::process::exit(-1);
+            process::exit(-1);
         }
     }
 
     let s = fs::read_to_string("/tmp/1.json").unwrap();
 
-    notify(&format!("Rust (Serde Typed)\t{}", std::process::id()));
+    notify(&format!("Rust (Serde Typed)\t{}", process::id()));
     let results = calc(&s);
     notify("stop");
 

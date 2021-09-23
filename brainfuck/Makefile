@@ -68,6 +68,7 @@ target/bin_cpp: bf.cpp | target libnotify
 	$(GCC_CPP_BUILD)
 
 target/bin_rs: bf.rs | $(rs_fmt)
+	$(RUST_CLIPPY)
 	$(RUSTC_BUILD)
 
 target/bf_scala.jar: bf.scala | target

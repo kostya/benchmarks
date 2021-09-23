@@ -1,7 +1,6 @@
-use std::env;
-use std::fs;
-use std::io::{self, prelude::*};
-use std::process;
+use std::io::{self, Stdout, StdoutLock, Write};
+use std::net::TcpStream;
+use std::{env, fs, process};
 
 enum Op {
     Dec,
@@ -11,7 +10,6 @@ enum Op {
     Loop(Box<[Op]>),
     Print,
 }
-use Op::*;
 
 struct Tape {
     pos: usize,
@@ -64,14 +62,14 @@ impl Default for Tape {
 }
 
 struct Printer<'a> {
-    output: io::StdoutLock<'a>,
+    output: StdoutLock<'a>,
     sum1: i32,
     sum2: i32,
     quiet: bool,
 }
 
 impl<'a> Printer<'a> {
-    fn new(output: &'a io::Stdout, quiet: bool) -> Self {
+    fn new(output: &'a Stdout, quiet: bool) -> Self {
         Self {
             output: output.lock(),
             sum1: 0,
@@ -98,16 +96,16 @@ impl<'a> Printer<'a> {
 fn run(program: &[Op], tape: &mut Tape, p: &mut Printer) {
     for op in program {
         match op {
-            Dec => tape.dec(),
-            Inc => tape.inc(),
-            Prev => tape.prev(),
-            Next => tape.next(),
-            Loop(program) => {
+            Op::Dec => tape.dec(),
+            Op::Inc => tape.inc(),
+            Op::Prev => tape.prev(),
+            Op::Next => tape.next(),
+            Op::Loop(program) => {
                 while tape.get() > 0 {
                     run(program, tape, p);
                 }
             }
-            Print => {
+            Op::Print => {
                 p.print(tape.get());
             }
         }
@@ -118,12 +116,12 @@ fn parse(it: &mut impl Iterator<Item = u8>) -> Box<[Op]> {
     let mut buf = vec![];
     while let Some(c) = it.next() {
         buf.push(match c {
-            b'-' => Dec,
-            b'+' => Inc,
-            b'<' => Prev,
-            b'>' => Next,
-            b'.' => Print,
-            b'[' => Loop(parse(it)),
+            b'-' => Op::Dec,
+            b'+' => Op::Inc,
+            b'<' => Op::Prev,
+            b'>' => Op::Next,
+            b'.' => Op::Print,
+            b'[' => Op::Loop(parse(it)),
             b']' => break,
             _ => continue,
         });
@@ -149,7 +147,7 @@ impl Program {
 }
 
 fn notify(msg: &str) {
-    if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+    if let Ok(mut stream) = TcpStream::connect("localhost:9001") {
         stream.write_all(msg.as_bytes()).ok();
     }
 }

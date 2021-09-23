@@ -1,6 +1,8 @@
-use std::fmt;
-use std::fs;
-use std::str;
+use jq_rs::{self, JqProgram};
+use std::fmt::{self, Display, Formatter};
+use std::io::Write;
+use std::net::TcpStream;
+use std::{fs, process, str};
 
 #[derive(PartialEq)]
 struct Coordinate {
@@ -9,8 +11,8 @@ struct Coordinate {
     z: f64,
 }
 
-impl fmt::Display for Coordinate {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl Display for Coordinate {
+    fn fmt(&self, formatter: &mut Formatter<'_>) -> fmt::Result {
         write!(
             formatter,
             "Coordinate {{ x: {:e}, y: {:e}, z: {} }}",
@@ -20,14 +22,12 @@ impl fmt::Display for Coordinate {
 }
 
 fn notify(msg: &str) {
-    use std::io::Write;
-
-    if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+    if let Ok(mut stream) = TcpStream::connect("localhost:9001") {
         stream.write_all(msg.as_bytes()).unwrap();
     }
 }
 
-fn calc(program: &mut jq_rs::JqProgram, content: &str) -> Coordinate {
+fn calc(program: &mut JqProgram, content: &str) -> Coordinate {
     let result = program.run(content).unwrap();
     let mut iter = result.split_whitespace();
     Coordinate {
@@ -52,13 +52,13 @@ fn main() {
         let left = calc(&mut program, v);
         if left != right {
             eprintln!("{} != {}", left, right);
-            std::process::exit(-1);
+            process::exit(-1);
         }
     }
 
     let content = fs::read_to_string("/tmp/1.json").unwrap();
 
-    notify(&format!("Rust (jq)\t{}", std::process::id()));
+    notify(&format!("Rust (jq)\t{}", process::id()));
     let results = calc(&mut program, &content);
     notify("stop");
 
