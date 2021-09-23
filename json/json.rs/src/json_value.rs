@@ -1,7 +1,8 @@
 use serde_json::Value;
-use std::fmt;
-use std::fs;
-use std::str;
+use std::fmt::{self, Display, Formatter};
+use std::io::Write;
+use std::net::TcpStream;
+use std::{fs, process, str};
 
 #[derive(PartialEq)]
 struct Coordinate {
@@ -10,8 +11,8 @@ struct Coordinate {
     z: f64,
 }
 
-impl fmt::Display for Coordinate {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl Display for Coordinate {
+    fn fmt(&self, formatter: &mut Formatter<'_>) -> fmt::Result {
         write!(
             formatter,
             "Coordinate {{ x: {:e}, y: {:e}, z: {} }}",
@@ -21,15 +22,13 @@ impl fmt::Display for Coordinate {
 }
 
 fn notify(msg: &str) {
-    use std::io::Write;
-
-    if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+    if let Ok(mut stream) = TcpStream::connect("localhost:9001") {
         stream.write_all(msg.as_bytes()).unwrap();
     }
 }
 
 fn calc(content: &str) -> Coordinate {
-    let value: Value = serde_json::from_str(content).unwrap();
+    let value = serde_json::from_str::<Value>(content).unwrap();
 
     let coordinates = value.get("coordinates").unwrap().as_array().unwrap();
 
@@ -64,13 +63,13 @@ fn main() {
         let left = calc(v);
         if left != right {
             eprintln!("{} != {}", left, right);
-            std::process::exit(-1);
+            process::exit(-1);
         }
     }
 
     let content = fs::read_to_string("/tmp/1.json").unwrap();
 
-    notify(&format!("Rust (Serde Untyped)\t{}", std::process::id()));
+    notify(&format!("Rust (Serde Untyped)\t{}", process::id()));
     let results = calc(&content);
     notify("stop");
 

@@ -65,6 +65,7 @@ target/matmul_go_gccgo: matmul.go | $(gofmt)
 	$(GCC_GO_BUILD)
 
 target/matmul_rs: matmul.rs | $(rs_fmt)
+	$(RUST_CLIPPY)
 	$(RUSTC_BUILD)
 
 target/matmul_d: matmul.d | $(dfmt)
