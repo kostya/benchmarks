@@ -1,19 +1,22 @@
-use std::collections::{HashMap, VecDeque};
+use std::collections::{BTreeMap, VecDeque};
+use std::io::Write;
+use std::net::TcpStream;
+use std::process;
 
 const UPPER_BOUND: usize = 5_000_000;
 const PREFIX: i32 = 32_338;
 
 #[derive(Debug)]
 struct Node {
-    children: HashMap<char, Box<Node>>,
+    children: BTreeMap<char, Box<Node>>,
     terminal: bool,
 }
 
 impl Node {
     fn new() -> Node {
         Node {
-            children: HashMap::new(),
-            terminal: false
+            children: BTreeMap::new(),
+            terminal: false,
         }
     }
 }
@@ -26,8 +29,8 @@ struct Sieve {
 impl Sieve {
     fn new(limit: usize) -> Sieve {
         Sieve {
-            limit: limit,
-            prime: vec![false; limit + 1]
+            limit,
+            prime: vec![false; limit + 1],
         }
     }
 
@@ -48,10 +51,10 @@ impl Sieve {
                 let mut i = r * r;
                 while i < self.limit {
                     self.prime[i] = false;
-                    i = i + r * r;
+                    i += r * r;
                 }
             }
-            r = r + 1;
+            r += 1;
         }
         self
     }
@@ -102,14 +105,14 @@ impl Sieve {
 }
 
 fn generate_trie(l: Vec<usize>) -> Box<Node> {
-    let mut root: Box<Node> = Box::new(Node::new());
+    let mut root = Box::new(Node::new());
     for el in &l {
         let mut head = &mut root;
         for ch in el.to_string().chars() {
-            if !head.children.contains_key(&ch) {
-                head.children.insert(ch, Box::new(Node::new()));
-            }
-            head = head.children.get_mut(&ch).unwrap();
+            head = head
+                .children
+                .entry(ch)
+                .or_insert_with(|| Box::new(Node::new()));
         }
         head.terminal = true;
     }
@@ -126,26 +129,24 @@ fn find(upper_bound: usize, prefix: i32) -> Vec<i32> {
         head = head.children.get(&ch).unwrap();
     }
 
-    let mut queue: VecDeque<(&Box<Node>, String)> = VecDeque::new();
-    queue.push_front((&head, str_prefix));
-    let mut result: Vec<i32> = Vec::new();
+    let mut queue = VecDeque::<(&Box<Node>, String)>::new();
+    queue.push_front((head, str_prefix));
+    let mut result = Vec::<i32>::new();
     while !queue.is_empty() {
-        let (top, prefix) = queue.pop_back().unwrap();
+        let (top, prefix) = queue.pop_front().unwrap();
         if top.terminal {
             result.push(prefix.parse().unwrap());
         }
         for (ch, v) in &top.children {
             let new_prefix = prefix.clone() + &ch.to_string();
-            queue.push_front((&v, new_prefix));
+            queue.push_back((v, new_prefix));
         }
     }
     result
 }
 
 fn notify(msg: &str) {
-    use std::io::Write;
-
-    if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+    if let Ok(mut stream) = TcpStream::connect("localhost:9001") {
         stream.write_all(msg.as_bytes()).ok();
     }
 }
@@ -153,17 +154,17 @@ fn notify(msg: &str) {
 fn verify() {
     let left = vec![2, 23, 29];
     let mut right = find(100, 2);
-    right.sort();
+    right.sort_unstable();
     if left != right {
         eprintln!("{:?} != {:?}", left, right);
-        std::process::exit(-1);
+        process::exit(-1);
     }
 }
 
 fn main() {
     verify();
 
-    notify(&format!("Rust\t{}", std::process::id()));
+    notify(&format!("Rust\t{}", process::id()));
     let results = find(UPPER_BOUND, PREFIX);
     notify("stop");
 

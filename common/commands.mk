@@ -27,6 +27,7 @@ MLTON_BUILD =		mlton -output $@ $^
 NIM_CLANG_BUILD =	nim c -o:$@ --cc:clang $(NIM_FLAGS) $^
 NIM_GCC_BUILD =	nim c -o:$@ --cc:gcc $(NIM_FLAGS) $^
 RUSTC_BUILD =		rustc $(RUSTC_FLAGS) -C lto -C codegen-units=1 -o $@ $^
+RUST_CLIPPY =		clippy-driver -o $@.clippy $^
 SCALAC_BUILD =		scalac -d $@ $^
 VALAC_CLANG_BUILD =	valac $^ --cc=clang -D CLANG_TEST $(VALAC_FLAGS) -o $@
 VALAC_GCC_BUILD =	valac $^ --cc=gcc -D GCC_TEST $(VALAC_FLAGS) -o $@
@@ -115,6 +116,11 @@ $(dfmt): *.d | target
 hlint := target/.hlint
 $(hlint): *.hs | target
 	~/.cabal/bin/hlint $^
+	@touch $@
+
+rs_fmt := target/.rs_fmt
+$(rs_fmt): *.rs | target
+	rustfmt $^
 	@touch $@
 
 .PHONY: libnotify

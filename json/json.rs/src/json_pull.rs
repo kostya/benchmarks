@@ -1,12 +1,9 @@
-extern crate serde;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde_json;
-
-use serde::{de, Deserializer};
-use std::fmt;
-use std::fs;
-use std::str;
+use serde::de::{SeqAccess, Visitor};
+use serde::{Deserialize, Deserializer};
+use std::fmt::{self, Display, Formatter};
+use std::io::Write;
+use std::net::TcpStream;
+use std::{fs, process, str};
 
 #[derive(Deserialize, PartialEq)]
 struct Coordinate {
@@ -15,8 +12,8 @@ struct Coordinate {
     z: f64,
 }
 
-impl fmt::Display for Coordinate {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl Display for Coordinate {
+    fn fmt(&self, formatter: &mut Formatter<'_>) -> fmt::Result {
         write!(
             formatter,
             "Coordinate {{ x: {:e}, y: {:e}, z: {} }}",
@@ -47,16 +44,16 @@ where
 {
     struct StateVisitor;
 
-    impl<'de> de::Visitor<'de> for StateVisitor {
+    impl<'de> Visitor<'de> for StateVisitor {
         type Value = State;
 
-        fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        fn expecting(&self, formatter: &mut Formatter) -> fmt::Result {
             write!(formatter, "an array of coordinates")
         }
 
         fn visit_seq<V>(self, mut visitor: V) -> Result<State, V::Error>
         where
-            V: de::SeqAccess<'de>,
+            V: SeqAccess<'de>,
         {
             let mut ac = State {
                 x: 0.0,
@@ -79,15 +76,13 @@ where
 }
 
 fn notify(msg: &str) {
-    use std::io::Write;
-
-    if let Ok(mut stream) = std::net::TcpStream::connect("localhost:9001") {
+    if let Ok(mut stream) = TcpStream::connect("localhost:9001") {
         stream.write_all(msg.as_bytes()).unwrap();
     }
 }
 
 fn calc(content: &str) -> Coordinate {
-    let test: TestStruct = serde_json::from_str(content).unwrap();
+    let test = serde_json::from_str::<TestStruct>(content).unwrap();
     let state = test.state;
     let len = state.len as f64;
     Coordinate {
@@ -110,13 +105,13 @@ fn main() {
         let left = calc(v);
         if left != right {
             eprintln!("{} != {}", left, right);
-            std::process::exit(-1);
+            process::exit(-1);
         }
     }
 
     let content = fs::read_to_string("/tmp/1.json").unwrap();
 
-    notify(&format!("Rust (Serde Custom)\t{}", std::process::id()));
+    notify(&format!("Rust (Serde Custom)\t{}", process::id()));
     let results = calc(&content);
     notify("stop");
 
