@@ -37,7 +37,7 @@ artifacts := $(executables) \
 fast_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[bf.js] \
 	run[pypy][bf3.py] \
-	run[jit][bf.lua] \
+	run[jit][bf_jit.lua] \
 	run[bf.rkt] \
 	run[bf-syntax.rkt] \
 	run[bf.ss] \
@@ -212,15 +212,10 @@ lua-deps:
 	$(LUAROCKS_LUA) install luaposix > /dev/null
 	$(LUAROCKS_LUA) install bit32 > /dev/null
 
-.PHONY: luajit-deps
-luajit-deps:
-	$(LUAROCKS_LUAJIT) install luasocket > /dev/null
-	$(LUAROCKS_LUAJIT) install luaposix > /dev/null
-
 run[bf.lua]:: run[%]: % | lua-deps
 	$(LUA_RUN) $(BF_SRC)
 
-run[jit][bf.lua]:: run[jit][%]: % | luajit-deps
+run[jit][bf_jit.lua]:: run[jit][%]: %
 	$(LUA_JIT_RUN) $(BF_SRC)
 
 run[bf.tcl]:: run[%]: %
