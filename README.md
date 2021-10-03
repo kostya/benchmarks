@@ -96,8 +96,8 @@ Supports two mode:
 |                  Node.js |   4.233<sub>±0.227</sub> |    31.89<sub>±00.08</sub> + 1.39<sub>±00.00</sub> |     76.37<sub>±04.22</sub> |
 |                  C#/Mono |   4.459<sub>±0.022</sub> |    20.27<sub>±00.06</sub> + 0.00<sub>±00.00</sub> |     75.09<sub>±02.77</sub> |
 |         Haskell (MArray) |   5.023<sub>±0.091</sub> |     3.81<sub>±00.03</sub> + 1.11<sub>±00.00</sub> |     93.41<sub>±01.80</sub> |
+|               Lua/luajit |   6.609<sub>±0.141</sub> |     2.20<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |    139.84<sub>±06.53</sub> |
 | Ruby/truffleruby (--jvm) |   6.774<sub>±0.451</sub> | 627.62<sub>±13.07</sub> + 557.04<sub>±18.72</sub> |    257.19<sub>±16.15</sub> |
-|               Lua/luajit |   6.857<sub>±0.120</sub> |     2.86<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |    113.95<sub>±05.76</sub> |
 |         Ruby/truffleruby |   9.451<sub>±0.287</sub> | 434.84<sub>±01.43</sub> + 576.89<sub>±11.61</sub> |    243.73<sub>±08.03</sub> |
 |              Python/pypy |  14.256<sub>±0.236</sub> |   65.37<sub>±00.12</sub> + 45.65<sub>±00.11</sub> |    351.35<sub>±09.41</sub> |
 |                  Haskell |  16.138<sub>±0.393</sub> |     3.88<sub>±00.13</sub> + 0.82<sub>±00.03</sub> |    353.66<sub>±17.70</sub> |
@@ -142,6 +142,7 @@ Supports two mode:
 |                    OCaml |  38.151<sub>±0.579</sub> |     3.91<sub>±00.02</sub> + 4.24<sub>±01.80</sub> |   719.63<sub>±17.60</sub> |
 |                   Racket |  38.760<sub>±0.819</sub> |    95.57<sub>±00.37</sub> + 0.25<sub>±00.02</sub> |   887.55<sub>±25.58</sub> |
 |              Chez Scheme |  39.615<sub>±0.671</sub> |    25.47<sub>±00.06</sub> + 3.66<sub>±00.03</sub> |   910.31<sub>±37.23</sub> |
+|               Lua/luajit |  39.938<sub>±1.246</sub> |     2.19<sub>±00.01</sub> + 0.44<sub>±00.00</sub> |   759.18<sub>±59.27</sub> |
 |                  Node.js |  40.497<sub>±1.306</sub> |    31.90<sub>±00.08</sub> + 5.90<sub>±00.00</sub> |   793.72<sub>±61.55</sub> |
 |                    D/dmd |  44.321<sub>±1.351</sub> |     3.68<sub>±00.02</sub> + 0.77<sub>±00.00</sub> |   900.34<sub>±66.48</sub> |
 |                  C#/Mono |  45.258<sub>±1.491</sub> |    20.38<sub>±00.05</sub> + 0.89<sub>±00.00</sub> |   930.94<sub>±65.26</sub> |
@@ -152,7 +153,6 @@ Supports two mode:
 | Ruby/truffleruby (--jvm) | 109.244<sub>±5.070</sub> | 628.22<sub>±19.83</sub> + 525.14<sub>±35.69</sub> | 2226.25<sub>±173.66</sub> |
 |         Ruby/truffleruby | 124.609<sub>±8.689</sub> | 433.90<sub>±01.58</sub> + 599.91<sub>±07.72</sub> | 2616.63<sub>±181.36</sub> |
 |                  Haskell | 218.209<sub>±1.429</sub> |    3.85<sub>±00.09</sub> + 26.16<sub>±00.00</sub> |  5028.89<sub>±59.92</sub> |
-|               Lua/luajit | 237.065<sub>±0.900</sub> |     2.91<sub>±00.04</sub> + 0.86<sub>±00.00</sub> |  5314.88<sub>±80.10</sub> |
 
 ## Base64
 

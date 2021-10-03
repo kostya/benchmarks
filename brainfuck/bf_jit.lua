@@ -148,14 +148,16 @@ local function Socket(host, port)
     local socket = C.socket(AF_INET, SOCK_STREAM, 0)
     local addr = ffi.new ("struct sockaddr_in", AF_INET, C.htons( port ) )
     C.inet_pton(AF_INET, host, addr.sin_addr)
-    local ok = C.connect(socket, ffi.cast("struct sockaddr*", addr), ffi.sizeof(addr)) >= 0
-    return socket
+    local ok = C.connect(socket, ffi.cast("struct sockaddr*", addr), ffi.sizeof(addr)) == 0
+    return socket, ok
   end
 
   local function notify (msg)
-    local socket = open_socket()
-    C.send(socket, msg, string.len(msg))
-    C.close(socket)
+    local socket, ok = open_socket()
+    if ok then
+      C.send(socket, msg, string.len(msg))
+      C.close(socket)
+    end
   end
 
   local function notify_version()

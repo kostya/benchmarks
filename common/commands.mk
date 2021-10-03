@@ -50,7 +50,6 @@ XTIME := ../xtime.rb
 CPANM := cpanm
 
 LUAROCKS_LUA = PATH=$(PATH):/opt/luarocks/lua/bin luarocks
-LUAROCKS_LUAJIT = PATH=$(PATH):/opt/luarocks/luajit/bin luarocks
 
 CLOJURE_RUN =		$(XTIME) clojure $(CLOJURE_FLAGS) -M $^
 ELIXIR_RUN =		$(XTIME) elixir $^
@@ -58,7 +57,7 @@ EXECUTABLE_RUN =	$(XTIME) $^
 JAVA_CLASS_RUN =	$(XTIME) java -cp $(^D) $(basename $(^F))
 JAVA_JAR_RUN =		$(XTIME) java -jar $^
 JRUBY_RUN =		$(XTIME) jruby $^
-LUA_JIT_RUN =		$(shell $(LUAROCKS_LUAJIT) path) && $(XTIME) luajit $^
+LUA_JIT_RUN =		$(XTIME) luajit $^
 LUA_RUN =		$(shell $(LUAROCKS_LUA) path) && $(XTIME) lua $^
 MONO_RUN =		$(XTIME) mono -O=all --gc=sgen $^
 NODE_RUN =		$(XTIME) node $^
