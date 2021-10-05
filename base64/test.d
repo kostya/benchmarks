@@ -54,20 +54,20 @@ int main()
     notify("%s\t%d".format(name, getpid()));
 
     auto s_encoded = 0;
-    immutable t = Clock.currTime();
+    immutable t = MonoTime.currTime();
     for (auto i = 0; i < TRIES; i++)
     {
         s_encoded += Base64.encode(str1).length;
     }
-    immutable t_encoded = (Clock.currTime() - t).total!"msecs"() / 1000.0;
+    immutable t_encoded = (MonoTime.currTime() - t).total!"msecs"() / 1000.0;
 
     auto s_decoded = 0;
-    immutable t1 = Clock.currTime();
+    immutable t1 = MonoTime.currTime();
     for (auto i = 0; i < TRIES; i++)
     {
         s_decoded += Base64.decode(str2).length;
     }
-    immutable t_decoded = (Clock.currTime() - t1).total!"msecs"() / 1000.0;
+    immutable t_decoded = (MonoTime.currTime() - t1).total!"msecs"() / 1000.0;
 
     notify("stop");
 
