@@ -83,8 +83,8 @@ impl<'a> Printer<'a> {
             self.sum1 = (self.sum1 + n) % 255;
             self.sum2 = (self.sum2 + self.sum1) % 255;
         } else {
-            self.output.write_all(&[n as u8]).ok();
-            self.output.flush().ok();
+            self.output.write_all(&[n as u8]).unwrap();
+            self.output.flush().unwrap();
         }
     }
 
@@ -148,7 +148,7 @@ impl Program {
 
 fn notify(msg: &str) {
     if let Ok(mut stream) = TcpStream::connect("localhost:9001") {
-        stream.write_all(msg.as_bytes()).ok();
+        stream.write_all(msg.as_bytes()).unwrap();
     }
 }
 

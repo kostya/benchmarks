@@ -147,7 +147,7 @@ fn find(upper_bound: usize, prefix: i32) -> Vec<i32> {
 
 fn notify(msg: &str) {
     if let Ok(mut stream) = TcpStream::connect("localhost:9001") {
-        stream.write_all(msg.as_bytes()).ok();
+        stream.write_all(msg.as_bytes()).unwrap();
     }
 }
 
