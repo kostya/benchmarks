@@ -44,7 +44,7 @@ fn mat_mul(a: &[Vec<f64>], b: &[Vec<f64>]) -> Vec<Vec<f64>> {
 
 fn notify(msg: &str) {
     if let Ok(mut stream) = TcpStream::connect("localhost:9001") {
-        stream.write_all(msg.as_bytes()).ok();
+        stream.write_all(msg.as_bytes()).unwrap();
     }
 }
 
