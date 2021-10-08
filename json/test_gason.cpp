@@ -1,12 +1,8 @@
 #include "gason.h"
-#include <boost/format.hpp>
 #include <fstream>
 #include <iostream>
-#include <libnotify.hpp>
-#include <sstream>
-#include <string.h>
-#include <string>
-#include <unistd.h>
+#include <libnotify.h>
+#include <cstring>
 
 using namespace std;
 
@@ -84,7 +80,7 @@ int main() {
 
   const auto& text = read_file("/tmp/1.json");
 
-  notify(str(boost::format("C++/g++ (gason)\t%d") % getpid()));
+  notify_with_pid("C++/g++ (gason)");
   const auto& results = calc(text);
   notify("stop");
 

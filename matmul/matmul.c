@@ -1,4 +1,4 @@
-// Writen by Attractive Chaos; distributed under the MIT license
+b// Writen by Attractive Chaos; distributed under the MIT license
 
 #include <libnotify.h>
 #include <math.h>
@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
 
   char msg[32];
   size_t len = snprintf(msg, sizeof(msg), "C/gcc\t%d", getpid());
-  notify(msg, len);
+  notify_with_pid(msg, len);
 
   double results = calc(n);
 

@@ -1,9 +1,5 @@
-#include <boost/format.hpp>
-#include <fstream>
 #include <iostream>
-#include <libnotify.hpp>
-#include <sstream>
-#include <unistd.h>
+#include <libnotify.h>
 
 #include "simdjson.h"
 
@@ -77,7 +73,7 @@ int main() {
     return EXIT_FAILURE;
   }
 
-  notify(str(boost::format("C++/g++ (simdjson On-Demand)\t%d") % getpid()));
+  notify_with_pid("C++/g++ (simdjson On-Demand)");
   const auto& results = calc(text);
   notify("stop");
 

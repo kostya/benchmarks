@@ -2,10 +2,7 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/foreach.hpp>
 #include <iostream>
-#include <sstream>
-#include <string>
-#include <libnotify.hpp>
-#include <unistd.h>
+#include <libnotify.h>
 
 using namespace std;
 
@@ -65,7 +62,7 @@ int main() {
   stringstream text;
   read_file("/tmp/1.json", text);
 
-  notify(str(boost::format("C++/g++ (Boost.PropertyTree)\t%d") % getpid()));
+  notify_with_pid("C++/g++ (Boost.PropertyTree)");
   const auto& results = calc(text);
   notify("stop");
 

@@ -1,10 +1,15 @@
 #include <arpa/inet.h>
+#include <stdio.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+
 #include "libnotify.h"
 
-void notify(const char* msg, size_t len) {
+static const size_t MAX_LEN = 32;
+
+void notify(const char* msg) {
   int sock = socket(AF_INET, SOCK_STREAM, 0);
 
   if (sock < 0) {
@@ -17,7 +22,14 @@ void notify(const char* msg, size_t len) {
   inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr);
 
   if (!connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr))) {
-    send(sock, msg, len, 0);
+    send(sock, msg, strnlen(msg, MAX_LEN), 0);
   }
   close(sock);
+}
+
+void notify_with_pid(const char* msg) {
+  char text[MAX_LEN];
+  if (snprintf(text, sizeof(text), "%s\t%d", msg, getpid()) > 0) {
+    notify(text);
+  }
 }

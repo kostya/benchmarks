@@ -1,11 +1,9 @@
 #include <iostream>
-#include <libnotify.hpp>
+#include <libnotify.h>
 #include <memory>
 #include <queue>
 #include <sstream>
-#include <unistd.h>
 #include <map>
-#include <utility>
 #include <vector>
 
 static const auto UPPER_BOUND = 5'000'000;
@@ -152,12 +150,8 @@ void verify() {
 int main() {
   verify();
 
-  std::stringstream ostr;
-  ostr << "C++/g++\t" << getpid();
-  notify(ostr.str());
-
+  notify_with_pid("C++/g++");
   const auto& results = find(UPPER_BOUND, PREFIX);
-
   notify("stop");
 
   std::cout << to_string(results) << std::endl;

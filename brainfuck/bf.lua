@@ -45,8 +45,7 @@ local function Printer(quiet)
   end
 
   local function get_checksum()
-    local bit32 = require "bit32"
-    return bit32.bor(bit32.lshift(sum2, 8), sum1)
+    return (sum2 << 8) | sum1
   end
 
   return {
