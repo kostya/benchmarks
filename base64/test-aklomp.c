@@ -5,14 +5,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <unistd.h>
 
-int encode_size(int size) {
-  return (int)(size * 4 / 3.0) + 6;
+size_t encode_size(size_t size) {
+  return (size_t)(size * 4 / 3.0) + 6;
 }
 
-int decode_size(int size) {
-  return (int)(size * 3 / 4.0) + 6;
+size_t decode_size(size_t size) {
+  return (size_t)(size * 3 / 4.0) + 6;
 }
 
 size_t b64_encode(char *dst, const char* src, size_t src_size) {
@@ -70,9 +69,7 @@ int main() {
   char str3[decode_size(str2_size)];
   b64_decode(str3, str2, str2_size);
 
-  char msg[32];
-  size_t len = snprintf(msg, sizeof(msg), "C/gcc (aklomp)\t%d", getpid());
-  notify(msg, len);
+  notify_with_pid("C/gcc (aklomp)");
 
   int s_encoded = 0;
   clock_t t = clock();
@@ -90,8 +87,7 @@ int main() {
   }
   float t_decoded = (float)(clock() - t1) / CLOCKS_PER_SEC;
 
-  const char stop_msg[] = "stop";
-  notify(stop_msg, sizeof(stop_msg));
+  notify("stop");
 
   printf("encode %.4s... to %.4s...: %d, %.2f\n",
          str, str2, s_encoded, t_encoded);

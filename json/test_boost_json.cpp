@@ -1,11 +1,8 @@
-#include <boost/format.hpp>
 #include <boost/json.hpp>
 #include <boost/json/src.hpp>
 #include <fstream>
 #include <iostream>
-#include <libnotify.hpp>
-#include <string>
-#include <unistd.h>
+#include <libnotify.h>
 
 using namespace std;
 
@@ -64,7 +61,7 @@ int main() {
 
   const auto& text = read_file("/tmp/1.json");
 
-  notify(str(boost::format("C++/g++ (Boost.JSON)\t%d") % getpid()));
+  notify_with_pid("C++/g++ (Boost.JSON)");
   const auto& results = calc(text);
   notify("stop");
 

@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
 #ifdef __clang__
 # define COMPILER "clang"
@@ -32,7 +31,7 @@ struct op {
 
 struct op_list {
   struct op *ops;
-  int cap, len;
+  size_t cap, len;
 };
 
 struct op op_new(enum op_type type, union op_value value)
@@ -60,9 +59,7 @@ void op_free(struct op op)
 
 void op_list_free(struct op_list *list)
 {
-  int i;
-
-  for (i = 0; i < list->len; i += 1)
+  for (size_t i = 0; i < list->len; i += 1)
     op_free(list->ops[i]);
 
   free(list->ops);
@@ -79,7 +76,7 @@ void op_list_grow(struct op_list *list)
   list->ops = realloc(list->ops, sizeof(struct op) * list->cap);
 }
 
-int op_list_length(const struct op_list *list)
+size_t op_list_length(const struct op_list *list)
 {
   return list->len;
 }
@@ -175,7 +172,7 @@ void parse(struct string_iterator *it, struct op_list *ops)
 
 struct tape {
   int *tape;
-  int cap, pos;
+  size_t cap, pos;
 };
 
 char tape_get(const struct tape tape)
@@ -185,12 +182,10 @@ char tape_get(const struct tape tape)
 
 void tape_grow(struct tape *tape)
 {
-  int i, new_cap;
-
-  new_cap = tape->cap << 1;
+  size_t new_cap = tape->cap << 1;
   tape->tape = realloc(tape->tape, sizeof(int) * new_cap);
 
-  for (i = tape->cap; i < new_cap; i += 1)
+  for (size_t i = tape->cap; i < new_cap; i += 1)
     tape->tape[i] = 0;
 
   tape->cap = new_cap;
@@ -210,10 +205,9 @@ void tape_inc(struct tape tape, int amount)
 }
 
 void eval(const struct op_list *ops, struct tape *tape, struct printer *p) {
-  int i, len;
   struct op op;
 
-  for (i = 0, len = op_list_length(ops); i < len; i += 1) {
+  for (size_t i = 0, len = op_list_length(ops); i < len; i += 1) {
     switch ((op = op_list_get(ops, i)).type) {
     case OP_INC:
       tape_inc(*tape, op.value.offset);
@@ -263,12 +257,6 @@ void verify() {
 }
 
 int main(int argc, char *argv[]) {
-  FILE *f;
-  int fsize, notify_len;
-  const char *filename;
-  char *code;
-  char notify_msg[32];
-
   verify();
   struct printer p = {.sum1=0, .sum2=0, .quiet=getenv("QUIET") != NULL};
 
@@ -277,28 +265,26 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  filename = argv[1];
+  const char *filename = argv[1];
 
-  f = fopen(filename, "r");
+  FILE *f = fopen(filename, "r");
   if (f == NULL) {
     perror("bfc: fopen");
     return EXIT_FAILURE;
   }
 
   fseek(f, 0, SEEK_END);
-  fsize = ftell(f);
+  long fsize = ftell(f);
   fseek(f, 0, SEEK_SET);
 
-  code = malloc(sizeof(char) * fsize + 1);
+  char *code = malloc(sizeof(char) * fsize + 1);
   fread(code, 1, fsize, f);
   fclose(f);
   code[fsize] = 0;
 
-  notify_len = snprintf(notify_msg, sizeof(notify_msg),
-                        "C/" COMPILER "\t%d", getpid());
-  notify(notify_msg, notify_len);
+  notify_with_pid("C/" COMPILER);
   run(code, &p);
-  notify("stop", 4);
+  notify("stop");
 
   free(code);
 

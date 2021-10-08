@@ -26,10 +26,9 @@
 #include <boost/format.hpp>
 #include <fstream>
 #include <iostream>
-#include <libnotify.hpp>
+#include <libnotify.h>
 #include <sstream>
 #include <string_view>
-#include <unistd.h>
 
 using namespace std;
 
@@ -127,7 +126,7 @@ int main() {
 #else
   const string suffix = "";
 #endif
-  notify(str(boost::format("C++/g++ (DAW JSON Link%s)\t%d") % suffix % getpid()));
+  notify_with_pid(str(boost::format("C++/g++ (DAW JSON Link%s)") % suffix).c_str());
   const auto& results = calc(text);
   notify( "stop" );
 

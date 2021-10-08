@@ -41,7 +41,7 @@ target/primes_cpp: primes.cpp | target libnotify
 target/primes_cr: primes.cr | target
 	$(CRYSTAL_BUILD)
 
-target/primes_zig: primes.zig | target libnotify
+target/primes_zig: primes.zig | target
 	$(ZIG_BUILD)
 
 # Run

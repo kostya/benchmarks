@@ -3,11 +3,10 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
-#include <libnotify.hpp>
+#include <libnotify.h>
 #include <rapidjson/istreamwrapper.h>
 #include <rapidjson/reader.h>
 #include <sstream>
-#include <unistd.h>
 
 using namespace std;
 using namespace rapidjson;
@@ -158,7 +157,7 @@ int main() {
   const string suffix = "";
 #endif
 
-  notify(str(boost::format("C++/g++ (RapidJSON SAX%s)\t%d") % suffix % getpid()));
+  notify_with_pid(str(boost::format("C++/g++ (RapidJSON SAX%s)") % suffix).c_str());
   calc(ss, [](const coordinate_t& results) {
     notify("stop");
 

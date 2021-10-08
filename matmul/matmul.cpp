@@ -1,8 +1,7 @@
-#include <cstdlib>
+//#include <cstdlib>
 #include <Eigen/Dense>
 #include <iostream>
-#include <libnotify.hpp>
-#include <unistd.h>
+#include <libnotify.h>
 
 using namespace std;
 using namespace Eigen;
@@ -39,9 +38,7 @@ int main(int argc, char** argv) {
     exit(EXIT_FAILURE);
   }
 
-  stringstream ostr;
-  ostr << "C++/g++ (Eigen)\t" << getpid();
-  notify(ostr.str());
+  notify_with_pid("C++/g++ (Eigen)");
 
   auto results = calc(n);
 

@@ -1,10 +1,7 @@
 #include <nlohmann/json.hpp>
-#include <boost/format.hpp>
 #include <fstream>
 #include <iostream>
-#include <libnotify.hpp>
-#include <string>
-#include <unistd.h>
+#include <libnotify.h>
 
 using namespace std;
 
@@ -62,7 +59,7 @@ int main() {
 
   const auto& text = read_file("/tmp/1.json");
 
-  notify(str(boost::format("C++/g++ (Nlohmann)\t%d") % getpid()));
+  notify_with_pid("C++/g++ (Nlohmann)");
   const auto& results = calc(text);
   notify("stop");
 

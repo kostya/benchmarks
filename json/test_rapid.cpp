@@ -5,9 +5,8 @@
 #include <cstdio>
 #include <fstream>
 #include <iostream>
-#include <libnotify.hpp>
+#include <libnotify.h>
 #include <sstream>
-#include <unistd.h>
 
 using namespace std;
 using namespace rapidjson;
@@ -78,7 +77,7 @@ int main() {
   const string suffix = "";
 #endif
 
-  notify(str(boost::format("C++/g++ (RapidJSON%s)\t%d") % suffix % getpid()));
+  notify_with_pid(str(boost::format("C++/g++ (RapidJSON%s)") % suffix).c_str());
   const auto& results = calc(text);
   notify("stop");
 

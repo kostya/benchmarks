@@ -1,9 +1,6 @@
 #include <fstream>
 #include <iostream>
-#include <libnotify.hpp>
-#include <sstream>
-#include <string>
-#include <unistd.h>
+#include <libnotify.h>
 #include <vector>
 
 using namespace std;
@@ -142,12 +139,8 @@ int main(int argc, char** argv) {
   Printer p(getenv("QUIET") != nullptr);
   cout << unitbuf; // enable automatic flushing
 
-  stringstream ostr;
-  ostr << "C++/g++\t" << getpid();
-  notify(ostr.str());
-
+  notify_with_pid("C++/g++");
   Program(text, p).run();
-
   notify("stop");
 
   if (p.quiet) {

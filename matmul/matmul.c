@@ -4,7 +4,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 double **mm_init(int n)
 {
@@ -75,14 +74,9 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
 
-  char msg[32];
-  size_t len = snprintf(msg, sizeof(msg), "C/gcc\t%d", getpid());
-  notify(msg, len);
-
+  notify_with_pid("C/gcc");
   double results = calc(n);
-
-  char stop_msg[] = "stop";
-  notify(stop_msg, sizeof(stop_msg));
+  notify("stop");
 
   printf("%f\n", results);
 }

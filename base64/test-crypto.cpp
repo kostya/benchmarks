@@ -1,11 +1,8 @@
 #include <iomanip>
 #include <iostream>
-#include <libnotify.hpp>
+#include <libnotify.h>
 #include <openssl/bio.h>
 #include <openssl/evp.h>
-#include <sstream>
-#include <string>
-#include <unistd.h>
 
 using namespace std;
 
@@ -120,9 +117,7 @@ int main() {
   const auto str2 = str.base64_encode();
   const auto str3 = str2.base64_decode();
 
-  stringstream ostr;
-  ostr << "C++/g++ (libcrypto)\t" << getpid();
-  notify(ostr.str());
+  notify_with_pid("C++/g++ (libcrypto)");
 
   auto s_encoded = 0;
   const auto t = clock();
