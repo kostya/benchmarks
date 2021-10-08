@@ -105,7 +105,7 @@
 
 (define (notify msg)
   (let ([bv (string->utf8 msg)])
-     (notify-internal bv (bytevector-length bv))))
+    (notify-internal bv (bytevector-length bv))))
 
 (define (get-file-arg-or-exit)
   (let ((cl (command-line)))

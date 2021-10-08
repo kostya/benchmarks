@@ -4,36 +4,34 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <unistd.h>
 
-typedef unsigned int uint;
 const char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 static char decode_table[256];
 
-int encode_size(int size) {
-  return (int)(size * 4 / 3.0) + 6;
+size_t encode_size(size_t size) {
+  return (size_t)(size * 4 / 3.0) + 6;
 }
 
-int decode_size(int size) {
-  return (int)(size * 3 / 4.0) + 6;
+size_t decode_size(size_t size) {
+  return (size_t)(size * 3 / 4.0) + 6;
 }
 
 void init_decode_table() {
-  for (int i = 0; i < 256; i++) {
-    char ch = (char)i;
+  uint8_t ch = 0;
+  do {
     char code = -1;
     if (ch >= 'A' && ch <= 'Z') code = ch - 0x41;
     if (ch >= 'a' && ch <= 'z') code = ch - 0x47;
     if (ch >= '0' && ch <= '9') code = ch + 0x04;
     if (ch == '+' || ch == '-') code = 0x3E;
     if (ch == '/' || ch == '_') code = 0x3F;
-    decode_table[i] = code;
-  }
+    decode_table[ch] = code;
+  } while (ch++ < 0xFF);
 }
 
 #define next_char(x) char x = decode_table[(unsigned char)*str++]; if (x < 0) return 1;
 
-int decode(int size, const char* str, size_t* out_size, char* output) {
+int decode(size_t size, const char* str, size_t* out_size, char* output) {
   char *out = output;
   while (size > 0 && (str[size - 1] == '\n' || str[size - 1] == '\r' || str[size - 1] == '=')) size--;
   const char* ends = str + size - 4;
@@ -49,7 +47,7 @@ int decode(int size, const char* str, size_t* out_size, char* output) {
     *out++ = (char)(c << 6 | d >> 0);
   }
 
-  int mod = (ends - str + 4) % 4;
+  uint8_t mod = (ends - str + 4) % 4;
   if (mod == 2) {
     next_char(a); next_char(b);
     *out++ = (char)(a << 2 | b >> 4);
@@ -64,10 +62,10 @@ int decode(int size, const char* str, size_t* out_size, char* output) {
   return 0;
 }
 
-void encode(int size, const char* str, size_t* out_size, char* output) {
+void encode(size_t size, const char* str, size_t* out_size, char* output) {
   char *out = output;
   const char* ends = str + (size - size % 3);
-  uint n;
+  uint64_t n;
   while (str != ends) {
     uint32_t n = __builtin_bswap32(*(uint32_t*)str);
     *out++ = chars[(n >> 26) & 63];
@@ -78,14 +76,14 @@ void encode(int size, const char* str, size_t* out_size, char* output) {
   }
   int pd = size % 3;
   if  (pd == 1) {
-    n = (uint)*str << 16;
+    n = (uint64_t)*str << 16;
     *out++ = chars[(n >> 18) & 63];
     *out++ = chars[(n >> 12) & 63];
     *out++ = '=';
     *out++ = '=';
   } else if (pd == 2) {
-    n = (uint)*str++ << 16;
-    n |= (uint)*str << 8;
+    n = (uint64_t)*str++ << 16;
+    n |= (uint64_t)*str << 8;
     *out++ = chars[(n >> 18) & 63];
     *out++ = chars[(n >> 12) & 63];
     *out++ = chars[(n >> 6) & 63];
@@ -115,8 +113,8 @@ int main() {
 
   const char *fixtures[][2] =
     {{"hello", "aGVsbG8="}, {"world", "d29ybGQ="}};
-  const int num_fixtures = sizeof(fixtures)/sizeof(fixtures[0]);
-  for (int i = 0; i < num_fixtures; ++i) {
+  const size_t num_fixtures = sizeof(fixtures)/sizeof(fixtures[0]);
+  for (size_t i = 0; i < num_fixtures; ++i) {
     const char *src = fixtures[i][0];
     size_t src_len = strlen(src);
 
@@ -152,9 +150,7 @@ int main() {
   char str3[decode_size(str2_size)];
   b64_decode(str3, str2, str2_size);
 
-  char msg[32];
-  size_t len = snprintf(msg, sizeof(msg), "C/gcc\t%d", getpid());
-  notify(msg, len);
+  notify_with_pid("C/gcc");
 
   int s_encoded = 0;
   clock_t t = clock();
@@ -172,8 +168,7 @@ int main() {
   }
   float t_decoded = (float)(clock() - t1) / CLOCKS_PER_SEC;
 
-  const char stop_msg[] = "stop";
-  notify(stop_msg, sizeof(stop_msg));
+  notify("stop");
 
   printf("encode %.4s... to %.4s...: %d, %.2f\n",
          str, str2, s_encoded, t_encoded);
