@@ -206,13 +206,7 @@ run[truby-native][bf.rb]:: run[truby-native][%]: % | $(rubocop)
 run[jruby][bf.rb]:: run[jruby][%]: % | $(rubocop)
 	$(JRUBY_RUN) $(BF_SRC)
 
-.PHONY: lua-deps
-lua-deps:
-	$(LUAROCKS_LUA) install luasocket > /dev/null
-	$(LUAROCKS_LUA) install luaposix > /dev/null
-	$(LUAROCKS_LUA) install bit32 > /dev/null
-
-run[bf.lua]:: run[%]: % | lua-deps
+run[bf.lua]:: run[%]: % | libnotify
 	$(LUA_RUN) $(BF_SRC)
 
 run[jit][bf_jit.lua]:: run[jit][%]: %

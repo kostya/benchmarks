@@ -1,3 +1,6 @@
+package.cpath = package.cpath .. ';../common/libnotify/target/?.so'
+local has_libnotify, libnotify = pcall(require, 'lua_libnotify')
+
 local INC = 0
 local MOVE = 1
 local PRINT = 3
@@ -109,16 +112,6 @@ local function Brainfuck(text, p)
   }
 end
 
-local function notify(msg)
-  local socket = require "socket"
-  socket.protect(function()
-    local c = socket.try(socket.connect("localhost", 9001))
-    local try = socket.newtry(function() c:close() end)
-    try(c:send(msg))
-    c:close()
-  end)()
-end
-
 local function verify()
   local text = [[
   ++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
@@ -149,10 +142,9 @@ end
     local p = Printer(os.getenv("QUIET"))
 
     local compiler = type(jit) == 'table' and "Lua/luajit" or "Lua"
-    local getpid = require 'posix.unistd'.getpid
-    notify(string.format("%s\t%d", compiler, getpid()))
+    if has_libnotify then libnotify.notify_with_pid(compiler) end
     Brainfuck(text, p).run()
-    notify("stop")
+    if has_libnotify then libnotify.notify("stop") end
 
     if p.quiet then
       print(string.format("Output checksum: %d", p.get_checksum()))

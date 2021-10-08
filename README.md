@@ -490,11 +490,6 @@ For Java, Scala:
 
  - [Coursier](https://get-coursier.io/) for downloading Maven artifacts.
 
-For Lua:
-
- - [LuaRocks](https://luarocks.org/) for installing dependencies
-(Debian package `luarocks`).
-
 For Haskell:
 
  - [network](http://hackage.haskell.org/package/network) for

@@ -1,23 +1,22 @@
-NAME    :=  libnotify
-SNAME   :=  target/$(NAME).a
-DNAME   :=  target/$(NAME).so
 OBJ := $(addprefix target/, $(patsubst %.c, %.o, $(wildcard *.c)))
 CFLAGS  :=  -pedantic -Wall -W -Werror -fPIC
 LDFLAGS :=  -L.
 
 .PHONY: all clean
 
-all: $(SNAME) $(DNAME)
+all: target/libnotify.a target/libnotify.so target/lua_libnotify.so
 
 target/%.o: %.c | target
 	$(COMPILE.c) $(OUTPUT_OPTION) $<
 
-$(SNAME): $(OBJ)
+target/libnotify.a: target/libnotify.o
 	$(AR) $(ARFLAGS) $@ $^
 
-$(DNAME): LDFLAGS += -shared
-$(DNAME): $(OBJ)
-	$(CC) $(LDFLAGS) $^ -o $@
+target/libnotify.so: target/libnotify.o
+	$(CC) -shared $^ -o $@
+
+target/lua_libnotify.so: target/libnotify.o target/lua.o
+	$(CC) -shared $^ -o $@
 
 target:
 	mkdir -p $@
