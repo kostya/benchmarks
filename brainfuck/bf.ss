@@ -100,12 +100,15 @@
 ;;; I/O.
 (load-shared-object "../common/libnotify/target/libnotify.so")
 
-(define notify-internal
-  (foreign-procedure "notify" (u8* size_t) void))
-
 (define (notify msg)
-  (let ([bv (string->utf8 msg)])
-    (notify-internal bv (bytevector-length bv))))
+  (let ([bv (string->utf8 msg)]
+        [func (foreign-procedure "notify" (u8*) void)])
+    (func bv)))
+
+(define (notify-with-pid msg)
+  (let ([bv (string->utf8 msg)]
+        [func (foreign-procedure "notify_with_pid" (u8*) void)])
+    (func bv)))
 
 (define (get-file-arg-or-exit)
   (let ((cl (command-line)))
@@ -139,7 +142,7 @@
   (define text (file->string (get-file-arg-or-exit)))
   (define p (make-printer 0 0 (getenv "QUIET")))
 
-  (notify (format "Chez Scheme\t~s" (get-process-id)))
+  (notify-with-pid "Chez Scheme")
   (run (parse text) (make-tape (make-vector 1) 0) p)
   (notify "stop")
 
