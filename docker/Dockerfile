@@ -149,18 +149,6 @@ RUN gu install ruby \
 	&& /opt/graalvm-ce-java11-$GRAALVM/languages/ruby/lib/truffle/post_install_hook.sh \
 	&& ln -s /opt/graalvm-ce-java11-$GRAALVM/bin/truffleruby /usr/bin/truffleruby
 
-# https://github.com/luarocks/luarocks/wiki/Download
-ARG LUAROCKS=3.7.0
-RUN wget --progress=dot:giga -O - \
-        http://luarocks.org/releases/luarocks-$LUAROCKS.tar.gz \
-        | tar -xz \
-        && cd luarocks-$LUAROCKS \
-        && ./configure --prefix=/opt/luarocks/lua \
-        && make -j && make install \
-        && ./configure --with-lua-interpreter=luajit --prefix=/opt/luarocks/luajit \
-        && make -j && make install \
-	&& cd .. && rm -rf luarocks-$LUAROCKS
-
 # https://github.com/dotnet/core/tree/master/release-notes
 RUN mkdir dotnet && wget --progress=dot:giga -O - \
     https://download.visualstudio.microsoft.com/download/pr/13b9d84c-a35b-4ffe-8f62-447a01403d64/1f9ae31daa0f7d98513e7551246899f2/dotnet-sdk-5.0.400-linux-x64.tar.gz \
