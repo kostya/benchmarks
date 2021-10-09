@@ -7,7 +7,7 @@
 
 #include "libnotify.h"
 
-static const size_t MAX_LEN = 32;
+#define MAX_LEN 32;
 
 void notify(const char* msg) {
   int sock = socket(AF_INET, SOCK_STREAM, 0);
