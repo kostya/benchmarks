@@ -345,9 +345,11 @@ Testing:
 |                     Rust | 0.220<sub>±0.005</sub> |    2.38<sub>±00.06</sub> + 72.88<sub>±00.24</sub> |   4.36<sub>±00.08</sub> |
 |                  Node.js | 0.293<sub>±0.003</sub> |  31.66<sub>±00.05</sub> + 175.72<sub>±00.29</sub> |   7.87<sub>±00.22</sub> |
 |                    Scala | 0.434<sub>±0.017</sub> |  55.49<sub>±00.12</sub> + 244.83<sub>±03.49</sub> |  14.38<sub>±00.21</sub> |
+|               Lua/luajit | 0.510<sub>±0.004</sub> |   2.39<sub>±00.01</sub> + 129.85<sub>±01.03</sub> |  10.18<sub>±00.27</sub> |
 |              Python/pypy | 0.973<sub>±0.025</sub> |  65.06<sub>±00.16</sub> + 248.80<sub>±00.07</sub> |  20.95<sub>±01.43</sub> |
 |         Ruby/truffleruby | 1.304<sub>±0.030</sub> | 427.81<sub>±02.30</sub> + 436.43<sub>±03.88</sub> |  31.93<sub>±03.05</sub> |
 | Ruby/truffleruby (--jvm) | 1.809<sub>±0.028</sub> | 630.19<sub>±03.19</sub> + 316.02<sub>±21.17</sub> |  63.68<sub>±01.92</sub> |
+|                      Lua | 1.954<sub>±0.017</sub> |   2.39<sub>±00.17</sub> + 373.41<sub>±00.14</sub> |  41.16<sub>±00.54</sub> |
 |             Ruby (--jit) | 2.410<sub>±0.042</sub> |  14.05<sub>±00.04</sub> + 150.19<sub>±00.04</sub> |  59.79<sub>±01.90</sub> |
 |                     Ruby | 2.483<sub>±0.088</sub> |  14.01<sub>±00.04</sub> + 149.89<sub>±00.00</sub> |  54.41<sub>±02.20</sub> |
 |               Ruby/jruby | 2.975<sub>±0.108</sub> | 186.65<sub>±01.87</sub> + 363.04<sub>±22.97</sub> |  74.15<sub>±04.66</sub> |

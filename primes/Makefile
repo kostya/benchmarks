@@ -18,7 +18,10 @@ all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[jit][primes.rb] \
 	run[truby-jvm][primes.rb] \
 	run[truby-native][primes.rb] \
-	run[jruby][primes.rb]
+	run[jruby][primes.rb] \
+	run[primes.lua] \
+	run[primes_jit.lua]
+
 
 # Build
 
@@ -88,6 +91,12 @@ run[truby-native][primes.rb]:: run[truby-native][%]: % | $(rubocop)
 
 run[jruby][primes.rb]:: run[jruby][%]: % | $(rubocop)
 	$(JRUBY_RUN)
+
+run[primes.lua]:: run[%]: % | libnotify
+	$(LUA_RUN)
+
+run[primes_jit.lua]:: run[%]: %
+	$(LUA_JIT_RUN)
 
 # Utilities
 
