@@ -7,9 +7,10 @@ using System.Text;
 
 namespace Test
 {
-    enum OpT {INC, MOVE, PRINT, LOOP};
+    enum OpT { INC, MOVE, PRINT, LOOP };
 
-    struct Op {
+    struct Op
+    {
         public OpT op;
         public int v;
         public Op[] loop;
@@ -25,26 +26,33 @@ namespace Test
 
         public int Get() { return tape[pos]; }
         public void Inc(int x) { tape[pos] += x; }
-        public void Move(int x) { pos += x; while (pos >= tape.Length) Array.Resize(ref tape, tape.Length*2); }
+        public void Move(int x) { pos += x; while (pos >= tape.Length) Array.Resize(ref tape, tape.Length * 2); }
     }
 
-    class Printer {
+    class Printer
+    {
         int sum1 = 0;
         int sum2 = 0;
 
         public bool Quiet { get; set; }
 
-        public void Print(int n) {
-            if (Quiet) {
+        public void Print(int n)
+        {
+            if (Quiet)
+            {
                 sum1 = (sum1 + n) % 255;
                 sum2 = (sum2 + sum1) % 255;
-            } else {
+            }
+            else
+            {
                 Console.Write((char)n);
             }
         }
 
-        public int Checksum {
-            get {
+        public int Checksum
+        {
+            get
+            {
                 return (sum2 << 8) | sum1;
             }
         }
@@ -61,10 +69,13 @@ namespace Test
             this.p = p;
         }
 
-        private Op[] parse(IEnumerator<char> it) {
+        private Op[] parse(IEnumerator<char> it)
+        {
             List<Op> res = new List<Op>();
-            while (it.MoveNext()) {
-                switch (it.Current) {
+            while (it.MoveNext())
+            {
+                switch (it.Current)
+                {
                     case '+': res.Add(new Op(OpT.INC, 1)); break;
                     case '-': res.Add(new Op(OpT.INC, -1)); break;
                     case '>': res.Add(new Op(OpT.MOVE, 1)); break;
@@ -77,13 +88,17 @@ namespace Test
             return res.ToArray();
         }
 
-        public void run() {
+        public void run()
+        {
             _run(ops, new Tape());
         }
 
-        private void _run(Op[] program, Tape tape) {
-            foreach (Op op in program) {
-                switch (op.op) {
+        private void _run(Op[] program, Tape tape)
+        {
+            foreach (Op op in program)
+            {
+                switch (op.op)
+                {
                     case OpT.INC: tape.Inc(op.v); break;
                     case OpT.MOVE: tape.Move(op.v); break;
                     case OpT.LOOP: while (tape.Get() > 0) _run(op.loop, tape); break;
@@ -92,30 +107,38 @@ namespace Test
             }
         }
 
-        private static void Notify(string msg) {
-            try {
-                using (var s = new System.Net.Sockets.TcpClient("localhost", 9001)) {
+        private static void Notify(string msg)
+        {
+            try
+            {
+                using (var s = new System.Net.Sockets.TcpClient("localhost", 9001))
+                {
                     var data = System.Text.Encoding.UTF8.GetBytes(msg);
                     s.Client.Send(data);
                 }
-            } catch {
+            }
+            catch
+            {
                 // standalone usage
             }
         }
 
-        private static void Verify() {
+        private static void Verify()
+        {
             var text = @"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
                 ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
-            var p_left = new Printer{Quiet = true};
+            var p_left = new Printer { Quiet = true };
             new Program(text, p_left).run();
             var left = p_left.Checksum;
 
-            var p_right = new Printer{Quiet = true};
-            foreach (var c in "Hello World!\n") {
+            var p_right = new Printer { Quiet = true };
+            foreach (var c in "Hello World!\n")
+            {
                 p_right.Print(c);
             }
             var right = p_right.Checksum;
-            if (left != right) {
+            if (left != right)
+            {
                 Console.Error.WriteLine($"{left} != {right}");
                 System.Environment.Exit(1);
             }
@@ -125,7 +148,8 @@ namespace Test
         {
             Verify();
             var text = File.ReadAllText(args[0]);
-            var p = new Printer {
+            var p = new Printer
+            {
                 Quiet = Environment.GetEnvironmentVariable("QUIET") != null
             };
 
@@ -140,7 +164,8 @@ namespace Test
             Notify("stop");
             Console.Error.WriteLine($"time: {elapsed}s");
 
-            if (p.Quiet) {
+            if (p.Quiet)
+            {
                 Console.WriteLine($"Output checksum: {p.Checksum}");
             }
         }
