@@ -18,7 +18,10 @@ struct Tape {
 
 impl Tape {
     fn new() -> Self {
-        Default::default()
+        Self {
+            pos: 0,
+            tape: vec![0],
+        }
     }
 
     fn get(&self) -> i32 {
@@ -26,18 +29,17 @@ impl Tape {
         unsafe { *self.tape.get_unchecked(self.pos) }
     }
 
-    fn dec(&mut self) {
+    fn get_mut(&mut self) -> &mut i32 {
         // SAFETY: `self.pos` is already checked in `self.next()`
-        unsafe {
-            *self.tape.get_unchecked_mut(self.pos) -= 1;
-        }
+        unsafe { self.tape.get_unchecked_mut(self.pos) }
+    }
+
+    fn dec(&mut self) {
+        *self.get_mut() -= 1;
     }
 
     fn inc(&mut self) {
-        // SAFETY: `self.pos` is already checked in `self.next()`
-        unsafe {
-            *self.tape.get_unchecked_mut(self.pos) += 1;
-        }
+        *self.get_mut() += 1;
     }
 
     fn prev(&mut self) {
@@ -48,15 +50,6 @@ impl Tape {
         self.pos += 1;
         if self.pos >= self.tape.len() {
             self.tape.resize(self.pos << 1, 0);
-        }
-    }
-}
-
-impl Default for Tape {
-    fn default() -> Self {
-        Self {
-            pos: 0,
-            tape: vec![0],
         }
     }
 }
@@ -105,9 +98,7 @@ fn run(program: &[Op], tape: &mut Tape, p: &mut Printer) {
                     run(program, tape, p);
                 }
             }
-            Op::Print => {
-                p.print(tape.get());
-            }
+            Op::Print => p.print(tape.get()),
         }
     }
 }
@@ -180,7 +171,6 @@ fn verify() {
 
 fn main() {
     verify();
-
     let s = fs::read(env::args().nth(1).unwrap()).unwrap();
     let output = io::stdout();
     let mut p = Printer::new(&output, env::var("QUIET").is_ok());
