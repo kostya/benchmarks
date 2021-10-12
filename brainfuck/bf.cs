@@ -52,30 +52,25 @@ namespace Test
 
     class Program
     {
-        string code;
-        int pos = 0;
         Op[] ops;
         Printer p;
 
         Program(string text, Printer p)
         {
-            code = text;
-            ops = parse();
+            ops = parse(text.GetEnumerator());
             this.p = p;
         }
 
-        private Op[] parse() {
+        private Op[] parse(IEnumerator<char> it) {
             List<Op> res = new List<Op>();
-            while (pos < code.Length) {
-                char c = code[pos];
-                pos++;
-                switch (c) {
+            while (it.MoveNext()) {
+                switch (it.Current) {
                     case '+': res.Add(new Op(OpT.INC, 1)); break;
                     case '-': res.Add(new Op(OpT.INC, -1)); break;
                     case '>': res.Add(new Op(OpT.MOVE, 1)); break;
                     case '<': res.Add(new Op(OpT.MOVE, -1)); break;
                     case '.': res.Add(new Op(OpT.PRINT, 0)); break;
-                    case '[': res.Add(new Op(OpT.LOOP, parse())); break;
+                    case '[': res.Add(new Op(OpT.LOOP, parse(it))); break;
                     case ']': return res.ToArray();
                 }
             }
