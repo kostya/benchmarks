@@ -10,6 +10,7 @@ executables := \
 	target/bin_d_gdc \
 	target/bin_d_ldc \
 	target/bin_rs \
+	target/bin_swift \
 	target/bin_nim_clang \
 	target/bin_nim_gcc \
 	target/bin_cr \
@@ -70,6 +71,9 @@ target/bin_cpp: bf.cpp | target libnotify
 target/bin_rs: bf.rs | $(rs_fmt)
 	$(RUST_CLIPPY)
 	$(RUSTC_BUILD)
+
+target/bin_swift: bf.swift | target
+	$(SWIFTC_BUILD)
 
 target/bf_scala.jar: bf.scala | target
 	$(SCALAC_BUILD)

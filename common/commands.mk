@@ -28,6 +28,7 @@ NIM_CLANG_BUILD =	nim c -o:$@ --cc:clang $(NIM_FLAGS) $^
 NIM_GCC_BUILD =	nim c -o:$@ --cc:gcc $(NIM_FLAGS) $^
 RUSTC_BUILD =		rustc $(RUSTC_FLAGS) -C lto -C codegen-units=1 -o $@ $^
 RUST_CLIPPY =		clippy-driver -o $@.clippy $^
+SWIFTC_BUILD =		swiftc -parse-as-library -Ounchecked -cross-module-optimization -o $@ $^
 SCALAC_BUILD =		scalac -d $@ $^
 VALAC_CLANG_BUILD =	valac $^ --cc=clang -D CLANG_TEST $(VALAC_FLAGS) -o $@
 VALAC_GCC_BUILD =	valac $^ --cc=gcc -D GCC_TEST $(VALAC_FLAGS) -o $@
@@ -67,7 +68,6 @@ RACKET_RUN =		PLT_CS_COMPILE_LIMIT=100000 $(XTIME) racket $^
 RUBY_JIT_RUN =		$(XTIME) ruby --jit $^
 RUBY_RUN =		$(XTIME) ruby $^
 SCALA_RUN =		$(XTIME) scala -J-Xss100m -cp $^
-SWIFT_RUN =		$(XTIME) swift -O $^
 TCLSH_RUN =		$(XTIME) tclsh $^
 TRUBY_JVM_RUN =	$(XTIME) truffleruby --jvm $^
 TRUBY_NATIVE_RUN =	$(XTIME) truffleruby $^

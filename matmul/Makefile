@@ -14,6 +14,7 @@ executables := \
 	target/matmul_go_gccgo \
 	target/matmul_c \
 	target/matmul_rs \
+	target/matmul_swift \
 	target/matmul_d \
 	target/matmul_d_gdc \
 	target/matmul_d_ldc \
@@ -43,7 +44,6 @@ all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[matmul-numpy.py] \
 	run[matmul.pl] \
 	run[matmul.tcl] \
-	run[matmul.swift] \
 	run[matmul.rb] \
 	run[jit][matmul.rb] \
 	run[truby-jvm][matmul.rb] \
@@ -67,6 +67,9 @@ target/matmul_go_gccgo: matmul.go | $(gofmt)
 target/matmul_rs: matmul.rs | $(rs_fmt)
 	$(RUST_CLIPPY)
 	$(RUSTC_BUILD)
+
+target/matmul_swift: matmul.swift | target
+	$(SWIFTC_BUILD)
 
 target/matmul_d: matmul.d | $(dfmt)
 	$(DMD_BUILD)
@@ -197,9 +200,6 @@ run[matmul.pl]:: run[%]: %
 
 run[matmul.tcl]:: run[%]: %
 	$(TCLSH_RUN) $(MSIZE)
-
-run[matmul.swift]:: run[%]: %
-	$(SWIFT_RUN) $(MSIZE)
 
 run[matmul.rb]:: run[%]: % | $(rubocop)
 	$(RUBY_RUN) $(MSIZE)

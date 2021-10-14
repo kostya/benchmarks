@@ -1,4 +1,5 @@
 // Written by Kajal Sinha; distributed under the MIT license
+
 import Glibc
 
 func matgen(_ n: Int, _ seed: Double) -> [[Double]] {
@@ -19,7 +20,9 @@ func matmul(_ a : [[Double]], b : [[Double]]) ->[[Double]] {
     let p = b[0].count
     var x = Array(repeating: Array<Double>(repeating: 0, count: p), count: m)
     var c = Array(repeating: Array<Double>(repeating: 0, count: n), count: p)
-    for  i in 0..<n  {// transpose
+
+    // Transpose
+    for i in 0..<n  {
         for j in 0..<p {
             c[j][i] = b[i][j];
         }
@@ -67,19 +70,22 @@ func calc(_ n: Int) -> Double {
     return x[size / 2][size / 2]
 }
 
-let _ = { () -> () in
-    let n = CommandLine.argc > 1 ? Int(CommandLine.arguments[1])! : 100
+@main
+struct Matmul {
+    static func main() {
+        let n = CommandLine.argc > 1 ? Int(CommandLine.arguments[1])! : 100
 
-    let left = calc(101)
-    let right = -18.67
-    if abs(left - right) > 0.1 {
-        fputs("\(left) != \(right)\n", stderr)
-        exit(1)
+        let left = calc(101)
+        let right = -18.67
+        if abs(left - right) > 0.1 {
+            fputs("\(left) != \(right)\n", stderr)
+            exit(EXIT_FAILURE)
+        }
+
+        notify("Swift\t\(getpid())")
+        let results = calc(n)
+        notify("stop")
+
+        print(results)
     }
-
-    notify("Swift\t\(getpid())")
-    let results = calc(n)
-    notify("stop")
-
-    print(results)
-} ()
+}
