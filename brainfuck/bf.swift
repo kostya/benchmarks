@@ -4,27 +4,28 @@ import Foundation
 import Glibc
 
 enum Op {
-    case dec, inc, prev, next, print, loop([Op])
+    case dec
+    case inc
+    case prev
+    case next
+    case print
+    case loop([Op])
 }
 
 struct Tape {
     var pos = 0
     var tape: ContiguousArray<Int32> = [0]
-    var current: Int32 {
-        get {
-            tape[pos]
-        }
-        set(value) {
-            tape[pos] = value
-        }
+    var currentCell: Int32 {
+        get { tape[pos] }
+        set { tape[pos] = newValue }
     }
 
     mutating func dec() {
-        current -= 1
+        currentCell -= 1
     }
 
     mutating func inc() {
-        current += 1
+        currentCell += 1
     }
 
     mutating func prev() {
@@ -44,9 +45,7 @@ class Printer {
     var sum2: Int32 = 0
     var quiet: Bool = false
     var checksum: Int32 {
-        get {
-            (sum2 << 8) | sum1
-        }
+        get { (sum2 << 8) | sum1 }
     }
 
     init(quiet: Bool) {
@@ -63,9 +62,10 @@ class Printer {
     }
 }
 
-struct Program {
+@main
+class Program {
     let ops: [Op]
-    var p: Printer
+    let p: Printer
 
     init(code: String, p: Printer) {
         var it = code.makeIterator()
@@ -73,8 +73,50 @@ struct Program {
         self.p = p
     }
 
-    private static func parse<S: IteratorProtocol>(_ it: inout S) -> [Op] where
-        S.Element == Character
+    static func main() throws {
+        verify()
+        if CommandLine.argc < 2 {
+            exit(EXIT_FAILURE)
+        }
+        let text = try String(contentsOfFile: CommandLine.arguments[1])
+        let process = ProcessInfo.processInfo
+        let p = Printer(quiet: process.environment["QUIET"] != nil)
+        setbuf(stdout, nil)
+
+        notify("Swift\t\(process.processIdentifier)")
+        Program(code: text, p: p).run()
+        notify("stop")
+
+        if p.quiet {
+            print("Output checksum: \(p.checksum)")
+        }
+    }
+
+    static func verify() {
+        let s = """
+            ++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
+            ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
+        """
+        let p_left = Printer(quiet: true)
+        Program(code: s, p: p_left).run()
+        let left = p_left.checksum
+
+        let p_right = Printer(quiet: true)
+        for c in "Hello World!\n" {
+            p_right.print(Int32(c.asciiValue!))
+        }
+        let right = p_right.checksum
+
+        if left != right {
+            fputs("\(left) != \(right)", stderr)
+            exit(EXIT_FAILURE)
+        }
+    }
+
+    private static func parse<I>(_ it: inout I) -> [Op]
+    where
+        I: IteratorProtocol,
+        I.Element == Character
     {
         var buf: [Op] = []
         loop: while let c = it.next() {
@@ -100,12 +142,12 @@ struct Program {
         return buf
     }
 
-    mutating func run() {
+    func run() {
         var tape = Tape()
         _run(ops, &tape)
     }
 
-    private mutating func _run(_ program: [Op], _ tape: inout Tape) {
+    private func _run(_ program: [Op], _ tape: inout Tape) {
         for op in program {
             switch op {
             case .dec:
@@ -117,9 +159,9 @@ struct Program {
             case .next:
                 tape.next()
             case .print:
-                p.print(tape.current)
+                p.print(tape.currentCell)
             case let .loop(program):
-                while tape.current > 0 {
+                while tape.currentCell > 0 {
                     _run(program, &tape)
                 }
             }
@@ -147,45 +189,4 @@ func notify(_ msg: String) {
             close(sock)
         }
     }
-}
-
-func verify() {
-    let s = """
-        ++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
-        ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
-    """
-
-    let p_left = Printer(quiet: true)
-    var program = Program(code: s, p: p_left)
-    program.run()
-    let left = p_left.checksum
-
-    let p_right = Printer(quiet: true)
-    for c in "Hello World!\n" {
-        p_right.print(Int32(c.asciiValue!))
-    }
-    let right = p_right.checksum
-
-    if left != right {
-        fputs("\(left) != \(right)", stderr)
-        exit(EXIT_FAILURE)
-    }
-}
-
-verify()
-if CommandLine.argc < 2 {
-    exit(EXIT_FAILURE)
-}
-let text = try String(contentsOfFile: CommandLine.arguments[1])
-let process = ProcessInfo.processInfo
-var p = Printer(quiet: process.environment["QUIET"] != nil)
-setbuf(stdout, nil)
-
-notify("Swift\t\(process.processIdentifier)")
-var program = Program(code: text, p: p)
-program.run()
-notify("stop")
-
-if p.quiet {
-    print("Output checksum: \(p.checksum)")
 }
