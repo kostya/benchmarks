@@ -112,11 +112,12 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$JULIA/bin/:${PATH}"
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.4.2-RELEASE-ubuntu20.04
+ARG SWIFT=swift-5.5-RELEASE-ubuntu20.04
 RUN wget --progress=dot:giga -O - \
-	https://swift.org/builds/swift-5.4.2-release/ubuntu2004/swift-5.4.2-RELEASE/$SWIFT.tar.gz \
+	https://swift.org/builds/swift-5.5-release/ubuntu2004/swift-5.5-RELEASE/$SWIFT.tar.gz \
 	| tar -xz \
-	&& ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift
+	&& ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift \
+	&& ln -s /opt/$SWIFT/usr/bin/swiftc /usr/bin/swiftc
 
 # https://clojure.org/community/downloads
 ARG CLOJURE=1.10.3.967
