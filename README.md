@@ -96,6 +96,7 @@ Supports two mode:
 |                  Node.js |   4.233<sub>±0.227</sub> |    31.89<sub>±00.08</sub> + 1.39<sub>±00.00</sub> |     76.37<sub>±04.22</sub> |
 |                  C#/Mono |   4.459<sub>±0.022</sub> |    20.27<sub>±00.06</sub> + 0.00<sub>±00.00</sub> |     75.09<sub>±02.77</sub> |
 |         Haskell (MArray) |   5.023<sub>±0.091</sub> |     3.81<sub>±00.03</sub> + 1.11<sub>±00.00</sub> |     93.41<sub>±01.80</sub> |
+|                    Swift |   5.814<sub>±0.148</sub> |    13.20<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |    124.36<sub>±03.45</sub> |
 |               Lua/luajit |   6.609<sub>±0.141</sub> |     2.20<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |    139.84<sub>±06.53</sub> |
 | Ruby/truffleruby (--jvm) |   6.774<sub>±0.451</sub> | 627.62<sub>±13.07</sub> + 557.04<sub>±18.72</sub> |    257.19<sub>±16.15</sub> |
 |         Ruby/truffleruby |   9.451<sub>±0.287</sub> | 434.84<sub>±01.43</sub> + 576.89<sub>±11.61</sub> |    243.73<sub>±08.03</sub> |
@@ -134,6 +135,7 @@ Supports two mode:
 |               Vala/clang |  21.283<sub>±0.868</sub> |     0.00<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |   471.07<sub>±15.67</sub> |
 |                 Go/gccgo |  21.479<sub>±0.730</sub> |    22.47<sub>±00.15</sub> + 1.28<sub>±00.00</sub> |   423.49<sub>±35.96</sub> |
 |                Nim/clang |  21.736<sub>±0.277</sub> |     2.35<sub>±00.06</sub> + 0.55<sub>±00.04</sub> |   494.32<sub>±14.56</sub> |
+|                    Swift |  23.634<sub>±0.452</sub> |    14.06<sub>±00.20</sub> + 0.00<sub>±00.00</sub> |   422.42<sub>±13.10</sub> |
 |                     Java |  23.684<sub>±1.300</sub> |    37.34<sub>±00.31</sub> + 2.01<sub>±00.41</sub> |   500.23<sub>±47.94</sub> |
 |                  Crystal |  23.739<sub>±0.143</sub> |     3.35<sub>±00.03</sub> + 0.46<sub>±00.02</sub> |   548.02<sub>±09.02</sub> |
 |                    Scala |  24.912<sub>±0.462</sub> |  55.56<sub>±00.09</sub> + 190.41<sub>±01.53</sub> |   521.85<sub>±12.89</sub> |
@@ -306,13 +308,13 @@ Testing allocating and multiplying matrices.
 |                    Scala |    3.438<sub>±0.063</sub> |   55.85<sub>±00.23</sub> + 153.86<sub>±00.15</sub> |     80.67<sub>±01.01</sub> |
 |                      Zig |    3.468<sub>±0.018</sub> |     2.14<sub>±00.03</sub> + 68.58<sub>±00.00</sub> |     73.12<sub>±00.85</sub> |
 |                     Rust |    3.468<sub>±0.017</sub> |     2.71<sub>±00.03</sub> + 68.32<sub>±00.00</sub> |     73.72<sub>±01.23</sub> |
+|                    Swift |    3.480<sub>±0.012</sub> |     7.74<sub>±00.09</sub> + 68.91<sub>±00.07</sub> |     70.97<sub>±00.84</sub> |
 |                Nim/clang |    3.494<sub>±0.037</sub> |     3.08<sub>±00.03</sub> + 66.00<sub>±00.13</sub> |     74.08<sub>±01.21</sub> |
 |                 Go/gccgo |    3.526<sub>±0.024</sub> |    22.76<sub>±00.12</sub> + 73.50<sub>±00.16</sub> |     77.93<sub>±01.31</sub> |
 |                  Crystal |    3.652<sub>±0.027</sub> |     4.13<sub>±00.08</sub> + 59.71<sub>±00.04</sub> |     82.10<sub>±04.74</sub> |
 |                    V/gcc |    3.694<sub>±0.073</sub> |     1.98<sub>±00.12</sub> + 68.58<sub>±00.13</sub> |     87.26<sub>±02.33</sub> |
 |                       Go |    3.733<sub>±0.115</sub> |     3.53<sub>±00.07</sub> + 73.11<sub>±00.14</sub> |     76.53<sub>±01.43</sub> |
 |                  V/clang |    3.750<sub>±0.064</sub> |     2.16<sub>±00.06</sub> + 68.84<sub>±00.00</sub> |     82.17<sub>±01.53</sub> |
-|                    Swift |    3.800<sub>±0.141</sub> |   145.23<sub>±00.06</sub> + 60.69<sub>±00.04</sub> |     75.24<sub>±04.58</sub> |
 |                   Kotlin |    3.817<sub>±0.046</sub> |    38.91<sub>±00.08</sub> + 80.19<sub>±00.43</sub> |     88.99<sub>±06.26</sub> |
 |                  Node.js |    3.874<sub>±0.086</sub> |    35.21<sub>±00.19</sub> + 72.29<sub>±00.41</sub> |     87.24<sub>±06.76</sub> |
 |              Python/pypy |    6.136<sub>±0.152</sub> |    65.95<sub>±00.17</sub> + 68.98<sub>±00.06</sub> |    139.27<sub>±04.09</sub> |
@@ -400,7 +402,7 @@ Base Docker image: Debian GNU/Linux bookworm/sid
 | Ruby/truffleruby | 21.2.0.1                        |
 | Rust             | 1.54.0                          |
 | Scala            | 3.0.2                           |
-| Swift            | swift-5.4.2-RELEASE             |
+| Swift            | swift-5.5-RELEASE               |
 | Tcl              | 8.6                             |
 | V                | 0.2.4 b72a2de                   |
 | Vala             | 0.48.18                         |
