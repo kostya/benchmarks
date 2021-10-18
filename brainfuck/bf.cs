@@ -1,9 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Test
 {
@@ -15,24 +13,48 @@ namespace Test
         public int v;
         public Op[] loop;
 
-        public Op(OpT _op, int _v) { op = _op; v = _v; loop = null; }
-        public Op(OpT _op, Op[] _l) { op = _op; loop = _l; v = 0; }
+        public Op(OpT _op, int _v)
+        {
+            op = _op;
+            v = _v;
+            loop = null;
+        }
+
+        public Op(OpT _op, Op[] _l)
+        {
+            op = _op;
+            loop = _l;
+            v = 0;
+        }
     }
 
     public class Tape
     {
         int pos = 0;
         int[] tape = new int[1];
+        public int CurrentCell
+        {
+            get => tape[pos];
+            set => tape[pos] = value;
+        }
 
-        public int Get() { return tape[pos]; }
-        public void Inc(int x) { tape[pos] += x; }
-        public void Move(int x) { pos += x; while (pos >= tape.Length) Array.Resize(ref tape, tape.Length * 2); }
+        public void Inc(int x) => CurrentCell += x;
+        public void Move(int x)
+        {
+            pos += x;
+            if (pos >= tape.Length)
+                Array.Resize(ref tape, tape.Length * 2);
+        }
     }
 
     class Printer
     {
         int sum1 = 0;
         int sum2 = 0;
+        public int Checksum
+        {
+            get => (sum2 << 8) | sum1;
+        }
 
         public bool Quiet { get; set; }
 
@@ -46,14 +68,6 @@ namespace Test
             else
             {
                 Console.Write((char)n);
-            }
-        }
-
-        public int Checksum
-        {
-            get
-            {
-                return (sum2 << 8) | sum1;
             }
         }
     }
@@ -88,10 +102,7 @@ namespace Test
             return res.ToArray();
         }
 
-        public void run()
-        {
-            _run(ops, new Tape());
-        }
+        public void run() => _run(ops, new Tape());
 
         private void _run(Op[] program, Tape tape)
         {
@@ -101,8 +112,8 @@ namespace Test
                 {
                     case OpT.INC: tape.Inc(op.v); break;
                     case OpT.MOVE: tape.Move(op.v); break;
-                    case OpT.LOOP: while (tape.Get() > 0) _run(op.loop, tape); break;
-                    case OpT.PRINT: p.Print(tape.Get()); break;
+                    case OpT.LOOP: while (tape.CurrentCell > 0) _run(op.loop, tape); break;
+                    case OpT.PRINT: p.Print(tape.CurrentCell); break;
                 }
             }
         }
@@ -137,6 +148,7 @@ namespace Test
                 p_right.Print(c);
             }
             var right = p_right.Checksum;
+
             if (left != right)
             {
                 Console.Error.WriteLine($"{left} != {right}");
