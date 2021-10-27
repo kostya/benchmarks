@@ -6,6 +6,12 @@
 using namespace std;
 using namespace Eigen;
 
+#ifdef __clang__
+# define COMPILER "clang++"
+#else
+# define COMPILER "g++"
+#endif
+
 // NOTE: Eigen requires explicit variable types for the proper
 // compile-time template processing
 
@@ -38,7 +44,7 @@ int main(int argc, char** argv) {
     exit(EXIT_FAILURE);
   }
 
-  notify_with_pid("C++/g++ (Eigen)");
+  notify_with_pid("C++/" COMPILER  " (Eigen)");
 
   auto results = calc(n);
 

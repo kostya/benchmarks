@@ -6,6 +6,12 @@
 #include <string.h>
 #include <time.h>
 
+#ifdef __clang__
+# define COMPILER "clang"
+#else
+# define COMPILER "gcc"
+#endif
+
 size_t encode_size(size_t size) {
   return (size_t)(size * 4 / 3.0) + 6;
 }
@@ -69,7 +75,7 @@ int main() {
   char str3[decode_size(str2_size)];
   b64_decode(str3, str2, str2_size);
 
-  notify_with_pid("C/gcc (aklomp)");
+  notify_with_pid("C/" COMPILER " (aklomp)");
 
   int s_encoded = 0;
   clock_t t = clock();

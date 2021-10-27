@@ -133,7 +133,7 @@ if __FILE__ == $PROGRAM_NAME
     engine = 'Ruby (--jit)'
   end
 
-  text = IO.read(ARGV[0])
+  text = File.read(ARGV[0])
   p = Printer.new(ENV.key?('QUIET'))
 
   notify("#{engine}\t#{Process.pid}")

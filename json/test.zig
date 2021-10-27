@@ -35,7 +35,10 @@ fn readFile(alloc: *std.mem.Allocator, filename: []const u8) ![]const u8 {
 
 fn calc(alloc: *std.mem.Allocator, text: []const u8) Coordinate {
     var stream = std.json.TokenStream.init(text);
-    const opts = std.json.ParseOptions{ .allocator = alloc, .ignore_unknown_fields = true };
+    const opts = std.json.ParseOptions{
+        .allocator = alloc,
+        .ignore_unknown_fields = true,
+    };
     const obj = std.json.parse(TestStruct, &stream, opts) catch unreachable;
 
     var x: f64 = 0.0;
@@ -56,9 +59,10 @@ pub fn main() !void {
     var alloc: *std.mem.Allocator = &arena.allocator;
 
     const right = Coordinate{ .x = 2.0, .y = 0.5, .z = 0.25 };
-    const vals = [_][]const u8{ 
+    const vals = [_][]const u8{
         "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
-        "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}" };
+        "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}",
+    };
     for (vals) |v| {
         const left = calc(alloc, v);
         if (!Coordinate.eql(left, right)) {

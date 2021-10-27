@@ -19,10 +19,6 @@ executable json_hs
   build-depends:       aeson
                      , base >= 4.7 && < 5
                      , bytestring
-                     , deepseq
-                     , json-stream
-                     , unordered-containers
-                     , vector
                      , network
                      , unix
   ghc-options:       -O2

@@ -5,6 +5,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef __clang__
+# define COMPILER "clang"
+#else
+# define COMPILER "gcc"
+#endif
+
 double **mm_init(int n)
 {
   double **m;
@@ -74,7 +80,7 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
 
-  notify_with_pid("C/gcc");
+  notify_with_pid("C/" COMPILER);
   double results = calc(n);
   notify("stop");
 

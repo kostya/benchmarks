@@ -3,6 +3,12 @@
 
 #include "simdjson.h"
 
+#ifdef __clang__
+# define COMPILER "clang++"
+#else
+# define COMPILER "g++"
+#endif
+
 using namespace std;
 
 struct coordinate_t {
@@ -54,11 +60,11 @@ coordinate_t calc(const padded_string& text) {
     z += z_coord;
     len++;
   }
-  return coordinate_t(x / len, y / len, z / len);
+  return coordinate_t{x / len, y / len, z / len};
 }
 
 int main() {
-  auto right = coordinate_t(2.0, 0.5, 0.25);
+  auto right = coordinate_t{2.0, 0.5, 0.25};
   // The _padded suffix creates a simdjson::padded_string instance
   for (const padded_string &v : {
       "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}"_padded,
@@ -77,7 +83,7 @@ int main() {
     return EXIT_FAILURE;
   }
 
-  notify_with_pid("C++/g++ (simdjson DOM)");
+  notify_with_pid("C++/" COMPILER " (simdjson DOM)");
   const auto& results = calc(text);
   notify("stop");
 

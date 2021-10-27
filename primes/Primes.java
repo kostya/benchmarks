@@ -48,21 +48,21 @@ public final class Primes {
         }
 
         void step1(int x, int y) {
-            var n = (4 * x * x) + (y * y);
+            final var n = (4 * x * x) + (y * y);
             if (n <= this.limit && (n % 12 == 1 || n % 12 == 5)) {
                 this.prime.flip(n);
             }
         }
 
         void step2(int x, int y) {
-            var n = (3 * x * x) + (y * y);
+            final var n = (3 * x * x) + (y * y);
             if (n <= this.limit && n % 12 == 7) {
                 this.prime.flip(n);
             }
         }
 
         void step3(int x, int y) {
-            var n = (3 * x * x) - (y * y);
+            final var n = (3 * x * x) - (y * y);
             if (x > y && n <= this.limit && n % 12 == 11) {
                 this.prime.flip(n);
             }
@@ -89,7 +89,7 @@ public final class Primes {
     }
 
     private static Node generateTrie(final Iterable<Integer> l) {
-        var root = new Node();
+        final var root = new Node();
         for (final var el : l) {
             var head = root;
             for (final var ch : String.valueOf(el).toCharArray()) {

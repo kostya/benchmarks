@@ -91,15 +91,15 @@ public final class bf {
         private final Printer p;
 
         public Program(final String code, final Printer p) {
-            CharacterIterator it = new CharacterIterator(code);
+            final var it = new CharacterIterator(code);
             ops = parse(it);
             this.p = p;
         }
 
         private Op[] parse(final CharacterIterator it) {
-            final List<Op> res = new ArrayList<>();
+            final var res = new ArrayList<Op>();
             while (it.hasNext()) {
-                switch( it.next() ) {
+                switch(it.next()) {
                     case '+':
                         res.add(new Op(OpT.INC, 1));
                         break;
@@ -130,7 +130,7 @@ public final class bf {
         }
 
         private void _run(final Op[] program, final Tape tape) {
-            for (final Op op : program)
+            for (final var op : program)
                 switch (op.op) {
                     case INC: tape.inc(op.v); break;
                     case MOVE: tape.move(op.v); break;
@@ -141,8 +141,8 @@ public final class bf {
     }
 
     private static void notify(final String msg) {
-        try (var socket = new java.net.Socket("localhost", 9001);
-             var out = socket.getOutputStream()) {
+        try (final var socket = new java.net.Socket("localhost", 9001);
+             final var out = socket.getOutputStream()) {
             out.write(msg.getBytes("UTF-8"));
         } catch (java.io.IOException e) {
             // standalone usage
@@ -150,8 +150,10 @@ public final class bf {
     }
 
     private static void verify() {
-        final var text = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>" +
-            "---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
+        final var text = """
+            ++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+            ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
+            """;
         final var pLeft = new Printer(true);
         new Program(text, pLeft).run();
         final var left = pLeft.getChecksum();

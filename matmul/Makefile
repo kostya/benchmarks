@@ -12,7 +12,8 @@ executables := \
 	target/matmul_cr \
 	target/matmul_go \
 	target/matmul_go_gccgo \
-	target/matmul_c \
+	target/matmul_c_gcc \
+	target/matmul_c_clang \
 	target/matmul_rs \
 	target/matmul_swift \
 	target/matmul_d \
@@ -25,7 +26,8 @@ executables := \
 	target/matmul_vala_gcc \
 	target/matmul_vala_clang \
 	target/Release/net5.0/matmul \
-	target/matmul_cpp \
+	target/matmul_cpp_gcc \
+	target/matmul_cpp_clang \
 	target/matmul_zig
 
 artifacts := $(executables) \
@@ -101,8 +103,11 @@ target/matmul_nim_arraymancer_clang: NIM_FLAGS += -d:openmp
 target/matmul_nim_arraymancer_clang: matmul_arraymancer.nim | target arraymancer
 	$(NIM_CLANG_BUILD)
 
-target/matmul_c: matmul.c | target libnotify
+target/matmul_c_gcc: matmul.c | target libnotify
 	$(GCC_BUILD)
+
+target/matmul_c_clang: matmul.c | target libnotify
+	$(CLANG_BUILD)
 
 # Marked phony to run always
 .PHONY: java-nd4j/target/application
@@ -141,8 +146,11 @@ eigen := target/eigen
 $(eigen): | target
 	$(GIT_CLONE) "https://gitlab.com/libeigen/eigen.git" $@
 
-target/matmul_cpp: matmul.cpp | $(eigen) libnotify
+target/matmul_cpp_gcc: matmul.cpp | $(eigen) libnotify
 	$(GCC_CPP_BUILD) -I$(eigen)
+
+target/matmul_cpp_clang: matmul.cpp | $(eigen) libnotify
+	$(CLANG_CPP_BUILD) -I$(eigen)
 
 target/matmul_zig: matmul.zig | target
 	$(ZIG_BUILD)

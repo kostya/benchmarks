@@ -4,7 +4,7 @@ import posix
 
 proc notify(msg: string) =
   try:
-    var socket = newSocket()
+    let socket = newSocket()
     defer: socket.close()
     socket.connect("localhost", Port(9001))
     socket.send(msg)
@@ -48,5 +48,5 @@ when isMainModule:
 
   notify("stop")
 
-  echo(fmt"encode {str[..3]}... to {str2[..3]}...: {s_encoded}, {t_encoded}")
-  echo(fmt"decode {str2[..3]}... to {str3[..3]}...: {s_decoded}, {t_decoded}")
+  echo(fmt"encode {str[0..3]}... to {str2[0..3]}...: {s_encoded}, {t_encoded}")
+  echo(fmt"decode {str2[0..3]}... to {str3[0..3]}...: {s_decoded}, {t_decoded}")

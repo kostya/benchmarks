@@ -3,6 +3,12 @@
 #include <libnotify.h>
 #include <vector>
 
+#ifdef __clang__
+# define COMPILER "clang++"
+#else
+# define COMPILER "g++"
+#endif
+
 using namespace std;
 
 enum op_type { INC, MOVE, LOOP, PRINT };
@@ -139,7 +145,7 @@ int main(int argc, char** argv) {
   Printer p(getenv("QUIET") != nullptr);
   cout << unitbuf; // enable automatic flushing
 
-  notify_with_pid("C++/g++");
+  notify_with_pid("C++/" COMPILER);
   Program(text, p).run();
   notify("stop");
 

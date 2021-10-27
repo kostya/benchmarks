@@ -1,6 +1,7 @@
-COMMON_FLAGS := -march=native -flto -Wa,-mbranches-within-32B-boundaries
-GCC_FLAGS := -Wall -O3 $(COMMON_FLAGS)
-CLANG_FLAGS := -Wall -O3 $(COMMON_FLAGS)
+COMMON_FLAGS := -Wall -Wextra -pedantic -Wcast-align -O3 -march=native -flto -Wa,-mbranches-within-32B-boundaries
+# COMMON_FLAGS := -g -Wall -Wextra -pedantic -Wcast-align -fsanitize=address -fsanitize=undefined
+GCC_FLAGS := $(COMMON_FLAGS)
+CLANG_FLAGS := $(COMMON_FLAGS)
 LIBNOTIFY_FLAGS := -I../common/libnotify ../common/libnotify/target/libnotify.a
 NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off --passC:"$(COMMON_FLAGS)" --passL:"-march=native -flto"
 RUSTC_FLAGS := -C opt-level=3 -C target-cpu=native -C llvm-args=--x86-branches-within-32B-boundaries -C panic=abort
@@ -8,13 +9,14 @@ VALAC_FLAGS := --disable-assert -X -O3 -X -march=native -X -flto -X -Wa,-mbranch
 V_FLAGS := -prod
 ZIG_FLAGS := -O ReleaseFast
 
-CLANG_BUILD =		clang $(CLANG_FLAGS) -o $@ $^ $(LIBNOTIFY_FLAGS)
+CLANG_BUILD =		clang $(CLANG_FLAGS) -std=c17 -o $@ $^ $(LIBNOTIFY_FLAGS)
+CLANG_CPP_BUILD =	clang++ $(CLANG_FLAGS) -std=c++20 -o $@ $^ $(LIBNOTIFY_FLAGS)
 CRYSTAL_BUILD =	crystal build --release --no-debug -o $@ $^
 DMD_BUILD =		dmd -of$@ -O -release -inline -boundscheck=off $^
 DOTNET_BUILD =		dotnet build --nologo -v q $< -c Release
 DUB_BUILD =		dub -q build --build=release-nobounds --compiler=ldc2 --single $^
 GCC_BUILD =		gcc $(GCC_FLAGS) -std=c17 -o $@ $^ $(LIBNOTIFY_FLAGS)
-GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++2a -o $@ $^ $(LIBNOTIFY_FLAGS)
+GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++20 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_GO_BUILD =		gccgo $(GCC_FLAGS) -o $@ $^
 GDC_BUILD =		gdc -o $@ -O3 -frelease -finline -fbounds-check=off $^
 GHC_BUILD =		ghc -v0 -O2 -fforce-recomp -Wall $^ -o $@ -outputdir $(@D)

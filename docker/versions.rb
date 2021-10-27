@@ -34,7 +34,7 @@ LANGS = {
     fsharpc = File.join(dotnet_base_path, 'FSharp', 'fsc.dll')
     `dotnet #{fsharpc} --help | sed -n 1p`.match(/version\s(.*)/)[1]
   end,
-  'C/gcc' => -> { `gcc -dumpfullversion` },
+  'gcc/g++' => -> { `gcc -dumpfullversion` },
   'Go/gccgo' => -> { `gccgo -dumpfullversion` },
   'D/gdc' => -> { `gdc -dumpfullversion` },
   'Nim' => lambda do
@@ -60,7 +60,7 @@ LANGS = {
       && cat #{cat('dmd.json')}`
     JSON.parse(json)['compilerInfo']['version']
   end,
-  'C/clang' => lambda do
+  'clang/clang++' => lambda do
     prog = <<~CLANG
       #include <stdio.h>
       int main(void) {
@@ -70,7 +70,7 @@ LANGS = {
     CLANG
     `clang -o #{cat('clang')} #{cat('clang.c', prog)} && ./#{cat('clang')}`
   end,
-  'Scala' => -> { `scala -version 2>&1`.split[3] },
+  'Scala' => -> { `scala -version 2>&1`.split[4] },
   'Node.js' => -> { `node -e "console.log(process.version)"` },
   'Python' => lambda do
     `python3 -c "import platform;print(platform.python_version())"`

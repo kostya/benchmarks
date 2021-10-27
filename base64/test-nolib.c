@@ -5,6 +5,12 @@
 #include <string.h>
 #include <time.h>
 
+#ifdef __clang__
+# define COMPILER "clang"
+#else
+# define COMPILER "gcc"
+#endif
+
 const char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 static char decode_table[256];
 
@@ -62,12 +68,18 @@ int decode(size_t size, const char* str, size_t* out_size, char* output) {
   return 0;
 }
 
+inline uint32_t to_uint32_t(const char* str) {
+  uint64_t n;
+  memcpy(&n, str, sizeof(n));
+  return n;
+}
+
 void encode(size_t size, const char* str, size_t* out_size, char* output) {
   char *out = output;
   const char* ends = str + (size - size % 3);
   uint64_t n;
   while (str != ends) {
-    uint32_t n = __builtin_bswap32(*(uint32_t*)str);
+    uint32_t n = __builtin_bswap32(to_uint32_t(str));
     *out++ = chars[(n >> 26) & 63];
     *out++ = chars[(n >> 20) & 63];
     *out++ = chars[(n >> 14) & 63];
@@ -150,7 +162,7 @@ int main() {
   char str3[decode_size(str2_size)];
   b64_decode(str3, str2, str2_size);
 
-  notify_with_pid("C/gcc");
+  notify_with_pid("C/" COMPILER);
 
   int s_encoded = 0;
   clock_t t = clock();

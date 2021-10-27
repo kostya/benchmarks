@@ -37,7 +37,7 @@ if __FILE__ == $PROGRAM_NAME
     end
   end
 
-  text = IO.read('/tmp/1.json')
+  text = File.read('/tmp/1.json')
 
   engine = RUBY_ENGINE
   if engine == 'truffleruby'

@@ -11,7 +11,7 @@ RESULTS_LOG = 'target/results.log'
 def read_mem(pid)
   if HAS_MEM
     begin
-      stat = IO.read("/proc/#{pid}/statm").split
+      stat = File.read("/proc/#{pid}/statm").split
       PAGE_SIZE * stat[1].to_i # man 5 proc
     rescue Errno::ENOENT
       0
@@ -31,13 +31,13 @@ class EnergyStats
     @acc_e = 0
     @e = 0
     @has_energy_metrics = File.file?(PATH)
-    @max_e = IO.read(PATH).to_i if @has_energy_metrics
+    @max_e = File.read(PATH).to_i if @has_energy_metrics
   end
 
   def update
     return unless @has_energy_metrics
 
-    new_e = IO.read(PATH).to_i
+    new_e = File.read(PATH).to_i
     if @e.zero?
       # first reading
       @acc_e = 0
