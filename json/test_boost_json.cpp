@@ -4,6 +4,12 @@
 #include <iostream>
 #include <libnotify.h>
 
+#ifdef __clang__
+# define COMPILER "clang++"
+#else
+# define COMPILER "g++"
+#endif
+
 using namespace std;
 
 struct coordinate_t {
@@ -44,11 +50,11 @@ coordinate_t calc(const string& text) {
     z += coord["z"].get_double();
   }
 
-  return coordinate_t(x / len, y / len, z / len);
+  return coordinate_t{x / len, y / len, z / len};
 }
 
 int main() {
-  auto right = coordinate_t(2.0, 0.5, 0.25);
+  auto right = coordinate_t{2.0, 0.5, 0.25};
   for (auto v : {
           "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
           "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"}) {
@@ -61,7 +67,7 @@ int main() {
 
   const auto& text = read_file("/tmp/1.json");
 
-  notify_with_pid("C++/g++ (Boost.JSON)");
+  notify_with_pid("C++/" COMPILER " (Boost.JSON)");
   const auto& results = calc(text);
   notify("stop");
 

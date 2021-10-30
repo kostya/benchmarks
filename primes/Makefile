@@ -1,7 +1,9 @@
 include ../common/commands.mk
 .DEFAULT_GOAL := build
 
-executables := target/primes_cpp \
+executables := \
+	target/primes_cpp_gcc \
+	target/primes_cpp_clang \
 	target/primes_rs \
 	target/primes_cr \
 	target/primes_zig
@@ -38,8 +40,11 @@ target/primes_rs: primes.rs | $(rs_fmt)
 	$(RUST_CLIPPY)
 	$(RUSTC_BUILD)
 
-target/primes_cpp: primes.cpp | target libnotify
+target/primes_cpp_gcc: primes.cpp | target libnotify
 	$(GCC_CPP_BUILD)
+
+target/primes_cpp_clang: primes.cpp | target libnotify
+	$(CLANG_CPP_BUILD)
 
 target/primes_cr: primes.cr | target
 	$(CRYSTAL_BUILD)

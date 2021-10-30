@@ -8,6 +8,12 @@
 #include <libnotify.h>
 #include <sstream>
 
+#ifdef __clang__
+# define COMPILER "clang++"
+#else
+# define COMPILER "g++"
+#endif
+
 using namespace std;
 using namespace rapidjson;
 
@@ -54,11 +60,11 @@ coordinate_t calc(const string& text) {
     z += coord["z"].GetDouble();
   }
 
-  return coordinate_t(x / len, y / len, z / len);
+  return coordinate_t{x / len, y / len, z / len};
 }
 
 int main() {
-  auto right = coordinate_t(2.0, 0.5, 0.25);
+  auto right = coordinate_t{2.0, 0.5, 0.25};
   for (auto v : {
           "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
           "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"}) {
@@ -77,7 +83,7 @@ int main() {
   const string suffix = "";
 #endif
 
-  notify_with_pid(str(boost::format("C++/g++ (RapidJSON%s)") % suffix).c_str());
+  notify_with_pid(str(boost::format("C++/" COMPILER " (RapidJSON%s)") % suffix).c_str());
   const auto& results = calc(text);
   notify("stop");
 

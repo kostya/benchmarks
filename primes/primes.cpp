@@ -6,6 +6,12 @@
 #include <map>
 #include <vector>
 
+#ifdef __clang__
+# define COMPILER "clang++"
+#else
+# define COMPILER "g++"
+#endif
+
 static const auto UPPER_BOUND = 5'000'000;
 static const auto PREFIX = 32'338;
 
@@ -110,7 +116,7 @@ std::vector<int> find(int upper_bound, int prefix) {
   );
   std::vector<int> result;
   while (!queue.empty()) {
-    const auto& [top, prefix] = queue.front();
+    const auto [top, prefix] = queue.front();
     queue.pop();
     if (top->terminal) {
       result.push_back(std::stoi(prefix));
@@ -150,7 +156,7 @@ void verify() {
 int main() {
   verify();
 
-  notify_with_pid("C++/g++");
+  notify_with_pid("C++/" COMPILER);
   const auto& results = find(UPPER_BOUND, PREFIX);
   notify("stop");
 

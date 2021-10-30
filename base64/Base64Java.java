@@ -11,8 +11,8 @@ class Base64Java {
     final static Base64.Encoder enc = Base64.getEncoder();
 
     private static void notify(final String msg) {
-        try (var socket = new java.net.Socket("localhost", 9001);
-             var out = socket.getOutputStream()) {
+        try (final var socket = new java.net.Socket("localhost", 9001);
+             final var out = socket.getOutputStream()) {
             out.write(msg.getBytes("UTF-8"));
         } catch (java.io.IOException e) {
             // standalone usage

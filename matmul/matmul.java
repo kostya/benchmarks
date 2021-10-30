@@ -50,8 +50,8 @@ final class matmul {
     public static void main(String[] args) {
         final var n = args.length > 0 ? Integer.valueOf(args[0]) : 100;
 
-        var left = calc(101);
-        var right = -18.67;
+        final var left = calc(101);
+        final var right = -18.67;
         if (Math.abs(left - right) > 0.1) {
             System.err.printf("%f != %f\n", left, right);
             System.exit(1);

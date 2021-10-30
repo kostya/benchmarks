@@ -19,7 +19,7 @@ def multiplication(m_size, n_size, p_size, matrix_a, matrix_b2)
     p_size.times do |j|
       ai = matrix_a[i]
       b2j = matrix_b2[j]
-      c[i][j] = n_size.times.reduce(0) { |s, k| s + ai[k] * b2j[k] }
+      c[i][j] = n_size.times.reduce(0) { |s, k| s + (ai[k] * b2j[k]) }
     end
   end
   c

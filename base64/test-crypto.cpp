@@ -4,6 +4,12 @@
 #include <openssl/bio.h>
 #include <openssl/evp.h>
 
+#ifdef __clang__
+# define COMPILER "clang++"
+#else
+# define COMPILER "g++"
+#endif
+
 using namespace std;
 
 class bio_string {
@@ -117,7 +123,7 @@ int main() {
   const auto str2 = str.base64_encode();
   const auto str3 = str2.base64_decode();
 
-  notify_with_pid("C++/g++ (libcrypto)");
+  notify_with_pid("C++/" COMPILER " (libcrypto)");
 
   auto s_encoded = 0;
   const auto t = clock();

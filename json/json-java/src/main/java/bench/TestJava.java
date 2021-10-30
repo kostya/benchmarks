@@ -35,22 +35,22 @@ public class TestJava {
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-            final Coordinate coord = (Coordinate) o;
+            final var coord = (Coordinate) o;
             return x == coord.x && y == coord.y && z == coord.z;
         }
     }
 
     private static Coordinate calc(byte[] bytes) throws IOException {
-        var settings = new DslJson.Settings<Object>()
+        final var settings = new DslJson.Settings<Object>()
             .includeServiceLoader()
             .doublePrecision(JsonReader.DoublePrecision.LOW);
-        var json = new DslJson<Object>(settings);
-        var result = json.deserialize(Root.class, bytes, bytes.length);
+        final var json = new DslJson<Object>(settings);
+        final var result = json.deserialize(Root.class, bytes, bytes.length);
         var x = 0.0;
         var y = 0.0;
         var z = 0.0;
-        var total = result.coordinates.size();
-        for (var m : result.coordinates) {
+        final var total = result.coordinates.size();
+        for (final var m : result.coordinates) {
             x += m.x;
             y += m.y;
             z += m.z;
@@ -59,8 +59,8 @@ public class TestJava {
     }
 
     private static void notify(final String msg) {
-        try (var socket = new java.net.Socket("localhost", 9001);
-             var out = socket.getOutputStream()) {
+        try (final var socket = new java.net.Socket("localhost", 9001);
+             final var out = socket.getOutputStream()) {
             out.write(msg.getBytes("UTF-8"));
         } catch (java.io.IOException e) {
             // standalone usage

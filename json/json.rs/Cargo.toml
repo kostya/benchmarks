@@ -1,7 +1,7 @@
 [package]
 name = "json-rs"
 version = "0.0.1"
-edition = "2018"
+edition = "2021"
 
 [profile.release]
 lto = true

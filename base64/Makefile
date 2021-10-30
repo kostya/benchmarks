@@ -5,15 +5,18 @@ executables := \
 	target/base64_cr \
 	target/base64_go \
 	target/base64_go_gccgo \
-	target/base64_cpp_crypto \
-	target/base64_c_nolib \
+	target/base64_cpp_gcc_crypto \
+	target/base64_cpp_clang_crypto \
+	target/base64_c_ak_gcc \
+	target/base64_c_nolib_gcc \
+	target/base64_c_ak_clang \
+	target/base64_c_nolib_clang \
 	target/base64_d \
 	target/base64_d_gdc \
 	target/base64_d_ldc \
 	target/base64_nim_gcc \
 	target/base64_nim_clang \
 	base64.rs/target/release/base64 \
-	target/base64_c_ak \
 	target/base64_v_gcc \
 	target/base64_v_clang \
 	target/base64_vala_gcc \
@@ -57,11 +60,34 @@ target/base64_go: test.go | $(gofmt)
 target/base64_go_gccgo: test.go | $(gofmt)
 	$(GCC_GO_BUILD)
 
-target/base64_cpp_crypto: test-crypto.cpp | target libnotify
+target/base64_cpp_gcc_crypto: test-crypto.cpp | target libnotify
 	$(GCC_CPP_BUILD) -lcrypto
 
-target/base64_c_nolib: test-nolib.c | target libnotify
+target/base64_cpp_clang_crypto: test-crypto.cpp | target libnotify
+	$(CLANG_CPP_BUILD) -lcrypto
+
+aklomp-base64-dir := target/aklomp-base64
+$(aklomp-base64-dir): | target
+	$(GIT_CLONE) "https://github.com/aklomp/base64.git" $@
+
+
+aklomp-base64-lib := lib/libbase64.o
+$(aklomp-base64-dir)/$(aklomp-base64-lib): $(aklomp-base64-dir)
+	AVX2_CFLAGS=-mavx2 SSSE3_CFLAGS=-mssse3 SSE41_CFLAGS=-msse4.1 \
+	SSE42_CFLAGS=-msse4.2 AVX_CFLAGS=-mavx \
+	$(MAKE) -C $< $(aklomp-base64-lib)
+
+target/base64_c_nolib_gcc: test-nolib.c | target libnotify
 	$(GCC_BUILD)
+
+target/base64_c_ak_gcc: $(aklomp-base64-dir)/$(aklomp-base64-lib) test-aklomp.c | target libnotify
+	$(GCC_BUILD) -I$(aklomp-base64-dir)/include/
+
+target/base64_c_nolib_clang: test-nolib.c | target libnotify
+	$(CLANG_BUILD)
+
+target/base64_c_ak_clang: $(aklomp-base64-dir)/$(aklomp-base64-lib) test-aklomp.c | target libnotify
+	$(CLANG_BUILD) -I$(aklomp-base64-dir)/include/
 
 target/base64_scala.jar: test.scala | target
 	$(SCALAC_BUILD)
@@ -86,19 +112,6 @@ target/base64_nim_gcc: test.nim | target
 
 target/base64_nim_clang: test.nim | target
 	$(NIM_CLANG_BUILD)
-
-aklomp-base64-dir := target/aklomp-base64
-$(aklomp-base64-dir): | target
-	$(GIT_CLONE) "https://github.com/aklomp/base64.git" $@
-
-aklomp-base64-lib := lib/libbase64.o
-$(aklomp-base64-dir)/$(aklomp-base64-lib): $(aklomp-base64-dir)
-	AVX2_CFLAGS=-mavx2 SSSE3_CFLAGS=-mssse3 SSE41_CFLAGS=-msse4.1 \
-	SSE42_CFLAGS=-msse4.2 AVX_CFLAGS=-mavx \
-	$(MAKE) -C $< $(aklomp-base64-lib)
-
-target/base64_c_ak: $(aklomp-base64-dir)/$(aklomp-base64-lib) test-aklomp.c | target libnotify
-	$(GCC_BUILD) -I$(aklomp-base64-dir)/include/
 
 base64-rs-toml := base64.rs/Cargo.toml
 .PHONY: base64.rs/target/release/base64

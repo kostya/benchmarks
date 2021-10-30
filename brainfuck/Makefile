@@ -5,7 +5,8 @@ include ../common/commands.mk
 
 executables := \
 	target/bin_hs \
-	target/bin_cpp \
+	target/bin_cpp_gcc \
+	target/bin_cpp_clang \
 	target/bin_d \
 	target/bin_d_gdc \
 	target/bin_d_ldc \
@@ -65,7 +66,10 @@ build: $(artifacts)
 target/bin_cr: bf.cr | target
 	$(CRYSTAL_BUILD)
 
-target/bin_cpp: bf.cpp | target libnotify
+target/bin_cpp_clang: bf.cpp | target libnotify
+	$(CLANG_CPP_BUILD)
+
+target/bin_cpp_gcc: bf.cpp | target libnotify
 	$(GCC_CPP_BUILD)
 
 target/bin_rs: bf.rs | $(rs_fmt)

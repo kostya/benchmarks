@@ -8,6 +8,12 @@
 #include <rapidjson/reader.h>
 #include <sstream>
 
+#ifdef __clang__
+# define COMPILER "clang++"
+#else
+# define COMPILER "g++"
+#endif
+
 using namespace std;
 using namespace rapidjson;
 
@@ -52,7 +58,7 @@ public:
     return true;
   }
 
-  bool Key(const Ch* str, SizeType len, bool copy) {
+  bool Key(const Ch* str, SizeType len, bool) {
     switch (state_) {
       case kRoot:
         if (len == sizeof("coordinates") - 1 && memcmp(str, "coordinates", sizeof("coordinates") - 1) == 0)
@@ -88,7 +94,7 @@ public:
   bool EndArray(SizeType len) {
     switch (state_) {
       case kCoordinatesArray:
-        callback_(coordinate_t(x_ / len, y_ / len, z_ / len));
+        callback_(coordinate_t{x_ / len, y_ / len, z_ / len});
         state_ = kCoordinates;
         break;
 
@@ -134,7 +140,7 @@ void calc(stringstream& ss, const TCallback& callback) {
 }
 
 int main() {
-  auto right = coordinate_t(2.0, 0.5, 0.25);
+  auto right = coordinate_t{2.0, 0.5, 0.25};
   for (auto v : {
           "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
           "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"}) {
@@ -157,7 +163,7 @@ int main() {
   const string suffix = "";
 #endif
 
-  notify_with_pid(str(boost::format("C++/g++ (RapidJSON SAX%s)") % suffix).c_str());
+  notify_with_pid(str(boost::format("C++/" COMPILER " (RapidJSON SAX%s)") % suffix).c_str());
   calc(ss, [](const coordinate_t& results) {
     notify("stop");
 
