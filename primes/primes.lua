@@ -132,12 +132,14 @@ local function generate_trie(l)
   local root = Node()
   for _, el in ipairs(l) do
     local head = root
-    for ch in tostring(el):gmatch"." do
+    local str = tostring(el)
+    for i = 1, #str do
+      local ch = str:sub(i, i)
       if not head.children[ch] then
         head.children[ch] = Node()
       end
       head = head.children[ch]
-      end
+    end
     head.terminal = true
   end
   return root
