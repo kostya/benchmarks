@@ -23,7 +23,7 @@ fn notify(msg: []const u8) void {
     } else |_| {}
 }
 
-fn readFile(alloc: *std.mem.Allocator, filename: []const u8) ![]const u8 {
+fn readFile(alloc: std.mem.Allocator, filename: []const u8) ![]const u8 {
     const file = try std.fs.cwd().openFile(filename, std.fs.File.OpenFlags{});
     defer file.close();
 
@@ -33,7 +33,7 @@ fn readFile(alloc: *std.mem.Allocator, filename: []const u8) ![]const u8 {
     return text;
 }
 
-fn calc(alloc: *std.mem.Allocator, text: []const u8) Coordinate {
+fn calc(alloc: std.mem.Allocator, text: []const u8) Coordinate {
     var stream = std.json.TokenStream.init(text);
     const opts = std.json.ParseOptions{
         .allocator = alloc,
@@ -56,7 +56,7 @@ fn calc(alloc: *std.mem.Allocator, text: []const u8) Coordinate {
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.c_allocator);
     defer arena.deinit();
-    var alloc: *std.mem.Allocator = &arena.allocator;
+    const alloc = arena.allocator();
 
     const right = Coordinate{ .x = 2.0, .y = 0.5, .z = 0.25 };
     const vals = [_][]const u8{

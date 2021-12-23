@@ -15,10 +15,7 @@ const Printer = struct {
     quiet: bool,
 
     fn init(args: anytype) Printer {
-        return Printer {
-            .stdout = if (!args.quiet) std.io.getStdOut().writer() else undefined,
-            .quiet = args.quiet
-        };
+        return Printer{ .stdout = if (!args.quiet) std.io.getStdOut().writer() else undefined, .quiet = args.quiet };
     }
 
     fn print(self: *Printer, n: i32) void {
@@ -39,7 +36,7 @@ const Tape = struct {
     pos: usize = 0,
     tape: std.ArrayList(i32),
 
-    fn init(alloc: *std.mem.Allocator) Tape {
+    fn init(alloc: std.mem.Allocator) Tape {
         var self = Tape{ .tape = std.ArrayList(i32).init(alloc) };
         self.tape.append(0) catch unreachable;
         return self;
@@ -86,9 +83,9 @@ const StrIterator = struct {
 const Program = struct {
     ops: Ops,
     p: *Printer,
-    a: *std.mem.Allocator,
+    a: std.mem.Allocator,
 
-    fn init(alloc: *std.mem.Allocator, code: []const u8, printer: *Printer) Program {
+    fn init(alloc: std.mem.Allocator, code: []const u8, printer: *Printer) Program {
         return Program{
             .ops = parse(alloc, &StrIterator{ .text = code }),
             .p = printer,
@@ -101,16 +98,30 @@ const Program = struct {
         self._run(&self.ops, &tape);
     }
 
-    fn parse(alloc: *std.mem.Allocator, iter: *StrIterator) Ops {
+    fn parse(alloc: std.mem.Allocator, iter: *StrIterator) Ops {
         var res: Ops = Ops.init(alloc);
         while (iter.next()) |value| {
             switch (value) {
-                '+' => res.append(Op{.op = OpType.INC, .val = 1,}) catch unreachable,
-                '-' => res.append(Op{.op = OpType.INC, .val = -1,}) catch unreachable,
-                '>' => res.append(Op{.op = OpType.MOVE, .val = 1,}) catch unreachable,
-                '<' => res.append(Op{.op = OpType.MOVE, .val = -1,}) catch unreachable,
-                '.' => res.append(Op{.op = OpType.PRINT,}) catch unreachable,
-                '[' => res.append(Op{.op = OpType.LOOP, .loop = parse(alloc, iter)}) catch unreachable,
+                '+' => res.append(Op{
+                    .op = OpType.INC,
+                    .val = 1,
+                }) catch unreachable,
+                '-' => res.append(Op{
+                    .op = OpType.INC,
+                    .val = -1,
+                }) catch unreachable,
+                '>' => res.append(Op{
+                    .op = OpType.MOVE,
+                    .val = 1,
+                }) catch unreachable,
+                '<' => res.append(Op{
+                    .op = OpType.MOVE,
+                    .val = -1,
+                }) catch unreachable,
+                '.' => res.append(Op{
+                    .op = OpType.PRINT,
+                }) catch unreachable,
+                '[' => res.append(Op{ .op = OpType.LOOP, .loop = parse(alloc, iter) }) catch unreachable,
                 ']' => return res,
                 else => continue,
             }
@@ -138,7 +149,7 @@ fn notify(msg: []const u8) void {
     } else |_| {}
 }
 
-fn readFile(alloc: *std.mem.Allocator, filename: []const u8) ![]const u8 {
+fn readFile(alloc: std.mem.Allocator, filename: []const u8) ![]const u8 {
     const file = try std.fs.cwd().openFile(filename, std.fs.File.OpenFlags{});
     defer file.close();
 
@@ -148,17 +159,17 @@ fn readFile(alloc: *std.mem.Allocator, filename: []const u8) ![]const u8 {
     return text;
 }
 
-fn verify(alloc: *std.mem.Allocator) void {
+fn verify(alloc: std.mem.Allocator) void {
     const text =
         \\++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
         \\---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
     ;
 
-    var p_left = Printer.init(.{.quiet = true});
+    var p_left = Printer.init(.{ .quiet = true });
     Program.init(alloc, text, &p_left).run();
     const left = p_left.getChecksum();
 
-    var p_right = Printer.init(.{.quiet = true});
+    var p_right = Printer.init(.{ .quiet = true });
     for ("Hello World!\n") |c| {
         p_right.print(c);
     }
@@ -172,10 +183,10 @@ fn verify(alloc: *std.mem.Allocator) void {
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.c_allocator);
     defer arena.deinit();
-    var alloc: *std.mem.Allocator = &arena.allocator;
+    const alloc = arena.allocator();
 
     verify(alloc);
-    var p = Printer.init(.{.quiet = std.os.getenv("QUIET") != null});
+    var p = Printer.init(.{ .quiet = std.os.getenv("QUIET") != null });
 
     var arg_iter = std.process.args();
     _ = arg_iter.skip(); // Skip binary name

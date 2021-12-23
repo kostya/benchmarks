@@ -8,7 +8,7 @@ const Node = struct {
     children: std.AutoArrayHashMap(u8, *Node),
     terminal: bool = false,
 
-    fn init(alloc: *std.mem.Allocator) Node {
+    fn init(alloc: std.mem.Allocator) Node {
         return Node{
             .children = std.AutoArrayHashMap(u8, *Node).init(alloc),
         };
@@ -19,15 +19,15 @@ const Sieve = struct {
     limit: i32,
     prime: std.DynamicBitSet,
 
-    fn init(alloc: *std.mem.Allocator, limit: i32) Sieve {
+    fn init(alloc: std.mem.Allocator, limit: i32) Sieve {
         var self = Sieve{
             .limit = limit,
-            .prime = std.DynamicBitSet.initEmpty(@intCast(usize, limit + 1), alloc) catch unreachable,
+            .prime = std.DynamicBitSet.initEmpty(alloc, @intCast(usize, limit + 1)) catch unreachable,
         };
         return self;
     }
 
-    fn toList(self: *Sieve, alloc: *std.mem.Allocator) std.ArrayList(i32) {
+    fn toList(self: *Sieve, alloc: std.mem.Allocator) std.ArrayList(i32) {
         var result = std.ArrayList(i32).init(alloc);
         result.appendSlice(&.{ 2, 3 }) catch unreachable;
 
@@ -96,7 +96,7 @@ const Sieve = struct {
     }
 };
 
-fn generateTrie(alloc: *std.mem.Allocator, l: std.ArrayList(i32)) *Node {
+fn generateTrie(alloc: std.mem.Allocator, l: std.ArrayList(i32)) *Node {
     var root: *Node = alloc.create(Node) catch unreachable;
     root.* = Node.init(alloc);
     for (l.items) |el| {
@@ -115,7 +115,7 @@ fn generateTrie(alloc: *std.mem.Allocator, l: std.ArrayList(i32)) *Node {
     return root;
 }
 
-fn find(alloc: *std.mem.Allocator, upper_bound: i32, prefix: i32) std.ArrayList(i32) {
+fn find(alloc: std.mem.Allocator, upper_bound: i32, prefix: i32) std.ArrayList(i32) {
     const primes = Sieve.init(alloc, upper_bound).calc();
     const str_prefix = std.fmt.allocPrint(alloc, "{}", .{prefix}) catch unreachable;
     var head = generateTrie(alloc, primes.toList(alloc));
@@ -164,7 +164,7 @@ fn notify(msg: []const u8) void {
     } else |_| {}
 }
 
-fn verify(alloc: *std.mem.Allocator) !void {
+fn verify(alloc: std.mem.Allocator) !void {
     const left = [_]i32{ 2, 23, 29 };
     const right = find(alloc, 100, 2).toOwnedSlice();
 
@@ -179,7 +179,7 @@ fn verify(alloc: *std.mem.Allocator) !void {
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.c_allocator);
     defer arena.deinit();
-    var alloc: *std.mem.Allocator = &arena.allocator;
+    const alloc = arena.allocator();
 
     try verify(alloc);
 

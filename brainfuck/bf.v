@@ -60,8 +60,8 @@ fn (mut t Tape) move(x int) {
 struct Printer {
 	quiet bool
 mut:
-	sum1 int
-	sum2 int
+	sum1 u32
+	sum2 u32
 }
 
 fn new_printer(quiet bool) Printer {
@@ -73,16 +73,17 @@ fn new_printer(quiet bool) Printer {
 }
 
 fn (mut p Printer) print(n int) {
+	b := byte(n)
 	if p.quiet {
-		p.sum1 = (p.sum1 + n) % 255
+		p.sum1 = (p.sum1 + b) % 255
 		p.sum2 = (p.sum2 + p.sum1) % 255
 	} else {
-		print(byte(n).ascii_str())
+		print(b.ascii_str())
 		os.flush()
 	}
 }
 
-fn (p Printer) get_checksum() int {
+fn (p Printer) get_checksum() u32 {
 	return (p.sum2 << 8) | p.sum1
 }
 

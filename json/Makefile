@@ -58,9 +58,9 @@ executables := \
 	target/json_v_clang \
 	target/json_vala_gcc \
 	target/json_vala_clang \
-	json-fsharp/target/Release/net5.0/json-fsharp \
-	target/Release/net5.0/json \
-	json-core/target/Release/net5.0/json-core \
+	json-fsharp/target/Release/net6.0/json-fsharp \
+	target/Release/net6.0/json \
+	json-core/target/Release/net6.0/json-core \
 	target/json_zig
 
 artifacts := $(executables) \
@@ -148,16 +148,16 @@ target/json_go_gccgo: test.go | $(gofmt)
 
 # NOTE: quite time consuming
 # TODO: switch to Debian package as soon as they update to 1.75.0
-# https://packages.debian.org/bullseye/libboost-dev
+# https://packages.debian.org/bookworm/libboost-dev
 
 # Boost releases:
 # https://www.boost.org/users/download/
-BOOST_VERSION := boost_1_77_0
+BOOST_VERSION := boost_1_78_0
 boost = target/$(BOOST_VERSION)
 $(boost): | target
 	cd target && \
 	wget --progress=dot:giga -O - \
-	https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/$(BOOST_VERSION).tar.bz2 \
+	https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/$(BOOST_VERSION).tar.bz2 \
 	| tar -xj
 
 nlohmann_json := target/nlohmann_json
@@ -281,12 +281,12 @@ $(newtonsoft_json): | target
 target/test.exe: test.cs | $(newtonsoft_json)
 	$(MCS_BUILD) -r:$(newtonsoft_json)
 
-.PHONY: target/Release/net5.0/json
-target/Release/net5.0/json: json.csproj | target
+.PHONY: target/Release/net6.0/json
+target/Release/net6.0/json: json.csproj | target
 	$(DOTNET_BUILD)
 
-.PHONY: json-core/target/Release/net5.0/json-core
-json-core/target/Release/net5.0/json-core: json-core/json-core.csproj
+.PHONY: json-core/target/Release/net6.0/json-core
+json-core/target/Release/net6.0/json-core: json-core/json-core.csproj
 	$(DOTNET_BUILD)
 
 .PHONY: target/json_hs
@@ -320,7 +320,7 @@ json-iterator:
 target/json_iter_go: test_jsoniter.go | json-iterator
 	$(GO_BUILD)
 
-json-fsharp/target/Release/net5.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
+json-fsharp/target/Release/net6.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
 	$(DOTNET_BUILD)
 
 target/json_zig: test.zig | target

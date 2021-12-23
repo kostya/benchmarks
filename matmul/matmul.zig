@@ -1,7 +1,7 @@
 const std = @import("std");
 const unistd = @cImport(@cInclude("unistd.h"));
 
-fn matInit(alloc: *std.mem.Allocator, x: usize, y: usize) [][]f64 {
+fn matInit(alloc: std.mem.Allocator, x: usize, y: usize) [][]f64 {
     var mat: [][]f64 = alloc.alloc([]f64, x) catch unreachable;
     for (mat) |*row| {
         row.* = alloc.alloc(f64, y) catch unreachable;
@@ -10,7 +10,7 @@ fn matInit(alloc: *std.mem.Allocator, x: usize, y: usize) [][]f64 {
     return mat;
 }
 
-fn matGen(alloc: *std.mem.Allocator, n: usize, seed: f64) [][]f64 {
+fn matGen(alloc: std.mem.Allocator, n: usize, seed: f64) [][]f64 {
     var mat: [][]f64 = matInit(alloc, n, n);
     const tmp = seed / @intToFloat(f64, n) / @intToFloat(f64, n);
 
@@ -23,7 +23,7 @@ fn matGen(alloc: *std.mem.Allocator, n: usize, seed: f64) [][]f64 {
     return mat;
 }
 
-fn matMul(alloc: *std.mem.Allocator, a: [][]f64, b: [][]f64) [][]f64 {
+fn matMul(alloc: std.mem.Allocator, a: [][]f64, b: [][]f64) [][]f64 {
     const m = a.len;
     const n = a[0].len;
     const p = b[0].len;
@@ -62,7 +62,7 @@ fn notify(msg: []const u8) void {
     } else |_| {}
 }
 
-fn calc(alloc: *std.mem.Allocator, n: usize) f64 {
+fn calc(alloc: std.mem.Allocator, n: usize) f64 {
     const size: usize = @divTrunc(n, 2) * @as(usize, 2);
     const a = matGen(alloc, size, 1.0);
     const b = matGen(alloc, size, 2.0);
@@ -74,7 +74,7 @@ fn calc(alloc: *std.mem.Allocator, n: usize) f64 {
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.c_allocator);
     defer arena.deinit();
-    var alloc: *std.mem.Allocator = &arena.allocator;
+    const alloc = arena.allocator();
 
     var arg_iter = std.process.args();
     _ = arg_iter.skip(); // Skip binary name
@@ -85,7 +85,7 @@ pub fn main() !void {
     const left = calc(alloc, 101);
     const right = -18.67;
     if (std.math.absFloat(left - right) > 0.1) {
-        std.debug.panic("{d} != {d}\n", .{left, right});
+        std.debug.panic("{d} != {d}\n", .{ left, right });
     }
 
     const pid = unistd.getpid();
