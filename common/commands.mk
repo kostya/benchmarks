@@ -10,7 +10,7 @@ V_FLAGS := -prod
 ZIG_FLAGS := -O ReleaseFast
 
 CLANG_BUILD =		clang $(CLANG_FLAGS) -std=c17 -o $@ $^ $(LIBNOTIFY_FLAGS)
-CLANG_CPP_BUILD =	clang++ $(CLANG_FLAGS) -std=c++20 -o $@ $^ $(LIBNOTIFY_FLAGS)
+CLANG_CPP_BUILD =	clang++ $(CLANG_FLAGS) -std=c++20 -stdlib=libc++ -o $@ $^ $(LIBNOTIFY_FLAGS)
 CRYSTAL_BUILD =	crystal build --release --no-debug -o $@ $^
 DMD_BUILD =		dmd -of$@ -O -release -inline -boundscheck=off $^
 DOTNET_BUILD =		dotnet build --nologo -v q $< -c Release

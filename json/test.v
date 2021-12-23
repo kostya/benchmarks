@@ -45,8 +45,7 @@ fn calc(s string) Coordinate {
 fn main() {
 	right := Coordinate{2.0, 0.5, 0.25}
 	for v in ['{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}',
-		'{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}',
-	] {
+		'{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}'] {
 		left := calc(v)
 		if !left.equals(right) {
 			panic('$left != $right')

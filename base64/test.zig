@@ -12,7 +12,7 @@ fn notify(msg: []const u8) void {
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.c_allocator);
     defer arena.deinit();
-    var alloc: *std.mem.Allocator = &arena.allocator;
+    const alloc = arena.allocator();
 
     const b64 = std.base64.standard;
     const fixtures: [2]struct { src: []const u8, dst: []const u8 } = .{
@@ -46,7 +46,7 @@ pub fn main() !void {
     b64.Decoder.decode(str3, str2) catch unreachable;
 
     var buffer = try alloc.alloc(u8, std.math.max(encodeSize, decodeSize));
-    const fb_alloc = &std.heap.FixedBufferAllocator.init(buffer).allocator;
+    const fb_alloc = std.heap.FixedBufferAllocator.init(buffer).allocator();
 
     const pid = unistd.getpid();
     const pid_str = try std.fmt.allocPrint(alloc, "Zig\t{d}", .{pid});
