@@ -439,7 +439,7 @@ Run the image:
 
     $ docker run -it --rm -v $(pwd):/src benchmarks <cmd>
 
-where <cmd> is:
+where `<cmd>` is:
 
  - `versions` (print installed language versions);
  - `shell` (start the shell);
