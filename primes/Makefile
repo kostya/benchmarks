@@ -6,6 +6,8 @@ executables := \
 	target/primes_cpp_clang \
 	target/primes_rs \
 	target/primes_cr \
+	target/primes_v_gcc \
+	target/primes_v_clang \
 	target/primes_zig
 
 artifacts := $(executables) \
@@ -48,6 +50,12 @@ target/primes_cpp_clang: primes.cpp | target libnotify
 
 target/primes_cr: primes.cr | target
 	$(CRYSTAL_BUILD)
+
+target/primes_v_gcc: primes.v | $(v_fmt)
+	$(V_GCC_BUILD)
+
+target/primes_v_clang: primes.v | $(v_fmt)
+	$(V_CLANG_BUILD)
 
 target/primes_zig: primes.zig | target
 	$(ZIG_BUILD)
