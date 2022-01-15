@@ -7,7 +7,7 @@ const (
 
 struct Node {
 mut:
-	children map[rune]&Node
+	children map[byte]&Node
 	terminal bool
 }
 
@@ -19,7 +19,7 @@ mut:
 
 fn (s Sieve) to_list() []usize {
 	mut result := [usize(2), 3]
-	for p in 5 .. s.limit + 1 {
+	for p := usize(5); p <= s.limit; p++ {
 		if s.prime[p] {
 			result << p
 		}
@@ -81,7 +81,7 @@ fn generate_trie(l []usize) Node {
 	mut root := Node{}
 	for el in l {
 		mut head := &root
-		for ch in el.str().runes() {
+		for ch in el.str().bytes() {
 			if ch !in head.children {
 				head.children[ch] = &Node{}
 			}
@@ -102,7 +102,7 @@ fn find(upper_bound usize, prefix int) []int {
 	primes.calc()
 	str_prefix := prefix.str()
 	mut head := generate_trie(primes.to_list())
-	for ch in str_prefix.runes() {
+	for ch in str_prefix.bytes() {
 		head = *head.children[ch]
 	}
 	mut queue := []Pair{}
@@ -114,7 +114,7 @@ fn find(upper_bound usize, prefix int) []int {
 			result << pair.p_prefix.int()
 		}
 		for ch, v in pair.children {
-			queue.insert(0, Pair{v, pair.p_prefix + ch.str()})
+			queue.insert(0, Pair{v, pair.p_prefix + ch.ascii_str()})
 		}
 	}
 	return result
