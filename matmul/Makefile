@@ -147,10 +147,10 @@ $(eigen): | target
 	$(GIT_CLONE) "https://gitlab.com/libeigen/eigen.git" $@
 
 target/matmul_cpp_gcc: matmul.cpp | $(eigen) libnotify
-	$(GCC_CPP_BUILD) -I$(eigen)
+	$(GCC_CPP_BUILD) -I$(eigen) -fopenmp
 
 target/matmul_cpp_clang: matmul.cpp | $(eigen) libnotify
-	$(CLANG_CPP_BUILD) -I$(eigen)
+	$(CLANG_CPP_BUILD) -I$(eigen) -fopenmp
 
 target/matmul_zig: matmul.zig | target
 	$(ZIG_BUILD)
