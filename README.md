@@ -307,13 +307,13 @@ Testing allocating and multiplying matrices.
 |                 Language |                   Time, s |                                       Memory, MiB |                  Energy, J |
 | :----------------------- | ------------------------: | ------------------------------------------------: | -------------------------: |
 |          D/ldc2 (lubeck) |    0.076<sub>±0.001</sub> |    7.06<sub>±00.03</sub> + 55.93<sub>±00.22</sub> |      4.41<sub>±00.04</sub> |
+|          C++/g++ (Eigen) |    0.077<sub>±0.004</sub> |   38.41<sub>±00.55</sub> + 51.48<sub>±00.64</sub> |      2.95<sub>±00.18</sub> |
+|      C++/clang++ (Eigen) |    0.100<sub>±0.006</sub> |    4.47<sub>±00.04</sub> + 86.00<sub>±00.03</sub> |      4.98<sub>±00.31</sub> |
 |           Python (NumPy) |    0.101<sub>±0.002</sub> |   28.12<sub>±00.09</sub> + 57.62<sub>±00.04</sub> |      5.72<sub>±00.14</sub> |
 |              Java (ND4J) |    0.105<sub>±0.003</sub> |  146.61<sub>±01.21</sub> + 90.75<sub>±00.04</sub> |      4.74<sub>±00.37</sub> |
 |  Nim/clang (Arraymancer) |    0.107<sub>±0.013</sub> |    6.61<sub>±00.10</sub> + 55.50<sub>±00.28</sub> |      5.79<sub>±00.64</sub> |
 |    Nim/gcc (Arraymancer) |    0.132<sub>±0.014</sub> |    5.85<sub>±00.26</sub> + 55.81<sub>±00.50</sub> |      6.95<sub>±00.64</sub> |
 |       Julia (threads: 8) |    0.166<sub>±0.003</sub> |  234.35<sub>±00.27</sub> + 48.42<sub>±00.59</sub> |      9.23<sub>±00.32</sub> |
-|      C++/clang++ (Eigen) |    0.197<sub>±0.006</sub> |    3.63<sub>±00.04</sub> + 85.26<sub>±00.00</sub> |      4.69<sub>±00.37</sub> |
-|          C++/g++ (Eigen) |    0.201<sub>±0.004</sub> |    3.88<sub>±00.02</sub> + 85.26<sub>±00.00</sub> |      4.16<sub>±00.19</sub> |
 |       Julia (threads: 1) |    0.225<sub>±0.007</sub> |  234.62<sub>±00.21</sub> + 48.99<sub>±00.98</sub> |      4.91<sub>±00.34</sub> |
 |          Julia (no BLAS) |    1.210<sub>±0.046</sub> |  224.72<sub>±00.09</sub> + 51.37<sub>±00.07</sub> |     35.44<sub>±01.15</sub> |
 |                   D/ldc2 |    1.961<sub>±0.007</sub> |    3.71<sub>±00.02</sub> + 70.13<sub>±00.00</sub> |     44.42<sub>±00.76</sub> |
