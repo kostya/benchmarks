@@ -39,15 +39,15 @@ string read_file(const string& filename) {
 coordinate_t calc(const string& text) {
   auto x = 0.0, y = 0.0, z = 0.0;
   auto len = 0;
-
-  auto jv = boost::json::parse(text);
+  auto mr = boost::json::monotonic_resource();
+  auto jv = boost::json::parse(text, &mr);
   auto &obj = jv.get_object();
-  for (auto& v: obj["coordinates"].get_array()) {
+  for (auto& v: obj.at("coordinates").get_array()) {
     len += 1;
     auto& coord = v.get_object();
-    x += coord["x"].get_double();
-    y += coord["y"].get_double();
-    z += coord["z"].get_double();
+    x += coord.at("x").get_double();
+    y += coord.at("y").get_double();
+    z += coord.at("z").get_double();
   }
 
   return coordinate_t{x / len, y / len, z / len};
