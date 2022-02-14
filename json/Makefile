@@ -23,6 +23,8 @@ executables := \
 	target/json_nim_clang \
 	target/packedjson_nim_gcc \
 	target/packedjson_nim_clang \
+	target/jsony_nim_gcc \
+	target/jsony_nim_clang \
 	target/json_go \
 	target/json_go_gccgo \
 	target/json_iter_go \
@@ -138,6 +140,16 @@ target/packedjson_nim_gcc: test_packedjson.nim | target packedjson
 	$(NIM_GCC_BUILD)
 
 target/packedjson_nim_clang: test_packedjson.nim | target packedjson
+	$(NIM_CLANG_BUILD)
+
+.PHONY: jsony
+jsony:
+	nimble -y install jsony
+
+target/jsony_nim_gcc: test_jsony.nim | target jsony
+	$(NIM_GCC_BUILD)
+
+target/jsony_nim_clang: test_jsony.nim | target jsony
 	$(NIM_CLANG_BUILD)
 
 target/json_go: test.go | $(gofmt)
