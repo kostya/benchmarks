@@ -245,7 +245,9 @@ have some inaccuracies in number parsing:
 |     C++/clang++ (RapidJSON Precise) |  0.453<sub>±0.017</sub> |  112.52<sub>±00.08</sub> + 129.02<sub>±00.03</sub> |   8.94<sub>±00.66</sub> |
 |                C++/g++ (Boost.JSON) |  0.511<sub>±0.011</sub> |  113.25<sub>±00.05</sub> + 435.82<sub>±00.06</sub> |  10.74<sub>±00.72</sub> |
 |             C++/g++ (RapidJSON SAX) |  0.536<sub>±0.008</sub> |    112.97<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |  12.05<sub>±00.49</sub> |
+|                   Nim/clang (jsony) |  0.556<sub>±0.001</sub> |   112.05<sub>±00.04</sub> + 42.34<sub>±00.06</sub> |  10.40<sub>±00.15</sub> |
 |            C++/clang++ (Boost.JSON) |  0.563<sub>±0.020</sub> |  112.47<sub>±00.04</sub> + 436.28<sub>±00.03</sub> |  11.59<sub>±00.66</sub> |
+|                     Nim/gcc (jsony) |  0.570<sub>±0.001</sub> |   111.56<sub>±00.06</sub> + 42.34<sub>±00.06</sub> |  11.10<sub>±00.13</sub> |
 |         C++/clang++ (RapidJSON SAX) |  0.598<sub>±0.017</sub> |    194.74<sub>±00.07</sub> + 0.00<sub>±00.00</sub> |  10.97<sub>±00.44</sub> |
 |     C++/g++ (RapidJSON SAX Precise) |  0.644<sub>±0.018</sub> |    112.98<sub>±00.08</sub> + 0.00<sub>±00.00</sub> |  12.37<sub>±01.17</sub> |
 |                       Go (jsoniter) |  0.646<sub>±0.009</sub> |   231.06<sub>±00.07</sub> + 13.54<sub>±00.62</sub> |  14.83<sub>±00.36</sub> |
