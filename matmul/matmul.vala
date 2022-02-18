@@ -16,7 +16,7 @@ class Prog
 			// standalone usage
 		}
 	}
-	
+
     static double[,] MatGen(int n, double seed)
     {
         var tmp = seed / n / n;
@@ -58,10 +58,10 @@ class Prog
         var a = MatGen(n, 1.0);
         var b = MatGen(n, 2.0);
         var x = MatMul(ref a, ref b);
-        
+
         return x[n / 2, n / 2];
     }
-    
+
     static void main(string[] args)
     {
         var n = (args.length > 1) ? (int.parse(args[1])) : 100;
@@ -72,9 +72,9 @@ class Prog
             stderr.printf(@"$(left) != $(right)");
             Process.exit(1);
         }
-		
+
 		var msg = "Vala/";
-		
+
 		#if GCC_TEST
 			msg += "gcc";
 		#elif CLANG_TEST
@@ -83,13 +83,13 @@ class Prog
 			// The preprocessor directive for the test should be specified
 			Process.exit(-1);
 		#endif
-		msg += @"\t $((uint16)Posix.getpid())";
+		msg += @"\t $((int)Posix.getpid())";
 
 		notify(msg);
-		
+
         var timer = new Timer();
         var results = Calc(n);
-        
+
         timer.stop();
 
         notify("stop");
@@ -99,4 +99,3 @@ class Prog
     }
 
 }
-

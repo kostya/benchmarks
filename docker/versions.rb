@@ -28,7 +28,7 @@ LANGS = {
     line = `ldc2 -v -X -Xf=#{cat('ldc.json')} -Xi=compilerInfo`.split("\n")[1]
     line.match(/version\s+(.*)\s+\(/)[1]
   end,
-  'Swift' => -> { `swift --version`.split("\n")[0].match(/\((.*)\)/)[1] },
+  'Swift' => -> { `swift --version`.split("\n")[0].split[2] },
   'MLton' => -> { `mlton`.split[1] },
   'F#/.NET Core' => lambda do
     fsharpc = File.join(dotnet_base_path, 'FSharp', 'fsc.dll')
@@ -113,8 +113,8 @@ LANGS = {
   end,
   'PHP' => -> { `php -r "echo phpversion();"` },
   'Elixir' => -> { `elixir -e "IO.puts System.version"` },
-  'Lua' => -> { `lua -e "print(_VERSION)"` },
-  'Lua/luajit' => -> { `luajit -e "print(jit.version)"` },
+  'Lua' => -> { `lua -v`.split[1] },
+  'Lua/luajit' => -> { `luajit -v`.split[1] },
   'OCaml' => -> { `ocaml -vnum` },
   'Racket' => -> { `racket -e "(version)"` },
   'Chez Scheme' => -> { `scheme --version 2>&1` },
