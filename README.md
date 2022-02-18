@@ -43,7 +43,7 @@ The measured values are:
 
  - time spent for the benchmark execution (loading required data and code self-testing are not measured);
  - memory consumption of the benchmark process, reported as `base` + `increase`, where `base` is the RSS before the benchmark and `increase` is the peak increase of the RSS during the benchmark;
- - energy consumption of the CPU (PP0 package) during the benchmark.
+ - energy consumption of the CPU package during the benchmark: PP0 (cores) + PP1 (uncores like GPU) + DRAM.
 
 All values are presented as: `median`<sub>±`median absolute deviation`</sub>.
 
