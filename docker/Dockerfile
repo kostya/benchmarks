@@ -41,9 +41,9 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/mlton-$MLTON-1.amd64-linux-glibc2.31/bin/:${PATH}"
 
 # https://www.ruby-lang.org/en/downloads/
-RUN export VERSION=ruby-3.0.3 \
+RUN export VERSION=ruby-3.1.0 \
 	&& wget --progress=dot:giga -O - \
-	https://cache.ruby-lang.org/pub/ruby/3.0/$VERSION.tar.gz \
+	https://cache.ruby-lang.org/pub/ruby/3.1/$VERSION.tar.gz \
 	| tar -xz \
 	&& cd $VERSION \
 	&& ./configure --prefix=/opt/ruby && make -j && make install \
@@ -59,35 +59,35 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/$PYPY/bin:${PATH}"
 
 # https://www.scala-lang.org/download/
-ARG SCALA=3.1.0
+ARG SCALA=3.1.1
 RUN wget --progress=dot:giga -O - \
     https://github.com/lampepfl/dotty/releases/download/$SCALA/scala3-$SCALA.tar.gz \
     | tar -xz
 ENV PATH="/opt/scala3-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=17.0.1
+ARG JDK=17.0.2
 RUN wget --progress=dot:giga -O - \
-    https://download.java.net/java/GA/jdk17.0.1/2a2082e5a09d4267845be086888add4f/12/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
+    https://download.java.net/java/GA/jdk17.0.2/dfd4a8d0985749f896bed50d7138ee7f/8/GPL/openjdk-${JDK}_linux-x64_bin.tar.gz \
     | tar -xz
 ENV PATH="/opt/jdk-$JDK/bin:${PATH}"
 
 # https://github.com/crystal-lang/crystal/releases
-ARG CRYSTAL=crystal-1.2.2-1
+ARG CRYSTAL=crystal-1.3.2-1
 RUN wget --progress=dot:giga -O - \
-	https://github.com/crystal-lang/crystal/releases/download/1.2.2/$CRYSTAL-linux-x86_64.tar.gz \
+	https://github.com/crystal-lang/crystal/releases/download/1.3.2/$CRYSTAL-linux-x86_64.tar.gz \
 	| tar -xz
 ENV PATH="/opt/$CRYSTAL/bin:${PATH}"
 
 # https://github.com/ldc-developers/ldc/releases
-ARG LDC=ldc2-1.28.0-linux-x86_64
+ARG LDC=ldc2-1.28.1-linux-x86_64
 RUN wget --progress=dot:giga -O - \
-	https://github.com/ldc-developers/ldc/releases/download/v1.28.0/$LDC.tar.xz \
+	https://github.com/ldc-developers/ldc/releases/download/v1.28.1/$LDC.tar.xz \
 	| tar -xJ
 ENV PATH="/opt/$LDC/bin/:${PATH}"
 
 # https://nim-lang.org/install_unix.html
-ARG NIM=nim-1.6.2
+ARG NIM=nim-1.6.4
 RUN wget --progress=dot:giga -O - \
 	https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
 	| tar -xJ
@@ -100,30 +100,30 @@ RUN wget --progress=dot:giga -O - \
 ENV PATH="/opt/dmd2/linux/bin64/:${PATH}"
 
 # https://www.jruby.org/download
-ARG JRUBY=9.3.2.0
+ARG JRUBY=9.3.3.0
 RUN wget --progress=dot:giga -O - \
 	https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
 	| tar -xz \
 	&& ln -s /opt/jruby-$JRUBY/bin/jruby /usr/bin/jruby
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.7.0
+ARG JULIA=julia-1.7.2
 RUN wget --progress=dot:giga -O - \
 	https://julialang-s3.julialang.org/bin/linux/x64/1.7/$JULIA-linux-x86_64.tar.gz \
 	| tar -xz
 ENV PATH="/opt/$JULIA/bin/:${PATH}"
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.5.2-RELEASE-ubuntu20.04
+ARG SWIFT=swift-5.5.3-RELEASE-ubuntu20.04
 RUN wget --progress=dot:giga -O - \
-	https://swift.org/builds/swift-5.5.2-release/ubuntu2004/swift-5.5.2-RELEASE/$SWIFT.tar.gz \
+	https://swift.org/builds/swift-5.5.3-release/ubuntu2004/swift-5.5.3-RELEASE/$SWIFT.tar.gz \
 	| tar -xz \
 	&& ln -s /opt/$SWIFT/usr/bin/swift /usr/bin/swift \
     && ln -s /opt/$SWIFT/usr/bin/swiftc /usr/bin/swiftc
 ENV LD_LIBRARY_PATH=/opt/$SWIFT/usr/lib/swift/linux:$LD_LIBRARY_PATH
 
 # https://clojure.org/community/downloads
-ARG CLOJURE=1.10.3.1040
+ARG CLOJURE=1.10.3.1075
 RUN wget --progress=dot:giga -O - \
 	https://download.clojure.org/install/linux-install-$CLOJURE.sh \
 	| bash -s
@@ -146,7 +146,7 @@ RUN cabal update \
 ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
 
 # https://github.com/graalvm/graalvm-ce-builds/releases
-ARG GRAALVM=21.3.0
+ARG GRAALVM=22.0.0.2
 RUN wget --progress=dot:giga -O - \
 	https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-$GRAALVM/graalvm-ce-java17-linux-amd64-$GRAALVM.tar.gz \
 	| tar -xz \
@@ -157,14 +157,14 @@ RUN gu install ruby \
 
 # https://github.com/dotnet/core/tree/master/release-notes
 RUN mkdir dotnet && wget --progress=dot:giga -O - \
-    https://download.visualstudio.microsoft.com/download/pr/ede8a287-3d61-4988-a356-32ff9129079e/bdb47b6b510ed0c4f0b132f7f4ad9d5a/dotnet-sdk-6.0.101-linux-x64.tar.gz \
+    https://download.visualstudio.microsoft.com/download/pr/e7acb87d-ab08-4620-9050-b3e80f688d36/e93bbadc19b12f81e3a6761719f28b47/dotnet-sdk-6.0.102-linux-x64.tar.gz \
     | tar -xz -C dotnet
 ENV PATH="/opt/dotnet:${PATH}"
 ENV DOTNET_ROOT="/opt/dotnet"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v17.3.0
+ARG NODE=v17.5.0
 RUN wget --progress=dot:giga -O - \
 	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
 	| tar -xJ
@@ -172,7 +172,7 @@ ENV PATH="/opt/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN wget --progress=dot:giga -O - \
-    https://golang.org/dl/go1.17.5.linux-amd64.tar.gz \
+    https://go.dev/dl/go1.17.7.linux-amd64.tar.gz \
     | tar -xz
 ENV PATH="/opt/go/bin/:${PATH}"
 
@@ -194,14 +194,14 @@ RUN wget --progress=dot:giga \
 ENV PATH="/opt/kotlinc/bin/:${PATH}"
 
 # https://download.racket-lang.org/
-ARG RACKET=8.3
+ARG RACKET=8.4
 RUN wget --progress=dot:giga \
     https://www.cs.utah.edu/plt/installers/$RACKET/racket-$RACKET-x86_64-linux-cs.sh \
     && sh racket-$RACKET-x86_64-linux-cs.sh --unix-style --dest /usr/ \
     && rm racket-$RACKET-x86_64-linux-cs.sh
 
 # https://github.com/vlang/v/releases
-ARG VLANG=weekly.2021.51
+ARG VLANG=weekly.2022.07
 RUN wget --progress=dot:giga \
         https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
         && unzip v_linux.zip \
@@ -217,7 +217,7 @@ ENV PATH="/opt/$ZIG/:${PATH}"
 
 # Using more stable LuaJIT, used in Alpine and other distros
 # https://github.com/openresty/luajit2/tags
-RUN export VERSION=2.1-20211210 \
+RUN export VERSION=2.1-20220111 \
     && wget --progress=dot:giga -O - \
     https://github.com/openresty/luajit2/archive/refs/tags/v$VERSION.tar.gz \
     | tar -xz \

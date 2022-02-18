@@ -122,7 +122,7 @@ fun main(args: Array<String>) {
     val code = String(Files.readAllBytes(Paths.get(args[0])))
     val p = Printer(!System.getenv("QUIET").isNullOrEmpty())
 
-    notify("Kotlin\t${ProcessHandle.current().pid()}")
+    notify("Kotlin/JVM\t${ProcessHandle.current().pid()}")
     val startTime = System.currentTimeMillis()
     Program(code, p).run()
     val timeDiff = (System.currentTimeMillis() - startTime) / 1e3

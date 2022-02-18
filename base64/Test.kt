@@ -36,7 +36,7 @@ fun main() {
     val encStr = enc.encodeToString(str)
     val decBytes = dec.decode(encStr)
 
-    notify("Kotlin\t${ProcessHandle.current().pid()}")
+    notify("Kotlin/JVM\t${ProcessHandle.current().pid()}")
 
     var s_encoded = 0
     val t1 = System.nanoTime()

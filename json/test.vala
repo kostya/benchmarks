@@ -50,7 +50,7 @@ namespace Test
             }
             catch (Error e)
             {
-                
+
             }
 
             var arr = root.get_object().get_array_member("coordinates");
@@ -61,7 +61,7 @@ namespace Test
             int count = (int)arr.get_length();
 
             foreach(var cnode in arr.get_elements())
-            {   
+            {
                 var c = (Coordinate)Json.gobject_deserialize(typeof(Coordinate),cnode);
 
                 x += c.x;
@@ -93,10 +93,10 @@ namespace Test
             string_list.append("{\"coordinates\": [{\"x\": 2.0, \"y\": 0.5, \"z\": 0.25}]}");
             string_list.append("{\"coordinates\": [{\"y\": 0.5, \"x\": 2.0, \"z\": 0.25}]}");
 
-            foreach (var v in string_list) 
+            foreach (var v in string_list)
             {
                 var left = Calc(v);
-                if (!left.equal(right)) 
+                if (!left.equal(right))
                 {
                     stderr.printf(@"$(left) != $(right)");
                     Process.exit(1);
@@ -113,7 +113,7 @@ namespace Test
             {
 
             }
-            
+
             var msg = "Vala/";
             #if GCC_TEST
                 msg += "gcc";
@@ -123,12 +123,12 @@ namespace Test
                 // The preprocessor directive for the test should be specified
                 Process.exit(-1);
             #endif
-            msg += @"\t $((uint16)Posix.getpid())";
-            
+            msg += @"\t $((int)Posix.getpid())";
+
             notify(msg);
             var results = Calc(text);
             notify("stop");
-            
+
             stdout.printf(results.to_string()+"\n");
         }
     }

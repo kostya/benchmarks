@@ -20,7 +20,7 @@ void start() {
     // The preprocessor directive for the test should be specified
     Process.exit(-1);
 #endif
-    msg += @"\t $((uint16)Posix.getpid())";
+    msg += @"\t $((int)Posix.getpid())";
     notify(msg);
 }
 

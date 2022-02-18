@@ -76,7 +76,7 @@ fun main(args: Array<String>) {
         System.exit(1)
     }
 
-    notify("Kotlin\t${ProcessHandle.current().pid()}")
+    notify("Kotlin/JVM\t${ProcessHandle.current().pid()}")
     val start_time = System.currentTimeMillis()
     val results = calc(n)
     val elapsed = (System.currentTimeMillis() - start_time) / 1e3
