@@ -93,12 +93,12 @@ fn run(program: &[Op], tape: &mut Tape, p: &mut Printer) {
             Op::Inc => tape.inc(),
             Op::Prev => tape.prev(),
             Op::Next => tape.next(),
+            Op::Print => p.print(tape.get()),
             Op::Loop(program) => {
                 while tape.get() > 0 {
                     run(program, tape, p);
                 }
             }
-            Op::Print => p.print(tape.get()),
         }
     }
 }
@@ -149,22 +149,22 @@ fn verify() {
 
     let left = {
         let output = io::stdout();
-        let mut p_left = Printer::new(&output, true);
-        Program::new(S).run(&mut p_left);
-        p_left.get_checksum()
+        let mut p = Printer::new(&output, true);
+        Program::new(S).run(&mut p);
+        p.get_checksum()
     };
 
     let right = {
         let output = io::stdout();
-        let mut p_right = Printer::new(&output, true);
+        let mut p = Printer::new(&output, true);
         for &c in b"Hello World!\n" {
-            p_right.print(c as i32);
+            p.print(c as i32);
         }
-        p_right.get_checksum()
+        p.get_checksum()
     };
 
     if left != right {
-        eprintln!("{} != {}", left, right);
+        eprintln!("{left} != {right}");
         process::exit(-1);
     }
 }
@@ -175,7 +175,7 @@ fn main() {
     let output = io::stdout();
     let mut p = Printer::new(&output, env::var("QUIET").is_ok());
 
-    notify(&format!("Rust\t{}", process::id()));
+    notify(&format!("Rust\t{pid}", pid = process::id()));
     Program::new(&s).run(&mut p);
     notify("stop");
 
