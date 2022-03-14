@@ -4,7 +4,7 @@ GCC_FLAGS := $(COMMON_FLAGS)
 CLANG_FLAGS := $(COMMON_FLAGS)
 LIBNOTIFY_FLAGS := -I../common/libnotify ../common/libnotify/target/libnotify.a
 NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off --passC:"$(COMMON_FLAGS)" --passL:"-march=native -flto"
-RUSTC_FLAGS := -C opt-level=3 -C target-cpu=native -C llvm-args=--x86-branches-within-32B-boundaries -C panic=abort
+RUSTC_FLAGS := -C target-cpu=native -C llvm-args=--x86-branches-within-32B-boundaries
 VALAC_FLAGS := --disable-assert -X -O3 -X -march=native -X -flto -X -Wa,-mbranches-within-32B-boundaries --pkg gio-2.0 --pkg posix
 V_FLAGS := -prod
 ZIG_FLAGS := -O ReleaseFast
@@ -28,7 +28,7 @@ MCS_BUILD =		mcs -debug- -optimize+ -out:$@ $^
 MLTON_BUILD =		mlton -output $@ $^
 NIM_CLANG_BUILD =	nim c -o:$@ --cc:clang $(NIM_FLAGS) $^
 NIM_GCC_BUILD =	nim c -o:$@ --cc:gcc $(NIM_FLAGS) $^
-RUSTC_BUILD =		rustc $(RUSTC_FLAGS) -C lto -C codegen-units=1 -o $@ $^
+RUSTC_BUILD =		rustc $(RUSTC_FLAGS) -C opt-level=3 -C lto -C codegen-units=1 -C panic=abort -o $@ $^
 RUST_CLIPPY =		clippy-driver -o $@.clippy $^
 SWIFTC_BUILD =		swiftc -parse-as-library -Ounchecked -cross-module-optimization -o $@ $^
 SCALAC_BUILD =		scalac -release 17 -d $@ $^

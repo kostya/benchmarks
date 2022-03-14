@@ -6,6 +6,7 @@ edition = "2021"
 [profile.release]
 lto = true
 codegen-units = 1
+panic = "abort"
 
 [dependencies]
 base64 = "0.13.0"
