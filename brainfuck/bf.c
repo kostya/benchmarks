@@ -116,7 +116,6 @@ void print(struct printer *p, int n) {
     p->sum2 = (p->sum2 + p->sum1) % 255;
   } else {
     putc(n, stdout);
-    fflush(stdout);
   }
 }
 
@@ -185,8 +184,8 @@ void tape_grow(struct tape *tape)
   size_t new_cap = tape->cap << 1;
   tape->tape = realloc(tape->tape, sizeof(int) * new_cap);
 
-  for (size_t i = tape->cap; i < new_cap; i += 1)
-    tape->tape[i] = 0;
+  int *tape_end = tape->tape + tape->cap;
+  memset(tape_end, 0, sizeof(int) * tape->cap);
 
   tape->cap = new_cap;
 }
@@ -259,6 +258,7 @@ void verify() {
 int main(int argc, char *argv[]) {
   verify();
   struct printer p = {.sum1=0, .sum2=0, .quiet=getenv("QUIET") != NULL};
+  setbuf(stdout, NULL); // enable automatic flushing
 
   if (argc < 2) {
     fprintf(stderr, "Expected filename\n");
