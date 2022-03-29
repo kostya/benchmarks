@@ -4,6 +4,9 @@ MSIZE := 1500
 include ../common/commands.mk
 .DEFAULT_GOAL := build
 
+rust-ndarray-targets := \
+	rust-ndarray/target/release/rust-ndarray
+
 executables := \
 	target/matmul_nim_gcc \
 	target/matmul_nim_clang \
@@ -15,6 +18,7 @@ executables := \
 	target/matmul_c_gcc \
 	target/matmul_c_clang \
 	target/matmul_rs \
+	$(rust-ndarray-targets) \
 	target/matmul_swift \
 	target/matmul_d \
 	target/matmul_d_gdc \
@@ -69,6 +73,11 @@ target/matmul_go_gccgo: matmul.go | $(gofmt)
 target/matmul_rs: matmul.rs | $(rs_fmt)
 	$(RUST_CLIPPY)
 	$(RUSTC_BUILD)
+
+rust-ndarray-toml := rust-ndarray/Cargo.toml
+.PHONY: $(rust-ndarray-targets)
+$(rust-ndarray-targets): $(rust-ndarray-toml)
+	$(CARGO_BUILD)
 
 target/matmul_swift: matmul.swift | target
 	$(SWIFTC_BUILD)
@@ -230,4 +239,5 @@ run[jruby][matmul.rb]:: run[jruby][%]: % | $(rubocop)
 clean:
 	-rm -rf target
 	$(MAKE) -C java-nd4j clean
+	cargo clean --manifest-path $(rust-ndarray-toml)
 	-rm -rf zig-cache

@@ -1,0 +1,12 @@
+[package]
+name = "rust-ndarray"
+version = "0.0.1"
+edition = "2021"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[dependencies]
+ndarray = "0.15"
