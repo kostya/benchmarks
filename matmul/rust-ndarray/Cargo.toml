@@ -1,0 +1,14 @@
+[package]
+name = "rust-ndarray"
+version = "0.0.1"
+edition = "2021"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[dependencies]
+ndarray = { version = "0.15.4", features = ["blas"] }
+blas-src = { version = "0.8.0", features = ["openblas"] }
+openblas-src = { version = "0.10.4", features = ["cblas", "system"] }
