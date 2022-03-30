@@ -311,6 +311,7 @@ Testing allocating and multiplying matrices.
 |      C++/clang++ (Eigen) |    0.118<sub>±0.016</sub> |    15.25<sub>±10.81</sub> + 75.25<sub>±10.75</sub> |      3.49<sub>±00.41</sub> |
 |              Java (ND4J) |    0.118<sub>±0.008</sub> |   137.43<sub>±02.38</sub> + 90.75<sub>±00.03</sub> |      3.93<sub>±00.56</sub> |
 |  Nim/clang (Arraymancer) |    0.125<sub>±0.021</sub> |     6.58<sub>±00.08</sub> + 55.68<sub>±00.31</sub> |      4.04<sub>±00.40</sub> |
+|           Rust (ndarray) |    0.129<sub>±0.005</sub> |     3.10<sub>±00.06</sub> + 67.97<sub>±00.00</sub> |      4.65<sub>±00.37</sub> |
 |    Nim/gcc (Arraymancer) |    0.140<sub>±0.007</sub> |     5.70<sub>±00.11</sub> + 55.84<sub>±00.47</sub> |      4.42<sub>±00.80</sub> |
 |       Julia (threads: 8) |    0.154<sub>±0.015</sub> |   249.46<sub>±00.31</sub> + 43.40<sub>±00.07</sub> |      5.32<sub>±00.65</sub> |
 |       Julia (threads: 1) |    0.206<sub>±0.004</sub> |   249.49<sub>±00.27</sub> + 41.87<sub>±00.03</sub> |      4.01<sub>±00.11</sub> |

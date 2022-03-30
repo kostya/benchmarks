@@ -3,8 +3,6 @@ use std::io::Write;
 use std::net::TcpStream;
 use std::{env, process};
 
-extern crate blas_src;
-
 fn mat_gen(n: usize, seed: f64) -> Array2<f64> {
     let i = Array::from_shape_fn((n, n), |(i, _)| i as f64);
     let j = i.t();
