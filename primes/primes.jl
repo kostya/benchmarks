@@ -23,9 +23,9 @@ mutable struct Sieve
 end
 
 
-function to_list(s::Sieve) :: Vector{Int64}
-    result = [2, 3] 
-    @inbounds for p in 1:s.limit + 1
+function to_list(s::Sieve)::Vector{Int64}
+    result = [2, 3]
+    @inbounds for p = 1:s.limit+1
         if s.prime[p] == true
             push!(result, p)
         end
@@ -100,7 +100,7 @@ function calc(s::Sieve)
 end
 
 
-function generate_trie(prime_list::Vector{Int64}) :: Node
+function generate_trie(prime_list::Vector{Int64})::Node
     root = Node()
     for p in prime_list
         head = root
@@ -116,14 +116,14 @@ function generate_trie(prime_list::Vector{Int64}) :: Node
 end
 
 
-function find(upper_bound::Int64, search_prefix::Int64) :: Vector
+function find(upper_bound::Int64, search_prefix::Int64)::Vector
     primes = calc(Sieve(upper_bound))
     str_prefix = string(search_prefix)
 
     head = generate_trie(to_list(primes))
 
     for char in str_prefix
-        head = get(head.children, char, nothing)  
+        head = get(head.children, char, nothing)
         head == nothing && return nothing
     end
 
@@ -142,7 +142,7 @@ function find(upper_bound::Int64, search_prefix::Int64) :: Vector
         end
     end
 
-    return result
+    return sort(result)
 end
 
 
@@ -170,8 +170,8 @@ end
 
 if abspath(PROGRAM_FILE) == @__FILE__
     verify()
-    
-    notify("julia/$(getpid())")
+
+    notify("Julia\t$(getpid())")
     results = find(UPPER_BOUND, PREFIX)
     notify("stop")
 
