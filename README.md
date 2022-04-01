@@ -372,6 +372,7 @@ Testing:
 |               Lua/luajit | 0.404<sub>±0.015</sub> |   2.56<sub>±00.06</sub> + 156.05<sub>±00.57</sub> |  8.21<sub>±00.68</sub> |
 |                    Scala | 0.416<sub>±0.005</sub> |  75.49<sub>±00.09</sub> + 230.85<sub>±01.07</sub> | 13.05<sub>±00.56</sub> |
 |              Python/pypy | 0.836<sub>±0.018</sub> |  63.07<sub>±00.16</sub> + 251.34<sub>±00.04</sub> | 18.52<sub>±00.48</sub> |
+|                    Julia | 1.047<sub>±0.019</sub> | 228.75<sub>±00.49</sub> + 333.23<sub>±00.60</sub> | 11.13<sub>±00.71</sub> |
 |                      Lua | 1.656<sub>±0.021</sub> |   2.27<sub>±00.04</sub> + 284.17<sub>±00.48</sub> | 34.45<sub>±00.71</sub> |
 |             Ruby (--jit) | 1.851<sub>±0.018</sub> | 271.23<sub>±00.02</sub> + 147.76<sub>±00.00</sub> | 31.36<sub>±00.73</sub> |
 |         Ruby/truffleruby | 1.959<sub>±0.047</sub> | 276.10<sub>±03.31</sub> + 418.65<sub>±56.56</sub> | 52.68<sub>±05.10</sub> |
