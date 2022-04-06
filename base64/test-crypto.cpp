@@ -1,8 +1,11 @@
 #include <iomanip>
 #include <iostream>
-#include <libnotify.h>
+#include <utility>
+
 #include <openssl/bio.h>
 #include <openssl/evp.h>
+
+#include <libnotify.h>
 
 #ifdef __clang__
 # define COMPILER "clang++"
