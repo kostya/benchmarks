@@ -13,7 +13,8 @@ docker_run = $(docker) run -it --rm -v $(shell pwd):/src benchmarks
 
 .PHONY: scaling_governor
 performance_governor:
-	sudo cpupower frequency-set -g performance
+	#sudo cpupower frequency-set -g performance
+	echo "TEST"
 
 .PHONY: shell
 shell: performance_governor
