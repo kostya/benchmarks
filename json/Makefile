@@ -417,7 +417,7 @@ run[jruby][test.rb]:: run[jruby][%]: % | $(rubocop)
 run[test.php]:: run[%]: %
 	$(PHP_RUN)
 
-run[test.clj]:: CLOJURE_FLAGS := -Sdeps '{:deps {cheshire/cheshire {:mvn/version "5.10.1"}}}'
+run[test.clj]:: CLOJURE_FLAGS := -Sdeps '{:deps {cheshire/cheshire {:mvn/version "5.10.2"}}}'
 run[test.clj]:: run[%]: %
 	$(CLOJURE_RUN)
 

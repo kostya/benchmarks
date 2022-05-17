@@ -1,10 +1,12 @@
+#include <algorithm>
 #include <iostream>
-#include <libnotify.h>
+#include <map>
 #include <memory>
 #include <queue>
 #include <sstream>
-#include <map>
 #include <vector>
+
+#include <libnotify.h>
 
 #ifdef __clang__
 # define COMPILER "clang++"
