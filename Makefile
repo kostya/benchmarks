@@ -26,4 +26,12 @@ versions:
 
 .PHONY: toc
 toc:
-	git-md-toc -u -t
+	git-md-toc -u README.md
+
+.PHONY: update_apt
+update_apt:
+	./docker/update_apt.rb docker/apt.pkgs
+
+.PHONY: lint
+lint:
+	docker run --rm -i hadolint/hadolint < docker/Dockerfile

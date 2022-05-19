@@ -1,5 +1,6 @@
-<!-- md-toc-begin -->
 # Table of Content
+
+<!-- toc-begin -->
 * [Overview](#overview)
   * [Measurements](#measurements)
 * [Test Cases](#test-cases)
@@ -20,7 +21,9 @@
     * [Binary executables](#binary-executables)
     * [Compiled artifacts](#compiled-artifacts)
     * [Scripting language](#scripting-language)
-<!-- md-toc-end -->
+  * [README update](#readme-update)
+  * [Docker image update](#docker-image-update)
+<!-- toc-end -->
 
 # Overview
 
@@ -462,10 +465,7 @@ There is a `Makefile` that could be used to simplify Docker usage:
 
  - `make build` (build the image);
  - `make versions` (run the image with the `versions` command);
- - `make shell` (run the image with the `shell' command);
- - `make toc` (utility rule to update ToC in this README, requires
-[git-markdown-toc](https://github.com/ildar-shaimordanov/git-markdown-toc)
-available in `PATH`).
+ - `make shell` (run the image with the `shell' command).
 
 Please note that the `make shell` rule requires `cpupower` utility installed
 that is invoked with `sudo` to set cpufreq's performance governon
@@ -584,3 +584,21 @@ requires changes:
 
  - append `run[<script_file>]` into `all_runners` variable;
  - append `run[<script_file>]` rule to run the test.
+
+## README update
+
+TOC is regenerated using [git-markdown-toc](https://github.com/ildar-shaimordanov/git-markdown-toc):
+
+```
+make toc
+```
+
+## Docker image update
+
+Debian packages are pinned and updated with the script
+(first, please ensure that the image is fine with the linter):
+
+```
+make lint
+make update_apt
+```
