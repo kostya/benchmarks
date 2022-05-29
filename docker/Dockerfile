@@ -7,18 +7,19 @@ RUN apt-get update && xargs apt-get install -y < /tmp/apt.pkgs \
     && rm -rf /var/lib/apt/lists/*
 
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 10 \
-	&& update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 10 \
-	&& update-alternatives --install /usr/bin/gdc gdc /usr/bin/gdc-12 10 \
-	&& update-alternatives --install /usr/bin/gccgo gccgo /usr/bin/gccgo-12 10 \
-        && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-13 10 \
-        && update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-13 10
+    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 10 \
+    && update-alternatives --install /usr/bin/gdc gdc /usr/bin/gdc-12 10 \
+    && update-alternatives --install /usr/bin/gccgo gccgo /usr/bin/gccgo-12 10 \
+    && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-13 10 \
+    && update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-13 10 \
+    && nuget update -self \
+    && useradd -m dev
 
-RUN useradd -m dev
 USER dev
 RUN mkdir /home/dev/bin
 WORKDIR /home/dev/bin
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-ENV PATH="/home/dev/bin/:${PATH}" \
+ENV PATH="/home/dev/bin/:/home/dev/.local/bin/:${PATH}" \
     JQ_LIB_DIR=/usr/lib/x86_64-linux-gnu/ \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \

@@ -96,12 +96,13 @@ run (op:ops) tape p = do
             x <- current tape
             newP <- write p x
             run ops tape newP
-        Loop loop ->
-            let go (newTape, newP) = do
-                x <- current newTape
-                if x == 0 then run ops newTape newP
-                else run loop newTape newP >>= go
-            in go (tape, p)
+        Loop loop -> do
+            x <- current tape
+            if x == 0
+            then run ops tape p
+            else do
+                (newTape, newP) <- run loop tape p
+                run (op:ops) newTape newP
 
 notify :: String -> IO ()
 notify msg = withSocketsDo $ do

@@ -30,7 +30,7 @@ class EnergyStats
   def initialize
     @acc_e = 0
     @e = 0
-    @has_energy_metrics = File.file?(PATH)
+    @has_energy_metrics = FileTest.readable?(PATH)
     @max_e = File.read(PATH).to_i if @has_energy_metrics
   end
 
@@ -56,7 +56,7 @@ class EnergyStats
 end
 
 energy_stats = EnergyStats.new
-server = TCPServer.new 9001
+server = TCPServer.new("::", 9001)
 spawned_pid = Process.spawn(*ARGV.to_a)
 
 begin

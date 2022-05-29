@@ -46,7 +46,7 @@ The measured values are:
 
  - time spent for the benchmark execution (loading required data and code self-testing are not measured);
  - memory consumption of the benchmark process, reported as `base` + `increase`, where `base` is the RSS before the benchmark and `increase` is the peak increase of the RSS during the benchmark;
- - energy consumption of the CPU package during the benchmark: PP0 (cores) + PP1 (uncores like GPU) + DRAM.
+ - energy consumption of the CPU package during the benchmark: PP0 (cores) + PP1 (uncores like GPU) + DRAM. Currently, only Intel CPU are supported via the powercap interface.
 
 All values are presented as: `median`<sub>±`median absolute deviation`</sub>.
 
@@ -461,15 +461,11 @@ where `<cmd>` is:
 
 Please note that the actual measurements provided in the project are taken semi-manually (via `shell`) as the full update takes days and could have occassional issues in Docker.
 
-There is a `Makefile` that could be used to simplify Docker usage:
+There is a `./run.sh` that could be used to simplify Docker usage:
 
- - `make build` (build the image);
- - `make versions` (run the image with the `versions` command);
- - `make shell` (run the image with the `shell' command).
-
-Please note that the `make shell` rule requires `cpupower` utility installed
-that is invoked with `sudo` to set cpufreq's performance governon
-(it runs the CPU at the maximum frequence to eliminate throttling issues).
+ - `./run.sh build` (build the image);
+ - `./run.sh make versions` (run the image with the `versions` command);
+ - `sudo ./run.sh shell` (run the image with the `shell' command, sudo is required to read energy levels).
 
 ## Manual Execution
 
@@ -590,7 +586,7 @@ requires changes:
 TOC is regenerated using [git-markdown-toc](https://github.com/ildar-shaimordanov/git-markdown-toc):
 
 ```
-make toc
+./run.sh toc
 ```
 
 ## Docker image update
@@ -599,6 +595,6 @@ Debian packages are pinned and updated with the script
 (first, please ensure that the image is fine with the linter):
 
 ```
-make lint
-make update_apt
+./run.sh lint
+./run.sh update_apt
 ```

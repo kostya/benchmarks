@@ -96,7 +96,7 @@ object BrainFuck {
   }
 
   def main(args: Array[String]): Unit = {
-    val text = scala.util.Using(scala.io.Source.fromFile(args(1))) { _.mkString }.get
+    val text = scala.util.Using(scala.io.Source.fromFile(args(0))) { _.mkString }.get
     val p = new Printer(sys.env.get("QUIET").isDefined)
 
     notify(s"Scala\t${ProcessHandle.current().pid()}")
