@@ -19,11 +19,11 @@ add_exit_trap() {
 }
 
 build() {
-    "$docker_build"
+    eval "$docker_build"
 }
 
 rebuild() {
-    "$docker_build --no-cache"
+    eval "$docker_build --no-cache"
 }
 
 shell() {

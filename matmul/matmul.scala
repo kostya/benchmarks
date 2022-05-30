@@ -55,7 +55,7 @@ object MatMul {
   }
 
   def main(args: Array[String]): Unit = {
-    val n = if (args.length > 1) args(1).toInt else 100
+    val n = if (args.length > 0) args(0).toInt else 100
 
     val left = calc(101)
     val right = -18.67

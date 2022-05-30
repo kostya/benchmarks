@@ -101,7 +101,7 @@ RUN curl \
 	&& ln -s /home/dev/bin/jruby-$JRUBY/bin/jruby /home/dev/bin/jruby
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.7.2
+ARG JULIA=julia-1.7.3
 RUN curl \
 	https://julialang-s3.julialang.org/bin/linux/x64/1.7/$JULIA-linux-x86_64.tar.gz \
 	| tar -xz
@@ -116,7 +116,7 @@ RUN curl -L \
     && ln -s /home/dev/bin/$SWIFT/usr/bin/swiftc /home/dev/bin/swiftc
 ENV LD_LIBRARY_PATH=/home/dev/bin/$SWIFT/usr/lib/swift/linux:$LD_LIBRARY_PATH
 
-# https://clojure.org/community/downloads
+# https://clojure.org/guides/install_clojure
 ARG CLOJURE=1.11.1.1113
 RUN curl \
 	https://download.clojure.org/install/linux-install-$CLOJURE.sh \
@@ -128,7 +128,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org \
 ENV PATH="/home/dev/.ghcup/bin/:${PATH}"
 
 # https://www.haskell.org/ghc/
-ARG GHC_VER=9.2.2
+ARG GHC_VER=9.2.3
 RUN ghcup install ghc $GHC_VER && ghcup set ghc $GHC_VER
 
 # Shared packages for all Haskell code
@@ -156,7 +156,7 @@ ENV DOTNET_ROOT="/home/dev/bin/dotnet"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v18.1.0
+ARG NODE=v18.2.0
 RUN curl \
 	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
 	| tar -xJ
@@ -193,7 +193,7 @@ RUN curl -o racket-$RACKET-x86_64-linux-cs.sh \
     && rm racket-$RACKET-x86_64-linux-cs.sh
 
 # https://github.com/vlang/v/releases
-ARG VLANG=weekly.2022.19
+ARG VLANG=weekly.2022.21
 RUN curl -Lo v_linux.zip \
         https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
         && unzip -q v_linux.zip \
