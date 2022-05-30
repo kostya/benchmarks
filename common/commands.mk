@@ -1,9 +1,9 @@
-COMMON_FLAGS := -Wall -Wextra -pedantic -Wcast-align -O3 -march=native -flto -Wa,-mbranches-within-32B-boundaries
+COMMON_FLAGS := -Wall -Wextra -pedantic -Wcast-align -O3 -march=native -flto=auto -Wa,-mbranches-within-32B-boundaries
 # COMMON_FLAGS := -g -Wall -Wextra -pedantic -Wcast-align -fsanitize=address -fsanitize=undefined
 GCC_FLAGS := $(COMMON_FLAGS)
 CLANG_FLAGS := $(COMMON_FLAGS)
 LIBNOTIFY_FLAGS := -I../common/libnotify ../common/libnotify/target/libnotify.a
-NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off --passC:"$(COMMON_FLAGS)" --passL:"-march=native -flto"
+NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off --passC:"$(COMMON_FLAGS)" --passL:"-march=native -flto=auto"
 RUSTC_FLAGS := -C target-cpu=native -C llvm-args=--x86-branches-within-32B-boundaries
 VALAC_FLAGS := --disable-assert -X -O3 -X -march=native -X -flto -X -Wa,-mbranches-within-32B-boundaries --pkg gio-2.0 --pkg posix
 V_FLAGS := -prod
@@ -50,7 +50,7 @@ endef
 
 ECHO_RUN = @tput bold; echo "$(MAKE) $@"; tput sgr0
 XTIME := ../xtime.rb
-CPANM := cpanm
+CPANM := cpanm -l ~/perl5
 
 CLOJURE_RUN =		$(XTIME) clojure $(CLOJURE_FLAGS) -M $^
 ELIXIR_RUN =		$(XTIME) elixir $^
@@ -62,7 +62,7 @@ LUA_JIT_RUN =		$(XTIME) luajit $^
 LUA_RUN =		$(XTIME) lua $^
 MONO_RUN =		$(XTIME) mono -O=all --gc=sgen $^
 NODE_RUN =		$(XTIME) node $^
-PERL_RUN =		$(XTIME) perl $^
+PERL_RUN =		$(XTIME) perl -I ~/perl5/lib/perl5 $^
 PHP_RUN =		$(XTIME) php $^
 PYPY3_RUN =		$(XTIME) pypy3 $^
 PYTHON3_RUN =		$(XTIME) python3 $^
@@ -82,7 +82,7 @@ NUGET_INSTALL = nuget install -ExcludeVersion -Verbosity quiet
 
 py_fmt := target/.py_fmt
 $(py_fmt): *.py | target
-	@pip install -q black
+	@pip install --user black
 	black $^
 	@touch $@
 

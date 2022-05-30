@@ -73,7 +73,7 @@ fn new_printer(quiet bool) Printer {
 }
 
 fn (mut p Printer) print(n int) {
-	b := byte(n)
+	b := u8(n)
 	if p.quiet {
 		p.sum1 = (p.sum1 + b) % 255
 		p.sum2 = (p.sum2 + p.sum1) % 255

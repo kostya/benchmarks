@@ -1,5 +1,6 @@
-<!-- md-toc-begin -->
 # Table of Content
+
+<!-- toc-begin -->
 * [Overview](#overview)
   * [Measurements](#measurements)
 * [Test Cases](#test-cases)
@@ -20,7 +21,9 @@
     * [Binary executables](#binary-executables)
     * [Compiled artifacts](#compiled-artifacts)
     * [Scripting language](#scripting-language)
-<!-- md-toc-end -->
+  * [README update](#readme-update)
+  * [Docker image update](#docker-image-update)
+<!-- toc-end -->
 
 # Overview
 
@@ -43,11 +46,11 @@ The measured values are:
 
  - time spent for the benchmark execution (loading required data and code self-testing are not measured);
  - memory consumption of the benchmark process, reported as `base` + `increase`, where `base` is the RSS before the benchmark and `increase` is the peak increase of the RSS during the benchmark;
- - energy consumption of the CPU package during the benchmark: PP0 (cores) + PP1 (uncores like GPU) + DRAM.
+ - energy consumption of the CPU package during the benchmark: PP0 (cores) + PP1 (uncores like GPU) + DRAM. Currently, only Intel CPU are supported via the powercap interface.
 
 All values are presented as: `median`<sub>±`median absolute deviation`</sub>.
 
-UPDATE: 2022-04-05
+UPDATE: 2022-05-30
 
 # Test Cases
 
@@ -63,55 +66,55 @@ Supports two mode:
 
 ### bench.b
 
-|                 Language |                   Time, s |                                        Memory, MiB |                   Energy, J |
-| :----------------------- | ------------------------: | -------------------------------------------------: | --------------------------: |
-|  Racket (Syntax Objects) |    1.011<sub>±0.097</sub> |    113.88<sub>±00.22</sub> + 0.00<sub>±00.00</sub> |      24.37<sub>±02.29</sub> |
-|                  C++/g++ |    1.328<sub>±0.057</sub> |      1.65<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |      29.46<sub>±03.64</sub> |
-|                  Nim/gcc |    1.540<sub>±0.052</sub> |      1.92<sub>±00.06</sub> + 0.00<sub>±00.00</sub> |      33.70<sub>±05.18</sub> |
-|                       Go |    1.553<sub>±0.107</sub> |      2.69<sub>±00.06</sub> + 0.00<sub>±00.00</sub> |      40.06<sub>±05.62</sub> |
-|                   D/ldc2 |    1.581<sub>±0.064</sub> |      3.11<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |      34.15<sub>±04.05</sub> |
-|                    C/gcc |    1.596<sub>±0.037</sub> |      0.69<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |      37.11<sub>±05.43</sub> |
-|              C++/clang++ |    1.600<sub>±0.046</sub> |      1.54<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |      37.64<sub>±03.13</sub> |
-|               Kotlin/JVM |    1.645<sub>±0.089</sub> |     40.62<sub>±00.18</sub> + 0.32<sub>±00.06</sub> |      39.08<sub>±06.58</sub> |
-|                 Vala/gcc |    1.694<sub>±0.136</sub> |      4.24<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |      41.70<sub>±03.03</sub> |
-|                     Rust |    1.695<sub>±0.047</sub> |      2.13<sub>±00.09</sub> + 0.00<sub>±00.00</sub> |      34.48<sub>±05.25</sub> |
-|                    D/gdc |    1.699<sub>±0.119</sub> |      7.35<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |      36.09<sub>±04.06</sub> |
-|                     Java |    1.731<sub>±0.113</sub> |     36.86<sub>±00.31</sub> + 1.36<sub>±00.13</sub> |      42.22<sub>±02.92</sub> |
-|               Vala/clang |    1.849<sub>±0.103</sub> |      4.28<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |      45.56<sub>±03.55</sub> |
-|                  C/clang |    1.869<sub>±0.153</sub> |      0.66<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |      50.55<sub>±04.01</sub> |
-|                      Zig |    1.968<sub>±0.091</sub> |      0.73<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |      47.79<sub>±04.08</sub> |
-|                Nim/clang |    2.010<sub>±0.102</sub> |      2.35<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |      51.21<sub>±06.20</sub> |
-|                    OCaml |    2.171<sub>±0.127</sub> |      2.87<sub>±00.06</sub> + 2.25<sub>±00.03</sub> |      50.71<sub>±03.76</sub> |
-|                    V/gcc |    2.202<sub>±0.140</sub> |      0.66<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |      49.36<sub>±05.44</sub> |
-|                 Go/gccgo |    2.252<sub>±0.171</sub> |     24.53<sub>±00.06</sub> + 0.00<sub>±00.00</sub> |      55.11<sub>±03.29</sub> |
-|                    MLton |    2.333<sub>±0.161</sub> |      1.55<sub>±00.06</sub> + 0.25<sub>±00.00</sub> |      55.62<sub>±06.66</sub> |
-|             C#/.NET Core |    2.507<sub>±0.173</sub> |     33.90<sub>±00.19</sub> + 0.03<sub>±00.03</sub> |      59.00<sub>±07.71</sub> |
-|                   Racket |    2.656<sub>±0.262</sub> |     96.06<sub>±00.60</sub> + 0.00<sub>±00.00</sub> |      61.00<sub>±05.90</sub> |
-|                  Crystal |    2.704<sub>±0.259</sub> |      3.49<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |      67.41<sub>±06.07</sub> |
-|                    Julia |    2.707<sub>±0.198</sub> |    207.11<sub>±00.20</sub> + 0.52<sub>±00.04</sub> |      59.26<sub>±11.01</sub> |
-|             F#/.NET Core |    2.999<sub>±0.146</sub> |     38.27<sub>±00.01</sub> + 0.54<sub>±00.00</sub> |      70.68<sub>±09.66</sub> |
-|                  V/clang |    3.180<sub>±0.306</sub> |      0.69<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |      75.56<sub>±13.69</sub> |
-|                  C#/Mono |    3.304<sub>±0.267</sub> |     20.39<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |      81.06<sub>±14.53</sub> |
-|                    Scala |    3.459<sub>±0.242</sub> |   74.91<sub>±00.17</sub> + 176.15<sub>±00.39</sub> |      85.96<sub>±10.30</sub> |
-|              Chez Scheme |    3.482<sub>±0.194</sub> |     24.80<sub>±00.03</sub> + 4.46<sub>±00.02</sub> |      74.04<sub>±08.16</sub> |
-|                    D/dmd |    4.240<sub>±0.222</sub> |      3.68<sub>±00.07</sub> + 0.00<sub>±00.00</sub> |      91.05<sub>±09.71</sub> |
-|                  Node.js |    5.129<sub>±0.151</sub> |     36.56<sub>±00.04</sub> + 1.21<sub>±00.12</sub> |     122.66<sub>±17.70</sub> |
-|         Haskell (MArray) |    5.505<sub>±0.240</sub> |      3.93<sub>±00.03</sub> + 1.11<sub>±00.00</sub> |     145.13<sub>±06.01</sub> |
-|                    Swift |    6.951<sub>±0.543</sub> |     13.63<sub>±00.13</sub> + 0.00<sub>±00.00</sub> |     165.75<sub>±16.22</sub> |
-|               Lua/luajit |    9.030<sub>±0.465</sub> |      2.39<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |     216.01<sub>±23.40</sub> |
-| Ruby/truffleruby (--jvm) |   11.454<sub>±1.583</sub> |  347.94<sub>±04.53</sub> + 540.62<sub>±28.68</sub> |     341.08<sub>±37.04</sub> |
-|         Ruby/truffleruby |   12.226<sub>±1.522</sub> | 280.21<sub>±02.09</sub> + 748.83<sub>±183.46</sub> |     289.25<sub>±15.78</sub> |
-|              Python/pypy |   16.909<sub>±1.115</sub> |    67.23<sub>±00.03</sub> + 45.17<sub>±00.07</sub> |     434.07<sub>±75.31</sub> |
-|                  Haskell |   17.024<sub>±0.480</sub> |      4.12<sub>±00.03</sub> + 0.82<sub>±00.00</sub> |     453.91<sub>±40.49</sub> |
-|             Ruby (--jit) |   50.055<sub>±4.216</sub> |    271.04<sub>±00.03</sub> + 0.02<sub>±00.00</sub> |   1187.01<sub>±115.63</sub> |
-|                      Lua |   62.420<sub>±3.088</sub> |      2.24<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |   1473.42<sub>±183.53</sub> |
-|                   Elixir |   68.931<sub>±3.954</sub> |     76.99<sub>±00.66</sub> + 0.00<sub>±00.00</sub> |   1659.67<sub>±157.02</sub> |
-|                     Ruby |  103.270<sub>±9.509</sub> |     14.54<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |   2470.41<sub>±191.63</sub> |
-|               Ruby/jruby |  122.164<sub>±8.631</sub> |   188.03<sub>±02.15</sub> + 97.38<sub>±13.71</sub> |   2952.67<sub>±305.64</sub> |
-|                   Python | 193.369<sub>±11.274</sub> |     10.23<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |   4545.79<sub>±363.17</sub> |
-|                 Tcl (FP) | 283.398<sub>±20.971</sub> |      4.47<sub>±00.06</sub> + 0.00<sub>±00.00</sub> |   6972.13<sub>±417.92</sub> |
-|                     Perl | 373.937<sub>±24.031</sub> |      7.07<sub>±00.08</sub> + 0.00<sub>±00.00</sub> |   8436.17<sub>±854.20</sub> |
-|                Tcl (OOP) | 561.155<sub>±31.859</sub> |      4.45<sub>±00.04</sub> + 0.00<sub>±00.00</sub> | 13389.49<sub>±1068.41</sub> |
+|                 Language |                  Time, s |                                       Memory, MiB |                  Energy, J |
+| :----------------------- | -----------------------: | ------------------------------------------------: | -------------------------: |
+|  Racket (Syntax Objects) |   1.294<sub>±0.001</sub> |   104.83<sub>±00.98</sub> + 0.00<sub>±00.00</sub> |     47.02<sub>±00.02</sub> |
+|                  C++/g++ |   1.317<sub>±0.000</sub> |     1.65<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |     52.77<sub>±00.08</sub> |
+|                     Rust |   1.589<sub>±0.001</sub> |     2.12<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |     63.57<sub>±00.08</sub> |
+|                   D/ldc2 |   1.655<sub>±0.000</sub> |     3.21<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |     66.25<sub>±00.07</sub> |
+|                     Java |   1.655<sub>±0.001</sub> |    37.33<sub>±00.46</sub> + 0.90<sub>±00.37</sub> |     64.58<sub>±00.05</sub> |
+|                    D/gdc |   1.660<sub>±0.000</sub> |     7.49<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |     67.55<sub>±00.71</sub> |
+|                  C/clang |   1.663<sub>±0.000</sub> |     0.69<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |     64.54<sub>±00.06</sub> |
+|                    C/gcc |   1.667<sub>±0.000</sub> |     0.71<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |     64.71<sub>±00.06</sub> |
+|               Kotlin/JVM |   1.677<sub>±0.006</sub> |    40.74<sub>±00.11</sub> + 0.42<sub>±00.16</sub> |     65.50<sub>±00.18</sub> |
+|              C++/clang++ |   1.691<sub>±0.000</sub> |     1.48<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |     64.32<sub>±00.73</sub> |
+|                      Zig |   1.747<sub>±0.000</sub> |     0.70<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |     68.20<sub>±00.38</sub> |
+|             F#/.NET Core |   1.896<sub>±0.000</sub> |    37.86<sub>±00.09</sub> + 0.54<sub>±00.00</sub> |     76.35<sub>±00.41</sub> |
+|             C#/.NET Core |   1.902<sub>±0.000</sub> |    33.85<sub>±00.29</sub> + 0.00<sub>±00.00</sub> |     76.27<sub>±00.19</sub> |
+|                       Go |   1.904<sub>±0.000</sub> |     2.79<sub>±00.08</sub> + 0.00<sub>±00.00</sub> |     72.13<sub>±00.49</sub> |
+|                    OCaml |   1.912<sub>±0.000</sub> |     2.71<sub>±00.02</sub> + 2.30<sub>±00.03</sub> |     85.13<sub>±00.36</sub> |
+|              Chez Scheme |   1.923<sub>±0.001</sub> |    24.91<sub>±00.08</sub> + 4.40<sub>±00.02</sub> |     79.48<sub>±00.05</sub> |
+|                  Nim/gcc |   1.976<sub>±0.000</sub> |     2.02<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |     78.82<sub>±00.74</sub> |
+|                   Racket |   2.012<sub>±0.010</sub> |    93.21<sub>±00.51</sub> + 0.00<sub>±00.00</sub> |     81.10<sub>±00.77</sub> |
+|                 Vala/gcc |   2.090<sub>±0.001</sub> |     4.25<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |     77.06<sub>±00.85</sub> |
+|                Nim/clang |   2.100<sub>±0.002</sub> |     2.43<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |     81.52<sub>±00.15</sub> |
+|                 Go/gccgo |   2.172<sub>±0.000</sub> |    24.55<sub>±00.10</sub> + 0.00<sub>±00.00</sub> |     86.43<sub>±00.27</sub> |
+|               Vala/clang |   2.262<sub>±0.000</sub> |     4.26<sub>±00.07</sub> + 0.00<sub>±00.00</sub> |     82.35<sub>±00.19</sub> |
+|                    V/gcc |   2.340<sub>±0.000</sub> |     0.66<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |     87.35<sub>±00.63</sub> |
+|                  Crystal |   2.384<sub>±0.000</sub> |     3.46<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |     95.11<sub>±00.44</sub> |
+|                    MLton |   2.608<sub>±0.000</sub> |     0.80<sub>±00.03</sub> + 1.01<sub>±00.03</sub> |    102.87<sub>±00.28</sub> |
+|                  C#/Mono |   2.685<sub>±0.001</sub> |    24.99<sub>±00.13</sub> + 0.00<sub>±00.00</sub> |    107.58<sub>±00.08</sub> |
+|                  V/clang |   2.967<sub>±0.019</sub> |     0.66<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |    115.67<sub>±00.92</sub> |
+|         Haskell (MArray) |   3.165<sub>±0.001</sub> |     4.18<sub>±00.04</sub> + 3.97<sub>±00.00</sub> |    131.78<sub>±00.77</sub> |
+|                    Scala |   3.222<sub>±0.023</sub> |  66.15<sub>±00.25</sub> + 141.06<sub>±00.32</sub> |    133.08<sub>±00.82</sub> |
+|                    D/dmd |   3.267<sub>±0.000</sub> |     3.76<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |    122.89<sub>±00.09</sub> |
+|                    Julia |   3.565<sub>±0.001</sub> |   208.86<sub>±00.13</sub> + 0.99<sub>±00.03</sub> |    134.35<sub>±00.18</sub> |
+|                  Node.js |   4.016<sub>±0.002</sub> |    37.68<sub>±00.02</sub> + 0.85<sub>±00.08</sub> |    161.03<sub>±00.35</sub> |
+|                    Swift |   5.415<sub>±0.000</sub> |    13.76<sub>±00.14</sub> + 0.00<sub>±00.00</sub> |    200.89<sub>±02.89</sub> |
+|               Lua/luajit |   6.492<sub>±0.008</sub> |     2.41<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |    259.77<sub>±00.54</sub> |
+|         Ruby/truffleruby |   7.352<sub>±0.037</sub> | 291.61<sub>±00.77</sub> + 396.22<sub>±08.35</sub> |    347.59<sub>±02.47</sub> |
+| Ruby/truffleruby (--jvm) |   8.767<sub>±0.078</sub> | 376.87<sub>±16.30</sub> + 458.33<sub>±29.58</sub> |    430.85<sub>±06.14</sub> |
+|              Python/pypy |  12.207<sub>±0.065</sub> |   65.14<sub>±00.02</sub> + 29.65<sub>±00.03</sub> |    512.74<sub>±00.94</sub> |
+|                  Haskell |  13.368<sub>±0.019</sub> |     4.31<sub>±00.04</sub> + 3.97<sub>±00.00</sub> |    595.87<sub>±04.15</sub> |
+|             Ruby (--jit) |  39.635<sub>±0.156</sub> |   270.95<sub>±00.02</sub> + 0.02<sub>±00.00</sub> |   1618.92<sub>±08.59</sub> |
+|                   Elixir |  43.913<sub>±0.156</sub> |    70.50<sub>±00.34</sub> + 0.00<sub>±00.00</sub> |   2011.98<sub>±10.43</sub> |
+|                      Lua |  50.617<sub>±0.073</sub> |     2.30<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |   1941.25<sub>±23.16</sub> |
+|               Ruby/jruby |  78.965<sub>±0.799</sub> |  183.82<sub>±00.75</sub> + 83.58<sub>±00.83</sub> |   3500.74<sub>±39.03</sub> |
+|                     Ruby |  85.918<sub>±0.486</sub> |    14.41<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |   3615.58<sub>±32.78</sub> |
+|                   Python | 185.860<sub>±1.077</sub> |    10.63<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |   7415.67<sub>±57.06</sub> |
+|                 Tcl (FP) | 239.705<sub>±1.971</sub> |     4.56<sub>±00.03</sub> + 0.00<sub>±00.00</sub> | 10232.99<sub>±120.09</sub> |
+|                     Perl | 324.279<sub>±3.019</sub> |     7.06<sub>±00.05</sub> + 0.00<sub>±00.00</sub> | 12967.03<sub>±121.22</sub> |
+|                Tcl (OOP) | 492.812<sub>±2.162</sub> |     4.55<sub>±00.08</sub> + 0.00<sub>±00.00</sub> | 20801.83<sub>±165.07</sub> |
 
 ### mandel.b
 
@@ -119,44 +122,44 @@ Supports two mode:
 
 |                 Language |                  Time, s |                                       Memory, MiB |                 Energy, J |
 | :----------------------- | -----------------------: | ------------------------------------------------: | ------------------------: |
-|                  C++/g++ |  14.327<sub>±0.642</sub> |     3.45<sub>±00.09</sub> + 0.52<sub>±00.00</sub> |   366.85<sub>±30.85</sub> |
-|                    C/gcc |  15.437<sub>±0.360</sub> |     0.68<sub>±00.03</sub> + 0.98<sub>±00.02</sub> |   402.16<sub>±27.19</sub> |
-|                     Rust |  16.519<sub>±0.248</sub> |     2.26<sub>±00.07</sub> + 0.00<sub>±00.00</sub> |   423.82<sub>±14.51</sub> |
-|                   D/ldc2 |  16.683<sub>±0.610</sub> |     3.14<sub>±00.03</sub> + 0.77<sub>±00.00</sub> |   464.32<sub>±20.98</sub> |
-|              C++/clang++ |  17.157<sub>±0.293</sub> |     1.53<sub>±00.05</sub> + 2.03<sub>±00.06</sub> |   463.00<sub>±15.43</sub> |
-|                 Vala/gcc |  17.415<sub>±0.360</sub> |     4.12<sub>±00.02</sub> + 1.89<sub>±00.06</sub> |   437.74<sub>±19.51</sub> |
-|                    D/gdc |  17.698<sub>±0.752</sub> |     7.36<sub>±00.03</sub> + 0.77<sub>±00.00</sub> |   401.17<sub>±16.08</sub> |
-|                    V/gcc |  18.011<sub>±0.592</sub> |     1.62<sub>±00.16</sub> + 1.03<sub>±00.00</sub> |   447.08<sub>±15.85</sub> |
-|               Kotlin/JVM |  18.981<sub>±0.534</sub> |    40.41<sub>±00.15</sub> + 0.97<sub>±00.16</sub> |   521.30<sub>±19.86</sub> |
-|  Racket (Syntax Objects) |  20.434<sub>±0.741</sub> |  113.96<sub>±00.35</sub> + 69.35<sub>±00.52</sub> |   571.06<sub>±43.82</sub> |
-|               Vala/clang |  20.912<sub>±0.578</sub> |     4.11<sub>±00.07</sub> + 1.96<sub>±00.11</sub> |   562.34<sub>±30.07</sub> |
-|                  C/clang |  21.311<sub>±0.169</sub> |     0.71<sub>±00.00</sub> + 0.99<sub>±00.02</sub> |   548.33<sub>±22.73</sub> |
-|                       Go |  21.366<sub>±0.361</sub> |     3.37<sub>±00.02</sub> + 1.26<sub>±00.00</sub> |   540.51<sub>±18.16</sub> |
-|                  Crystal |  21.573<sub>±0.471</sub> |     3.49<sub>±00.02</sub> + 0.43<sub>±00.01</sub> |   600.92<sub>±24.38</sub> |
-|                      Zig |  22.023<sub>±0.780</sub> |     1.50<sub>±00.03</sub> + 0.77<sub>±00.00</sub> |   576.80<sub>±22.73</sub> |
-|                  Nim/gcc |  22.558<sub>±0.720</sub> |     1.93<sub>±00.06</sub> + 0.51<sub>±00.00</sub> |   571.71<sub>±28.56</sub> |
-|                    Scala |  24.524<sub>±0.691</sub> |  75.12<sub>±00.11</sub> + 127.66<sub>±00.20</sub> |   637.82<sub>±39.98</sub> |
-|                     Java |  24.985<sub>±0.863</sub> |    37.07<sub>±00.43</sub> + 2.02<sub>±00.48</sub> |   652.14<sub>±34.74</sub> |
-|                Nim/clang |  26.895<sub>±0.627</sub> |     2.38<sub>±00.03</sub> + 0.54<sub>±00.03</sub> |   678.90<sub>±28.15</sub> |
-|                    Swift |  27.927<sub>±0.256</sub> |    14.57<sub>±00.09</sub> + 0.00<sub>±00.00</sub> |   712.38<sub>±12.51</sub> |
-|             C#/.NET Core |  28.393<sub>±0.600</sub> |    33.92<sub>±00.05</sub> + 1.08<sub>±00.07</sub> |   753.14<sub>±34.28</sub> |
-|                 Go/gccgo |  29.874<sub>±0.451</sub> |    24.56<sub>±00.05</sub> + 1.27<sub>±00.01</sub> |   750.58<sub>±37.75</sub> |
-|                  V/clang |  30.913<sub>±0.696</sub> |     1.75<sub>±00.07</sub> + 0.77<sub>±00.00</sub> |   814.93<sub>±30.77</sub> |
-|                    OCaml |  36.121<sub>±0.650</sub> |     4.05<sub>±00.05</sub> + 8.87<sub>±00.67</sub> |   936.73<sub>±36.22</sub> |
-|                   Racket |  53.497<sub>±3.174</sub> |    97.60<sub>±00.59</sub> + 0.00<sub>±00.00</sub> |  1261.29<sub>±60.59</sub> |
-|             F#/.NET Core |  54.494<sub>±1.072</sub> |    38.32<sub>±00.02</sub> + 2.09<sub>±00.00</sub> |  1379.30<sub>±15.93</sub> |
-|                  C#/Mono |  54.782<sub>±1.113</sub> |    20.45<sub>±00.03</sub> + 0.88<sub>±00.00</sub> |  1386.87<sub>±37.55</sub> |
-|              Chez Scheme |  54.820<sub>±3.482</sub> |    25.63<sub>±00.09</sub> + 3.67<sub>±00.01</sub> |  1327.41<sub>±61.37</sub> |
-|                    D/dmd |  56.102<sub>±1.342</sub> |     3.68<sub>±00.06</sub> + 0.77<sub>±00.00</sub> |  1460.07<sub>±33.01</sub> |
-|               Lua/luajit |  57.185<sub>±1.582</sub> |     2.40<sub>±00.03</sub> + 0.44<sub>±00.00</sub> |  1400.62<sub>±46.39</sub> |
-|                    MLton |  59.369<sub>±2.219</sub> |     1.57<sub>±00.04</sub> + 4.11<sub>±00.00</sub> |  1468.63<sub>±25.28</sub> |
-|                  Node.js |  61.555<sub>±1.985</sub> |    36.59<sub>±00.01</sub> + 5.77<sub>±00.27</sub> |  1565.65<sub>±53.59</sub> |
-|                    Julia |  66.425<sub>±1.651</sub> |   207.29<sub>±00.33</sub> + 0.67<sub>±00.03</sub> |  1594.78<sub>±34.84</sub> |
-|         Haskell (MArray) |  80.475<sub>±0.907</sub> |     4.00<sub>±00.09</sub> + 2.63<sub>±00.00</sub> |  2035.84<sub>±53.03</sub> |
-|              Python/pypy |  81.882<sub>±1.597</sub> |   66.80<sub>±00.11</sub> + 46.35<sub>±00.23</sub> |  2067.69<sub>±49.20</sub> |
-| Ruby/truffleruby (--jvm) | 162.026<sub>±4.443</sub> | 345.92<sub>±03.42</sub> + 528.44<sub>±71.86</sub> | 4106.21<sub>±202.03</sub> |
-|         Ruby/truffleruby | 176.393<sub>±9.865</sub> | 280.18<sub>±01.63</sub> + 678.28<sub>±38.77</sub> | 4260.70<sub>±135.13</sub> |
-|                  Haskell | 271.744<sub>±2.637</sub> |    4.09<sub>±00.04</sub> + 26.16<sub>±00.00</sub> |  6885.28<sub>±29.20</sub> |
+|                  C++/g++ |  10.461<sub>±0.014</sub> |     1.65<sub>±00.00</sub> + 2.34<sub>±00.05</sub> |   429.24<sub>±01.97</sub> |
+|  Racket (Syntax Objects) |  14.090<sub>±0.116</sub> |  105.24<sub>±00.45</sub> + 72.57<sub>±00.64</sub> |   563.20<sub>±06.84</sub> |
+|                    C/gcc |  14.203<sub>±0.011</sub> |     0.68<sub>±00.03</sub> + 1.05<sub>±00.02</sub> |   561.03<sub>±02.60</sub> |
+|               Kotlin/JVM |  14.337<sub>±0.030</sub> |    40.77<sub>±00.09</sub> + 1.00<sub>±00.14</sub> |   580.64<sub>±03.91</sub> |
+|                    V/gcc |  14.519<sub>±0.017</sub> |     0.72<sub>±00.00</sub> + 2.08<sub>±00.05</sub> |   589.11<sub>±05.55</sub> |
+|              C++/clang++ |  14.656<sub>±0.009</sub> |     1.50<sub>±00.02</sub> + 2.09<sub>±00.02</sub> |   588.07<sub>±01.37</sub> |
+|                     Rust |  14.823<sub>±0.008</sub> |     2.17<sub>±00.04</sub> + 0.25<sub>±00.00</sub> |   593.32<sub>±00.71</sub> |
+|                   D/ldc2 |  14.864<sub>±0.019</sub> |     3.20<sub>±00.03</sub> + 0.77<sub>±00.00</sub> |   598.33<sub>±02.87</sub> |
+|                    D/gdc |  15.138<sub>±0.015</sub> |     7.47<sub>±00.03</sub> + 0.77<sub>±00.00</sub> |   640.93<sub>±01.15</sub> |
+|                  C/clang |  15.431<sub>±0.010</sub> |     0.69<sub>±00.03</sub> + 1.05<sub>±00.04</sub> |   644.66<sub>±01.57</sub> |
+|                      Zig |  16.222<sub>±0.009</sub> |     0.70<sub>±00.00</sub> + 1.61<sub>±00.01</sub> |   669.85<sub>±04.37</sub> |
+|                       Go |  17.065<sub>±0.259</sub> |     3.34<sub>±00.11</sub> + 1.26<sub>±00.00</sub> |   674.90<sub>±08.80</sub> |
+|                    Swift |  18.068<sub>±0.088</sub> |    14.62<sub>±00.06</sub> + 0.00<sub>±00.00</sub> |   734.16<sub>±06.70</sub> |
+|                     Java |  18.283<sub>±0.012</sub> |    37.81<sub>±00.06</sub> + 1.29<sub>±00.13</sub> |   732.18<sub>±00.83</sub> |
+|                 Vala/gcc |  18.498<sub>±0.004</sub> |     4.09<sub>±00.05</sub> + 2.04<sub>±00.02</sub> |   694.48<sub>±01.06</sub> |
+|             C#/.NET Core |  18.529<sub>±0.008</sub> |    34.13<sub>±00.07</sub> + 0.83<sub>±00.01</sub> |   751.34<sub>±04.79</sub> |
+|                  Crystal |  19.010<sub>±0.215</sub> |     3.46<sub>±00.01</sub> + 0.38<sub>±00.02</sub> |   778.36<sub>±08.01</sub> |
+|                Nim/clang |  19.309<sub>±0.305</sub> |     2.43<sub>±00.04</sub> + 0.57<sub>±00.00</sub> |   784.15<sub>±16.13</sub> |
+|               Vala/clang |  19.913<sub>±0.003</sub> |     4.08<sub>±00.02</sub> + 2.05<sub>±00.06</sub> |   770.85<sub>±00.76</sub> |
+|                 Go/gccgo |  20.039<sub>±0.013</sub> |    24.59<sub>±00.05</sub> + 1.27<sub>±00.00</sub> |   845.96<sub>±02.65</sub> |
+|                  Nim/gcc |  21.108<sub>±0.569</sub> |     1.95<sub>±00.01</sub> + 0.51<sub>±00.00</sub> |   854.87<sub>±21.62</sub> |
+|                    Scala |  21.395<sub>±0.016</sub> |  66.24<sub>±00.05</sub> + 141.19<sub>±00.08</sub> |   883.73<sub>±05.55</sub> |
+|                  V/clang |  22.592<sub>±0.064</sub> |     0.66<sub>±00.00</sub> + 1.89<sub>±00.03</sub> |   931.66<sub>±02.36</sub> |
+|                    OCaml |  26.203<sub>±0.017</sub> |     3.48<sub>±00.02</sub> + 8.08<sub>±03.91</sub> |  1247.53<sub>±12.44</sub> |
+|              Chez Scheme |  26.997<sub>±0.052</sub> |    25.38<sub>±00.05</sub> + 3.92<sub>±00.01</sub> |  1180.81<sub>±03.40</sub> |
+|                  C#/Mono |  31.357<sub>±0.018</sub> |    25.04<sub>±00.06</sub> + 0.83<sub>±00.00</sub> |  1331.72<sub>±01.53</sub> |
+|                  Node.js |  31.704<sub>±0.292</sub> |    37.65<sub>±00.06</sub> + 5.37<sub>±00.02</sub> |  1317.45<sub>±17.77</sub> |
+|               Lua/luajit |  35.127<sub>±0.069</sub> |     2.42<sub>±00.01</sub> + 0.50<sub>±00.00</sub> |  1408.43<sub>±04.07</sub> |
+|                   Racket |  36.927<sub>±0.067</sub> |    92.66<sub>±00.27</sub> + 0.00<sub>±00.00</sub> |  1636.94<sub>±08.74</sub> |
+|                    D/dmd |  37.471<sub>±0.015</sub> |     3.76<sub>±00.01</sub> + 0.77<sub>±00.00</sub> |  1377.33<sub>±08.82</sub> |
+|             F#/.NET Core |  38.358<sub>±0.052</sub> |    37.99<sub>±00.04</sub> + 2.08<sub>±00.00</sub> |  1587.43<sub>±03.20</sub> |
+|                    MLton |  44.833<sub>±0.049</sub> |     1.59<sub>±00.04</sub> + 4.11<sub>±00.00</sub> |  1945.45<sub>±09.66</sub> |
+|              Python/pypy |  48.373<sub>±0.180</sub> |   64.76<sub>±00.06</sub> + 30.07<sub>±00.03</sub> |  2068.90<sub>±24.04</sub> |
+|         Haskell (MArray) |  49.631<sub>±0.622</sub> |     4.12<sub>±00.02</sub> + 5.83<sub>±00.00</sub> |  2120.11<sub>±20.32</sub> |
+|                    Julia |  64.532<sub>±0.078</sub> |   209.49<sub>±00.10</sub> + 0.97<sub>±00.08</sub> |  2486.31<sub>±13.12</sub> |
+| Ruby/truffleruby (--jvm) |  78.552<sub>±1.319</sub> | 398.37<sub>±13.36</sub> + 440.08<sub>±26.60</sub> |  3295.51<sub>±37.63</sub> |
+|         Ruby/truffleruby |  83.372<sub>±0.453</sub> | 291.66<sub>±00.26</sub> + 251.66<sub>±23.69</sub> |  3567.05<sub>±19.14</sub> |
+|                  Haskell | 186.042<sub>±2.425</sub> |    4.34<sub>±00.04</sub> + 29.24<sub>±00.00</sub> | 8142.94<sub>±109.17</sub> |
 
 ## Base64
 
@@ -166,45 +169,45 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 
 |                  Language |                 Time, s |                                       Memory, MiB |               Energy, J |
 | :------------------------ | ----------------------: | ------------------------------------------------: | ----------------------: |
-|          C/clang (aklomp) |  0.162<sub>±0.008</sub> |     1.99<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |   4.91<sub>±00.81</sub> |
-|            C/gcc (aklomp) |  0.175<sub>±0.003</sub> |     2.01<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |   5.10<sub>±00.66</sub> |
-|                      Rust |  1.378<sub>±0.020</sub> |     2.54<sub>±00.06</sub> + 0.08<sub>±00.02</sub> |  39.05<sub>±03.70</sub> |
-|                     C/gcc |  1.531<sub>±0.055</sub> |     2.01<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |  46.84<sub>±02.07</sub> |
-|                   C/clang |  1.541<sub>±0.051</sub> |     1.93<sub>±00.06</sub> + 0.00<sub>±00.00</sub> |  37.50<sub>±02.73</sub> |
-|                   Nim/gcc |  1.622<sub>±0.094</sub> |     2.33<sub>±00.06</sub> + 4.41<sub>±00.03</sub> |  42.99<sub>±06.17</sub> |
-|                   V/clang |  1.698<sub>±0.070</sub> |     1.82<sub>±00.07</sub> + 0.00<sub>±00.00</sub> |  43.94<sub>±07.12</sub> |
-|                 Nim/clang |  1.889<sub>±0.061</sub> |     2.75<sub>±00.04</sub> + 4.38<sub>±00.00</sub> |  52.36<sub>±02.59</sub> |
-|                     V/gcc |  1.997<sub>±0.057</sub> |     1.91<sub>±00.29</sub> + 0.15<sub>±00.15</sub> |  49.78<sub>±01.87</sub> |
-|                    D/ldc2 |  2.324<sub>±0.145</sub> |     3.52<sub>±00.02</sub> + 3.63<sub>±00.00</sub> |  60.20<sub>±04.48</sub> |
-|                      Java |  2.575<sub>±0.096</sub> |  37.35<sub>±00.24</sub> + 185.08<sub>±00.62</sub> |  72.17<sub>±01.81</sub> |
-|                Vala/clang |  2.606<sub>±0.096</sub> |     5.57<sub>±00.03</sub> + 0.37<sub>±00.07</sub> |  67.16<sub>±04.53</sub> |
-|                  Vala/gcc |  2.630<sub>±0.114</sub> |     5.57<sub>±00.03</sub> + 0.49<sub>±00.16</sub> |  65.13<sub>±06.43</sub> |
-|                Kotlin/JVM |  2.685<sub>±0.108</sub> |  41.09<sub>±00.64</sub> + 241.23<sub>±01.17</sub> |  77.65<sub>±03.81</sub> |
-|                     Scala |  2.714<sub>±0.115</sub> |  74.16<sub>±00.21</sub> + 166.92<sub>±00.18</sub> |  77.22<sub>±05.41</sub> |
-|              Ruby (--jit) |  2.757<sub>±0.092</sub> |  271.46<sub>±00.02</sub> + 66.51<sub>±00.05</sub> |  64.87<sub>±07.20</sub> |
-|                   Crystal |  2.828<sub>±0.053</sub> |     3.93<sub>±00.02</sub> + 1.18<sub>±00.02</sub> |  95.24<sub>±03.02</sub> |
-|   C++/clang++ (libcrypto) |  2.930<sub>±0.050</sub> |     5.06<sub>±00.03</sub> + 0.08<sub>±00.00</sub> |  75.05<sub>±04.36</sub> |
-|       C++/g++ (libcrypto) |  2.991<sub>±0.125</sub> |     5.73<sub>±00.06</sub> + 0.08<sub>±00.00</sub> |  74.53<sub>±09.28</sub> |
-|                      Ruby |  3.066<sub>±0.087</sub> |   14.92<sub>±00.04</sub> + 58.41<sub>±00.13</sub> |  76.22<sub>±04.28</sub> |
-|                        Go |  3.161<sub>±0.048</sub> |     4.33<sub>±00.15</sub> + 4.31<sub>±00.21</sub> |  92.55<sub>±01.63</sub> |
-|       Perl (MIME::Base64) |  3.251<sub>±0.069</sub> |    14.82<sub>±00.09</sub> + 0.01<sub>±00.00</sub> |  91.09<sub>±04.73</sub> |
-|                   Node.js |  3.580<sub>±0.081</sub> |   37.05<sub>±00.02</sub> + 35.92<sub>±00.03</sub> | 104.98<sub>±03.17</sub> |
-|                       PHP |  3.864<sub>±0.174</sub> |    16.79<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |  97.47<sub>±05.63</sub> |
-|                     D/gdc |  3.986<sub>±0.091</sub> |     7.50<sub>±00.02</sub> + 3.63<sub>±00.00</sub> | 102.86<sub>±05.00</sub> |
-|                     D/dmd |  4.555<sub>±0.167</sub> |     3.92<sub>±00.03</sub> + 3.63<sub>±00.00</sub> | 114.69<sub>±05.94</sub> |
-|                       Zig |  4.644<sub>±0.156</sub> |     1.46<sub>±00.02</sub> + 0.31<sub>±00.00</sub> | 121.76<sub>±05.53</sub> |
-|                    Python |  4.913<sub>±0.161</sub> |    10.02<sub>±00.03</sub> + 0.18<sub>±00.00</sub> | 119.05<sub>±06.92</sub> |
-|                  Go/gccgo |  5.103<sub>±0.029</sub> |   25.71<sub>±00.04</sub> + 14.68<sub>±02.94</sub> | 155.11<sub>±02.76</sub> |
-|                     Julia |  5.914<sub>±0.122</sub> |  226.20<sub>±00.59</sub> + 48.68<sub>±06.30</sub> | 154.51<sub>±08.92</sub> |
-|               Python/pypy |  6.148<sub>±0.224</sub> |   67.18<sub>±00.11</sub> + 45.68<sub>±00.02</sub> | 153.10<sub>±08.04</sub> |
-|              C#/.NET Core |  6.901<sub>±0.085</sub> |   34.69<sub>±00.02</sub> + 47.81<sub>±05.29</sub> | 199.81<sub>±03.73</sub> |
-|              F#/.NET Core |  7.008<sub>±0.060</sub> |   39.00<sub>±00.07</sub> + 48.22<sub>±03.29</sub> | 194.86<sub>±03.38</sub> |
-|                       Tcl |  7.190<sub>±0.243</sub> |     5.02<sub>±00.02</sub> + 0.18<sub>±00.00</sub> | 177.81<sub>±20.24</sub> |
-|  Ruby/truffleruby (--jvm) |  7.337<sub>±0.296</sub> | 341.19<sub>±08.71</sub> + 176.25<sub>±38.94</sub> | 202.83<sub>±11.66</sub> |
-|                Ruby/jruby |  9.093<sub>±0.415</sub> |  187.15<sub>±01.64</sub> + 93.80<sub>±10.12</sub> | 237.37<sub>±06.68</sub> |
-|                   C#/Mono |  9.137<sub>±0.086</sub> |   21.03<sub>±00.02</sub> + 18.43<sub>±00.03</sub> | 234.56<sub>±06.33</sub> |
-| Perl (MIME::Base64::Perl) | 17.220<sub>±0.490</sub> |    16.12<sub>±00.04</sub> + 0.27<sub>±00.01</sub> | 455.93<sub>±18.96</sub> |
-|          Ruby/truffleruby | 23.410<sub>±1.302</sub> | 276.76<sub>±01.79</sub> + 280.98<sub>±18.35</sub> | 588.06<sub>±36.14</sub> |
+|          C/clang (aklomp) |  0.100<sub>±0.001</sub> |     2.04<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |   4.73<sub>±00.07</sub> |
+|            C/gcc (aklomp) |  0.101<sub>±0.000</sub> |     2.09<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |   4.80<sub>±00.05</sub> |
+|                      Rust |  0.969<sub>±0.000</sub> |     2.58<sub>±00.03</sub> + 0.01<sub>±00.00</sub> |  39.56<sub>±00.22</sub> |
+|                   V/clang |  0.995<sub>±0.001</sub> |     1.91<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |  37.66<sub>±00.14</sub> |
+|                   C/clang |  0.997<sub>±0.000</sub> |     2.01<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |  37.14<sub>±00.36</sub> |
+|                     C/gcc |  1.012<sub>±0.000</sub> |     2.05<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |  37.95<sub>±00.09</sub> |
+|                 Nim/clang |  1.024<sub>±0.001</sub> |     2.82<sub>±00.03</sub> + 4.44<sub>±00.00</sub> |  41.08<sub>±00.18</sub> |
+|                    D/ldc2 |  1.074<sub>±0.003</sub> |     3.58<sub>±00.03</sub> + 3.58<sub>±00.00</sub> |  45.02<sub>±00.50</sub> |
+|                   Nim/gcc |  1.081<sub>±0.002</sub> |     2.31<sub>±00.03</sub> + 4.44<sub>±00.06</sub> |  42.48<sub>±00.56</sub> |
+|                     V/gcc |  1.092<sub>±0.000</sub> |     1.63<sub>±00.01</sub> + 0.44<sub>±00.04</sub> |  42.03<sub>±00.17</sub> |
+|                   Crystal |  1.154<sub>±0.002</sub> |     3.95<sub>±00.01</sub> + 1.17<sub>±00.02</sub> |  51.11<sub>±00.15</sub> |
+|              Ruby (--jit) |  1.326<sub>±0.001</sub> |  271.35<sub>±00.02</sub> + 66.67<sub>±00.01</sub> |  52.24<sub>±00.23</sub> |
+|                      Ruby |  1.336<sub>±0.002</sub> |   14.83<sub>±00.01</sub> + 58.68<sub>±00.04</sub> |  52.41<sub>±00.27</sub> |
+|                      Java |  1.511<sub>±0.008</sub> |  38.37<sub>±00.06</sub> + 258.46<sub>±28.01</sub> |  61.39<sub>±00.49</sub> |
+|                     Scala |  1.562<sub>±0.005</sub> |  64.37<sub>±00.18</sub> + 315.74<sub>±04.03</sub> |  67.26<sub>±01.06</sub> |
+|                  Vala/gcc |  1.563<sub>±0.001</sub> |     5.49<sub>±00.03</sub> + 0.44<sub>±00.08</sub> |  61.08<sub>±00.51</sub> |
+|                Vala/clang |  1.563<sub>±0.001</sub> |     5.60<sub>±00.04</sub> + 0.30<sub>±00.03</sub> |  60.93<sub>±00.56</sub> |
+|                Kotlin/JVM |  1.635<sub>±0.007</sub> |  40.46<sub>±00.12</sub> + 263.10<sub>±18.51</sub> |  69.46<sub>±01.12</sub> |
+|   C++/clang++ (libcrypto) |  1.725<sub>±0.005</sub> |     4.46<sub>±00.05</sub> + 0.68<sub>±00.06</sub> |  68.58<sub>±00.43</sub> |
+|       C++/g++ (libcrypto) |  1.726<sub>±0.004</sub> |     5.12<sub>±00.09</sub> + 0.68<sub>±00.06</sub> |  68.44<sub>±00.24</sub> |
+|       Perl (MIME::Base64) |  1.779<sub>±0.014</sub> |    14.86<sub>±00.04</sub> + 0.07<sub>±00.00</sub> |  70.08<sub>±00.39</sub> |
+|                        Go |  1.852<sub>±0.001</sub> |     4.07<sub>±00.06</sub> + 4.57<sub>±00.38</sub> |  78.91<sub>±00.38</sub> |
+|                       PHP |  2.015<sub>±0.022</sub> |    17.09<sub>±00.09</sub> + 0.00<sub>±00.00</sub> |  81.94<sub>±00.93</sub> |
+|                    Python |  2.115<sub>±0.002</sub> |    10.41<sub>±00.06</sub> + 0.18<sub>±00.00</sub> |  78.44<sub>±00.28</sub> |
+|                   Node.js |  2.234<sub>±0.003</sub> |   36.96<sub>±00.03</sub> + 39.88<sub>±00.01</sub> |  90.04<sub>±00.67</sub> |
+|                     D/gdc |  2.645<sub>±0.001</sub> |     7.62<sub>±00.02</sub> + 3.91<sub>±00.00</sub> | 114.17<sub>±00.89</sub> |
+|                     D/dmd |  2.736<sub>±0.001</sub> |     4.04<sub>±00.02</sub> + 3.36<sub>±00.00</sub> | 118.22<sub>±00.86</sub> |
+|                       Zig |  3.062<sub>±0.001</sub> |     1.47<sub>±00.01</sub> + 0.31<sub>±00.00</sub> | 122.30<sub>±00.82</sub> |
+|              F#/.NET Core |  3.130<sub>±0.065</sub> |   38.63<sub>±00.03</sub> + 18.63<sub>±01.03</sub> | 117.75<sub>±01.18</sub> |
+|               Python/pypy |  3.580<sub>±0.002</sub> |   65.49<sub>±00.10</sub> + 30.62<sub>±00.15</sub> | 155.88<sub>±01.19</sub> |
+|                  Go/gccgo |  3.716<sub>±0.007</sub> |    25.42<sub>±00.09</sub> + 7.60<sub>±00.21</sub> | 167.47<sub>±00.66</sub> |
+|              C#/.NET Core |  3.748<sub>±0.081</sub> |   34.49<sub>±00.06</sub> + 20.71<sub>±03.36</sub> | 137.05<sub>±01.81</sub> |
+|                       Tcl |  3.993<sub>±0.005</sub> |     5.09<sub>±00.02</sub> + 0.16<sub>±00.00</sub> | 160.32<sub>±00.37</sub> |
+|                   C#/Mono |  4.698<sub>±0.019</sub> |   25.75<sub>±00.07</sub> + 18.71<sub>±00.09</sub> | 194.78<sub>±00.66</sub> |
+|  Ruby/truffleruby (--jvm) |  5.090<sub>±0.008</sub> | 343.44<sub>±03.17</sub> + 242.66<sub>±37.11</sub> | 247.93<sub>±01.44</sub> |
+|                     Julia |  5.095<sub>±0.007</sub> |  228.19<sub>±00.26</sub> + 62.22<sub>±00.04</sub> | 190.73<sub>±02.14</sub> |
+|                Ruby/jruby | 10.597<sub>±0.088</sub> |  182.58<sub>±00.94</sub> + 77.53<sub>±03.02</sub> | 422.40<sub>±02.95</sub> |
+| Perl (MIME::Base64::Perl) | 13.988<sub>±0.057</sub> |    16.16<sub>±00.09</sub> + 0.22<sub>±00.03</sub> | 575.68<sub>±03.73</sub> |
+|          Ruby/truffleruby | 17.438<sub>±0.022</sub> | 281.42<sub>±00.63</sub> + 235.47<sub>±06.16</sub> | 701.31<sub>±05.07</sub> |
 
 ## Json
 
@@ -223,82 +226,82 @@ have some inaccuracies in number parsing:
 
 [Json](json)
 
-|                            Language |                 Time, s |                                         Memory, MiB |               Energy, J |
-| :---------------------------------- | ----------------------: | --------------------------------------------------: | ----------------------: |
-|        C++/g++ (simdjson On-Demand) |  0.107<sub>±0.003</sub> |    113.41<sub>±00.03</sub> + 59.81<sub>±00.00</sub> |   3.23<sub>±00.40</sub> |
-|     C++/g++ (DAW JSON Link NoCheck) |  0.114<sub>±0.009</sub> |     113.19<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |   3.02<sub>±00.44</sub> |
-| C++/clang++ (DAW JSON Link NoCheck) |  0.119<sub>±0.018</sub> |     112.49<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |   2.45<sub>±00.51</sub> |
-|    C++/clang++ (simdjson On-Demand) |  0.120<sub>±0.009</sub> |    112.98<sub>±00.06</sub> + 59.81<sub>±00.00</sub> |   2.88<sub>±00.68</sub> |
-|             C++/g++ (DAW JSON Link) |  0.136<sub>±0.004</sub> |     113.15<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |   3.75<sub>±00.72</sub> |
-|         C++/clang++ (DAW JSON Link) |  0.155<sub>±0.032</sub> |     112.50<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |   3.74<sub>±00.51</sub> |
-|              C++/g++ (simdjson DOM) |  0.172<sub>±0.003</sub> |   113.36<sub>±00.07</sub> + 176.60<sub>±00.00</sub> |   4.89<sub>±01.06</sub> |
-|                 Rust (Serde Custom) |  0.173<sub>±0.013</sub> |     111.84<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |   3.93<sub>±00.57</sub> |
-|          C++/clang++ (simdjson DOM) |  0.173<sub>±0.014</sub> |   112.74<sub>±00.28</sub> + 176.85<sub>±00.25</sub> |   5.09<sub>±00.49</sub> |
-|                  Rust (Serde Typed) |  0.184<sub>±0.006</sub> |    111.81<sub>±00.06</sub> + 11.80<sub>±00.16</sub> |   3.62<sub>±00.42</sub> |
-|                     C++/g++ (gason) |  0.184<sub>±0.008</sub> |    113.10<sub>±00.04</sub> + 96.83<sub>±00.04</sub> |   5.49<sub>±00.68</sub> |
-|                 C++/clang++ (gason) |  0.224<sub>±0.009</sub> |    112.46<sub>±00.06</sub> + 96.97<sub>±00.00</sub> |   5.91<sub>±00.94</sub> |
-|                 C++/g++ (RapidJSON) |  0.237<sub>±0.012</sub> |   113.19<sub>±00.04</sub> + 128.87<sub>±00.04</sub> |   6.61<sub>±00.50</sub> |
-|               D/ldc2 (Mir Asdf DOM) |  0.295<sub>±0.009</sub> |    112.76<sub>±00.06</sub> + 61.36<sub>±00.00</sub> |   7.98<sub>±01.05</sub> |
-|       D/ldc2 (Mir Amazon's Ion DOM) |  0.300<sub>±0.016</sub> |    112.73<sub>±00.02</sub> + 16.26<sub>±00.00</sub> |   7.98<sub>±00.70</sub> |
-|             C++/clang++ (RapidJSON) |  0.319<sub>±0.008</sub> |   112.46<sub>±00.03</sub> + 129.02<sub>±00.03</sub> |   9.02<sub>±01.40</sub> |
-|         C++/g++ (RapidJSON Precise) |  0.345<sub>±0.019</sub> |   113.15<sub>±00.05</sub> + 128.87<sub>±00.04</sub> |  10.06<sub>±01.00</sub> |
-|     C++/clang++ (RapidJSON Precise) |  0.486<sub>±0.024</sub> |   112.46<sub>±00.01</sub> + 129.05<sub>±00.03</sub> |  12.16<sub>±01.51</sub> |
-|             C++/g++ (RapidJSON SAX) |  0.594<sub>±0.023</sub> |     112.92<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |  14.72<sub>±00.82</sub> |
-|                C++/g++ (Boost.JSON) |  0.620<sub>±0.019</sub> |   113.29<sub>±00.04</sub> + 435.82<sub>±00.06</sub> |  19.52<sub>±02.19</sub> |
-|         C++/clang++ (RapidJSON SAX) |  0.641<sub>±0.007</sub> |     194.70<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |  18.25<sub>±00.27</sub> |
-|                   Nim/clang (jsony) |  0.650<sub>±0.037</sub> |    112.10<sub>±00.04</sub> + 42.34<sub>±00.06</sub> |  15.65<sub>±01.40</sub> |
-|            C++/clang++ (Boost.JSON) |  0.658<sub>±0.031</sub> |   112.46<sub>±00.02</sub> + 436.31<sub>±00.06</sub> |  17.97<sub>±01.39</sub> |
-|                     Nim/gcc (jsony) |  0.660<sub>±0.038</sub> |    111.67<sub>±00.04</sub> + 42.28<sub>±00.00</sub> |  16.16<sub>±01.51</sub> |
-|     C++/g++ (RapidJSON SAX Precise) |  0.694<sub>±0.025</sub> |     112.97<sub>±00.06</sub> + 0.00<sub>±00.00</sub> |  16.53<sub>±02.22</sub> |
-|                             Node.js |  0.757<sub>±0.029</sub> |   146.31<sub>±00.02</sub> + 187.39<sub>±00.22</sub> |  23.18<sub>±01.75</sub> |
-|                       Go (jsoniter) |  0.789<sub>±0.019</sub> |     231.05<sub>±00.09</sub> + 1.13<sub>±00.13</sub> |  20.67<sub>±01.75</sub> |
-| C++/clang++ (RapidJSON SAX Precise) |  0.840<sub>±0.069</sub> |     194.73<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |  19.21<sub>±02.43</sub> |
-|                     Java (DSL-JSON) |  0.840<sub>±0.018</sub> |   259.38<sub>±00.52</sub> + 184.87<sub>±03.04</sub> |  26.22<sub>±03.35</sub> |
-|                Rust (Serde Untyped) |  0.962<sub>±0.048</sub> |   111.82<sub>±00.05</sub> + 840.02<sub>±00.02</sub> |  25.09<sub>±03.50</sub> |
-|                         Python/pypy |  0.969<sub>±0.042</sub> |   286.74<sub>±00.27</sub> + 121.37<sub>±00.01</sub> |  27.58<sub>±02.66</sub> |
-|                               V/gcc |  0.995<sub>±0.079</sub> |   111.19<sub>±00.01</sub> + 496.09<sub>±00.00</sub> |  26.18<sub>±03.30</sub> |
-|                             V/clang |  1.062<sub>±0.076</sub> |   111.18<sub>±00.01</sub> + 496.18<sub>±00.03</sub> |  28.19<sub>±03.03</sub> |
-|     C#/.NET Core (System.Text.Json) |  1.100<sub>±0.047</sub> |   478.79<sub>±00.09</sub> + 138.79<sub>±00.00</sub> |  30.61<sub>±01.85</sub> |
-|                       Julia (JSON3) |  1.105<sub>±0.038</sub> |   443.31<sub>±00.57</sub> + 263.37<sub>±01.80</sub> |  30.82<sub>±02.48</sub> |
-|              Nim/clang (Packedjson) |  1.221<sub>±0.049</sub> |   112.44<sub>±00.02</sub> + 294.16<sub>±00.00</sub> |  31.59<sub>±01.79</sub> |
-|                                 Zig |  1.231<sub>±0.037</sub> |    110.78<sub>±00.01</sub> + 12.18<sub>±00.00</sub> |  33.01<sub>±02.73</sub> |
-|                      Crystal (Pull) |  1.246<sub>±0.021</sub> |    113.87<sub>±00.03</sub> + 18.18<sub>±00.01</sub> |  30.60<sub>±03.69</sub> |
-|                                  Go |  1.277<sub>±0.034</sub> |    117.08<sub>±00.05</sub> + 79.95<sub>±00.04</sub> |  36.54<sub>±02.43</sub> |
-|             Perl (Cpanel::JSON::XS) |  1.277<sub>±0.111</sub> |   125.33<sub>±00.04</sub> + 402.83<sub>±00.00</sub> |  32.31<sub>±05.03</sub> |
-|                    Crystal (Schema) |  1.290<sub>±0.059</sub> |    113.88<sub>±00.01</sub> + 48.63<sub>±00.03</sub> |  30.12<sub>±02.78</sub> |
-|                Nim/gcc (Packedjson) |  1.420<sub>±0.091</sub> |   111.97<sub>±00.03</sub> + 294.16<sub>±00.00</sub> |  32.64<sub>±03.89</sub> |
-|                                 PHP |  1.457<sub>±0.033</sub> |   126.10<sub>±00.03</sub> + 682.09<sub>±00.00</sub> |  37.28<sub>±02.23</sub> |
-|                             Crystal |  1.512<sub>±0.024</sub> |   113.88<sub>±00.02</sub> + 392.02<sub>±00.01</sub> |  40.55<sub>±01.30</sub> |
-|                           Nim/clang |  1.744<sub>±0.110</sub> |   112.42<sub>±00.01</sub> + 925.06<sub>±00.03</sub> |  44.84<sub>±11.78</sub> |
-|                             Clojure |  1.750<sub>±0.074</sub> |   440.18<sub>±07.17</sub> + 477.47<sub>±08.46</sub> |  52.64<sub>±02.25</sub> |
-|                C++/clang++ (json-c) |  1.877<sub>±0.064</sub> |  112.69<sub>±00.07</sub> + 1216.12<sub>±00.02</sub> |  48.37<sub>±05.31</sub> |
-|                    C++/g++ (json-c) |  1.889<sub>±0.067</sub> |  113.28<sub>±00.01</sub> + 1215.96<sub>±00.00</sub> |  50.51<sub>±03.20</sub> |
-|              C++/clang++ (Nlohmann) |  1.934<sub>±0.157</sub> |   112.59<sub>±00.02</sub> + 360.19<sub>±00.05</sub> |  52.37<sub>±07.02</sub> |
-|                  C++/g++ (Nlohmann) |  1.967<sub>±0.075</sub> |   113.28<sub>±00.03</sub> + 447.94<sub>±00.03</sub> |  56.16<sub>±02.56</sub> |
-|                        C#/.NET Core |  1.999<sub>±0.045</sub> |   486.82<sub>±00.07</sub> + 294.20<sub>±00.00</sub> |  52.88<sub>±04.45</sub> |
-|                             Nim/gcc |  2.013<sub>±0.094</sub> |   111.96<sub>±00.03</sub> + 919.62<sub>±00.00</sub> |  50.43<sub>±02.79</sub> |
-|                            Go/gccgo |  2.031<sub>±0.130</sub> |    139.20<sub>±00.09</sub> + 83.48<sub>±00.12</sub> |  56.16<sub>±01.78</sub> |
-|                              Python |  2.072<sub>±0.072</sub> |   119.90<sub>±00.02</sub> + 377.32<sub>±00.00</sub> |  59.05<sub>±04.17</sub> |
-|                 CPython (UltraJSON) |  2.079<sub>±0.036</sub> |   121.63<sub>±00.03</sub> + 549.01<sub>±01.16</sub> |  58.88<sub>±03.31</sub> |
-|                                Ruby |  2.281<sub>±0.065</sub> |   124.58<sub>±00.03</sub> + 262.83<sub>±00.00</sub> |  69.45<sub>±01.83</sub> |
-|                        Ruby (--jit) |  2.319<sub>±0.086</sub> |   381.16<sub>±00.03</sub> + 262.86<sub>±00.01</sub> |  62.90<sub>±04.72</sub> |
-|                             C#/Mono |  2.699<sub>±0.091</sub> |     476.27<sub>±00.10</sub> + 0.19<sub>±00.02</sub> |  71.62<sub>±07.17</sub> |
-|     F#/.NET Core (System.Text.Json) |  2.709<sub>±0.146</sub> |   486.73<sub>±00.14</sub> + 456.74<sub>±01.62</sub> |  73.24<sub>±05.16</sub> |
-|                              D/ldc2 |  2.905<sub>±0.155</sub> |   113.05<sub>±00.05</sub> + 680.08<sub>±00.03</sub> |  82.67<sub>±03.83</sub> |
-|                     Scala (uPickle) |  2.910<sub>±0.114</sub> |   299.48<sub>±00.17</sub> + 589.33<sub>±14.73</sub> |  81.15<sub>±03.81</sub> |
-|                         Ruby (YAJL) |  3.135<sub>±0.119</sub> |   124.38<sub>±00.03</sub> + 282.45<sub>±00.00</sub> |  79.00<sub>±06.88</sub> |
-|                             Haskell |  4.215<sub>±0.136</sub> |   115.59<sub>±00.18</sub> + 715.40<sub>±00.22</sub> | 115.04<sub>±06.11</sub> |
-|    C++/clang++ (Boost.PropertyTree) |  4.454<sub>±0.049</sub> |  194.88<sub>±00.04</sub> + 1232.84<sub>±00.06</sub> | 122.71<sub>±06.29</sub> |
-|                           Rust (jq) |  4.506<sub>±0.213</sub> |   113.75<sub>±00.01</sub> + 779.15<sub>±00.77</sub> | 118.68<sub>±12.42</sub> |
-|                          Ruby/jruby |  4.517<sub>±0.295</sub> |   446.44<sub>±02.39</sub> + 872.79<sub>±25.79</sub> | 132.47<sub>±07.12</sub> |
-|        C++/g++ (Boost.PropertyTree) |  4.727<sub>±0.090</sub> |  113.11<sub>±00.05</sub> + 1440.12<sub>±00.02</sub> | 126.68<sub>±04.47</sub> |
-|                               D/dmd |  5.702<sub>±0.250</sub> |   113.61<sub>±00.04</sub> + 680.12<sub>±00.04</sub> | 151.01<sub>±11.46</sub> |
-|                               D/gdc |  5.765<sub>±0.187</sub> |   117.19<sub>±00.02</sub> + 680.78<sub>±00.08</sub> | 171.44<sub>±07.90</sub> |
-|                          Vala/clang |  5.930<sub>±0.108</sub> |   114.77<sub>±00.01</sub> + 876.66<sub>±00.09</sub> | 156.93<sub>±08.01</sub> |
-|                            Vala/gcc |  6.389<sub>±0.385</sub> |   114.69<sub>±00.05</sub> + 940.91<sub>±00.16</sub> | 175.00<sub>±15.75</sub> |
-|                   Perl (JSON::Tiny) | 15.127<sub>±1.107</sub> |   125.89<sub>±00.12</sub> + 528.64<sub>±00.12</sub> | 370.65<sub>±30.01</sub> |
-|            Ruby/truffleruby (--jvm) | 29.035<sub>±4.217</sub> | 506.97<sub>±24.95</sub> + 1717.25<sub>±124.69</sub> | 677.70<sub>±95.05</sub> |
-|                    Ruby/truffleruby | 44.241<sub>±4.551</sub> |  427.86<sub>±04.62</sub> + 2251.62<sub>±33.95</sub> | 967.29<sub>±71.44</sub> |
+|                            Language |                 Time, s |                                        Memory, MiB |                Energy, J |
+| :---------------------------------- | ----------------------: | -------------------------------------------------: | -----------------------: |
+|        C++/g++ (simdjson On-Demand) |  0.067<sub>±0.000</sub> |   113.45<sub>±00.09</sub> + 59.81<sub>±00.00</sub> |    2.78<sub>±00.03</sub> |
+|    C++/clang++ (simdjson On-Demand) |  0.068<sub>±0.000</sub> |   112.55<sub>±00.07</sub> + 60.36<sub>±00.06</sub> |    2.83<sub>±00.01</sub> |
+| C++/clang++ (DAW JSON Link NoCheck) |  0.077<sub>±0.000</sub> |    112.44<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |    3.14<sub>±00.01</sub> |
+|     C++/g++ (DAW JSON Link NoCheck) |  0.079<sub>±0.000</sub> |    113.19<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |    3.16<sub>±00.02</sub> |
+|             C++/g++ (DAW JSON Link) |  0.087<sub>±0.000</sub> |    113.22<sub>±00.07</sub> + 0.00<sub>±00.00</sub> |    3.58<sub>±00.03</sub> |
+|         C++/clang++ (DAW JSON Link) |  0.089<sub>±0.000</sub> |    112.44<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |    3.67<sub>±00.04</sub> |
+|                 Rust (Serde Custom) |  0.107<sub>±0.000</sub> |    111.99<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |    4.56<sub>±00.02</sub> |
+|                  Rust (Serde Typed) |  0.112<sub>±0.000</sub> |   111.97<sub>±00.07</sub> + 12.03<sub>±00.00</sub> |    4.72<sub>±00.01</sub> |
+|                     C++/g++ (gason) |  0.133<sub>±0.000</sub> |   113.14<sub>±00.05</sub> + 96.80<sub>±00.06</sub> |    5.28<sub>±00.03</sub> |
+|          C++/clang++ (simdjson DOM) |  0.136<sub>±0.001</sub> |  112.48<sub>±00.03</sub> + 177.15<sub>±00.06</sub> |    5.79<sub>±00.03</sub> |
+|              C++/g++ (simdjson DOM) |  0.138<sub>±0.000</sub> |  113.01<sub>±00.09</sub> + 176.39<sub>±00.19</sub> |    5.88<sub>±00.01</sub> |
+|                 C++/clang++ (gason) |  0.149<sub>±0.000</sub> |   112.48<sub>±00.03</sub> + 96.97<sub>±00.06</sub> |    6.02<sub>±00.01</sub> |
+|                 C++/g++ (RapidJSON) |  0.167<sub>±0.000</sub> |  113.26<sub>±00.05</sub> + 126.54<sub>±00.42</sub> |    6.93<sub>±00.04</sub> |
+|               D/ldc2 (Mir Asdf DOM) |  0.199<sub>±0.000</sub> |   112.74<sub>±00.03</sub> + 61.30<sub>±00.01</sub> |    8.29<sub>±00.03</sub> |
+|       D/ldc2 (Mir Amazon's Ion DOM) |  0.215<sub>±0.000</sub> |   112.73<sub>±00.03</sub> + 16.25<sub>±00.01</sub> |    8.71<sub>±00.09</sub> |
+|             C++/clang++ (RapidJSON) |  0.221<sub>±0.000</sub> |  112.45<sub>±00.00</sub> + 129.02<sub>±00.04</sub> |    8.98<sub>±00.04</sub> |
+|         C++/g++ (RapidJSON Precise) |  0.246<sub>±0.000</sub> |  113.24<sub>±00.03</sub> + 128.82<sub>±00.06</sub> |   10.41<sub>±00.10</sub> |
+|                C++/g++ (Boost.JSON) |  0.394<sub>±0.000</sub> |  113.22<sub>±00.03</sub> + 435.88<sub>±00.04</sub> |   16.44<sub>±00.13</sub> |
+|                   Nim/clang (jsony) |  0.399<sub>±0.000</sub> |   112.16<sub>±00.02</sub> + 42.34<sub>±00.03</sub> |   16.95<sub>±00.22</sub> |
+|             C++/g++ (RapidJSON SAX) |  0.404<sub>±0.001</sub> |    112.96<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |   16.68<sub>±00.07</sub> |
+|     C++/clang++ (RapidJSON Precise) |  0.410<sub>±0.000</sub> |  112.47<sub>±00.03</sub> + 129.01<sub>±00.02</sub> |   16.63<sub>±00.05</sub> |
+|            C++/clang++ (Boost.JSON) |  0.413<sub>±0.000</sub> |  112.44<sub>±00.00</sub> + 436.25<sub>±00.06</sub> |   17.23<sub>±00.20</sub> |
+|                     Nim/gcc (jsony) |  0.422<sub>±0.000</sub> |   111.72<sub>±00.03</sub> + 42.28<sub>±00.00</sub> |   18.09<sub>±00.12</sub> |
+|     C++/g++ (RapidJSON SAX Precise) |  0.450<sub>±0.001</sub> |    112.96<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |   19.34<sub>±00.09</sub> |
+|         C++/clang++ (RapidJSON SAX) |  0.496<sub>±0.000</sub> |    194.69<sub>±00.00</sub> + 0.00<sub>±00.00</sub> |   19.89<sub>±00.05</sub> |
+|                       Go (jsoniter) |  0.519<sub>±0.002</sub> |    230.86<sub>±00.02</sub> + 1.07<sub>±00.04</sub> |   21.80<sub>±00.07</sub> |
+|                             Node.js |  0.548<sub>±0.003</sub> |  147.87<sub>±00.07</sub> + 188.65<sub>±00.28</sub> |   25.00<sub>±00.14</sub> |
+|                     Java (DSL-JSON) |  0.621<sub>±0.015</sub> |  258.17<sub>±00.07</sub> + 138.46<sub>±00.77</sub> |   32.18<sub>±00.99</sub> |
+|                Rust (Serde Untyped) |  0.633<sub>±0.001</sub> |  111.90<sub>±00.03</sub> + 840.05<sub>±00.03</sub> |   25.50<sub>±00.07</sub> |
+|                             V/clang |  0.635<sub>±0.001</sub> |  111.23<sub>±00.05</sub> + 496.21<sub>±00.00</sub> |   26.63<sub>±00.29</sub> |
+|                               V/gcc |  0.635<sub>±0.001</sub> |  111.25<sub>±00.02</sub> + 496.12<sub>±00.03</sub> |   26.51<sub>±00.25</sub> |
+| C++/clang++ (RapidJSON SAX Precise) |  0.658<sub>±0.001</sub> |    194.71<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |   26.74<sub>±00.12</sub> |
+|                         Python/pypy |  0.678<sub>±0.001</sub> |  285.59<sub>±00.03</sub> + 124.88<sub>±00.00</sub> |   29.23<sub>±00.13</sub> |
+|                      Crystal (Pull) |  0.688<sub>±0.002</sub> |   113.86<sub>±00.02</sub> + 18.18<sub>±00.02</sub> |   30.53<sub>±00.29</sub> |
+|                    Crystal (Schema) |  0.694<sub>±0.002</sub> |   113.84<sub>±00.00</sub> + 48.57<sub>±00.04</sub> |   30.58<sub>±00.36</sub> |
+|                       Julia (JSON3) |  0.744<sub>±0.004</sub> |  378.93<sub>±00.36</sub> + 378.85<sub>±00.20</sub> |   30.54<sub>±00.32</sub> |
+|     C#/.NET Core (System.Text.Json) |  0.759<sub>±0.002</sub> |  479.31<sub>±00.03</sub> + 138.58<sub>±00.03</sub> |   33.20<sub>±00.31</sub> |
+|                                 Zig |  0.769<sub>±0.001</sub> |   110.75<sub>±00.01</sub> + 12.18<sub>±00.00</sub> |   30.36<sub>±00.06</sub> |
+|             Perl (Cpanel::JSON::XS) |  0.833<sub>±0.005</sub> |  125.42<sub>±00.05</sub> + 402.78<sub>±00.06</sub> |   34.78<sub>±00.29</sub> |
+|                                  Go |  0.855<sub>±0.001</sub> |   117.10<sub>±00.06</sub> + 79.79<sub>±00.11</sub> |   35.57<sub>±00.01</sub> |
+|              Nim/clang (Packedjson) |  0.929<sub>±0.000</sub> |  112.50<sub>±00.02</sub> + 294.16<sub>±00.00</sub> |   38.21<sub>±00.10</sub> |
+|                             Crystal |  0.937<sub>±0.010</sub> |  113.88<sub>±00.01</sub> + 392.00<sub>±00.01</sub> |   42.07<sub>±00.33</sub> |
+|                                 PHP |  0.984<sub>±0.001</sub> |  126.43<sub>±00.10</sub> + 682.01<sub>±00.00</sub> |   41.13<sub>±00.11</sub> |
+|                Nim/gcc (Packedjson) |  1.010<sub>±0.000</sub> |  112.00<sub>±00.04</sub> + 294.16<sub>±00.00</sub> |   41.38<sub>±00.17</sub> |
+|                C++/clang++ (json-c) |  1.203<sub>±0.007</sub> | 112.72<sub>±00.03</sub> + 1216.17<sub>±00.04</sub> |   50.96<sub>±00.27</sub> |
+|                    C++/g++ (json-c) |  1.208<sub>±0.009</sub> | 113.28<sub>±00.10</sub> + 1215.96<sub>±00.03</sub> |   50.54<sub>±00.57</sub> |
+|                             Clojure |  1.217<sub>±0.014</sub> |  450.12<sub>±06.93</sub> + 535.88<sub>±48.40</sub> |   64.53<sub>±00.76</sub> |
+|              C++/clang++ (Nlohmann) |  1.253<sub>±0.002</sub> |  112.62<sub>±00.04</sub> + 360.14<sub>±00.02</sub> |   53.05<sub>±00.28</sub> |
+|                            Go/gccgo |  1.263<sub>±0.003</sub> |   139.06<sub>±00.07</sub> + 83.52<sub>±00.15</sub> |   52.29<sub>±00.14</sub> |
+|                        C#/.NET Core |  1.294<sub>±0.016</sub> |  487.04<sub>±00.06</sub> + 294.45<sub>±00.04</sub> |   56.51<sub>±00.63</sub> |
+|                           Nim/clang |  1.315<sub>±0.002</sub> |  112.34<sub>±00.12</sub> + 925.29<sub>±00.10</sub> |   54.34<sub>±00.27</sub> |
+|                             Nim/gcc |  1.349<sub>±0.002</sub> |  111.95<sub>±00.09</sub> + 919.68<sub>±00.06</sub> |   56.49<sub>±00.36</sub> |
+|                 CPython (UltraJSON) |  1.440<sub>±0.003</sub> |  121.97<sub>±00.01</sub> + 543.94<sub>±02.33</sub> |   53.47<sub>±00.22</sub> |
+|                        Ruby (--jit) |  1.465<sub>±0.002</sub> |  381.01<sub>±00.02</sub> + 262.87<sub>±00.01</sub> |   61.51<sub>±00.41</sub> |
+|                                Ruby |  1.471<sub>±0.007</sub> |  124.42<sub>±00.03</sub> + 262.85<sub>±00.01</sub> |   62.65<sub>±00.34</sub> |
+|                  C++/g++ (Nlohmann) |  1.476<sub>±0.005</sub> |  113.25<sub>±00.04</sub> + 447.92<sub>±00.04</sub> |   60.35<sub>±00.21</sub> |
+|                              Python |  1.520<sub>±0.003</sub> |  120.41<sub>±00.01</sub> + 374.96<sub>±00.00</sub> |   59.77<sub>±00.14</sub> |
+|     F#/.NET Core (System.Text.Json) |  1.802<sub>±0.005</sub> |  486.98<sub>±00.15</sub> + 384.58<sub>±12.24</sub> |   79.04<sub>±00.74</sub> |
+|                     Scala (uPickle) |  1.849<sub>±0.011</sub> |  291.27<sub>±00.18</sub> + 665.30<sub>±48.68</sub> |   90.05<sub>±00.57</sub> |
+|                         Ruby (YAJL) |  1.983<sub>±0.025</sub> |  124.21<sub>±00.01</sub> + 282.40<sub>±00.00</sub> |   83.42<sub>±01.05</sub> |
+|                              D/ldc2 |  2.085<sub>±0.003</sub> |  113.15<sub>±00.02</sub> + 680.09<sub>±00.02</sub> |   86.06<sub>±00.41</sub> |
+|                             C#/Mono |  2.293<sub>±0.021</sub> |   252.49<sub>±00.14</sub> + 31.58<sub>±00.02</sub> |   96.48<sub>±01.08</sub> |
+|                             Haskell |  2.688<sub>±0.004</sub> |  115.95<sub>±00.03</sub> + 716.91<sub>±00.26</sub> |  108.80<sub>±00.08</sub> |
+|                           Rust (jq) |  2.791<sub>±0.006</sub> |  113.65<sub>±00.07</sub> + 778.76<sub>±00.90</sub> |  115.54<sub>±00.54</sub> |
+|                          Ruby/jruby |  3.113<sub>±0.027</sub> | 442.08<sub>±03.76</sub> + 933.59<sub>±104.90</sub> |  157.63<sub>±03.53</sub> |
+|    C++/clang++ (Boost.PropertyTree) |  3.126<sub>±0.003</sub> | 194.87<sub>±00.02</sub> + 1232.87<sub>±00.01</sub> |  129.76<sub>±00.70</sub> |
+|        C++/g++ (Boost.PropertyTree) |  3.338<sub>±0.006</sub> | 113.14<sub>±00.03</sub> + 1440.12<sub>±00.02</sub> |  135.06<sub>±00.77</sub> |
+|                               D/gdc |  3.681<sub>±0.009</sub> |  117.28<sub>±00.03</sub> + 680.72<sub>±00.08</sub> |  157.65<sub>±00.82</sub> |
+|                            Vala/gcc |  3.897<sub>±0.009</sub> |  114.69<sub>±00.01</sub> + 940.84<sub>±00.03</sub> |  165.64<sub>±00.87</sub> |
+|                          Vala/clang |  4.031<sub>±0.009</sub> |  114.69<sub>±00.03</sub> + 876.74<sub>±00.02</sub> |  170.91<sub>±00.96</sub> |
+|                               D/dmd |  4.524<sub>±0.007</sub> |  113.67<sub>±00.02</sub> + 680.09<sub>±00.02</sub> |  182.17<sub>±00.86</sub> |
+|                   Perl (JSON::Tiny) |  9.756<sub>±0.035</sub> |  125.79<sub>±00.04</sub> + 528.88<sub>±00.06</sub> |  422.50<sub>±03.92</sub> |
+|            Ruby/truffleruby (--jvm) | 16.470<sub>±0.253</sub> | 461.41<sub>±25.16</sub> + 2492.61<sub>±30.69</sub> | 1069.49<sub>±16.47</sub> |
+|                    Ruby/truffleruby | 22.345<sub>±0.910</sub> | 417.31<sub>±01.29</sub> + 2336.16<sub>±85.83</sub> | 1080.54<sub>±36.02</sub> |
 
 ## Matmul
 
@@ -306,51 +309,51 @@ Testing allocating and multiplying matrices.
 
 [Matmul](matmul)
 
-|                 Language |                   Time, s |                                         Memory, MiB |                  Energy, J |
-| :----------------------- | ------------------------: | --------------------------------------------------: | -------------------------: |
-|              Java (ND4J) |    0.117<sub>±0.009</sub> |    116.55<sub>±02.89</sub> + 90.78<sub>±00.01</sub> |      4.77<sub>±00.39</sub> |
-|           Rust (ndarray) |    0.150<sub>±0.015</sub> |      3.09<sub>±00.06</sub> + 67.97<sub>±00.00</sub> |      4.65<sub>±00.64</sub> |
-|       Julia (threads: 8) |    0.155<sub>±0.008</sub> |    249.12<sub>±00.17</sub> + 43.29<sub>±00.02</sub> |      5.97<sub>±00.70</sub> |
-|  Nim/clang (Arraymancer) |    0.191<sub>±0.031</sub> |      6.64<sub>±00.14</sub> + 55.78<sub>±00.44</sub> |      6.98<sub>±02.13</sub> |
-|       Julia (threads: 1) |    0.242<sub>±0.012</sub> |    249.45<sub>±00.19</sub> + 41.92<sub>±00.05</sub> |      5.98<sub>±00.61</sub> |
-|    Nim/gcc (Arraymancer) |    0.278<sub>±0.035</sub> |      5.69<sub>±00.05</sub> + 56.29<sub>±00.23</sub> |     10.05<sub>±00.82</sub> |
-|          D/ldc2 (lubeck) |    0.286<sub>±0.053</sub> |      6.99<sub>±00.06</sub> + 56.30<sub>±00.15</sub> |     10.13<sub>±01.37</sub> |
-|          C++/g++ (Eigen) |    0.332<sub>±0.028</sub> |      4.24<sub>±00.27</sub> + 85.72<sub>±00.27</sub> |     12.72<sub>±00.24</sub> |
-|           Python (NumPy) |    0.334<sub>±0.023</sub> |     28.15<sub>±00.04</sub> + 57.77<sub>±00.02</sub> |     13.15<sub>±01.27</sub> |
-|      C++/clang++ (Eigen) |    0.363<sub>±0.033</sub> |      4.49<sub>±00.08</sub> + 86.00<sub>±00.03</sub> |     13.48<sub>±03.00</sub> |
-|          Julia (no BLAS) |    1.549<sub>±0.016</sub> |    224.54<sub>±00.25</sub> + 51.44<sub>±00.03</sub> |     45.45<sub>±05.36</sub> |
-|                   D/ldc2 |    2.493<sub>±0.153</sub> |      3.72<sub>±00.03</sub> + 70.13<sub>±00.00</sub> |     71.22<sub>±12.50</sub> |
-|                    D/dmd |    2.710<sub>±0.097</sub> |      3.69<sub>±00.14</sub> + 70.28<sub>±00.12</sub> |     72.59<sub>±04.13</sub> |
-|                    D/gdc |    2.722<sub>±0.115</sub> |      7.71<sub>±00.13</sub> + 70.24<sub>±00.13</sub> |     67.76<sub>±12.08</sub> |
-|               Vala/clang |    4.134<sub>±0.232</sub> |      5.78<sub>±00.14</sub> + 68.32<sub>±00.00</sub> |    110.51<sub>±16.45</sub> |
-|                    C/gcc |    4.145<sub>±0.229</sub> |      2.06<sub>±00.05</sub> + 68.06<sub>±00.00</sub> |    117.97<sub>±11.91</sub> |
-|                     Java |    4.150<sub>±0.067</sub> |     37.95<sub>±00.25</sub> + 81.48<sub>±00.24</sub> |    125.62<sub>±08.05</sub> |
-|                  Nim/gcc |    4.158<sub>±0.076</sub> |      2.65<sub>±00.04</sub> + 80.69<sub>±03.61</sub> |    116.87<sub>±00.76</sub> |
-|                      Zig |    4.185<sub>±0.209</sub> |      1.73<sub>±00.03</sub> + 68.58<sub>±00.00</sub> |    115.16<sub>±18.06</sub> |
-|                  C/clang |    4.188<sub>±0.168</sub> |      2.07<sub>±00.03</sub> + 68.06<sub>±00.13</sub> |    109.95<sub>±06.75</sub> |
-|                       Go |    4.204<sub>±0.074</sub> |      3.57<sub>±00.08</sub> + 73.06<sub>±00.09</sub> |    131.02<sub>±07.18</sub> |
-|                Nim/clang |    4.245<sub>±0.133</sub> |      3.11<sub>±00.02</sub> + 77.47<sub>±03.22</sub> |    118.62<sub>±08.83</sub> |
-|                 Go/gccgo |    4.252<sub>±0.066</sub> |     24.99<sub>±00.16</sub> + 73.46<sub>±00.11</sub> |    130.01<sub>±08.05</sub> |
-|                    Swift |    4.371<sub>±0.245</sub> |      6.32<sub>±00.02</sub> + 68.92<sub>±00.01</sub> |    110.87<sub>±17.14</sub> |
-|                     Rust |    4.388<sub>±0.345</sub> |      2.69<sub>±00.08</sub> + 68.32<sub>±00.00</sub> |    113.52<sub>±18.78</sub> |
-|                 Vala/gcc |    4.466<sub>±0.155</sub> |      5.65<sub>±00.07</sub> + 68.32<sub>±00.00</sub> |    123.33<sub>±05.18</sub> |
-|                  V/clang |    4.510<sub>±0.097</sub> |      2.30<sub>±00.07</sub> + 68.84<sub>±00.00</sub> |    119.77<sub>±05.32</sub> |
-|                    V/gcc |    4.512<sub>±0.094</sub> |      1.94<sub>±00.02</sub> + 68.84<sub>±00.00</sub> |    117.35<sub>±09.06</sub> |
-|                  Crystal |    4.564<sub>±0.215</sub> |      4.26<sub>±00.02</sub> + 59.67<sub>±00.01</sub> |    124.74<sub>±06.60</sub> |
-|                    Scala |    4.626<sub>±0.319</sub> |    74.32<sub>±00.32</sub> + 146.71<sub>±03.45</sub> |    130.22<sub>±13.45</sub> |
-|                  Node.js |    4.768<sub>±0.428</sub> |     41.72<sub>±00.08</sub> + 70.72<sub>±00.13</sub> |    125.94<sub>±21.48</sub> |
-|              Python/pypy |    7.763<sub>±0.203</sub> |     67.08<sub>±00.14</sub> + 69.11<sub>±00.07</sub> |    194.22<sub>±08.08</sub> |
-|               Kotlin/JVM |    7.816<sub>±1.705</sub> |     39.84<sub>±00.11</sub> + 80.27<sub>±00.33</sub> |    207.44<sub>±63.75</sub> |
-|             C#/.NET Core |    8.697<sub>±0.219</sub> |     34.63<sub>±00.12</sub> + 69.39<sub>±00.05</sub> |    222.21<sub>±22.74</sub> |
-|                  C#/Mono |   13.592<sub>±0.646</sub> |     20.42<sub>±00.04</sub> + 69.01<sub>±00.02</sub> |    367.41<sub>±31.99</sub> |
-|         Ruby/truffleruby |   30.741<sub>±2.113</sub> | 329.32<sub>±17.21</sub> + 1016.19<sub>±371.12</sub> |   717.20<sub>±127.90</sub> |
-| Ruby/truffleruby (--jvm) |   51.371<sub>±1.132</sub> |  400.60<sub>±12.24</sub> + 638.52<sub>±151.81</sub> |  1294.26<sub>±132.95</sub> |
-|             Ruby (--jit) |  246.812<sub>±6.744</sub> |    272.22<sub>±00.01</sub> + 68.84<sub>±00.00</sub> |  6126.62<sub>±145.10</sub> |
-|                     Ruby |  258.210<sub>±7.250</sub> |     15.64<sub>±00.04</sub> + 68.58<sub>±00.00</sub> |  6630.94<sub>±231.12</sub> |
-|                   Python |  277.581<sub>±2.827</sub> |     10.33<sub>±00.03</sub> + 68.58<sub>±00.00</sub> |   6803.39<sub>±91.67</sub> |
-|                      Tcl |  385.609<sub>±3.409</sub> |     7.37<sub>±00.02</sub> + 400.39<sub>±00.02</sub> |   9718.19<sub>±92.19</sub> |
-|                     Perl |  472.250<sub>±5.819</sub> |     9.57<sub>±00.03</sub> + 599.61<sub>±00.05</sub> |  12162.42<sub>±90.60</sub> |
-|               Ruby/jruby | 686.602<sub>±38.075</sub> |   264.80<sub>±08.62</sub> + 672.79<sub>±76.03</sub> | 16661.14<sub>±977.64</sub> |
+|                 Language |                   Time, s |                                       Memory, MiB |                  Energy, J |
+| :----------------------- | ------------------------: | ------------------------------------------------: | -------------------------: |
+|          D/ldc2 (lubeck) |    0.046<sub>±0.000</sub> |    6.57<sub>±00.04</sub> + 54.95<sub>±00.10</sub> |      4.66<sub>±00.03</sub> |
+|    Nim/gcc (Arraymancer) |    0.066<sub>±0.002</sub> |    5.52<sub>±00.05</sub> + 54.73<sub>±00.11</sub> |      5.46<sub>±00.13</sub> |
+|      C++/clang++ (Eigen) |    0.068<sub>±0.003</sub> |   38.90<sub>±02.59</sub> + 51.51<sub>±02.58</sub> |      5.53<sub>±00.15</sub> |
+|           Python (NumPy) |    0.070<sub>±0.000</sub> |   28.41<sub>±00.12</sub> + 54.96<sub>±00.04</sub> |      6.49<sub>±00.04</sub> |
+|          C++/g++ (Eigen) |    0.070<sub>±0.002</sub> |   29.55<sub>±08.72</sub> + 60.24<sub>±08.76</sub> |      5.13<sub>±00.13</sub> |
+|  Nim/clang (Arraymancer) |    0.072<sub>±0.001</sub> |    6.34<sub>±00.04</sub> + 54.76<sub>±00.08</sub> |      6.07<sub>±00.07</sub> |
+|              Java (ND4J) |    0.081<sub>±0.005</sub> |  104.24<sub>±01.83</sub> + 92.25<sub>±00.16</sub> |      6.35<sub>±00.31</sub> |
+|           Rust (ndarray) |    0.090<sub>±0.000</sub> |    2.63<sub>±00.04</sub> + 68.48<sub>±00.00</sub> |      6.00<sub>±00.03</sub> |
+|       Julia (threads: 4) |    0.191<sub>±0.000</sub> |  235.35<sub>±00.21</sub> + 49.23<sub>±00.90</sub> |     15.54<sub>±00.02</sub> |
+|       Julia (threads: 1) |    0.510<sub>±0.000</sub> |  235.65<sub>±00.18</sub> + 49.17<sub>±00.66</sub> |     21.51<sub>±00.03</sub> |
+|          Julia (no BLAS) |    1.046<sub>±0.010</sub> |  225.72<sub>±00.30</sub> + 51.62<sub>±00.01</sub> |     46.15<sub>±00.39</sub> |
+|                   D/ldc2 |    1.716<sub>±0.001</sub> |    3.52<sub>±00.03</sub> + 70.39<sub>±00.00</sub> |     63.31<sub>±00.11</sub> |
+|                    D/gdc |    1.868<sub>±0.001</sub> |    7.55<sub>±00.04</sub> + 70.43<sub>±00.03</sub> |     73.08<sub>±00.12</sub> |
+|                    D/dmd |    1.875<sub>±0.002</sub> |    3.63<sub>±00.04</sub> + 70.41<sub>±00.00</sub> |     71.06<sub>±00.11</sub> |
+|                    C/gcc |    3.029<sub>±0.000</sub> |    1.32<sub>±00.00</sub> + 68.80<sub>±00.04</sub> |    109.29<sub>±00.43</sub> |
+|               Vala/clang |    3.060<sub>±0.000</sub> |    4.10<sub>±00.03</sub> + 69.79<sub>±00.08</sub> |    107.55<sub>±00.90</sub> |
+|                     Rust |    3.065<sub>±0.000</sub> |    2.45<sub>±00.05</sub> + 68.57<sub>±00.00</sub> |    105.15<sub>±00.17</sub> |
+|                  C/clang |    3.067<sub>±0.000</sub> |    1.38<sub>±00.01</sub> + 68.77<sub>±00.02</sub> |    105.98<sub>±00.38</sub> |
+|                      Zig |    3.085<sub>±0.001</sub> |    1.34<sub>±00.03</sub> + 68.89<sub>±00.00</sub> |    109.27<sub>±00.08</sub> |
+|                  Nim/gcc |    3.088<sub>±0.001</sub> |    2.43<sub>±00.06</sub> + 67.19<sub>±00.67</sub> |    111.11<sub>±00.30</sub> |
+|                    Swift |    3.094<sub>±0.000</sub> |    6.49<sub>±00.02</sub> + 68.88<sub>±00.01</sub> |    108.15<sub>±00.40</sub> |
+|                     Java |    3.095<sub>±0.000</sub> |   38.11<sub>±00.07</sub> + 68.41<sub>±00.13</sub> |    107.24<sub>±00.38</sub> |
+|                 Vala/gcc |    3.125<sub>±0.001</sub> |    4.13<sub>±00.02</sub> + 69.79<sub>±00.07</sub> |    114.53<sub>±00.06</sub> |
+|                Nim/clang |    3.136<sub>±0.001</sub> |    2.88<sub>±00.04</sub> + 70.44<sub>±00.06</sub> |    107.79<sub>±00.13</sub> |
+|                    V/gcc |    3.146<sub>±0.000</sub> |    1.87<sub>±00.06</sub> + 68.84<sub>±00.00</sub> |    117.55<sub>±01.78</sub> |
+|                  V/clang |    3.147<sub>±0.000</sub> |    2.22<sub>±00.07</sub> + 68.84<sub>±00.00</sub> |    115.64<sub>±00.13</sub> |
+|                       Go |    3.152<sub>±0.000</sub> |    3.63<sub>±00.04</sub> + 73.18<sub>±00.09</sub> |    113.80<sub>±00.18</sub> |
+|                 Go/gccgo |    3.159<sub>±0.000</sub> |   24.91<sub>±00.09</sub> + 73.53<sub>±00.12</sub> |    112.23<sub>±00.10</sub> |
+|                  Crystal |    3.161<sub>±0.001</sub> |    4.25<sub>±00.02</sub> + 59.67<sub>±00.03</sub> |    115.88<sub>±00.10</sub> |
+|                  Node.js |    3.213<sub>±0.001</sub> |   41.96<sub>±00.13</sub> + 71.22<sub>±00.19</sub> |    129.55<sub>±00.09</sub> |
+|              Python/pypy |    3.270<sub>±0.001</sub> |   65.78<sub>±00.05</sub> + 68.63<sub>±00.01</sub> |    136.14<sub>±00.12</sub> |
+|                    Scala |    3.322<sub>±0.007</sub> |  65.01<sub>±00.11</sub> + 133.87<sub>±00.15</sub> |    118.54<sub>±00.41</sub> |
+|             C#/.NET Core |    4.874<sub>±0.001</sub> |   34.67<sub>±00.10</sub> + 69.34<sub>±00.00</sub> |    196.06<sub>±00.16</sub> |
+|               Kotlin/JVM |    6.937<sub>±0.001</sub> |   39.71<sub>±00.10</sub> + 68.16<sub>±00.22</sub> |    271.50<sub>±00.34</sub> |
+|                  C#/Mono |    7.413<sub>±0.001</sub> |   25.56<sub>±00.12</sub> + 69.54<sub>±00.03</sub> |    299.15<sub>±00.74</sub> |
+|         Ruby/truffleruby |   14.604<sub>±1.175</sub> | 351.93<sub>±01.70</sub> + 465.25<sub>±18.48</sub> |    553.17<sub>±37.67</sub> |
+| Ruby/truffleruby (--jvm) |   21.393<sub>±0.051</sub> | 437.31<sub>±33.21</sub> + 961.78<sub>±75.62</sub> |    804.61<sub>±05.21</sub> |
+|                     Ruby |  180.926<sub>±2.288</sub> |   15.46<sub>±00.03</sub> + 68.58<sub>±00.00</sub> |  7927.39<sub>±113.83</sub> |
+|             Ruby (--jit) |  182.285<sub>±0.371</sub> |  272.05<sub>±00.05</sub> + 68.84<sub>±00.00</sub> |   7995.18<sub>±94.11</sub> |
+|                     Perl |  221.133<sub>±0.748</sub> |   9.56<sub>±00.04</sub> + 599.55<sub>±00.02</sub> |   9001.25<sub>±37.66</sub> |
+|                   Python |  261.473<sub>±0.827</sub> |   10.58<sub>±00.05</sub> + 68.84<sub>±00.00</sub> |  10445.40<sub>±55.25</sub> |
+|                      Tcl |  298.785<sub>±5.053</sub> |   7.51<sub>±00.04</sub> + 400.15<sub>±00.03</sub> | 12660.24<sub>±177.21</sub> |
+|               Ruby/jruby | 404.829<sub>±24.918</sub> | 266.19<sub>±01.83</sub> + 779.12<sub>±54.18</sub> | 16982.36<sub>±869.82</sub> |
 
 ## Primes
 
@@ -363,77 +366,77 @@ Testing:
 
 |                 Language |                Time, s |                                       Memory, MiB |               Energy, J |
 | :----------------------- | ---------------------: | ------------------------------------------------: | ----------------------: |
-|                      Zig | 0.084<sub>±0.003</sub> |    1.40<sub>±00.03</sub> + 55.92<sub>±01.96</sub> |   2.33<sub>±00.49</sub> |
-|                     Rust | 0.131<sub>±0.008</sub> |    2.38<sub>±00.05</sub> + 77.02<sub>±00.02</sub> |   3.65<sub>±00.78</sub> |
-|                  C++/g++ | 0.179<sub>±0.006</sub> |    3.49<sub>±00.05</sub> + 84.79<sub>±00.14</sub> |   5.12<sub>±00.83</sub> |
-|              C++/clang++ | 0.209<sub>±0.006</sub> |    3.12<sub>±00.03</sub> + 75.41<sub>±00.00</sub> |   5.31<sub>±01.22</sub> |
-|                     Java | 0.209<sub>±0.020</sub> |  36.87<sub>±00.10</sub> + 103.22<sub>±02.12</sub> |   6.85<sub>±00.77</sub> |
-|                  V/clang | 0.214<sub>±0.010</sub> |   1.63<sub>±00.08</sub> + 264.86<sub>±02.00</sub> |   6.56<sub>±00.49</sub> |
-|                  Crystal | 0.215<sub>±0.022</sub> |    3.47<sub>±00.02</sub> + 88.60<sub>±00.34</sub> |   5.17<sub>±00.64</sub> |
-|                    V/gcc | 0.230<sub>±0.010</sub> |   1.57<sub>±00.03</sub> + 271.94<sub>±03.48</sub> |   6.43<sub>±00.94</sub> |
-|                  Node.js | 0.338<sub>±0.020</sub> |  35.80<sub>±00.06</sub> + 181.38<sub>±04.29</sub> |  10.28<sub>±02.11</sub> |
-|               Lua/luajit | 0.524<sub>±0.013</sub> |   2.50<sub>±00.04</sub> + 156.16<sub>±00.74</sub> |  12.73<sub>±02.48</sub> |
-|                    Scala | 0.542<sub>±0.043</sub> |  74.46<sub>±00.15</sub> + 231.71<sub>±02.82</sub> |  18.38<sub>±01.29</sub> |
-|                    Julia | 0.852<sub>±0.053</sub> | 228.82<sub>±00.27</sub> + 329.10<sub>±00.85</sub> |  20.14<sub>±02.90</sub> |
-|              Python/pypy | 1.018<sub>±0.034</sub> |  66.47<sub>±00.09</sub> + 248.32<sub>±00.06</sub> |  29.34<sub>±04.15</sub> |
-|                      Lua | 2.136<sub>±0.114</sub> |   2.21<sub>±00.02</sub> + 284.55<sub>±00.36</sub> |  49.83<sub>±09.35</sub> |
-|             Ruby (--jit) | 2.196<sub>±0.067</sub> | 271.10<sub>±00.01</sub> + 146.92<sub>±00.00</sub> |  56.95<sub>±06.47</sub> |
-|         Ruby/truffleruby | 2.587<sub>±0.158</sub> | 278.28<sub>±02.19</sub> + 387.69<sub>±16.37</sub> |  71.86<sub>±02.98</sub> |
-| Ruby/truffleruby (--jvm) | 2.810<sub>±0.286</sub> | 344.56<sub>±03.96</sub> + 520.57<sub>±39.74</sub> |  89.94<sub>±05.85</sub> |
-|                     Ruby | 2.889<sub>±0.080</sub> |  14.53<sub>±00.03</sub> + 146.75<sub>±00.00</sub> |  71.19<sub>±03.90</sub> |
-|               Ruby/jruby | 3.219<sub>±0.270</sub> | 189.27<sub>±01.76</sub> + 394.60<sub>±12.90</sub> |  86.92<sub>±07.55</sub> |
-|                   Python | 5.620<sub>±0.174</sub> |  10.16<sub>±00.14</sub> + 236.34<sub>±00.26</sub> | 150.33<sub>±10.30</sub> |
+|                      Zig | 0.059<sub>±0.000</sub> |    0.75<sub>±00.00</sub> + 49.41<sub>±00.04</sub> |   2.44<sub>±00.01</sub> |
+|                     Rust | 0.093<sub>±0.000</sub> |    2.19<sub>±00.05</sub> + 77.27<sub>±00.00</sub> |   3.78<sub>±00.01</sub> |
+|                  Crystal | 0.123<sub>±0.000</sub> |    3.48<sub>±00.02</sub> + 89.43<sub>±00.64</sub> |   5.54<sub>±00.06</sub> |
+|                  C++/g++ | 0.132<sub>±0.000</sub> |    3.54<sub>±00.07</sub> + 85.27<sub>±00.26</sub> |   5.36<sub>±00.04</sub> |
+|              C++/clang++ | 0.143<sub>±0.000</sub> |    3.08<sub>±00.08</sub> + 75.41<sub>±00.00</sub> |   5.63<sub>±00.05</sub> |
+|                  V/clang | 0.148<sub>±0.000</sub> |   0.72<sub>±00.00</sub> + 262.80<sub>±00.57</sub> |   6.15<sub>±00.06</sub> |
+|                    V/gcc | 0.150<sub>±0.000</sub> |   0.71<sub>±00.06</sub> + 259.28<sub>±00.48</sub> |   6.28<sub>±00.04</sub> |
+|                     Java | 0.155<sub>±0.002</sub> |  36.96<sub>±00.11</sub> + 144.23<sub>±05.61</sub> |   8.63<sub>±00.15</sub> |
+|                  Node.js | 0.256<sub>±0.003</sub> |  36.96<sub>±00.11</sub> + 181.19<sub>±02.81</sub> |  12.80<sub>±00.06</sub> |
+|               Lua/luajit | 0.337<sub>±0.001</sub> |   2.49<sub>±00.03</sub> + 156.75<sub>±00.38</sub> |  12.87<sub>±00.03</sub> |
+|                    Scala | 0.391<sub>±0.005</sub> |  66.10<sub>±00.30</sub> + 258.71<sub>±02.41</sub> |  22.50<sub>±00.24</sub> |
+|                    Julia | 0.555<sub>±0.002</sub> | 230.82<sub>±00.22</sub> + 327.93<sub>±01.74</sub> |  23.58<sub>±00.12</sub> |
+|              Python/pypy | 0.880<sub>±0.002</sub> |  64.77<sub>±00.07</sub> + 249.36<sub>±00.15</sub> |  34.55<sub>±00.17</sub> |
+|             Ruby (--jit) | 1.443<sub>±0.005</sub> | 270.96<sub>±00.02</sub> + 146.80<sub>±00.04</sub> |  58.79<sub>±00.46</sub> |
+|                      Lua | 1.480<sub>±0.005</sub> |   2.32<sub>±00.01</sub> + 283.97<sub>±00.87</sub> |  57.87<sub>±00.19</sub> |
+|         Ruby/truffleruby | 1.563<sub>±0.012</sub> | 287.18<sub>±00.42</sub> + 334.66<sub>±24.08</sub> |  80.19<sub>±00.54</sub> |
+|               Ruby/jruby | 1.883<sub>±0.026</sub> | 182.58<sub>±00.29</sub> + 370.42<sub>±55.17</sub> | 101.51<sub>±01.01</sub> |
+| Ruby/truffleruby (--jvm) | 1.895<sub>±0.018</sub> | 348.72<sub>±09.17</sub> + 526.76<sub>±97.23</sub> | 123.08<sub>±01.27</sub> |
+|                     Ruby | 2.032<sub>±0.004</sub> |  14.36<sub>±00.02</sub> + 146.75<sub>±00.00</sub> |  82.09<sub>±00.60</sub> |
+|                   Python | 4.806<sub>±0.058</sub> |  10.41<sub>±00.06</sub> + 234.92<sub>±00.64</sub> | 190.06<sub>±02.19</sub> |
 
 # Tests Execution
 
 ## Environment
 
-CPU: Intel(R) Core(TM) i7-10710U
+CPU: Intel(R) Xeon(R) E-2324G
 
 Base Docker image: Debian GNU/Linux bookworm/sid
 
 | Language         | Version                         |
 | ---------------- | ------------------------------- |
-| .NET Core        | 6.0.201                         |
-| C#/.NET Core     | 4.1.0-5.22116.13 (dbffaa4a)     |
-| C#/Mono          | 6.12.0.122                      |
+| .NET Core        | 6.0.203                         |
+| C#/.NET Core     | 4.1.0-5.22128.4 (5d10d428)      |
+| C#/Mono          | 6.8.0.105                       |
 | Chez Scheme      | 9.5.4                           |
-| Clojure          | "1.11.0"                        |
-| Crystal          | 1.3.2                           |
-| D/dmd            | v2.099.0                        |
-| D/gdc            | 12.0.1                          |
-| D/ldc2           | 1.28.1                          |
+| Clojure          | "1.11.1"                        |
+| Crystal          | 1.4.1                           |
+| D/dmd            | v2.100.0                        |
+| D/gdc            | 12.1.0                          |
+| D/ldc2           | 1.29.0                          |
 | Elixir           | 1.12.2                          |
 | F#/.NET Core     | 12.0.1.0 for F# 6.0             |
-| Go               | go1.18                          |
-| Go/gccgo         | 12.0.1                          |
-| Haskell          | 9.0.1                           |
-| Java             | 18                              |
-| Julia            | v"1.7.2"                        |
-| Kotlin           | 1.6.20                          |
+| Go               | go1.18.2                        |
+| Go/gccgo         | 12.1.0                          |
+| Haskell          | 9.2.3                           |
+| Java             | 18.0.1.1                        |
+| Julia            | v"1.7.3"                        |
+| Kotlin           | 1.6.21                          |
 | Lua              | 5.4.4                           |
 | Lua/luajit       | 2.1.0-beta3                     |
 | MLton            | 20210117                        |
-| Nim              | 1.6.4                           |
-| Node.js          | v17.8.0                         |
-| OCaml            | 4.13.1                          |
-| PHP              | 8.1.2                           |
+| Nim              | 1.6.6                           |
+| Node.js          | v18.2.0                         |
+| OCaml            | 4.14.0                          |
+| PHP              | 8.1.5                           |
 | Perl             | v5.34.0                         |
-| Python           | 3.9.12                          |
+| Python           | 3.10.4                          |
 | Python/pypy      | 7.3.9-final0 for Python 3.9.12  |
-| Racket           | "8.4"                           |
-| Ruby             | 3.1.1p18                        |
+| Racket           | "8.5"                           |
+| Ruby             | 3.1.2p20                        |
 | Ruby/jruby       | 9.3.4.0                         |
-| Ruby/truffleruby | 22.0.0.2                        |
-| Rust             | 1.59.0                          |
-| Scala            | 3.1.1                           |
-| Swift            | 5.6                             |
+| Ruby/truffleruby | 22.1.0                          |
+| Rust             | 1.61.0                          |
+| Scala            | 3.1.2                           |
+| Swift            | 5.6.1                           |
 | Tcl              | 8.6                             |
-| V                | 0.2.4 509367b                   |
-| Vala             | 0.56.0                          |
+| V                | 0.2.4 a3c0a9b                   |
+| Vala             | 0.56.1                          |
 | Zig              | 0.9.1                           |
 | clang/clang++    | 13.0.1                          |
-| gcc/g++          | 12.0.1                          |
+| gcc/g++          | 12.1.0                          |
 
 ## Using Docker
 
@@ -458,18 +461,11 @@ where `<cmd>` is:
 
 Please note that the actual measurements provided in the project are taken semi-manually (via `shell`) as the full update takes days and could have occassional issues in Docker.
 
-There is a `Makefile` that could be used to simplify Docker usage:
+There is a `./run.sh` that could be used to simplify Docker usage:
 
- - `make build` (build the image);
- - `make versions` (run the image with the `versions` command);
- - `make shell` (run the image with the `shell' command);
- - `make toc` (utility rule to update ToC in this README, requires
-[git-markdown-toc](https://github.com/ildar-shaimordanov/git-markdown-toc)
-available in `PATH`).
-
-Please note that the `make shell` rule requires `cpupower` utility installed
-that is invoked with `sudo` to set cpufreq's performance governon
-(it runs the CPU at the maximum frequence to eliminate throttling issues).
+ - `./run.sh build` (build the image);
+ - `./run.sh make versions` (run the image with the `versions` command);
+ - `sudo ./run.sh shell` (run the image with the `shell' command, sudo is required to read energy levels).
 
 ## Manual Execution
 
@@ -584,3 +580,21 @@ requires changes:
 
  - append `run[<script_file>]` into `all_runners` variable;
  - append `run[<script_file>]` rule to run the test.
+
+## README update
+
+TOC is regenerated using [git-markdown-toc](https://github.com/ildar-shaimordanov/git-markdown-toc):
+
+```
+./run.sh toc
+```
+
+## Docker image update
+
+Debian packages are pinned and updated with the script
+(first, please ensure that the image is fine with the linter):
+
+```
+./run.sh lint
+./run.sh update_apt
+```

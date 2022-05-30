@@ -7,7 +7,7 @@ const (
 
 struct Node {
 mut:
-	children map[byte]&Node
+	children map[u8]&Node
 	terminal bool
 }
 
