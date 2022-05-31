@@ -6,7 +6,7 @@ const PREFIX = 32_338
 
 
 mutable struct Node
-    children::Dict
+    children::Dict{Char, Node}
     terminal::Bool
 end
 Node(children::Dict) = Node(children, false)
@@ -15,7 +15,7 @@ Node() = Node(Dict(), false)
 
 mutable struct Sieve
     limit::Int64
-    prime::Vector{Bool}
+    prime::BitVector
 
     function Sieve(limit::Int64)
         return new(limit, falses(limit + 1))
@@ -51,7 +51,7 @@ end
 
 function step1!(s::Sieve, x::Int64, y::Int64)
     n = 4x^2 + y^2
-    if n <= s.limit && (mod(n, 12) == 1 || mod(n, 12) == 5)
+    if n <= s.limit && (mod(n, 12) in (1,5))
         @inbounds s.prime[n] = !s.prime[n]
     end
 end
@@ -127,8 +127,8 @@ function find(upper_bound::Int64, search_prefix::Int64)::Vector
         head == nothing && return nothing
     end
 
-    queue = Vector{Tuple}([(head, str_prefix)])
-    result = Vector{Int64}()
+    queue = [(head, str_prefix)]
+    result = Int64[]
 
     while !isempty(queue)
         top, prefix = pop!(queue)
@@ -138,7 +138,7 @@ function find(upper_bound::Int64, search_prefix::Int64)::Vector
         end
 
         for (char, v) in top.children
-            insert!(queue, 1, (v, prefix * char))
+            pushfirst!(queue, (v, prefix * char))
         end
     end
 
