@@ -6,7 +6,7 @@ const PREFIX = 32_338
 
 
 mutable struct Node
-    children::Dict{Char, Node}
+    children::Dict{Char,Node}
     terminal::Bool
 end
 Node(children::Dict) = Node(children, false)
@@ -51,7 +51,7 @@ end
 
 function step1!(s::Sieve, x::Int64, y::Int64)
     n = 4x^2 + y^2
-    if n <= s.limit && (mod(n, 12) in (1,5))
+    if n <= s.limit && (mod(n, 12) in (1, 5))
         @inbounds s.prime[n] = !s.prime[n]
     end
 end
