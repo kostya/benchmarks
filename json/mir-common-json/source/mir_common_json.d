@@ -51,12 +51,8 @@ auto notifyStop(scope const char[] msg = "stop")
 
 struct Coordinate
 {
+@serdeAllowMultiple @serdeOptional:
     double x = 0, y = 0, z = 0;
-
-    auto print() @trusted
-    {
-        puts((stringBuf() << x << ", " << y << ", "  << z << "\n\0" << getData).ptr);
-    }
 }
 
 struct CoordinateAvg

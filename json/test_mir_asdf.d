@@ -1,12 +1,13 @@
 /+ dub.sdl:
 name "json_d_mir_asdf"
 targetPath "target"
-dependency "asdf" version="~>0.7.14"
+dependency "asdf" version="~>0.7.15"
 dependency "mir_common_json" path="mir-common-json"
 dflags "-mcpu=native" "-linkonce-templates" "-enable-cross-module-inlining" platform="ldc"
 +/
-import mir_common_json;
 import asdf : deserialize;
+import mir_common_json;
+import mir.stdio;
 import std.file : read;
 
 auto calc(string text)
@@ -21,5 +22,5 @@ void main()
     "D/ldc2 (Mir Asdf DOM)".notifyStart;
     auto coordinate = calc(text);
     notifyStop;
-    coordinate.print;
+    coordinate.writeln;
 }
