@@ -239,10 +239,10 @@ have some inaccuracies in number parsing:
 |                     C++/g++ (gason) |  0.133<sub>±0.000</sub> |   113.14<sub>±00.05</sub> + 96.80<sub>±00.06</sub> |    5.28<sub>±00.03</sub> |
 |          C++/clang++ (simdjson DOM) |  0.136<sub>±0.001</sub> |  112.48<sub>±00.03</sub> + 177.15<sub>±00.06</sub> |    5.79<sub>±00.03</sub> |
 |              C++/g++ (simdjson DOM) |  0.138<sub>±0.000</sub> |  113.01<sub>±00.09</sub> + 176.39<sub>±00.19</sub> |    5.88<sub>±00.01</sub> |
+|               D/ldc2 (Mir Asdf DOM) |  0.146<sub>±0.000</sub> |   112.73<sub>±00.04</sub> + 61.27<sub>±00.03</sub> |    6.09<sub>±00.02</sub> |
 |                 C++/clang++ (gason) |  0.149<sub>±0.000</sub> |   112.48<sub>±00.03</sub> + 96.97<sub>±00.06</sub> |    6.02<sub>±00.01</sub> |
 |                 C++/g++ (RapidJSON) |  0.167<sub>±0.000</sub> |  113.26<sub>±00.05</sub> + 126.54<sub>±00.42</sub> |    6.93<sub>±00.04</sub> |
-|               D/ldc2 (Mir Asdf DOM) |  0.199<sub>±0.000</sub> |   112.74<sub>±00.03</sub> + 61.30<sub>±00.01</sub> |    8.29<sub>±00.03</sub> |
-|       D/ldc2 (Mir Amazon's Ion DOM) |  0.215<sub>±0.000</sub> |   112.73<sub>±00.03</sub> + 16.25<sub>±00.01</sub> |    8.71<sub>±00.09</sub> |
+|       D/ldc2 (Mir Amazon's Ion DOM) |  0.192<sub>±0.000</sub> |   112.73<sub>±00.02</sub> + 16.14<sub>±00.03</sub> |    7.85<sub>±00.01</sub> |
 |             C++/clang++ (RapidJSON) |  0.221<sub>±0.000</sub> |  112.45<sub>±00.00</sub> + 129.02<sub>±00.04</sub> |    8.98<sub>±00.04</sub> |
 |         C++/g++ (RapidJSON Precise) |  0.246<sub>±0.000</sub> |  113.24<sub>±00.03</sub> + 128.82<sub>±00.06</sub> |   10.41<sub>±00.10</sub> |
 |                C++/g++ (Boost.JSON) |  0.394<sub>±0.000</sub> |  113.22<sub>±00.03</sub> + 435.88<sub>±00.04</sub> |   16.44<sub>±00.13</sub> |
