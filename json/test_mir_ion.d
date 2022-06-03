@@ -7,7 +7,7 @@ dflags "-mcpu=native" "-linkonce-templates" "-enable-cross-module-inlining" plat
 +/
 import mir_common_json;
 import mir.deser.json : deserializeJson;
-import mir.stdio: writeln;
+import mir.stdio : writeln;
 import std.file : read;
 
 auto calc(scope const(char)[] text) @nogc @safe pure
