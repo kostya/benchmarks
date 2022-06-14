@@ -49,6 +49,7 @@ auto notifyStop(scope const char[] msg = "stop")
     notify(msg);
 }
 
+@serdeIgnoreUnexpectedKeys
 struct Coordinate
 {
 @serdeAllowMultiple @serdeOptional:
@@ -76,6 +77,7 @@ struct CoordinateAvg
     }
 }
 
+@serdeIgnoreUnexpectedKeys
 struct Avg
 {
     @serdeLikeList
