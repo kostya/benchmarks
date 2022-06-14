@@ -120,12 +120,6 @@ target/json_d_mir_asdf: test_mir_asdf.d | $(dfmt)
 target/json_d_mir_ion: test_mir_ion.d | $(dfmt)
 	$(DUB_BUILD)
 
-# NOTE: the test is not used in the benchmark
-# as it operates the file directly, not string as other tests.
-# Left it here for the reference.
-target/json_d_mir_ion_file: test_mir_ion_file.d | $(dfmt)
-	$(DUB_BUILD)
-
 target/json_nim_gcc: test.nim | target
 	$(NIM_GCC_BUILD)
 
