@@ -29,25 +29,16 @@ func matmul(a [][]float64, b [][]float64) [][]float64 {
 	m := len(a)
 	n := len(a[0])
 	p := len(b[0])
-	x := make([][]float64, m)
-	c := make([][]float64, p)
-	for i := 0; i < p; i++ {
-		c[i] = make([]float64, n)
-		for j := 0; j < n; j++ {
-			c[i][j] = b[j][i]
-		}
-	}
-	for i, am := range a {
-		x[i] = make([]float64, p)
-		for j, cm := range c {
-			s := float64(0)
-			for k, m := range am {
-				s += m * cm[k]
+	c := make([][]float64, m)
+	for i := 0; i < m; i++ {
+		c[i] = make([]float64, p)
+		for j := 0; j < p; j++ {
+			for k := 0; k < n; k++ {
+				c[i][j] += a[i][k] * b[k][j]
 			}
-			x[i][j] = s
 		}
 	}
-	return x
+	return c
 }
 
 func notify(msg string) {
