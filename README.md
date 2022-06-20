@@ -444,6 +444,10 @@ Build the image:
 
     $ docker build docker/ -t benchmarks
 
+The pinned packages could be missing, in that case please update them with:
+
+    $ ./run.sh update_apt
+
 Run the image:
 
     $ docker run -it --rm -v $(pwd):/src benchmarks <cmd>
