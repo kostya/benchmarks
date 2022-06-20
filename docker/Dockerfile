@@ -144,8 +144,9 @@ RUN curl -L \
 	| tar -xz \
     && ln -s /home/dev/bin/graalvm-ce-java17-$GRAALVM/bin/gu /home/dev/bin/gu
 RUN gu install ruby \
-    && /home/dev/bin/graalvm-ce-java17-$GRAALVM/languages/ruby/lib/truffle/post_install_hook.sh \
     && ln -s /home/dev/bin/graalvm-ce-java17-$GRAALVM/bin/truffleruby /home/dev/bin/truffleruby
+# TODO: uncomment after truffleruby properly supports OpenSSL 3
+# RUN /home/dev/bin/graalvm-ce-java17-$GRAALVM/languages/ruby/lib/truffle/post_install_hook.sh
 
 # https://github.com/dotnet/core/tree/main/release-notes
 RUN mkdir dotnet && curl \
