@@ -1,27 +1,27 @@
 import os
 import net
 
-const (
-	inc   = 0
-	move  = 1
-	print = 2
-	loop  = 3
-)
+enum OpType {
+	inc
+	move
+	print
+	loop
+}
 
 struct Op {
-	o    int
+	o    OpType
 	v    int
 	loop []Op
 }
 
-fn new_op(op int, v int) Op {
+fn new_op(op OpType, v int) Op {
 	return Op{
 		o: op
 		v: v
 	}
 }
 
-fn new_op_loop(op int, l []Op) Op {
+fn new_op_loop(op OpType, l []Op) Op {
 	return Op{
 		o: op
 		loop: l
@@ -52,16 +52,16 @@ fn (mut t Tape) inc(x int) {
 
 fn (mut t Tape) move(x int) {
 	t.pos += x
-	for t.pos >= t.tape.len {
-		t.tape << 0
+	if t.pos >= t.tape.len {
+		t.tape << [0].repeat(t.pos - t.tape.len + 1)
 	}
 }
 
 struct Printer {
 	quiet bool
 mut:
-	sum1 u32
-	sum2 u32
+	sum1 u8
+	sum2 u8
 }
 
 fn new_printer(quiet bool) Printer {
@@ -73,18 +73,17 @@ fn new_printer(quiet bool) Printer {
 }
 
 fn (mut p Printer) print(n int) {
-	b := u8(n)
 	if p.quiet {
-		p.sum1 = (p.sum1 + b) % 255
-		p.sum2 = (p.sum2 + p.sum1) % 255
+		p.sum1 = u8(p.sum1 + n)
+		p.sum2 = u8(p.sum2 + p.sum1)
 	} else {
-		print(b.ascii_str())
+		print(u8(n).ascii_str())
 		os.flush()
 	}
 }
 
 fn (p Printer) get_checksum() u32 {
-	return (p.sum2 << 8) | p.sum1
+	return (u32(p.sum2) << 8) | p.sum1
 }
 
 struct Program {
@@ -100,26 +99,25 @@ fn new_program(code string) Program {
 
 fn parse(mut si StringIterator) []Op {
 	mut res := []Op{}
-	for true {
-		c := si.next()
+	for c in si {
 		match c {
 			`+` {
-				res << new_op(inc, 1)
+				res << new_op(.inc, 1)
 			}
 			`-` {
-				res << new_op(inc, -1)
+				res << new_op(.inc, -1)
 			}
 			`>` {
-				res << new_op(move, 1)
+				res << new_op(.move, 1)
 			}
 			`<` {
-				res << new_op(move, -1)
+				res << new_op(.move, -1)
 			}
 			`.` {
-				res << new_op(print, 0)
+				res << new_op(.print, 0)
 			}
 			`[` {
-				res << new_op_loop(loop, parse(mut si))
+				res << new_op_loop(.loop, parse(mut si))
 			}
 			`]` {
 				return res
@@ -143,21 +141,20 @@ fn (p Program) run(mut printer Printer) {
 fn run_ops(ops []Op, mut tape Tape, mut p Printer) {
 	for op in ops {
 		match op.o {
-			inc {
+			.inc {
 				tape.inc(op.v)
 			}
-			move {
+			.move {
 				tape.move(op.v)
 			}
-			print {
+			.print {
 				p.print(tape.get())
 			}
-			loop {
+			.loop {
 				for tape.get() > 0 {
 					run_ops(op.loop, mut tape, mut p)
 				}
 			}
-			else {}
 		}
 	}
 }
@@ -175,13 +172,13 @@ fn new_si(s string) StringIterator {
 	}
 }
 
-fn (mut si StringIterator) next() byte {
+fn (mut si StringIterator) next() ?u8 {
 	if si.pos < si.code.len {
 		res := si.code[si.pos]
 		si.pos++
 		return res
 	} else {
-		return 0
+		return error('Out of elements')
 	}
 }
 
@@ -215,7 +212,7 @@ fn main() {
 	if os.args.len == 2 {
 		filename = os.args[1]
 	} else {
-		eprintln('Usage: bf2 filename.b')
+		eprintln('Usage: bf filename.b')
 		return
 	}
 	code := os.read_file(filename) or {
