@@ -42,10 +42,12 @@ fn new_tape() Tape {
 	return t
 }
 
+[direct_array_access]
 fn (t Tape) get() int {
 	return t.tape[t.pos]
 }
 
+[direct_array_access]
 fn (mut t Tape) inc(x int) {
 	t.tape[t.pos] += x
 }
