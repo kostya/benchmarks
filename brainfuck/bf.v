@@ -55,7 +55,7 @@ fn (mut t Tape) inc(x int) {
 fn (mut t Tape) move(x int) {
 	t.pos += x
 	for t.pos >= t.tape.len {
-		t.tape << 0
+		t.tape << [0]
 	}
 }
 
