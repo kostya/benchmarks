@@ -211,7 +211,7 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 
 ## Json
 
-Testing parsing and simple calculating of values from a big JSON file.
+Testing parsing and simple calculating of values from a big [JSON file](https://www.scaler.com/topics/how-to-open-json-file-in-python/).
 
 Few notes:
 
