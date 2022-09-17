@@ -9,8 +9,8 @@ executables := \
 	target/primes_v_gcc \
 	target/primes_v_clang \
 	target/primes_zig \
-	target/bin_nim_clang \
-	target/bin_nim_gcc
+	target/primes_nim_clang \
+	target/primes_nim_gcc
 	
 artifacts := $(executables) \
 	target/primes_scala.jar \
