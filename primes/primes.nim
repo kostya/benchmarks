@@ -5,13 +5,13 @@ import posix
 import deques
 
 
-const UPPER_BOUND: int = 5_000_000;
-const PREFIX: int = 32_338;
+const UPPER_BOUND: int = 5_000_000
+const PREFIX: int = 32_338
 
 type
   NodeRef = ref Node
   Node = object
-    children: TableRef[char, NodeRef]
+    children: Table[char, NodeRef]
     terminal: bool
   Sieve = object
     limit: int
@@ -21,7 +21,7 @@ type
     str: string
 
 proc init(sieve: var Sieve) =
-  sieve.primes = newSeqWith(sieve.limit+1, false)
+  sieve.primes = newSeqWith(sieve.limit + 1, false)
 
 
 proc toList(sieve: Sieve): seq[int] =
@@ -31,17 +31,17 @@ proc toList(sieve: Sieve): seq[int] =
       result.add(p)
 
 proc omitSquares(sieve: var Sieve) =
-  var r: int = 5;
+  var r: int = 5
   while r * r < sieve.limit:
     if sieve.primes[r]:
-      var i: int = r * r;
+      var i: int = r * r
       while i < sieve.limit:
-        sieve.primes[i] = false;
-        i += r * r
+        sieve.primes[i] = false
+        i.inc(r * r)
     r.inc()
 
 proc step1(sieve: var Sieve, x, y: int): void =
-  let n: int = (4 * x * x) + (y * y);
+  let n: int = (4 * x * x) + (y * y)
   if n <= sieve.limit and n mod 12 in [1, 5]:
     sieve.primes[n] = not sieve.primes[n]
 
@@ -53,7 +53,7 @@ proc step2(sieve: var Sieve, x, y: int): void =
 
 proc step3(sieve: var Sieve, x, y: int): void =
   let n: int = (3 * x * x) - (y * y)
-  if ( x > y and n < sieve.limit and n mod 12 == 11):
+  if x > y and n < sieve.limit and n mod 12 == 11:
     sieve.primes[n] = not sieve.primes[n]
 
 proc loopY(seive: var Sieve, x: int) =
@@ -62,16 +62,16 @@ proc loopY(seive: var Sieve, x: int) =
     seive.step1(x, y)
     seive.step2(x, y)
     seive.step3(x, y)
-    y += 1
+    y.inc(1)
 
 proc loopX(sieve: var Sieve) =
   var x = 1
   while x*x < sieve.limit:
     sieve.loopY(x)
-    x += 1
+    x.inc(1)
 
 proc calc(sieve: var Sieve) =
-  sieve.loopX();
+  sieve.loopX()
   sieve.omitSquares()
 
 proc generateTrie(l: seq[int]): NodeRef =
@@ -127,3 +127,4 @@ when isMainModule:
   let result = find(UPPER_BOUND, PREFIX)
   notify("stop")
   echo result
+  
