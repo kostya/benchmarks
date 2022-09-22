@@ -62,13 +62,13 @@ proc loopY(seive: var Sieve, x: int) =
     seive.step1(x, y)
     seive.step2(x, y)
     seive.step3(x, y)
-    y.inc(1)
+    y.inc()
 
 proc loopX(sieve: var Sieve) =
   var x = 1
   while x*x < sieve.limit:
     sieve.loopY(x)
-    x.inc(1)
+    x.inc()
 
 proc calc(sieve: var Sieve) =
   sieve.loopX()
@@ -127,4 +127,3 @@ when isMainModule:
   let result = find(UPPER_BOUND, PREFIX)
   notify("stop")
   echo result
-  
