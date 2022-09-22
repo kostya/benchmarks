@@ -8,8 +8,10 @@ executables := \
 	target/primes_cr \
 	target/primes_v_gcc \
 	target/primes_v_clang \
-	target/primes_zig
-
+	target/primes_zig \
+	target/primes_nim_clang \
+	target/primes_nim_gcc
+	
 artifacts := $(executables) \
 	target/primes_scala.jar \
 	target/Primes.class
@@ -61,6 +63,11 @@ target/primes_v_clang: primes.v | $(v_fmt)
 target/primes_zig: primes.zig | target
 	$(ZIG_BUILD)
 
+target/primes_nim_clang: primes.nim | target
+	$(NIM_CLANG_BUILD)
+
+target/primes_nim_gcc: primes.nim | target
+	$(NIM_GCC_BUILD)
 # Run
 
 .PHONY: run
