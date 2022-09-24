@@ -11,7 +11,7 @@ executables := \
 	target/primes_zig \
 	target/primes_nim_clang \
 	target/primes_nim_gcc
-	
+
 artifacts := $(executables) \
 	target/primes_scala.jar \
 	target/Primes.class
