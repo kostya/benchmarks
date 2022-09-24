@@ -1,6 +1,7 @@
 #!/usr/bin/env dub
 /+dub.sdl:
 dependency "lubeck" version="~>1.5.1"
+dependency "mir-algorithm" version="~>3.15.3"
 libs "lapack" "blas"
 targetPath "target"
 +/

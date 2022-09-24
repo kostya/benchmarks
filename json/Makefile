@@ -158,12 +158,12 @@ target/json_go_gccgo: test.go | $(gofmt)
 
 # Boost releases:
 # https://www.boost.org/users/download/
-BOOST_VERSION := boost_1_79_0
+BOOST_VERSION := boost_1_80_0
 boost = target/$(BOOST_VERSION)
 $(boost): | target
 	cd target && \
 	curl -L \
-	https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/$(BOOST_VERSION).tar.bz2 \
+	https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/$(BOOST_VERSION).tar.bz2 \
 	| tar -xj
 
 nlohmann_json := target/nlohmann_json

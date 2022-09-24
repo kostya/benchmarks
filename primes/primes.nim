@@ -1,8 +1,8 @@
-import strformat, strutils, sequtils
-import net
-import tables
-import posix
 import deques
+import net
+import posix
+import strformat, strutils, sequtils
+import tables
 
 
 const UPPER_BOUND: int = 5_000_000
@@ -11,7 +11,7 @@ const PREFIX: int = 32_338
 type
   NodeRef = ref Node
   Node = object
-    children: Table[char, NodeRef]
+    children: OrderedTable[char, NodeRef]
     terminal: bool
   Sieve = object
     limit: int
@@ -123,7 +123,7 @@ when isMainModule:
   var compiler = "Nim/clang"
   when defined(gcc):
     compiler = "Nim/gcc"
-  notify(fmt"{compiler}\t{getpid()}")
+  notify(&"{compiler}\t{getpid()}")
   let result = find(UPPER_BOUND, PREFIX)
   notify("stop")
   echo result
