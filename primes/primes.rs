@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, VecDeque};
+use std::collections::{HashMap, VecDeque};
 use std::io::Write;
 use std::net::TcpStream;
 use std::process;
@@ -8,14 +8,14 @@ const PREFIX: i32 = 32_338;
 
 #[derive(Debug)]
 struct Node {
-    children: BTreeMap<char, Box<Node>>,
+    children: HashMap<char, Box<Node>>,
     terminal: bool,
 }
 
 impl Node {
     fn new() -> Node {
         Node {
-            children: BTreeMap::new(),
+            children: HashMap::new(),
             terminal: false,
         }
     }
@@ -142,6 +142,7 @@ fn find(upper_bound: usize, prefix: i32) -> Vec<i32> {
             queue.push_back((v, new_prefix));
         }
     }
+    result.sort_unstable();
     result
 }
 
@@ -153,8 +154,7 @@ fn notify(msg: &str) {
 
 fn verify() {
     let left = vec![2, 23, 29];
-    let mut right = find(100, 2);
-    right.sort_unstable();
+    let right = find(100, 2);
     if left != right {
         eprintln!("{:?} != {:?}", left, right);
         process::exit(-1);

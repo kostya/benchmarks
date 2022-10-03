@@ -114,6 +114,7 @@ object Primes {
             queue += ((v, prefix + ch))
           }
         }
+        scala.util.Sorting.stableSort(result)
         Some(result)
       }
       case None => None

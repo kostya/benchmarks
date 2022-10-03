@@ -117,6 +117,7 @@ fn find(upper_bound usize, prefix int) []int {
 			queue.insert(0, Pair{v, pair.p_prefix + ch.ascii_str()})
 		}
 	}
+	result.sort()
 	return result
 }
 

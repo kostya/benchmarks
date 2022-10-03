@@ -2,6 +2,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -131,6 +132,7 @@ public final class Primes {
                           ));
             }
         }
+        Collections.sort(result);
         return result;
     }
 

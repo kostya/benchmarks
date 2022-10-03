@@ -98,6 +98,8 @@ def find(upper_bound, prefix):
             result.append(int(prefix))
         for ch, v in top.children.items():
             queue.insert(0, (v, prefix + ch))
+
+    result.sort()
     return result
 
 

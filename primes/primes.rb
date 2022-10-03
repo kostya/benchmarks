@@ -110,10 +110,9 @@ def find(upper_bound, prefix)
   until queue.empty?
     (top, prefix) = queue.pop
     result.push(prefix.to_i) if top.terminal
-    top.children.each do |ch, v|
-      queue.insert(0, [v, prefix + ch])
-    end
+    top.children.each { |ch, v| queue.insert(0, [v, prefix + ch]) }
   end
+  result.sort!
   result
 end
 

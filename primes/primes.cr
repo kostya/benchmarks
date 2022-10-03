@@ -112,6 +112,7 @@ def find(upper_bound, prefix)
       queue.insert(0, {v, prefix + ch})
     end
   end
+  result.sort!
   result
 end
 
