@@ -1,9 +1,9 @@
 #include <algorithm>
 #include <iostream>
-#include <map>
 #include <memory>
 #include <queue>
 #include <sstream>
+#include <unordered_map>
 #include <vector>
 
 #include <libnotify.h>
@@ -18,7 +18,7 @@ static const auto UPPER_BOUND = 5'000'000;
 static const auto PREFIX = 32'338;
 
 struct Node {
-  std::map<char, std::shared_ptr<Node>> children{};
+  std::unordered_map<char, std::shared_ptr<Node>> children{};
   bool terminal = false;
 };
 
@@ -127,6 +127,7 @@ std::vector<int> find(int upper_bound, int prefix) {
       queue.push(std::make_pair(v, prefix + ch));
     }
   }
+  std::sort(result.begin(), result.end());
   return result;
 }
 
@@ -148,7 +149,6 @@ std::string to_string(const std::vector<int>& a) {
 void verify() {
   std::vector<int> left({2, 23, 29});
   auto right = find(100, 2);
-  std::sort(right.begin(), right.end());
   if (left != right) {
     std::cerr << to_string(left) << " != " << to_string(right) << std::endl;
     exit(EXIT_FAILURE);

@@ -7,7 +7,7 @@ const PREFIX = 32338;
 
 class Node {
     constructor() {
-        this.children = new Map();
+        this.children = new Object();
         this.terminal = false;
     }
 }
@@ -89,10 +89,10 @@ function generateTrie(l) {
     for (const el of l) {
         let head = root;
         for (const ch of el.toString()) {
-            if (!head.children.has(ch)) {
-                head.children.set(ch, new Node());
+            if (!Object.hasOwn(head.children, ch)) {
+                head.children[ch] = new Node();
             }
-            head = head.children.get(ch);
+            head = head.children[ch];
         }
         head.terminal = true;
     }
@@ -105,7 +105,7 @@ function find(upperBound, prefix) {
     let head = generateTrie(primes.toList());
 
     for (const ch of strPrefix) {
-        head = head.children.get(ch);
+        head = head.children[ch];
         if (typeof head === 'undefined') {
             return null;
         }
@@ -117,10 +117,11 @@ function find(upperBound, prefix) {
         if (top.terminal) {
             result.push(toInt(prefix));
         }
-        for (const [ch, v] of top.children) {
+        for (const [ch, v] of Object.entries(top.children)) {
             queue.splice(0, 0, [v, prefix + ch]);
         }
     }
+    result.sort();
     return result;
 }
 

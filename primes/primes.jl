@@ -142,7 +142,8 @@ function find(upper_bound::Int64, search_prefix::Int64)::Vector
         end
     end
 
-    return sort(result)
+    sort!(result)
+    return result
 end
 
 

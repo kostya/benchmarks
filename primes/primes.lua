@@ -146,7 +146,6 @@ local function generate_trie(l)
 end
 
 local function dump(arr)
-  table.sort(arr)
   return "[" .. table.concat(arr, ", ") .. "]"
 end
 
@@ -173,6 +172,7 @@ local function find(upper_bound, prefix)
       queue.push({v, prefix .. ch})
     end
   end
+  table.sort(result)
   return result
 end
 

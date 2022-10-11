@@ -153,6 +153,7 @@ fn find(alloc: std.mem.Allocator, upper_bound: i32, prefix: i32) std.ArrayList(i
             queue.prepend(elem);
         }
     }
+    std.sort.sort(i32, result.items, {}, comptime std.sort.asc(i32));
     return result;
 }
 

@@ -1,9 +1,9 @@
 import deques
 import net
 import posix
+import std/algorithm
 import strformat, strutils, sequtils
 import tables
-
 
 const UPPER_BOUND: int = 5_000_000
 const PREFIX: int = 32_338
@@ -11,7 +11,7 @@ const PREFIX: int = 32_338
 type
   NodeRef = ref Node
   Node = object
-    children: OrderedTable[char, NodeRef]
+    children: Table[char, NodeRef]
     terminal: bool
   Sieve = object
     limit: int
@@ -101,6 +101,8 @@ proc find(upperBound: int, prefix: int): seq[int] =
       result.add(parseInt(pair.str))
     for (ch, node) in pair.node.children.pairs():
       queue.addFirst(Pair(node: node, str: pair.str & $ch))
+
+  result.sort()
 
 proc notify(msg: string) =
   let sock = net.dial("127.0.0.1", Port(9001))

@@ -362,32 +362,38 @@ Testing:
  - generating primes using the optimized [sieve of Atkin](https://www.geeksforgeeks.org/sieve-of-atkin/);
  - prefix search for their decimal numbers using Trie data structure.
 
+Notes:
+
+ - All languages but V and Python use unordered hashmaps (V and Python don't provide those out of box, and
+ their hashmaps use keys in the insertion order);
+ - The results are always sorted (could be unstable or stable though).
+
 [Primes](primes)
 
 |                 Language |                Time, s |                                       Memory, MiB |               Energy, J |
 | :----------------------- | ---------------------: | ------------------------------------------------: | ----------------------: |
-|                      Zig | 0.059<sub>±0.000</sub> |    0.92<sub>±00.02</sub> + 49.27<sub>±00.13</sub> |   2.41<sub>±00.02</sub> |
-|                     Rust | 0.094<sub>±0.000</sub> |    0.93<sub>±00.01</sub> + 78.38<sub>±00.06</sub> |   3.79<sub>±00.02</sub> |
-|                  Crystal | 0.122<sub>±0.000</sub> |    2.99<sub>±00.05</sub> + 90.76<sub>±00.15</sub> |   5.52<sub>±00.01</sub> |
-|                  C++/g++ | 0.132<sub>±0.000</sub> |    3.57<sub>±00.05</sub> + 85.38<sub>±00.39</sub> |   5.38<sub>±00.06</sub> |
-|              C++/clang++ | 0.140<sub>±0.000</sub> |    1.67<sub>±00.01</sub> + 76.83<sub>±00.03</sub> |   5.49<sub>±00.04</sub> |
-|                  V/clang | 0.147<sub>±0.000</sub> |   0.90<sub>±00.02</sub> + 265.66<sub>±00.38</sub> |   6.08<sub>±00.02</sub> |
-|                    V/gcc | 0.150<sub>±0.000</sub> |   0.89<sub>±00.01</sub> + 259.63<sub>±00.45</sub> |   6.24<sub>±00.07</sub> |
-|                     Java | 0.157<sub>±0.002</sub> |  37.73<sub>±00.17</sub> + 153.30<sub>±04.68</sub> |   8.82<sub>±00.11</sub> |
-|                  Node.js | 0.251<sub>±0.001</sub> |  40.02<sub>±00.08</sub> + 176.44<sub>±00.42</sub> |  12.63<sub>±00.08</sub> |
-|               Lua/luajit | 0.338<sub>±0.002</sub> |   2.59<sub>±00.05</sub> + 156.86<sub>±01.28</sub> |  13.24<sub>±00.08</sub> |
-|                    Scala | 0.360<sub>±0.004</sub> |  67.32<sub>±00.11</sub> + 243.01<sub>±06.35</sub> |  18.56<sub>±00.08</sub> |
-|                Nim/clang | 0.423<sub>±0.001</sub> |  1.94<sub>±00.01</sub> + 1163.25<sub>±02.84</sub> |  16.58<sub>±00.10</sub> |
-|                  Nim/gcc | 0.432<sub>±0.000</sub> |  1.67<sub>±00.06</sub> + 1170.86<sub>±01.80</sub> |  16.62<sub>±00.14</sub> |
-|                    Julia | 0.604<sub>±0.001</sub> | 245.48<sub>±00.27</sub> + 376.33<sub>±00.44</sub> |  23.40<sub>±00.14</sub> |
-|              Python/pypy | 0.882<sub>±0.001</sub> |  63.60<sub>±00.05</sub> + 250.82<sub>±00.53</sub> |  34.48<sub>±00.19</sub> |
-| Ruby/truffleruby (--jvm) | 1.396<sub>±0.036</sub> | 348.32<sub>±03.87</sub> + 486.92<sub>±22.89</sub> |  91.61<sub>±02.10</sub> |
-|             Ruby (--jit) | 1.445<sub>±0.003</sub> | 270.51<sub>±00.03</sub> + 147.09<sub>±00.07</sub> |  58.62<sub>±00.50</sub> |
-|                      Lua | 1.483<sub>±0.005</sub> |   2.27<sub>±00.03</sub> + 283.81<sub>±00.55</sub> |  57.70<sub>±00.54</sub> |
-|         Ruby/truffleruby | 1.513<sub>±0.014</sub> | 297.33<sub>±00.99</sub> + 420.61<sub>±05.97</sub> |  84.26<sub>±00.90</sub> |
-|               Ruby/jruby | 1.991<sub>±0.045</sub> | 183.52<sub>±01.96</sub> + 523.52<sub>±28.85</sub> | 103.87<sub>±03.74</sub> |
-|                     Ruby | 2.057<sub>±0.001</sub> |  13.89<sub>±00.04</sub> + 147.04<sub>±00.02</sub> |  82.72<sub>±00.75</sub> |
-|                   Python | 4.979<sub>±0.045</sub> |  10.53<sub>±00.05</sub> + 234.86<sub>±00.90</sub> | 193.43<sub>±02.10</sub> |
+|                      Zig | 0.059<sub>±0.000</sub> |    0.92<sub>±00.01</sub> + 48.53<sub>±00.03</sub> |   2.45<sub>±00.02</sub> |
+|                  Crystal | 0.122<sub>±0.000</sub> |    2.98<sub>±00.03</sub> + 90.71<sub>±00.17</sub> |   5.52<sub>±00.08</sub> |
+|                     Rust | 0.140<sub>±0.000</sub> |    0.94<sub>±00.01</sub> + 74.26<sub>±00.07</sub> |   5.35<sub>±00.05</sub> |
+|                     Java | 0.159<sub>±0.002</sub> |  38.27<sub>±00.10</sub> + 153.79<sub>±03.78</sub> |   8.89<sub>±00.06</sub> |
+|                  C++/g++ | 0.189<sub>±0.000</sub> |   2.70<sub>±00.90</sub> + 116.66<sub>±00.81</sub> |   7.76<sub>±00.05</sub> |
+|              C++/clang++ | 0.198<sub>±0.000</sub> |    1.66<sub>±00.02</sub> + 87.96<sub>±00.02</sub> |   7.79<sub>±00.09</sub> |
+|                  V/clang | 0.212<sub>±0.001</sub> |   1.91<sub>±00.05</sub> + 203.15<sub>±01.44</sub> |   8.46<sub>±00.06</sub> |
+|                  Node.js | 0.227<sub>±0.002</sub> |  39.10<sub>±00.03</sub> + 150.29<sub>±00.26</sub> |  11.37<sub>±00.12</sub> |
+|                    V/gcc | 0.240<sub>±0.001</sub> |   2.28<sub>±00.14</sub> + 219.14<sub>±00.67</sub> |   9.66<sub>±00.12</sub> |
+|                Nim/clang | 0.297<sub>±0.001</sub> |   2.07<sub>±00.01</sub> + 601.73<sub>±02.96</sub> |  11.72<sub>±00.09</sub> |
+|               Lua/luajit | 0.338<sub>±0.002</sub> |   1.20<sub>±00.02</sub> + 157.12<sub>±01.04</sub> |  13.22<sub>±00.05</sub> |
+|                  Nim/gcc | 0.352<sub>±0.003</sub> |   1.68<sub>±00.07</sub> + 614.62<sub>±00.26</sub> |  13.48<sub>±00.20</sub> |
+|                    Scala | 0.362<sub>±0.006</sub> |  67.43<sub>±00.09</sub> + 248.88<sub>±11.36</sub> |  18.63<sub>±00.35</sub> |
+|                    Julia | 0.597<sub>±0.001</sub> | 246.42<sub>±00.24</sub> + 374.41<sub>±01.06</sub> |  23.23<sub>±00.15</sub> |
+|              Python/pypy | 0.880<sub>±0.002</sub> |  63.32<sub>±00.09</sub> + 250.27<sub>±00.06</sub> |  34.53<sub>±00.42</sub> |
+| Ruby/truffleruby (--jvm) | 1.381<sub>±0.026</sub> | 354.60<sub>±10.97</sub> + 552.99<sub>±34.23</sub> |  90.57<sub>±01.36</sub> |
+|             Ruby (--jit) | 1.442<sub>±0.004</sub> | 270.43<sub>±00.06</sub> + 147.02<sub>±00.05</sub> |  59.14<sub>±00.99</sub> |
+|                      Lua | 1.478<sub>±0.004</sub> |   2.28<sub>±00.01</sub> + 283.04<sub>±00.48</sub> |  57.46<sub>±00.33</sub> |
+|         Ruby/truffleruby | 1.506<sub>±0.007</sub> | 294.80<sub>±00.82</sub> + 410.90<sub>±26.05</sub> |  84.20<sub>±00.88</sub> |
+|               Ruby/jruby | 1.990<sub>±0.057</sub> | 182.28<sub>±01.67</sub> + 538.37<sub>±28.70</sub> | 102.14<sub>±03.48</sub> |
+|                     Ruby | 2.057<sub>±0.005</sub> |  13.87<sub>±00.07</sub> + 147.07<sub>±00.04</sub> |  82.80<sub>±00.47</sub> |
+|                   Python | 5.022<sub>±0.024</sub> |  10.49<sub>±00.04</sub> + 234.72<sub>±00.26</sub> | 196.62<sub>±02.52</sub> |
 
 # Tests Execution
 
