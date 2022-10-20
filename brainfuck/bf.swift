@@ -16,8 +16,8 @@ struct Tape {
     var pos = 0
     var tape: ContiguousArray<Int32> = [0]
     var currentCell: Int32 {
-        get { tape[pos] }
-        set { tape[pos] = newValue }
+        get { tape.withUnsafeBufferPointer { $0[pos] } }
+        set { tape.withUnsafeMutableBufferPointer { $0[pos] = newValue } }
     }
 
     mutating func dec() {
