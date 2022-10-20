@@ -100,7 +100,7 @@ Supports two mode:
 |                    D/dmd |   3.267<sub>±0.000</sub> |     3.55<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |    126.05<sub>±00.33</sub> |
 |         Haskell (MArray) |   3.847<sub>±0.001</sub> |     5.87<sub>±00.03</sub> + 4.72<sub>±00.00</sub> |    154.08<sub>±00.43</sub> |
 |                  Node.js |   4.154<sub>±0.004</sub> |    40.49<sub>±00.05</sub> + 2.16<sub>±00.09</sub> |    165.56<sub>±00.43</sub> |
-|                    Swift |   5.443<sub>±0.000</sub> |    13.80<sub>±00.06</sub> + 0.00<sub>±00.00</sub> |    203.97<sub>±00.37</sub> |
+|                    Swift |   5.446<sub>±0.001</sub> |    13.76<sub>±00.07</sub> + 0.00<sub>±00.00</sub> |    205.19<sub>±00.30</sub> |
 |               Lua/luajit |   6.484<sub>±0.015</sub> |     2.50<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |    258.91<sub>±00.55</sub> |
 |         Ruby/truffleruby |   7.494<sub>±0.115</sub> | 297.28<sub>±00.54</sub> + 325.55<sub>±13.94</sub> |    359.91<sub>±05.75</sub> |
 | Ruby/truffleruby (--jvm) |   8.155<sub>±0.067</sub> | 352.85<sub>±06.71</sub> + 467.10<sub>±19.50</sub> |    392.34<sub>±02.92</sub> |
@@ -134,10 +134,10 @@ Supports two mode:
 |                    D/gdc |  15.238<sub>±0.081</sub> |     6.56<sub>±00.03</sub> + 1.46<sub>±00.03</sub> |  636.13<sub>±04.29</sub> |
 |                       Go |  16.157<sub>±0.020</sub> |     3.20<sub>±00.28</sub> + 1.27<sub>±00.00</sub> |  630.11<sub>±03.88</sub> |
 |                      Zig |  16.239<sub>±0.020</sub> |     0.92<sub>±00.01</sub> + 1.31<sub>±00.00</sub> |  658.86<sub>±05.07</sub> |
+|                    Swift |  18.131<sub>±0.057</sub> |    14.67<sub>±00.06</sub> + 0.00<sub>±00.00</sub> |  735.20<sub>±10.83</sub> |
 |                     Java |  18.294<sub>±0.023</sub> |    37.71<sub>±00.35</sub> + 1.88<sub>±00.36</sub> |  730.92<sub>±00.72</sub> |
 |                 Vala/gcc |  18.477<sub>±0.005</sub> |     4.20<sub>±00.03</sub> + 1.77<sub>±00.04</sub> |  691.66<sub>±00.34</sub> |
 |             C#/.NET Core |  18.540<sub>±0.014</sub> |    34.15<sub>±00.06</sub> + 0.83<sub>±00.01</sub> |  740.52<sub>±01.15</sub> |
-|                    Swift |  18.784<sub>±0.259</sub> |    14.69<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |  759.12<sub>±07.38</sub> |
 |                 Go/gccgo |  19.905<sub>±0.008</sub> |    24.46<sub>±00.03</sub> + 1.27<sub>±00.00</sub> |  832.05<sub>±07.20</sub> |
 |               Vala/clang |  20.240<sub>±0.005</sub> |     4.20<sub>±00.06</sub> + 1.73<sub>±00.08</sub> |  783.19<sub>±00.73</sub> |
 |                    Scala |  20.996<sub>±0.005</sub> |  68.20<sub>±00.10</sub> + 141.33<sub>±00.29</sub> |  877.97<sub>±01.76</sub> |
