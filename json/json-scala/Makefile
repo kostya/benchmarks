@@ -8,7 +8,7 @@ all: target/library.jar
 .PHONY: target/dependencies.list
 target/dependencies.list: Maven.list | target
 	coursier fetch $(shell sed '/^#/d' Maven.list) > $@
-	sed -i '/scala-.*/d' $@
+	sed -i '/scala.*-library.*/d' $@
 
 # concatenate dependencies to be parseable as a classpath argument
 target/classpath.line: target/dependencies.list

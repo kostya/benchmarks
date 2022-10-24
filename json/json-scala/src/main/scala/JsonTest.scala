@@ -1,14 +1,17 @@
 import java.nio.file.{Files, Paths}
-import upickle.default.{read, ReadWriter}
+import com.github.plokhotnyuk.jsoniter_scala.macros._
+import com.github.plokhotnyuk.jsoniter_scala.core._
 
 object JsonTest {
 
-  case class Root(coordinates: Seq[Coordinate]) derives ReadWriter
+  case class Root(coordinates: Array[Coordinate])
 
   case class Coordinate(
     x: Double,
     y: Double,
-    z: Double) derives ReadWriter
+    z: Double)
+
+  given JsonValueCodec[Root] = JsonCodecMaker.make
 
   def notify(msg: String): Unit = {
     val socket = new java.net.Socket("localhost", 9001)
@@ -18,7 +21,7 @@ object JsonTest {
   }
 
   private def calc(bytes: Array[Byte]): Coordinate = {
-    val root = read[Root](bytes)
+    val root = readFromArray[Root](bytes)
 
     var (x, y, z) = (0.0, 0.0, 0.0)
 
@@ -28,7 +31,7 @@ object JsonTest {
       z += c.z
     }
 
-    val len = root.coordinates.size
+    val len = root.coordinates.length
     Coordinate(x / len, y / len, z / len)
   }
 
@@ -47,7 +50,7 @@ object JsonTest {
 
     val bytes = Files.readAllBytes(Paths.get("/tmp/1.json"))
 
-    notify(s"Scala (uPickle)\t${ProcessHandle.current().pid()}")
+    notify(s"Scala (jsoniter-scala)\t${ProcessHandle.current().pid()}")
     val results = calc(bytes)
     notify("stop")
 
