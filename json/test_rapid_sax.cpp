@@ -1,4 +1,3 @@
-#include <boost/format.hpp>
 #include <cstdio>
 #include <fstream>
 #include <functional>
@@ -163,10 +162,12 @@ int main() {
   const string suffix = "";
 #endif
 
-  notify_with_pid(str(boost::format("C++/" COMPILER " (RapidJSON SAX%s)") % suffix).c_str());
-  calc(ss, [](const coordinate_t& results) {
-    notify("stop");
+  coordinate_t results;
+  notifying_invoke([&]() {
+    calc(ss, [&](const coordinate_t& v) {
+      results = v;
+    });
+  }, "C++/{} (RapidJSON SAX{})", COMPILER, suffix);
 
-    cout << results << endl;
-  });
+  cout << results << endl;
 }

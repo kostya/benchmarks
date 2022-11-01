@@ -83,9 +83,9 @@ int main() {
     return EXIT_FAILURE;
   }
 
-  notify_with_pid("C++/" COMPILER " (simdjson DOM)");
-  const auto& results = calc(text);
-  notify("stop");
+  const auto& results = notifying_invoke([&]() {
+    return calc(text);
+  }, "C++/{} (simdjson DOM)", COMPILER);
 
   cout << results << endl;
 }

@@ -126,23 +126,24 @@ int main() {
   const auto str2 = str.base64_encode();
   const auto str3 = str2.base64_decode();
 
-  notify_with_pid("C++/" COMPILER " (libcrypto)");
-
   auto s_encoded = 0;
-  const auto t = clock();
-  for (auto i = 0; i < TRIES; i++) {
-    s_encoded += str.base64_encode().length();
-  }
-  const auto t_encoded = (float)(clock() - t) / CLOCKS_PER_SEC;
-
+  auto t_encoded = 0.0;
   auto s_decoded = 0;
-  const auto t1 = clock();
-  for (auto i = 0; i < TRIES; i++) {
-    s_decoded += str2.base64_decode().length();
-  }
-  const auto t_decoded = (float)(clock() - t1) / CLOCKS_PER_SEC;
+  auto t_decoded = 0.0;
 
-  notify("stop");
+  notifying_invoke([&]() {
+    const auto t = clock();
+    for (auto i = 0; i < TRIES; i++) {
+      s_encoded += str.base64_encode().length();
+    }
+    t_encoded = (float)(clock() - t) / CLOCKS_PER_SEC;
+
+    const auto t1 = clock();
+    for (auto i = 0; i < TRIES; i++) {
+      s_decoded += str2.base64_decode().length();
+    }
+    t_decoded = (float)(clock() - t1) / CLOCKS_PER_SEC;
+  }, "C++/{} (libcrypto)", COMPILER);
 
   cout << fixed;
   cout << "encode " << str.substr(0, 4) << "... to "<< str2.substr(0, 4)

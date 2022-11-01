@@ -23,7 +23,6 @@
 #include <daw/json/daw_json_iterator.h>
 #include <daw/json/daw_json_link.h>
 
-#include <boost/format.hpp>
 #include <fstream>
 #include <iostream>
 #include <libnotify.h>
@@ -132,9 +131,10 @@ int main() {
 #else
   const string suffix = "";
 #endif
-  notify_with_pid(str(boost::format("C++/" COMPILER " (DAW JSON Link%s)") % suffix).c_str());
-  const auto& results = calc(text);
-  notify( "stop" );
+
+  const auto& results = notifying_invoke([&]() {
+    return calc(text);
+  }, "C++/{} (DAW JSON Link{})", COMPILER, suffix);
 
   cout << results << endl;
 }

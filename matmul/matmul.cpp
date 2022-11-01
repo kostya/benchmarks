@@ -44,11 +44,9 @@ int main(int argc, char** argv) {
     exit(EXIT_FAILURE);
   }
 
-  notify_with_pid("C++/" COMPILER  " (Eigen)");
-
-  auto results = calc(n);
-
-  notify("stop");
+  auto results = notifying_invoke([&]() {
+    return calc(n);
+  }, "C++/{} (Eigen)", COMPILER);
 
   cout << results << endl;
 }

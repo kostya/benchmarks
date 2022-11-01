@@ -1,7 +1,6 @@
 #define RAPIDJSON_HAS_STDSTRING 1
 
 #include "rapidjson/document.h"
-#include <boost/format.hpp>
 #include <cstdio>
 #include <fstream>
 #include <iostream>
@@ -83,9 +82,9 @@ int main() {
   const string suffix = "";
 #endif
 
-  notify_with_pid(str(boost::format("C++/" COMPILER " (RapidJSON%s)") % suffix).c_str());
-  const auto& results = calc(text);
-  notify("stop");
+  const auto& results = notifying_invoke([&]() {
+    return calc(text);
+  }, "C++/{} (RapidJSON{})", COMPILER, suffix);
 
   cout << results << endl;
 }

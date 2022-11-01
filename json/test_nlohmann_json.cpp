@@ -65,9 +65,9 @@ int main() {
 
   const auto& text = read_file("/tmp/1.json");
 
-  notify_with_pid("C++/" COMPILER " (Nlohmann)");
-  const auto& results = calc(text);
-  notify("stop");
+  const auto& results = notifying_invoke([&]() {
+    return calc(text);
+  }, "C++/{} (Nlohmann)", COMPILER);
 
   cout << results << endl;
 }

@@ -145,9 +145,9 @@ int main(int argc, char** argv) {
   Printer p(getenv("QUIET") != nullptr);
   cout << unitbuf; // enable automatic flushing
 
-  notify_with_pid("C++/" COMPILER);
-  Program(text, p).run();
-  notify("stop");
+  notifying_invoke([&]() {
+    Program(text, p).run();
+  }, "C++/{}", COMPILER);
 
   if (p.quiet) {
     cout << "Output checksum: " << p.get_checksum() << endl;

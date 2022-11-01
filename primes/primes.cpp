@@ -158,9 +158,9 @@ void verify() {
 int main() {
   verify();
 
-  notify_with_pid("C++/" COMPILER);
-  const auto& results = find(UPPER_BOUND, PREFIX);
-  notify("stop");
+  const auto& results = notifying_invoke([&]() {
+    return find(UPPER_BOUND, PREFIX);
+  }, "C++/{}", COMPILER);
 
   std::cout << to_string(results) << std::endl;
 }

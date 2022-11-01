@@ -79,9 +79,9 @@ int main() {
     return EXIT_FAILURE;
   }
 
-  notify_with_pid("C++/" COMPILER " (simdjson On-Demand)");
-  const auto& results = calc(text);
-  notify("stop");
+  const auto& results = notifying_invoke([&]() {
+    return calc(text);
+  }, "C++/{} (simdjson On-Demand)", COMPILER);
 
   cout << results << endl;
 }
