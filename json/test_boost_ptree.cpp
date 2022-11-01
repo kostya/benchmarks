@@ -68,9 +68,9 @@ int main() {
   stringstream text;
   read_file("/tmp/1.json", text);
 
-  notify_with_pid("C++/" COMPILER " (Boost.PropertyTree)");
-  const auto& results = calc(text);
-  notify("stop");
+  const auto& results = notifying_invoke([&]() {
+    return calc(text);
+  }, "C++/{} (Boost.PropertyTree)", COMPILER);
 
   cout << results << endl;
 }
