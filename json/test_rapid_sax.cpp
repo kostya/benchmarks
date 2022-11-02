@@ -143,9 +143,9 @@ private:
 };
 
 void read_file(const string &filename, stringstream &buffer) {
-  ifstream f(filename);
-  if (f.good()) {
-    buffer << f.rdbuf();
+  ifstream file{filename};
+  if (file.good()) {
+    buffer << file.rdbuf();
   }
 }
 

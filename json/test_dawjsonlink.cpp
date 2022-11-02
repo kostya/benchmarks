@@ -79,11 +79,11 @@ template <> struct json_data_contract<coordinates_t> {
 } // namespace daw::json
 
 string read_file(const string &filename) {
-  ifstream f(filename);
-  if (!f) {
+  ifstream file{filename};
+  if (file.fail()) {
     return {};
   }
-  return string(istreambuf_iterator<char>(f), istreambuf_iterator<char>());
+  return string{istreambuf_iterator<char>{file}, {}};
 }
 
 coordinate_t calc(const string &text) {

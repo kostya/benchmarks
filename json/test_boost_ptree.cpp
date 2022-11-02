@@ -26,11 +26,10 @@ struct coordinate_t {
   }
 };
 
-void read_file(string filename, stringstream &buffer) {
-  ifstream file(filename.c_str());
-  if (file) {
+void read_file(const string &filename, stringstream &buffer) {
+  ifstream file{filename};
+  if (file.good()) {
     buffer << file.rdbuf();
-    file.close();
   }
 }
 

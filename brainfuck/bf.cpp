@@ -129,14 +129,11 @@ private:
 };
 
 string read_file(const string &filename) {
-  ifstream textstream(filename);
-  textstream.seekg(0, ios_base::end);
-  const int length = textstream.tellg();
-  textstream.seekg(0);
-  string text(length, ' ');
-  textstream.read(&text[0], length);
-  textstream.close();
-  return text;
+  ifstream file{filename};
+  if (file.fail()) {
+    return {};
+  }
+  return string{istreambuf_iterator<char>{file}, {}};
 }
 
 void verify() {
