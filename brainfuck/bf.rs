@@ -144,18 +144,17 @@ fn notify(msg: &str) {
 }
 
 fn verify() {
-    const S: &[u8] = b"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
-                       ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
+    const SOURCE: &[u8] = b"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
+                            ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
+    let output = io::stdout();
 
     let left = {
-        let output = io::stdout();
         let mut p = Printer::new(&output, true);
-        Program::new(S).run(&mut p);
+        Program::new(SOURCE).run(&mut p);
         p.get_checksum()
     };
 
     let right = {
-        let output = io::stdout();
         let mut p = Printer::new(&output, true);
         for &c in b"Hello World!\n" {
             p.print(c as i32);
@@ -171,12 +170,12 @@ fn verify() {
 
 fn main() {
     verify();
-    let s = fs::read(env::args().nth(1).unwrap()).unwrap();
+    let source = fs::read(env::args().nth(1).unwrap()).unwrap();
     let output = io::stdout();
     let mut p = Printer::new(&output, env::var("QUIET").is_ok());
 
     notify(&format!("Rust\t{pid}", pid = process::id()));
-    Program::new(&s).run(&mut p);
+    Program::new(&source).run(&mut p);
     notify("stop");
 
     if p.quiet {
