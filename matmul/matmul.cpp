@@ -7,9 +7,9 @@ using namespace std;
 using namespace Eigen;
 
 #ifdef __clang__
-# define COMPILER "clang++"
+#define COMPILER "clang++"
 #else
-# define COMPILER "g++"
+#define COMPILER "g++"
 #endif
 
 // NOTE: Eigen requires explicit variable types for the proper
@@ -34,7 +34,7 @@ double calc(int n) {
   return d(n / 2, n / 2);
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   auto n = argc > 1 ? atoi(argv[1]) : 100;
 
   auto left = calc(101);
@@ -44,9 +44,8 @@ int main(int argc, char** argv) {
     exit(EXIT_FAILURE);
   }
 
-  auto results = notifying_invoke([&]() {
-    return calc(n);
-  }, "C++/{} (Eigen)", COMPILER);
+  auto results =
+      notifying_invoke([&]() { return calc(n); }, "C++/{} (Eigen)", COMPILER);
 
   cout << results << endl;
 }
