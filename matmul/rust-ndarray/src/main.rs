@@ -12,7 +12,7 @@ fn mat_gen(n: usize, seed: f64) -> Array2<f64> {
 }
 
 fn notify(msg: &str) {
-    if let Ok(mut stream) = TcpStream::connect("localhost:9001") {
+    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
         stream.write_all(msg.as_bytes()).unwrap();
     }
 }
@@ -28,20 +28,19 @@ fn calc(n: usize) -> f64 {
 fn main() {
     let n = env::args()
         .nth(1)
-        .unwrap_or_else(|| "100".into())
-        .parse::<usize>()
-        .unwrap();
+        .and_then(|x| x.parse::<usize>().ok())
+        .unwrap_or(100);
 
     let left = calc(101);
     let right = -18.67;
     if (left - right).abs() > 0.1 {
-        eprintln!("{} != {}", left, right);
+        eprintln!("{left} != {right}");
         process::exit(-1);
     }
 
-    notify(&format!("Rust (ndarray)\t{}", process::id()));
+    notify(&format!("Rust (ndarray)\t{pid}", pid = process::id()));
     let results = calc(n);
     notify("stop");
 
-    println!("{}", results);
+    println!("{results}");
 }

@@ -27,7 +27,7 @@ struct TestStruct {
 }
 
 fn notify(msg: &str) {
-    if let Ok(mut stream) = TcpStream::connect("localhost:9001") {
+    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
         stream.write_all(msg.as_bytes()).unwrap();
     }
 }
@@ -60,21 +60,21 @@ fn main() {
         z: 0.25,
     };
     for v in &[
-        "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
-        "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}",
+        r#"{"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]}"#,
+        r#"{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}"#,
     ] {
         let left = calc(v);
         if left != right {
-            eprintln!("{} != {}", left, right);
+            eprintln!("{left} != {right}");
             process::exit(-1);
         }
     }
 
     let s = fs::read_to_string("/tmp/1.json").unwrap();
 
-    notify(&format!("Rust (Serde Typed)\t{}", process::id()));
+    notify(&format!("Rust (Serde Typed)\t{pid}", pid = process::id()));
     let results = calc(&s);
     notify("stop");
 
-    println!("{}", results);
+    println!("{results}");
 }

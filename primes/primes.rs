@@ -147,7 +147,7 @@ fn find(upper_bound: usize, prefix: i32) -> Vec<i32> {
 }
 
 fn notify(msg: &str) {
-    if let Ok(mut stream) = TcpStream::connect("localhost:9001") {
+    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
         stream.write_all(msg.as_bytes()).unwrap();
     }
 }
@@ -156,7 +156,7 @@ fn verify() {
     let left = vec![2, 23, 29];
     let right = find(100, 2);
     if left != right {
-        eprintln!("{:?} != {:?}", left, right);
+        eprintln!("{left:?} != {right:?}");
         process::exit(-1);
     }
 }
@@ -164,9 +164,9 @@ fn verify() {
 fn main() {
     verify();
 
-    notify(&format!("Rust\t{}", process::id()));
+    notify(&format!("Rust\t{pid}", pid = process::id()));
     let results = find(UPPER_BOUND, PREFIX);
     notify("stop");
 
-    println!("{:?}", results);
+    println!("{results:?}");
 }

@@ -138,7 +138,7 @@ impl Program {
 }
 
 fn notify(msg: &str) {
-    if let Ok(mut stream) = TcpStream::connect("localhost:9001") {
+    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
         stream.write_all(msg.as_bytes()).unwrap();
     }
 }
