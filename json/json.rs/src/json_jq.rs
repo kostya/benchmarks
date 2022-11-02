@@ -39,7 +39,8 @@ fn calc(program: &mut JqProgram, content: &str) -> Coordinate {
 
 fn main() {
     let mut program = jq_rs::compile(concat!(
-        ".coordinates | length as $len | (map(.x) | add) / $len,",
+        ".coordinates | length as $len |",
+        " (map(.x) | add) / $len,",
         " (map(.y) | add) / $len,",
         " (map(.z) | add) / $len"
     ))
