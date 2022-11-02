@@ -53,8 +53,8 @@ coordinate_t calc(stringstream &text) {
 
 int main() {
   auto right = coordinate_t{2.0, 0.5, 0.25};
-  for (auto v : {"{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
-                 "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"}) {
+  for (auto v : {R"({"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]})",
+                 R"({"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]})"}) {
     auto json = stringstream(v);
     auto left = calc(json);
     if (left != right) {

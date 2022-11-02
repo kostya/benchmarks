@@ -140,14 +140,14 @@ string read_file(const string &filename) {
 }
 
 void verify() {
-  const string text("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>"
-                    "---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.");
+  const auto text = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>"
+                    "---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."s;
   Printer p_left(true);
   Program(text, p_left).run();
   const auto left = p_left.get_checksum();
 
   Printer p_right(true);
-  for (const auto &c : string("Hello World!\n")) {
+  for (const auto &c : "Hello World!\n"s) {
     p_right.print(c);
   }
   const auto right = p_right.get_checksum();

@@ -162,8 +162,8 @@ void calc(stringstream &ss, const TCallback &callback) {
 
 int main() {
   auto right = coordinate_t{2.0, 0.5, 0.25};
-  for (auto v : {"{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
-                 "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"}) {
+  for (auto v : {R"({"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]})",
+                 R"({"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]})"}) {
     auto json = stringstream(v);
     calc(json, [right](const coordinate_t &left) {
       if (left != right) {
@@ -177,9 +177,9 @@ int main() {
   read_file("/tmp/1.json", ss);
 
 #ifdef PRECISED
-  const string suffix = " Precise";
+  const auto suffix = " Precise"s;
 #else
-  const string suffix = "";
+  const auto suffix = ""s;
 #endif
 
   coordinate_t results;

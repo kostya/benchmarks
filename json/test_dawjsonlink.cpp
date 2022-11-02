@@ -112,8 +112,8 @@ coordinate_t calc(const string &text) {
 
 int main() {
   auto right = coordinate_t{2.0, 0.5, 0.25};
-  for (auto v : {"{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
-                 "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"}) {
+  for (auto v : {R"({"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]})",
+                 R"({"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]})"}) {
     auto left = calc(v);
     if (left != right) {
       cerr << left << " != " << right << endl;
@@ -123,9 +123,9 @@ int main() {
 
   const auto &text = read_file("/tmp/1.json");
 #ifdef UNCHECKED
-  const string suffix = " NoCheck";
+  const auto suffix = " NoCheck"s;
 #else
-  const string suffix = "";
+  const auto suffix = ""s;
 #endif
 
   const auto &results =
