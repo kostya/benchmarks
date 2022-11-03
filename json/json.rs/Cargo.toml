@@ -7,6 +7,7 @@ edition = "2021"
 lto = true
 codegen-units = 1
 panic = "abort"
+strip = true
 
 [dependencies]
 serde = { version = "1.0.137", features = ["derive"] }
