@@ -4,9 +4,9 @@
 #include <vector>
 
 #ifdef __clang__
-# define COMPILER "clang++"
+static constexpr auto COMPILER = "clang++";
 #else
-# define COMPILER "g++"
+static constexpr auto COMPILER = "g++";
 #endif
 
 using namespace std;
@@ -29,22 +29,25 @@ class Tape {
   tape_type tape;
 
 public:
-  Tape(): pos(0), tape{} {
-    tape.push_back(0);
-  }
+  Tape() : pos(0), tape{} { tape.push_back(0); }
 
   int get() { return tape[pos]; }
   void inc(int x) { tape[pos] += x; }
-  void move(int x) { pos += x; if (pos >= tape.size()) tape.resize(2 * tape.size()); }
+  void move(int x) {
+    pos += x;
+    if (pos >= tape.size())
+      tape.resize(2 * tape.size());
+  }
 };
 
 class Printer {
   int sum1;
   int sum2;
+
 public:
   bool quiet;
 
-  Printer(bool quiet): sum1(0), sum2(0), quiet(quiet) {}
+  Printer(bool quiet) : sum1(0), sum2(0), quiet(quiet) {}
 
   void print(int n) {
     if (quiet) {
@@ -55,18 +58,15 @@ public:
     }
   }
 
-  int get_checksum() const {
-    return (sum2 << 8) | sum1;
-  }
+  int get_checksum() const { return (sum2 << 8) | sum1; }
 };
 
 class Program {
   Ops ops;
-  Printer& p;
+  Printer &p;
 
 public:
-
-  Program(const string& code, Printer& p): ops{}, p(p) {
+  Program(const string &code, Printer &p) : ops{}, p(p) {
     string::const_iterator iterator = code.cbegin();
     ops = parse(iterator, code.cend());
   }
@@ -77,56 +77,74 @@ public:
   }
 
 private:
-
   Ops parse(string::const_iterator &iterator, string::const_iterator end) {
     Ops res;
     while (iterator != end) {
       const auto c = *iterator++;
       switch (c) {
-        case '+': res.push_back(Op(INC, 1)); break;
-        case '-': res.push_back(Op(INC, -1)); break;
-        case '>': res.push_back(Op(MOVE, 1)); break;
-        case '<': res.push_back(Op(MOVE, -1)); break;
-        case '.': res.push_back(Op(PRINT)); break;
-        case '[': res.push_back(Op(parse(iterator, end))); break;
-        case ']': return res;
+      case '+':
+        res.push_back(Op(INC, 1));
+        break;
+      case '-':
+        res.push_back(Op(INC, -1));
+        break;
+      case '>':
+        res.push_back(Op(MOVE, 1));
+        break;
+      case '<':
+        res.push_back(Op(MOVE, -1));
+        break;
+      case '.':
+        res.push_back(Op(PRINT));
+        break;
+      case '[':
+        res.push_back(Op(parse(iterator, end)));
+        break;
+      case ']':
+        return res;
       }
     }
     return res;
   }
 
   void _run(const Ops &program, Tape &tape) {
-    for (const auto& op : program) {
+    for (const auto &op : program) {
       switch (op.op) {
-      case INC: tape.inc(op.val); break;
-      case MOVE: tape.move(op.val); break;
-      case LOOP: while (tape.get() > 0) _run(op.loop, tape); break;
-      case PRINT: p.print(tape.get()); break;
+      case INC:
+        tape.inc(op.val);
+        break;
+      case MOVE:
+        tape.move(op.val);
+        break;
+      case LOOP:
+        while (tape.get() > 0)
+          _run(op.loop, tape);
+        break;
+      case PRINT:
+        p.print(tape.get());
+        break;
       }
     }
   }
 };
 
-string read_file(const string& filename){
-  ifstream textstream(filename);
-  textstream.seekg(0, ios_base::end);
-  const int length = textstream.tellg();
-  textstream.seekg(0);
-  string text(length, ' ');
-  textstream.read(&text[0], length);
-  textstream.close();
-  return text;
+string read_file(const string &filename) {
+  ifstream file{filename};
+  if (!file.good()) {
+    return {};
+  }
+  return string{istreambuf_iterator<char>{file}, {}};
 }
 
 void verify() {
-  const string text("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>"
-                    "---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.");
+  const auto text = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>"
+                    "---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."s;
   Printer p_left(true);
   Program(text, p_left).run();
   const auto left = p_left.get_checksum();
 
   Printer p_right(true);
-  for (const auto& c : string("Hello World!\n")) {
+  for (const auto &c : "Hello World!\n"s) {
     p_right.print(c);
   }
   const auto right = p_right.get_checksum();
@@ -136,7 +154,7 @@ void verify() {
   }
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   verify();
   if (argc < 2) {
     exit(EXIT_FAILURE);
@@ -145,9 +163,7 @@ int main(int argc, char** argv) {
   Printer p(getenv("QUIET") != nullptr);
   cout << unitbuf; // enable automatic flushing
 
-  notifying_invoke([&]() {
-    Program(text, p).run();
-  }, "C++/{}", COMPILER);
+  notifying_invoke([&]() { Program(text, p).run(); }, "C++/{}", COMPILER);
 
   if (p.quiet) {
     cout << "Output checksum: " << p.get_checksum() << endl;

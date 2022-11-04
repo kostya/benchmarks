@@ -6,28 +6,26 @@
 #include <stdlib.h>
 
 #ifdef __clang__
-# define COMPILER "clang"
+#define COMPILER "clang"
 #else
-# define COMPILER "gcc"
+#define COMPILER "gcc"
 #endif
 
-double **mm_init(int n)
-{
+double **mm_init(int n) {
   double **m;
   int i;
-  m = (double**)malloc(n * sizeof(void*));
+  m = (double **)malloc(n * sizeof(void *));
   for (i = 0; i < n; ++i)
     m[i] = calloc(n, sizeof(double));
   return m;
 }
-void mm_destroy(int n, double **m)
-{
+void mm_destroy(int n, double **m) {
   int i;
-  for (i = 0; i < n; ++i) free(m[i]);
+  for (i = 0; i < n; ++i)
+    free(m[i]);
   free(m);
 }
-double **mm_gen(int n, double seed)
-{
+double **mm_gen(int n, double seed) {
   double **m, tmp = seed / n / n;
   int i, j;
   m = mm_init(n);
@@ -37,11 +35,11 @@ double **mm_gen(int n, double seed)
   return m;
 }
 // better cache performance by transposing the second matrix
-double **mm_mul(int n, double *const *a, double *const *b)
-{
+double **mm_mul(int n, double *const *a, double *const *b) {
   int i, j, k;
   double **m, **c;
-  m = mm_init(n); c = mm_init(n);
+  m = mm_init(n);
+  c = mm_init(n);
   for (i = 0; i < n; ++i) // transpose
     for (j = 0; j < n; ++j)
       c[i][j] = b[j][i];

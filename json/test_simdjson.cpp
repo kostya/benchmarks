@@ -4,9 +4,9 @@
 #include "simdjson.h"
 
 #ifdef __clang__
-# define COMPILER "clang++"
+static constexpr auto COMPILER = "clang++";
 #else
-# define COMPILER "g++"
+static constexpr auto COMPILER = "g++";
 #endif
 
 using namespace std;
@@ -16,16 +16,14 @@ struct coordinate_t {
   double y;
   double z;
 
-  auto operator<=>(const coordinate_t&) const = default;
+  auto operator<=>(const coordinate_t &) const = default;
 
-  friend ostream& operator<< (ostream &out, const coordinate_t &point) {
-    out << "coordinate_t {x: " << point.x
-        << ", y: " << point.y
+  friend ostream &operator<<(ostream &out, const coordinate_t &point) {
+    out << "coordinate_t {x: " << point.x << ", y: " << point.y
         << ", z: " << point.z << "}";
     return out;
   }
 };
-
 
 using namespace simdjson;
 
@@ -34,6 +32,7 @@ public:
   bool run(const padded_string &json);
   coordinate_t my_point{};
   size_t count{};
+
 private:
   ondemand::parser parser{};
 };
@@ -50,7 +49,7 @@ bool on_demand::run(const padded_string &json) {
   return true;
 }
 
-coordinate_t calc(const padded_string& json) {
+coordinate_t calc(const padded_string &json) {
   on_demand reader;
   reader.run(json);
   reader.my_point.x /= reader.count;
@@ -62,9 +61,9 @@ coordinate_t calc(const padded_string& json) {
 int main() {
   auto right = coordinate_t{2.0, 0.5, 0.25};
   // The _padded suffix creates a simdjson::padded_string instance
-  for (const padded_string &v : {
-      "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}"_padded,
-      "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"_padded}) {
+  for (const padded_string &v :
+       {R"({"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]})"_padded,
+        R"({"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]})"_padded}) {
     auto left = calc(v);
     if (left != right) {
       cerr << left << " != " << right << endl;
@@ -73,15 +72,14 @@ int main() {
   }
 
   padded_string text;
-  const auto& error = padded_string::load("/tmp/1.json").get(text);
+  const auto &error = padded_string::load("/tmp/1.json").get(text);
   if (error) {
     cerr << "could not load file" << endl;
     return EXIT_FAILURE;
   }
 
-  const auto& results = notifying_invoke([&]() {
-    return calc(text);
-  }, "C++/{} (simdjson On-Demand)", COMPILER);
+  const auto &results = notifying_invoke(
+      [&]() { return calc(text); }, "C++/{} (simdjson On-Demand)", COMPILER);
 
   cout << results << endl;
 }

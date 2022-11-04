@@ -1,13 +1,13 @@
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
 #include <boost/foreach.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <iostream>
 #include <libnotify.h>
 
 #ifdef __clang__
-# define COMPILER "clang++"
+static constexpr auto COMPILER = "clang++";
 #else
-# define COMPILER "g++"
+static constexpr auto COMPILER = "g++";
 #endif
 
 using namespace std;
@@ -17,32 +17,30 @@ struct coordinate_t {
   double y;
   double z;
 
-  auto operator<=>(const coordinate_t&) const = default;
+  auto operator<=>(const coordinate_t &) const = default;
 
-  friend ostream& operator<< (ostream &out, const coordinate_t &point) {
-    out << "coordinate_t {x: " << point.x
-        << ", y: " << point.y
+  friend ostream &operator<<(ostream &out, const coordinate_t &point) {
+    out << "coordinate_t {x: " << point.x << ", y: " << point.y
         << ", z: " << point.z << "}";
     return out;
   }
 };
 
-void read_file(string filename, stringstream &buffer) {
-  ifstream file(filename.c_str());
-  if (file) {
+void read_file(const string &filename, stringstream &buffer) {
+  ifstream file{filename};
+  if (file.good()) {
     buffer << file.rdbuf();
-    file.close();
   }
 }
 
-coordinate_t calc(stringstream& text) {
+coordinate_t calc(stringstream &text) {
   boost::property_tree::ptree jobj;
   boost::property_tree::read_json(text, jobj);
   auto x = 0.0, y = 0.0, z = 0.0;
   auto len = 0;
 
-  BOOST_FOREACH(boost::property_tree::ptree::value_type &coord,
-                jobj.get_child("coordinates")) {
+  BOOST_FOREACH (boost::property_tree::ptree::value_type &coord,
+                 jobj.get_child("coordinates")) {
     len += 1;
     x += coord.second.get<double>("x");
     y += coord.second.get<double>("y");
@@ -54,23 +52,21 @@ coordinate_t calc(stringstream& text) {
 
 int main() {
   auto right = coordinate_t{2.0, 0.5, 0.25};
-  for (auto v : {
-          "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
-          "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"}) {
+  for (auto v : {R"({"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]})",
+                 R"({"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]})"}) {
     auto json = stringstream(v);
     auto left = calc(json);
     if (left != right) {
-        cerr << left << " != " << right << endl;
-        exit(EXIT_FAILURE);
+      cerr << left << " != " << right << endl;
+      exit(EXIT_FAILURE);
     }
   }
 
   stringstream text;
   read_file("/tmp/1.json", text);
 
-  const auto& results = notifying_invoke([&]() {
-    return calc(text);
-  }, "C++/{} (Boost.PropertyTree)", COMPILER);
+  const auto &results = notifying_invoke(
+      [&]() { return calc(text); }, "C++/{} (Boost.PropertyTree)", COMPILER);
 
   cout << results << endl;
 }

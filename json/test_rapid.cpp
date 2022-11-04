@@ -8,9 +8,9 @@
 #include <sstream>
 
 #ifdef __clang__
-# define COMPILER "clang++"
+static constexpr auto COMPILER = "clang++";
 #else
-# define COMPILER "g++"
+static constexpr auto COMPILER = "g++";
 #endif
 
 using namespace std;
@@ -21,26 +21,24 @@ struct coordinate_t {
   double y;
   double z;
 
-  auto operator<=>(const coordinate_t&) const = default;
+  auto operator<=>(const coordinate_t &) const = default;
 
-  friend ostream& operator<< (ostream &out, const coordinate_t &point) {
-    out << "coordinate_t {x: " << point.x
-        << ", y: " << point.y
+  friend ostream &operator<<(ostream &out, const coordinate_t &point) {
+    out << "coordinate_t {x: " << point.x << ", y: " << point.y
         << ", z: " << point.z << "}";
     return out;
   }
 };
 
-string read_file(const string& filename) {
-  ifstream f(filename);
-  if (!f) {
+string read_file(const string &filename) {
+  ifstream file{filename};
+  if (!file.good()) {
     return {};
   }
-  return string(istreambuf_iterator<char>(f),
-                istreambuf_iterator<char>());
+  return string{istreambuf_iterator<char>{file}, {}};
 }
 
-coordinate_t calc(const string& text) {
+coordinate_t calc(const string &text) {
   Document jobj;
 #ifdef PRECISED
   jobj.Parse<kParseFullPrecisionFlag>(text);
@@ -48,12 +46,12 @@ coordinate_t calc(const string& text) {
   jobj.Parse(text);
 #endif
 
-  const Value& coordinates = jobj["coordinates"];
+  const Value &coordinates = jobj["coordinates"];
   auto len = coordinates.Size();
   auto x = 0.0, y = 0.0, z = 0.0;
 
   for (SizeType i = 0; i < len; i++) {
-    const Value& coord = coordinates[i];
+    const Value &coord = coordinates[i];
     x += coord["x"].GetDouble();
     y += coord["y"].GetDouble();
     z += coord["z"].GetDouble();
@@ -64,27 +62,25 @@ coordinate_t calc(const string& text) {
 
 int main() {
   auto right = coordinate_t{2.0, 0.5, 0.25};
-  for (auto v : {
-          "{\"coordinates\":[{\"x\":2.0,\"y\":0.5,\"z\":0.25}]}",
-          "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}"}) {
+  for (auto v : {R"({"coordinates":[{"x":2.0,"y":0.5,"z":0.25}]})",
+                 R"({"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]})"}) {
     auto left = calc(v);
     if (left != right) {
-        cerr << left << " != " << right << endl;
-        exit(EXIT_FAILURE);
+      cerr << left << " != " << right << endl;
+      exit(EXIT_FAILURE);
     }
   }
 
-  const auto& text = read_file("/tmp/1.json");
+  const auto &text = read_file("/tmp/1.json");
 
 #ifdef PRECISED
-  const string suffix = " Precise";
+  static constexpr auto SUFFIX = " Precise";
 #else
-  const string suffix = "";
+  static constexpr auto SUFFIX = "";
 #endif
 
-  const auto& results = notifying_invoke([&]() {
-    return calc(text);
-  }, "C++/{} (RapidJSON{})", COMPILER, suffix);
+  const auto &results = notifying_invoke(
+      [&]() { return calc(text); }, "C++/{} (RapidJSON{})", COMPILER, SUFFIX);
 
   cout << results << endl;
 }

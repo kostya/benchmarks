@@ -9,9 +9,9 @@
 #include <libnotify.h>
 
 #ifdef __clang__
-# define COMPILER "clang++"
+static constexpr auto COMPILER = "clang++";
 #else
-# define COMPILER "g++"
+static constexpr auto COMPILER = "g++";
 #endif
 
 static const auto UPPER_BOUND = 5'000'000;
@@ -26,7 +26,7 @@ class Sieve {
   int limit;
   std::vector<bool> prime;
 
-  Sieve& omit_squares() {
+  Sieve &omit_squares() {
     for (auto r = 5; r * r < limit; ++r) {
       if (prime[r]) {
         for (auto i = r * r; i < limit; i += r * r) {
@@ -73,7 +73,7 @@ class Sieve {
   }
 
 public:
-  Sieve(int limit): limit(limit), prime(limit + 1, false) {}
+  Sieve(int limit) : limit(limit), prime(limit + 1, false) {}
 
   std::vector<int> to_list() const {
     std::vector<int> result({2, 3});
@@ -85,17 +85,17 @@ public:
     return result;
   }
 
-  Sieve& calc() {
+  Sieve &calc() {
     loop_x();
     return omit_squares();
   }
 };
 
-std::shared_ptr<Node> generate_trie(const std::vector<int>& l) {
+std::shared_ptr<Node> generate_trie(const std::vector<int> &l) {
   auto root = std::make_shared<Node>();
   for (const auto el : l) {
     auto head = root;
-    for (const auto ch: std::to_string(el)) {
+    for (const auto ch : std::to_string(el)) {
       head->children.emplace(ch, std::make_shared<Node>());
       head = head->children[ch];
     }
@@ -106,7 +106,7 @@ std::shared_ptr<Node> generate_trie(const std::vector<int>& l) {
 
 std::vector<int> find(int upper_bound, int prefix) {
   const auto primes = Sieve(upper_bound).calc();
-  const auto& str_prefix = std::to_string(prefix);
+  const auto &str_prefix = std::to_string(prefix);
   auto head = generate_trie(primes.to_list());
 
   for (const auto ch : str_prefix) {
@@ -114,8 +114,7 @@ std::vector<int> find(int upper_bound, int prefix) {
   }
 
   std::queue<std::pair<std::shared_ptr<Node>, std::string>> queue(
-    { std::make_pair(head, str_prefix) }
-  );
+      {std::make_pair(head, str_prefix)});
   std::vector<int> result;
   while (!queue.empty()) {
     const auto [top, prefix] = queue.front();
@@ -123,7 +122,7 @@ std::vector<int> find(int upper_bound, int prefix) {
     if (top->terminal) {
       result.push_back(std::stoi(prefix));
     }
-    for (const auto& [ch, v] : top->children) {
+    for (const auto &[ch, v] : top->children) {
       queue.push(std::make_pair(v, prefix + ch));
     }
   }
@@ -131,7 +130,7 @@ std::vector<int> find(int upper_bound, int prefix) {
   return result;
 }
 
-std::string to_string(const std::vector<int>& a) {
+std::string to_string(const std::vector<int> &a) {
   std::stringstream ss;
   ss << "[";
   auto first = true;
@@ -158,9 +157,8 @@ void verify() {
 int main() {
   verify();
 
-  const auto& results = notifying_invoke([&]() {
-    return find(UPPER_BOUND, PREFIX);
-  }, "C++/{}", COMPILER);
+  const auto &results = notifying_invoke(
+      [&]() { return find(UPPER_BOUND, PREFIX); }, "C++/{}", COMPILER);
 
   std::cout << to_string(results) << std::endl;
 }

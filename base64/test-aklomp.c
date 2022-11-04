@@ -7,26 +7,22 @@
 #include <time.h>
 
 #ifdef __clang__
-# define COMPILER "clang"
+#define COMPILER "clang"
 #else
-# define COMPILER "gcc"
+#define COMPILER "gcc"
 #endif
 
-size_t encode_size(size_t size) {
-  return (size_t)(size * 4 / 3.0) + 6;
-}
+size_t encode_size(size_t size) { return (size_t)(size * 4 / 3.0) + 6; }
 
-size_t decode_size(size_t size) {
-  return (size_t)(size * 3 / 4.0) + 6;
-}
+size_t decode_size(size_t size) { return (size_t)(size * 3 / 4.0) + 6; }
 
-size_t b64_encode(char *dst, const char* src, size_t src_size) {
+size_t b64_encode(char *dst, const char *src, size_t src_size) {
   size_t encoded_size;
   base64_encode(src, src_size, dst, &encoded_size, 0);
   return encoded_size;
 }
 
-size_t b64_decode(char *dst, const char* src, size_t src_size) {
+size_t b64_decode(char *dst, const char *src, size_t src_size) {
   size_t decoded_size;
   if (base64_decode(src, src_size, dst, &decoded_size, 0) != 1) {
     fputs("error when decoding", stderr);
@@ -36,9 +32,8 @@ size_t b64_decode(char *dst, const char* src, size_t src_size) {
 }
 
 int main() {
-  const char *fixtures[][2] =
-    {{"hello", "aGVsbG8="}, {"world", "d29ybGQ="}};
-  const int num_fixtures = sizeof(fixtures)/sizeof(fixtures[0]);
+  const char *fixtures[][2] = {{"hello", "aGVsbG8="}, {"world", "d29ybGQ="}};
+  const int num_fixtures = sizeof(fixtures) / sizeof(fixtures[0]);
   for (int i = 0; i < num_fixtures; ++i) {
     const char *src = fixtures[i][0];
     size_t src_len = strlen(src);
@@ -95,8 +90,8 @@ int main() {
 
   notify("stop");
 
-  printf("encode %.4s... to %.4s...: %d, %.2f\n",
-         str, str2, s_encoded, t_encoded);
-  printf("decode %.4s... to %.4s...: %d, %.2f\n",
-         str2, str3, s_decoded, t_decoded);
+  printf("encode %.4s... to %.4s...: %d, %.2f\n", str, str2, s_encoded,
+         t_encoded);
+  printf("decode %.4s... to %.4s...: %d, %.2f\n", str2, str3, s_decoded,
+         t_decoded);
 }
