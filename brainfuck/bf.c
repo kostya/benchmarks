@@ -5,19 +5,14 @@
 #include <string.h>
 
 #ifdef __clang__
-# define COMPILER "clang"
+#define COMPILER "clang"
 #else
-# define COMPILER "gcc"
+#define COMPILER "gcc"
 #endif
 
 struct op_list;
 
-enum op_type {
-  OP_INC,
-  OP_MOVE,
-  OP_LOOP,
-  OP_PRINT
-};
+enum op_type { OP_INC, OP_MOVE, OP_LOOP, OP_PRINT };
 
 union op_value {
   int offset;
@@ -34,8 +29,7 @@ struct op_list {
   size_t cap, len;
 };
 
-struct op op_new(enum op_type type, union op_value value)
-{
+struct op op_new(enum op_type type, union op_value value) {
   struct op op;
 
   op.type = type;
@@ -49,24 +43,21 @@ struct op op_new(enum op_type type, union op_value value)
 
 void op_list_free(struct op_list *list);
 
-void op_free(struct op op)
-{
+void op_free(struct op op) {
   if (op.type == OP_LOOP) {
     op_list_free(op.value.list);
     free(op.value.list);
   }
 }
 
-void op_list_free(struct op_list *list)
-{
+void op_list_free(struct op_list *list) {
   for (size_t i = 0; i < list->len; i += 1)
     op_free(list->ops[i]);
 
   free(list->ops);
 }
 
-void op_list_grow(struct op_list *list)
-{
+void op_list_grow(struct op_list *list) {
   if (list->ops == NULL) {
     list->cap = 4;
   } else {
@@ -76,18 +67,13 @@ void op_list_grow(struct op_list *list)
   list->ops = realloc(list->ops, sizeof(struct op) * list->cap);
 }
 
-size_t op_list_length(const struct op_list *list)
-{
-  return list->len;
-}
+size_t op_list_length(const struct op_list *list) { return list->len; }
 
-struct op op_list_get(const struct op_list *list, int i)
-{
+struct op op_list_get(const struct op_list *list, int i) {
   return list->ops[i];
 }
 
-void op_list_push(struct op_list *list, struct op op)
-{
+void op_list_push(struct op_list *list, struct op op) {
   if (list->len == list->cap)
     op_list_grow(list);
 
@@ -99,8 +85,7 @@ struct string_iterator {
   int pos;
 };
 
-char string_iterator_next(struct string_iterator *it)
-{
+char string_iterator_next(struct string_iterator *it) {
   return it->string[it->pos++];
 }
 
@@ -119,12 +104,9 @@ void print(struct printer *p, int n) {
   }
 }
 
-int get_checksum(const struct printer *p) {
-  return (p->sum2 << 8) | p->sum1;
-}
+int get_checksum(const struct printer *p) { return (p->sum2 << 8) | p->sum1; }
 
-void parse(struct string_iterator *it, struct op_list *ops)
-{
+void parse(struct string_iterator *it, struct op_list *ops) {
   char c;
   struct op_list *loop_ops;
   union op_value value;
@@ -174,13 +156,9 @@ struct tape {
   size_t cap, pos;
 };
 
-char tape_get(const struct tape tape)
-{
-  return tape.tape[tape.pos];
-}
+char tape_get(const struct tape tape) { return tape.tape[tape.pos]; }
 
-void tape_grow(struct tape *tape)
-{
+void tape_grow(struct tape *tape) {
   size_t new_cap = tape->cap << 1;
   tape->tape = realloc(tape->tape, sizeof(int) * new_cap);
 
@@ -190,18 +168,14 @@ void tape_grow(struct tape *tape)
   tape->cap = new_cap;
 }
 
-void tape_move(struct tape *tape, int amount)
-{
+void tape_move(struct tape *tape, int amount) {
   tape->pos += amount;
 
   if (tape->pos >= tape->cap)
     tape_grow(tape);
 }
 
-void tape_inc(struct tape tape, int amount)
-{
-  tape.tape[tape.pos] += amount;
-}
+void tape_inc(struct tape tape, int amount) { tape.tape[tape.pos] += amount; }
 
 void eval(const struct op_list *ops, struct tape *tape, struct printer *p) {
   struct op op;
@@ -225,10 +199,10 @@ void eval(const struct op_list *ops, struct tape *tape, struct printer *p) {
   }
 }
 
-void run(const char* code, struct printer *p) {
-  struct tape tape = {.tape=calloc(1, sizeof(int)), .cap=1, .pos=0};
-  struct op_list ops = {.ops=NULL, .cap=0, .len=0};
-  struct string_iterator it = {.string=code, .pos=0};
+void run(const char *code, struct printer *p) {
+  struct tape tape = {.tape = calloc(1, sizeof(int)), .cap = 1, .pos = 0};
+  struct op_list ops = {.ops = NULL, .cap = 0, .len = 0};
+  struct string_iterator it = {.string = code, .pos = 0};
   parse(&it, &ops);
   eval(&ops, &tape, p);
   free(tape.tape);
@@ -237,12 +211,12 @@ void run(const char* code, struct printer *p) {
 
 void verify() {
   char text[] = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>"
-    "---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
-  struct printer p_left = {.sum1=0, .sum2=0, .quiet=true};
+                "---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
+  struct printer p_left = {.sum1 = 0, .sum2 = 0, .quiet = true};
   run(text, &p_left);
   int left = get_checksum(&p_left);
 
-  struct printer p_right = {.sum1=0, .sum2=0, .quiet=true};
+  struct printer p_right = {.sum1 = 0, .sum2 = 0, .quiet = true};
   char result[] = "Hello World!\n";
   size_t i = 0;
   while (result[i] != '\0') {
@@ -257,7 +231,7 @@ void verify() {
 
 int main(int argc, char *argv[]) {
   verify();
-  struct printer p = {.sum1=0, .sum2=0, .quiet=getenv("QUIET") != NULL};
+  struct printer p = {.sum1 = 0, .sum2 = 0, .quiet = getenv("QUIET") != NULL};
   setbuf(stdout, NULL); // enable automatic flushing
 
   if (argc < 2) {

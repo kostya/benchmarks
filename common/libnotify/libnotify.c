@@ -9,7 +9,7 @@
 
 static const size_t MAX_LEN = 48;
 
-void notify(const char* msg) {
+void notify(const char *msg) {
   int sock = socket(AF_INET, SOCK_STREAM, 0);
 
   if (sock < 0) {
@@ -27,7 +27,7 @@ void notify(const char* msg) {
   close(sock);
 }
 
-void notify_with_pid(const char* msg) {
+void notify_with_pid(const char *msg) {
   char text[MAX_LEN];
   if (snprintf(text, sizeof(text), "%s\t%d", msg, getpid()) > 0) {
     notify(text);
