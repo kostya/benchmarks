@@ -130,7 +130,7 @@ private:
 
 string read_file(const string &filename) {
   ifstream file{filename};
-  if (file.fail()) {
+  if (!file.good()) {
     return {};
   }
   return string{istreambuf_iterator<char>{file}, {}};
