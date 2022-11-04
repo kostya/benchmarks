@@ -74,13 +74,13 @@ int main() {
   const auto &text = read_file("/tmp/1.json");
 
 #ifdef PRECISED
-  const auto suffix = " Precise"s;
+  static constexpr auto SUFFIX = " Precise";
 #else
-  const auto suffix = ""s;
+  static constexpr auto SUFFIX = "";
 #endif
 
   const auto &results = notifying_invoke(
-      [&]() { return calc(text); }, "C++/{} (RapidJSON{})", COMPILER, suffix);
+      [&]() { return calc(text); }, "C++/{} (RapidJSON{})", COMPILER, SUFFIX);
 
   cout << results << endl;
 }

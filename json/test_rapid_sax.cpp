@@ -177,15 +177,15 @@ int main() {
   read_file("/tmp/1.json", ss);
 
 #ifdef PRECISED
-  const auto suffix = " Precise"s;
+  static constexpr auto SUFFIX = " Precise";
 #else
-  const auto suffix = ""s;
+  static constexpr auto SUFFIX = "";
 #endif
 
   coordinate_t results;
   notifying_invoke(
       [&]() { calc(ss, [&](const coordinate_t &v) { results = v; }); },
-      "C++/{} (RapidJSON SAX{})", COMPILER, suffix);
+      "C++/{} (RapidJSON SAX{})", COMPILER, SUFFIX);
 
   cout << results << endl;
 }
