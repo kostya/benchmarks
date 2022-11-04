@@ -46,7 +46,8 @@ pub fn main() !void {
     b64.Decoder.decode(str3, str2) catch unreachable;
 
     var buffer = try alloc.alloc(u8, std.math.max(encodeSize, decodeSize));
-    const fb_alloc = std.heap.FixedBufferAllocator.init(buffer).allocator();
+    var fb = std.heap.FixedBufferAllocator.init(buffer);
+    const fb_alloc = fb.allocator();
 
     const pid = unistd.getpid();
     const pid_str = try std.fmt.allocPrint(alloc, "Zig\t{d}", .{pid});

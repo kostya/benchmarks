@@ -26,8 +26,8 @@ executables := \
 	target/bin_v_clang \
 	target/bin_c_gcc \
 	target/bin_c_clang \
-	fsharp/target/Release/net6.0/brainfuck \
-	target/Release/net6.0/brainfuck \
+	fsharp/target/Release/net7.0/brainfuck \
+	target/Release/net7.0/brainfuck \
 	target/bin_zig \
 	target/bin_idris
 
@@ -86,12 +86,12 @@ target/bf_scala.jar: bf.scala | target
 target/bf.exe: bf.cs | target
 	$(MCS_BUILD)
 
-.PHONY: target/Release/net6.0/brainfuck
-target/Release/net6.0/brainfuck: brainfuck.csproj | target
+.PHONY: target/Release/net7.0/brainfuck
+target/Release/net7.0/brainfuck: brainfuck.csproj | target
 	$(DOTNET_BUILD)
 
-.PHONY: fsharp/target/Release/net6.0/brainfuck
-fsharp/target/Release/net6.0/brainfuck: fsharp/brainfuck.fsproj | target
+.PHONY: fsharp/target/Release/net7.0/brainfuck
+fsharp/target/Release/net7.0/brainfuck: fsharp/brainfuck.fsproj | target
 	$(DOTNET_BUILD)
 
 target/bf2-kt.jar: bf2.kt | target

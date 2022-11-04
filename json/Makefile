@@ -60,9 +60,9 @@ executables := \
 	target/json_v_clang \
 	target/json_vala_gcc \
 	target/json_vala_clang \
-	json-fsharp/target/Release/net6.0/json-fsharp \
-	target/Release/net6.0/json \
-	json-core/target/Release/net6.0/json-core \
+	json-fsharp/target/Release/net7.0/json-fsharp \
+	target/Release/net7.0/json \
+	json-core/target/Release/net7.0/json-core \
 	target/json_zig
 
 artifacts := $(executables) \
@@ -287,12 +287,12 @@ $(newtonsoft_json): | target
 target/test.exe: test.cs | $(newtonsoft_json)
 	$(MCS_BUILD) -r:$(newtonsoft_json)
 
-.PHONY: target/Release/net6.0/json
-target/Release/net6.0/json: json.csproj | target
+.PHONY: target/Release/net7.0/json
+target/Release/net7.0/json: json.csproj | target
 	$(DOTNET_BUILD)
 
-.PHONY: json-core/target/Release/net6.0/json-core
-json-core/target/Release/net6.0/json-core: json-core/json-core.csproj
+.PHONY: json-core/target/Release/net7.0/json-core
+json-core/target/Release/net7.0/json-core: json-core/json-core.csproj
 	$(DOTNET_BUILD)
 
 .PHONY: target/json_hs
@@ -326,7 +326,7 @@ json-iterator:
 target/json_iter_go: test_jsoniter.go | json-iterator
 	$(GO_BUILD)
 
-json-fsharp/target/Release/net6.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
+json-fsharp/target/Release/net7.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
 	$(DOTNET_BUILD)
 
 target/json_zig: test.zig | target

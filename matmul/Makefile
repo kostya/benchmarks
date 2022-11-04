@@ -29,7 +29,7 @@ executables := \
 	target/matmul_v_clang \
 	target/matmul_vala_gcc \
 	target/matmul_vala_clang \
-	target/Release/net6.0/matmul \
+	target/Release/net7.0/matmul \
 	target/matmul_cpp_gcc \
 	target/matmul_cpp_clang \
 	target/matmul_zig
@@ -147,8 +147,8 @@ target/matmul-kt.jar: matmul.kt | target
 target/matmul.exe: matmul.cs | target
 	$(MCS_BUILD)
 
-.PHONY: target/Release/net6.0/matmul
-target/Release/net6.0/matmul: matmul.csproj | target
+.PHONY: target/Release/net7.0/matmul
+target/Release/net7.0/matmul: matmul.csproj | target
 	$(DOTNET_BUILD)
 
 eigen := target/eigen

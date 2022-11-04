@@ -191,7 +191,7 @@ pub fn main() !void {
     var arg_iter = std.process.args();
     _ = arg_iter.skip(); // Skip binary name
 
-    const name = try arg_iter.next(alloc) orelse {
+    const name = arg_iter.next() orelse {
         std.debug.panic("Expected argument\n", .{});
     };
 
