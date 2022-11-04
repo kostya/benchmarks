@@ -92,9 +92,8 @@ coordinate_t calc(const string &text) {
   auto len = 0;
 
 #ifdef UNCHECKED
-  using range_t =
-      daw::json::json_array_range<coordinate_t,
-                                  daw::json::options::CheckedParseMode::no>;
+  using CheckedMode = daw::json::options::CheckedParseMode;
+  using range_t = daw::json::json_array_range<coordinate_t, CheckedMode::no>;
 #else
   using range_t = daw::json::json_array_range<coordinate_t>;
 #endif
