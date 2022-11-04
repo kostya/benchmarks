@@ -8,9 +8,9 @@
 #include <sstream>
 
 #ifdef __clang__
-#define COMPILER "clang++"
+static constexpr auto COMPILER = "clang++";
 #else
-#define COMPILER "g++"
+static constexpr auto COMPILER = "g++";
 #endif
 
 using namespace std;
