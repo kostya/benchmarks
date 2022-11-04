@@ -28,6 +28,17 @@ ENV PATH="/home/dev/bin/:/home/dev/.local/bin/:${PATH}" \
 RUN curl -Lo /home/dev/bin/coursier https://git.io/coursier-cli \
 	&& chmod +x /home/dev/bin/coursier
 
+# https://www.idris-lang.org/pages/download.html
+ARG IDRIS=0.6.0
+RUN curl https://www.idris-lang.org/idris2-src/idris2-$IDRIS.tgz | tar -xz
+WORKDIR /home/dev/bin/Idris2-$IDRIS
+ENV PATH="/home/dev/bin/idris2/bin:${PATH}"
+ENV LD_LIBRARY_PATH="/home/dev/bin/idris2/lib:$LD_LIBRARY_PATH"
+RUN PREFIX=/home/dev/bin/idris2 make bootstrap SCHEME=chezscheme \
+    && PREFIX=/home/dev/bin/idris2 make install
+WORKDIR /home/dev/bin
+RUN rm -rf Idris2-$IDRIS
+
 # https://www.ruby-lang.org/en/downloads/
 ARG RUBY=ruby-3.1.2
 RUN curl https://cache.ruby-lang.org/pub/ruby/3.1/$RUBY.tar.gz | tar -xz
@@ -60,16 +71,16 @@ RUN curl -L \
 ENV PATH="/home/dev/bin/scala3-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=19
+ARG JDK=19.0.1
 RUN curl \
-    https://download.java.net/java/GA/jdk19/877d6127e982470ba2a7faa31cc93d04/36/GPL/openjdk-19_linux-x64_bin.tar.gz \
+    https://download.java.net/java/GA/jdk19.0.1/afdd2e245b014143b62ccb916125e3ce/10/GPL/openjdk-19.0.1_linux-x64_bin.tar.gz \
     | tar -xz
 ENV PATH="/home/dev/bin/jdk-$JDK/bin:${PATH}"
 
 # https://github.com/crystal-lang/crystal/releases
-ARG CRYSTAL=crystal-1.5.1-1
+ARG CRYSTAL=crystal-1.6.2-1
 RUN curl -L \
-	https://github.com/crystal-lang/crystal/releases/download/1.5.1/$CRYSTAL-linux-x86_64.tar.gz \
+	https://github.com/crystal-lang/crystal/releases/download/1.6.2/$CRYSTAL-linux-x86_64.tar.gz \
 	| tar -xz
 ENV PATH="/home/dev/bin/$CRYSTAL/bin:${PATH}"
 
@@ -81,7 +92,7 @@ RUN curl -L \
 ENV PATH="/home/dev/bin/$LDC/bin/:${PATH}"
 
 # https://nim-lang.org/install_unix.html
-ARG NIM=nim-1.6.6
+ARG NIM=nim-1.6.8
 RUN curl \
 	https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
 	| tar -xJ
@@ -94,29 +105,29 @@ RUN curl \
 ENV PATH="/home/dev/bin/dmd2/linux/bin64/:${PATH}"
 
 # https://www.jruby.org/download
-ARG JRUBY=9.3.8.0
+ARG JRUBY=9.3.9.0
 RUN curl \
 	https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
 	| tar -xz \
 	&& ln -s /home/dev/bin/jruby-$JRUBY/bin/jruby /home/dev/bin/jruby
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.8.1
+ARG JULIA=julia-1.8.2
 RUN curl \
 	https://julialang-s3.julialang.org/bin/linux/x64/1.8/$JULIA-linux-x86_64.tar.gz \
 	| tar -xz
 ENV PATH="/home/dev/bin/$JULIA/bin/:${PATH}"
 
 # https://clojure.org/guides/install_clojure
-ARG CLOJURE=1.11.1.1165
+ARG CLOJURE=1.11.1.1182
 RUN curl \
 	https://download.clojure.org/install/linux-install-$CLOJURE.sh \
 	| bash -s -- --prefix /home/dev/
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.7-RELEASE-ubuntu20.04
+ARG SWIFT=swift-5.7.1-RELEASE-ubuntu20.04
 RUN curl -L \
-    https://download.swift.org/swift-5.7-release/ubuntu2004/swift-5.7-RELEASE/swift-5.7-RELEASE-ubuntu20.04.tar.gz \
+    https://download.swift.org/swift-5.7.1-release/ubuntu2004/swift-5.7.1-RELEASE/swift-5.7.1-RELEASE-ubuntu20.04.tar.gz \
     | tar -xz \
     && ln -s /home/dev/bin/$SWIFT/usr/bin/swift /home/dev/bin/swift \
     && ln -s /home/dev/bin/$SWIFT/usr/bin/swiftc /home/dev/bin/swiftc
@@ -138,25 +149,25 @@ RUN cabal update \
 ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
 
 # https://github.com/graalvm/graalvm-ce-builds/releases
-ARG GRAALVM=22.2.0
+ARG GRAALVM=22.3.0
 RUN curl -L \
-        https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-$GRAALVM/graalvm-ce-java17-linux-amd64-$GRAALVM.tar.gz \
+        https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-$GRAALVM/graalvm-ce-java19-linux-amd64-$GRAALVM.tar.gz \
 	| tar -xz \
-    && ln -s /home/dev/bin/graalvm-ce-java17-$GRAALVM/bin/gu /home/dev/bin/gu
+    && ln -s /home/dev/bin/graalvm-ce-java19-$GRAALVM/bin/gu /home/dev/bin/gu
 RUN gu install ruby \
-    && ln -s /home/dev/bin/graalvm-ce-java17-$GRAALVM/bin/truffleruby /home/dev/bin/truffleruby
-RUN /home/dev/bin/graalvm-ce-java17-$GRAALVM/languages/ruby/lib/truffle/post_install_hook.sh
+    && ln -s /home/dev/bin/graalvm-ce-java19-$GRAALVM/bin/truffleruby /home/dev/bin/truffleruby
+RUN /home/dev/bin/graalvm-ce-java19-$GRAALVM/languages/ruby/lib/truffle/post_install_hook.sh
 
 # https://github.com/dotnet/core/tree/main/release-notes
 RUN mkdir dotnet && curl \
-    https://download.visualstudio.microsoft.com/download/pr/8159607a-e686-4ead-ac99-b4c97290a5fd/ec6070b1b2cc0651ebe57cf1bd411315/dotnet-sdk-6.0.401-linux-x64.tar.gz \
+    https://download.visualstudio.microsoft.com/download/pr/d3e46476-4494-41b7-a628-c517794c5a6a/6066215f6c0a18b070e8e6e8b715de0b/dotnet-sdk-6.0.402-linux-x64.tar.gz \
     | tar -xz -C dotnet
 ENV PATH="/home/dev/bin/dotnet:${PATH}"
 ENV DOTNET_ROOT="/home/dev/bin/dotnet"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v18.9.0
+ARG NODE=v19.0.0
 RUN curl \
 	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
 	| tar -xJ
@@ -164,7 +175,7 @@ ENV PATH="/home/dev/bin/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN curl -L \
-    https://go.dev/dl/go1.19.1.linux-amd64.tar.gz \
+    https://go.dev/dl/go1.19.3.linux-amd64.tar.gz \
     | tar -xz
 ENV PATH="/home/dev/bin/go/bin/:${PATH}"
 
@@ -178,7 +189,7 @@ RUN opam init --disable-sandboxing -n --root=/home/dev/bin/opam --compiler=ocaml
 ENV PATH="/home/dev/bin/opam/ocaml-base-compiler.$OCAML/bin/:${PATH}"
 
 # https://kotlinlang.org/docs/command-line.html
-ARG KOTLIN=1.7.10
+ARG KOTLIN=1.7.20
 RUN curl -L -o kotlin-compiler-$KOTLIN.zip \
 	https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
 	&& unzip kotlin-compiler-$KOTLIN.zip \
@@ -193,7 +204,7 @@ RUN curl -o racket-$RACKET-x86_64-linux-cs.sh \
     && rm racket-$RACKET-x86_64-linux-cs.sh
 
 # https://github.com/vlang/v/releases
-ARG VLANG=weekly.2022.38
+ARG VLANG=0.3.2
 RUN curl -Lo v_linux.zip \
         https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
         && unzip -q v_linux.zip \
@@ -201,9 +212,9 @@ RUN curl -Lo v_linux.zip \
 ENV PATH="/home/dev/bin/v/:${PATH}"
 
 # https://ziglang.org/download
-ARG ZIG=zig-linux-x86_64-0.9.1
+ARG ZIG=zig-linux-x86_64-0.10.0
 RUN curl \
-    https://ziglang.org/download/0.9.1/$ZIG.tar.xz \
+    https://ziglang.org/download/0.10.0/$ZIG.tar.xz \
     | tar -xJ
 ENV PATH="/home/dev/bin/$ZIG/:${PATH}"
 

@@ -26,7 +26,7 @@ right (MkTape ls n rs) = let (rs', n') = decomp rs in MkTape (n :: ls) n' rs'
 
 parse : List Char -> List Op
 parse cs = let (_, ops) = loop (cs, []) in ops
-  where 
+  where
     loop : (List Char, List Op) -> (List Char, List Op)
     loop ([], acc) = ([], reverse acc)
     loop (c :: cs, acc) = case c of
@@ -38,10 +38,10 @@ parse cs = let (_, ops) = loop (cs, []) in ops
       '[' => let (cs', body) = loop (cs, []) in loop (cs', Loop body :: acc)
       ']' => (cs, reverse acc)
       _   => loop (cs, acc)
-  
+
 interface Monad m => Ctx m where
   write : Int -> m ()
-  
+
 checkSum : (Int, Int) -> Int
 checkSum (s₁, s₂) = s₂ `shiftL` 8 .|. s₁
 
@@ -53,13 +53,15 @@ accCheckSum n (s₁, s₂) = let s₁' = (s₁ + n) `mod` 255
 -- For benchmark
 Loud = IO
 Ctx Loud where
-  write n = putStr (singleton (chr n))
-  
+  write n = do
+    putChar (chr n)
+    fflush stdout
+
 -- For checksum-ing
 Quiet = State (Int, Int)
 Ctx Quiet where
   write n = modify (accCheckSum n)
-  
+
 partial
 run : Ctx m => List Op -> Tape -> m Tape
 run [] tape = pure tape
@@ -82,23 +84,23 @@ runFresh ops = run ops (MkTape [] 0 [])
 
 runQuiet : List Op -> (Int, Int)
 runQuiet = execState (0, 0) . runFresh
-            
+
 verified =
   let src = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
       ops = parse (unpack src)
       csActual = runQuiet ops
       csExpected = foldl (\cs, c => accCheckSum (ord c) cs) (0, 0) (unpack "Hello World!\n")
   in csActual == csExpected
-  
+
 partial
 notify : String -> IO ()
 notify msg = do
-  Right skt <- socket AF_UNIX Stream 0
+  Right skt <- socket AF_INET Stream 0
   _ <- connect skt (Hostname "localhost") 9001
   _ <- send skt msg
   close skt
 
-partial          
+partial
 main : IO ()
 main = do
   let True = verified

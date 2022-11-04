@@ -36,6 +36,7 @@ VALAC_GCC_BUILD =	valac $^ --cc=gcc -D GCC_TEST $(VALAC_FLAGS) -o $@
 V_CLANG_BUILD =	v $(V_FLAGS) -cc clang -o $@ $^
 V_GCC_BUILD =		v $(V_FLAGS) -cc gcc -o $@ $^
 ZIG_BUILD =		zig build-exe $(ZIG_FLAGS) -lc -femit-bin=$@ $^
+IDRIS_BUILD =		idris2 -p network $^ --output-dir $(@D) -o $(@F)
 
 define OCAML_BUILD =
 cp $^ target && cd target && ocamlopt -O3 -unsafe unix.cmxa $^ -o $(@F)

@@ -28,7 +28,8 @@ executables := \
 	target/bin_c_clang \
 	fsharp/target/Release/net6.0/brainfuck \
 	target/Release/net6.0/brainfuck \
-	target/bin_zig
+	target/bin_zig \
+	target/bin_idris
 
 artifacts := $(executables) \
 	target/bf_scala.jar \
@@ -152,6 +153,9 @@ target/bf.class: bf.java | target
 
 target/bin_zig: bf.zig | target
 	$(ZIG_BUILD)
+
+target/bin_idris: bf.idr | target
+	$(IDRIS_BUILD)
 
 # Run
 
