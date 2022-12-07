@@ -101,11 +101,11 @@ Supports two mode:
 |         Haskell (MArray) |   3.847<sub>±0.001</sub> |     5.87<sub>±00.03</sub> + 4.72<sub>±00.00</sub> |    154.08<sub>±00.43</sub> |
 |                  Node.js |   4.154<sub>±0.004</sub> |    40.49<sub>±00.05</sub> + 2.16<sub>±00.09</sub> |    165.56<sub>±00.43</sub> |
 |                    Swift |   5.446<sub>±0.001</sub> |    13.76<sub>±00.07</sub> + 0.00<sub>±00.00</sub> |    205.19<sub>±00.30</sub> |
+|             Haskell (FP) |   5.490<sub>±0.012</sub> |     5.88<sub>±00.05</sub> + 4.80<sub>±00.00</sub> |    234.40<sub>±00.97</sub> |
 |               Lua/luajit |   6.484<sub>±0.015</sub> |     2.50<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |    258.91<sub>±00.55</sub> |
 |         Ruby/truffleruby |   7.494<sub>±0.115</sub> | 297.28<sub>±00.54</sub> + 325.55<sub>±13.94</sub> |    359.91<sub>±05.75</sub> |
 | Ruby/truffleruby (--jvm) |   8.155<sub>±0.067</sub> | 352.85<sub>±06.71</sub> + 467.10<sub>±19.50</sub> |    392.34<sub>±02.92</sub> |
 |              Python/pypy |  12.188<sub>±0.033</sub> |   64.54<sub>±00.19</sub> + 30.13<sub>±00.10</sub> |    508.85<sub>±01.68</sub> |
-|                  Haskell |  15.028<sub>±0.010</sub> |     3.85<sub>±00.03</sub> + 7.19<sub>±00.04</sub> |    679.80<sub>±08.07</sub> |
 |             Ruby (--jit) |  40.868<sub>±0.197</sub> |   270.47<sub>±00.06</sub> + 0.29<sub>±00.04</sub> |   1629.77<sub>±07.26</sub> |
 |                   Elixir |  43.616<sub>±0.243</sub> |    71.01<sub>±00.79</sub> + 0.00<sub>±00.00</sub> |   1985.56<sub>±21.21</sub> |
 |                      Lua |  50.967<sub>±0.319</sub> |     2.30<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |   1955.29<sub>±18.53</sub> |
@@ -159,7 +159,7 @@ Supports two mode:
 |              Python/pypy |  48.764<sub>±0.207</sub> |   64.23<sub>±00.13</sub> + 30.59<sub>±00.09</sub> | 2076.08<sub>±25.96</sub> |
 | Ruby/truffleruby (--jvm) |  80.275<sub>±0.588</sub> | 353.40<sub>±01.09</sub> + 500.07<sub>±40.27</sub> | 3327.63<sub>±27.96</sub> |
 |         Ruby/truffleruby |  81.176<sub>±0.481</sub> | 298.34<sub>±00.74</sub> + 257.92<sub>±09.34</sub> | 3973.50<sub>±42.02</sub> |
-|                  Haskell | 186.181<sub>±0.556</sub> |    5.58<sub>±00.06</sub> + 30.55<sub>±00.00</sub> | 8151.90<sub>±99.97</sub> |
+|             Haskell (FP) |  84.945<sub>±0.094</sub> |    5.80<sub>±00.03</sub> + 76.73<sub>±00.00</sub> | 3575.85<sub>±09.13</sub> |
 
 ## Base64
 
