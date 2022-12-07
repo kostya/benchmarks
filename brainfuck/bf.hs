@@ -4,6 +4,7 @@
 module Main where
 
 import qualified Data.ByteString.Char8 as C
+import qualified Text.RawString.QQ as QQ (r)
 import Control.Exception
 import Control.Monad
 import Data.Bits
@@ -15,7 +16,6 @@ import System.Environment
 import System.Exit
 import System.IO
 import System.Posix (getProcessID)
-import Text.RawString.QQ
 
 data Op = Inc !Int | MoveLeft | MoveRight | Print | Loop [Op]
 data Tape = Tape { left :: [Int], current :: !Int, right :: [Int] }
@@ -94,8 +94,8 @@ notify msg = withSocketsDo $ do
 
 verify :: IO ()
 verify = do
-    let source = [r|++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
-                   ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.|]
+    let source = [QQ.r|++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
+                       ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.|]
     let (_, ops) = parse (source, [])
     (_, pLeft) <- run ops
       (Tape [] 0 [])
