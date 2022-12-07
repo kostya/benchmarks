@@ -3,8 +3,6 @@
 
 module Main where
 
-import qualified Data.Array.Base as ArrayBase
-import qualified Data.Array.Unboxed as UArray
 import qualified Data.ByteString.Char8 as C
 import Control.Exception
 import Control.Monad
@@ -19,10 +17,8 @@ import System.IO
 import System.Posix (getProcessID)
 import Text.RawString.QQ
 
-data Op = Inc Int | Move Int | Print | Loop [Op]
-data Tape = Tape { tapeData :: UArray.UArray Int Int
-                 , tapePos :: Int
-                 }
+data Op = Inc !Int | MoveLeft | MoveRight | Print | Loop [Op]
+data Tape = Tape { left :: [Int], current :: !Int, right :: [Int] }
 data Printer = Printer { sum1 :: Int
                        , sum2 :: Int
                        , quiet :: Bool
@@ -41,28 +37,16 @@ write p n = if quiet p
 getChecksum :: Printer -> Int
 getChecksum p = (sum2 p `shiftL` 8) .|. sum1 p
 
-current :: Tape -> Int
-current tape = ArrayBase.unsafeAt (tapeData tape) (tapePos tape)
-
 inc :: Int -> Tape -> Tape
-inc delta tape =
-    tape { tapeData = newData }
-  where
-    newData = ArrayBase.unsafeReplace (tapeData tape)
-                                      [(tapePos tape, current tape + delta)]
+inc delta (Tape l x r) = Tape l (x + delta) r
 
-move :: Int -> Tape -> Tape
-move m tape =
-    tape { tapeData = newData, tapePos = newPos }
-  where
-    curData = tapeData tape
-    len = ArrayBase.numElements curData
-    newPos = tapePos tape + m
-    asc = ArrayBase.assocs curData
-    newData = if newPos < len
-              then curData
-              else ArrayBase.unsafeArray (0, newPos)
-                                         (asc ++ [(i, 0) | i <- [len..newPos]])
+moveLeft, moveRight :: Tape -> Tape
+moveLeft  (Tape ls n rs) = let (ls', n') = decomp ls in Tape ls' n' (n : rs)
+moveRight (Tape ls n rs) = let (rs', n') = decomp rs in Tape (n : ls) n' rs'
+
+decomp :: [Int] -> ([Int], Int)
+decomp (x : xs) = (xs, x)
+decomp [] = ([], 0)
 
 parse :: ([Char], [Op]) -> ([Char], [Op])
 parse ([], acc) = ([], reverse acc)
@@ -70,8 +54,8 @@ parse (c:cs, acc) =
     case c of
         '+'       -> parse (cs, Inc 1:acc)
         '-'       -> parse (cs, Inc (-1):acc)
-        '>'       -> parse (cs, Move 1:acc)
-        '<'       -> parse (cs, Move (-1):acc)
+        '>'       -> parse (cs, MoveRight:acc)
+        '<'       -> parse (cs, MoveLeft:acc)
         '.'       -> parse (cs, Print:acc)
         '['       -> parse (newCs, Loop loop:acc)
                      where (newCs, loop) = parse (cs, [])
@@ -83,7 +67,8 @@ run [] tape p = return (tape, p)
 run (op:ops) tape p = do
     case op of
         Inc d -> run ops (inc d tape) p
-        Move m -> run ops (move m tape) p
+        MoveLeft -> run ops (moveLeft tape) p
+        MoveRight -> run ops (moveRight tape) p
         Print -> do
           newP <- write p $ current tape
           run ops tape newP
@@ -113,7 +98,7 @@ verify = do
                    ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.|]
     let (_, ops) = parse (source, [])
     (_, pLeft) <- run ops
-      (Tape (ArrayBase.unsafeArray (0, 0) [(0, 0)]) 0)
+      (Tape [] 0 [])
       Printer {sum1=0, sum2=0, quiet=True}
     let left = getChecksum pLeft
 
@@ -133,9 +118,9 @@ main = do
     let p = Printer {sum1=0, sum2=0, quiet=isJust quiet_env}
 
     pid <- getProcessID
-    notify $ "Haskell\t" ++ show pid
+    notify $ "Haskell (FP)\t" ++ show pid
     let (_, ops) = parse (source, [])
-    (_, newP) <- run ops (Tape (ArrayBase.unsafeArray (0, 0) [(0, 0)]) 0) p
+    (_, newP) <- run ops (Tape [] 0 []) p
     notify "stop"
 
     when (quiet newP)
