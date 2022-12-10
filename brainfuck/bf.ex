@@ -42,7 +42,7 @@ defmodule Printer do
   end
 
   def get_checksum(p) do
-    use Bitwise
+    import Bitwise
     (p.sum2 <<< 8) ||| p.sum1
   end
 end

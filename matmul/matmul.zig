@@ -79,12 +79,12 @@ pub fn main() !void {
     var arg_iter = std.process.args();
     _ = arg_iter.skip(); // Skip binary name
 
-    const arg = try arg_iter.next(alloc) orelse "";
+    const arg = arg_iter.next() orelse "";
     const n = std.fmt.parseInt(usize, arg, 10) catch 100;
 
     const left = calc(alloc, 101);
     const right = -18.67;
-    if (std.math.absFloat(left - right) > 0.1) {
+    if (@fabs(left - right) > 0.1) {
         std.debug.panic("{d} != {d}\n", .{ left, right });
     }
 

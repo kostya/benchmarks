@@ -110,11 +110,13 @@ main = do
   pid <- getPID
   notify $ "Idris\t" ++ show pid
   let ops = parse (unpack src)
-  case quiet of
-      Just _  => let cs = runQuiet ops
-                 in do
-                   notify "stop"
-                   putStrLn $ "Output checksum: " ++ show (checkSum cs)
-      Nothing => do
-                   _ <- runFresh ops
-                   notify "stop"
+  _ <- runFresh ops
+  notify "stop"
+  -- case quiet of
+  --     Just _  => let cs = runQuiet ops
+  --                in do
+  --                  notify "stop"
+  --                  putStrLn $ "Output checksum: " ++ show (checkSum cs)
+  --     Nothing => do
+  --                  _ <- runFresh ops
+  --                  notify "stop"

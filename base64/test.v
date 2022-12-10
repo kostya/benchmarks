@@ -19,11 +19,11 @@ fn main() {
 		dst := fixture[1]
 		encoded := base64.encode(src.bytes())
 		if encoded != dst {
-			panic('$encoded != $dst')
+			panic('${encoded} != ${dst}')
 		}
 		decoded := base64.decode(dst)
 		if decoded != src.bytes() {
-			panic('$decoded != $src')
+			panic('${decoded} != ${src}')
 		}
 	}
 	str_size := 131072
@@ -35,7 +35,7 @@ fn main() {
 	$if clang {
 		lang = 'V/clang'
 	}
-	notify('$lang\t$C.getpid()')
+	notify('${lang}\t${C.getpid()}')
 	mut sw := time.new_stopwatch()
 	mut s_encoded := 0
 	for i := 0; i < tries; i++ {
@@ -57,8 +57,8 @@ fn main() {
 	}
 	t_decoded := sw.elapsed().seconds()
 	notify('stop')
-	println('encode ${str[0..4]}... to ${str2[0..4]}...: $s_encoded, $t_encoded')
-	println('decode ${str2[0..4]}... to ${str3[0..4]}...: $s_decoded, $t_decoded')
+	println('encode ${str[0..4]}... to ${str2[0..4]}...: ${s_encoded}, ${t_encoded}')
+	println('decode ${str2[0..4]}... to ${str3[0..4]}...: ${s_decoded}, ${t_decoded}')
 	unsafe {
 		str2.free()
 		str3.free()

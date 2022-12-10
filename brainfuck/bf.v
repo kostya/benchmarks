@@ -205,7 +205,7 @@ fn verify() {
 	}
 	right := p_right.get_checksum()
 	if left != right {
-		panic('$left != $right')
+		panic('${left} != ${right}')
 	}
 }
 
@@ -219,7 +219,7 @@ fn main() {
 		return
 	}
 	code := os.read_file(filename) or {
-		eprintln('Failed to open file $filename')
+		eprintln('Failed to open file ${filename}')
 		return
 	}
 	mut p := new_printer(os.getenv('QUIET') != '')
@@ -227,10 +227,10 @@ fn main() {
 	$if clang {
 		lang = 'V/clang'
 	}
-	notify('$lang\t$C.getpid()')
+	notify('${lang}\t${C.getpid()}')
 	new_program(code).run(mut p)
 	notify('stop')
 	if p.quiet {
-		println('Output checksum: $p.get_checksum()')
+		println('Output checksum: ${p.get_checksum()}')
 	}
 }

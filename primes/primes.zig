@@ -116,7 +116,8 @@ fn generateTrie(alloc: std.mem.Allocator, l: std.ArrayList(i32)) *Node {
 }
 
 fn find(alloc: std.mem.Allocator, upper_bound: i32, prefix: i32) std.ArrayList(i32) {
-    const primes = Sieve.init(alloc, upper_bound).calc();
+    var sieve = Sieve.init(alloc, upper_bound);
+    const primes = sieve.calc();
     const str_prefix = std.fmt.allocPrint(alloc, "{}", .{prefix}) catch unreachable;
     var head = generateTrie(alloc, primes.toList(alloc));
 
@@ -167,7 +168,7 @@ fn notify(msg: []const u8) void {
 
 fn verify(alloc: std.mem.Allocator) !void {
     const left = [_]i32{ 2, 23, 29 };
-    const right = find(alloc, 100, 2).toOwnedSlice();
+    const right = find(alloc, 100, 2).items;
 
     var i: usize = 0;
     while (i < right.len) : (i += 1) {

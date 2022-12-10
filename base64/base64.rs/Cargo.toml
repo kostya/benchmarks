@@ -10,4 +10,4 @@ panic = "abort"
 strip = true
 
 [dependencies]
-base64 = "0.13.0"
+base64 = "0.13.1"

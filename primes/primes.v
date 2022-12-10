@@ -133,7 +133,7 @@ fn verify() {
 	left := [2, 23, 29]
 	right := find(100, 2)
 	if left != right {
-		panic('$left != $right')
+		panic('${left} != ${right}')
 	}
 }
 
@@ -143,7 +143,7 @@ fn main() {
 	$if clang {
 		lang = 'V/clang'
 	}
-	notify('$lang\t$C.getpid()')
+	notify('${lang}\t${C.getpid()}')
 	results := find(upper_bound, prefix)
 	notify('stop')
 	println(results)

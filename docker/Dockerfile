@@ -40,7 +40,7 @@ WORKDIR /home/dev/bin
 RUN rm -rf Idris2-$IDRIS
 
 # https://www.ruby-lang.org/en/downloads/
-ARG RUBY=ruby-3.1.2
+ARG RUBY=ruby-3.1.3
 RUN curl https://cache.ruby-lang.org/pub/ruby/3.1/$RUBY.tar.gz | tar -xz
 WORKDIR /home/dev/bin/$RUBY
 RUN CC=clang ./configure --prefix=/home/dev/bin/ruby && make -j && make install
@@ -56,7 +56,7 @@ RUN curl -L \
 ENV PATH="/home/dev/bin/mlton-$MLTON-1.amd64-linux-glibc2.31/bin/:${PATH}"
 
 # https://pypy.org/download.html
-ARG PYPY=pypy3.9-v7.3.9-linux64
+ARG PYPY=pypy3.9-v7.3.10-linux64
 RUN curl \
     https://downloads.python.org/pypy/$PYPY.tar.bz2 \
     | tar -xj \
@@ -64,7 +64,7 @@ RUN curl \
 ENV PATH="/home/dev/bin/$PYPY/bin:${PATH}"
 
 # https://www.scala-lang.org/download/
-ARG SCALA=3.2.0
+ARG SCALA=3.2.1
 RUN curl -L \
     https://github.com/lampepfl/dotty/releases/download/$SCALA/scala3-$SCALA.tar.gz \
     | tar -xz
@@ -92,7 +92,7 @@ RUN curl -L \
 ENV PATH="/home/dev/bin/$LDC/bin/:${PATH}"
 
 # https://nim-lang.org/install_unix.html
-ARG NIM=nim-1.6.8
+ARG NIM=nim-1.6.10
 RUN curl \
 	https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
 	| tar -xJ
@@ -100,26 +100,26 @@ ENV PATH="/home/dev/bin/$NIM/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN curl \
-    https://s3.us-west-2.amazonaws.com/downloads.dlang.org/releases/2022/dmd.2.100.2.linux.tar.xz \
+    https://downloads.dlang.org/releases/2022/dmd.2.101.0.linux.tar.xz \
     | tar -xJ
 ENV PATH="/home/dev/bin/dmd2/linux/bin64/:${PATH}"
 
 # https://www.jruby.org/download
-ARG JRUBY=9.3.9.0
+ARG JRUBY=9.4.0.0
 RUN curl \
 	https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
 	| tar -xz \
 	&& ln -s /home/dev/bin/jruby-$JRUBY/bin/jruby /home/dev/bin/jruby
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.8.2
+ARG JULIA=julia-1.8.3
 RUN curl \
 	https://julialang-s3.julialang.org/bin/linux/x64/1.8/$JULIA-linux-x86_64.tar.gz \
 	| tar -xz
 ENV PATH="/home/dev/bin/$JULIA/bin/:${PATH}"
 
 # https://clojure.org/guides/install_clojure
-ARG CLOJURE=1.11.1.1182
+ARG CLOJURE=1.11.1.1200
 RUN curl \
 	https://download.clojure.org/install/linux-install-$CLOJURE.sh \
 	| bash -s -- --prefix /home/dev/
@@ -139,7 +139,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org \
 ENV PATH="/home/dev/.ghcup/bin/:${PATH}"
 
 # https://www.haskell.org/ghc/
-ARG GHC_VER=9.4.2
+ARG GHC_VER=9.4.3
 RUN ghcup install ghc $GHC_VER && ghcup set ghc $GHC_VER
 
 # Shared packages for all Haskell code
@@ -160,14 +160,14 @@ RUN /home/dev/bin/graalvm-ce-java19-$GRAALVM/languages/ruby/lib/truffle/post_ins
 
 # https://github.com/dotnet/core/tree/main/release-notes
 RUN mkdir dotnet && curl \
-    https://download.visualstudio.microsoft.com/download/pr/d3e46476-4494-41b7-a628-c517794c5a6a/6066215f6c0a18b070e8e6e8b715de0b/dotnet-sdk-6.0.402-linux-x64.tar.gz \
+    https://download.visualstudio.microsoft.com/download/pr/253e5af8-41aa-48c6-86f1-39a51b44afdc/5bb2cb9380c5b1a7f0153e0a2775727b/dotnet-sdk-7.0.100-linux-x64.tar.gz \
     | tar -xz -C dotnet
 ENV PATH="/home/dev/bin/dotnet:${PATH}"
 ENV DOTNET_ROOT="/home/dev/bin/dotnet"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v19.0.0
+ARG NODE=v19.2.0
 RUN curl \
 	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
 	| tar -xJ
@@ -175,7 +175,7 @@ ENV PATH="/home/dev/bin/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN curl -L \
-    https://go.dev/dl/go1.19.3.linux-amd64.tar.gz \
+    https://go.dev/dl/go1.19.4.linux-amd64.tar.gz \
     | tar -xz
 ENV PATH="/home/dev/bin/go/bin/:${PATH}"
 
@@ -189,7 +189,7 @@ RUN opam init --disable-sandboxing -n --root=/home/dev/bin/opam --compiler=ocaml
 ENV PATH="/home/dev/bin/opam/ocaml-base-compiler.$OCAML/bin/:${PATH}"
 
 # https://kotlinlang.org/docs/command-line.html
-ARG KOTLIN=1.7.20
+ARG KOTLIN=1.7.21
 RUN curl -L -o kotlin-compiler-$KOTLIN.zip \
 	https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
 	&& unzip kotlin-compiler-$KOTLIN.zip \
@@ -197,14 +197,14 @@ RUN curl -L -o kotlin-compiler-$KOTLIN.zip \
 ENV PATH="/home/dev/bin/kotlinc/bin/:${PATH}"
 
 # https://download.racket-lang.org/
-ARG RACKET=8.6
+ARG RACKET=8.7
 RUN curl -o racket-$RACKET-x86_64-linux-cs.sh \
     https://www.cs.utah.edu/plt/installers/$RACKET/racket-$RACKET-x86_64-linux-cs.sh \
     && sh racket-$RACKET-x86_64-linux-cs.sh --unix-style --dest /home/dev/ \
     && rm racket-$RACKET-x86_64-linux-cs.sh
 
 # https://github.com/vlang/v/releases
-ARG VLANG=0.3.2
+ARG VLANG=weekly.2022.49
 RUN curl -Lo v_linux.zip \
         https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
         && unzip -q v_linux.zip \

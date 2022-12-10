@@ -66,13 +66,13 @@ fn main() {
 	left := calc(101)
 	right := -18.67
 	if math.abs(left - right) > 0.1 {
-		panic('$left != $right')
+		panic('${left} != ${right}')
 	}
 	mut lang := 'V/gcc'
 	$if clang {
 		lang = 'V/clang'
 	}
-	notify('$lang\t$C.getpid()')
+	notify('${lang}\t${C.getpid()}')
 	results := calc(n)
 	notify('stop')
 	println(results)

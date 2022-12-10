@@ -48,7 +48,7 @@ fn main() {
 		'{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}'] {
 		left := calc(v)
 		if !left.equals(right) {
-			panic('$left != $right')
+			panic('${left} != ${right}')
 		}
 	}
 	s := os.read_file('/tmp/1.json') or { panic('Failed to open file 1.json') }
@@ -56,7 +56,7 @@ fn main() {
 	$if clang {
 		lang = 'V/clang'
 	}
-	notify('$lang\t$C.getpid()')
+	notify('${lang}\t${C.getpid()}')
 	results := calc(s)
 	notify('stop')
 	println(results)
