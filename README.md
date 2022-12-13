@@ -106,7 +106,7 @@ Supports two mode:
 |               Lua/luajit |   6.491<sub>±0.016</sub> |     2.43<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |    259.21<sub>±00.50</sub> |
 |         Ruby/truffleruby |   7.043<sub>±0.033</sub> | 303.07<sub>±00.24</sub> + 359.89<sub>±06.85</sub> |    332.99<sub>±01.45</sub> |
 |              Python/pypy |  12.191<sub>±0.015</sub> |   60.78<sub>±00.15</sub> + 30.13<sub>±00.02</sub> |    510.36<sub>±02.22</sub> |
-|                    Idris |  12.579<sub>±0.027</sub> |    20.66<sub>±00.04</sub> + 8.81<sub>±00.02</sub> |    539.33<sub>±02.34</sub> |
+|                    Idris |  15.762<sub>±0.045</sub> |    20.63<sub>±00.07</sub> + 8.82<sub>±00.06</sub> |    680.89<sub>±05.22</sub> |
 |             Ruby (--jit) |  40.816<sub>±0.150</sub> |   270.58<sub>±00.01</sub> + 0.25<sub>±00.01</sub> |   1635.12<sub>±05.64</sub> |
 |                   Elixir |  43.256<sub>±0.087</sub> |    71.45<sub>±01.13</sub> + 0.00<sub>±00.00</sub> |   1928.27<sub>±14.75</sub> |
 |                      Lua |  50.611<sub>±0.046</sub> |     2.27<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |   1955.56<sub>±02.08</sub> |
@@ -158,8 +158,8 @@ Supports two mode:
 |                    D/dmd | 37.414<sub>±0.004</sub> |     3.50<sub>±00.05</sub> + 0.97<sub>±00.03</sub> | 1365.92<sub>±05.55</sub> |
 |                    MLton | 44.858<sub>±0.031</sub> |     1.61<sub>±00.09</sub> + 4.11<sub>±00.00</sub> | 1924.75<sub>±13.80</sub> |
 |              Python/pypy | 48.295<sub>±0.176</sub> |   60.86<sub>±00.03</sub> + 30.54<sub>±00.28</sub> | 2043.82<sub>±21.99</sub> |
-|                    Idris | 59.616<sub>±0.130</sub> |    21.96<sub>±00.06</sub> + 9.54<sub>±00.00</sub> | 2590.54<sub>±08.54</sub> |
 | Ruby/truffleruby (--jvm) | 66.508<sub>±0.063</sub> | 408.76<sub>±03.32</sub> + 611.12<sub>±29.67</sub> | 2784.36<sub>±07.21</sub> |
+|                    Idris | 67.460<sub>±0.094</sub> |    21.96<sub>±00.06</sub> + 9.56<sub>±00.02</sub> | 2915.79<sub>±10.83</sub> |
 |             Haskell (FP) | 79.443<sub>±0.133</sub> |    5.82<sub>±00.04</sub> + 75.83<sub>±00.00</sub> | 3315.86<sub>±27.08</sub> |
 |         Ruby/truffleruby | 81.328<sub>±0.292</sub> | 302.54<sub>±01.09</sub> + 263.13<sub>±20.03</sub> | 3816.09<sub>±42.42</sub> |
 
