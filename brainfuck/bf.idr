@@ -97,7 +97,7 @@ notify : String -> IO ()
 notify msg = do
   Right skt <- socket AF_INET Stream 0
   _ <- connect skt (Hostname "localhost") 9001
-  _ <- send skt msg
+  Right _ <- send skt msg
   close skt
 
 partial
@@ -110,13 +110,12 @@ main = do
   pid <- getPID
   notify $ "Idris\t" ++ show pid
   let ops = parse (unpack src)
-  _ <- runFresh ops
-  notify "stop"
-  -- case quiet of
-  --     Just _  => let cs = runQuiet ops
-  --                in do
-  --                  notify "stop"
-  --                  putStrLn $ "Output checksum: " ++ show (checkSum cs)
-  --     Nothing => do
-  --                  _ <- runFresh ops
-  --                  notify "stop"
+  case quiet of
+      Just _  => let cs = runQuiet ops
+                 in do
+                   notify "stop"
+                   putStrLn $ "Output checksum: " ++ show (checkSum cs)
+      Nothing => do
+                   _ <- runFresh ops
+                   notify "stop"
+  pure ()
