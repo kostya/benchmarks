@@ -71,8 +71,8 @@ Supports two mode:
 |  Racket (Syntax Objects) |   1.297<sub>±0.000</sub> |   110.95<sub>±00.38</sub> + 0.00<sub>±00.00</sub> |     47.09<sub>±00.05</sub> |
 |                  C++/g++ |   1.300<sub>±0.001</sub> |     1.84<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |     51.96<sub>±00.05</sub> |
 |                     Rust |   1.545<sub>±0.001</sub> |     0.94<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |     61.73<sub>±00.09</sub> |
-|                    V/gcc |   1.634<sub>±0.000</sub> |     1.85<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |     61.60<sub>±00.26</sub> |
 |                     Java |   1.651<sub>±0.000</sub> |    37.60<sub>±00.21</sub> + 1.55<sub>±00.33</sub> |     64.40<sub>±00.14</sub> |
+|                    V/gcc |   1.654<sub>±0.000</sub> |     1.84<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |     64.02<sub>±00.14</sub> |
 |                   D/ldc2 |   1.657<sub>±0.000</sub> |     3.02<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |     66.26<sub>±00.09</sub> |
 |                    D/gdc |   1.661<sub>±0.000</sub> |     6.59<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |     68.09<sub>±00.48</sub> |
 |                    C/gcc |   1.667<sub>±0.000</sub> |     0.89<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |     64.70<sub>±00.13</sub> |
@@ -91,7 +91,7 @@ Supports two mode:
 |                Nim/clang |   2.111<sub>±0.000</sub> |     2.29<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |     81.86<sub>±00.13</sub> |
 |                 Go/gccgo |   2.176<sub>±0.000</sub> |    24.22<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |     85.32<sub>±00.77</sub> |
 |               Vala/clang |   2.266<sub>±0.000</sub> |     4.31<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |     85.08<sub>±00.08</sub> |
-|                  V/clang |   2.279<sub>±0.059</sub> |     1.92<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |     97.12<sub>±01.29</sub> |
+|                  V/clang |   2.356<sub>±0.025</sub> |     1.88<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |    101.86<sub>±01.18</sub> |
 |                  Crystal |   2.363<sub>±0.000</sub> |     2.90<sub>±00.07</sub> + 0.00<sub>±00.00</sub> |     94.12<sub>±00.63</sub> |
 |                    Julia |   2.581<sub>±0.006</sub> |   207.32<sub>±00.06</sub> + 0.65<sub>±00.02</sub> |     99.89<sub>±00.47</sub> |
 |                    MLton |   2.608<sub>±0.000</sub> |     0.98<sub>±00.02</sub> + 0.92<sub>±00.08</sub> |    104.55<sub>±01.65</sub> |
@@ -133,9 +133,9 @@ Supports two mode:
 |                     Rust | 15.262<sub>±0.021</sub> |     0.91<sub>±00.01</sub> + 1.10<sub>±00.03</sub> |  598.93<sub>±02.53</sub> |
 |                    D/gdc | 15.371<sub>±0.073</sub> |     6.57<sub>±00.02</sub> + 1.36<sub>±00.02</sub> |  644.91<sub>±02.18</sub> |
 |              C++/clang++ | 15.573<sub>±0.006</sub> |     1.62<sub>±00.01</sub> + 1.98<sub>±00.05</sub> |  636.74<sub>±04.30</sub> |
+|                    V/gcc | 15.903<sub>±0.340</sub> |     1.85<sub>±00.04</sub> + 1.19<sub>±00.01</sub> |  632.63<sub>±15.82</sub> |
 |                  Crystal | 15.924<sub>±0.168</sub> |     2.91<sub>±00.03</sub> + 0.60<sub>±00.02</sub> |  663.38<sub>±11.25</sub> |
 |             C#/.NET Core | 16.346<sub>±0.019</sub> |   104.49<sub>±00.05</sub> + 0.88<sub>±00.00</sub> |  682.67<sub>±04.50</sub> |
-|                    V/gcc | 17.024<sub>±0.171</sub> |     2.33<sub>±00.03</sub> + 0.77<sub>±00.00</sub> |  667.13<sub>±06.55</sub> |
 |                    Swift | 18.069<sub>±0.067</sub> |    16.12<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |  727.04<sub>±03.39</sub> |
 |                 Vala/gcc | 18.476<sub>±0.004</sub> |     4.22<sub>±00.04</sub> + 1.45<sub>±00.02</sub> |  691.94<sub>±00.47</sub> |
 |                     Java | 18.659<sub>±0.023</sub> |    37.73<sub>±00.23</sub> + 2.05<sub>±00.31</sub> |  744.47<sub>±01.69</sub> |
@@ -143,8 +143,8 @@ Supports two mode:
 |                 Go/gccgo | 19.922<sub>±0.005</sub> |    24.25<sub>±00.12</sub> + 1.27<sub>±00.01</sub> |  819.93<sub>±00.81</sub> |
 |               Vala/clang | 20.250<sub>±0.007</sub> |     4.26<sub>±00.03</sub> + 1.46<sub>±00.12</sub> |  783.48<sub>±00.44</sub> |
 |                    Scala | 20.975<sub>±0.012</sub> |  67.25<sub>±00.16</sub> + 141.43<sub>±00.12</sub> |  881.11<sub>±01.30</sub> |
-|                  V/clang | 21.671<sub>±0.174</sub> |     2.25<sub>±00.08</sub> + 0.77<sub>±00.00</sub> |  931.01<sub>±04.29</sub> |
 |                  Nim/gcc | 22.399<sub>±0.278</sub> |     2.00<sub>±00.02</sub> + 0.52<sub>±00.00</sub> |  901.24<sub>±14.68</sub> |
+|                  V/clang | 23.011<sub>±0.086</sub> |     1.87<sub>±00.01</sub> + 1.18<sub>±00.00</sub> |  977.86<sub>±04.52</sub> |
 |                Nim/clang | 24.833<sub>±0.482</sub> |     2.28<sub>±00.01</sub> + 0.51<sub>±00.00</sub> |  987.29<sub>±23.00</sub> |
 |                    OCaml | 26.219<sub>±0.039</sub> |     3.45<sub>±00.02</sub> + 3.74<sub>±00.12</sub> | 1247.55<sub>±10.90</sub> |
 |              Chez Scheme | 27.790<sub>±0.046</sub> |    25.31<sub>±00.03</sub> + 3.92<sub>±00.00</sub> | 1215.67<sub>±02.96</sub> |
@@ -178,12 +178,12 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 |                      Rust |  0.970<sub>±0.000</sub> |     2.08<sub>±00.02</sub> + 0.21<sub>±00.03</sub> |  39.37<sub>±00.21</sub> |
 |                   C/clang |  0.997<sub>±0.000</sub> |     2.00<sub>±00.07</sub> + 0.00<sub>±00.00</sub> |  36.74<sub>±00.21</sub> |
 |                     C/gcc |  1.012<sub>±0.000</sub> |     2.07<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |  37.18<sub>±00.48</sub> |
-|                     V/gcc |  1.032<sub>±0.003</sub> |     2.36<sub>±00.01</sub> + 0.66<sub>±00.03</sub> |  41.78<sub>±00.54</sub> |
 |                    D/ldc2 |  1.037<sub>±0.001</sub> |     3.40<sub>±00.27</sub> + 3.61<sub>±00.19</sub> |  43.16<sub>±00.52</sub> |
 |                   Nim/gcc |  1.082<sub>±0.001</sub> |     1.68<sub>±00.05</sub> + 5.23<sub>±00.09</sub> |  42.43<sub>±00.42</sub> |
-|                   V/clang |  1.084<sub>±0.002</sub> |     2.39<sub>±00.02</sub> + 0.63<sub>±00.00</sub> |  42.86<sub>±00.10</sub> |
 |                 Nim/clang |  1.095<sub>±0.001</sub> |     1.90<sub>±00.04</sub> + 5.27<sub>±00.07</sub> |  43.55<sub>±00.35</sub> |
 |                   Crystal |  1.102<sub>±0.001</sub> |     3.49<sub>±00.04</sub> + 1.18<sub>±00.04</sub> |  44.99<sub>±00.15</sub> |
+|                     V/gcc |  1.349<sub>±0.000</sub> |  2.39<sub>±00.03</sub> + 2376.18<sub>±00.26</sub> |  50.68<sub>±00.01</sub> |
+|                   V/clang |  1.380<sub>±0.001</sub> |  2.38<sub>±00.01</sub> + 2376.79<sub>±00.86</sub> |  52.53<sub>±00.10</sub> |
 |              Ruby (--jit) |  1.386<sub>±0.010</sub> |  271.00<sub>±00.04</sub> + 90.38<sub>±10.11</sub> |  54.11<sub>±00.59</sub> |
 |                      Ruby |  1.388<sub>±0.001</sub> |   14.65<sub>±00.01</sub> + 58.72<sub>±00.08</sub> |  53.68<sub>±00.33</sub> |
 |                      Java |  1.511<sub>±0.013</sub> |  39.32<sub>±00.04</sub> + 254.12<sub>±22.32</sub> |  62.27<sub>±00.93</sub> |
@@ -263,8 +263,8 @@ have some inaccuracies in number parsing:
 |                Rust (Serde Untyped) |  0.578<sub>±0.001</sub> |  111.60<sub>±00.03</sub> + 839.97<sub>±00.00</sub> |   23.67<sub>±00.11</sub> |
 |         C++/clang++ (RapidJSON SAX) |  0.600<sub>±0.000</sub> |    194.64<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |   23.95<sub>±00.06</sub> |
 |                     Java (DSL-JSON) |  0.603<sub>±0.024</sub> |  259.68<sub>±00.36</sub> + 190.97<sub>±02.88</sub> |   30.71<sub>±00.70</sub> |
-|                               V/gcc |  0.639<sub>±0.001</sub> |  111.98<sub>±00.04</sub> + 496.21<sub>±00.00</sub> |   26.58<sub>±00.21</sub> |
-|                             V/clang |  0.644<sub>±0.001</sub> |  111.97<sub>±00.03</sub> + 496.21<sub>±00.00</sub> |   26.91<sub>±00.24</sub> |
+|                             V/clang |  0.631<sub>±0.000</sub> |  111.45<sub>±00.03</sub> + 496.21<sub>±00.00</sub> |   26.92<sub>±00.13</sub> |
+|                               V/gcc |  0.637<sub>±0.001</sub> |  111.44<sub>±00.04</sub> + 496.21<sub>±00.03</sub> |   26.60<sub>±00.16</sub> |
 |                      Crystal (Pull) |  0.655<sub>±0.004</sub> |   113.07<sub>±00.01</sub> + 18.41<sub>±00.03</sub> |   28.93<sub>±00.44</sub> |
 |                    Crystal (Schema) |  0.676<sub>±0.003</sub> |   113.04<sub>±00.04</sub> + 48.84<sub>±00.04</sub> |   29.69<sub>±00.38</sub> |
 |                         Python/pypy |  0.688<sub>±0.004</sub> |  280.92<sub>±00.08</sub> + 125.74<sub>±00.04</sub> |   29.52<sub>±00.25</sub> |
@@ -329,6 +329,8 @@ Testing allocating and multiplying matrices.
 |                    D/gdc |    1.870<sub>±0.002</sub> |    6.83<sub>±00.03</sub> + 70.88<sub>±00.07</sub> |     73.06<sub>±00.14</sub> |
 |                    D/dmd |    1.874<sub>±0.001</sub> |    3.58<sub>±00.03</sub> + 70.48<sub>±00.02</sub> |     71.02<sub>±00.09</sub> |
 |                    C/gcc |    3.029<sub>±0.000</sub> |    1.47<sub>±00.03</sub> + 68.70<sub>±00.03</sub> |    109.60<sub>±00.60</sub> |
+|                    V/gcc |    3.038<sub>±0.001</sub> |    2.13<sub>±00.03</sub> + 69.01<sub>±00.00</sub> |    112.35<sub>±00.44</sub> |
+|                  V/clang |    3.060<sub>±0.000</sub> |    2.43<sub>±00.02</sub> + 68.95<sub>±00.03</sub> |    104.62<sub>±00.04</sub> |
 |               Vala/clang |    3.061<sub>±0.000</sub> |    3.93<sub>±00.08</sub> + 69.80<sub>±00.11</sub> |    104.74<sub>±00.17</sub> |
 |                  C/clang |    3.062<sub>±0.000</sub> |    1.46<sub>±00.02</sub> + 68.73<sub>±00.05</sub> |    104.49<sub>±00.11</sub> |
 |                     Rust |    3.065<sub>±0.000</sub> |    2.11<sub>±00.04</sub> + 68.57<sub>±00.00</sub> |    105.21<sub>±00.14</sub> |
@@ -336,10 +338,8 @@ Testing allocating and multiplying matrices.
 |                  Nim/gcc |    3.090<sub>±0.000</sub> |    2.51<sub>±00.02</sub> + 66.26<sub>±00.00</sub> |    111.06<sub>±00.60</sub> |
 |                     Java |    3.093<sub>±0.004</sub> |   39.19<sub>±00.08</sub> + 68.43<sub>±00.16</sub> |    109.77<sub>±01.88</sub> |
 |                    Swift |    3.095<sub>±0.000</sub> |    7.30<sub>±00.04</sub> + 68.92<sub>±00.02</sub> |    109.29<sub>±00.43</sub> |
-|                    V/gcc |    3.105<sub>±0.001</sub> |    2.58<sub>±00.03</sub> + 70.90<sub>±00.00</sub> |    112.52<sub>±00.92</sub> |
 |                Nim/clang |    3.122<sub>±0.001</sub> |    2.82<sub>±00.03</sub> + 66.00<sub>±00.00</sub> |    106.98<sub>±00.17</sub> |
 |                 Vala/gcc |    3.126<sub>±0.001</sub> |    3.89<sub>±00.02</sub> + 69.86<sub>±00.02</sub> |    114.22<sub>±00.23</sub> |
-|                  V/clang |    3.135<sub>±0.001</sub> |    2.87<sub>±00.06</sub> + 70.90<sub>±00.00</sub> |    107.27<sub>±00.17</sub> |
 |                       Go |    3.153<sub>±0.001</sub> |    3.85<sub>±00.04</sub> + 73.12<sub>±00.11</sub> |    113.47<sub>±00.19</sub> |
 |                 Go/gccgo |    3.160<sub>±0.001</sub> |   24.62<sub>±00.01</sub> + 73.50<sub>±00.10</sub> |    112.00<sub>±00.14</sub> |
 |                  Crystal |    3.161<sub>±0.000</sub> |    3.44<sub>±00.04</sub> + 59.97<sub>±00.04</sub> |    115.46<sub>±00.14</sub> |
@@ -378,11 +378,11 @@ Notes:
 |                  C++/g++ | 0.071<sub>±0.000</sub> |    3.68<sub>±00.04</sub> + 77.91<sub>±00.26</sub> |   2.71<sub>±00.02</sub> |
 |                      Zig | 0.072<sub>±0.000</sub> |    0.91<sub>±00.02</sub> + 57.81<sub>±00.03</sub> |   2.97<sub>±00.03</sub> |
 |              C++/clang++ | 0.072<sub>±0.000</sub> |    1.65<sub>±00.05</sub> + 61.74<sub>±00.35</sub> |   2.70<sub>±00.02</sub> |
+|                  V/clang | 0.106<sub>±0.000</sub> |   1.91<sub>±00.04</sub> + 212.02<sub>±00.30</sub> |   4.25<sub>±00.01</sub> |
+|                    V/gcc | 0.107<sub>±0.000</sub> |   1.87<sub>±00.05</sub> + 208.57<sub>±00.33</sub> |   4.35<sub>±00.03</sub> |
 |                     Rust | 0.115<sub>±0.000</sub> |    0.94<sub>±00.01</sub> + 74.00<sub>±00.01</sub> |   4.47<sub>±00.06</sub> |
 |                  Crystal | 0.151<sub>±0.000</sub> |    2.88<sub>±00.06</sub> + 89.06<sub>±00.05</sub> |   6.01<sub>±00.03</sub> |
 |                     Java | 0.164<sub>±0.002</sub> |  38.52<sub>±00.14</sub> + 153.60<sub>±05.25</sub> |   9.25<sub>±00.20</sub> |
-|                  V/clang | 0.206<sub>±0.000</sub> |   1.90<sub>±00.03</sub> + 214.16<sub>±00.46</sub> |   8.40<sub>±00.10</sub> |
-|                    V/gcc | 0.210<sub>±0.002</sub> |   2.31<sub>±00.04</sub> + 209.86<sub>±02.45</sub> |   8.53<sub>±00.14</sub> |
 |                  Node.js | 0.225<sub>±0.002</sub> |  42.34<sub>±00.13</sub> + 150.08<sub>±00.35</sub> |  11.26<sub>±00.08</sub> |
 |                Nim/clang | 0.298<sub>±0.000</sub> |   1.99<sub>±00.03</sub> + 598.51<sub>±01.16</sub> |  11.77<sub>±00.05</sub> |
 |                    Scala | 0.299<sub>±0.006</sub> |  67.35<sub>±00.22</sub> + 148.34<sub>±04.80</sub> |  15.31<sub>±00.13</sub> |
