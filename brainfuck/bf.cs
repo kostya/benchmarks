@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Test
 {
@@ -104,17 +105,20 @@ namespace Test
 
         public void run() => _run(ops, new Tape());
 
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         private void _run(Op[] program, Tape tape)
         {
-            foreach (Op op in program)
+            for (var index = 0; index < program.Length; index++)
             {
-                switch (op.op)
-                {
-                    case OpT.INC: tape.Inc(op.v); break;
-                    case OpT.MOVE: tape.Move(op.v); break;
-                    case OpT.LOOP: while (tape.CurrentCell > 0) _run(op.loop, tape); break;
-                    case OpT.PRINT: p.Print(tape.CurrentCell); break;
-                }
+                var op = program[index];
+                if (op.op == OpT.INC)
+                    tape.Inc(op.v);
+                else if (op.op == OpT.MOVE)
+                    tape.Move(op.v);
+                else if (op.op == OpT.LOOP)
+                    while (tape.CurrentCell > 0)
+                        _run(op.loop, tape);
+                else if (op.op == OpT.PRINT) p.Print(tape.CurrentCell);
             }
         }
 
