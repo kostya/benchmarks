@@ -26,7 +26,7 @@ ENV PATH="/home/dev/bin/:/home/dev/.local/bin/:${PATH}" \
     LANGUAGE=en_US.UTF-8
 
 RUN curl -Lo /home/dev/bin/coursier https://git.io/coursier-cli \
-	&& chmod +x /home/dev/bin/coursier
+    && chmod +x /home/dev/bin/coursier
 
 # https://www.idris-lang.org/pages/download.html
 ARG IDRIS=0.6.0
@@ -80,22 +80,22 @@ ENV PATH="/home/dev/bin/jdk-$JDK/bin:${PATH}"
 # https://github.com/crystal-lang/crystal/releases
 ARG CRYSTAL=crystal-1.6.2-1
 RUN curl -L \
-	https://github.com/crystal-lang/crystal/releases/download/1.6.2/$CRYSTAL-linux-x86_64.tar.gz \
-	| tar -xz
+    https://github.com/crystal-lang/crystal/releases/download/1.6.2/$CRYSTAL-linux-x86_64.tar.gz \
+    | tar -xz
 ENV PATH="/home/dev/bin/$CRYSTAL/bin:${PATH}"
 
 # https://github.com/ldc-developers/ldc/releases
 ARG LDC=ldc2-1.30.0-linux-x86_64
 RUN curl -L \
-	https://github.com/ldc-developers/ldc/releases/download/v1.30.0/$LDC.tar.xz \
-	| tar -xJ
+    https://github.com/ldc-developers/ldc/releases/download/v1.30.0/$LDC.tar.xz \
+    | tar -xJ
 ENV PATH="/home/dev/bin/$LDC/bin/:${PATH}"
 
 # https://nim-lang.org/install_unix.html
 ARG NIM=nim-1.6.10
 RUN curl \
-	https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
-	| tar -xJ
+    https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
+    | tar -xJ
 ENV PATH="/home/dev/bin/$NIM/bin/:${PATH}"
 
 # https://dlang.org/download.html
@@ -107,22 +107,22 @@ ENV PATH="/home/dev/bin/dmd2/linux/bin64/:${PATH}"
 # https://www.jruby.org/download
 ARG JRUBY=9.4.0.0
 RUN curl \
-	https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
-	| tar -xz \
-	&& ln -s /home/dev/bin/jruby-$JRUBY/bin/jruby /home/dev/bin/jruby
+    https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
+    | tar -xz \
+    && ln -s /home/dev/bin/jruby-$JRUBY/bin/jruby /home/dev/bin/jruby
 
 # https://julialang.org/downloads/
 ARG JULIA=julia-1.8.3
 RUN curl \
-	https://julialang-s3.julialang.org/bin/linux/x64/1.8/$JULIA-linux-x86_64.tar.gz \
-	| tar -xz
+    https://julialang-s3.julialang.org/bin/linux/x64/1.8/$JULIA-linux-x86_64.tar.gz \
+    | tar -xz
 ENV PATH="/home/dev/bin/$JULIA/bin/:${PATH}"
 
 # https://clojure.org/guides/install_clojure
 ARG CLOJURE=1.11.1.1200
 RUN curl \
-	https://download.clojure.org/install/linux-install-$CLOJURE.sh \
-	| bash -s -- --prefix /home/dev/
+    https://download.clojure.org/install/linux-install-$CLOJURE.sh \
+    | bash -s -- --prefix /home/dev/
 
 # https://swift.org/download/
 ARG SWIFT=swift-5.7.1-RELEASE-ubuntu20.04
@@ -135,7 +135,7 @@ ENV LD_LIBRARY_PATH=/home/dev/bin/$SWIFT/usr/lib/swift/linux:$LD_LIBRARY_PATH
 
 ENV GHCUP_INSTALL_BASE_PREFIX="/home/dev"
 RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org \
-	| BOOTSTRAP_HASKELL_NONINTERACTIVE="y" sh
+    | BOOTSTRAP_HASKELL_NONINTERACTIVE="y" sh
 ENV PATH="/home/dev/.ghcup/bin/:${PATH}"
 
 # https://www.haskell.org/ghc/
@@ -144,15 +144,15 @@ RUN ghcup install ghc $GHC_VER && ghcup set ghc $GHC_VER
 
 # Shared packages for all Haskell code
 RUN cabal update \
-        && cabal install network raw-strings-qq --lib \
-        && cabal install hlint
+    && cabal install network raw-strings-qq --lib \
+    && cabal install hlint
 ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
 
 # https://github.com/graalvm/graalvm-ce-builds/releases
 ARG GRAALVM=22.3.0
 RUN curl -L \
-        https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-$GRAALVM/graalvm-ce-java19-linux-amd64-$GRAALVM.tar.gz \
-	| tar -xz \
+    https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-$GRAALVM/graalvm-ce-java19-linux-amd64-$GRAALVM.tar.gz \
+    | tar -xz \
     && ln -s /home/dev/bin/graalvm-ce-java19-$GRAALVM/bin/gu /home/dev/bin/gu
 RUN gu install ruby \
     && ln -s /home/dev/bin/graalvm-ce-java19-$GRAALVM/bin/truffleruby /home/dev/bin/truffleruby
@@ -169,8 +169,8 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 # https://nodejs.org/en/download/current/
 ARG NODE=v19.2.0
 RUN curl \
-	https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
-	| tar -xJ
+    https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
+    | tar -xJ
 ENV PATH="/home/dev/bin/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
@@ -191,9 +191,9 @@ ENV PATH="/home/dev/bin/opam/ocaml-base-compiler.$OCAML/bin/:${PATH}"
 # https://kotlinlang.org/docs/command-line.html
 ARG KOTLIN=1.7.21
 RUN curl -L -o kotlin-compiler-$KOTLIN.zip \
-	https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
-	&& unzip kotlin-compiler-$KOTLIN.zip \
-	&& rm kotlin-compiler-$KOTLIN.zip
+    https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
+    && unzip kotlin-compiler-$KOTLIN.zip \
+    && rm kotlin-compiler-$KOTLIN.zip
 ENV PATH="/home/dev/bin/kotlinc/bin/:${PATH}"
 
 # https://download.racket-lang.org/
@@ -204,12 +204,16 @@ RUN curl -o racket-$RACKET-x86_64-linux-cs.sh \
     && rm racket-$RACKET-x86_64-linux-cs.sh
 
 # https://github.com/vlang/v/releases
-ARG VLANG=weekly.2022.49
+ARG VLANG=weekly.2022.50
 RUN curl -Lo v_linux.zip \
-        https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
-        && unzip -q v_linux.zip \
-        && rm v_linux.zip
+    https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
+    && unzip -q v_linux.zip \
+    && rm v_linux.zip
 ENV PATH="/home/dev/bin/v/:${PATH}"
+
+# https://github.com/vlang/vsl and dependencies
+# TODO - Install using specific VSL version as ARG
+RUN v install vsl
 
 # https://ziglang.org/download
 ARG ZIG=zig-linux-x86_64-0.10.0
