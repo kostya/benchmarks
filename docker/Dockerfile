@@ -204,7 +204,7 @@ RUN curl -o racket-$RACKET-x86_64-linux-cs.sh \
     && rm racket-$RACKET-x86_64-linux-cs.sh
 
 # https://github.com/vlang/v/releases
-ARG VLANG=weekly.2022.49
+ARG VLANG=weekly.2022.50
 RUN curl -Lo v_linux.zip \
     https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
     && unzip -q v_linux.zip \
