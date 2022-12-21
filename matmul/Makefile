@@ -134,16 +134,16 @@ target/matmul_v_clang: matmul.v | $(v_fmt)
 	$(V_CLANG_BUILD)
 
 target/matmul_v_vsl_default_gcc: matmul-vsl.v | $(v_fmt)
-	$(V_VSL_GCC_BUILD)
+	$(V_GCC_BUILD)
 
 target/matmul_v_vsl_default_clang: matmul-vsl.v | $(v_fmt)
-	$(V_VSL_CLANG_BUILD)
+	$(V_CLANG_BUILD)
 
 target/matmul_v_vsl_cblas_gcc: matmul-vsl.v | $(v_fmt)
-	$(V_VSL_GCC_BUILD)
+	$(V_VSL_CBLAS_GCC_BUILD)
 
 target/matmul_v_vsl_cblas_clang: matmul-vsl.v | $(v_fmt)
-	$(V_VSL_CLANG_BUILD)
+	$(V_VSL_CBLAS_CLANG_BUILD)
 
 target/matmul_vala_gcc: matmul.vala | target
 	$(VALAC_GCC_BUILD)

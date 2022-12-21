@@ -6,7 +6,7 @@ NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off --passC:"$(COMMON_F
 RUSTC_FLAGS := -C target-cpu=native -C llvm-args=--x86-branches-within-32B-boundaries
 VALAC_FLAGS := --disable-assert -X -O3 -X -march=native -X -flto -X -Wa,-mbranches-within-32B-boundaries --pkg gio-2.0 --pkg posix
 V_FLAGS := -prod -no-bounds-checking -prealloc -cflags "$(COMMON_FLAGS)"
-V_VSL_FLAGS := $(V_FLAGS) -d cblas
+V_VSL_CBLAS_FLAGS := $(V_FLAGS) -d cblas
 ZIG_FLAGS := -O ReleaseFast
 
 CLANG_BUILD =		clang $(CLANG_FLAGS) -std=c2x -o $@ $^ $(LIBNOTIFY_FLAGS)
@@ -36,8 +36,8 @@ VALAC_CLANG_BUILD =	valac $^ --cc=clang -D CLANG_TEST $(VALAC_FLAGS) -o $@
 VALAC_GCC_BUILD =	valac $^ --cc=gcc -D GCC_TEST $(VALAC_FLAGS) -o $@
 V_CLANG_BUILD =	v $(V_FLAGS) -cc clang -o $@ $^
 V_GCC_BUILD =		v $(V_FLAGS) -cc gcc -o $@ $^
-V_VSL_CLANG_BUILD =	v $(V_VSL_FLAGS) -cc clang -o $@ $^
-V_VSL_GCC_BUILD =		v $(V_VSL_FLAGS) -cc gcc -o $@ $^
+V_VSL_CBLAS_CLANG_BUILD =	v $(V_VSL_CBLAS_FLAGS) -cc clang -o $@ $^
+V_VSL_CBLAS_GCC_BUILD =		v $(V_VSL_CBLAS_FLAGS) -cc gcc -o $@ $^
 ZIG_BUILD =		zig build-exe $(ZIG_FLAGS) -lc -femit-bin=$@ $^
 IDRIS_BUILD =		idris2 -p network $^ --output-dir $(@D) -o $(@F)
 
