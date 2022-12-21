@@ -45,13 +45,15 @@ fn main() {
 	if math.abs(left - right) > 0.1 {
 		panic('${left} != ${right}')
 	}
-	mut lang := 'V/gcc/vsl'
+	mut label := 'VSL'
+	mut compiler := 'gcc'
 	$if clang {
-		lang = 'V/clang/vsl'
+		compiler = 'clang'
 	}
 	$if cblas ? {
-		lang = '${lang}/cblas'
+		label = 'VSL + CBLAS'
 	}
+	mut lang := 'V/${compiler} (${label})'
 	notify('${lang}\t${C.getpid()}')
 	results := calc(n)
 	notify('stop')
