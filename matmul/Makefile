@@ -27,6 +27,10 @@ executables := \
 	java-nd4j/target/application \
 	target/matmul_v_gcc \
 	target/matmul_v_clang \
+	target/matmul_v_vsl_default_gcc \
+	target/matmul_v_vsl_default_clang \
+	target/matmul_v_vsl_cblas_gcc \
+	target/matmul_v_vsl_cblas_clang \
 	target/matmul_vala_gcc \
 	target/matmul_vala_clang \
 	target/Release/net7.0/matmul \
@@ -128,6 +132,18 @@ target/matmul_v_gcc: matmul.v | $(v_fmt)
 
 target/matmul_v_clang: matmul.v | $(v_fmt)
 	$(V_CLANG_BUILD)
+
+target/matmul_v_vsl_default_gcc: matmul-vsl.v | $(v_fmt)
+	$(V_VSL_GCC_BUILD)
+
+target/matmul_v_vsl_default_clang: matmul-vsl.v | $(v_fmt)
+	$(V_VSL_CLANG_BUILD)
+
+target/matmul_v_vsl_cblas_gcc: matmul-vsl.v | $(v_fmt)
+	$(V_VSL_GCC_BUILD)
+
+target/matmul_v_vsl_cblas_clang: matmul-vsl.v | $(v_fmt)
+	$(V_VSL_CLANG_BUILD)
 
 target/matmul_vala_gcc: matmul.vala | target
 	$(VALAC_GCC_BUILD)
