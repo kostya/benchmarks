@@ -4,12 +4,15 @@ import net
 import vsl.la
 
 fn matgen(n int, seed f64) &la.Matrix[f64] {
-	mut a := []f64{len: n * n}
-	tmp := seed / n / n
+	n2 := n * n
+	mut a := []f64{len: n2}
+	tmp := seed / n2
+	mut c := 0
 	for i in 0 .. n {
 		for j in 0 .. n {
 			v := tmp * f64(i - j) * f64(i + j)
-			a[i * n + j] = v
+			a[c] = v
+			c++
 		}
 	}
 	return la.matrix_raw(n, n, a)
