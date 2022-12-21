@@ -315,6 +315,8 @@ Testing allocating and multiplying matrices.
 |                 Language |                   Time, s |                                       Memory, MiB |                  Energy, J |
 | :----------------------- | ------------------------: | ------------------------------------------------: | -------------------------: |
 |          D/ldc2 (lubeck) |    0.043<sub>±0.000</sub> |    6.06<sub>±00.02</sub> + 57.94<sub>±00.12</sub> |      4.41<sub>±00.02</sub> |
+|      V/gcc (VSL + CBLAS) |    0.047<sub>±0.000</sub> |    6.96<sub>±00.02</sub> + 58.03<sub>±00.00</sub> |      4.55<sub>±00.04</sub> |
+|    V/clang (VSL + CBLAS) |    0.047<sub>±0.000</sub> |    7.03<sub>±00.05</sub> + 57.93<sub>±00.05</sub> |      4.57<sub>±00.02</sub> |
 |    Nim/gcc (Arraymancer) |    0.066<sub>±0.004</sub> |    4.91<sub>±00.04</sub> + 57.94<sub>±00.17</sub> |      5.47<sub>±00.28</sub> |
 |           Python (NumPy) |    0.067<sub>±0.000</sub> |   30.07<sub>±00.04</sub> + 58.18<sub>±00.05</sub> |      6.27<sub>±00.06</sub> |
 |  Nim/clang (Arraymancer) |    0.069<sub>±0.002</sub> |    6.24<sub>±00.10</sub> + 57.58<sub>±00.12</sub> |      6.02<sub>±00.48</sub> |
@@ -324,6 +326,8 @@ Testing allocating and multiplying matrices.
 |           Rust (ndarray) |    0.089<sub>±0.001</sub> |    2.39<sub>±00.05</sub> + 68.47<sub>±00.00</sub> |      6.05<sub>±00.11</sub> |
 |       Julia (threads: 2) |    0.137<sub>±0.000</sub> |  237.36<sub>±00.09</sub> + 52.34<sub>±00.39</sub> |      7.19<sub>±00.05</sub> |
 |       Julia (threads: 1) |    0.187<sub>±0.000</sub> |  237.13<sub>±00.04</sub> + 52.82<sub>±00.46</sub> |      8.46<sub>±00.04</sub> |
+|            V/clang (VSL) |    0.242<sub>±0.005</sub> |    7.04<sub>±00.09</sub> + 51.83<sub>±00.00</sub> |     17.31<sub>±00.37</sub> |
+|              V/gcc (VSL) |    0.477<sub>±0.001</sub> |    7.06<sub>±00.04</sub> + 51.82<sub>±00.00</sub> |     32.25<sub>±00.08</sub> |
 |          Julia (no BLAS) |    1.052<sub>±0.021</sub> |  224.75<sub>±00.14</sub> + 51.52<sub>±00.02</sub> |     46.61<sub>±00.88</sub> |
 |                   D/ldc2 |    1.718<sub>±0.003</sub> |    3.27<sub>±00.02</sub> + 70.46<sub>±00.03</sub> |     63.13<sub>±00.15</sub> |
 |                    D/gdc |    1.870<sub>±0.002</sub> |    6.83<sub>±00.03</sub> + 70.88<sub>±00.07</sub> |     73.06<sub>±00.14</sub> |

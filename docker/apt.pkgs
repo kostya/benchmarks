@@ -49,4 +49,4 @@ tcl=8.6.11+1
 tcllib=1.21+dfsg-1
 valac=0.56.3-1
 vim=2:9.0.0813-1+b1
-xz-utils=5.2.9-0.0
+xz-utils=5.4.0-0.1
