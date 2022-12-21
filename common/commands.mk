@@ -6,7 +6,7 @@ NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off --passC:"$(COMMON_F
 RUSTC_FLAGS := -C target-cpu=native -C llvm-args=--x86-branches-within-32B-boundaries
 VALAC_FLAGS := --disable-assert -X -O3 -X -march=native -X -flto -X -Wa,-mbranches-within-32B-boundaries --pkg gio-2.0 --pkg posix
 V_FLAGS := -prod -no-bounds-checking -prealloc -cflags "$(COMMON_FLAGS)"
-V_VSL_FLAGS := "$(V_FLAGS)" -d cblas
+V_VSL_FLAGS := $(V_FLAGS) -d cblas
 ZIG_FLAGS := -O ReleaseFast
 
 CLANG_BUILD =		clang $(CLANG_FLAGS) -std=c2x -o $@ $^ $(LIBNOTIFY_FLAGS)
