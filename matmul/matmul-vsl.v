@@ -50,7 +50,7 @@ fn main() {
 		lang = 'V/clang/vsl'
 	}
 	$if cblas ? {
-		lang = '{lang}/cblas'
+		lang = '${lang}/cblas'
 	}
 	notify('${lang}\t${C.getpid()}')
 	results := calc(n)
