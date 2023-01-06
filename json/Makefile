@@ -63,7 +63,9 @@ executables := \
 	json-fsharp/target/Release/net7.0/json-fsharp \
 	target/Release/net7.0/json \
 	json-core/target/Release/net7.0/json-core \
-	target/json_zig
+	target/json_zig \
+	target/json_yajl_gcc \
+	target/json_yajl_clang
 
 artifacts := $(executables) \
 	target/test.exe \
@@ -331,6 +333,12 @@ json-fsharp/target/Release/net7.0/json-fsharp: json-fsharp/json-fsharp.fsproj js
 
 target/json_zig: test.zig | target
 	$(ZIG_BUILD)
+
+target/json_yajl_gcc: test_yajl.c | target libnotify
+	$(GCC_BUILD) -lyajl
+
+target/json_yajl_clang: test_yajl.c | target libnotify
+	$(CLANG_BUILD) -lyajl
 
 # Run
 
