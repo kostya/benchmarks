@@ -1,4 +1,7 @@
 #include <libnotify.h>
+#include <assert.h>
+#include <stdarg.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,7 +14,47 @@
 #define COMPILER "gcc"
 #endif
 
-const char *chars =
+struct str_s {
+  char* buf;
+  size_t size;
+};
+
+typedef struct str_s str_t;
+
+void str_free(str_t* s) {
+  free(s->buf);
+}
+
+str_t format(const char *fmt, ...) {
+  va_list ap;
+
+  // Determine required size.
+  va_start(ap, fmt);
+  int n = vsnprintf(NULL, 0, fmt, ap);
+  va_end(ap);
+
+  assert(n >= 0);
+
+  size_t size = (size_t) n + 1; // One extra byte for '\0'
+  char* p = malloc(size);
+  assert(p != NULL);
+
+  va_start(ap, fmt);
+  n = vsnprintf(p, size, fmt, ap);
+  va_end(ap);
+
+  if (n < 0) {
+    free(p);
+    assert(false);
+  }
+
+  return (str_t){
+    .buf = p,
+    .size = size
+  };
+}
+
+const char chars[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 static char decode_table[256];
 
@@ -23,16 +66,21 @@ void init_decode_table() {
   uint8_t ch = 0;
   do {
     char code = -1;
-    if (ch >= 'A' && ch <= 'Z')
+    if (ch >= 'A' && ch <= 'Z') {
       code = ch - 0x41;
-    if (ch >= 'a' && ch <= 'z')
+    }
+    if (ch >= 'a' && ch <= 'z') {
       code = ch - 0x47;
-    if (ch >= '0' && ch <= '9')
+    }
+    if (ch >= '0' && ch <= '9') {
       code = ch + 0x04;
-    if (ch == '+' || ch == '-')
+    }
+    if (ch == '+' || ch == '-') {
       code = 0x3E;
-    if (ch == '/' || ch == '_')
+    }
+    if (ch == '/' || ch == '_') {
       code = 0x3F;
+    }
     decode_table[ch] = code;
   } while (ch++ < 0xFF);
 }
@@ -40,22 +88,26 @@ void init_decode_table() {
 #define next_char(x)                                                           \
   char x = decode_table[(unsigned char)*str++];                                \
   if (x < 0)                                                                   \
-    return 1;
+    return false;
 
 int decode(size_t size, const char *str, size_t *out_size, char *output) {
   char *out = output;
   while (size > 0 && (str[size - 1] == '\n' || str[size - 1] == '\r' ||
-                      str[size - 1] == '='))
+                      str[size - 1] == '=')) {
     size--;
+  }
   const char *ends = str + size - 4;
-  while (1) {
-    if (str > ends)
+  while (true) {
+    if (str > ends) {
       break;
-    while (*str == '\n' || *str == '\r')
+    }
+    while (*str == '\n' || *str == '\r') {
       str++;
+    }
 
-    if (str > ends)
+    if (str > ends) {
       break;
+    }
     next_char(a);
     next_char(b);
     next_char(c);
@@ -81,7 +133,7 @@ int decode(size_t size, const char *str, size_t *out_size, char *output) {
 
   *out = '\0';
   *out_size = out - output;
-  return 0;
+  return true;
 }
 
 inline uint32_t to_uint32_t(const char *str) {
@@ -129,7 +181,7 @@ size_t b64_encode(char *dst, const char *src, size_t src_size) {
 
 size_t b64_decode(char *dst, const char *src, size_t src_size) {
   size_t decoded_size;
-  if (decode(src_size, src, &decoded_size, dst) != 0) {
+  if (!decode(src_size, src, &decoded_size, dst)) {
     fputs("error when decoding", stderr);
     exit(EXIT_FAILURE);
   }
@@ -151,18 +203,18 @@ int main() {
     char encoded[encode_size(src_len)];
     size_t encoded_size = b64_encode(encoded, src, src_len);
     if (dst_len != encoded_size || strncmp(encoded, dst, encoded_size)) {
-      char fmt[20];
-      snprintf(fmt, sizeof(fmt), "%%.%lds != %%.%lds\n", encoded_size, dst_len);
-      fprintf(stderr, fmt, encoded, dst);
+      __attribute__((__cleanup__(str_free))) str_t fmt =
+	format("%%.%lds != %%.%lds\n", encoded_size, dst_len);
+      fprintf(stderr, fmt.buf, encoded, dst);
       exit(EXIT_FAILURE);
     }
 
     char decoded[decode_size(dst_len)];
     size_t decoded_size = b64_decode(decoded, dst, dst_len);
     if (src_len != decoded_size || strncmp(decoded, src, decoded_size)) {
-      char fmt[20];
-      snprintf(fmt, sizeof(fmt), "%%.%lds != %%.%lds\n", decoded_size, src_len);
-      fprintf(stderr, fmt, decoded, src);
+      __attribute__((__cleanup__(str_free))) str_t fmt =
+	format("%%.%lds != %%.%lds\n", decoded_size, src_len);
+      fprintf(stderr, fmt.buf, decoded, src);
       exit(EXIT_FAILURE);
     }
   }

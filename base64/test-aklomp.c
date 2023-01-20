@@ -1,5 +1,8 @@
 #include "libbase64.h"
 #include <libnotify.h>
+#include <assert.h>
+#include <stdarg.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,6 +14,46 @@
 #else
 #define COMPILER "gcc"
 #endif
+
+struct str_s {
+  char* buf;
+  size_t size;
+};
+
+typedef struct str_s str_t;
+
+void str_free(str_t* s) {
+  free(s->buf);
+}
+
+str_t format(const char *fmt, ...) {
+  va_list ap;
+
+  // Determine required size.
+  va_start(ap, fmt);
+  int n = vsnprintf(NULL, 0, fmt, ap);
+  va_end(ap);
+
+  assert(n >= 0);
+
+  size_t size = (size_t) n + 1; // One extra byte for '\0'
+  char* p = malloc(size);
+  assert(p != NULL);
+
+  va_start(ap, fmt);
+  n = vsnprintf(p, size, fmt, ap);
+  va_end(ap);
+
+  if (n < 0) {
+    free(p);
+    assert(false);
+  }
+
+  return (str_t){
+    .buf = p,
+    .size = size
+  };
+}
 
 size_t encode_size(size_t size) { return (size_t)(size * 4 / 3.0) + 6; }
 
@@ -44,18 +87,18 @@ int main() {
     char encoded[encode_size(src_len)];
     size_t encoded_size = b64_encode(encoded, src, src_len);
     if (dst_len != encoded_size || strncmp(encoded, dst, encoded_size)) {
-      char fmt[20];
-      snprintf(fmt, sizeof(fmt), "%%.%lds != %%.%lds\n", encoded_size, dst_len);
-      fprintf(stderr, fmt, encoded, dst);
+      __attribute__((__cleanup__(str_free))) str_t fmt =
+	format("%%.%lds != %%.%lds\n", encoded_size, dst_len);
+      fprintf(stderr, fmt.buf, encoded, dst);
       exit(EXIT_FAILURE);
     }
 
     char decoded[decode_size(dst_len)];
     size_t decoded_size = b64_decode(decoded, dst, dst_len);
     if (src_len != decoded_size || strncmp(decoded, src, decoded_size)) {
-      char fmt[20];
-      snprintf(fmt, sizeof(fmt), "%%.%lds != %%.%lds\n", decoded_size, src_len);
-      fprintf(stderr, fmt, decoded, src);
+      __attribute__((__cleanup__(str_free))) str_t fmt =
+	format("%%.%lds != %%.%lds\n", decoded_size, src_len);
+      fprintf(stderr, fmt.buf, decoded, src);
       exit(EXIT_FAILURE);
     }
   }

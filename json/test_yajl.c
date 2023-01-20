@@ -1,5 +1,6 @@
 #include <libnotify.h>
 #include <assert.h>
+#include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -55,40 +56,59 @@ void str_free(str_t* s) {
   free(s->buf);
 }
 
+str_t format(const char *fmt, ...) {
+  va_list ap;
+
+  // Determine required size.
+  va_start(ap, fmt);
+  int n = vsnprintf(NULL, 0, fmt, ap);
+  va_end(ap);
+
+  assert(n >= 0);
+
+  size_t size = (size_t) n + 1; // One extra byte for '\0'
+  char* p = malloc(size);
+  assert(p != NULL);
+
+  va_start(ap, fmt);
+  n = vsnprintf(p, size, fmt, ap);
+  va_end(ap);
+
+  if (n < 0) {
+    free(p);
+    assert(false);
+  }
+
+  return (str_t){
+    .buf = (unsigned char*)p,
+    .size = size
+  };
+}
+
 void yajlptr_free(yajl_handle* yajl) {
   yajl_free(*yajl);
 }
 
-str_t dump(const coordinate_t* coord) {
-  int n = snprintf(NULL, 0, "{%g, %g, %g}", coord->x, coord->y, coord->z);
-  assert(n > 0);
 
-  char *buf = malloc(n + 1);
-  assert(snprintf(buf, n + 1, "{%g, %g, %g}", coord->x, coord->y, coord->z) > 0);
-  return (str_t){
-    .buf = (unsigned char*)buf,
-    .size = n
-  };
+str_t dump(const coordinate_t* coord) {
+  return format("{%g, %g, %g}", coord->x, coord->y, coord->z);
 }
 
 str_t readfile(const char* filename) {
-  struct stat file_stat;
-  int ret = 0;
-  unsigned char* buf = NULL;
-
-  int fd = open(filename, O_RDONLY);
+  const int fd = open(filename, O_RDONLY);
   if (fd < 0) {
     fprintf(stderr, "Cannot open %s: %s\n", filename, strerror(errno));
     exit(EXIT_FAILURE);
   }
 
-  ret = fstat(fd, &file_stat);
+  struct stat file_stat;
+  int ret = fstat(fd, &file_stat);
   if (ret < 0) {
     fprintf(stderr, "Cannot fstat %s: %s\n", filename, strerror(errno));
     exit(EXIT_FAILURE);
   }
 
-  buf = calloc(file_stat.st_size, sizeof(unsigned char));
+  unsigned char* buf = malloc(file_stat.st_size);
   if (!buf) {
     fprintf(stderr, "Cannot allocate %ld bytes memory\n", file_stat.st_size);
     exit(EXIT_FAILURE);
