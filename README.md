@@ -250,6 +250,8 @@ have some inaccuracies in number parsing:
 |       D/ldc2 (Mir Amazon's Ion DOM) |  0.236<sub>±0.000</sub> |   112.89<sub>±00.02</sub> + 80.70<sub>±00.00</sub> |    9.85<sub>±00.07</sub> |
 |         C++/g++ (RapidJSON Precise) |  0.243<sub>±0.001</sub> |  113.23<sub>±00.07</sub> + 128.88<sub>±00.06</sub> |   10.27<sub>±00.09</sub> |
 |     C++/clang++ (RapidJSON Precise) |  0.313<sub>±0.000</sub> |  112.41<sub>±00.01</sub> + 129.00<sub>±00.00</sub> |   13.43<sub>±00.08</sub> |
+|                      C/clang (yajl) |  0.368<sub>±0.000</sub> |    110.86<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |   16.11<sub>±00.17</sub> |
+|                        C/gcc (yajl) |  0.371<sub>±0.001</sub> |    110.87<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |   15.98<sub>±00.04</sub> |
 |                                 Zig |  0.387<sub>±0.001</sub> |   110.92<sub>±00.02</sub> + 12.18<sub>±00.00</sub> |   19.13<sub>±00.06</sub> |
 |                   Nim/clang (jsony) |  0.401<sub>±0.000</sub> |   111.40<sub>±00.01</sub> + 42.74<sub>±00.01</sub> |   17.16<sub>±00.05</sub> |
 |                C++/g++ (Boost.JSON) |  0.401<sub>±0.000</sub> |  113.30<sub>±00.05</sub> + 435.95<sub>±00.07</sub> |   16.68<sub>±00.06</sub> |

@@ -4,11 +4,61 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <fcntl.h>
+#include <errno.h>
+#include <unistd.h>
+#include <sys/stat.h>
+
 #ifdef __clang__
 #define COMPILER "clang"
 #else
 #define COMPILER "gcc"
 #endif
+
+struct str_s {
+  char* buf;
+  size_t size;
+};
+
+typedef struct str_s str_t;
+
+void str_free(str_t* s) {
+  free(s->buf);
+}
+
+str_t readfile(const char* filename) {
+  const int fd = open(filename, O_RDONLY);
+  if (fd < 0) {
+    fprintf(stderr, "Cannot open %s: %s\n", filename, strerror(errno));
+    exit(EXIT_FAILURE);
+  }
+
+  struct stat file_stat;
+  int ret = fstat(fd, &file_stat);
+  if (ret < 0) {
+    fprintf(stderr, "Cannot fstat %s: %s\n", filename, strerror(errno));
+    exit(EXIT_FAILURE);
+  }
+
+  size_t size = file_stat.st_size + 1;
+  char* buf = malloc(size);
+  if (!buf) {
+    fprintf(stderr, "Cannot allocate %ld bytes memory\n", size);
+    exit(EXIT_FAILURE);
+  }
+
+  ret = read(fd, buf, file_stat.st_size);
+  if (ret != file_stat.st_size) {
+    fprintf(stderr, "Cannot read %s: %s\n", filename, strerror(errno));
+    exit(EXIT_FAILURE);
+  }
+
+  buf[size - 1] = 0;
+  return (str_t){
+    .buf = buf,
+    .size = size
+  };
+}
 
 struct op_list;
 
@@ -180,7 +230,7 @@ void tape_inc(struct tape tape, int amount) { tape.tape[tape.pos] += amount; }
 void eval(const struct op_list *ops, struct tape *tape, struct printer *p) {
   struct op op;
 
-  for (size_t i = 0, len = op_list_length(ops); i < len; i += 1) {
+  for (size_t i = 0, len = op_list_length(ops); i < len; ++i) {
     switch ((op = op_list_get(ops, i)).type) {
     case OP_INC:
       tape_inc(*tape, op.value.offset);
@@ -240,27 +290,11 @@ int main(int argc, char *argv[]) {
   }
 
   const char *filename = argv[1];
-
-  FILE *f = fopen(filename, "r");
-  if (f == NULL) {
-    perror("bfc: fopen");
-    return EXIT_FAILURE;
-  }
-
-  fseek(f, 0, SEEK_END);
-  long fsize = ftell(f);
-  fseek(f, 0, SEEK_SET);
-
-  char *code = malloc(sizeof(char) * fsize + 1);
-  fread(code, 1, fsize, f);
-  fclose(f);
-  code[fsize] = 0;
+  __attribute__((__cleanup__(str_free))) str_t code = readfile(filename);
 
   notify_with_pid("C/" COMPILER);
-  run(code, &p);
+  run(code.buf, &p);
   notify("stop");
-
-  free(code);
 
   if (p.quiet) {
     printf("Output checksum: %d\n", get_checksum(&p));
