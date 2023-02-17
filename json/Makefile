@@ -28,6 +28,7 @@ executables := \
 	target/json_go \
 	target/json_go_gccgo \
 	target/json_iter_go \
+	target/json_goccy \
 	target/json_boost_ptree_cpp_gcc \
 	target/json_boost_json_cpp_gcc \
 	target/json_rapid_cpp_gcc \
@@ -326,6 +327,13 @@ json-iterator:
 	GO111MODULE=auto go get github.com/json-iterator/go
 
 target/json_iter_go: test_jsoniter.go | json-iterator
+	$(GO_BUILD)
+
+.PHONY: goccy
+goccy:
+	GO111MODULE=auto go get github.com/goccy/go-json
+
+target/json_goccy: test_goccy.go | goccy
 	$(GO_BUILD)
 
 json-fsharp/target/Release/net7.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
