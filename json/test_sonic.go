@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/goccy/go-json"
+	"github.com/bytedance/sonic"
 	"io/ioutil"
 	"log"
 	"net"
@@ -28,7 +28,7 @@ func notify(msg string) {
 
 func calc(bytes []byte) Coordinate {
 	jobj := TestStruct{}
-	json.Unmarshal(bytes, &jobj)
+	sonic.Unmarshal(bytes, &jobj)
 
 	x, y, z := 0.0, 0.0, 0.0
 
