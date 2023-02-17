@@ -175,7 +175,7 @@ ENV PATH="/home/dev/bin/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN curl -L \
-    https://go.dev/dl/go1.19.4.linux-amd64.tar.gz \
+    https://go.dev/dl/go1.20.1.linux-amd64.tar.gz \
     | tar -xz
 ENV PATH="/home/dev/bin/go/bin/:${PATH}"
 
@@ -199,7 +199,7 @@ ENV PATH="/home/dev/bin/kotlinc/bin/:${PATH}"
 # https://download.racket-lang.org/
 ARG RACKET=8.7
 RUN curl -o racket-$RACKET-x86_64-linux-cs.sh \
-    https://www.cs.utah.edu/plt/installers/$RACKET/racket-$RACKET-x86_64-linux-cs.sh \
+    https://download.racket-lang.org/installers/8.8/racket-8.8-x86_64-linux-cs.sh \
     && sh racket-$RACKET-x86_64-linux-cs.sh --unix-style --dest /home/dev/ \
     && rm racket-$RACKET-x86_64-linux-cs.sh
 
