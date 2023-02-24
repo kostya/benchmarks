@@ -52,7 +52,7 @@ if (isset($argv[0]) && realpath($argv[0]) == __FILE__) {
 
     $text = file_get_contents("/tmp/1.json");
 
-    $pid = posix_getpid();
+    $pid = getmypid();
 
     notify("PHP\t$pid");
     $results = calc($text);

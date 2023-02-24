@@ -31,7 +31,7 @@ if (isset($argv[0]) && realpath($argv[0]) == __FILE__) {
     $str2 = base64_encode($str);
     $str3 = base64_decode($str2);
 
-    $pid = posix_getpid();
+    $pid = getmypid();
     notify("PHP\t$pid");
 
     $s_encoded = 0;
