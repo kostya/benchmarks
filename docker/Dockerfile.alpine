@@ -1,0 +1,13 @@
+FROM alpine:edge
+
+RUN apk add --no-cache 'bash=~5' 'make=~4' 'ncurses=~6' 'ruby=~3' 'php81=~8' \
+    && adduser -D dev
+
+USER dev
+RUN mkdir /home/dev/bin
+WORKDIR /home/dev/bin
+
+ARG SCRIPTS_VER=unknown
+COPY *.rb ./
+
+ENTRYPOINT ["./run.rb"]
