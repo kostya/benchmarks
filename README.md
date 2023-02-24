@@ -248,7 +248,9 @@ have some inaccuracies in number parsing:
 |              Scala (jsoniter-scala) |  0.175<sub>±0.001</sub> |   288.19<sub>±00.12</sub> + 25.08<sub>±00.53</sub> |    9.59<sub>±00.05</sub> |
 |             C++/clang++ (RapidJSON) |  0.230<sub>±0.000</sub> |  112.41<sub>±00.07</sub> + 128.97<sub>±00.03</sub> |    9.57<sub>±00.04</sub> |
 |       D/ldc2 (Mir Amazon's Ion DOM) |  0.236<sub>±0.000</sub> |   112.89<sub>±00.02</sub> + 80.70<sub>±00.00</sub> |    9.85<sub>±00.07</sub> |
+|                          Go (Sonic) |  0.237<sub>±0.002</sub> |  119.77<sub>±00.09</sub> + 111.84<sub>±00.06</sub> |   10.21<sub>±00.10</sub> |
 |         C++/g++ (RapidJSON Precise) |  0.243<sub>±0.001</sub> |  113.23<sub>±00.07</sub> + 128.88<sub>±00.06</sub> |   10.27<sub>±00.09</sub> |
+|                  Go (goccy/go-json) |  0.271<sub>±0.000</sub> |  115.83<sub>±00.09</sub> + 112.15<sub>±00.19</sub> |   10.63<sub>±00.02</sub> |
 |     C++/clang++ (RapidJSON Precise) |  0.313<sub>±0.000</sub> |  112.41<sub>±00.01</sub> + 129.00<sub>±00.00</sub> |   13.43<sub>±00.08</sub> |
 |                      C/clang (yajl) |  0.368<sub>±0.000</sub> |    110.86<sub>±00.01</sub> + 0.00<sub>±00.00</sub> |   16.11<sub>±00.17</sub> |
 |                        C/gcc (yajl) |  0.371<sub>±0.001</sub> |    110.87<sub>±00.05</sub> + 0.00<sub>±00.00</sub> |   15.98<sub>±00.04</sub> |

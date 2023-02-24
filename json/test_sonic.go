@@ -7,7 +7,6 @@ import (
 	"log"
 	"net"
 	"os"
-	"runtime"
 )
 
 type Coordinate struct {
@@ -58,7 +57,7 @@ func main() {
 		panic(fmt.Sprintf("%v", err))
 	}
 
-	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
+	notify(fmt.Sprintf("Go (Sonic)\t%d", os.Getpid()))
 	results := calc(bytes)
 	notify("stop")
 
