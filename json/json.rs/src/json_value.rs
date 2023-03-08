@@ -2,7 +2,7 @@ use serde_json::Value;
 use std::fmt::{self, Display, Formatter};
 use std::io::Write;
 use std::net::TcpStream;
-use std::{fs, process, str};
+use std::{fs, process};
 
 #[derive(PartialEq)]
 struct Coordinate {
@@ -67,7 +67,7 @@ fn main() {
         }
     }
 
-    let content = fs::read_to_string("/tmp/1.json").unwrap();
+    let content = fs::read_to_string("/tmp/1.json").unwrap_or_default();
 
     notify(&format!("Rust (Serde Untyped)\t{pid}", pid = process::id()));
     let results = calc(&content);

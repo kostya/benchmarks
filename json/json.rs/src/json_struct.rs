@@ -2,7 +2,7 @@ use serde::Deserialize;
 use std::fmt::{self, Display, Formatter};
 use std::io::Write;
 use std::net::TcpStream;
-use std::{fs, process, str};
+use std::{fs, process};
 
 #[derive(Deserialize, PartialEq)]
 struct Coordinate {
@@ -70,7 +70,7 @@ fn main() {
         }
     }
 
-    let s = fs::read_to_string("/tmp/1.json").unwrap();
+    let s = fs::read_to_string("/tmp/1.json").unwrap_or_default();
 
     notify(&format!("Rust (Serde Typed)\t{pid}", pid = process::id()));
     let results = calc(&s);
