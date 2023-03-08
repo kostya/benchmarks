@@ -1,6 +1,6 @@
 use std::io::{self, Stdout, StdoutLock, Write};
-use std::net::TcpStream;
 use std::{env, fs, process};
+use utils::notify;
 
 enum Op {
     Dec,
@@ -127,14 +127,6 @@ impl Program {
         let mut tape = Tape::new();
         run(&self.ops, &mut tape, p);
     }
-}
-
-macro_rules! notify {
-    ($($arg:tt)*) => {{
-        if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
-            _ = write!(stream, $($arg)*);
-        }
-    }};
 }
 
 fn verify() {

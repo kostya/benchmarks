@@ -1,0 +1,13 @@
+[package]
+name = "bf_rs"
+version = "0.1.0"
+edition = "2021"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[dependencies.utils]
+path = "../../common/rust"
