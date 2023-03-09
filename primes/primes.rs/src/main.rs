@@ -149,10 +149,7 @@ fn find(upper_bound: usize, prefix: i32) -> Vec<i32> {
 fn verify() {
     let left = vec![2, 23, 29];
     let right = find(100, 2);
-    if left != right {
-        eprintln!("{left:?} != {right:?}");
-        process::exit(-1);
-    }
+    assert_eq!(left, right);
 }
 
 fn main() {

@@ -1,6 +1,6 @@
 use std::io::Write;
 use std::time::Instant;
-use std::{process, str};
+use std::process;
 use utils::notify;
 
 const STR_SIZE: usize = 131_072;
@@ -9,15 +9,10 @@ const TRIES: usize = 8192;
 fn main() {
     for [src, dst] in &[["hello", "aGVsbG8="], ["world", "d29ybGQ="]] {
         let encoded = base64::encode(src);
-        if encoded != *dst {
-            eprintln!("{encoded:?} != {dst:?}");
-            process::exit(-1);
-        }
+        assert_eq!(encoded, *dst);
+
         let decoded = String::from_utf8(base64::decode(dst).unwrap()).unwrap();
-        if decoded != *src {
-            eprintln!("{decoded:?} != {src:?}");
-            process::exit(-1);
-        }
+        assert_eq!(decoded, *src);
     }
 
     let input = vec![b'a'; STR_SIZE];

@@ -27,10 +27,7 @@ fn main() {
 
     let left = calc(101);
     let right = -18.67;
-    if (left - right).abs() > 0.1 {
-        eprintln!("{left} != {right}");
-        process::exit(-1);
-    }
+    assert!((left - right).abs() <= 0.1);
 
     notify!("Rust (ndarray)\t{pid}", pid = process::id());
     let results = calc(n);
