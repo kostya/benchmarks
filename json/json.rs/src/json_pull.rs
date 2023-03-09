@@ -2,8 +2,8 @@ use serde::de::{SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer};
 use std::fmt::{self, Display, Formatter};
 use std::io::Write;
-use std::net::TcpStream;
-use std::{fs, process, str};
+use std::{fs, process};
+use utils::notify;
 
 #[derive(Deserialize, PartialEq)]
 struct Coordinate {
@@ -75,12 +75,6 @@ where
     deserializer.deserialize_seq(StateVisitor)
 }
 
-fn notify(msg: &str) {
-    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
-        stream.write_all(msg.as_bytes()).unwrap();
-    }
-}
-
 fn calc(content: &str) -> Coordinate {
     let test = serde_json::from_str::<TestStruct>(content).unwrap();
     let state = test.state;
@@ -109,11 +103,11 @@ fn main() {
         }
     }
 
-    let content = fs::read_to_string("/tmp/1.json").unwrap();
+    let content = fs::read_to_string("/tmp/1.json").unwrap_or_default();
 
-    notify(&format!("Rust (Serde Custom)\t{pid}", pid = process::id()));
+    notify!("Rust (Serde Custom)\t{pid}", pid = process::id());
     let results = calc(&content);
-    notify("stop");
+    notify!("stop");
 
     println!("{results}");
 }

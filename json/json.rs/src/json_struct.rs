@@ -1,8 +1,8 @@
 use serde::Deserialize;
 use std::fmt::{self, Display, Formatter};
 use std::io::Write;
-use std::net::TcpStream;
-use std::{fs, process, str};
+use std::{fs, process};
+use utils::notify;
 
 #[derive(Deserialize, PartialEq)]
 struct Coordinate {
@@ -24,12 +24,6 @@ impl Display for Coordinate {
 #[derive(Deserialize)]
 struct TestStruct {
     coordinates: Vec<Coordinate>,
-}
-
-fn notify(msg: &str) {
-    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
-        stream.write_all(msg.as_bytes()).unwrap();
-    }
 }
 
 fn calc(s: &str) -> Coordinate {
@@ -70,11 +64,11 @@ fn main() {
         }
     }
 
-    let s = fs::read_to_string("/tmp/1.json").unwrap();
+    let s = fs::read_to_string("/tmp/1.json").unwrap_or_default();
 
-    notify(&format!("Rust (Serde Typed)\t{pid}", pid = process::id()));
+    notify!("Rust (Serde Typed)\t{pid}", pid = process::id());
     let results = calc(&s);
-    notify("stop");
+    notify!("stop");
 
     println!("{results}");
 }

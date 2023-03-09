@@ -1,7 +1,7 @@
 use ndarray::{Array, Array2};
 use std::io::Write;
-use std::net::TcpStream;
 use std::{env, process};
+use utils::notify;
 
 fn mat_gen(n: usize, seed: f64) -> Array2<f64> {
     let i = Array::from_shape_fn((n, n), |(i, _)| i as f64);
@@ -9,12 +9,6 @@ fn mat_gen(n: usize, seed: f64) -> Array2<f64> {
 
     let n = n as f64;
     (&i - &j) * (&i + &j) * (seed / n / n)
-}
-
-fn notify(msg: &str) {
-    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
-        stream.write_all(msg.as_bytes()).unwrap();
-    }
 }
 
 fn calc(n: usize) -> f64 {
@@ -38,9 +32,9 @@ fn main() {
         process::exit(-1);
     }
 
-    notify(&format!("Rust (ndarray)\t{pid}", pid = process::id()));
+    notify!("Rust (ndarray)\t{pid}", pid = process::id());
     let results = calc(n);
-    notify("stop");
+    notify!("stop");
 
     println!("{results}");
 }

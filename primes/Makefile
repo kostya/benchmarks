@@ -4,7 +4,7 @@ include ../common/commands.mk
 executables := \
 	target/primes_cpp_gcc \
 	target/primes_cpp_clang \
-	target/primes_rs \
+	primes.rs/target/release/primes \
 	target/primes_cr \
 	target/primes_v_gcc \
 	target/primes_v_clang \
@@ -41,9 +41,10 @@ target/primes_scala.jar: primes.scala | target
 target/Primes.class: Primes.java | target
 	$(JAVAC_BUILD)
 
-target/primes_rs: primes.rs | $(rs_fmt)
-	$(RUST_CLIPPY)
-	$(RUSTC_BUILD)
+primes-rs-toml := primes.rs/Cargo.toml
+.PHONY: primes.rs/target/release/primes
+primes.rs/target/release/primes: $(primes-rs-toml)
+	$(CARGO_BUILD)
 
 target/primes_cpp_gcc: primes.cpp | target libnotify
 	$(GCC_CPP_BUILD)

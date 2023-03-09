@@ -10,7 +10,7 @@ executables := \
 	target/bin_d \
 	target/bin_d_gdc \
 	target/bin_d_ldc \
-	target/bin_rs \
+	bf.rs/target/release/bf \
 	target/bin_swift \
 	target/bin_nim_clang \
 	target/bin_nim_gcc \
@@ -73,9 +73,10 @@ target/bin_cpp_clang: bf.cpp | target libnotify
 target/bin_cpp_gcc: bf.cpp | target libnotify
 	$(GCC_CPP_BUILD)
 
-target/bin_rs: bf.rs | $(rs_fmt)
-	$(RUST_CLIPPY)
-	$(RUSTC_BUILD)
+bf-rs-toml := bf.rs/Cargo.toml
+.PHONY: bf.rs/target/release/bf
+bf.rs/target/release/bf: $(bf-rs-toml)
+	$(CARGO_BUILD)
 
 target/bin_swift: bf.swift | target
 	$(SWIFTC_BUILD)

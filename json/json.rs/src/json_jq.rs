@@ -1,8 +1,8 @@
 use jq_rs::{self, JqProgram};
 use std::fmt::{self, Display, Formatter};
 use std::io::Write;
-use std::net::TcpStream;
-use std::{fs, process, str};
+use std::{fs, process};
+use utils::notify;
 
 #[derive(PartialEq)]
 struct Coordinate {
@@ -21,12 +21,6 @@ impl Display for Coordinate {
     }
 }
 
-fn notify(msg: &str) {
-    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
-        stream.write_all(msg.as_bytes()).unwrap();
-    }
-}
-
 fn calc(program: &mut JqProgram, content: &str) -> Coordinate {
     let result = program.run(content).unwrap();
     let mut iter = result.split_whitespace();
@@ -38,12 +32,12 @@ fn calc(program: &mut JqProgram, content: &str) -> Coordinate {
 }
 
 fn main() {
-    let mut program = jq_rs::compile(concat!(
-        ".coordinates | length as $len |",
-        " (map(.x) | add) / $len,",
-        " (map(.y) | add) / $len,",
-        " (map(.z) | add) / $len"
-    ))
+    let mut program = jq_rs::compile(
+        ".coordinates | length as $len |\
+            (map(.x) | add) / $len,\
+            (map(.y) | add) / $len,\
+            (map(.z) | add) / $len",
+    )
     .unwrap();
 
     let right = Coordinate {
@@ -62,11 +56,11 @@ fn main() {
         }
     }
 
-    let content = fs::read_to_string("/tmp/1.json").unwrap();
+    let content = fs::read_to_string("/tmp/1.json").unwrap_or_default();
 
-    notify(&format!("Rust (jq)\t{pid}", pid = process::id()));
+    notify!("Rust (jq)\t{pid}", pid = process::id());
     let results = calc(&mut program, &content);
-    notify("stop");
+    notify!("stop");
 
     println!("{results}");
 }

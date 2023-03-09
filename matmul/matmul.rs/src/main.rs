@@ -1,6 +1,6 @@
 use std::io::Write;
-use std::net::TcpStream;
 use std::{env, process};
+use utils::notify;
 
 fn new_mat(x: usize, y: usize) -> Vec<Vec<f64>> {
     vec![vec![0f64; y]; x]
@@ -42,12 +42,6 @@ fn mat_mul(a: &[Vec<f64>], b: &[Vec<f64>]) -> Vec<Vec<f64>> {
     c
 }
 
-fn notify(msg: &str) {
-    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
-        stream.write_all(msg.as_bytes()).unwrap();
-    }
-}
-
 fn calc(n: usize) -> f64 {
     let size = n / 2 * 2;
     let a = mat_gen(size, 1.0);
@@ -69,9 +63,9 @@ fn main() {
         process::exit(-1);
     }
 
-    notify(&format!("Rust\t{pid}", pid = process::id()));
+    notify!("Rust\t{pid}", pid = process::id());
     let results = calc(n);
-    notify("stop");
+    notify!("stop");
 
     println!("{results}");
 }

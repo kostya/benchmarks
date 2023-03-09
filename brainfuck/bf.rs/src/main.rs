@@ -1,14 +1,14 @@
 use std::io::{self, Stdout, StdoutLock, Write};
-use std::net::TcpStream;
 use std::{env, fs, process};
+use utils::notify;
 
 enum Op {
     Dec,
     Inc,
     Prev,
     Next,
-    Loop(Box<[Op]>),
     Print,
+    Loop(Box<[Op]>),
 }
 
 struct Tape {
@@ -24,22 +24,14 @@ impl Tape {
         }
     }
 
-    fn get(&self) -> i32 {
-        // SAFETY: `self.pos` is already checked in `self.next()`
+    fn current_cell(&self) -> i32 {
+        // SAFETY: `self.pos` is already checked in `self.next()`.
         unsafe { *self.tape.get_unchecked(self.pos) }
     }
 
-    fn get_mut(&mut self) -> &mut i32 {
-        // SAFETY: `self.pos` is already checked in `self.next()`
-        unsafe { self.tape.get_unchecked_mut(self.pos) }
-    }
-
-    fn dec(&mut self) {
-        *self.get_mut() -= 1;
-    }
-
-    fn inc(&mut self) {
-        *self.get_mut() += 1;
+    fn inc(&mut self, x: i32) {
+        // SAFETY: `self.pos` is already checked in `self.next()`.
+        unsafe { *self.tape.get_unchecked_mut(self.pos) += x };
     }
 
     fn prev(&mut self) {
@@ -49,7 +41,7 @@ impl Tape {
     fn next(&mut self) {
         self.pos += 1;
         if self.pos >= self.tape.len() {
-            self.tape.resize(self.pos << 1, 0);
+            self.tape.resize(self.pos * 2, 0);
         }
     }
 }
@@ -61,8 +53,8 @@ struct Printer<'a> {
     quiet: bool,
 }
 
-impl<'a> Printer<'a> {
-    fn new(output: &'a Stdout, quiet: bool) -> Self {
+impl Printer<'_> {
+    fn new(output: &Stdout, quiet: bool) -> Self {
         Self {
             output: output.lock(),
             sum1: 0,
@@ -89,13 +81,13 @@ impl<'a> Printer<'a> {
 fn run(program: &[Op], tape: &mut Tape, p: &mut Printer) {
     for op in program {
         match op {
-            Op::Dec => tape.dec(),
-            Op::Inc => tape.inc(),
+            Op::Dec => tape.inc(-1),
+            Op::Inc => tape.inc(1),
             Op::Prev => tape.prev(),
             Op::Next => tape.next(),
-            Op::Print => p.print(tape.get()),
+            Op::Print => p.print(tape.current_cell()),
             Op::Loop(program) => {
-                while tape.get() > 0 {
+                while tape.current_cell() > 0 {
                     run(program, tape, p);
                 }
             }
@@ -137,12 +129,6 @@ impl Program {
     }
 }
 
-fn notify(msg: &str) {
-    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
-        stream.write_all(msg.as_bytes()).unwrap();
-    }
-}
-
 fn verify() {
     const SOURCE: &[u8] = b"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
                             ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
@@ -170,13 +156,13 @@ fn verify() {
 
 fn main() {
     verify();
-    let source = fs::read(env::args().nth(1).unwrap()).unwrap();
+    let source = fs::read(env::args().nth(1).unwrap()).unwrap_or_default();
     let output = io::stdout();
     let mut p = Printer::new(&output, env::var("QUIET").is_ok());
 
-    notify(&format!("Rust\t{pid}", pid = process::id()));
+    notify!("Rust\t{pid}", pid = process::id());
     Program::new(&source).run(&mut p);
-    notify("stop");
+    notify!("stop");
 
     if p.quiet {
         println!("Output checksum: {}", p.get_checksum());
