@@ -1,5 +1,5 @@
 [package]
-name = "base64_rs"
+name = "matmul"
 version = "0.0.1"
 edition = "2021"
 
@@ -8,9 +8,6 @@ lto = true
 codegen-units = 1
 panic = "abort"
 strip = true
-
-[dependencies]
-base64 = "0.13.1"
 
 [dependencies.utils]
 path = "../../common/rust"

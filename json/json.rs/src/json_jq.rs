@@ -1,8 +1,8 @@
 use jq_rs::{self, JqProgram};
 use std::fmt::{self, Display, Formatter};
 use std::io::Write;
-use std::net::TcpStream;
 use std::{fs, process};
+use utils::notify;
 
 #[derive(PartialEq)]
 struct Coordinate {
@@ -18,12 +18,6 @@ impl Display for Coordinate {
             "Coordinate {{ x: {:e}, y: {:e}, z: {} }}",
             self.x, self.y, self.z
         )
-    }
-}
-
-fn notify(msg: &str) {
-    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
-        stream.write_all(msg.as_bytes()).unwrap();
     }
 }
 
@@ -64,9 +58,9 @@ fn main() {
 
     let content = fs::read_to_string("/tmp/1.json").unwrap_or_default();
 
-    notify(&format!("Rust (jq)\t{pid}", pid = process::id()));
+    notify!("Rust (jq)\t{pid}", pid = process::id());
     let results = calc(&mut program, &content);
-    notify("stop");
+    notify!("stop");
 
     println!("{results}");
 }

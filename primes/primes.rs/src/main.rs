@@ -1,7 +1,7 @@
 use std::collections::{HashMap, VecDeque};
 use std::io::Write;
-use std::net::TcpStream;
 use std::process;
+use utils::notify;
 
 const UPPER_BOUND: usize = 5_000_000;
 const PREFIX: i32 = 32_338;
@@ -146,12 +146,6 @@ fn find(upper_bound: usize, prefix: i32) -> Vec<i32> {
     result
 }
 
-fn notify(msg: &str) {
-    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
-        stream.write_all(msg.as_bytes()).unwrap();
-    }
-}
-
 fn verify() {
     let left = vec![2, 23, 29];
     let right = find(100, 2);
@@ -164,9 +158,9 @@ fn verify() {
 fn main() {
     verify();
 
-    notify(&format!("Rust\t{pid}", pid = process::id()));
+    notify!("Rust\t{pid}", pid = process::id());
     let results = find(UPPER_BOUND, PREFIX);
-    notify("stop");
+    notify!("stop");
 
     println!("{results:?}");
 }

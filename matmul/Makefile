@@ -17,7 +17,7 @@ executables := \
 	target/matmul_go_gccgo \
 	target/matmul_c_gcc \
 	target/matmul_c_clang \
-	target/matmul_rs \
+	matmul.rs/target/release/matmul \
 	$(rust-ndarray-targets) \
 	target/matmul_swift \
 	target/matmul_d \
@@ -74,9 +74,10 @@ target/matmul_go: matmul.go | $(gofmt)
 target/matmul_go_gccgo: matmul.go | $(gofmt)
 	$(GCC_GO_BUILD)
 
-target/matmul_rs: matmul.rs | $(rs_fmt)
-	$(RUST_CLIPPY)
-	$(RUSTC_BUILD)
+matmul-rs-toml := matmul.rs/Cargo.toml
+.PHONY: matmul.rs/target/release/matmul
+matmul.rs/target/release/matmul: $(matmul-rs-toml)
+	$(CARGO_BUILD)
 
 rust-ndarray-toml := rust-ndarray/Cargo.toml
 .PHONY: $(rust-ndarray-targets)

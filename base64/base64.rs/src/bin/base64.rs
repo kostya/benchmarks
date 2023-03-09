@@ -1,16 +1,10 @@
 use std::io::Write;
-use std::net::TcpStream;
 use std::time::Instant;
 use std::{process, str};
+use utils::notify;
 
 const STR_SIZE: usize = 131_072;
 const TRIES: usize = 8192;
-
-fn notify(msg: &str) {
-    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 9001)) {
-        stream.write_all(msg.as_bytes()).unwrap();
-    }
-}
 
 fn main() {
     for [src, dst] in &[["hello", "aGVsbG8="], ["world", "d29ybGQ="]] {
@@ -30,7 +24,7 @@ fn main() {
     let output = base64::encode(&input);
     let str3 = base64::decode(&output).unwrap();
 
-    notify(&format!("Rust\t{pid}", pid = process::id()));
+    notify!("Rust\t{pid}", pid = process::id());
 
     let time_start = Instant::now();
     let mut sum_encoded = 0;
@@ -46,7 +40,7 @@ fn main() {
     }
     let t_decoded = t1_start.elapsed().as_secs_f32();
 
-    notify("stop");
+    notify!("stop");
 
     println!(
         "encode {input}... to {output}...: {sum_encoded}, {t_encoded}",

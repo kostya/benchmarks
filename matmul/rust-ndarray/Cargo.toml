@@ -9,5 +9,9 @@ codegen-units = 1
 panic = "abort"
 strip = true
 
-[dependencies]
-ndarray = { version = "0.15.4", features = ["matrixmultiply-threading"]}
+[dependencies.ndarray]
+version = "0.15.4"
+features = ["matrixmultiply-threading"]
+
+[dependencies.utils]
+path = "../../common/rust"
