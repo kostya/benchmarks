@@ -1,7 +1,6 @@
 // Written by Ricardo Silva Veloso; distributed under the MIT license
 
 import Foundation
-import Glibc
 
 enum Op {
     case dec
@@ -20,27 +19,19 @@ struct Tape {
         set { tape.withUnsafeMutableBufferPointer { $0[pos] = newValue } }
     }
 
-    mutating func dec() {
-        currentCell -= 1
+    mutating func inc(_ x: Int32) {
+        currentCell &+= x
     }
 
-    mutating func inc() {
-        currentCell += 1
-    }
-
-    mutating func prev() {
-        pos -= 1
-    }
-
-    mutating func next() {
-        pos += 1
+    mutating func move(_ x: Int) {
+        pos &+= x
         if pos >= tape.count {
             tape.append(contentsOf: repeatElement(0, count: tape.capacity * 2))
         }
     }
 }
 
-class Printer {
+final class Printer {
     var sum1: Int32 = 0
     var sum2: Int32 = 0
     var quiet: Bool = false
@@ -54,8 +45,8 @@ class Printer {
 
     func print(_ n: Int32) {
         if quiet {
-            sum1 = (sum1 + n) % 255
-            sum2 = (sum2 + sum1) % 255
+            sum1 = (sum1 &+ n) % 255
+            sum2 = (sum2 &+ sum1) % 255
         } else {
             putc(n, stdout)
         }
@@ -63,7 +54,7 @@ class Printer {
 }
 
 @main
-class Program {
+final class Program {
     let ops: [Op]
     let p: Printer
 
@@ -76,14 +67,14 @@ class Program {
     static func main() throws {
         verify()
         if CommandLine.argc < 2 {
-            exit(EXIT_FAILURE)
+            fatalError("Expected argument.")
         }
         let text = try String(contentsOfFile: CommandLine.arguments[1])
         let process = ProcessInfo.processInfo
         let p = Printer(quiet: process.environment["QUIET"] != nil)
         setbuf(stdout, nil)
 
-        notify("Swift\t\(process.processIdentifier)")
+        notify_with_pid("Swift")
         Program(code: text, p: p).run()
         notify("stop")
 
@@ -97,19 +88,22 @@ class Program {
             ++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
             ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
         """
-        let p_left = Printer(quiet: true)
-        Program(code: s, p: p_left).run()
-        let left = p_left.checksum
-
-        let p_right = Printer(quiet: true)
-        for c in "Hello World!\n" {
-            p_right.print(Int32(c.asciiValue!))
+        var left: Int32 = 0
+        do {
+            let p = Printer(quiet: true)
+            Program(code: s, p: p).run()
+            left = p.checksum
         }
-        let right = p_right.checksum
-
+        var right: Int32 = 0
+        do {
+            let p = Printer(quiet: true)
+            for c in "Hello World!\n" {
+                p.print(Int32(c.asciiValue!))
+            }
+            right = p.checksum
+        }
         if left != right {
-            fputs("\(left) != \(right)", stderr)
-            exit(EXIT_FAILURE)
+            fatalError("\(left) != \(right)")
         }
     }
 
@@ -151,13 +145,13 @@ class Program {
         for op in program {
             switch op {
             case .dec:
-                tape.dec()
+                tape.inc(-1)
             case .inc:
-                tape.inc()
+                tape.inc(1)
             case .prev:
-                tape.prev()
+                tape.move(-1)
             case .next:
-                tape.next()
+                tape.move(1)
             case .print:
                 p.print(tape.currentCell)
             case let .loop(program):
@@ -165,28 +159,6 @@ class Program {
                     _run(program, &tape)
                 }
             }
-        }
-    }
-}
-
-func notify(_ msg: String) {
-    let sock = socket(AF_INET, Int32(SOCK_STREAM.rawValue), 0)
-    var serv_addr = (
-        sa_family_t(AF_INET),
-        in_port_t(htons(9001)),
-        in_addr(s_addr: 0),
-        (0,0,0,0,0,0,0,0))
-    inet_pton(AF_INET, "127.0.0.1", &serv_addr.2)
-    let len = MemoryLayout.stride(ofValue: serv_addr)
-    let rc = withUnsafePointer(to: &serv_addr) { ptr -> Int32 in
-        return ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) {
-            bptr in return connect(sock, bptr, socklen_t(len))
-        }
-    }
-    if rc == 0 {
-        msg.withCString { (cstr: UnsafePointer<Int8>) -> Void in
-            send(sock, cstr, Int(strlen(cstr)), 0)
-            close(sock)
         }
     }
 }
