@@ -58,7 +58,7 @@ fn main() {
 
     let left = calc(101);
     let right = -18.67;
-    assert!((left - right).abs() <= 0.1);
+    assert!((left - right).abs() <= 0.1, "{left} != {right}");
 
     notify!("Rust\t{pid}", pid = process::id());
     let results = calc(n);
