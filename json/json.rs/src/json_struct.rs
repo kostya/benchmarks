@@ -58,10 +58,7 @@ fn main() {
         r#"{"coordinates":[{"y":0.5,"x":2.0,"z":0.25}]}"#,
     ] {
         let left = calc(v);
-        if left != right {
-            eprintln!("{left} != {right}");
-            process::exit(-1);
-        }
+        assert_eq!(left, right);
     }
 
     let s = fs::read_to_string("/tmp/1.json").unwrap_or_default();

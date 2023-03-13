@@ -73,7 +73,7 @@ impl Printer<'_> {
         }
     }
 
-    const fn get_checksum(&self) -> i32 {
+    const fn checksum(&self) -> i32 {
         (self.sum2 << 8) | self.sum1
     }
 }
@@ -133,25 +133,19 @@ fn verify() {
     const SOURCE: &[u8] = b"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
                             ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
     let output = io::stdout();
-
     let left = {
         let mut p = Printer::new(&output, true);
         Program::new(SOURCE).run(&mut p);
-        p.get_checksum()
+        p.checksum()
     };
-
     let right = {
         let mut p = Printer::new(&output, true);
         for &c in b"Hello World!\n" {
             p.print(c as i32);
         }
-        p.get_checksum()
+        p.checksum()
     };
-
-    if left != right {
-        eprintln!("{left} != {right}");
-        process::exit(-1);
-    }
+    assert_eq!(left, right);
 }
 
 fn main() {
@@ -165,6 +159,6 @@ fn main() {
     notify!("stop");
 
     if p.quiet {
-        println!("Output checksum: {}", p.get_checksum());
+        println!("Output checksum: {}", p.checksum());
     }
 }

@@ -1,7 +1,5 @@
 // Written by Kajal Sinha; distributed under the MIT license
 
-import Glibc
-
 func matgen(_ n: Int, _ seed: Double) -> [[Double]] {
     var a = Array(repeating: Array<Double>(repeating: 0, count: n), count: n)
     let divideBy = Double(n)
@@ -40,28 +38,6 @@ func matmul(_ a : [[Double]], b : [[Double]]) ->[[Double]] {
     return x
 }
 
-func notify(_ msg: String) {
-    let sock = socket(AF_INET, Int32(SOCK_STREAM.rawValue), 0)
-    var serv_addr = (
-        sa_family_t(AF_INET),
-        in_port_t(htons(9001)),
-        in_addr(s_addr: 0),
-        (0,0,0,0,0,0,0,0))
-    inet_pton(AF_INET, "127.0.0.1", &serv_addr.2)
-    let len = MemoryLayout.stride(ofValue: serv_addr)
-    let rc = withUnsafePointer(to: &serv_addr) { ptr -> Int32 in
-        return ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) {
-            bptr in return connect(sock, bptr, socklen_t(len))
-        }
-    }
-    if rc == 0 {
-        msg.withCString { (cstr: UnsafePointer<Int8>) -> Void in
-            send(sock, cstr, Int(strlen(cstr)), 0)
-            close(sock)
-        }
-    }
-}
-
 func calc(_ n: Int) -> Double {
     let size = n / 2 * 2
     let a = matgen(size, 1.0)
@@ -78,11 +54,10 @@ struct Matmul {
         let left = calc(101)
         let right = -18.67
         if abs(left - right) > 0.1 {
-            fputs("\(left) != \(right)\n", stderr)
-            exit(EXIT_FAILURE)
+            fatalError("\(left) != \(right)")
         }
 
-        notify("Swift\t\(getpid())")
+        notify_with_pid("Swift")
         let results = calc(n)
         notify("stop")
 
