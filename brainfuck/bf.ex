@@ -1,27 +1,27 @@
 defmodule BF.Tape do
-  alias BF.Tape, as: Tape
-
-  defstruct data: :array.new(default: 0), pos: 0
-
-  def current(tape) do
-    :array.get(tape.pos, tape.data)
+  def init() do
+    {:atomics.new(30_000, []), 1, 1}
   end
 
-  def inc(tape, x) when x == -1 or x == 1 do
-    new_data = :array.set(tape.pos, :array.get(tape.pos, tape.data) + x,
-                          tape.data)
-    %Tape{tape | data: new_data}
+  def current({data, pos, _max_pos}) do
+    :atomics.get(data, pos)
   end
 
-  def move(tape, x) when x == -1 or x == 1 do
-    new_pos = tape.pos + x
-    new_data =
-      if new_pos < :array.size(tape.data) do
-        tape.data
-      else
-        :array.set(new_pos, 0, tape.data)
-      end
-    %Tape{tape | data: new_data, pos: new_pos}
+  def inc({data, pos, max_pos}, x) when x == -1 or x == 1 do
+    :atomics.add(data, pos, x)
+
+    {data, pos, max_pos}
+  end
+
+  def move({data, pos, max_pos}, x) when x == -1 or x == 1 do
+    new_pos = pos + x
+
+    if new_pos <= max_pos do
+      {data, new_pos, max_pos}
+    else
+      :atomics.put(data, new_pos, 0)
+      {data, new_pos, new_pos}
+    end
   end
 end
 
@@ -51,7 +51,7 @@ defmodule BF do
   alias BF.Tape, as: Tape
 
   def parse(source) do
-    {result, []} = parse(String.split(source, ""), [])
+    {result, []} = parse(to_charlist(source), [])
     result
   end
 
@@ -61,15 +61,15 @@ defmodule BF do
 
   defp parse([x | xs], acc) do
     case x do
-      "+" -> parse(xs, [{:inc, 1} | acc])
-      "-" -> parse(xs, [{:inc, -1} | acc])
-      ">" -> parse(xs, [{:move, 1} | acc])
-      "<" -> parse(xs, [{:move, -1} | acc])
-      "." -> parse(xs, [{:print, nil} | acc])
-      "[" ->
+      ?+ -> parse(xs, [{:inc, 1} | acc])
+      ?- -> parse(xs, [{:inc, -1} | acc])
+      ?> -> parse(xs, [{:move, 1} | acc])
+      ?< -> parse(xs, [{:move, -1} | acc])
+      ?. -> parse(xs, [{:print, nil} | acc])
+      ?[ ->
         {loop_code, new_xs} = parse(xs, [])
         parse(new_xs, [{:loop, loop_code} | acc])
-      "]" -> {Enum.reverse(acc), xs}
+      ?] -> {Enum.reverse(acc), xs}
       _   -> parse(xs, acc)
     end
   end
@@ -111,7 +111,7 @@ defmodule Benchmark do
     """
     left = Printer.get_checksum(
       elem(BF.parse(text)
-      |> BF.run(%BF.Tape{}, %Printer{quiet: true}), 1))
+      |> BF.run(BF.Tape.init(), %Printer{quiet: true}), 1))
 
     right = Printer.get_checksum(
       Enum.reduce(
@@ -130,8 +130,12 @@ defmodule Benchmark do
     text = File.read!(filename)
 
     notify("Elixir\t#{System.pid()}")
-    p = elem(BF.parse(text)
-      |> BF.run(%BF.Tape{}, %Printer{quiet: System.get_env("QUIET")}), 1)
+
+    p = text
+      |> BF.parse()
+      |> BF.run(BF.Tape.init(), %Printer{quiet: System.get_env("QUIET")})
+      |> elem(1)
+
     notify("stop")
 
     if p.quiet do
