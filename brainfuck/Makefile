@@ -42,7 +42,7 @@ fast_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[pypy][bf3.py] \
 	run[jit][bf_jit.lua] \
 	run[bf.rkt] \
-	run[bf-syntax.rkt] \
+	run[bf-staged.rkt] \
 	run[bf.ss] \
 	run[truby-jvm][bf.rb] \
 	run[truby-native][bf.rb] \
@@ -234,7 +234,7 @@ run[bf_oo.tcl]:: run[%]: %
 run[bf.rkt]:: run[%]: %
 	$(RACKET_RUN) $(BF_SRC)
 
-run[bf-syntax.rkt]:: run[%]: %
+run[bf-staged.rkt]:: run[%]: %
 	$(RACKET_RUN) $(BF_SRC)
 
 run[bf.ss]:: run[%]: % | libnotify
