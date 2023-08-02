@@ -1,4 +1,4 @@
-import scala.collection.mutable.{HashMap, Queue, ArrayBuffer}
+import scala.collection.mutable.{BitSet, HashMap, Queue, ArrayBuffer}
 
 object Primes {
   val UpperBound = 5000000
@@ -10,12 +10,12 @@ object Primes {
   )
 
   class Sieve(val limit: Int) {
-    private var prime = ArrayBuffer.fill(limit + 1)(0)
+    private val prime = new BitSet(limit + 1)
 
     def toList(): Iterable[Int] = {
       var result = ArrayBuffer(2, 3)
       for (p <- 5 to limit) {
-        if (prime(p) > 0) {
+        if (prime(p)) {
           result += p
         }
       }
@@ -25,10 +25,10 @@ object Primes {
     def omitSquares(): Sieve = {
       var r = 5
       while (r * r < limit) {
-        if (prime(r) > 0) {
+        if (prime(r)) {
           var i = r * r
           while (i < limit) {
-            prime(i) = 0
+            prime(i) = false
             i += r * r
           }
         }
@@ -40,21 +40,21 @@ object Primes {
     def step1(x: Int, y: Int): Unit = {
       val n = (4 * x * x) + (y * y)
       if (n <= limit && (n % 12 == 1 || n % 12 == 5)) {
-        prime(n) = 1 - prime(n)
+        prime(n) = !prime(n)
       }
     }
 
     def step2(x: Int, y: Int): Unit = {
       val n = (3 * x * x) + (y * y)
       if (n <= limit && n % 12 == 7) {
-        prime(n) = 1 - prime(n)
+        prime(n) = !prime(n)
       }
     }
 
     def step3(x: Int, y: Int): Unit = {
       val n = (3 * x * x) - (y * y)
       if (x > y && n <= limit && n % 12 == 11) {
-        prime(n) = 1 - prime(n)
+        prime(n) = !prime(n)
       }
     }
 
