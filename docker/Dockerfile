@@ -6,12 +6,12 @@ COPY ./apt.pkgs /tmp/apt.pkgs
 RUN apt-get update && xargs apt-get install -y < /tmp/apt.pkgs \
     && rm -rf /var/lib/apt/lists/*
 
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 10 \
-    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 10 \
-    && update-alternatives --install /usr/bin/gdc gdc /usr/bin/gdc-12 10 \
-    && update-alternatives --install /usr/bin/gccgo gccgo /usr/bin/gccgo-12 10 \
-    && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-14 10 \
-    && update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-14 10 \
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 10 \
+    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 10 \
+    && update-alternatives --install /usr/bin/gdc gdc /usr/bin/gdc-13 10 \
+    && update-alternatives --install /usr/bin/gccgo gccgo /usr/bin/gccgo-13 10 \
+    && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-16 10 \
+    && update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-16 10 \
     && nuget update -self \
     && useradd -m dev
 
@@ -56,7 +56,7 @@ RUN curl -L \
 ENV PATH="/home/dev/bin/mlton-$MLTON-1.amd64-linux-glibc2.31/bin/:${PATH}"
 
 # https://pypy.org/download.html
-ARG PYPY=pypy3.9-v7.3.10-linux64
+ARG PYPY=pypy3.10-v7.3.12-linux64
 RUN curl \
     https://downloads.python.org/pypy/$PYPY.tar.bz2 \
     | tar -xj \
@@ -64,35 +64,35 @@ RUN curl \
 ENV PATH="/home/dev/bin/$PYPY/bin:${PATH}"
 
 # https://www.scala-lang.org/download/
-ARG SCALA=3.2.1
+ARG SCALA=3.3.1
 RUN curl -L \
     https://github.com/lampepfl/dotty/releases/download/$SCALA/scala3-$SCALA.tar.gz \
     | tar -xz
 ENV PATH="/home/dev/bin/scala3-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=19.0.1
+ARG JDK=21
 RUN curl \
-    https://download.java.net/java/GA/jdk19.0.1/afdd2e245b014143b62ccb916125e3ce/10/GPL/openjdk-19.0.1_linux-x64_bin.tar.gz \
+    https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz \
     | tar -xz
 ENV PATH="/home/dev/bin/jdk-$JDK/bin:${PATH}"
 
 # https://github.com/crystal-lang/crystal/releases
-ARG CRYSTAL=crystal-1.6.2-1
+ARG CRYSTAL=crystal-1.9.2-1
 RUN curl -L \
-    https://github.com/crystal-lang/crystal/releases/download/1.6.2/$CRYSTAL-linux-x86_64.tar.gz \
+    https://github.com/crystal-lang/crystal/releases/download/1.9.2/$CRYSTAL-linux-x86_64.tar.gz \
     | tar -xz
 ENV PATH="/home/dev/bin/$CRYSTAL/bin:${PATH}"
 
 # https://github.com/ldc-developers/ldc/releases
-ARG LDC=ldc2-1.30.0-linux-x86_64
+ARG LDC=ldc2-1.34.0-linux-x86_64
 RUN curl -L \
-    https://github.com/ldc-developers/ldc/releases/download/v1.30.0/$LDC.tar.xz \
+    https://github.com/ldc-developers/ldc/releases/download/v1.34.0/$LDC.tar.xz \
     | tar -xJ
 ENV PATH="/home/dev/bin/$LDC/bin/:${PATH}"
 
 # https://nim-lang.org/install_unix.html
-ARG NIM=nim-1.6.10
+ARG NIM=nim-2.0.0
 RUN curl \
     https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
     | tar -xJ
@@ -175,7 +175,7 @@ ENV PATH="/home/dev/bin/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN curl -L \
-    https://go.dev/dl/go1.20.1.linux-amd64.tar.gz \
+    https://go.dev/dl/go1.21.1.linux-amd64.tar.gz \
     | tar -xz
 ENV PATH="/home/dev/bin/go/bin/:${PATH}"
 
