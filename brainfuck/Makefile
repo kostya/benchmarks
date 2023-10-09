@@ -58,6 +58,7 @@ all_runners := $(fast_runners) \
 	run[bf.lua] \
 	run[bf.tcl] \
 	run[bf_oo.tcl] \
+	run[bf.php] \
 
 # Build
 
@@ -242,6 +243,9 @@ run[bf.ss]:: run[%]: % | libnotify
 
 run[bf.jl]:: run[%]: % | $(julia_fmt)
 	$(JULIA_RUN) $(BF_SRC)
+
+run[bf.php]:: run[%]: %
+	$(PHP_RUN) $(BF_SRC)
 
 # Utilities
 

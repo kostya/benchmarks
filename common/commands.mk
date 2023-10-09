@@ -78,6 +78,7 @@ TRUBY_JVM_RUN =	$(XTIME) truffleruby --jvm $^
 TRUBY_NATIVE_RUN =	$(XTIME) truffleruby $^
 SCHEME_RUN =		$(XTIME) scheme --optimize-level 3 --program $^
 JULIA_RUN =		$(XTIME) julia --optimize=3 --check-bounds=no $^
+PHP_RUN =		$(XTIME) php $^
 
 GIT_CLONE = git clone --depth 1 -q
 DOTNET_CLEAN = -dotnet clean --nologo -v q -c Release
