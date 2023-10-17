@@ -21,8 +21,8 @@ GCC_GO_BUILD =		gccgo $(GCC_FLAGS) -o $@ $^
 GDC_BUILD =		gdc -o $@ -O3 -frelease -finline -fbounds-check=off $^
 GHC_BUILD =		ghc -v0 -O2 -fforce-recomp -Wall $^ -o $@ -outputdir $(@D)
 GO_BUILD =		GO111MODULE=auto go build -o $@ $^
-JAVAC_BUILD =		javac --release 19 -Xlint:unchecked -d $(@D) $^
-KOTLINC_BUILD =	kotlinc -include-runtime -jvm-target 18 -d $@ $^
+JAVAC_BUILD =		javac --release 21 -Xlint:unchecked -d $(@D) $^
+KOTLINC_BUILD =	kotlinc -include-runtime -jvm-target 20 -d $@ $^
 LDC2_BUILD =		ldc2 -of$@ -O5 -release -boundscheck=off $^
 MCS_BUILD =		mcs -debug- -optimize+ -out:$@ $^
 MLTON_BUILD =		mlton -output $@ $^
@@ -31,7 +31,7 @@ NIM_GCC_BUILD =	nim c -o:$@ --cc:gcc $(NIM_FLAGS) $^
 RUSTC_BUILD =		rustc $(RUSTC_FLAGS) -C opt-level=3 -C lto -C codegen-units=1 -C panic=abort -C strip=symbols -o $@ $^
 RUST_CLIPPY =		clippy-driver -o $@.clippy $^
 SWIFTC_BUILD =		swiftc -parse-as-library -O -lto=llvm-full -cross-module-optimization $(LIBNOTIFY_FLAGS) -import-objc-header ../common/libnotify/libnotify.h -o $@ $^
-SCALAC_BUILD =		scalac -java-output-version 19 -d $@ $^
+SCALAC_BUILD =		scalac -java-output-version 21 -d $@ $^
 VALAC_CLANG_BUILD =	valac $^ --cc=clang -D CLANG_TEST $(VALAC_FLAGS) -o $@
 VALAC_GCC_BUILD =	valac $^ --cc=gcc -D GCC_TEST $(VALAC_FLAGS) -o $@
 V_CLANG_BUILD =	v $(V_FLAGS) -cc clang -o $@ $^

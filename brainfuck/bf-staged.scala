@@ -49,36 +49,44 @@ class Program(text: String, p: Printer):
 
   def run = runOn(Tape(), p)
 
-def notify(msg: String) =
-  scala.util.Using((java.net.Socket("localhost", 9001)).getOutputStream()) {
+object BrainFuckStaged {
+  def notify(msg: String) = {
+    scala.util.Using((java.net.Socket("localhost", 9001)).getOutputStream()) {
       _.write(msg.getBytes())
+    }
   }
 
-def verify =
-  val text = """++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+  def verify = {
+    val text = """++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
       ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."""
-  val pLeft = Printer(true)
-  Program(text, pLeft).run
-  val left = pLeft.checksum
-  val pRight = Printer(true)
-  for c <- "Hello World!\n" do
-    pRight.write(c)
-  val right = pRight.checksum
-  if left != right then
+    val pLeft = Printer(true)
+    Program(text, pLeft).run
+    val left = pLeft.checksum
+    val pRight = Printer(true)
+    for (c <- "Hello World!\n") {
+      pRight.write(c)
+    }
+    val right = pRight.checksum
+    if (left != right) {
       System.err.println(s"${left} != ${right}")
       System.exit(1)
+    }
+  }
 
-@main def main(filename : String) : Unit =
-  verify
-  val text = scala.util.Using(scala.io.Source.fromFile(filename)) { _.mkString }.get
-  val p = Printer(sys.env.get("QUIET").isDefined)
+  def main(args: Array[String]): Unit = {
+    val filename = args(0)
+    verify
+    val text = scala.util.Using(scala.io.Source.fromFile(filename)) { _.mkString }.get
+    val p = Printer(sys.env.get("QUIET").isDefined)
 
-  notify(s"Scala (Staged)\t${ProcessHandle.current().pid()}")
-  val s = System.nanoTime
-  Program(text, p).run
-  val elapsed = (System.nanoTime - s) / 1e9
-  notify("stop")
+    notify(s"Scala (Staged)\t${ProcessHandle.current().pid()}")
+    val s = System.nanoTime
+    Program(text, p).run
+    val elapsed = (System.nanoTime - s) / 1e9
+    notify("stop")
 
-  System.err.println(s"time: $elapsed s")
-  if p.quiet then
-    System.out.println(s"Output checksum: ${p.checksum}")
+    System.err.println(s"time: $elapsed s")
+    if p.quiet then
+      System.out.println(s"Output checksum: ${p.checksum}")
+  }
+}

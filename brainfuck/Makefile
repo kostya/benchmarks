@@ -33,6 +33,7 @@ executables := \
 
 artifacts := $(executables) \
 	target/bf_scala.jar \
+	target/bf_staged_scala.jar \
 	target/bf2-kt.jar \
 	target/bf.exe \
 	target/bf.class
@@ -83,6 +84,9 @@ target/bin_swift: bf.swift | target
 	$(SWIFTC_BUILD)
 
 target/bf_scala.jar: bf.scala | target
+	$(SCALAC_BUILD)
+
+target/bf_staged_scala.jar: bf-staged.scala | target
 	$(SCALAC_BUILD)
 
 target/bf.exe: bf.cs | target
@@ -180,6 +184,9 @@ $(executable_runners):: run[%] : %
 
 run[target/bf_scala.jar]:: run[%]: %
 	$(SCALA_RUN) BrainFuck $(BF_SRC)
+
+run[target/bf_staged_scala.jar]:: run[%]: %
+	$(SCALA_RUN) BrainFuckStaged $(BF_SRC)
 
 run[target/bf.exe]:: run[%]: %
 	$(MONO_RUN) $(BF_SRC)
