@@ -27,7 +27,7 @@ pub fn main() !void {
             std.debug.panic("'{s}' != '{s}'\n", .{ encoded, fix.dst });
         }
 
-        std.mem.set(u8, &buffer, 0);
+        @memset(&buffer, 0);
         try b64.Decoder.decode(&buffer, fix.dst);
         if (!std.mem.eql(u8, buffer[0..fix.src.len], fix.src)) {
             std.debug.panic("'{s}' != '{s}'\n", .{ &buffer, fix.src });
@@ -45,7 +45,7 @@ pub fn main() !void {
     const str3 = try alloc.alloc(u8, decodeSize);
     b64.Decoder.decode(str3, str2) catch unreachable;
 
-    var buffer = try alloc.alloc(u8, std.math.max(encodeSize, decodeSize));
+    var buffer = try alloc.alloc(u8, @max(encodeSize, decodeSize));
     var fb = std.heap.FixedBufferAllocator.init(buffer);
     const fb_alloc = fb.allocator();
 
@@ -62,7 +62,7 @@ pub fn main() !void {
         s_encoded += b64.Encoder.encode(str21, str1).len;
         fb_alloc.free(str21);
     }
-    const t_encoded: f64 = @intToFloat(f64, std.time.milliTimestamp() - t1) / std.time.ms_per_s;
+    const t_encoded = @as(f64, @floatFromInt(std.time.milliTimestamp() - t1)) / std.time.ms_per_s;
 
     i = 0;
     var s_decoded: usize = 0;
@@ -73,7 +73,7 @@ pub fn main() !void {
         s_decoded += str31.len;
         fb_alloc.free(str31);
     }
-    const t_decoded: f64 = @intToFloat(f64, std.time.milliTimestamp() - t2) / std.time.ms_per_s;
+    const t_decoded = @as(f64, @floatFromInt(std.time.milliTimestamp() - t2)) / std.time.ms_per_s;
 
     notify("stop");
 

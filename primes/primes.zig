@@ -22,7 +22,7 @@ const Sieve = struct {
     fn init(alloc: std.mem.Allocator, limit: i32) Sieve {
         var self = Sieve{
             .limit = limit,
-            .prime = std.DynamicBitSet.initEmpty(alloc, @intCast(usize, limit + 1)) catch unreachable,
+            .prime = std.DynamicBitSet.initEmpty(alloc, @as(usize, @intCast(limit + 1))) catch unreachable,
         };
         return self;
     }
@@ -33,7 +33,7 @@ const Sieve = struct {
 
         var p: i32 = 5;
         while (p <= self.limit) : (p += 1) {
-            if (self.prime.isSet(@intCast(usize, p))) {
+            if (self.prime.isSet(@as(usize, @intCast(p)))) {
                 result.append(p) catch unreachable;
             }
         }
@@ -43,10 +43,10 @@ const Sieve = struct {
     fn omitSquares(self: *Sieve) *Sieve {
         var r: i32 = 5;
         while (r * r < self.limit) : (r += 1) {
-            if (self.prime.isSet(@intCast(usize, r))) {
+            if (self.prime.isSet(@as(usize, @intCast(r)))) {
                 var i: i32 = r * r;
                 while (i < self.limit) : (i += r * r) {
-                    self.prime.unset(@intCast(usize, i));
+                    self.prime.unset(@as(usize, @intCast(i)));
                 }
             }
         }
@@ -56,21 +56,21 @@ const Sieve = struct {
     fn step1(self: *Sieve, x: i32, y: i32) void {
         const n: i32 = (4 * x * x) + (y * y);
         if (n <= self.limit and (@rem(n, 12) == 1 or @rem(n, 12) == 5)) {
-            self.prime.toggle(@intCast(usize, n));
+            self.prime.toggle(@as(usize, @intCast(n)));
         }
     }
 
     fn step2(self: *Sieve, x: i32, y: i32) void {
         const n: i32 = (3 * x * x) + (y * y);
         if (n <= self.limit and @rem(n, 12) == 7) {
-            self.prime.toggle(@intCast(usize, n));
+            self.prime.toggle(@as(usize, @intCast(n)));
         }
     }
 
     fn step3(self: *Sieve, x: i32, y: i32) void {
         const n: i32 = (3 * x * x) - (y * y);
         if (x > y and n <= self.limit and @rem(n, 12) == 11) {
-            self.prime.toggle(@intCast(usize, n));
+            self.prime.toggle(@as(usize, @intCast(n)));
         }
     }
 
@@ -154,7 +154,7 @@ fn find(alloc: std.mem.Allocator, upper_bound: i32, prefix: i32) std.ArrayList(i
             queue.prepend(elem);
         }
     }
-    std.sort.sort(i32, result.items, {}, comptime std.sort.asc(i32));
+    std.sort.heap(i32, result.items, {}, comptime std.sort.asc(i32));
     return result;
 }
 

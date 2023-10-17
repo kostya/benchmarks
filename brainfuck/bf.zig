@@ -23,7 +23,7 @@ const Printer = struct {
             self.sum1 = @mod(self.sum1 + n, 255);
             self.sum2 = @mod(self.sum2 + self.sum1, 255);
         } else {
-            self.stdout.writeByte(@intCast(u8, n)) catch unreachable;
+            self.stdout.writeByte(@intCast(n)) catch unreachable;
         }
     }
 
@@ -51,7 +51,7 @@ const Tape = struct {
     }
 
     fn move(self: *Tape, x: i32) void {
-        self.pos += @intCast(usize, x);
+        self.pos += @intCast(x);
         if (self.pos >= self.tape.items.len) {
             self.tape.appendNTimes(0, self.tape.items.len * 2) catch unreachable;
         }
@@ -86,8 +86,9 @@ const Program = struct {
     a: std.mem.Allocator,
 
     fn init(alloc: std.mem.Allocator, code: []const u8, printer: *Printer) Program {
+        var iter = StrIterator{ .text = code };
         return Program{
-            .ops = parse(alloc, &StrIterator{ .text = code }),
+            .ops = parse(alloc, &iter),
             .p = printer,
             .a = alloc,
         };

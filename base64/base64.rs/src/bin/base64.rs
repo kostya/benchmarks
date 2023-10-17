@@ -1,6 +1,6 @@
 use std::io::Write;
 use std::time::Instant;
-use std::process;
+use std::{process, str};
 use utils::notify;
 
 const STR_SIZE: usize = 131_072;

@@ -29,7 +29,6 @@ executables := \
 	target/json_go_gccgo \
 	target/json_iter_go \
 	target/json_goccy \
-	target/json_sonic \
 	target/json_boost_ptree_cpp_gcc \
 	target/json_boost_json_cpp_gcc \
 	target/json_rapid_cpp_gcc \
@@ -68,6 +67,8 @@ executables := \
 	target/json_zig \
 	target/json_yajl_gcc \
 	target/json_yajl_clang
+# TODO: enable later when sonic is fixed
+#	target/json_sonic \
 
 artifacts := $(executables) \
 	target/test.exe \
@@ -158,16 +159,16 @@ target/json_go_gccgo: test.go | $(gofmt)
 
 # NOTE: quite time consuming
 # TODO: switch to Debian package as soon as they update to 1.75.0
-# https://packages.debian.org/bookworm/libboost-dev
+# https://packages.debian.org/trixie/libboost-dev
 
 # Boost releases:
 # https://www.boost.org/users/download/
-BOOST_VERSION := boost_1_80_0
+BOOST_VERSION := boost_1_83_0
 boost = target/$(BOOST_VERSION)
 $(boost): | target
 	cd target && \
 	curl -L \
-	https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/$(BOOST_VERSION).tar.bz2 \
+	https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/$(BOOST_VERSION).tar.bz2 \
 	| tar -xj
 
 nlohmann_json := target/nlohmann_json
@@ -347,7 +348,7 @@ target/json_sonic: test_sonic.go | sonic
 json-fsharp/target/Release/net7.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
 	$(DOTNET_BUILD)
 
-target/json_zig: test.zig | target
+target/json_zig: test.zig | $(zig_fmt)
 	$(ZIG_BUILD)
 
 target/json_yajl_gcc: test_yajl.c | target libnotify

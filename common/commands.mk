@@ -2,10 +2,10 @@ COMMON_FLAGS := -Wall -Wextra -pedantic -Wcast-align -O3 -march=native -flto=aut
 GCC_FLAGS := $(COMMON_FLAGS)
 CLANG_FLAGS := $(COMMON_FLAGS)
 LIBNOTIFY_FLAGS := -I../common/libnotify ../common/libnotify/target/libnotify.a
-NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off --passC:"$(COMMON_FLAGS)" --passL:"-march=native -flto=auto"
+NIM_FLAGS := -d:danger --verbosity:0 --opt:speed --hints:off --passC:"$(COMMON_FLAGS)" --passL:"-march=native -flto=auto" --mm:markAndSweep
 RUSTC_FLAGS := -C target-cpu=native -C llvm-args=--x86-branches-within-32B-boundaries
 VALAC_FLAGS := --disable-assert -X -O3 -X -march=native -X -flto -X -Wa,-mbranches-within-32B-boundaries --pkg gio-2.0 --pkg posix
-V_FLAGS := -prod -no-bounds-checking -prealloc -cflags "$(COMMON_FLAGS)"
+V_FLAGS := -prod -no-bounds-checking -prealloc -cflags "-Wno-error=implicit-function-declaration $(COMMON_FLAGS)"
 V_VSL_CBLAS_FLAGS := $(V_FLAGS) -d cblas
 ZIG_FLAGS := -O ReleaseFast
 
@@ -74,7 +74,7 @@ RUBY_JIT_RUN =		$(XTIME) ruby --jit $^
 RUBY_RUN =		$(XTIME) ruby $^
 SCALA_RUN =		$(XTIME) scala -J-Xss100m -cp $^
 TCLSH_RUN =		$(XTIME) tclsh $^
-TRUBY_JVM_RUN =	$(XTIME) truffleruby --jvm $^
+TRUBY_JVM_RUN =		$(XTIME) truffleruby-jvm-bin $^
 TRUBY_NATIVE_RUN =	$(XTIME) truffleruby $^
 SCHEME_RUN =		$(XTIME) scheme --optimize-level 3 --program $^
 JULIA_RUN =		$(XTIME) julia --optimize=3 --check-bounds=no $^
@@ -85,7 +85,7 @@ NUGET_INSTALL = nuget install -ExcludeVersion -Verbosity quiet
 
 py_fmt := target/.py_fmt
 $(py_fmt): *.py | target
-	@pip install --user black
+	@pipx install black
 	black $^
 	@touch $@
 
@@ -123,6 +123,11 @@ $(hlint): *.hs | target
 rs_fmt := target/.rs_fmt
 $(rs_fmt): *.rs | target
 	rustfmt $^
+	@touch $@
+
+zig_fmt := target/.zig_fmt
+$(zig_fmt): *.zig | target
+	zig fmt $^
 	@touch $@
 
 .PHONY: libnotify

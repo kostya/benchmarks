@@ -175,7 +175,7 @@ fn new_si(s string) StringIterator {
 	}
 }
 
-fn (mut si StringIterator) next() byte {
+fn (mut si StringIterator) next() u8 {
 	if si.pos < si.code.len {
 		res := si.code[si.pos]
 		si.pos++

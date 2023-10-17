@@ -4,7 +4,7 @@ use std::io::Write;
 use std::{fs, process};
 use utils::notify;
 
-#[derive(PartialEq)]
+#[derive(Debug, PartialEq)]
 struct Coordinate {
     x: f64,
     y: f64,

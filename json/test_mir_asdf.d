@@ -1,7 +1,7 @@
 /+ dub.sdl:
 name "json_d_mir_asdf"
 targetPath "target"
-dependency "asdf" version="~>0.7.15"
+dependency "asdf" version="~>0.7.17"
 dependency "mir_common_json" path="mir-common-json"
 dflags "-mcpu=native" "-linkonce-templates" "-enable-cross-module-inlining" platform="ldc"
 +/

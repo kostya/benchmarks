@@ -10,11 +10,11 @@ panic = "abort"
 strip = true
 
 [dependencies]
-serde_json = "1.0.81"
+serde_json = "1.0.107"
 jq-rs = "0.4.1"
 
 [dependencies.serde]
-version = "1.0.137"
+version = "1.0.189"
 features = ["derive"]
 
 [dependencies.utils]

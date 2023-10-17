@@ -5,18 +5,21 @@ fn matInit(alloc: std.mem.Allocator, x: usize, y: usize) [][]f64 {
     var mat: [][]f64 = alloc.alloc([]f64, x) catch unreachable;
     for (mat) |*row| {
         row.* = alloc.alloc(f64, y) catch unreachable;
-        std.mem.set(f64, row.*, 0.0);
+        @memset(row.*, 0.0);
     }
     return mat;
 }
 
 fn matGen(alloc: std.mem.Allocator, n: usize, seed: f64) [][]f64 {
     var mat: [][]f64 = matInit(alloc, n, n);
-    const tmp = seed / @intToFloat(f64, n) / @intToFloat(f64, n);
+    const n_f = @as(f64, @floatFromInt(n));
+    const tmp = seed / n_f / n_f;
 
-    for (mat) |*row, i| {
-        for (row.*) |*x, j| {
-            x.* = tmp * (@intToFloat(f64, i) - @intToFloat(f64, j)) * (@intToFloat(f64, i) + @intToFloat(f64, j));
+    for (mat, 0..) |*row, i| {
+        for (row.*, 0..) |*x, j| {
+            const i_f = @as(f64, @floatFromInt(i));
+            const j_f = @as(f64, @floatFromInt(j));
+            x.* = tmp * (i_f - j_f) * (i_f + j_f);
         }
     }
 
@@ -67,7 +70,7 @@ fn calc(alloc: std.mem.Allocator, n: usize) f64 {
     const a = matGen(alloc, size, 1.0);
     const b = matGen(alloc, size, 2.0);
     const x = matMul(alloc, a, b);
-    const i = @intCast(usize, @divTrunc(size, 2));
+    const i = @as(usize, @intCast(@divTrunc(size, 2)));
     return x[i][i];
 }
 

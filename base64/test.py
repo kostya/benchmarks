@@ -12,7 +12,7 @@ def notify(msg):
 
 
 if __name__ == "__main__":
-    for (src, dst) in [("hello", "aGVsbG8="), ("world", "d29ybGQ=")]:
+    for src, dst in [("hello", "aGVsbG8="), ("world", "d29ybGQ=")]:
         encoded = base64.b64encode(src.encode()).decode()
         if encoded != dst:
             print("%s != %s" % (encoded, dst), file=sys.stderr)
