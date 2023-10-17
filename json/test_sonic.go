@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/bytedance/sonic"
 	"io/ioutil"
 	"log"
 	"net"
 	"os"
+
+	"github.com/bytedance/sonic"
 )
 
 type Coordinate struct {
