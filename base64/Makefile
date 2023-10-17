@@ -140,7 +140,7 @@ target/base64_vala_gcc: test.vala | target
 target/base64_vala_clang: test.vala | target
 	$(VALAC_CLANG_BUILD)
 
-target/base64_zig: test.zig | target
+target/base64_zig: test.zig | $(zig_fmt)
 	$(ZIG_BUILD)
 
 # Run

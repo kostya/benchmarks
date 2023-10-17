@@ -5,7 +5,7 @@ use std::io::Write;
 use std::{fs, process};
 use utils::notify;
 
-#[derive(Deserialize, PartialEq)]
+#[derive(Debug, Deserialize, PartialEq)]
 struct Coordinate {
     x: f64,
     y: f64,

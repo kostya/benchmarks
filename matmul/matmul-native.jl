@@ -1,3 +1,4 @@
+using LinearAlgebra
 using Sockets
 
 function matgen(n, seed)
@@ -33,8 +34,7 @@ if abspath(PROGRAM_FILE) == @__FILE__
         exit(1)
     end
 
-    # Assuming openblas64, may not work for all environments
-    num_threads = ccall((:openblas_get_num_threads64_, Base.libblas_name), Int32, ())
+    num_threads = LinearAlgebra.BLAS.get_num_threads()
     notify("Julia (threads: $(num_threads))\t$(getpid())")
 
     t = time()

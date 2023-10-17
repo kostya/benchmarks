@@ -33,13 +33,12 @@ fn readFile(alloc: std.mem.Allocator, filename: []const u8) ![]const u8 {
     return text;
 }
 
-fn calc(alloc: std.mem.Allocator, text: []const u8) Coordinate {
-    var stream = std.json.TokenStream.init(text);
-    const opts = std.json.ParseOptions{
-        .allocator = alloc,
+fn calc(alloc: std.mem.Allocator, text: []const u8) !Coordinate {
+    const parsed = try std.json.parseFromSlice(TestStruct, alloc, text, .{
         .ignore_unknown_fields = true,
-    };
-    const obj = std.json.parse(TestStruct, &stream, opts) catch unreachable;
+    });
+    defer parsed.deinit();
+    const obj = parsed.value;
 
     var x: f64 = 0.0;
     var y: f64 = 0.0;
@@ -49,7 +48,7 @@ fn calc(alloc: std.mem.Allocator, text: []const u8) Coordinate {
         y += item.y;
         z += item.z;
     }
-    const len = @intToFloat(f64, obj.coordinates.len);
+    const len = @as(f64, @floatFromInt(obj.coordinates.len));
     return Coordinate{ .x = x / len, .y = y / len, .z = z / len };
 }
 
@@ -64,7 +63,7 @@ pub fn main() !void {
         "{\"coordinates\":[{\"y\":0.5,\"x\":2.0,\"z\":0.25}]}",
     };
     for (vals) |v| {
-        const left = calc(alloc, v);
+        const left = try calc(alloc, v);
         if (!Coordinate.eql(left, right)) {
             std.debug.panic("{} != {}\n", .{ left, right });
         }
@@ -75,7 +74,7 @@ pub fn main() !void {
     const pid_str = try std.fmt.allocPrint(alloc, "Zig\t{d}", .{pid});
 
     notify(pid_str);
-    const results = calc(alloc, text);
+    const results = try calc(alloc, text);
     notify("stop");
 
     std.debug.print("{}\n", .{results});

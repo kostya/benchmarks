@@ -61,7 +61,7 @@ target/primes_v_gcc: primes.v | $(v_fmt)
 target/primes_v_clang: primes.v | $(v_fmt)
 	$(V_CLANG_BUILD)
 
-target/primes_zig: primes.zig | target
+target/primes_zig: primes.zig | $(zig_fmt)
 	$(ZIG_BUILD)
 
 target/primes_nim_clang: primes.nim | target

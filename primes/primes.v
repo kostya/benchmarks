@@ -85,7 +85,7 @@ fn generate_trie(l []usize) Node {
 			if ch !in head.children {
 				head.children[ch] = &Node{}
 			}
-			head = head.children[ch]
+			head = head.children[ch] or { panic('key not found') }
 		}
 		head.terminal = true
 	}
@@ -103,7 +103,7 @@ fn find(upper_bound usize, prefix int) []int {
 	str_prefix := prefix.str()
 	mut head := generate_trie(primes.to_list())
 	for ch in str_prefix.bytes() {
-		head = *head.children[ch]
+		head = *head.children[ch] or { panic('key not found') }
 	}
 	mut queue := []Pair{}
 	queue.prepend(Pair{head, str_prefix})

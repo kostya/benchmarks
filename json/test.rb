@@ -45,9 +45,9 @@ if __FILE__ == $PROGRAM_NAME
     if desc.include?('Native')
       engine = 'Ruby/truffleruby'
     elsif desc.include?('JVM')
-      engine = 'Ruby/truffleruby (--jvm)'
+      engine = 'Ruby/truffleruby (JVM)'
     end
-  elsif engine == 'ruby' && RubyVM::YJIT.enabled?
+  elsif engine == 'ruby' && RubyVM::MJIT.enabled?
     engine = 'Ruby (--jit)'
   end
 

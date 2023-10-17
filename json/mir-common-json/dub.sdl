@@ -1,3 +1,3 @@
 name "mir_common_json"
-dependency "mir-algorithm" version="~>3.13.3"
+dependency "mir-algorithm" version="~>3.21.0"
 targetPath "target"

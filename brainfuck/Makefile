@@ -152,7 +152,7 @@ target/bin_c_clang: bf.c | target libnotify
 target/bf.class: bf.java | target
 	$(JAVAC_BUILD)
 
-target/bin_zig: bf.zig | target
+target/bin_zig: bf.zig | $(zig_fmt)
 	$(ZIG_BUILD)
 
 target/bin_idris: bf.idr | target
