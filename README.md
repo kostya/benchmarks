@@ -175,6 +175,7 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 |          C/clang (aklomp) |  0.096<sub>±0.000</sub> |     2.07<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |   4.59<sub>±00.07</sub> |
 |            C/gcc (aklomp) |  0.099<sub>±0.000</sub> |     2.08<sub>±00.02</sub> + 0.00<sub>±00.00</sub> |   4.69<sub>±00.05</sub> |
 |                       PHP |  0.106<sub>±0.000</sub> |    18.51<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |   4.98<sub>±00.02</sub> |
+|                        Go |  0.306<sub>±0.006</sub> |     6.29<sub>±00.05</sub> + 4.62<sub>±00.35</sub> |  14.18<sub>±00.25</sub> |
 |                      Rust |  0.956<sub>±0.000</sub> |     2.31<sub>±00.03</sub> + 0.00<sub>±00.00</sub> |  39.05<sub>±00.21</sub> |
 |                   C/clang |  0.997<sub>±0.000</sub> |     1.98<sub>±00.07</sub> + 0.00<sub>±00.00</sub> |  36.78<sub>±00.05</sub> |
 |                    D/ldc2 |  1.095<sub>±0.009</sub> |     3.58<sub>±00.04</sub> + 3.41<sub>±00.00</sub> |  46.71<sub>±00.59</sub> |
