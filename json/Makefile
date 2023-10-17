@@ -66,9 +66,8 @@ executables := \
 	json-core/target/Release/net7.0/json-core \
 	target/json_zig \
 	target/json_yajl_gcc \
-	target/json_yajl_clang
-# TODO: enable later when sonic is fixed
-#	target/json_sonic \
+	target/json_yajl_clang \
+	target/json_sonic
 
 artifacts := $(executables) \
 	target/test.exe \
@@ -338,11 +337,8 @@ goccy:
 target/json_goccy: test_goccy.go | goccy
 	$(GO_BUILD)
 
-.PHONY: sonic
-sonic:
-	GO111MODULE=auto go get github.com/bytedance/sonic
-
-target/json_sonic: test_sonic.go | sonic
+target/json_sonic: test_sonic.go | $(gofmt)
+	go mod tidy
 	$(GO_BUILD)
 
 json-fsharp/target/Release/net7.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs

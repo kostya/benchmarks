@@ -1,6 +1,6 @@
 module base64
 
-go 1.21.1
+go 1.21.3
 
 require github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d
 
