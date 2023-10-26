@@ -27,7 +27,8 @@ all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[jruby][primes.rb] \
 	run[primes.lua] \
 	run[primes_jit.lua] \
-	run[primes.jl]
+	run[primes.jl] \
+	run[primes.rkt]
 
 
 # Build
@@ -122,6 +123,9 @@ run[primes_jit.lua]:: run[%]: %
 
 run[primes.jl]:: run[%]: % | $(julia_fmt)
 	$(JULIA_RUN)
+
+run[primes.rkt]:: run[%]: %
+	$(RACKET_RUN)
 
 # Utilities
 
