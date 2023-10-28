@@ -138,8 +138,7 @@
 (define PREFIX 32338)
 
 (module+ test
-  (verify)
-  (time (find UPPER-BOUND PREFIX)))
+  (verify))
 
 (module+ main
   (verify)

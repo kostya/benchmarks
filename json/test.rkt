@@ -39,15 +39,13 @@
     (file->bytes path)))
 
 (module+ test
-  (verify)
-  (define text (read-c "/tmp/1.json"))
-  (time (calc text)))
+  (verify))
 
 (module+ main
   (verify)
   (define text (read-c "/tmp/1.json"))
 
-  (notify (format "Racket (Staged)\t~s" (getpid)))
+  (notify (format "Racket\t~s" (getpid)))
   (define results (calc text))
   (notify "stop")
 
