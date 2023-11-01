@@ -45,7 +45,8 @@ all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[jruby][test.rb] \
 	run[test-xs.pl] \
 	run[test.tcl] \
-	run[test.php]
+	run[test.php] \
+	run[test.rkt]
 
 # Build
 
@@ -217,6 +218,9 @@ run[test.tcl]:: run[%]: %
 
 run[test.php]:: run[%]: %
 	$(PHP_RUN)
+
+run[test.rkt]:: run[%]: %
+	$(RACKET_RUN)
 
 # Utilities
 
