@@ -208,6 +208,7 @@ Testing base64 encoding/decoding of the large blob into the newly allocated buff
 |               Python/pypy |  3.580<sub>±0.001</sub> |   59.43<sub>±00.07</sub> + 31.58<sub>±00.10</sub> | 157.31<sub>±00.19</sub> |
 |                       Tcl |  3.624<sub>±0.003</sub> |     5.05<sub>±00.04</sub> + 0.00<sub>±00.00</sub> | 148.02<sub>±00.31</sub> |
 |                  Go/gccgo |  3.674<sub>±0.001</sub> |    24.81<sub>±00.12</sub> + 8.08<sub>±00.25</sub> | 166.56<sub>±00.23</sub> |
+|                    Racket |  3.903<sub>±0.036</sub> |   91.21<sub>±00.25</sub> + 19.37<sub>±00.50</sub> | 155.49<sub>±01.84</sub> |
 |    Ruby/truffleruby (JVM) |  3.967<sub>±0.036</sub> | 391.81<sub>±10.87</sub> + 298.87<sub>±50.79</sub> | 201.52<sub>±02.09</sub> |
 |                   C#/Mono |  4.775<sub>±0.001</sub> |   26.15<sub>±00.06</sub> + 18.66<sub>±00.07</sub> | 196.42<sub>±00.82</sub> |
 |                     Julia |  4.827<sub>±0.001</sub> |  266.49<sub>±00.12</sub> + 43.51<sub>±00.12</sub> | 181.97<sub>±00.63</sub> |
@@ -308,6 +309,7 @@ have some inaccuracies in number parsing:
 |                          Vala/clang |  3.326<sub>±0.012</sub> |   114.98<sub>±00.01</sub> + 980.04<sub>±00.01</sub> | 144.32<sub>±01.14</sub> |
 |                            Vala/gcc |  3.327<sub>±0.003</sub> |   114.98<sub>±00.08</sub> + 980.04<sub>±00.01</sub> | 143.32<sub>±01.85</sub> |
 |                               D/gdc |  3.612<sub>±0.016</sub> |   116.49<sub>±00.05</sub> + 681.07<sub>±00.10</sub> | 155.27<sub>±00.75</sub> |
+|                              Racket |  3.779<sub>±0.036</sub> |   220.86<sub>±00.19</sub> + 263.51<sub>±25.06</sub> | 156.87<sub>±01.63</sub> |
 |                               D/dmd |  4.453<sub>±0.006</sub> |   113.07<sub>±00.03</sub> + 680.43<sub>±00.05</sub> | 179.34<sub>±00.49</sub> |
 |                   Perl (JSON::Tiny) |  9.657<sub>±0.113</sub> |   126.14<sub>±00.09</sub> + 528.61<sub>±00.05</sub> | 423.18<sub>±04.31</sub> |
 |                    Ruby/truffleruby | 10.672<sub>±0.121</sub> |  466.47<sub>±23.50</sub> + 1900.14<sub>±89.47</sub> | 619.64<sub>±07.46</sub> |
@@ -400,6 +402,7 @@ Notes:
 |                Nim/gcc | 0.298<sub>±0.001</sub> |   1.74<sub>±00.05</sub> + 615.91<sub>±00.00</sub> |  11.25<sub>±00.07</sub> |
 |             Lua/luajit | 0.334<sub>±0.000</sub> |   2.58<sub>±00.06</sub> + 157.98<sub>±00.68</sub> |  13.11<sub>±00.13</sub> |
 |                  Julia | 0.675<sub>±0.002</sub> | 267.69<sub>±00.07</sub> + 342.19<sub>±00.25</sub> |  26.19<sub>±00.26</sub> |
+|                 Racket | 0.730<sub>±0.003</sub> | 102.20<sub>±00.12</sub> + 237.07<sub>±00.09</sub> |  29.01<sub>±00.31</sub> |
 |            Python/pypy | 0.793<sub>±0.003</sub> |  59.10<sub>±00.02</sub> + 249.23<sub>±00.08</sub> |  31.40<sub>±00.13</sub> |
 |       Ruby/truffleruby | 0.912<sub>±0.014</sub> | 225.50<sub>±01.85</sub> + 779.85<sub>±19.22</sub> |  61.61<sub>±01.20</sub> |
 | Ruby/truffleruby (JVM) | 1.359<sub>±0.037</sub> | 388.78<sub>±12.63</sub> + 567.15<sub>±29.85</sub> |  88.28<sub>±02.40</sub> |

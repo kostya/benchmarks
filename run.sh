@@ -3,7 +3,7 @@
 docker_build="docker build docker/ -t benchmarks"
 docker_alpine_build="docker build docker/ -t benchmarks-alpine -f docker/Dockerfile.alpine"
 
-docker_run="docker run -it --rm -v $PWD:/src benchmarks"
+docker_run="docker run --privileged -it --rm -v $PWD:/src benchmarks"
 docker_alpine_run="docker run -it --rm -v $PWD:/src benchmarks-alpine"
 
 build() {
