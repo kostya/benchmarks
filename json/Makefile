@@ -67,7 +67,9 @@ executables := \
 	target/json_zig \
 	target/json_yajl_gcc \
 	target/json_yajl_clang \
-	target/json_sonic
+	target/json_sonic \
+	target/json_rjson \
+	target/json_rjson_custom
 
 artifacts := $(executables) \
 	target/test.exe \
@@ -340,6 +342,12 @@ target/json_goccy: test_goccy.go | goccy
 
 target/json_sonic: test_sonic.go | $(gofmt)
 	go mod tidy
+	$(GO_BUILD)
+
+target/json_rjson: test_rjson.go
+	$(GO_BUILD)
+
+target/json_rjson_custom: test_rjson_custom.go
 	$(GO_BUILD)
 
 json-fsharp/target/Release/net7.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
