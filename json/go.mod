@@ -6,6 +6,7 @@ require (
 	github.com/bytedance/sonic v1.10.1
 	github.com/goccy/go-json v0.10.2
 	github.com/json-iterator/go v1.1.12
+	github.com/willabides/rjson v0.2.0
 )
 
 require (
