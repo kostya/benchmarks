@@ -250,7 +250,9 @@ have some inaccuracies in number parsing:
 |                     C++/g++ (gason) |  0.138<sub>±0.000</sub> |    113.13<sub>±00.05</sub> + 96.93<sub>±00.05</sub> |   5.50<sub>±00.02</sub> |
 |                 C++/g++ (RapidJSON) |  0.157<sub>±0.000</sub> |   113.11<sub>±00.02</sub> + 128.90<sub>±00.02</sub> |   6.70<sub>±00.06</sub> |
 |              Scala (jsoniter-scala) |  0.158<sub>±0.002</sub> |    291.61<sub>±00.13</sub> + 16.65<sub>±00.51</sub> |   8.50<sub>±00.11</sub> |
+|                   Go (rjson custom) |  0.196<sub>±0.000</sub> |     115.18<sub>±00.04</sub> + 0.00<sub>±00.00</sub> |   7.63<sub>±00.02</sub> |
 |                                 Zig |  0.221<sub>±0.000</sub> |    110.91<sub>±00.01</sub> + 39.02<sub>±00.03</sub> |   9.87<sub>±00.04</sub> |
+|                          Go (rjson) |  0.221<sub>±0.000</sub> |    115.23<sub>±00.07</sub> + 68.03<sub>±00.00</sub> |   8.68<sub>±00.02</sub> |
 |                          Go (Sonic) |  0.225<sub>±0.002</sub> |   123.66<sub>±00.07</sub> + 111.83<sub>±00.23</sub> |   9.79<sub>±00.15</sub> |
 |             C++/clang++ (RapidJSON) |  0.226<sub>±0.000</sub> |   112.42<sub>±00.03</sub> + 128.97<sub>±00.03</sub> |   9.46<sub>±00.06</sub> |
 |       D/ldc2 (Mir Amazon's Ion DOM) |  0.231<sub>±0.000</sub> |    112.87<sub>±00.02</sub> + 80.70<sub>±00.00</sub> |   9.62<sub>±00.05</sub> |
