@@ -14,6 +14,7 @@ executables := \
 	target/json_pull_cr \
 	target/json_schema_cr \
 	$(json-rs-targets) \
+	$(GO_TARGETS) \
 	target/json_d \
 	target/json_d_gdc \
 	target/json_d_ldc \
@@ -153,10 +154,7 @@ target/jsony_nim_gcc: test_jsony.nim | target jsony
 target/jsony_nim_clang: test_jsony.nim | target jsony
 	$(NIM_CLANG_BUILD)
 
-target/json_go: test.go | $(gofmt)
-	$(GO_BUILD)
-
-target/json_go_gccgo: test.go | $(gofmt)
+target/json_go_gccgo: go/json $(GO_SOURCE) | gofmt
 	$(GCC_GO_BUILD)
 
 # NOTE: quite time consuming
@@ -326,30 +324,6 @@ target/json_vala_gcc: test.vala | target
 target/json_vala_clang: test.vala | target
 	$(VALAC_CLANG_BUILD) --pkg json-glib-1.0
 
-.PHONY: json-iterator
-json-iterator:
-	GO111MODULE=auto go get github.com/json-iterator/go
-
-target/json_iter_go: test_jsoniter.go | json-iterator
-	$(GO_BUILD)
-
-.PHONY: goccy
-goccy:
-	GO111MODULE=auto go get github.com/goccy/go-json
-
-target/json_goccy: test_goccy.go | goccy
-	$(GO_BUILD)
-
-target/json_sonic: test_sonic.go | $(gofmt)
-	go mod tidy
-	$(GO_BUILD)
-
-target/json_rjson: test_rjson.go
-	$(GO_BUILD)
-
-target/json_rjson_custom: test_rjson_custom.go
-	$(GO_BUILD)
-
 json-fsharp/target/Release/net7.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
 	$(DOTNET_BUILD)
 
@@ -451,7 +425,7 @@ run[test.rkt]:: run[%]: %
 # Utilities
 
 .PHONY: clean
-clean:
+clean: clean-go
 	$(MAKE) -C json-scala clean
 	$(MAKE) -C json-java clean
 	$(MAKE) -C json-hs clean

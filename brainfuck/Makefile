@@ -18,6 +18,7 @@ executables := \
 	target/bin_hs_marray \
 	target/bin_ocaml \
 	target/bin_go \
+	$(GO_TARGETS) \
 	target/bin_go_gccgo \
 	target/bin_vala_gcc \
 	target/bin_vala_clang \
@@ -103,10 +104,7 @@ fsharp/target/Release/net7.0/brainfuck: fsharp/brainfuck.fsproj | target
 target/bf2-kt.jar: bf2.kt | target
 	$(KOTLINC_BUILD)
 
-target/bin_go: bf.go | target
-	$(GO_BUILD)
-
-target/bin_go_gccgo: bf.go | target
+target/bin_go_gccgo: go/bf $(GO_SOURCE) | gofmt
 	$(GCC_GO_BUILD)
 
 target/bin_d: bf.d | $(dfmt)
@@ -257,7 +255,7 @@ run[bf.php]:: run[%]: %
 # Utilities
 
 .PHONY: clean
-clean:
+clean: clean-go
 	$(DOTNET_CLEAN) fsharp/brainfuck.fsproj
 	-rm -rf target
 	-rm -rf zig-cache

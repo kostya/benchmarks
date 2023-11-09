@@ -10,7 +10,8 @@ executables := \
 	target/primes_v_clang \
 	target/primes_zig \
 	target/primes_nim_clang \
-	target/primes_nim_gcc
+	target/primes_nim_gcc \
+	$(GO_TARGETS)
 
 artifacts := $(executables) \
 	target/primes_scala.jar \
@@ -130,6 +131,6 @@ run[primes.rkt]:: run[%]: %
 # Utilities
 
 .PHONY: clean
-clean:
+clean: clean-go
 	-rm -rf target
 	-rm -rf zig-cache
