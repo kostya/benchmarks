@@ -3,8 +3,7 @@ include ../common/commands.mk
 
 executables := \
 	target/base64_cr \
-	target/base64_go \
-	target/base64_go_base64x \
+	$(GO_TARGETS) \
 	target/base64_go_gccgo \
 	target/base64_cpp_gcc_crypto \
 	target/base64_cpp_clang_crypto \
@@ -56,14 +55,7 @@ build: $(artifacts)
 target/base64_cr: test.cr | target
 	$(CRYSTAL_BUILD)
 
-target/base64_go: test.go | $(gofmt)
-	$(GO_BUILD)
-
-target/base64_go_base64x: test-base64x.go | $(gofmt)
-	go mod tidy
-	$(GO_BUILD)
-
-target/base64_go_gccgo: test.go | $(gofmt)
+target/base64_go_gccgo: go/base64 $(GO_SOURCE) | gofmt
 	$(GCC_GO_BUILD)
 
 target/base64_cpp_gcc_crypto: test-crypto.cpp | target libnotify
@@ -225,7 +217,7 @@ run[test.rkt]:: run[%]: %
 # Utilities
 
 .PHONY: clean
-clean:
+clean: clean-go
 	if [ -d $(aklomp-base64-dir) ]; then \
 		$(MAKE) -C $(aklomp-base64-dir) clean; \
 	fi

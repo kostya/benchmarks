@@ -1,12 +1,8 @@
 package main
 
 import (
+	"benchmark"
 	"fmt"
-	"io/ioutil"
-	"net"
-	"os"
-	"runtime"
-	"log"
 )
 
 const (
@@ -77,8 +73,8 @@ func (t *Tape) Get() int {
 }
 
 type Printer struct {
-	sum1 int
-	sum2 int
+	sum1  int
+	sum2  int
 	quiet bool
 }
 
@@ -99,6 +95,12 @@ func (p *Printer) GetChecksum() int {
 	return (p.sum2 << 8) | p.sum1
 }
 
+func (p *Printer) Reset(quiet bool) {
+	p.sum1 = 0
+	p.sum2 = 0
+	p.quiet = quiet
+}
+
 type Program struct {
 	Ops []Op
 }
@@ -107,7 +109,7 @@ func NewProgram(code string) *Program {
 	return &Program{Ops: parse(NewStringIterator(code))}
 }
 
-func (p *Program) Run(printer *Printer) {
+func (p *Program) Run(printer benchmark.Printer) {
 	_run(p.Ops, NewTape(), printer)
 }
 
@@ -138,10 +140,9 @@ func parse(si *StringIterator) []Op {
 		}
 		res = append(res, op)
 	}
-	return res
 }
 
-func _run(program []Op, tape *Tape, p *Printer) {
+func _run(program []Op, tape *Tape, p benchmark.Printer) {
 	for i := 0; i < len(program); i++ {
 		switch program[i].O {
 		case INC:
@@ -158,45 +159,11 @@ func _run(program []Op, tape *Tape, p *Printer) {
 	}
 }
 
-func notify(msg string) {
-	conn, err := net.Dial("tcp", "localhost:9001")
-	if err == nil {
-		fmt.Fprintf(conn, msg)
-		conn.Close()
-	}
-}
-
-func verify() {
-	text := `++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
----.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.`
-	p_left := NewPrinter(true)
-	NewProgram(text).Run(p_left)
-	left := p_left.GetChecksum()
-
-	p_right := NewPrinter(true)
-	for _, c := range "Hello World!\n" {
-		p_right.Print(int(c))
-	}
-	right := p_right.GetChecksum()
-	if left != right {
-		log.Fatalf("%+v != %+v\n", left, right)
-	}
-}
-
 func main() {
-	verify()
-	code, err := ioutil.ReadFile(os.Args[1])
+	err := benchmark.Run(func(s string, printer benchmark.Printer) {
+		NewProgram(s).Run(printer)
+	}, NewPrinter(true))
 	if err != nil {
-		panic(fmt.Sprintf("%v", err))
-	}
-	text := string(code)
-	p := NewPrinter(os.Getenv("QUIET") != "")
-
-	notify(fmt.Sprintf("%s\t%d", runtime.Compiler, os.Getpid()))
-	NewProgram(text).Run(p)
-	notify("stop")
-
-	if p.quiet {
-		fmt.Printf("Output checksum: %d\n", p.GetChecksum())
+		panic(err)
 	}
 }
