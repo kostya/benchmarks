@@ -17,7 +17,7 @@ DOTNET_BUILD =		dotnet build --nologo -v q $< -c Release
 DUB_BUILD =		dub -q build --build=release-nobounds --compiler=ldc2 --single $^
 GCC_BUILD =		gcc $(GCC_FLAGS) -std=c2x -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++23 -o $@ $^ $(LIBNOTIFY_FLAGS)
-GCC_GO_BUILD =	go build -C $< -compiler gccgo -gccgoflags="$(GCC_FLAGS)" -o $(abspath $@) .
+GCC_GO_BUILD =	go  build  -C $< -compiler gccgo -buildvcs=false -gccgoflags="$(GCC_FLAGS)" -o $(abspath $@) .
 GDC_BUILD =		gdc -o $@ -O3 -frelease -finline -fbounds-check=off $^
 GHC_BUILD =		ghc -v0 -O2 -fforce-recomp -Wall $^ -o $@ -outputdir $(@D)
 JAVAC_BUILD =		javac --release 21 -Xlint:unchecked -d $(@D) $^
@@ -101,12 +101,12 @@ gofmt:
 GO_SOURCE = $(wildcard go/* go/*/*.go ../common/go/*)
 
 go/go.sum: $(filter-out go/go.sum, $(GO_SOURCE))
-	cd go && go mod tidy && go get -u ./... && touch $@
+	cd go && go mod tidy && go get -u ./... && touch go.sum
 
 GO_TARGETS := $(patsubst %/,%/target/benchmark, $(shell ls -d go/*/))
 
 $(GO_TARGETS): $(GO_SOURCE) | gofmt
-	go build -C $(dir $(@D)) -ldflags="-s -w" -o $(abspath $@) .
+	go build -C $(dir $(@D)) -buildvcs=false -ldflags="-s -w" -o $(abspath $@) .
 
 .PHONY: clean-go
 clean-go:
