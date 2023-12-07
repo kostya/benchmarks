@@ -17,7 +17,6 @@ executables := \
 	target/bin_cr \
 	target/bin_hs_marray \
 	target/bin_ocaml \
-	target/bin_go \
 	$(GO_TARGETS) \
 	target/bin_go_gccgo \
 	target/bin_vala_gcc \
@@ -27,8 +26,8 @@ executables := \
 	target/bin_v_clang \
 	target/bin_c_gcc \
 	target/bin_c_clang \
-	fsharp/target/Release/net7.0/brainfuck \
-	target/Release/net7.0/brainfuck \
+	fsharp/target/Release/net8.0/brainfuck \
+	target/Release/net8.0/brainfuck \
 	target/bin_zig \
 	target/bin_idris
 
@@ -93,12 +92,12 @@ target/bf_staged_scala.jar: bf-staged.scala | target
 target/bf.exe: bf.cs | target
 	$(MCS_BUILD)
 
-.PHONY: target/Release/net7.0/brainfuck
-target/Release/net7.0/brainfuck: brainfuck.csproj | target
+.PHONY: target/Release/net8.0/brainfuck
+target/Release/net8.0/brainfuck: brainfuck.csproj | target
 	$(DOTNET_BUILD)
 
-.PHONY: fsharp/target/Release/net7.0/brainfuck
-fsharp/target/Release/net7.0/brainfuck: fsharp/brainfuck.fsproj | target
+.PHONY: fsharp/target/Release/net8.0/brainfuck
+fsharp/target/Release/net8.0/brainfuck: fsharp/brainfuck.fsproj | target
 	$(DOTNET_BUILD)
 
 target/bf2-kt.jar: bf2.kt | target

@@ -132,14 +132,14 @@ RUN curl -L \
 ENV PATH="/root/bin/scala3-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=21
+ARG JDK=21.0.1
 RUN curl \
-    https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz \
+    https://download.java.net/java/GA/jdk21.0.1/415e3f918a1f4062a0074a2794853d0d/12/GPL/openjdk-21.0.1_linux-x64_bin.tar.gz \
     | tar -xz
 ENV PATH="/root/bin/jdk-$JDK/bin:${PATH}"
 
 # https://github.com/oracle/truffleruby/releases
-ARG TRUBY=23.1.0
+ARG TRUBY=23.1.1
 # Native Standalone
 RUN curl -L \
     https://github.com/oracle/truffleruby/releases/download/graal-$TRUBY/truffleruby-$TRUBY-linux-amd64.tar.gz \
@@ -163,9 +163,9 @@ RUN curl -L \
 ENV PATH="/root/bin/$CRYSTAL/bin:${PATH}"
 
 # https://github.com/ldc-developers/ldc/releases
-ARG LDC=ldc2-1.34.0-linux-x86_64
+ARG LDC=ldc2-1.35.0-linux-x86_64
 RUN curl -L \
-    https://github.com/ldc-developers/ldc/releases/download/v1.34.0/$LDC.tar.xz \
+    https://github.com/ldc-developers/ldc/releases/download/v1.35.0/$LDC.tar.xz \
     | tar -xJ
 ENV PATH="/root/bin/$LDC/bin/:${PATH}"
 
@@ -178,19 +178,19 @@ ENV PATH="/root/bin/$NIM/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN curl \
-    https://downloads.dlang.org/releases/2.x/2.105.2/dmd.2.105.2.linux.tar.xz \
+    https://downloads.dlang.org/releases/2.x/2.106.0/dmd.2.106.0.linux.tar.xz \
     | tar -xJ
 ENV PATH="/root/bin/dmd2/linux/bin64/:${PATH}"
 
 # https://www.jruby.org/download
-ARG JRUBY=9.4.3.0
+ARG JRUBY=9.4.5.0
 RUN curl \
     https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
     | tar -xz \
     && ln -s /root/bin/jruby-$JRUBY/bin/jruby /root/bin/jruby
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.9.3
+ARG JULIA=julia-1.9.4
 RUN curl \
     https://julialang-s3.julialang.org/bin/linux/x64/1.9/$JULIA-linux-x86_64.tar.gz \
     | tar -xz
@@ -203,9 +203,9 @@ RUN curl -L \
     | bash -s -- --prefix /root/
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.9-RELEASE-ubuntu22.04
+ARG SWIFT=swift-5.9.1-RELEASE-ubuntu22.04
 RUN curl -L \
-    https://download.swift.org/swift-5.9-release/ubuntu2204/swift-5.9-RELEASE/swift-5.9-RELEASE-ubuntu22.04.tar.gz \
+    https://download.swift.org/swift-5.9.1-release/ubuntu2204/swift-5.9.1-RELEASE/swift-5.9.1-RELEASE-ubuntu22.04.tar.gz \
     | tar -xz \
     && ln -s /root/bin/$SWIFT/usr/bin/swift /root/bin/swift \
     && ln -s /root/bin/$SWIFT/usr/bin/swiftc /root/bin/swiftc
@@ -217,7 +217,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org \
 ENV PATH="/root/.ghcup/bin/:${PATH}"
 
 # https://www.haskell.org/ghc/
-ARG GHC_VER=9.4.7
+ARG GHC_VER=9.4.8
 RUN ghcup install ghc $GHC_VER && ghcup set ghc $GHC_VER
 
 # Shared packages for all Haskell code
@@ -228,14 +228,14 @@ ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
 
 # https://github.com/dotnet/core/tree/main/release-notes
 RUN mkdir dotnet && curl \
-    https://download.visualstudio.microsoft.com/download/pr/c4b5aad8-a416-436b-927c-3ebd5a9793ad/38efd1b64c8edc7c5f13699dd0be54e1/dotnet-sdk-7.0.402-linux-x64.tar.gz \
+    https://download.visualstudio.microsoft.com/download/pr/5226a5fa-8c0b-474f-b79a-8984ad7c5beb/3113ccbf789c9fd29972835f0f334b7a/dotnet-sdk-8.0.100-linux-x64.tar.gz \
     | tar -xz -C dotnet
 ENV PATH="/root/bin/dotnet:${PATH}"
 ENV DOTNET_ROOT="/root/bin/dotnet"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v20.8.1
+ARG NODE=v21.3.0
 RUN curl \
     https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
     | tar -xJ
@@ -243,7 +243,7 @@ ENV PATH="/root/bin/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN curl -L \
-    https://go.dev/dl/go1.21.3.linux-amd64.tar.gz \
+    https://go.dev/dl/go1.21.4.linux-amd64.tar.gz \
     | tar -xz
 ENV PATH="/root/bin/go/bin/:${PATH}"
 
@@ -257,7 +257,7 @@ RUN opam init --disable-sandboxing -n --root=/root/bin/opam --compiler=ocaml-bas
 ENV PATH="/root/bin/opam/ocaml-base-compiler.$OCAML/bin/:${PATH}"
 
 # https://kotlinlang.org/docs/command-line.html
-ARG KOTLIN=1.9.10
+ARG KOTLIN=1.9.21
 RUN curl -L -o kotlin-compiler-$KOTLIN.zip \
     https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
     && unzip kotlin-compiler-$KOTLIN.zip \
@@ -265,7 +265,7 @@ RUN curl -L -o kotlin-compiler-$KOTLIN.zip \
 ENV PATH="/root/bin/kotlinc/bin/:${PATH}"
 
 # https://download.racket-lang.org/
-ARG RACKET=8.10
+ARG RACKET=8.11.1
 RUN curl -L -o racket-$RACKET-x86_64-linux-cs.sh \
     https://download.racket-lang.org/installers/$RACKET/racket-$RACKET-x86_64-linux-cs.sh \
     && sh racket-$RACKET-x86_64-linux-cs.sh --unix-style --dest /root/ \
@@ -280,7 +280,7 @@ ENV PATH="/root/bin/$ZIG/:${PATH}"
 
 # Using more stable LuaJIT, used in Alpine and other distros
 # https://github.com/openresty/luajit2/tags
-RUN export VERSION=2.1-20231006 \
+RUN export VERSION=2.1-20231117 \
     && curl -L \
     https://github.com/openresty/luajit2/archive/refs/tags/v$VERSION.tar.gz \
     | tar -xz \
@@ -290,7 +290,7 @@ RUN export VERSION=2.1-20231006 \
 ENV PATH="/root/bin/luajit/bin:${PATH}"
 
 # https://github.com/vlang/v/releases
-ARG VLANG=weekly.2023.41
+ARG VLANG=weekly.2023.48
 RUN curl -Lo v_linux.zip \
     https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
     && unzip -q v_linux.zip \

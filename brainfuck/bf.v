@@ -1,12 +1,10 @@
 import os
 import net
 
-const (
-	inc   = 0
-	move  = 1
-	print = 2
-	loop  = 3
-)
+const inc = 0
+const move = 1
+const print = 2
+const loop = 3
 
 struct Op {
 	o    int
