@@ -1,9 +1,7 @@
 import net
 
-const (
-	upper_bound = usize(5_000_000)
-	prefix      = 32_338
-)
+const upper_bound = usize(5_000_000)
+const prefix = 32_338
 
 struct Node {
 mut:

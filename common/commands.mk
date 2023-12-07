@@ -41,7 +41,7 @@ ZIG_BUILD =		zig build-exe $(ZIG_FLAGS) -lc -femit-bin=$@ $^
 IDRIS_BUILD =		idris2 -p network $^ --output-dir $(@D) -o $(@F)
 
 define OCAML_BUILD =
-cp $^ target && cd target && ocamlopt -O3 -unsafe unix.cmxa $^ -o $(@F)
+cp $^ target && cd target && ocamlopt -O3 -unsafe -I +unix unix.cmxa $^ -o $(@F)
 endef
 
 define CARGO_BUILD =

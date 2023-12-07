@@ -15,12 +15,12 @@ fn matgen(n int, seed f64) &la.Matrix[f64] {
 			c++
 		}
 	}
-	return la.matrix_raw(n, n, a)
+	return la.Matrix.raw(n, n, a)
 }
 
-[inline]
+@[inline]
 fn matmul(a &la.Matrix[f64], b &la.Matrix[f64]) &la.Matrix[f64] {
-	mut c := la.new_matrix[f64](a.m, b.n)
+	mut c := la.Matrix.new[f64](a.m, b.n)
 	la.matrix_matrix_mul(mut c, 1.0, a, b)
 	return c
 }

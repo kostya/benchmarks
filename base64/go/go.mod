@@ -12,7 +12,7 @@ require (
 	github.com/chenzhuoyu/iasm v0.9.1 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.6 // indirect
 	golang.org/x/arch v0.6.0 // indirect
-	golang.org/x/sys v0.14.0 // indirect
+	golang.org/x/sys v0.15.0 // indirect
 )
 
 replace benchmarks/common => ../../common/go

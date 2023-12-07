@@ -26,10 +26,7 @@ executables := \
 	target/packedjson_nim_clang \
 	target/jsony_nim_gcc \
 	target/jsony_nim_clang \
-	target/json_go \
 	target/json_go_gccgo \
-	target/json_iter_go \
-	target/json_goccy \
 	target/json_boost_ptree_cpp_gcc \
 	target/json_boost_json_cpp_gcc \
 	target/json_rapid_cpp_gcc \
@@ -62,15 +59,12 @@ executables := \
 	target/json_v_clang \
 	target/json_vala_gcc \
 	target/json_vala_clang \
-	json-fsharp/target/Release/net7.0/json-fsharp \
-	target/Release/net7.0/json \
-	json-core/target/Release/net7.0/json-core \
+	json-fsharp/target/Release/net8.0/json-fsharp \
+	target/Release/net8.0/json \
+	json-core/target/Release/net8.0/json-core \
 	target/json_zig \
 	target/json_yajl_gcc \
-	target/json_yajl_clang \
-	target/json_sonic \
-	target/json_rjson \
-	target/json_rjson_custom
+	target/json_yajl_clang
 
 artifacts := $(executables) \
 	target/test.exe \
@@ -292,12 +286,12 @@ $(newtonsoft_json): | target
 target/test.exe: test.cs | $(newtonsoft_json)
 	$(MCS_BUILD) -r:$(newtonsoft_json)
 
-.PHONY: target/Release/net7.0/json
-target/Release/net7.0/json: json.csproj | target
+.PHONY: target/Release/net8.0/json
+target/Release/net8.0/json: json.csproj | target
 	$(DOTNET_BUILD)
 
-.PHONY: json-core/target/Release/net7.0/json-core
-json-core/target/Release/net7.0/json-core: json-core/json-core.csproj
+.PHONY: json-core/target/Release/net8.0/json-core
+json-core/target/Release/net8.0/json-core: json-core/json-core.csproj
 	$(DOTNET_BUILD)
 
 .PHONY: target/json_hs
@@ -324,7 +318,7 @@ target/json_vala_gcc: test.vala | target
 target/json_vala_clang: test.vala | target
 	$(VALAC_CLANG_BUILD) --pkg json-glib-1.0
 
-json-fsharp/target/Release/net7.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
+json-fsharp/target/Release/net8.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
 	$(DOTNET_BUILD)
 
 target/json_zig: test.zig | $(zig_fmt)
