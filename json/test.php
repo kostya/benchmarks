@@ -28,10 +28,9 @@ function calc($text) {
     $z = 0;
 
     for ($i = 0; $i < $len; $i++) {
-        $coord = $coordinates[$i];
-        $x += $coord['x'];
-        $y += $coord['y'];
-        $z += $coord['z'];
+        $x += $coordinates[$i]['x'];
+        $y += $coordinates[$i]['y'];
+        $z += $coordinates[$i]['z'];
     }
 
     return new Coordinate($x / $len, $y / $len, $z / $len);
