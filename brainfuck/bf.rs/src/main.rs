@@ -78,33 +78,33 @@ impl Printer<'_> {
     }
 }
 
-fn run(program: &[Op], tape: &mut Tape, p: &mut Printer) {
+fn run(program: &[Op], tape: &mut Tape, printer: &mut Printer) {
     for op in program {
         match op {
             Op::Dec => tape.inc(-1),
             Op::Inc => tape.inc(1),
             Op::Prev => tape.prev(),
             Op::Next => tape.next(),
-            Op::Print => p.print(tape.current_cell()),
+            Op::Print => printer.print(tape.current_cell()),
             Op::Loop(program) => {
                 while tape.current_cell() > 0 {
-                    run(program, tape, p);
+                    run(program, tape, printer);
                 }
             }
         }
     }
 }
 
-fn parse(it: &mut impl Iterator<Item = u8>) -> Box<[Op]> {
+fn parse(iter: &mut impl Iterator<Item = u8>) -> Box<[Op]> {
     let mut buf = vec![];
-    while let Some(c) = it.next() {
-        buf.push(match c {
+    while let Some(byte) = iter.next() {
+        buf.push(match byte {
             b'-' => Op::Dec,
             b'+' => Op::Inc,
             b'<' => Op::Prev,
             b'>' => Op::Next,
             b'.' => Op::Print,
-            b'[' => Op::Loop(parse(it)),
+            b'[' => Op::Loop(parse(iter)),
             b']' => break,
             _ => continue,
         });
@@ -117,33 +117,33 @@ struct Program {
 }
 
 impl Program {
-    fn new(code: &[u8]) -> Self {
+    fn new(code: impl IntoIterator<Item = u8>) -> Self {
         Self {
-            ops: parse(&mut code.iter().copied()),
+            ops: parse(&mut code.into_iter()),
         }
     }
 
-    fn run(&self, p: &mut Printer) {
+    fn run(&self, printer: &mut Printer) {
         let mut tape = Tape::new();
-        run(&self.ops, &mut tape, p);
+        run(&self.ops, &mut tape, printer);
     }
 }
 
 fn verify() {
-    const SOURCE: &[u8] = b"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
-                            ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
+    const SOURCE: &str = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>\
+                          ---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
     let output = io::stdout();
     let left = {
-        let mut p = Printer::new(&output, true);
-        Program::new(SOURCE).run(&mut p);
-        p.checksum()
+        let mut printer = Printer::new(&output, true);
+        Program::new(SOURCE.bytes()).run(&mut printer);
+        printer.checksum()
     };
     let right = {
-        let mut p = Printer::new(&output, true);
-        for &c in b"Hello World!\n" {
-            p.print(c as i32);
+        let mut printer = Printer::new(&output, true);
+        for &byte in b"Hello World!\n" {
+            printer.print(byte as i32);
         }
-        p.checksum()
+        printer.checksum()
     };
     assert_eq!(left, right);
 }
@@ -152,13 +152,13 @@ fn main() {
     verify();
     let source = fs::read(env::args().nth(1).unwrap()).unwrap_or_default();
     let output = io::stdout();
-    let mut p = Printer::new(&output, env::var("QUIET").is_ok());
+    let mut printer = Printer::new(&output, env::var("QUIET").is_ok());
 
     notify!("Rust\t{pid}", pid = process::id());
-    Program::new(&source).run(&mut p);
+    Program::new(source).run(&mut printer);
     notify!("stop");
 
-    if p.quiet {
-        println!("Output checksum: {}", p.checksum());
+    if printer.quiet {
+        println!("Output checksum: {}", printer.checksum());
     }
 }
