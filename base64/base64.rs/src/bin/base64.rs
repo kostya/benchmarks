@@ -1,5 +1,4 @@
 use base64::Engine;
-use std::io::Write;
 use std::time::Instant;
 use std::{process, str};
 use utils::notify;
@@ -10,17 +9,27 @@ const TRIES: usize = 8192;
 fn main() {
     let base64_engine = base64::engine::general_purpose::STANDARD;
 
-    for [src, dst] in &[["hello", "aGVsbG8="], ["world", "d29ybGQ="]] {
-        let encoded = base64_engine.encode(src);
+    for (src, dst) in [(b"hello", b"aGVsbG8="), (b"world", b"d29ybGQ=")] {
+        let mut encoded = [0u8; 8];
+        base64_engine.encode_slice(src, &mut encoded).unwrap();
         assert_eq!(encoded, *dst);
 
-        let decoded = String::from_utf8(base64_engine.decode(dst).unwrap()).unwrap();
+        let mut decoded = [0u8; 5];
+        base64_engine
+            .decode_slice_unchecked(dst, &mut decoded)
+            .unwrap();
         assert_eq!(decoded, *src);
     }
 
-    let input = vec![b'a'; STR_SIZE];
-    let output = base64_engine.encode(&input);
-    let str3 = base64_engine.decode(&output).unwrap();
+    let input = [b'a'; STR_SIZE];
+
+    let mut output = String::with_capacity(STR_SIZE * 4);
+    base64_engine.encode_string(&input, &mut output);
+
+    let mut str3 = [0u8; STR_SIZE];
+    base64_engine
+        .decode_slice_unchecked(&output, &mut str3)
+        .unwrap();
 
     notify!("Rust\t{pid}", pid = process::id());
 
@@ -43,12 +52,12 @@ fn main() {
     println!(
         "encode {input}... to {output}...: {sum_encoded}, {t_encoded}",
         input = str::from_utf8(&input[..4]).unwrap(),
-        output = &output[..4]
+        output = &output[..4],
     );
 
     println!(
         "decode {output}... to {str3}...: {sum_decoded}, {t_decoded}",
         output = &output[..4],
-        str3 = str::from_utf8(&str3[..4]).unwrap()
+        str3 = str::from_utf8(&str3[..4]).unwrap(),
     );
 }
