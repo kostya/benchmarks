@@ -187,7 +187,7 @@ pub fn main() !void {
     const alloc = arena.allocator();
 
     verify(alloc);
-    var p = Printer.init(.{ .quiet = std.os.getenv("QUIET") != null });
+    var p = Printer.init(.{ .quiet = std.posix.getenv("QUIET") != null });
 
     var arg_iter = std.process.args();
     _ = arg_iter.skip(); // Skip binary name
