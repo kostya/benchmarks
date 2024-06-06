@@ -66,12 +66,13 @@ executables := \
 	target/json_yajl_gcc \
 	target/json_yajl_clang
 
+# TODO: Enable Julia test after https://github.com/quinnj/JSON3.jl/issues/276 fixed
 artifacts := $(executables) \
 	target/test.exe \
 	json-scala/target/application.jar
 
+#	run[test.jl] 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
-	run[test.jl] \
 	run[test_yajl.rb] \
 	run[test.pl] \
 	run[test-xs.pl] \

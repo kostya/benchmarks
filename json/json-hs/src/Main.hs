@@ -30,13 +30,10 @@ data Res = Res !Double !Double !Double !Int
 
 notify :: String -> IO ()
 notify msg = withSocketsDo $ do
-  addr <- resolve
+  addr:_ <- getAddrInfo (Just defaultHints) (Just "localhost") (Just "9001")
   catch (_notify addr) (\(_ :: IOException) -> return ())
   where
     writeMsg s = sendAll s $ C.pack msg
-    resolve = do
-      let hints = defaultHints { addrSocketType = Stream }
-      head <$> getAddrInfo (Just hints) (Just "localhost") (Just "9001")
     _notify addr = bracket (openSocket addr) close $ \sock -> do
       connect sock $ addrAddress addr
       writeMsg sock

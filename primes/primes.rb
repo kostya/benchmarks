@@ -143,7 +143,7 @@ if __FILE__ == $PROGRAM_NAME
     elsif desc.include?('JVM')
       engine = 'Ruby/truffleruby (JVM)'
     end
-  elsif engine == 'ruby' && RubyVM::MJIT.enabled?
+  elsif engine == 'ruby' && RubyVM::RJIT.enabled?
     engine = 'Ruby (--jit)'
   end
 

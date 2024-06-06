@@ -19,7 +19,6 @@ RUN apt-get update && apt-get install -y \
     gccgo-13 \
     gdc-13 \
     git \
-    lbzip2 \
     libblas-dev \
     libc++-16-dev \
     libc++abi-16-dev \
@@ -101,8 +100,8 @@ WORKDIR /root/bin
 RUN rm -rf Idris2-$IDRIS
 
 # https://www.ruby-lang.org/en/downloads/
-ARG RUBY=ruby-3.2.2
-RUN curl https://cache.ruby-lang.org/pub/ruby/3.2/$RUBY.tar.gz | tar -xz
+ARG RUBY=ruby-3.3.1
+RUN curl https://cache.ruby-lang.org/pub/ruby/3.3/$RUBY.tar.gz | tar -xz
 WORKDIR /root/bin/$RUBY
 RUN CC=clang ./configure --prefix=/root/bin/ruby && make -j && make install
 ENV PATH="/root/bin/ruby/bin:${PATH}"
@@ -117,7 +116,7 @@ RUN curl -L \
 ENV PATH="/root/bin/mlton-$MLTON-1.amd64-linux-glibc2.31/bin/:${PATH}"
 
 # https://pypy.org/download.html
-ARG PYPY=pypy3.10-v7.3.13-linux64
+ARG PYPY=pypy3.10-v7.3.16-linux64
 RUN curl \
     https://downloads.python.org/pypy/$PYPY.tar.bz2 \
     | tar -xj \
@@ -125,21 +124,21 @@ RUN curl \
 ENV PATH="/root/bin/$PYPY/bin:${PATH}"
 
 # https://www.scala-lang.org/download/
-ARG SCALA=3.3.1
+ARG SCALA=3.4.2
 RUN curl -L \
     https://github.com/lampepfl/dotty/releases/download/$SCALA/scala3-$SCALA.tar.gz \
     | tar -xz
 ENV PATH="/root/bin/scala3-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=21.0.1
+ARG JDK=22.0.1
 RUN curl \
-    https://download.java.net/java/GA/jdk21.0.1/415e3f918a1f4062a0074a2794853d0d/12/GPL/openjdk-21.0.1_linux-x64_bin.tar.gz \
+    https://download.java.net/java/GA/jdk22.0.1/c7ec1332f7bb44aeba2eb341ae18aca4/8/GPL/openjdk-22.0.1_linux-x64_bin.tar.gz \
     | tar -xz
 ENV PATH="/root/bin/jdk-$JDK/bin:${PATH}"
 
 # https://github.com/oracle/truffleruby/releases
-ARG TRUBY=23.1.1
+ARG TRUBY=24.0.1
 # Native Standalone
 RUN curl -L \
     https://github.com/oracle/truffleruby/releases/download/graal-$TRUBY/truffleruby-$TRUBY-linux-amd64.tar.gz \
@@ -156,21 +155,21 @@ RUN mv /root/bin/truffleruby-$TRUBY-linux-amd64 /root/bin/truffleruby-jvm \
     && ln -s /root/bin/truffleruby-jvm/bin/truffleruby /root/bin/truffleruby-jvm-bin
 
 # https://github.com/crystal-lang/crystal/releases
-ARG CRYSTAL=crystal-1.10.1-1
+ARG CRYSTAL=crystal-1.12.1-1
 RUN curl -L \
-    https://github.com/crystal-lang/crystal/releases/download/1.10.1/$CRYSTAL-linux-x86_64.tar.gz \
+    https://github.com/crystal-lang/crystal/releases/download/1.12.1/$CRYSTAL-linux-x86_64.tar.gz \
     | tar -xz
 ENV PATH="/root/bin/$CRYSTAL/bin:${PATH}"
 
 # https://github.com/ldc-developers/ldc/releases
-ARG LDC=ldc2-1.35.0-linux-x86_64
+ARG LDC=ldc2-1.38.0-linux-x86_64
 RUN curl -L \
-    https://github.com/ldc-developers/ldc/releases/download/v1.35.0/$LDC.tar.xz \
+    https://github.com/ldc-developers/ldc/releases/download/v1.38.0/$LDC.tar.xz \
     | tar -xJ
 ENV PATH="/root/bin/$LDC/bin/:${PATH}"
 
 # https://nim-lang.org/install_unix.html
-ARG NIM=nim-2.0.0
+ARG NIM=nim-2.0.4
 RUN curl \
     https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
     | tar -xJ
@@ -178,34 +177,34 @@ ENV PATH="/root/bin/$NIM/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN curl \
-    https://downloads.dlang.org/releases/2.x/2.106.0/dmd.2.106.0.linux.tar.xz \
+    https://downloads.dlang.org/releases/2.x/2.108.1/dmd.2.108.1.linux.tar.xz \
     | tar -xJ
 ENV PATH="/root/bin/dmd2/linux/bin64/:${PATH}"
 
 # https://www.jruby.org/download
-ARG JRUBY=9.4.5.0
+ARG JRUBY=9.4.7.0
 RUN curl \
     https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
     | tar -xz \
     && ln -s /root/bin/jruby-$JRUBY/bin/jruby /root/bin/jruby
 
 # https://julialang.org/downloads/
-ARG JULIA=julia-1.9.4
+ARG JULIA=julia-1.10.3
 RUN curl \
-    https://julialang-s3.julialang.org/bin/linux/x64/1.9/$JULIA-linux-x86_64.tar.gz \
+    https://julialang-s3.julialang.org/bin/linux/x64/1.10/$JULIA-linux-x86_64.tar.gz \
     | tar -xz
 ENV PATH="/root/bin/$JULIA/bin/:${PATH}"
 
 # https://github.com/clojure/brew-install/releases
-ARG CLOJURE=1.11.1.1413
+ARG CLOJURE=1.11.3.1463
 RUN curl -L \
     https://github.com/clojure/brew-install/releases/download/$CLOJURE/linux-install.sh \
     | bash -s -- --prefix /root/
 
 # https://swift.org/download/
-ARG SWIFT=swift-5.9.1-RELEASE-ubuntu22.04
+ARG SWIFT=swift-5.10-RELEASE-ubuntu22.04
 RUN curl -L \
-    https://download.swift.org/swift-5.9.1-release/ubuntu2204/swift-5.9.1-RELEASE/swift-5.9.1-RELEASE-ubuntu22.04.tar.gz \
+    https://download.swift.org/swift-5.10-release/ubuntu2204/swift-5.10-RELEASE/swift-5.10-RELEASE-ubuntu22.04.tar.gz \
     | tar -xz \
     && ln -s /root/bin/$SWIFT/usr/bin/swift /root/bin/swift \
     && ln -s /root/bin/$SWIFT/usr/bin/swiftc /root/bin/swiftc
@@ -216,26 +215,16 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org \
     | BOOTSTRAP_HASKELL_NONINTERACTIVE="y" sh
 ENV PATH="/root/.ghcup/bin/:${PATH}"
 
-# https://www.haskell.org/ghc/
-ARG GHC_VER=9.4.8
-RUN ghcup install ghc $GHC_VER && ghcup set ghc $GHC_VER
-
-# Shared packages for all Haskell code
-RUN cabal update \
-    && cabal install network raw-strings-qq --lib \
-    && cabal install hlint
-ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
-
 # https://github.com/dotnet/core/tree/main/release-notes
 RUN mkdir dotnet && curl \
-    https://download.visualstudio.microsoft.com/download/pr/5226a5fa-8c0b-474f-b79a-8984ad7c5beb/3113ccbf789c9fd29972835f0f334b7a/dotnet-sdk-8.0.100-linux-x64.tar.gz \
+    https://download.visualstudio.microsoft.com/download/pr/4a252cd9-d7b7-41bf-a7f0-b2b10b45c068/1aff08f401d0e3980ac29ccba44efb29/dotnet-sdk-8.0.300-linux-x64.tar.gz \
     | tar -xz -C dotnet
 ENV PATH="/root/bin/dotnet:${PATH}"
 ENV DOTNET_ROOT="/root/bin/dotnet"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v21.3.0
+ARG NODE=v22.2.0
 RUN curl \
     https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
     | tar -xJ
@@ -243,7 +232,7 @@ ENV PATH="/root/bin/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN curl -L \
-    https://go.dev/dl/go1.21.4.linux-amd64.tar.gz \
+    https://go.dev/dl/go1.22.3.linux-amd64.tar.gz \
     | tar -xz
 ENV PATH="/root/bin/go/bin/:${PATH}"
 
@@ -252,12 +241,12 @@ ENV CARGO_HOME="/root/bin/.cargo" PATH="/root/bin/.cargo/bin:${PATH}"
 RUN curl https://sh.rustup.rs | sh -s -- -y
 
 # https://ocaml.org/releases/
-ARG OCAML=5.1.0
+ARG OCAML=5.2.0
 RUN opam init --disable-sandboxing -n --root=/root/bin/opam --compiler=ocaml-base-compiler.$OCAML
 ENV PATH="/root/bin/opam/ocaml-base-compiler.$OCAML/bin/:${PATH}"
 
 # https://kotlinlang.org/docs/command-line.html
-ARG KOTLIN=1.9.21
+ARG KOTLIN=2.0.0
 RUN curl -L -o kotlin-compiler-$KOTLIN.zip \
     https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
     && unzip kotlin-compiler-$KOTLIN.zip \
@@ -265,22 +254,22 @@ RUN curl -L -o kotlin-compiler-$KOTLIN.zip \
 ENV PATH="/root/bin/kotlinc/bin/:${PATH}"
 
 # https://download.racket-lang.org/
-ARG RACKET=8.11.1
+ARG RACKET=8.13
 RUN curl -L -o racket-$RACKET-x86_64-linux-cs.sh \
     https://download.racket-lang.org/installers/$RACKET/racket-$RACKET-x86_64-linux-cs.sh \
     && sh racket-$RACKET-x86_64-linux-cs.sh --unix-style --dest /root/ \
     && rm racket-$RACKET-x86_64-linux-cs.sh
 
 # https://ziglang.org/download
-ARG ZIG=zig-linux-x86_64-0.11.0
+ARG ZIG=zig-linux-x86_64-0.12.0
 RUN curl \
-    https://ziglang.org/download/0.11.0/$ZIG.tar.xz \
+    https://ziglang.org/download/0.12.0/$ZIG.tar.xz \
     | tar -xJ
 ENV PATH="/root/bin/$ZIG/:${PATH}"
 
 # Using more stable LuaJIT, used in Alpine and other distros
 # https://github.com/openresty/luajit2/tags
-RUN export VERSION=2.1-20231117 \
+RUN export VERSION=2.1-20240314 \
     && curl -L \
     https://github.com/openresty/luajit2/archive/refs/tags/v$VERSION.tar.gz \
     | tar -xz \
@@ -290,7 +279,7 @@ RUN export VERSION=2.1-20231117 \
 ENV PATH="/root/bin/luajit/bin:${PATH}"
 
 # https://github.com/vlang/v/releases
-ARG VLANG=weekly.2023.48
+ARG VLANG=0.4.6
 RUN curl -Lo v_linux.zip \
     https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
     && unzip -q v_linux.zip \
@@ -300,6 +289,16 @@ ENV PATH="/root/bin/v/:${PATH}"
 # https://github.com/vlang/vsl and dependencies
 # TODO - Install using specific VSL version as ARG
 RUN v install vsl
+
+# https://www.haskell.org/ghc/
+ARG GHC_VER=9.8.2
+RUN ghcup install ghc $GHC_VER && ghcup set ghc $GHC_VER
+
+# Shared packages for all Haskell code
+RUN cabal update \
+    && cabal install network raw-strings-qq unix bytestring array --lib \
+    && cabal install hlint
+ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
 
 ARG SCRIPTS_VER=unknown
 COPY *.rb ./
