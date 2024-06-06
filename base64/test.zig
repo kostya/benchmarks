@@ -45,7 +45,7 @@ pub fn main() !void {
     const str3 = try alloc.alloc(u8, decodeSize);
     b64.Decoder.decode(str3, str2) catch unreachable;
 
-    var buffer = try alloc.alloc(u8, @max(encodeSize, decodeSize));
+    const buffer = try alloc.alloc(u8, @max(encodeSize, decodeSize));
     var fb = std.heap.FixedBufferAllocator.init(buffer);
     const fb_alloc = fb.allocator();
 
@@ -58,7 +58,7 @@ pub fn main() !void {
     var s_encoded: usize = 0;
     const t1 = std.time.milliTimestamp();
     while (i < TRIES) : (i += 1) {
-        var str21 = fb_alloc.alloc(u8, encodeSize) catch unreachable;
+        const str21 = fb_alloc.alloc(u8, encodeSize) catch unreachable;
         s_encoded += b64.Encoder.encode(str21, str1).len;
         fb_alloc.free(str21);
     }
@@ -68,7 +68,7 @@ pub fn main() !void {
     var s_decoded: usize = 0;
     const t2 = std.time.milliTimestamp();
     while (i < TRIES) : (i += 1) {
-        var str31 = fb_alloc.alloc(u8, decodeSize) catch unreachable;
+        const str31 = fb_alloc.alloc(u8, decodeSize) catch unreachable;
         b64.Decoder.decode(str31, str2) catch unreachable;
         s_decoded += str31.len;
         fb_alloc.free(str31);

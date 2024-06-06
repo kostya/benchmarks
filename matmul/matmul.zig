@@ -2,7 +2,7 @@ const std = @import("std");
 const unistd = @cImport(@cInclude("unistd.h"));
 
 fn matInit(alloc: std.mem.Allocator, x: usize, y: usize) [][]f64 {
-    var mat: [][]f64 = alloc.alloc([]f64, x) catch unreachable;
+    const mat: [][]f64 = alloc.alloc([]f64, x) catch unreachable;
     for (mat) |*row| {
         row.* = alloc.alloc(f64, y) catch unreachable;
         @memset(row.*, 0.0);
@@ -11,7 +11,7 @@ fn matInit(alloc: std.mem.Allocator, x: usize, y: usize) [][]f64 {
 }
 
 fn matGen(alloc: std.mem.Allocator, n: usize, seed: f64) [][]f64 {
-    var mat: [][]f64 = matInit(alloc, n, n);
+    const mat: [][]f64 = matInit(alloc, n, n);
     const n_f = @as(f64, @floatFromInt(n));
     const tmp = seed / n_f / n_f;
 
@@ -87,7 +87,7 @@ pub fn main() !void {
 
     const left = calc(alloc, 101);
     const right = -18.67;
-    if (@fabs(left - right) > 0.1) {
+    if (@abs(left - right) > 0.1) {
         std.debug.panic("{d} != {d}\n", .{ left, right });
     }
 

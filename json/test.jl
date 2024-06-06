@@ -1,8 +1,6 @@
-using Pkg
-Pkg.add("JSON3")
-
-import JSON3
-using Sockets
+import Pkg;
+Pkg.add("JSON3");
+using JSON3, Sockets
 
 struct Coordinate
     x::Float64

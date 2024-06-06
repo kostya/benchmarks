@@ -1,4 +1,4 @@
-use v5.32;
+use v5.38;
 use warnings;
 no feature qw(indirect);
 use feature qw(signatures);
@@ -82,33 +82,31 @@ my $LOOP  = 4;
 sub parse ($source, $i = 0) {
     my $repr = [];
     for (; $i < @{$source}; $i++) {
-        given ($source->[$i]) {
-            when ('+') { push @$repr, Op->new($INC,   1); }
-            when ('-') { push @$repr, Op->new($INC,  -1); }
-            when ('>') { push @$repr, Op->new($MOVE,  1); }
-            when ('<') { push @$repr, Op->new($MOVE, -1); }
-            when ('.') { push @$repr, Op->new($PRINT); }
-            when ('[') {
-                my ($parsed_loop, $new_i) = parse($source, $i + 1);
-                $i = $new_i;
-                push @$repr, Op->new($LOOP, $parsed_loop);
-            }
-            when (']') { last; }
+	my $c = $source->[$i];
+        if ($c eq '+') { push @$repr, Op->new($INC,   1); }
+        elsif ($c eq '-') { push @$repr, Op->new($INC,  -1); }
+        elsif ($c eq '>') { push @$repr, Op->new($MOVE,  1); }
+        elsif ($c eq '<') { push @$repr, Op->new($MOVE, -1); }
+        elsif ($c eq '.') { push @$repr, Op->new($PRINT); }
+        elsif ($c eq '[') {
+            my ($parsed_loop, $new_i) = parse($source, $i + 1);
+            $i = $new_i;
+            push @$repr, Op->new($LOOP, $parsed_loop);
         }
+        elsif ($c eq ']') { last; }
     }
     return ($repr, $i);
 }
 
 sub run ($parsed, $tape, $p) {
     foreach my $op (@$parsed) {
-        CORE::given ($op->{op}) {
-            when ($INC)   { $tape->inc($op->{val}); }
-            when ($MOVE)  { $tape->move($op->{val}); }
-            when ($PRINT) { $p->print($tape->get()); }
-            when ($LOOP)  {
-                while ($tape->get() > 0) {
-                    run($op->{val}, $tape, $p);
-                }
+	my $op_type = $op->{op};
+        if ($op_type == $INC)   { $tape->inc($op->{val}); }
+        elsif ($op_type == $MOVE)  { $tape->move($op->{val}); }
+        elsif ($op_type == $PRINT) { $p->print($tape->get()); }
+        elsif ($op_type == $LOOP)  {
+            while ($tape->get() > 0) {
+                run($op->{val}, $tape, $p);
             }
         }
     }
@@ -145,11 +143,11 @@ sub verify {
 
 if ($0 eq __FILE__) {
     verify;
-    open (FH, "<", shift) or die $!;
+    open (my $fh, "<", shift) or die $!;
     undef $/;
     $| = 1;
-    read FH, my $text, -s FH;
-    close(FH);
+    read $fh, my $text, -s $fh;
+    close($fh);
     my $p = Printer->new($ENV{'QUIET'});
 
     notify("Perl\t". $$);
