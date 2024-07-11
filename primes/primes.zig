@@ -20,7 +20,7 @@ const Sieve = struct {
     prime: std.DynamicBitSet,
 
     fn init(alloc: std.mem.Allocator, limit: i32) Sieve {
-        var self = Sieve{
+        const self = Sieve{
             .limit = limit,
             .prime = std.DynamicBitSet.initEmpty(alloc, @as(usize, @intCast(limit + 1))) catch unreachable,
         };
@@ -97,14 +97,14 @@ const Sieve = struct {
 };
 
 fn generateTrie(alloc: std.mem.Allocator, l: std.ArrayList(i32)) *Node {
-    var root: *Node = alloc.create(Node) catch unreachable;
+    const root: *Node = alloc.create(Node) catch unreachable;
     root.* = Node.init(alloc);
     for (l.items) |el| {
         var head = root;
         const str_el = std.fmt.allocPrint(alloc, "{}", .{el}) catch unreachable;
         for (str_el) |ch| {
             if (!head.children.contains(ch)) {
-                var node = alloc.create(Node) catch unreachable;
+                const node = alloc.create(Node) catch unreachable;
                 node.* = Node.init(alloc);
                 head.children.put(ch, node) catch unreachable;
             }
@@ -149,7 +149,7 @@ fn find(alloc: std.mem.Allocator, upper_bound: i32, prefix: i32) std.ArrayList(i
         var it = top.children.iterator();
         while (it.next()) |kv| {
             const str = std.fmt.allocPrint(alloc, "{s}{c}", .{ current_prefix, kv.key_ptr.* }) catch unreachable;
-            var elem = alloc.create(Q.Node) catch unreachable;
+            const elem = alloc.create(Q.Node) catch unreachable;
             elem.* = Q.Node{ .data = Pair{ .node = kv.value_ptr.*, .str = str } };
             queue.prepend(elem);
         }
