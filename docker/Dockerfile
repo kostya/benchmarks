@@ -1,13 +1,14 @@
-FROM debian:testing
+FROM debian:testing-20240701-slim
 
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 \
     DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y dirmngr ca-certificates gnupg \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dirmngr ca-certificates gnupg \
     && gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/mono-official-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
     && echo "deb [signed-by=/usr/share/keyrings/mono-official-archive-keyring.gpg] https://download.mono-project.com/repo/debian stable-buster main" > /etc/apt/sources.list.d/mono-official-stable.list
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     chezscheme \
     clang-16 \
@@ -93,7 +94,7 @@ ARG IDRIS=0.6.0
 RUN curl https://www.idris-lang.org/idris2-src/idris2-$IDRIS.tgz | tar -xz
 WORKDIR /root/bin/Idris2-$IDRIS
 ENV PATH="/root/bin/idris2/bin:${PATH}"
-ENV LD_LIBRARY_PATH="/root/bin/idris2/lib:$LD_LIBRARY_PATH"
+ENV LD_LIBRARY_PATH="/root/bin/idris2/lib"
 RUN PREFIX=/root/bin/idris2 make bootstrap SCHEME=chezscheme \
     && PREFIX=/root/bin/idris2 make install
 WORKDIR /root/bin
