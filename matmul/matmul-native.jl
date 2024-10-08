@@ -7,11 +7,11 @@ function matgen(n, seed)
 end
 
 function calc(n)
-    n = round(Int, n / 2) * 2
-    a = matgen(n, 1.0)
-    b = matgen(n, 2.0)
+    n = n ÷ 2 * 2
+    a = matgen(n, 1)
+    b = matgen(n, 2)
     c = a * b
-    c[Int(n / 2)+1, Int(n / 2)+1]
+    c[n÷2+1, n÷2+1]
 end
 
 function notify(msg)
