@@ -16,7 +16,7 @@ target/libnotify.so: target/libnotify.o
 	$(CC) -shared $^ -o $@
 
 target/lua_libnotify.so: target/libnotify.o target/lua.o
-	$(CC) -shared $^ -o $@
+	$(CC) -shared -llua5.4 $^ -o $@
 
 target:
 	mkdir -p $@
