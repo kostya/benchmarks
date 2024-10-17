@@ -1,7 +1,9 @@
 #[macro_export]
 macro_rules! notify {
     ($($arg:tt)*) => {{
-        if let Ok(mut stream) = std::net::TcpStream::connect(("127.0.0.1", 9001)) {
+        use std::net::{Ipv4Addr, TcpStream};
+
+        if let Ok(mut stream) = TcpStream::connect((Ipv4Addr::LOCALHOST, 9001)) {
             _ = write!(stream, $($arg)*);
         }
     }};
