@@ -27,6 +27,7 @@ MCS_BUILD =		mcs -debug- -optimize+ -out:$@ $^
 MLTON_BUILD =		mlton -output $@ $^
 NIM_CLANG_BUILD =	nim c -o:$@ --cc:clang $(NIM_FLAGS) $^
 NIM_GCC_BUILD =	nim c -o:$@ --cc:gcc $(NIM_FLAGS) $^
+ODIN_BUILD =	odin build $^ -file -out:$@ -o:speed -no-bounds-check
 RUSTC_BUILD =		rustc $(RUSTC_FLAGS) -C opt-level=3 -C lto -C codegen-units=1 -C panic=abort -C strip=symbols -o $@ $^
 RUST_CLIPPY =		clippy-driver -o $@.clippy $^
 SWIFTC_BUILD =		swiftc -parse-as-library -O -lto=llvm-full -cross-module-optimization $(LIBNOTIFY_FLAGS) -import-objc-header ../common/libnotify/libnotify.h -o $@ $^
