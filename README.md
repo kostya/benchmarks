@@ -305,6 +305,7 @@ have some inaccuracies in number parsing:
 |        C++/g++ (Boost.PropertyTree) |  2.515<sub>±0.009</sub> |  113.40<sub>±00.06</sub> + 1439.88<sub>±00.00</sub> | 107.37<sub>±01.05</sub> |
 |                           Rust (jq) |  2.597<sub>±0.006</sub> |   113.50<sub>±00.06</sub> + 903.47<sub>±01.19</sub> | 108.44<sub>±00.97</sub> |
 |    C++/clang++ (Boost.PropertyTree) |  2.625<sub>±0.007</sub> |  195.14<sub>±00.06</sub> + 1232.62<sub>±00.00</sub> | 112.22<sub>±00.99</sub> |
+|                                Odin |  2.824<sub>±0.003</sub> |    111.44<sub>±00.06</sub> + 20.00<sub>±00.00</sub> | 117.93<sub>±00.75</sub> |
 |                          Ruby/jruby |  2.869<sub>±0.026</sub> |   469.56<sub>±03.09</sub> + 890.16<sub>±23.07</sub> | 146.96<sub>±02.03</sub> |
 |                            Vala/gcc |  3.089<sub>±0.009</sub> |   115.31<sub>±00.06</sub> + 980.00<sub>±00.00</sub> | 131.83<sub>±00.56</sub> |
 |                          Vala/clang |  3.094<sub>±0.006</sub> |   115.38<sub>±00.00</sub> + 980.00<sub>±00.00</sub> | 132.11<sub>±00.59</sub> |
@@ -447,6 +448,7 @@ Base Docker image: Debian GNU/Linux trixie/sid
 | Nim              | 2.2.0                           |
 | Node.js          | v23.1.0                         |
 | OCaml            | 5.2.0                           |
+| Odin             | dev-2024-11-nightly             |
 | PHP              | 8.2.24                          |
 | Perl             | v5.40.0                         |
 | Python           | 3.12.6                          |
