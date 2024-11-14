@@ -21,7 +21,7 @@ fn new_op(op int, v int) Op {
 
 fn new_op_loop(op int, l []Op) Op {
 	return Op{
-		o: op
+		o:    op
 		loop: l
 	}
 }
@@ -34,7 +34,7 @@ mut:
 
 fn new_tape() Tape {
 	t := Tape{
-		pos: 0
+		pos:  0
 		tape: [0]
 	}
 	return t
@@ -64,8 +64,8 @@ mut:
 
 fn new_printer(quiet bool) Printer {
 	return Printer{
-		sum1: 0
-		sum2: 0
+		sum1:  0
+		sum2:  0
 		quiet: quiet
 	}
 }
@@ -169,7 +169,7 @@ mut:
 fn new_si(s string) StringIterator {
 	return StringIterator{
 		code: s
-		pos: 0
+		pos:  0
 	}
 }
 

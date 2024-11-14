@@ -10,7 +10,7 @@ panic = "abort"
 strip = true
 
 [dependencies]
-base64 = "0.21.5"
+base64 = "0.22.1"
 
 [dependencies.utils]
 path = "../../common/rust"

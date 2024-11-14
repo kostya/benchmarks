@@ -2,4 +2,4 @@
 #
 # lines starting with # are ignored
 #
-com.dslplatform:dsl-json-java8:1.10.0
+com.dslplatform:dsl-json:2.0.2

@@ -16,88 +16,8 @@ static constexpr auto COMPILER = "g++";
 static const auto UPPER_BOUND = 5'000'000;
 static const auto PREFIX = 32'338;
 
-#if __has_include(<memory_resource>)
-# include <memory_resource>
+#include <memory_resource>
 namespace pmr = std::pmr;
-#else
-# include <memory>
-# include <cstdlib>
-// TODO: use std::pmr::monotonic_buffer_resource and std::pmr::unordered_map when available for both GCC and Clang
-namespace pmr {
-  struct monotonic_buffer_resource {
-    monotonic_buffer_resource() = default;
-    monotonic_buffer_resource(const monotonic_buffer_resource &) = delete;
-    monotonic_buffer_resource& operator=(const monotonic_buffer_resource &) = delete;
-
-    ~monotonic_buffer_resource() {
-      void *storage = first_storage[0];
-      while (storage) {
-        void *next = *static_cast<void **>(storage);
-        std::free(storage);
-        storage = next;
-      }
-    }
-
-    void *allocate(std::size_t size, std::size_t alignment) {
-      auto *ret = std::align(alignment, size, ptr, space);
-      if (!ret) {
-        std::size_t new_space = size + alignment + sizeof(void *);
-        new_space = std::max(space, MINIMUM_BUFFER_SIZE);
-        void *new_ptr = std::aligned_alloc(alignof(void *), new_space);
-        if (!new_ptr) {
-          throw std::bad_alloc();
-        }
-        ptr = new_ptr;
-        space = new_space;
-        *next_storage = ptr;
-        next_storage = static_cast<void **>(ptr);
-        *next_storage = nullptr;
-        ptr = static_cast<char *>(ptr) + sizeof(void *);
-        ret = std::align(alignment, size, ptr, space);
-      }
-
-      ptr = static_cast<char *>(ptr) + size;
-      space -= size;
-      return ret;
-    }
-
-  private:
-    static constexpr std::size_t MINIMUM_BUFFER_SIZE = 4 * 1024;
-
-    void *ptr = nullptr;
-    std::size_t space = 0;
-    void *first_storage[1] = {nullptr};
-    void **next_storage = first_storage;
-  };
-
-  template<class T>
-  struct allocator_adapter
-  {
-    typedef T value_type;
-
-    allocator_adapter(monotonic_buffer_resource *mbr)
-    : mbr(mbr)
-    {}
-
-    template<class U>
-    constexpr allocator_adapter(const allocator_adapter<U> &other) noexcept
-    : mbr(other.mbr)
-    {}
-
-    T *allocate(std::size_t n) {
-      return static_cast<T*>(mbr->allocate(sizeof(T) * n, alignof(T)));
-    }
-
-    void deallocate(T*, std::size_t) noexcept {
-    }
-
-    monotonic_buffer_resource *mbr;
-  };
-
-  template<class Key, class T>
-  using unordered_map = std::unordered_map<Key, T, std::hash<Key>, std::equal_to<Key>, allocator_adapter<std::pair<const Key, T>>>;
-}
-#endif
 
 struct Node {
   using Map = pmr::unordered_map<char, Node *>;

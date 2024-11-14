@@ -1,3 +1,5 @@
+//> using dep org.scala-lang::scala3-staging::3.5.2
+
 import scala.quoted.*
 import scala.collection.mutable.ArrayBuffer
 
