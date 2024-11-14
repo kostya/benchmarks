@@ -152,20 +152,6 @@ target/jsony_nim_clang: test_jsony.nim | target jsony
 target/json_go_gccgo: go/json $(GO_SOURCE) | gofmt
 	$(GCC_GO_BUILD)
 
-# NOTE: quite time consuming
-# TODO: switch to Debian package as soon as they update to 1.75.0
-# https://packages.debian.org/trixie/libboost-dev
-
-# Boost releases:
-# https://www.boost.org/users/download/
-BOOST_VERSION := boost_1_83_0
-boost = target/$(BOOST_VERSION)
-$(boost): | target
-	cd target && \
-	curl -L \
-	https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/$(BOOST_VERSION).tar.bz2 \
-	| tar -xj
-
 nlohmann_json := target/nlohmann_json
 $(nlohmann_json): | target
 	$(GIT_CLONE) "https://github.com/nlohmann/json.git" $@
@@ -189,95 +175,95 @@ $(daw_json_link_all): | target
 	$(GIT_CLONE) "https://github.com/beached/header_libraries.git" $@/header_libraries
 	$(GIT_CLONE) "https://github.com/beached/utf_range.git" $@/utf_range
 
-target/json_boost_ptree_cpp_gcc: test_boost_ptree.cpp | $(boost) libnotify
-	$(GCC_CPP_BUILD) -I$(boost)
+target/json_boost_ptree_cpp_gcc: test_boost_ptree.cpp | libnotify
+	$(GCC_CPP_BUILD)
 
-target/json_boost_json_cpp_gcc: test_boost_json.cpp | $(boost) libnotify
-	$(GCC_CPP_BUILD) -I$(boost)
+target/json_boost_json_cpp_gcc: test_boost_json.cpp | libnotify
+	$(GCC_CPP_BUILD)
 
-target/json_rapid_cpp_gcc: test_rapid.cpp | $(rapidjson-dir) $(boost) libnotify
-	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost)
+target/json_rapid_cpp_gcc: test_rapid.cpp | $(rapidjson-dir) libnotify
+	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include
 
-target/json_rapid_cpp_precised_gcc: test_rapid.cpp | $(rapidjson-dir) $(boost) libnotify
-	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost) -DPRECISED
+target/json_rapid_cpp_precised_gcc: test_rapid.cpp | $(rapidjson-dir) libnotify
+	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -DPRECISED
 
-target/json_rapid_sax_cpp_gcc: test_rapid_sax.cpp | $(rapidjson-dir) $(boost) libnotify
-	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost)
+target/json_rapid_sax_cpp_gcc: test_rapid_sax.cpp | $(rapidjson-dir) libnotify
+	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include
 
-target/json_rapid_sax_cpp_precised_gcc: test_rapid_sax.cpp | $(rapidjson-dir) $(boost) libnotify
-	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost) -DPRECISED
+target/json_rapid_sax_cpp_precised_gcc: test_rapid_sax.cpp | $(rapidjson-dir) libnotify
+	$(GCC_CPP_BUILD) -I$(rapidjson-dir)/include -DPRECISED
 
-target/json_gason_cpp_gcc: test_gason.cpp | $(gason-dir) $(boost) libnotify
-	$(GCC_CPP_BUILD) -I$(gason-dir)/src -I$(boost) $(gason-dir)/src/gason.cpp
+target/json_gason_cpp_gcc: test_gason.cpp | $(gason-dir) libnotify
+	$(GCC_CPP_BUILD) -I$(gason-dir)/src $(gason-dir)/src/gason.cpp
 
-target/json_libjson_cpp_gcc: test_libjson.cpp | $(boost) target libnotify
-	$(GCC_CPP_BUILD) -I$(boost) -ljson-c
+target/json_libjson_cpp_gcc: test_libjson.cpp | target libnotify
+	$(GCC_CPP_BUILD) -ljson-c
 
-target/json_simdjson_cpp_gcc: test_simdjson.cpp | $(simdjson-dir) $(boost) libnotify
+target/json_simdjson_cpp_gcc: test_simdjson.cpp | $(simdjson-dir) libnotify
 	$(GCC_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \
-		-I$(simdjson-dir)/singleheader/ -I$(boost)
+		-I$(simdjson-dir)/singleheader/
 
-target/json_simdjson_dom_cpp_gcc: test_simdjson_dom.cpp | $(simdjson-dir) $(boost) libnotify
+target/json_simdjson_dom_cpp_gcc: test_simdjson_dom.cpp | $(simdjson-dir) libnotify
 	$(GCC_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \
-		-I$(simdjson-dir)/singleheader/ -I$(boost)
+		-I$(simdjson-dir)/singleheader/
 
-target/json_dawjsonlink_cpp_gcc: test_dawjsonlink.cpp | $(daw_json_link_all) $(boost) libnotify
+target/json_dawjsonlink_cpp_gcc: test_dawjsonlink.cpp | $(daw_json_link_all) libnotify
 	$(GCC_CPP_BUILD) -I$(daw_json_link_all)/daw_json_link/include \
 		-I$(daw_json_link_all)/header_libraries/include \
-		-I$(daw_json_link_all)/utf_range/include -I$(boost)
+		-I$(daw_json_link_all)/utf_range/include
 
-target/json_dawjsonlink_cpp_unchecked_gcc: test_dawjsonlink.cpp | $(daw_json_link_all) $(boost) libnotify
+target/json_dawjsonlink_cpp_unchecked_gcc: test_dawjsonlink.cpp | $(daw_json_link_all) libnotify
 	$(GCC_CPP_BUILD) -I$(daw_json_link_all)/daw_json_link/include \
 		-I$(daw_json_link_all)/header_libraries/include \
-		-I$(daw_json_link_all)/utf_range/include -I$(boost) -DUNCHECKED
+		-I$(daw_json_link_all)/utf_range/include -DUNCHECKED
 
-target/json_nlohmann_json_cpp_gcc: test_nlohmann_json.cpp | $(nlohmann_json) $(boost) libnotify
-	$(GCC_CPP_BUILD) -I$(nlohmann_json)/single_include -I$(boost)
+target/json_nlohmann_json_cpp_gcc: test_nlohmann_json.cpp | $(nlohmann_json) libnotify
+	$(GCC_CPP_BUILD) -I$(nlohmann_json)/single_include
 
-target/json_boost_ptree_cpp_clang: test_boost_ptree.cpp | $(boost) libnotify
-	$(CLANG_CPP_BUILD) -I$(boost)
+target/json_boost_ptree_cpp_clang: test_boost_ptree.cpp | libnotify
+	$(CLANG_CPP_BUILD)
 
-target/json_boost_json_cpp_clang: test_boost_json.cpp | $(boost) libnotify
-	$(CLANG_CPP_BUILD) -I$(boost)
+target/json_boost_json_cpp_clang: test_boost_json.cpp | libnotify
+	$(CLANG_CPP_BUILD)
 
-target/json_rapid_cpp_clang: test_rapid.cpp | $(rapidjson-dir) $(boost) libnotify
-	$(CLANG_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost)
+target/json_rapid_cpp_clang: test_rapid.cpp | $(rapidjson-dir) libnotify
+	$(CLANG_CPP_BUILD) -I$(rapidjson-dir)/include
 
-target/json_rapid_cpp_precised_clang: test_rapid.cpp | $(rapidjson-dir) $(boost) libnotify
-	$(CLANG_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost) -DPRECISED
+target/json_rapid_cpp_precised_clang: test_rapid.cpp | $(rapidjson-dir) libnotify
+	$(CLANG_CPP_BUILD) -I$(rapidjson-dir)/include -DPRECISED
 
-target/json_rapid_sax_cpp_clang: test_rapid_sax.cpp | $(rapidjson-dir) $(boost) libnotify
-	$(CLANG_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost)
+target/json_rapid_sax_cpp_clang: test_rapid_sax.cpp | $(rapidjson-dir) libnotify
+	$(CLANG_CPP_BUILD) -I$(rapidjson-dir)/include
 
-target/json_rapid_sax_cpp_precised_clang: test_rapid_sax.cpp | $(rapidjson-dir) $(boost) libnotify
-	$(CLANG_CPP_BUILD) -I$(rapidjson-dir)/include -I$(boost) -DPRECISED
+target/json_rapid_sax_cpp_precised_clang: test_rapid_sax.cpp | $(rapidjson-dir) libnotify
+	$(CLANG_CPP_BUILD) -I$(rapidjson-dir)/include -DPRECISED
 
-target/json_gason_cpp_clang: test_gason.cpp | $(gason-dir) $(boost) libnotify
-	$(CLANG_CPP_BUILD) -I$(gason-dir)/src -I$(boost) $(gason-dir)/src/gason.cpp
+target/json_gason_cpp_clang: test_gason.cpp | $(gason-dir) libnotify
+	$(CLANG_CPP_BUILD) -I$(gason-dir)/src $(gason-dir)/src/gason.cpp
 
-target/json_libjson_cpp_clang: test_libjson.cpp | $(boost) target libnotify
-	$(CLANG_CPP_BUILD) -I$(boost) -ljson-c
+target/json_libjson_cpp_clang: test_libjson.cpp | target libnotify
+	$(CLANG_CPP_BUILD) -ljson-c
 
-target/json_simdjson_cpp_clang: test_simdjson.cpp | $(simdjson-dir) $(boost) libnotify
+target/json_simdjson_cpp_clang: test_simdjson.cpp | $(simdjson-dir) libnotify
 	$(CLANG_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \
-		-I$(simdjson-dir)/singleheader/ -I$(boost)
+		-I$(simdjson-dir)/singleheader/
 
-target/json_simdjson_dom_cpp_clang: test_simdjson_dom.cpp | $(simdjson-dir) $(boost) libnotify
+target/json_simdjson_dom_cpp_clang: test_simdjson_dom.cpp | $(simdjson-dir) libnotify
 	$(CLANG_CPP_BUILD) $(simdjson-dir)/singleheader/simdjson.cpp \
-		-I$(simdjson-dir)/singleheader/ -I$(boost)
+		-I$(simdjson-dir)/singleheader/
 
-target/json_dawjsonlink_cpp_clang: test_dawjsonlink.cpp | $(daw_json_link_all) $(boost) libnotify
+target/json_dawjsonlink_cpp_clang: test_dawjsonlink.cpp | $(daw_json_link_all) libnotify
 	$(CLANG_CPP_BUILD) -I$(daw_json_link_all)/daw_json_link/include \
 		-I$(daw_json_link_all)/header_libraries/include \
-		-I$(daw_json_link_all)/utf_range/include -I$(boost)
+		-I$(daw_json_link_all)/utf_range/include
 
-target/json_dawjsonlink_cpp_unchecked_clang: test_dawjsonlink.cpp | $(daw_json_link_all) $(boost) libnotify
+target/json_dawjsonlink_cpp_unchecked_clang: test_dawjsonlink.cpp | $(daw_json_link_all) libnotify
 	$(CLANG_CPP_BUILD) -I$(daw_json_link_all)/daw_json_link/include \
 		-I$(daw_json_link_all)/header_libraries/include \
-		-I$(daw_json_link_all)/utf_range/include -I$(boost) -DUNCHECKED
+		-I$(daw_json_link_all)/utf_range/include -DUNCHECKED
 
-target/json_nlohmann_json_cpp_clang: test_nlohmann_json.cpp | $(nlohmann_json) $(boost) libnotify
-	$(CLANG_CPP_BUILD) -I$(nlohmann_json)/single_include -I$(boost)
+target/json_nlohmann_json_cpp_clang: test_nlohmann_json.cpp | $(nlohmann_json) libnotify
+	$(CLANG_CPP_BUILD) -I$(nlohmann_json)/single_include
 
 newtonsoft_json_dir := target/Newtonsoft.Json/lib/net45
 newtonsoft_json := $(newtonsoft_json_dir)/Newtonsoft.Json.dll
@@ -378,7 +364,7 @@ run[test-xs.pl]:: run[%]: % | file-slurper cpanel-json-xs
 	$(PERL_RUN)
 
 run[json-scala/target/application.jar]:: run[%]: %
-	$(SCALA_RUN) JsonTest
+	$(SCALA_RUN)
 
 run[test.js]:: run[%]: %
 	$(NODE_RUN)
@@ -410,7 +396,7 @@ run[jruby][test.rb]:: run[jruby][%]: % | $(rubocop)
 run[test.php]:: run[%]: %
 	$(PHP_RUN)
 
-run[test.clj]:: CLOJURE_FLAGS := -Sdeps '{:deps {cheshire/cheshire {:mvn/version "5.10.2"}}}'
+run[test.clj]:: CLOJURE_FLAGS := -Sdeps '{:deps {cheshire/cheshire {:mvn/version "5.13.0"}}}'
 run[test.clj]:: run[%]: %
 	$(CLOJURE_RUN)
 

@@ -32,8 +32,6 @@ executables := \
 	target/bin_idris
 
 artifacts := $(executables) \
-	target/bf_scala.jar \
-	target/bf_staged_scala.jar \
 	target/bf2-kt.jar \
 	target/bf.exe \
 	target/bf.class
@@ -47,7 +45,9 @@ fast_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[bf.ss] \
 	run[truby-jvm][bf.rb] \
 	run[truby-native][bf.rb] \
-	run[bf.jl]
+	run[bf.jl] \
+	run[bf.scala] \
+	run[bf-staged.scala]
 
 all_runners := $(fast_runners) \
 	run[bf.ex] \
@@ -59,7 +59,7 @@ all_runners := $(fast_runners) \
 	run[bf.lua] \
 	run[bf.tcl] \
 	run[bf_oo.tcl] \
-	run[bf.php] \
+	run[bf.php]
 
 # Build
 
@@ -82,12 +82,6 @@ bf.rs/target/release/bf: $(bf-rs-toml)
 
 target/bin_swift: bf.swift | target
 	$(SWIFTC_BUILD)
-
-target/bf_scala.jar: bf.scala | target
-	$(SCALAC_BUILD)
-
-target/bf_staged_scala.jar: bf-staged.scala | target
-	$(SCALAC_BUILD)
 
 target/bf.exe: bf.cs | target
 	$(MCS_BUILD)
@@ -179,11 +173,11 @@ executable_runners := $(patsubst %,run[%], $(executables))
 $(executable_runners):: run[%] : %
 	$(EXECUTABLE_RUN) $(BF_SRC)
 
-run[target/bf_scala.jar]:: run[%]: %
-	$(SCALA_RUN) BrainFuck $(BF_SRC)
+run[bf.scala]:: run[%]: %
+	$(SCALA_RUN) -- $(BF_SRC)
 
-run[target/bf_staged_scala.jar]:: run[%]: %
-	$(SCALA_RUN) BrainFuckStaged $(BF_SRC)
+run[bf-staged.scala]:: run[%]: %
+	$(SCALA_RUN) -- $(BF_SRC)
 
 run[target/bf.exe]:: run[%]: %
 	$(MONO_RUN) $(BF_SRC)

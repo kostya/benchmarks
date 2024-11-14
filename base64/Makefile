@@ -26,7 +26,6 @@ executables := \
 	target/base64_zig
 
 artifacts := $(executables) \
-	target/base64_scala.jar \
 	target/Base64Java.class \
 	target/Test-kt.jar \
 	target/test.exe
@@ -45,7 +44,8 @@ all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[test-xs.pl] \
 	run[test.tcl] \
 	run[test.php] \
-	run[test.rkt]
+	run[test.rkt] \
+	run[test.scala]
 
 # Build
 
@@ -86,9 +86,6 @@ target/base64_c_nolib_clang: test-nolib.c | target libnotify
 
 target/base64_c_ak_clang: $(aklomp-base64-dir)/$(aklomp-base64-lib) test-aklomp.c | target libnotify
 	$(CLANG_BUILD) -I$(aklomp-base64-dir)/include/
-
-target/base64_scala.jar: test.scala | target
-	$(SCALAC_BUILD)
 
 target/Base64Java.class: Base64Java.java | target
 	$(JAVAC_BUILD)
@@ -156,8 +153,8 @@ executable_runners := $(patsubst %,run[%], $(executables))
 $(executable_runners):: run[%] : %
 	$(EXECUTABLE_RUN)
 
-run[target/base64_scala.jar]:: run[%]: %
-	$(SCALA_RUN) Base64
+run[test.scala]:: run[%]: %
+	$(SCALA_RUN)
 
 run[target/Base64Java.class]:: run[%]: %
 	$(JAVA_CLASS_RUN)

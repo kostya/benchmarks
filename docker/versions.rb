@@ -106,11 +106,7 @@ LANGS = {
   'Perl' => -> { `perl -e 'print $^V;'` },
   'Haskell' => -> { `ghc --numeric-version` },
   'Tcl' => -> { `echo 'puts "$tcl_version"' | tclsh` },
-  # TODO: remove JAVA_OPTS as soon as new Kotlin is released
-  # (see https://youtrack.jetbrains.com/issue/KT-43704)
-  'Kotlin' => lambda do
-    `JAVA_OPTS="--illegal-access=permit" kotlin -e KotlinVersion.CURRENT`
-  end,
+  'Kotlin' => -> { `kotlin -e KotlinVersion.CURRENT` },
   'PHP' => -> { `php -r "echo phpversion();"` },
   'Elixir' => -> { `elixir -e "IO.puts System.version"` },
   'Lua' => -> { `lua -v`.split[1] },

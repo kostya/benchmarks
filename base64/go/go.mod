@@ -8,10 +8,10 @@ require (
 )
 
 require (
-	github.com/bytedance/sonic/loader v0.1.1 // indirect
+	github.com/bytedance/sonic/loader v0.2.1 // indirect
 	github.com/cloudwego/iasm v0.2.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.8 // indirect
-	golang.org/x/sys v0.22.0 // indirect
+	golang.org/x/sys v0.26.0 // indirect
 )
 
 replace benchmarks/common => ../../common/go

@@ -18,6 +18,7 @@ target/classpath.line: target/dependencies.list
 target/classfiles.stamp: $(sources) target/classpath.line
 	mkdir -p target/classfiles
 	javac \
+	  -proc:full \
 	  -d target/classfiles \
 	  -cp $(shell cat target/classpath.line) \
 	$(sources)

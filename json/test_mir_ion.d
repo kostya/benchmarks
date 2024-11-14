@@ -1,7 +1,7 @@
 /+ dub.sdl:
 name "json_d_mir_ion"
 targetPath "target"
-dependency "mir-ion" version="~>2.2.0"
+dependency "mir-ion" version="~>2.3.2"
 dependency "mir_common_json" path="mir-common-json"
 dflags "-mcpu=native" "-linkonce-templates" "-enable-cross-module-inlining" platform="ldc"
 +/

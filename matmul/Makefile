@@ -39,7 +39,6 @@ executables := \
 	target/matmul_zig
 
 artifacts := $(executables) \
-	target/matmul_scala.jar \
 	target/matmul.class \
 	target/matmul-kt.jar \
 	target/matmul.exe
@@ -58,7 +57,8 @@ all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[jit][matmul.rb] \
 	run[truby-jvm][matmul.rb] \
 	run[truby-native][matmul.rb] \
-	run[jruby][matmul.rb]
+	run[jruby][matmul.rb] \
+	run[matmul.scala]
 
 # Build
 
@@ -149,9 +149,6 @@ target/matmul_vala_gcc: matmul.vala | target
 target/matmul_vala_clang: matmul.vala | target
 	$(VALAC_CLANG_BUILD)
 
-target/matmul_scala.jar: matmul.scala | target
-	$(SCALAC_BUILD)
-
 target/matmul.class: matmul.java | target
 	$(JAVAC_BUILD)
 
@@ -193,8 +190,8 @@ executable_runners := $(patsubst %,run[%], $(executables))
 $(executable_runners):: run[%] : %
 	$(EXECUTABLE_RUN) $(MSIZE)
 
-run[target/matmul_scala.jar]:: run[%]: %
-	$(SCALA_RUN) MatMul $(MSIZE)
+run[matmul.scala]:: run[%]: %
+	$(SCALA_RUN) -- $(MSIZE)
 
 run[target/matmul.class]:: run[%]: %
 	$(JAVA_CLASS_RUN) $(MSIZE)
