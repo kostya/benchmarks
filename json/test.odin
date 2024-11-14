@@ -26,14 +26,21 @@ calc :: proc(s: string) -> Coordinate {
 		panic(fmt.tprintf("%v", err))
 	}
 
-	coord := Coordinate{}
-	for c in j.coordinates {
-		coord.x += c.x
-		coord.y += c.y
-		coord.z += c.z
+	x := 0.0
+	y := 0.0
+	z := 0.0
+	len := 0.0
+	for coord in j.coordinates {
+		x += coord.x
+		y += coord.y
+		z += coord.z
+		len += 1
 	}
-
-	return coord
+	return Coordinate{
+		x = x / len,
+		y = y / len,
+		z = z / len,
+	}
 }
 
 main :: proc() {

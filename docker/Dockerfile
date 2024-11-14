@@ -286,6 +286,17 @@ RUN curl -Lo v_linux.zip \
     && rm v_linux.zip
 ENV PATH="/root/bin/v/:${PATH}"
 
+# https://github.com/odin-lang/Odin/releases
+ARG ODIN=2024-11
+RUN curl -Lo odin-linux-amd64-dev-$ODIN.zip \
+    https://github.com/odin-lang/Odin/releases/download/dev-$ODIN/odin-linux-amd64-dev-$ODIN.zip \
+    && unzip -q odin-linux-amd64-dev-$ODIN.zip \
+    && tar xf dist.tar.gz \
+    && rm dist.tar.gz odin-linux-amd64-dev-$ODIN.zip
+# NOTE: the naming is inconsistent as resulting release archive name contains actual date
+# So we may look into better ways to obtain packages, or use nightly directly
+ENV PATH="/root/bin/odin-linux-amd64-nightly+$ODIN-04/:${PATH}"
+
 # https://github.com/vlang/vsl and dependencies
 # TODO - Install using specific VSL version as ARG
 RUN v install vsl
