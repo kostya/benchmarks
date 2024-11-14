@@ -456,7 +456,7 @@ Base Docker image: Debian GNU/Linux trixie/sid
 | Ruby/jruby       | 9.4.8.0                         |
 | Ruby/truffleruby | 24.1.1                          |
 | Rust             | 1.82.0                          |
-| Scala            | 1.4.3                           |
+| Scala            | 3.5.2                           |
 | Swift            | 6.0.2                           |
 | Tcl              | 8.6                             |
 | V                | 0.4.8 2ab1523                   |
