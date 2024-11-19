@@ -298,8 +298,7 @@ RUN curl -Lo odin-linux-amd64-dev-$ODIN.zip \
 ENV PATH="/root/bin/odin-linux-amd64-nightly+$ODIN-04/:${PATH}"
 
 # https://github.com/vlang/vsl and dependencies
-# TODO - Install using specific VSL version as ARG
-RUN v install vsl
+RUN v install vsl@v0.1.50
 
 # https://www.haskell.org/ghc/
 ARG GHC_VER=9.8.2
