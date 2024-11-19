@@ -65,7 +65,8 @@ executables := \
 	target/json_zig \
 	target/json_yajl_gcc \
 	target/json_yajl_clang \
-	target/json_odin
+	target/json_odin \
+	target/json_c3 \
 
 # TODO: Enable Julia test after https://github.com/quinnj/JSON3.jl/issues/276 fixed
 artifacts := $(executables) \
@@ -320,6 +321,9 @@ target/json_yajl_clang: test_yajl.c | target libnotify
 
 target/json_odin: test.odin
 	$(ODIN_BUILD)
+
+target/json_c3: test.c3
+	$(C3_BUILD)
 
 # Run
 
