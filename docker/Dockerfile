@@ -297,6 +297,13 @@ RUN curl -Lo odin-linux-amd64-dev-$ODIN.zip \
 # So we may look into better ways to obtain packages, or use nightly directly
 ENV PATH="/root/bin/odin-linux-amd64-nightly+$ODIN-04/:${PATH}"
 
+# https://github.com/c3lang/c3c/releases
+ARG C3=0.6.4
+RUN curl -LO https://github.com/vlang/v/releases/download/v$C3/c3-linux.tar.gz \
+    && tar xf c3-linux.tar.gz \
+    && rm c3-linux.tar.gz
+ENV PATH="/root/bin/c3/:${PATH}"
+
 # https://github.com/vlang/vsl and dependencies
 # TODO - Install using specific VSL version as ARG
 RUN v install vsl
