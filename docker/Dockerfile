@@ -247,7 +247,7 @@ ENV PATH="/root/bin/opam/ocaml-base-compiler.$OCAML/bin/:${PATH}"
 
 # https://kotlinlang.org/docs/command-line.html
 ARG KOTLIN=2.0.21
-RUN curl -L -o kotlin-compiler-$KOTLIN.zip \
+RUN curl -LO \
     https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
     && unzip kotlin-compiler-$KOTLIN.zip \
     && rm kotlin-compiler-$KOTLIN.zip
@@ -255,7 +255,7 @@ ENV PATH="/root/bin/kotlinc/bin/:${PATH}"
 
 # https://download.racket-lang.org/
 ARG RACKET=8.14
-RUN curl -L -o racket-$RACKET-x86_64-linux-cs.sh \
+RUN curl -LO \
     https://download.racket-lang.org/installers/$RACKET/racket-$RACKET-x86_64-linux-cs.sh \
     && sh racket-$RACKET-x86_64-linux-cs.sh --unix-style --dest /root/ \
     && rm racket-$RACKET-x86_64-linux-cs.sh
@@ -280,7 +280,7 @@ ENV PATH="/root/bin/luajit/bin:${PATH}"
 
 # https://github.com/vlang/v/releases
 ARG VLANG=0.4.8
-RUN curl -Lo v_linux.zip \
+RUN curl -LO \
     https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
     && unzip -q v_linux.zip \
     && rm v_linux.zip
@@ -288,7 +288,7 @@ ENV PATH="/root/bin/v/:${PATH}"
 
 # https://github.com/odin-lang/Odin/releases
 ARG ODIN=2024-11
-RUN curl -Lo odin-linux-amd64-dev-$ODIN.zip \
+RUN curl -LO \
     https://github.com/odin-lang/Odin/releases/download/dev-$ODIN/odin-linux-amd64-dev-$ODIN.zip \
     && unzip -q odin-linux-amd64-dev-$ODIN.zip \
     && tar xf dist.tar.gz \
