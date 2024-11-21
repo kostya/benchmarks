@@ -297,6 +297,13 @@ RUN curl -LO \
 # So we may look into better ways to obtain packages, or use nightly directly
 ENV PATH="/root/bin/odin-linux-amd64-nightly+$ODIN-04/:${PATH}"
 
+# https://github.com/c3lang/c3c/releases
+ARG C3=0.6.4
+RUN curl -LO https://github.com/vlang/v/releases/download/v$C3/c3-linux.tar.gz \
+    && tar xf c3-linux.tar.gz \
+    && rm c3-linux.tar.gz
+ENV PATH="/root/bin/c3/:${PATH}"
+
 # https://github.com/vlang/vsl and dependencies
 RUN v install vsl@v0.1.50
 

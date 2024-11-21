@@ -119,6 +119,7 @@ LANGS = {
   'Zig' => -> { `zig version` },
   'Idris 2' => -> { `idris2 --version`.split[-1] },
   'Odin' => -> { `odin version`.split[-1] },
+  'C3' => -> { `c3c --version`.lines.first.split[-1] },
 }.freeze
 
 def pad(num, str, padstr)

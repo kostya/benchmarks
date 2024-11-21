@@ -9,6 +9,7 @@ V_FLAGS := -prod -no-bounds-checking -prealloc -cflags "-Wno-error=implicit-func
 V_VSL_CBLAS_FLAGS := $(V_FLAGS) -d cblas
 ZIG_FLAGS := -O ReleaseFast
 
+C3_BUILD =	c3c -05 --safe=no $^
 CLANG_BUILD =		clang $(CLANG_FLAGS) -std=c23 -o $@ $^ $(LIBNOTIFY_FLAGS)
 CLANG_CPP_BUILD =	clang++ $(CLANG_FLAGS) -std=c++23 -stdlib=libc++ -o $@ $^ $(LIBNOTIFY_FLAGS)
 CRYSTAL_BUILD =	crystal build --release --no-debug -o $@ $^
