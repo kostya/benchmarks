@@ -301,6 +301,7 @@ have some inaccuracies in number parsing:
 |                              D/ldc2 |  1.742<sub>±0.002</sub> |   113.25<sub>±00.00</sub> + 708.38<sub>±00.06</sub> |  73.21<sub>±00.37</sub> |
 |                         Ruby (YAJL) |  1.745<sub>±0.005</sub> |   121.38<sub>±00.12</sub> + 219.06<sub>±00.06</sub> |  73.96<sub>±00.69</sub> |
 |                             C#/Mono |  1.789<sub>±0.010</sub> |    253.37<sub>±00.07</sub> + 31.54<sub>±00.03</sub> |  77.28<sub>±00.84</sub> |
+|                                  C3 |  1.962<sub>±0.004</sub> |   111.88<sub>±00.00</sub> + 795.88<sub>±00.00</sub> |  81.93<sub>±00.35</sub> |
 |                             Haskell |  2.008<sub>±0.005</sub> |   115.88<sub>±00.00</sub> + 723.56<sub>±00.19</sub> |  86.20<sub>±00.70</sub> |
 |        C++/g++ (Boost.PropertyTree) |  2.515<sub>±0.009</sub> |  113.40<sub>±00.06</sub> + 1439.88<sub>±00.00</sub> | 107.37<sub>±01.05</sub> |
 |                           Rust (jq) |  2.597<sub>±0.006</sub> |   113.50<sub>±00.06</sub> + 903.47<sub>±01.19</sub> | 108.44<sub>±00.97</sub> |
@@ -427,6 +428,7 @@ Base Docker image: Debian GNU/Linux trixie/sid
 | .NET Core        | 8.0.403                         |
 | C#/.NET Core     | 4.11.0-3.24468.6 (b4e5d1dd)     |
 | C#/Mono          | 6.12.0.200                      |
+| C3               | 0.6.4                           |
 | Chez Scheme      | 10.0.0                          |
 | Clojure          | "1.12.0"                        |
 | Crystal          | 1.14.0                          |
