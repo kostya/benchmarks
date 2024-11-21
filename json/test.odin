@@ -29,18 +29,13 @@ calc :: proc(s: string) -> Coordinate {
 	x := 0.0
 	y := 0.0
 	z := 0.0
-	len := 0.0
 	for coord in j.coordinates {
 		x += coord.x
 		y += coord.y
 		z += coord.z
-		len += 1
 	}
-	return Coordinate{
-		x = x / len,
-		y = y / len,
-		z = z / len,
-	}
+	len := f64(len(j.coordinates))
+	return Coordinate{x = x / len, y = y / len, z = z / len}
 }
 
 main :: proc() {
