@@ -299,9 +299,8 @@ ENV PATH="/root/bin/odin-linux-amd64-nightly+$ODIN-04/:${PATH}"
 
 # https://github.com/c3lang/c3c/releases
 ARG C3=0.6.4
-RUN curl -LO https://github.com/vlang/v/releases/download/v$C3/c3-linux.tar.gz \
-    && tar xf c3-linux.tar.gz \
-    && rm c3-linux.tar.gz
+RUN curl -L https://github.com/c3lang/c3c/releases/download/v$C3/c3-linux.tar.gz \
+    | tar -xz
 ENV PATH="/root/bin/c3/:${PATH}"
 
 # https://github.com/vlang/vsl and dependencies
