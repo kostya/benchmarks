@@ -30,7 +30,6 @@ executables := \
 	target/Release/net8.0/brainfuck \
 	target/bin_zig \
 	target/bin_idris \
-	target/bin_idris_snoclist \
 	target/bin_idris_array
 
 artifacts := $(executables) \
@@ -160,9 +159,6 @@ target/bin_zig: bf.zig | $(zig_fmt)
 	$(ZIG_BUILD)
 
 target/bin_idris: idris2-brainfuck/bf.idr | target
-	$(IDRIS_BUILD)
-
-target/bin_idris_snoclist: idris2-brainfuck-snoclist/bf_snoclist.idr | target
 	$(IDRIS_BUILD)
 
 target/bin_idris_array: idris2-brainfuck-array/bf_array.idr | target
