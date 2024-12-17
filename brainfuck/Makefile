@@ -158,10 +158,10 @@ target/bf.class: bf.java | target
 target/bin_zig: bf.zig | $(zig_fmt)
 	$(ZIG_BUILD)
 
-target/bin_idris2: idris2-brainfuck/src/Main.idr| target
+target/bin_idris2: idris2-brainfuck | target
 	$(IDRIS_BUILD)
 
-target/bin_idris2_array: idris2-brainfuck-array/src/Main.idr | target
+target/bin_idris2_array: idris2-brainfuck-array | target
 	$(IDRIS_BUILD)
 
 # Run
@@ -256,10 +256,10 @@ run[bf.php]:: run[%]: %
 	$(PHP_RUN) $(BF_SRC)	
 
 run[bin_idris2]:: run[%]: %
-	$(IDRIS_RUN) $(IDRIS_SRC)
+	$(IDRIS_RUN) $(BF_SRC)
 
 run[bin_idris2_array]:: run[%]: %
-	$(IDRIS_RUN) $(IDRIS_SRC)
+	$(IDRIS_RUN) $(BF_SRC)
 
 # Utilities
 
