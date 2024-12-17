@@ -304,6 +304,10 @@ RUN cabal update \
     && cabal install hlint
 ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
 
+# Hide unnecessary package (Haskell).
+#RUN ghc-pkg hide bytestring-0.12.1.0
+#RUN ghc-pkg hide unix-2.8.4.0 
+
 ARG SCRIPTS_VER=unknown
 COPY *.rb ./
 
