@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    chezscheme \
+    #chezscheme \
     clang-16 \
     cmake \
     cpanminus \
@@ -39,12 +39,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libopenblas-dev \
     libopenblas64-dev \
     libopenmpi-dev \
-    libpcre3-dev \
+    #libpcre3-dev \
     libpython3-stdlib \
-    libpython3.11-stdlib \
+    #libpython3.11-stdlib \
     libssl-dev \
     libtool \
     libtool-bin \
+    libx11-dev \
     libxml2 \
     libyajl-dev \
     libyaml-dev \
@@ -89,16 +90,33 @@ ENV PATH="/root/bin/:/root/.local/bin/:${PATH}" \
 RUN curl -Lo /root/bin/coursier https://git.io/coursier-cli \
     && chmod +x /root/bin/coursier
 
-# https://www.idris-lang.org/pages/download.html
-ARG IDRIS=0.6.0
-RUN curl https://www.idris-lang.org/idris2-src/idris2-$IDRIS.tgz | tar -xz
-WORKDIR /root/bin/Idris2-$IDRIS
-ENV PATH="/root/bin/idris2/bin:${PATH}"
-ENV LD_LIBRARY_PATH="/root/bin/idris2/lib"
-RUN PREFIX=/root/bin/idris2 make bootstrap SCHEME=chezscheme \
-    && PREFIX=/root/bin/idris2 make install
+# https://github.com/cisco/ChezScheme
 WORKDIR /root/bin
-RUN rm -rf Idris2-$IDRIS
+RUN git clone https://github.com/cisco/ChezScheme.git
+WORKDIR /root/bin/ChezScheme
+RUN ./configure
+RUN make
+RUN make install
+
+# https://www.idris-lang.org/pages/download.html
+#ARG IDRIS=0.6.0
+#RUN curl https://www.idris-lang.org/idris2-src/idris2-$IDRIS.tgz | tar -xz
+#WORKDIR /root/bin/Idris2-$IDRIS
+#ENV PATH="/root/bin/idris2/bin:${PATH}"
+#ENV LD_LIBRARY_PATH="/root/bin/idris2/lib"
+#RUN PREFIX=/root/bin/idris2 make bootstrap SCHEME=chezscheme \
+#    && PREFIX=/root/bin/idris2 make install
+#WORKDIR /root/bin
+#RUN rm -rf Idris2-$IDRIS
+
+# https://github.com/stefan-hoeck/idris2-pack
+ARG IDRIS=0.7.0
+ENV PACK_DIR="/root/bin/.pack"
+WORKDIR /root/bin
+RUN echo -e "scheme" | bash -c "$(curl -fsSL https://raw.githubusercontent.com/stefan-hoeck/idris2-pack/main/install.bash)"
+ENV PATH="${PACK_DIR}/bin:${PACK_DIR}/.idris2/bin:${PATH}"
+RUN pack install ref1
+RUN pack install array
 
 # https://www.ruby-lang.org/en/downloads/
 ARG RUBY=ruby-3.3.1
