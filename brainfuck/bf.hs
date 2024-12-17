@@ -1,3 +1,4 @@
+{-# LANGUAGE PackageImports #-}
 {-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
@@ -15,7 +16,7 @@ import Network.Socket.ByteString
 import System.Environment
 import System.Exit
 import System.IO
-import System.Posix (getProcessID)
+import "unix" System.Posix (getProcessID)
 
 data Op = Inc !Int | MoveLeft | MoveRight | Print | Loop [Op]
 data Tape = Tape { left :: [Int], current :: !Int, right :: [Int] }

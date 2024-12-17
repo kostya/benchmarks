@@ -300,7 +300,7 @@ RUN ghcup install ghc $GHC_VER && ghcup set ghc $GHC_VER
 
 # Shared packages for all Haskell code
 RUN cabal update \
-    && cabal install network raw-strings-qq unix bytestring array --lib \
+    && cabal install bytestring-0.12.1.0 network-3.2.7.0 raw-strings-qq unix-2.8.6.0 array --lib \
     && cabal install hlint
 ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
 
