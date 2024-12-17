@@ -1,9 +1,3 @@
-[submodule "idris2-brainfuck"]
-	path = idris2-brainfuck
-	url = git@github.com:Matthew-Mosior/idris2-brainfuck.git
-[submodule "idris2-brainfuck-array"]
-	path = idris2-brainfuck-array
-	url = git@github.com:Matthew-Mosior/idris2-brainfuck-array.git
 [submodule "brainfuck/idris2-brainfuck-array"]
 	path = brainfuck/idris2-brainfuck-array
 	url = git@github.com:Matthew-Mosior/idris2-brainfuck-array.git
