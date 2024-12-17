@@ -95,17 +95,6 @@ RUN ./configure
 RUN make
 RUN make install
 
-# https://www.idris-lang.org/pages/download.html
-#ARG IDRIS=0.6.0
-#RUN curl https://www.idris-lang.org/idris2-src/idris2-$IDRIS.tgz | tar -xz
-#WORKDIR /root/bin/Idris2-$IDRIS
-#ENV PATH="/root/bin/idris2/bin:${PATH}"
-#ENV LD_LIBRARY_PATH="/root/bin/idris2/lib"
-#RUN PREFIX=/root/bin/idris2 make bootstrap SCHEME=chezscheme \
-#    && PREFIX=/root/bin/idris2 make install
-#WORKDIR /root/bin
-#RUN rm -rf Idris2-$IDRIS
-
 # https://github.com/stefan-hoeck/idris2-pack
 ARG IDRIS=0.7.0
 ENV PACK_DIR="/root/bin/.pack"
