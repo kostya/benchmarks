@@ -28,9 +28,7 @@ executables := \
 	target/bin_c_clang \
 	fsharp/target/Release/net8.0/brainfuck \
 	target/Release/net8.0/brainfuck \
-	target/bin_zig \
-	target/bin_idris2 \
-	target/bin_idris2_array
+	target/bin_zig
 
 artifacts := $(executables) \
 	target/bf_scala.jar \
@@ -60,7 +58,9 @@ all_runners := $(fast_runners) \
 	run[bf.lua] \
 	run[bf.tcl] \
 	run[bf_oo.tcl] \
-	run[bf.php]
+	run[bf.php] \
+	run[bf.idr] \
+	run[bf_array.idr]
 
 # Build
 
@@ -158,12 +158,6 @@ target/bf.class: bf.java | target
 target/bin_zig: bf.zig | $(zig_fmt)
 	$(ZIG_BUILD)
 
-target/bin_idris2: idris2-brainfuck | target
-	$(IDRIS_BUILD)
-
-target/bin_idris2_array: idris2-brainfuck-array | target
-	$(IDRIS_BUILD)
-
 # Run
 
 .PHONY: run
@@ -255,11 +249,11 @@ run[bf.jl]:: run[%]: % | $(julia_fmt)
 run[bf.php]:: run[%]: %
 	$(PHP_RUN) $(BF_SRC)	
 
-run[bin_idris2]:: run[%]: %
-	$(IDRIS_RUN) $(BF_SRC)
+run[bf.idr]:: run[%]: %
+	$(IDRIS_BUILD_AND_RUN) $(BF_SRC)
 
-run[bin_idris2_array]:: run[%]: %
-	$(IDRIS_RUN) $(BF_SRC)
+run[bf_array.idr]:: run[%]: %
+	$(IDRIS_BUILD_AND_RUN) $(BF_SRC)
 
 # Utilities
 

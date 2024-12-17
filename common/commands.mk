@@ -38,7 +38,6 @@ V_GCC_BUILD =		v $(V_FLAGS) -cc gcc -o $@ $^
 V_VSL_CBLAS_CLANG_BUILD =	v $(V_VSL_CBLAS_FLAGS) -cc clang -o $@ $^
 V_VSL_CBLAS_GCC_BUILD =		v $(V_VSL_CBLAS_FLAGS) -cc gcc -o $@ $^
 ZIG_BUILD =		zig build-exe $(ZIG_FLAGS) -lc -femit-bin=$@ $^
-IDRIS_BUILD = pack build
 
 define OCAML_BUILD =
 cp $^ target && cd target && ocamlopt -O3 -unsafe -I +unix unix.cmxa $^ -o $(@F)
@@ -78,7 +77,7 @@ TRUBY_NATIVE_RUN =	$(XTIME) truffleruby $^
 SCHEME_RUN =		$(XTIME) scheme --optimize-level 3 --program $^
 JULIA_RUN =		$(XTIME) julia --optimize=3 --check-bounds=no $^
 PHP_RUN =		$(XTIME) php $^
-IDRIS_RUN =             $(XTIME) pack run $^
+IDRIS_BUILD_AND_RUN =	$(XTIME) pack build && pack run $^
 
 GIT_CLONE = git clone --depth 1 -q
 DOTNET_CLEAN = -dotnet clean --nologo -v q -c Release
