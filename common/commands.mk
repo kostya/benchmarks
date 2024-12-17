@@ -38,7 +38,6 @@ V_GCC_BUILD =		v $(V_FLAGS) -cc gcc -o $@ $^
 V_VSL_CBLAS_CLANG_BUILD =	v $(V_VSL_CBLAS_FLAGS) -cc clang -o $@ $^
 V_VSL_CBLAS_GCC_BUILD =		v $(V_VSL_CBLAS_FLAGS) -cc gcc -o $@ $^
 ZIG_BUILD =		zig build-exe $(ZIG_FLAGS) -lc -femit-bin=$@ $^
-#IDRIS_BUILD =		idris2 -p network $^ --output-dir $(@D) -o $(@F)
 IDRIS_BUILD = pack build
 
 define OCAML_BUILD =
