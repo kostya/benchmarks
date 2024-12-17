@@ -439,7 +439,7 @@ Base Docker image: Debian GNU/Linux bookworm/sid
 | Go               | go1.22.3                        |
 | Go/gccgo         | 13.2.0                          |
 | Haskell          | 9.8.2                           |
-| Idris 2          | latest                          |
+| Idris 2          | 0.6.0                           |
 | Java             | 22.0.1                          |
 | Julia            | v"1.10.3"                       |
 | Kotlin           | 2.0.0                           |
