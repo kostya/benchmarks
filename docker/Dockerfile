@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    #chezscheme \
     clang-16 \
     cmake \
     cpanminus \
@@ -39,9 +38,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libopenblas-dev \
     libopenblas64-dev \
     libopenmpi-dev \
-    #libpcre3-dev \
     libpython3-stdlib \
-    #libpython3.11-stdlib \
     libssl-dev \
     libtool \
     libtool-bin \
