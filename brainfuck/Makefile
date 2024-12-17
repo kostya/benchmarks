@@ -158,10 +158,10 @@ target/bf.class: bf.java | target
 target/bin_zig: bf.zig | $(zig_fmt)
 	$(ZIG_BUILD)
 
-target/bin_idris: idris2-brainfuck/bf.idr | target
+target/bin_idris: idris2-brainfuck/src/Main.idr| target
 	$(IDRIS_BUILD)
 
-target/bin_idris_array: idris2-brainfuck-array/bf_array.idr | target
+target/bin_idris_array: idris2-brainfuck-array/src/Main.idr | target
 	$(IDRIS_BUILD)
 
 # Run
