@@ -70,7 +70,7 @@ PYTHON3_RUN =		$(XTIME) python3 $^
 RACKET_RUN =		PLT_CS_COMPILE_LIMIT=100000 $(XTIME) racket $^
 RUBY_JIT_RUN =		$(XTIME) ruby --jit $^
 RUBY_RUN =		$(XTIME) ruby $^
-SCALA_RUN =		$(XTIME) scala -J-Xss100m -cp $^
+SCALA_RUN =		$(XTIME) scala $^
 TCLSH_RUN =		$(XTIME) tclsh $^
 TRUBY_JVM_RUN =		$(XTIME) truffleruby-jvm-bin $^
 TRUBY_NATIVE_RUN =	$(XTIME) truffleruby $^
