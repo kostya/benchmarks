@@ -46,7 +46,9 @@ fast_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[truby-native][bf.rb] \
 	run[bf.jl] \
 	run[bf.scala] \
-	run[bf-staged.scala]
+	run[bf-staged.scala] \
+	run[bf.idr] \
+	run[bf_array.idr]
 
 all_runners := $(fast_runners) \
 	run[bf.ex] \
@@ -58,9 +60,7 @@ all_runners := $(fast_runners) \
 	run[bf.lua] \
 	run[bf.tcl] \
 	run[bf_oo.tcl] \
-	run[bf.php] \
-	run[bf.idr] \
-	run[bf_array.idr]
+	run[bf.php]
 
 # Build
 
@@ -177,6 +177,12 @@ run[bf.scala]:: run[%]: %
 run[bf-staged.scala]:: run[%]: %
 	$(SCALA_RUN) -- $(BF_SRC)
 
+run[bf.idr]:: run[%]: %
+	$(IDRIS_BUILD_AND_RUN) $(BF_SRC)
+
+run[bf_array.idr]:: run[%]: %
+	$(IDRIS_BUILD_AND_RUN) $(BF_SRC)
+
 run[target/bf.exe]:: run[%]: %
 	$(MONO_RUN) $(BF_SRC)
 
@@ -241,13 +247,7 @@ run[bf.jl]:: run[%]: % | $(julia_fmt)
 	$(JULIA_RUN) $(BF_SRC)
 
 run[bf.php]:: run[%]: %
-	$(PHP_RUN) $(BF_SRC)	
-
-run[bf.idr]:: run[%]: %
-	$(IDRIS_BUILD_AND_RUN) $(BF_SRC)
-
-run[bf_array.idr]:: run[%]: %
-	$(IDRIS_BUILD_AND_RUN) $(BF_SRC)
+	$(PHP_RUN) $(BF_SRC)
 
 # Utilities
 
