@@ -553,6 +553,10 @@ TCP connectivity between the tests and the test runner.
  - [raw-strings-qq](http://hackage.haskell.org/package/raw-strings-qq) for
 raw string literals used in tests.
 
+For Idris2:
+ - [array](https://stefan-hoeck.github.io/idris2-pack-db/docs/array/docs/index.html) for the array library (idris2-brainfuck-array).
+ - [network](https://test.idris-lang.org/Idris2/network/) for TCP connectivity between the tests and the test runner.
+
 For Perl:
 
  - [cpanminus](https://metacpan.org/pod/App::cpanminus) for installing

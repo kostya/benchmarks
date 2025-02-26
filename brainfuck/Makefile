@@ -1,4 +1,5 @@
 BF_SRC := bench.b
+BF_SRC_IDRIS := ../bench.b
 
 include ../common/commands.mk
 .DEFAULT_GOAL := build
@@ -36,6 +37,8 @@ artifacts := $(executables) \
 	target/bf.class
 
 fast_runners := $(patsubst %,run[%], $(artifacts)) \
+	run[idris2-brainfuck] \
+	run[idris2-brainfuck-array] \
 	run[bf.js] \
 	run[pypy][bf3.py] \
 	run[jit][bf_jit.lua] \
@@ -46,9 +49,7 @@ fast_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[truby-native][bf.rb] \
 	run[bf.jl] \
 	run[bf.scala] \
-	run[bf-staged.scala] \
-	run[bf.idr] \
-	run[bf_array.idr]
+	run[bf-staged.scala]
 
 all_runners := $(fast_runners) \
 	run[bf.ex] \
@@ -159,6 +160,7 @@ run: $(all_runners)
 
 .PHONY: run2
 run2: BF_SRC := mandel.b > /dev/null
+run2: BF_SRC_IDRIS := ../mandel.b > /dev/null
 run2: $(fast_runners)
 
 ## Common recipe for all runners
@@ -177,11 +179,11 @@ run[bf.scala]:: run[%]: %
 run[bf-staged.scala]:: run[%]: %
 	$(SCALA_RUN) -- $(BF_SRC)
 
-run[bf.idr]:: run[%]: %
-	$(IDRIS_BUILD_AND_RUN) $(BF_SRC)
+run[idris2-brainfuck]:: run[%]: %
+	$(IDRIS_BUILD_AND_RUN) $(BF_SRC_IDRIS)
 
-run[bf_array.idr]:: run[%]: %
-	$(IDRIS_BUILD_AND_RUN) $(BF_SRC)
+run[idris2-brainfuck-array]:: run[%]: %
+	$(IDRIS_ARRAY_BUILD_AND_RUN) $(BF_SRC_IDRIS)
 
 run[target/bf.exe]:: run[%]: %
 	$(MONO_RUN) $(BF_SRC)
