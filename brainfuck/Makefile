@@ -37,8 +37,6 @@ artifacts := $(executables) \
 	target/bf.class
 
 fast_runners := $(patsubst %,run[%], $(artifacts)) \
-	run[idris2-brainfuck] \
-	run[idris2-brainfuck-array] \
 	run[bf.js] \
 	run[pypy][bf3.py] \
 	run[jit][bf_jit.lua] \
@@ -178,12 +176,6 @@ run[bf.scala]:: run[%]: %
 
 run[bf-staged.scala]:: run[%]: %
 	$(SCALA_RUN) -- $(BF_SRC)
-
-run[idris2-brainfuck]:: run[%]: %
-	$(IDRIS_BUILD_AND_RUN) $(BF_SRC_IDRIS)
-
-run[idris2-brainfuck-array]:: run[%]: %
-	$(IDRIS_ARRAY_BUILD_AND_RUN) $(BF_SRC_IDRIS)
 
 run[target/bf.exe]:: run[%]: %
 	$(MONO_RUN) $(BF_SRC)
