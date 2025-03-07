@@ -554,7 +554,9 @@ TCP connectivity between the tests and the test runner.
 raw string literals used in tests.
 
 For Idris2:
- - [array](https://stefan-hoeck.github.io/idris2-pack-db/docs/array/docs/index.html) for the array library (idris2-brainfuck-array).
+ - [elab-util](https://github.com/stefan-hoeck/idris2-elab-util) for idris2-json-test.
+ - [parser-json](https://github.com/stefan-hoeck/idris2-parser/tree/main/json) for idris2-json-test.
+ - [ref1](https://github.com/stefan-hoeck/idris2-ref1) for idris2-json-test.
  - [network](https://test.idris-lang.org/Idris2/network/) for TCP connectivity between the tests and the test runner.
 
 For Perl:
