@@ -100,8 +100,9 @@ ENV PACK_DIR="/root/bin/.pack"
 WORKDIR /root/bin
 RUN echo -e "scheme" | bash -c "$(curl -fsSL https://raw.githubusercontent.com/stefan-hoeck/idris2-pack/main/install.bash)"
 ENV PATH="${PACK_DIR}/bin:${PACK_DIR}/.idris2/bin:${PATH}"
+RUN pack install elab-util
+RUN pack install parser-json
 RUN pack install ref1
-RUN pack install array
 
 # https://www.ruby-lang.org/en/downloads/
 ARG RUBY=ruby-3.3.5

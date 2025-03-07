@@ -77,8 +77,7 @@ TRUBY_NATIVE_RUN =		$(XTIME) truffleruby $^
 SCHEME_RUN =			$(XTIME) scheme --optimize-level 3 --program $^
 JULIA_RUN =			$(XTIME) julia --optimize=3 --check-bounds=no $^
 PHP_RUN =			$(XTIME) php $^
-IDRIS_BUILD_AND_RUN =		cd idris2-brainfuck && pack build && $(XTIME_IDRIS) pack run idris2-brainfuck.ipkg
-IDRIS_ARRAY_BUILD_AND_RUN =	cd idris2-brainfuck-array && pack build && $(XTIME_IDRIS) pack run idris2-brainfuck-array.ipkg
+IDRIS_JSON_BUILD_AND_RUN =      cd idris2-json-test && pack build && $(XTIME_IDRIS) pack run idris2-json-test.ipkg
 
 GIT_CLONE = git clone --depth 1 -q
 DOTNET_CLEAN = -dotnet clean --nologo -v q -c Release

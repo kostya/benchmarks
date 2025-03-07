@@ -4,3 +4,6 @@
 [submodule "brainfuck/idris2-brainfuck"]
 	path = brainfuck/idris2-brainfuck
 	url = git@github.com:Matthew-Mosior/idris2-brainfuck.git
+[submodule "json/idris2-json-test"]
+	path = json/idris2-json-test
+	url = https://github.com/Matthew-Mosior/idris2-json-test
