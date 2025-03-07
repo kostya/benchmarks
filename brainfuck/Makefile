@@ -1,5 +1,4 @@
 BF_SRC := bench.b
-BF_SRC_IDRIS := ../bench.b
 
 include ../common/commands.mk
 .DEFAULT_GOAL := build
@@ -158,7 +157,7 @@ run: $(all_runners)
 
 .PHONY: run2
 run2: BF_SRC := mandel.b > /dev/null
-run2: BF_SRC_IDRIS := ../mandel.b > /dev/null
+
 run2: $(fast_runners)
 
 ## Common recipe for all runners
