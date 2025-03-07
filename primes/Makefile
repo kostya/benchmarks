@@ -87,7 +87,7 @@ $(executable_runners):: run[%] : %
 	$(EXECUTABLE_RUN)
 
 run[target/primes_scala.jar]:: run[%]: %
-	$(SCALA_RUN) Primes
+	$(SCALA_RUN)
 
 run[target/Primes.class]:: run[%]: %
 	$(JAVA_CLASS_RUN)

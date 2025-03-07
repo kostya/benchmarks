@@ -1,5 +1,6 @@
 FROM debian:trixie-20240701-slim
 
+
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 \
     DEBIAN_FRONTEND=noninteractive
 
@@ -261,6 +262,7 @@ ENV PATH="/root/bin/kotlinc/bin/:${PATH}"
 # https://download.racket-lang.org/
 ARG RACKET=8.14
 RUN curl -L -o racket-$RACKET-x86_64-linux-cs.sh \
+
     https://download.racket-lang.org/installers/$RACKET/racket-$RACKET-x86_64-linux-cs.sh \
     && sh racket-$RACKET-x86_64-linux-cs.sh --unix-style --dest /root/ \
     && rm racket-$RACKET-x86_64-linux-cs.sh
@@ -291,9 +293,25 @@ RUN curl -Lo v_linux.zip \
     && rm v_linux.zip
 ENV PATH="/root/bin/v/:${PATH}"
 
+# https://github.com/odin-lang/Odin/releases
+ARG ODIN=2024-11
+RUN curl -LO \
+    https://github.com/odin-lang/Odin/releases/download/dev-$ODIN/odin-linux-amd64-dev-$ODIN.zip \
+    && unzip -q odin-linux-amd64-dev-$ODIN.zip \
+    && tar xf dist.tar.gz \
+    && rm dist.tar.gz odin-linux-amd64-dev-$ODIN.zip
+# NOTE: the naming is inconsistent as resulting release archive name contains actual date
+# So we may look into better ways to obtain packages, or use nightly directly
+ENV PATH="/root/bin/odin-linux-amd64-nightly+$ODIN-04/:${PATH}"
+
+# https://github.com/c3lang/c3c/releases
+ARG C3=0.6.4
+RUN curl -L https://github.com/c3lang/c3c/releases/download/v$C3/c3-linux.tar.gz \
+    | tar -xz
+ENV PATH="/root/bin/c3/:${PATH}"
+
 # https://github.com/vlang/vsl and dependencies
-# TODO - Install using specific VSL version as ARG
-RUN v install vsl
+RUN v install vsl@v0.1.50
 
 # https://www.haskell.org/ghc/
 ARG GHC_VER=9.8.2

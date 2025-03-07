@@ -2,5 +2,5 @@
 #
 # lines starting with # are ignored
 #
-com.github.plokhotnyuk.jsoniter-scala:jsoniter-scala-macros_3:2.24.1
+com.github.plokhotnyuk.jsoniter-scala:jsoniter-scala-macros_3:2.31.1
 

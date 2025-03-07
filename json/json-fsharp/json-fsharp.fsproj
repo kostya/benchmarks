@@ -8,6 +8,6 @@
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FSharp.SystemTextJson" Version="1.2.42" />
+    <PackageReference Include="FSharp.SystemTextJson" Version="1.3.13" />
   </ItemGroup>
 </Project>

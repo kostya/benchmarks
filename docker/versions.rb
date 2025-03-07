@@ -70,7 +70,7 @@ LANGS = {
     CLANG
     `clang -o #{cat('clang')} #{cat('clang.c', prog)} && ./#{cat('clang')}`
   end,
-  'Scala' => -> { `scala -version 2>&1`.split[4] },
+  'Scala' => -> { `scala version --scala` },
   'Node.js' => -> { `node -e "console.log(process.version)"` },
   'Python' => lambda do
     `python3 -c "import platform;print(platform.python_version())"`
@@ -106,11 +106,7 @@ LANGS = {
   'Perl' => -> { `perl -e 'print $^V;'` },
   'Haskell' => -> { `ghc --numeric-version` },
   'Tcl' => -> { `echo 'puts "$tcl_version"' | tclsh` },
-  # TODO: remove JAVA_OPTS as soon as new Kotlin is released
-  # (see https://youtrack.jetbrains.com/issue/KT-43704)
-  'Kotlin' => lambda do
-    `JAVA_OPTS="--illegal-access=permit" kotlin -e KotlinVersion.CURRENT`
-  end,
+  'Kotlin' => -> { `kotlin -e KotlinVersion.CURRENT` },
   'PHP' => -> { `php -r "echo phpversion();"` },
   'Elixir' => -> { `elixir -e "IO.puts System.version"` },
   'Lua' => -> { `lua -v`.split[1] },
@@ -122,6 +118,8 @@ LANGS = {
   'Clojure' => -> { `clojure -M -e '(clojure-version)'` },
   'Zig' => -> { `zig version` },
   'Idris 2' => -> { `idris2 --version`.split[-1] },
+  'Odin' => -> { `odin version`.split[-1] },
+  'C3' => -> { `c3c --version`.lines.first[/C3 Compiler Version:\s+(\d+\.\d+\.\d+)/, 1] },
 }.freeze
 
 def pad(num, str, padstr)
