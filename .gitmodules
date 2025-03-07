@@ -1,0 +1,3 @@
+[submodule "json/idris2-json-test"]
+	path = json/idris2-json-test
+	url = https://github.com/Matthew-Mosior/idris2-json-test

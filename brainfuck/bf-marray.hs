@@ -1,3 +1,4 @@
+{-# LANGUAGE PackageImports #-}
 {-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
@@ -17,7 +18,7 @@ import Network.Socket.ByteString
 import System.Environment
 import System.Exit
 import System.IO (hFlush, stdout)
-import System.Posix (getProcessID)
+import "unix" System.Posix (getProcessID)
 import Text.RawString.QQ
 
 data Op = Inc !Int | Move !Int | Print | Loop ![Op] deriving Show

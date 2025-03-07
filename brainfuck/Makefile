@@ -28,8 +28,7 @@ executables := \
 	target/bin_c_clang \
 	fsharp/target/Release/net8.0/brainfuck \
 	target/Release/net8.0/brainfuck \
-	target/bin_zig \
-	target/bin_idris
+	target/bin_zig
 
 artifacts := $(executables) \
 	target/bf2-kt.jar \
@@ -151,9 +150,6 @@ target/bf.class: bf.java | target
 target/bin_zig: bf.zig | $(zig_fmt)
 	$(ZIG_BUILD)
 
-target/bin_idris: bf.idr | target
-	$(IDRIS_BUILD)
-
 # Run
 
 .PHONY: run
@@ -161,6 +157,7 @@ run: $(all_runners)
 
 .PHONY: run2
 run2: BF_SRC := mandel.b > /dev/null
+
 run2: $(fast_runners)
 
 ## Common recipe for all runners

@@ -75,6 +75,7 @@ artifacts := $(executables) \
 
 #	run[test.jl] 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
+	run[idris2-json-test] \
 	run[test_yajl.rb] \
 	run[test.pl] \
 	run[test-xs.pl] \
@@ -410,6 +411,9 @@ run[test.clj]:: run[%]: %
 
 run[test.rkt]:: run[%]: %
 	$(RACKET_RUN)
+
+run[idris2-json-test]:: run[%]: %
+	$(IDRIS_JSON_BUILD_AND_RUN)
 
 # Utilities
 

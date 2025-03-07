@@ -1,4 +1,5 @@
-FROM debian:trixie-20241016-slim
+FROM debian:trixie-20240701-slim
+
 
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 \
     DEBIAN_FRONTEND=noninteractive
@@ -10,7 +11,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    chezscheme \
     clang-19 \
     cmake \
     cpanminus \
@@ -21,7 +21,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gdc-14 \
     git \
     libblas-dev \
-    libboost-dev \
     libc++-19-dev \
     libc++abi-19-dev \
     libevent-dev \
@@ -44,6 +43,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl-dev \
     libtool \
     libtool-bin \
+    libx11-dev \
     libxml2 \
     libyajl-dev \
     libyaml-dev \
@@ -88,16 +88,22 @@ ENV PATH="/root/bin/:/root/.local/bin/:${PATH}" \
 RUN curl -Lo /root/bin/coursier https://git.io/coursier-cli \
     && chmod +x /root/bin/coursier
 
-# https://www.idris-lang.org/pages/download.html
-ARG IDRIS=0.6.0
-RUN curl https://www.idris-lang.org/idris2-src/idris2-$IDRIS.tgz | tar -xz
-WORKDIR /root/bin/Idris2-$IDRIS
-ENV PATH="/root/bin/idris2/bin:${PATH}"
-ENV LD_LIBRARY_PATH="/root/bin/idris2/lib"
-RUN PREFIX=/root/bin/idris2 make bootstrap SCHEME=chezscheme \
-    && PREFIX=/root/bin/idris2 make install
+# https://github.com/cisco/ChezScheme
 WORKDIR /root/bin
-RUN rm -rf Idris2-$IDRIS
+RUN git clone https://github.com/cisco/ChezScheme.git
+WORKDIR /root/bin/ChezScheme
+RUN ./configure
+RUN make
+RUN make install
+
+# https://github.com/stefan-hoeck/idris2-pack
+ENV PACK_DIR="/root/bin/.pack"
+WORKDIR /root/bin
+RUN echo -e "scheme" | bash -c "$(curl -fsSL https://raw.githubusercontent.com/stefan-hoeck/idris2-pack/main/install.bash)"
+ENV PATH="${PACK_DIR}/bin:${PACK_DIR}/.idris2/bin:${PATH}"
+RUN pack install elab-util
+RUN pack install parser-json
+RUN pack install ref1
 
 # https://www.ruby-lang.org/en/downloads/
 ARG RUBY=ruby-3.3.5
@@ -247,7 +253,7 @@ ENV PATH="/root/bin/opam/ocaml-base-compiler.$OCAML/bin/:${PATH}"
 
 # https://kotlinlang.org/docs/command-line.html
 ARG KOTLIN=2.0.21
-RUN curl -LO \
+RUN curl -L -o kotlin-compiler-$KOTLIN.zip \
     https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
     && unzip kotlin-compiler-$KOTLIN.zip \
     && rm kotlin-compiler-$KOTLIN.zip
@@ -255,7 +261,8 @@ ENV PATH="/root/bin/kotlinc/bin/:${PATH}"
 
 # https://download.racket-lang.org/
 ARG RACKET=8.14
-RUN curl -LO \
+RUN curl -L -o racket-$RACKET-x86_64-linux-cs.sh \
+
     https://download.racket-lang.org/installers/$RACKET/racket-$RACKET-x86_64-linux-cs.sh \
     && sh racket-$RACKET-x86_64-linux-cs.sh --unix-style --dest /root/ \
     && rm racket-$RACKET-x86_64-linux-cs.sh
@@ -280,7 +287,7 @@ ENV PATH="/root/bin/luajit/bin:${PATH}"
 
 # https://github.com/vlang/v/releases
 ARG VLANG=0.4.8
-RUN curl -LO \
+RUN curl -Lo v_linux.zip \
     https://github.com/vlang/v/releases/download/$VLANG/v_linux.zip \
     && unzip -q v_linux.zip \
     && rm v_linux.zip
@@ -312,9 +319,13 @@ RUN ghcup install ghc $GHC_VER && ghcup set ghc $GHC_VER
 
 # Shared packages for all Haskell code
 RUN cabal update \
-    && cabal install network raw-strings-qq unix bytestring array --lib \
+    && cabal install bytestring-0.12.1.0 network-3.2.7.0 raw-strings-qq unix-2.8.6.0 array --lib \
     && cabal install hlint
 ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
+
+# Hide unnecessary package (Haskell).
+#RUN ghc-pkg hide bytestring-0.12.1.0
+#RUN ghc-pkg hide unix-2.8.4.0 
 
 ARG SCRIPTS_VER=unknown
 COPY *.rb ./

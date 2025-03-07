@@ -53,32 +53,34 @@ endef
 
 ECHO_RUN = @tput bold; echo "$(MAKE) $@"; tput sgr0
 XTIME := ../xtime.rb
+XTIME_IDRIS := ../../xtime.rb
 CPANM := cpanm -l ~/perl5
 
-CLOJURE_RUN =		$(XTIME) clojure $(CLOJURE_FLAGS) -M $^
-ELIXIR_RUN =		$(XTIME) elixir $^
-EXECUTABLE_RUN =	$(XTIME) $^
-JAVA_CLASS_RUN =	$(XTIME) java -cp $(^D) $(basename $(^F))
-JAVA_JAR_RUN =		$(XTIME) java -jar $^
-JRUBY_RUN =		$(XTIME) jruby $^
-LUA_JIT_RUN =		$(XTIME) luajit $^
-LUA_RUN =		$(XTIME) lua $^
-MONO_RUN =		$(XTIME) mono -O=all --gc=sgen $^
-NODE_RUN =		$(XTIME) node $^
-PERL_RUN =		$(XTIME) perl -I ~/perl5/lib/perl5 $^
-PHP_RUN =		$(XTIME) php $^
-PYPY3_RUN =		$(XTIME) pypy3 $^
-PYTHON3_RUN =		$(XTIME) python3 $^
-RACKET_RUN =		PLT_CS_COMPILE_LIMIT=100000 $(XTIME) racket $^
-RUBY_JIT_RUN =		$(XTIME) ruby --jit $^
-RUBY_RUN =		$(XTIME) ruby $^
-SCALA_RUN =		$(XTIME) scala $^
-TCLSH_RUN =		$(XTIME) tclsh $^
-TRUBY_JVM_RUN =		$(XTIME) truffleruby-jvm-bin $^
-TRUBY_NATIVE_RUN =	$(XTIME) truffleruby $^
-SCHEME_RUN =		$(XTIME) scheme --optimize-level 3 --program $^
-JULIA_RUN =		$(XTIME) julia --optimize=3 --check-bounds=no $^
-PHP_RUN =		$(XTIME) php $^
+CLOJURE_RUN =			$(XTIME) clojure $(CLOJURE_FLAGS) -M $^
+ELIXIR_RUN =			$(XTIME) elixir $^
+EXECUTABLE_RUN =		$(XTIME) $^
+JAVA_CLASS_RUN =		$(XTIME) java -cp $(^D) $(basename $(^F))
+JAVA_JAR_RUN =			$(XTIME) java -jar $^
+JRUBY_RUN =			$(XTIME) jruby $^
+LUA_JIT_RUN =			$(XTIME) luajit $^
+LUA_RUN =			$(XTIME) lua $^
+MONO_RUN =			$(XTIME) mono -O=all --gc=sgen $^
+NODE_RUN =			$(XTIME) node $^
+PERL_RUN =			$(XTIME) perl -I ~/perl5/lib/perl5 $^
+PHP_RUN =			$(XTIME) php $^
+PYPY3_RUN =			$(XTIME) pypy3 $^
+PYTHON3_RUN =			$(XTIME) python3 $^
+RACKET_RUN =			PLT_CS_COMPILE_LIMIT=100000 $(XTIME) racket $^
+RUBY_JIT_RUN =			$(XTIME) ruby --jit $^
+RUBY_RUN =			$(XTIME) ruby $^
+SCALA_RUN =			$(XTIME) scala $^
+TCLSH_RUN =			$(XTIME) tclsh $^
+TRUBY_JVM_RUN =			$(XTIME) truffleruby-jvm-bin $^
+TRUBY_NATIVE_RUN =		$(XTIME) truffleruby $^
+SCHEME_RUN =			$(XTIME) scheme --optimize-level 3 --program $^
+JULIA_RUN =			$(XTIME) julia --optimize=3 --check-bounds=no $^
+PHP_RUN =			$(XTIME) php $^
+IDRIS_JSON_BUILD_AND_RUN =      cd idris2-json-test && pack build && $(XTIME_IDRIS) pack run idris2-json-test.ipkg
 
 GIT_CLONE = git clone --depth 1 -q
 DOTNET_CLEAN = -dotnet clean --nologo -v q -c Release

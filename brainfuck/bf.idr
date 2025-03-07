@@ -49,19 +49,16 @@ accCheckSum : Int -> (Int, Int) -> (Int, Int)
 accCheckSum n (s₁, s₂) = let s₁' = (s₁ + n) `mod` 255
                              s₂' = (s₁' + s₂) `mod` 255
                          in (s₁', s₂')
-
 -- For benchmark
 Loud = IO
 Ctx Loud where
   write n = do
     putChar (chr n)
     fflush stdout
-
 -- For checksum-ing
 Quiet = State (Int, Int)
 Ctx Quiet where
   write n = modify (accCheckSum n)
-
 partial
 run : Ctx m => List Op -> Tape -> m Tape
 run [] tape = pure tape

@@ -440,7 +440,7 @@ Base Docker image: Debian GNU/Linux trixie/sid
 | Go               | go1.23.2                        |
 | Go/gccgo         | 14.2.0                          |
 | Haskell          | 9.8.2                           |
-| Idris 2          | 0.6.0                           |
+| Idris 2          | 0.7.0                           |
 | Java             | 23.0.1                          |
 | Julia            | v"1.11.1"                       |
 | Kotlin           | 2.0.21                          |
@@ -554,6 +554,12 @@ For Haskell:
 TCP connectivity between the tests and the test runner.
  - [raw-strings-qq](http://hackage.haskell.org/package/raw-strings-qq) for
 raw string literals used in tests.
+
+For Idris2:
+ - [elab-util](https://github.com/stefan-hoeck/idris2-elab-util) for idris2-json-test.
+ - [parser-json](https://github.com/stefan-hoeck/idris2-parser/tree/main/json) for idris2-json-test.
+ - [ref1](https://github.com/stefan-hoeck/idris2-ref1) for idris2-json-test.
+ - [network](https://test.idris-lang.org/Idris2/network/) for TCP connectivity between the tests and the test runner.
 
 For Perl:
 
