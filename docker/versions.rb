@@ -97,7 +97,6 @@ LANGS = {
     `java #{cat('java.java', prog)}`
   end,
   'Julia' => -> { `julia -E 'VERSION'` },
-  'C#/Mono' => -> { `mono --version=number` },
   '.NET Core' => -> { `dotnet --version` },
   'C#/.NET Core' => lambda do
     csc = File.join(dotnet_base_path, 'Roslyn', 'bincore', 'csc.dll')

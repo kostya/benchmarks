@@ -14,7 +14,6 @@ executables := \
 	$(GO_TARGETS)
 
 artifacts := $(executables) \
-	target/primes_scala.jar \
 	target/Primes.class
 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
@@ -29,16 +28,14 @@ all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[primes.lua] \
 	run[primes_jit.lua] \
 	run[primes.jl] \
-	run[primes.rkt]
+	run[primes.rkt] \
+	run[primes.scala]
 
 
 # Build
 
 .PHONY: build
 build: $(artifacts)
-
-target/primes_scala.jar: primes.scala | target
-	$(SCALAC_BUILD)
 
 target/Primes.class: Primes.java | target
 	$(JAVAC_BUILD)
@@ -86,7 +83,7 @@ executable_runners := $(patsubst %,run[%], $(executables))
 $(executable_runners):: run[%] : %
 	$(EXECUTABLE_RUN)
 
-run[target/primes_scala.jar]:: run[%]: %
+run[primes.scala]:: run[%]: %
 	$(SCALA_RUN)
 
 run[target/Primes.class]:: run[%]: %

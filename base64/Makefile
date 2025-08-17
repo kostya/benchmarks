@@ -21,14 +21,13 @@ executables := \
 	target/base64_v_clang \
 	target/base64_vala_gcc \
 	target/base64_vala_clang \
-	target/Release/net8.0/base64 \
-	base64.fsharp/target/Release/net8.0/base64 \
+	target/Release/net9.0/base64 \
+	base64.fsharp/target/Release/net9.0/base64 \
 	target/base64_zig
 
 artifacts := $(executables) \
 	target/Base64Java.class \
-	target/Test-kt.jar \
-	target/test.exe
+	target/Test-kt.jar
 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[test.pl] \
@@ -113,14 +112,11 @@ base64-rs-toml := base64.rs/Cargo.toml
 base64.rs/target/release/base64: $(base64-rs-toml)
 	$(CARGO_BUILD)
 
-target/test.exe: test.cs | target
-	$(MCS_BUILD)
-
-.PHONY: target/Release/net8.0/base64
-target/Release/net8.0/base64: base64.csproj | target
+.PHONY: target/Release/net9.0/base64
+target/Release/net9.0/base64: base64.csproj | target
 	$(DOTNET_BUILD)
 
-base64.fsharp/target/Release/net8.0/base64: base64.fsharp/base64.fsproj | target
+base64.fsharp/target/Release/net9.0/base64: base64.fsharp/base64.fsproj | target
 	$(DOTNET_BUILD)
 
 target/base64_v_gcc: test.v | $(v_fmt)
@@ -161,9 +157,6 @@ run[target/Base64Java.class]:: run[%]: %
 
 run[target/Test-kt.jar]:: run[%]: %
 	$(JAVA_JAR_RUN)
-
-run[target/test.exe]:: run[%]: %
-	$(MONO_RUN)
 
 .PHONY: base64_perl
 base64_perl:

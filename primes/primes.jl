@@ -25,7 +25,7 @@ end
 
 function to_list(s::Sieve)::Vector{Int64}
     result = [2, 3]
-    @inbounds for p = 1:s.limit+1
+    @inbounds for p = 1:(s.limit+1)
         if s.prime[p] == true
             push!(result, p)
         end

@@ -130,7 +130,7 @@ fn find(alloc: std.mem.Allocator, upper_bound: i32, prefix: i32) std.ArrayList(i
         str: []u8,
     };
 
-    const Q = std.TailQueue(Pair);
+    const Q = std.DoublyLinkedList(Pair);
     var queue = Q{};
     var first = Q.Node{ .data = Pair{ .node = head, .str = str_prefix } };
     queue.append(&first);
