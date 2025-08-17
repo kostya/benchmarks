@@ -46,7 +46,7 @@ class Sieve
 
   def step1(x, y)
     n = (4 * x * x) + (y * y)
-    @prime[n] = !@prime[n] if n <= @limit && (n % 12 == 1 || n % 12 == 5)
+    @prime[n] = !@prime[n] if n <= @limit && [1, 5].include?(n % 12)
   end
 
   def step2(x, y)
@@ -117,7 +117,7 @@ def find(upper_bound, prefix)
 end
 
 def notify(msg)
-  Socket.tcp('localhost', 9001) { |s| s.puts msg }
+  Socket.tcp('0.0.0.0', 9001) { |s| s.puts msg }
 rescue SystemCallError
   # standalone usage
 end

@@ -49,7 +49,7 @@ def matgen(num, seed)
 end
 
 def notify(msg)
-  Socket.tcp('localhost', 9001) { |s| s.puts msg }
+  Socket.tcp('0.0.0.0', 9001) { |s| s.puts msg }
 rescue SystemCallError
   # standalone usage
 end

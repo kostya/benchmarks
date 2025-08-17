@@ -59,9 +59,9 @@ executables := \
 	target/json_v_clang \
 	target/json_vala_gcc \
 	target/json_vala_clang \
-	json-fsharp/target/Release/net8.0/json-fsharp \
-	target/Release/net8.0/json \
-	json-core/target/Release/net8.0/json-core \
+	json-fsharp/target/Release/net9.0/json-fsharp \
+	target/Release/net9.0/json \
+	json-core/target/Release/net9.0/json-core \
 	target/json_zig \
 	target/json_yajl_gcc \
 	target/json_yajl_clang \
@@ -70,7 +70,6 @@ executables := \
 
 # TODO: Enable Julia test after https://github.com/quinnj/JSON3.jl/issues/276 fixed
 artifacts := $(executables) \
-	target/test.exe \
 	json-scala/target/application.jar
 
 #	run[test.jl] 
@@ -267,20 +266,12 @@ target/json_dawjsonlink_cpp_unchecked_clang: test_dawjsonlink.cpp | $(daw_json_l
 target/json_nlohmann_json_cpp_clang: test_nlohmann_json.cpp | $(nlohmann_json) libnotify
 	$(CLANG_CPP_BUILD) -I$(nlohmann_json)/single_include
 
-newtonsoft_json_dir := target/Newtonsoft.Json/lib/net45
-newtonsoft_json := $(newtonsoft_json_dir)/Newtonsoft.Json.dll
-$(newtonsoft_json): | target
-	$(NUGET_INSTALL) Newtonsoft.Json -OutputDirectory target
-
-target/test.exe: test.cs | $(newtonsoft_json)
-	$(MCS_BUILD) -r:$(newtonsoft_json)
-
-.PHONY: target/Release/net8.0/json
-target/Release/net8.0/json: json.csproj | target
+.PHONY: target/Release/net9.0/json
+target/Release/net9.0/json: json.csproj | target
 	$(DOTNET_BUILD)
 
-.PHONY: json-core/target/Release/net8.0/json-core
-json-core/target/Release/net8.0/json-core: json-core/json-core.csproj
+.PHONY: json-core/target/Release/net9.0/json-core
+json-core/target/Release/net9.0/json-core: json-core/json-core.csproj
 	$(DOTNET_BUILD)
 
 .PHONY: target/json_hs
@@ -307,7 +298,7 @@ target/json_vala_gcc: test.vala | target
 target/json_vala_clang: test.vala | target
 	$(VALAC_CLANG_BUILD) --pkg json-glib-1.0
 
-json-fsharp/target/Release/net8.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
+json-fsharp/target/Release/net9.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
 	$(DOTNET_BUILD)
 
 target/json_zig: test.zig | $(zig_fmt)
@@ -342,9 +333,6 @@ $(executable_runners):: run[%] : %
 
 run[test.jl]:: run[%]: % | $(julia_fmt)
 	$(JULIA_RUN)
-
-run[target/test.exe]:: run[%]: %
-	MONO_PATH=$(newtonsoft_json_dir) $(MONO_RUN)
 
 .PHONY: yajl-ruby
 yajl-ruby:

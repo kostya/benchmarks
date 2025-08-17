@@ -33,15 +33,14 @@ executables := \
 	target/matmul_v_vsl_default_clang \
 	target/matmul_vala_gcc \
 	target/matmul_vala_clang \
-	target/Release/net8.0/matmul \
+	target/Release/net9.0/matmul \
 	target/matmul_cpp_gcc \
 	target/matmul_cpp_clang \
 	target/matmul_zig
 
 artifacts := $(executables) \
 	target/matmul.class \
-	target/matmul-kt.jar \
-	target/matmul.exe
+	target/matmul-kt.jar
 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[matmul.js] \
@@ -155,11 +154,8 @@ target/matmul.class: matmul.java | target
 target/matmul-kt.jar: matmul.kt | target
 	$(KOTLINC_BUILD)
 
-target/matmul.exe: matmul.cs | target
-	$(MCS_BUILD)
-
-.PHONY: target/Release/net8.0/matmul
-target/Release/net8.0/matmul: matmul.csproj | target
+.PHONY: target/Release/net9.0/matmul
+target/Release/net9.0/matmul: matmul.csproj | target
 	$(DOTNET_BUILD)
 
 eigen := target/eigen
@@ -198,9 +194,6 @@ run[target/matmul.class]:: run[%]: %
 
 run[target/matmul-kt.jar]:: run[%]: %
 	$(JAVA_JAR_RUN) $(MSIZE)
-
-run[target/matmul.exe]:: run[%]: %
-	$(MONO_RUN) $(MSIZE)
 
 run[matmul.js]:: run[%]: %
 	$(NODE_RUN) $(MSIZE)

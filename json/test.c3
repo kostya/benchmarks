@@ -22,14 +22,14 @@ fn bool Coordinate.equals(&self, Coordinate other)
 	return self.x == other.x && self.y == other.y && self.z == other.z;
 }
 
-fn usz! Coordinate.to_format(&self, Formatter *formatter) @dynamic
+fn usz? Coordinate.to_format(&self, Formatter *formatter) @dynamic
 {
-	return formatter.printf(`Coordinate{x: %.17e, y: %.17e, z: %.17e}`, self.x, self.y, self.z)!;
+	return formatter.printf(`Coordinate{x: %.17e, y: %.17e, z: %.17e}`, self.x, self.y, self.z);
 }
 
 fn void notify(String msg)
 {
-	TcpSocket! sock = tcp::connect("127.0.0.1", 9001);
+	TcpSocket? sock = tcp::connect("127.0.0.1", 9001);
 	if (catch excuse = sock)
 	{
 		return;
@@ -38,22 +38,22 @@ fn void notify(String msg)
 	sock.write(msg)!!;
 }
 
-fn Coordinate! calc(String s)
+fn Coordinate? calc(String s)
 {
-	Object *o = json::parse_string(s)!;
+	Object *o = json::parse_string(mem, s)!!;
 	defer o.free();
 
-	List(<Object *>) coords = o.get("coordinates")!.array;
+	List{Object *} coords = o.get("coordinates")!!.array;
 
 	double x, y, z;
 	foreach(c : coords)
 	{
-		x += c.get("x")!.f;
-		y += c.get("y")!.f;
-		z += c.get("z")!.f;
+		x += c.get("x")!!.f;
+		y += c.get("y")!!.f;
+		z += c.get("z")!!.f;
 	}
 
-	return Coordinate{
+	return (Coordinate) {
 		x / coords.size,
 		y / coords.size,
 		z / coords.size,

@@ -11,7 +11,7 @@ import Control.Monad
 import Data.Maybe
 import Data.Aeson
 import Data.Aeson.Types
-import Data.List (foldl')
+import Data.List()
 import GHC.Generics
 import Network.Socket
 import Network.Socket.ByteString

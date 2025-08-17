@@ -21,10 +21,9 @@ GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++23 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_GO_BUILD =	go  build  -C $< -compiler gccgo -buildvcs=false -gccgoflags="$(GCC_FLAGS)" -o $(abspath $@) .
 GDC_BUILD =		gdc -o $@ -O3 -frelease -finline -fbounds-check=off $^
 GHC_BUILD =		ghc -v0 -O2 -fforce-recomp -Wall $^ -o $@ -outputdir $(@D)
-JAVAC_BUILD =		javac --release 23 -Xlint:unchecked -d $(@D) $^
-KOTLINC_BUILD =	kotlinc -include-runtime -jvm-target 22 -d $@ $^
+JAVAC_BUILD =		javac --release 24 -Xlint:unchecked -d $(@D) $^
+KOTLINC_BUILD =	kotlinc -include-runtime -jvm-target 24 -d $@ $^
 LDC2_BUILD =		ldc2 -of$@ -O5 -release -boundscheck=off $^
-MCS_BUILD =		mcs -debug- -optimize+ -out:$@ $^
 MLTON_BUILD =		mlton -output $@ $^
 NIM_CLANG_BUILD =	nim c -o:$@ --cc:clang $(NIM_FLAGS) $^
 NIM_GCC_BUILD =	nim c -o:$@ --cc:gcc $(NIM_FLAGS) $^
@@ -63,7 +62,6 @@ JAVA_JAR_RUN =		$(XTIME) java -jar $^
 JRUBY_RUN =		$(XTIME) jruby $^
 LUA_JIT_RUN =		$(XTIME) luajit $^
 LUA_RUN =		$(XTIME) lua $^
-MONO_RUN =		$(XTIME) mono -O=all --gc=sgen $^
 NODE_RUN =		$(XTIME) node $^
 PERL_RUN =		$(XTIME) perl -I ~/perl5/lib/perl5 $^
 PHP_RUN =		$(XTIME) php $^
@@ -82,7 +80,6 @@ PHP_RUN =		$(XTIME) php $^
 
 GIT_CLONE = git clone --depth 1 -q
 DOTNET_CLEAN = -dotnet clean --nologo -v q -c Release
-NUGET_INSTALL = nuget install -ExcludeVersion -Verbosity quiet
 
 py_fmt := target/.py_fmt
 $(py_fmt): *.py | target

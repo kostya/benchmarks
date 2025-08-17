@@ -98,7 +98,7 @@ end
 
 defmodule Benchmark do
   def notify(msg) do
-    with {:ok, socket} <- :gen_tcp.connect('localhost', 9001, []) do
+    with {:ok, socket} <- :gen_tcp.connect(~c"localhost", 9001, []) do
       :gen_tcp.send(socket, msg)
       :gen_tcp.close(socket)
     end
