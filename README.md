@@ -278,6 +278,7 @@ have some inaccuracies in number parsing:
 |                               V/gcc |  0.639<sub>±0.005</sub> |   111.88<sub>±00.00</sub> + 496.00<sub>±00.00</sub> |  27.16<sub>±00.35</sub> |
 |              Nim/clang (Packedjson) |  0.664<sub>±0.002</sub> |   112.38<sub>±00.00</sub> + 294.25<sub>±00.00</sub> |  28.59<sub>±00.36</sub> |
 |                Nim/gcc (Packedjson) |  0.674<sub>±0.004</sub> |   112.12<sub>±00.00</sub> + 294.12<sub>±00.00</sub> |  28.60<sub>±00.31</sub> |
+|                       Julia (JSON3) |  0.700<sub>±0.001</sub> | 631.76<sub>±00.04</sub> + 332.81<sub>±01.00</sub>   |  29.33<sub>±00.22</sub> |
 |                 CPython (UltraJSON) |  0.700<sub>±0.002</sub> |   123.35<sub>±00.12</sub> + 478.56<sub>±01.81</sub> |  28.00<sub>±00.40</sub> |
 |             Perl (Cpanel::JSON::XS) |  0.767<sub>±0.011</sub> |   125.38<sub>±00.00</sub> + 402.88<sub>±00.00</sub> |  32.13<sub>±00.63</sub> |
 |                             Crystal |  0.795<sub>±0.007</sub> |   113.44<sub>±00.06</sub> + 392.12<sub>±00.00</sub> |  34.30<sub>±00.39</sub> |

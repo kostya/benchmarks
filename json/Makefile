@@ -72,7 +72,6 @@ executables := \
 artifacts := $(executables) \
 	json-scala/target/application.jar
 
-#	run[test.jl] 
 all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[test_yajl.rb] \
 	run[test.pl] \
@@ -88,7 +87,8 @@ all_runners := $(patsubst %,run[%], $(artifacts)) \
 	run[jruby][test.rb] \
 	run[test.php] \
 	run[test.clj] \
-	run[test.rkt]
+	run[test.rkt] \
+	run[test.jl]
 
 # Build
 
