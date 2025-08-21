@@ -1,0 +1,8 @@
+[package]
+name = "rust perlin"
+version = "0.0.1"
+[[bin]]
+name = "bin_test_rs"
+path = "test.rs"
+[dependencies]
+rand = "*"
