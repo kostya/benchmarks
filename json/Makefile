@@ -65,6 +65,8 @@ executables := \
 	target/json_zig \
 	target/json_yajl_gcc \
 	target/json_yajl_clang \
+	target/json_yyjson_gcc \
+	target/json_yyjson_clang \
 	target/json_odin \
 	target/json_c3 \
 
@@ -309,6 +311,12 @@ target/json_yajl_gcc: test_yajl.c | target libnotify
 
 target/json_yajl_clang: test_yajl.c | target libnotify
 	$(CLANG_BUILD) -lyajl
+
+target/json_yyjson_gcc: test_yyjson.c | target libnotify
+	$(GCC_BUILD) -lyyjson
+
+target/json_yyjson_clang: test_yyjson.c | target libnotify
+	$(CLANG_BUILD) -lyyjson
 
 target/json_odin: test.odin
 	$(ODIN_BUILD)
