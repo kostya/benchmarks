@@ -243,6 +243,8 @@ have some inaccuracies in number parsing:
 |              C++/g++ (simdjson DOM) |  0.107<sub>±0.002</sub> |   113.44<sub>±00.06</sub> + 175.86<sub>±00.89</sub> |   4.89<sub>±00.06</sub> |
 |                  Rust (Serde Typed) |  0.110<sub>±0.000</sub> |    111.75<sub>±00.00</sub> + 11.12<sub>±00.00</sub> |   4.70<sub>±00.02</sub> |
 |                     C++/g++ (gason) |  0.127<sub>±0.000</sub> |    113.21<sub>±00.00</sub> + 96.75<sub>±00.00</sub> |   5.16<sub>±00.06</sub> |
+|                      C/gcc (yyjson) |  0.131<sub>±0.000</sub> |   111.69<sub>±00.06</sub> + 229.38<sub>±00.00</sub> |   5.39<sub>±00.05</sub> |
+|                    C/clang (yyjson) |  0.132<sub>±0.001</sub> |   111.75<sub>±00.00</sub> + 229.38<sub>±00.00</sub> |   5.44<sub>±00.05</sub> |
 |                 C++/clang++ (gason) |  0.133<sub>±0.001</sub> |    112.70<sub>±00.00</sub> + 96.75<sub>±00.00</sub> |   5.35<sub>±00.04</sub> |
 |               D/ldc2 (Mir Asdf DOM) |  0.133<sub>±0.001</sub> |    112.81<sub>±00.06</sub> + 61.25<sub>±00.00</sub> |   5.56<sub>±00.07</sub> |
 |              Scala (jsoniter-scala) |  0.147<sub>±0.001</sub> |    283.94<sub>±00.09</sub> + 25.62<sub>±00.19</sub> |   7.89<sub>±00.03</sub> |

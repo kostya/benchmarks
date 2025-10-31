@@ -43,6 +43,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxml2 \
     libyajl-dev \
     libyaml-dev \
+    libyyjson-dev \
     locales \
     locales-all \
     lua5.4 \

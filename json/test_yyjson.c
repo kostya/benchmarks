@@ -12,7 +12,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <yyjson/yyjson.h>
+#include <yyjson.h>
 
 #ifdef __clang__
 #define COMPILER "clang"
