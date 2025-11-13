@@ -3,8 +3,9 @@
     <TargetFramework>net10.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TieredCompilation>false</TieredCompilation>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="bf.cs" />
+    <Compile Include="bf-staged.cs" />
   </ItemGroup>
 </Project>
