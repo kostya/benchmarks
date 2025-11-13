@@ -424,7 +424,7 @@ Base Docker image: Debian GNU/Linux trixie/sid
 
 | Language         | Version                         |
 | ---------------- | ------------------------------- |
-| .NET Core        | 10.0.100                        |
+| .NET Core        | 9.0.304                         |
 | C#/.NET Core     | 4.14.0-3.25359.3 (6dbcfd2f)     |
 | C3               | 0.7.4                           |
 | Chez Scheme      | 10.0.0                          |
