@@ -28,6 +28,7 @@ executables := \
 	target/bin_c_clang \
 	fsharp/target/Release/net10.0/brainfuck \
 	target/Release/net10.0/brainfuck \
+	target/Release/net10.0/brainfuck-staged \
 	target/bin_zig \
 	target/bin_idris
 
