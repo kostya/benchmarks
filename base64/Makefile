@@ -21,8 +21,8 @@ executables := \
 	target/base64_v_clang \
 	target/base64_vala_gcc \
 	target/base64_vala_clang \
-	target/Release/net9.0/base64 \
-	base64.fsharp/target/Release/net9.0/base64 \
+	target/Release/net10.0/base64 \
+	base64.fsharp/target/Release/net10.0/base64 \
 	target/base64_zig
 
 artifacts := $(executables) \
@@ -112,11 +112,11 @@ base64-rs-toml := base64.rs/Cargo.toml
 base64.rs/target/release/base64: $(base64-rs-toml)
 	$(CARGO_BUILD)
 
-.PHONY: target/Release/net9.0/base64
-target/Release/net9.0/base64: base64.csproj | target
+.PHONY: target/Release/net10.0/base64
+target/Release/net10.0/base64: base64.csproj | target
 	$(DOTNET_BUILD)
 
-base64.fsharp/target/Release/net9.0/base64: base64.fsharp/base64.fsproj | target
+base64.fsharp/target/Release/net10.0/base64: base64.fsharp/base64.fsproj | target
 	$(DOTNET_BUILD)
 
 target/base64_v_gcc: test.v | $(v_fmt)
