@@ -141,8 +141,8 @@ readonly ref struct Executable
     {
         var program = Emit();
         var entrypoint = program.GetMethod("Run")!.CreateDelegate<Entrypoint>();
-        Span<byte> initialMemory = new byte[1];
-        entrypoint(0, ref initialMemory, ref printer);
+        Span<byte> memory = new byte[1];
+        entrypoint(0, ref memory, ref printer);
     }
 }
 
