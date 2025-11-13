@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -80,7 +81,7 @@ readonly ref struct Executable
         _code = code;
     }
 
-    private delegate int Entrypoint(int address, scoped Span<byte> memory, ref Printer printer);
+    private delegate int Entrypoint(int address, scoped ref Span<byte> memory, ref Printer printer);
 
     private Type Emit()
     {
@@ -89,20 +90,20 @@ readonly ref struct Executable
 
         var cont = typeof(Stop);
         var nextAfterLoop = new Stack<Type>();
-
+        var isDataAccessHeavy = _code.Count('+') > _code.Count('>');
         for (int i = _code.Length - 1; i >= 0; i--)
         {
             var c = _code[i];
             switch (c)
             {
                 case '>':
-                    cont = typeof(AddPointer<>).MakeGenericType(cont);
+                    cont = isDataAccessHeavy ? typeof(AddPointerGuarded<>).MakeGenericType(cont) : typeof(AddPointer<>).MakeGenericType(cont);
                     break;
                 case '<':
                     cont = typeof(SubPointer<>).MakeGenericType(cont);
                     break;
                 case '+':
-                    cont = typeof(AddData<>).MakeGenericType(cont);
+                    cont = isDataAccessHeavy ? typeof(AddData<>).MakeGenericType(cont) : typeof(AddDataGuarded<>).MakeGenericType(cont);
                     break;
                 case '-':
                     cont = typeof(SubData<>).MakeGenericType(cont);
@@ -140,18 +141,19 @@ readonly ref struct Executable
     {
         var program = Emit();
         var entrypoint = program.GetMethod("Run")!.CreateDelegate<Entrypoint>();
-        entrypoint(0, stackalloc byte[1024], ref printer);
+        Span<byte> initialMemory = new byte[1];
+        entrypoint(0, ref initialMemory, ref printer);
     }
 }
 
 interface IOp
 {
-    abstract static int Run(int address, Span<byte> memory, ref Printer printer);
+    abstract static int Run(int address, scoped ref Span<byte> memory, ref Printer printer);
 }
 
 ref struct Stop : IOp
 {
-    public static int Run(int address, Span<byte> memory, ref Printer printer)
+    public static int Run(int address, scoped ref Span<byte> memory, ref Printer printer)
     {
         return address;
     }
@@ -161,61 +163,92 @@ ref struct Loop<Body, Next> : IOp
     where Body : IOp, allows ref struct
     where Next : IOp, allows ref struct
 {
-    public static int Run(int address, Span<byte> memory, ref Printer printer)
+    public static int Run(int address, scoped ref Span<byte> memory, ref Printer printer)
     {
         while (memory.AtNoRangeCheck(address) != 0)
         {
-            address = Body.Run(address, memory, ref printer);
+            address = Body.Run(address, ref memory, ref printer);
         }
-        return Next.Run(address, memory, ref printer);
+        return Next.Run(address, ref memory, ref printer);
     }
 }
 
 ref struct AddPointer<Next> : IOp
     where Next : IOp, allows ref struct
 {
-    public static int Run(int address, Span<byte> memory, ref Printer printer)
+    public static int Run(int address, scoped ref Span<byte> memory, ref Printer printer)
     {
-        return Next.Run(address + 1, memory, ref printer);
+        return Next.Run(address + 1, ref memory, ref printer);
+    }
+}
+
+ref struct AddPointerGuarded<Next> : IOp
+    where Next : IOp, allows ref struct
+{
+    public static int Run(int address, scoped ref Span<byte> memory, ref Printer printer)
+    {
+        if (address + 1 >= memory.Length)
+        {
+            var newMemory = new Span<byte>(new byte[memory.Length * 2]);
+            memory.CopyTo(newMemory);
+            memory = newMemory;
+        }
+        return Next.Run(address + 1, ref memory, ref printer);
     }
 }
 
 ref struct AddData<Next> : IOp
     where Next : IOp, allows ref struct
 {
-    public static int Run(int address, Span<byte> memory, ref Printer printer)
+    public static int Run(int address, scoped ref Span<byte> memory, ref Printer printer)
     {
         memory.AtNoRangeCheck(address) += 1;
-        return Next.Run(address, memory, ref printer);
+        return Next.Run(address, ref memory, ref printer);
+    }
+}
+
+ref struct AddDataGuarded<Next> : IOp
+    where Next : IOp, allows ref struct
+{
+    public static int Run(int address, scoped ref Span<byte> memory, ref Printer printer)
+    {
+        if (address + 1 >= memory.Length)
+        {
+            var newMemory = new Span<byte>(new byte[memory.Length * 2]);
+            memory.CopyTo(newMemory);
+            memory = newMemory;
+        }
+        memory.AtNoRangeCheck(address) += 1;
+        return Next.Run(address, ref memory, ref printer);
     }
 }
 
 ref struct SubPointer<Next> : IOp
     where Next : IOp, allows ref struct
 {
-    public static int Run(int address, Span<byte> memory, ref Printer printer)
+    public static int Run(int address, scoped ref Span<byte> memory, ref Printer printer)
     {
-        return Next.Run(address - 1, memory, ref printer);
+        return Next.Run(address - 1, ref memory, ref printer);
     }
 }
 
 ref struct SubData<Next> : IOp
     where Next : IOp, allows ref struct
 {
-    public static int Run(int address, Span<byte> memory, ref Printer printer)
+    public static int Run(int address, scoped ref Span<byte> memory, ref Printer printer)
     {
         memory.AtNoRangeCheck(address) -= 1;
-        return Next.Run(address, memory, ref printer);
+        return Next.Run(address, ref memory, ref printer);
     }
 }
 
 ref struct OutputData<Next> : IOp
     where Next : IOp, allows ref struct
 {
-    public static int Run(int address, Span<byte> memory, ref Printer printer)
+    public static int Run(int address, scoped ref Span<byte> memory, ref Printer printer)
     {
         printer.Print(memory.AtNoRangeCheck(address));
-        return Next.Run(address, memory, ref printer);
+        return Next.Run(address, ref memory, ref printer);
     }
 }
 
@@ -246,8 +279,9 @@ ref struct Printer
 static class MemoryExtensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static ref byte AtNoRangeCheck(this Span<byte> memory, int address)
+    internal static ref byte AtNoRangeCheck(this ref Span<byte> memory, int address)
     {
+        // It's safe because the address has been guarded in AddPointerGuarded or AddDataGuarded.
         return ref Unsafe.Add(ref MemoryMarshal.GetReference(memory), address);
     }
 }
