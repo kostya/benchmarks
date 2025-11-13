@@ -87,7 +87,7 @@ target/Release/net10.0/brainfuck: brainfuck.csproj | target
 	$(DOTNET_BUILD)
 
 .PHONY: target/Release/net10.0/brainfuck-staged
-target/Release/net10.0/brainfuck: brainfuck-staged.csproj | target
+target/Release/net10.0/brainfuck-staged: brainfuck-staged.csproj | target
 	$(DOTNET_BUILD)
 
 .PHONY: fsharp/target/Release/net10.0/brainfuck
