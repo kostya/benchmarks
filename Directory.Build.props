@@ -4,5 +4,6 @@
     <BaseOutputPath>target</BaseOutputPath>
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+    <TieredCompilation>false</TieredCompilation>
   </PropertyGroup>
 </Project>
