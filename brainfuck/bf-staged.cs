@@ -55,7 +55,7 @@ class Program
         };
 
         var runtime = Type.GetType("Mono.Runtime") != null ? "Mono" : ".NET Core";
-        Notify($"C#/{runtime}\t{Environment.ProcessId}");
+        Notify($"C# (Staged)/{runtime}\t{Environment.ProcessId}");
         var stopWatch = Stopwatch.StartNew();
         new Executable(text).Run(ref p);
         stopWatch.Stop();
