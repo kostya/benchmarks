@@ -86,6 +86,10 @@ target/bin_swift: bf.swift | target
 target/Release/net10.0/brainfuck: brainfuck.csproj | target
 	$(DOTNET_BUILD)
 
+.PHONY: target/Release/net10.0/brainfuck-staged
+target/Release/net10.0/brainfuck: brainfuck-staged.csproj | target
+	$(DOTNET_BUILD)
+
 .PHONY: fsharp/target/Release/net10.0/brainfuck
 fsharp/target/Release/net10.0/brainfuck: fsharp/brainfuck.fsproj | target
 	$(DOTNET_BUILD)
