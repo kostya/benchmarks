@@ -11,7 +11,7 @@ namespace Test
     {
         public OpT op;
         public int v;
-        public Op[] loop;
+        public Op[]? loop;
 
         public Op(OpT _op, int _v)
         {
@@ -28,10 +28,17 @@ namespace Test
         }
     }
 
-    public class Tape
+    ref struct Tape
     {
-        int pos = 0;
-        int[] tape = new int[1];
+        int pos;
+        int[] tape;
+
+        public Tape()
+        {
+            pos = 0;
+            tape = new int[1];
+        }
+
         public int CurrentCell
         {
             get => tape[pos];
@@ -79,32 +86,40 @@ namespace Test
 
         Program(string text, Printer p)
         {
-            ops = parse(text.GetEnumerator());
+            ReadOnlySpan<char> span = text.AsSpan();
+            ops = parse(ref span);
             this.p = p;
         }
 
-        private Op[] parse(IEnumerator<char> it)
+        private Op[] parse(ref ReadOnlySpan<char> it)
         {
             List<Op> res = new List<Op>();
-            while (it.MoveNext())
+            for (; it.Length > 0; it = it[1..])
             {
-                switch (it.Current)
+                switch (it[0])
                 {
                     case '+': res.Add(new Op(OpT.INC, 1)); break;
                     case '-': res.Add(new Op(OpT.INC, -1)); break;
                     case '>': res.Add(new Op(OpT.MOVE, 1)); break;
                     case '<': res.Add(new Op(OpT.MOVE, -1)); break;
                     case '.': res.Add(new Op(OpT.PRINT, 0)); break;
-                    case '[': res.Add(new Op(OpT.LOOP, parse(it))); break;
-                    case ']': return res.ToArray();
+                    case '[': 
+                        it = it[1..];
+                        res.Add(new Op(OpT.LOOP, parse(ref it)));
+                        break;
+                    case ']': return [.. res];
                 }
             }
-            return res.ToArray();
+            return [.. res];
         }
 
-        public void run() => _run(ops, new Tape());
+        public void run()
+        {
+            Tape tape = new Tape();
+            _run(ops, ref tape);
+        }
 
-        private void _run(Op[] program, Tape tape)
+        private void _run(Op[] program, ref Tape tape)
         {
             foreach (Op op in program)
             {
@@ -112,7 +127,7 @@ namespace Test
                 {
                     case OpT.INC: tape.Inc(op.v); break;
                     case OpT.MOVE: tape.Move(op.v); break;
-                    case OpT.LOOP: while (tape.CurrentCell > 0) _run(op.loop, tape); break;
+                    case OpT.LOOP: while (tape.CurrentCell > 0) _run(op.loop!, ref tape); break;
                     case OpT.PRINT: p.Print(tape.CurrentCell); break;
                 }
             }
@@ -124,8 +139,8 @@ namespace Test
             {
                 using (var s = new System.Net.Sockets.TcpClient("localhost", 9001))
                 {
-                    var data = System.Text.Encoding.UTF8.GetBytes(msg);
-                    s.Client.Send(data);
+                   var data = System.Text.Encoding.UTF8.GetBytes(msg);
+                   s.Client.Send(data);
                 }
             }
             catch
