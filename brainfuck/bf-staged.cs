@@ -149,7 +149,7 @@ interface IOp
     abstract static int Run(int address, Span<byte> memory, ref Printer printer);
 }
 
-struct Stop : IOp
+ref struct Stop : IOp
 {
     public static int Run(int address, Span<byte> memory, ref Printer printer)
     {
@@ -157,9 +157,9 @@ struct Stop : IOp
     }
 }
 
-struct Loop<Body, Next> : IOp
-    where Body : IOp
-    where Next : IOp
+ref struct Loop<Body, Next> : IOp
+    where Body : IOp, allows ref struct
+    where Next : IOp, allows ref struct
 {
     public static int Run(int address, Span<byte> memory, ref Printer printer)
     {
@@ -171,8 +171,8 @@ struct Loop<Body, Next> : IOp
     }
 }
 
-struct AddPointer<Next> : IOp
-    where Next : IOp
+ref struct AddPointer<Next> : IOp
+    where Next : IOp, allows ref struct
 {
     public static int Run(int address, Span<byte> memory, ref Printer printer)
     {
@@ -180,8 +180,8 @@ struct AddPointer<Next> : IOp
     }
 }
 
-struct AddData<Next> : IOp
-    where Next : IOp
+ref struct AddData<Next> : IOp
+    where Next : IOp, allows ref struct
 {
     public static int Run(int address, Span<byte> memory, ref Printer printer)
     {
@@ -190,8 +190,8 @@ struct AddData<Next> : IOp
     }
 }
 
-struct SubPointer<Next> : IOp
-    where Next : IOp
+ref struct SubPointer<Next> : IOp
+    where Next : IOp, allows ref struct
 {
     public static int Run(int address, Span<byte> memory, ref Printer printer)
     {
@@ -199,8 +199,8 @@ struct SubPointer<Next> : IOp
     }
 }
 
-struct SubData<Next> : IOp
-    where Next : IOp
+ref struct SubData<Next> : IOp
+    where Next : IOp, allows ref struct
 {
     public static int Run(int address, Span<byte> memory, ref Printer printer)
     {
@@ -209,8 +209,8 @@ struct SubData<Next> : IOp
     }
 }
 
-struct OutputData<Next> : IOp
-    where Next : IOp
+ref struct OutputData<Next> : IOp
+    where Next : IOp, allows ref struct
 {
     public static int Run(int address, Span<byte> memory, ref Printer printer)
     {
