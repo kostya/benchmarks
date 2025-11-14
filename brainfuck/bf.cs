@@ -39,10 +39,9 @@ namespace Test
             tape = new int[1];
         }
 
-        public int CurrentCell
+        public ref int CurrentCell
         {
-            get => tape[pos];
-            set => tape[pos] = value;
+            get => ref tape[pos];
         }
 
         public void Inc(int x) => CurrentCell += x;
@@ -86,31 +85,27 @@ namespace Test
 
         Program(string text, Printer p)
         {
-            ReadOnlySpan<char> span = text.AsSpan();
-            ops = parse(ref span);
+            ops = parse(text.GetEnumerator());
             this.p = p;
         }
 
-        private Op[] parse(ref ReadOnlySpan<char> it)
+        private Op[] parse(IEnumerator<char> it)
         {
             List<Op> res = new List<Op>();
-            for (; it.Length > 0; it = it[1..])
+            while (it.MoveNext())
             {
-                switch (it[0])
+                switch (it.Current)
                 {
                     case '+': res.Add(new Op(OpT.INC, 1)); break;
                     case '-': res.Add(new Op(OpT.INC, -1)); break;
                     case '>': res.Add(new Op(OpT.MOVE, 1)); break;
                     case '<': res.Add(new Op(OpT.MOVE, -1)); break;
                     case '.': res.Add(new Op(OpT.PRINT, 0)); break;
-                    case '[': 
-                        it = it[1..];
-                        res.Add(new Op(OpT.LOOP, parse(ref it)));
-                        break;
-                    case ']': return [.. res];
+                    case '[': res.Add(new Op(OpT.LOOP, parse(it))); break;
+                    case ']': return res.ToArray();
                 }
             }
-            return [.. res];
+            return res.ToArray();
         }
 
         public void run()
