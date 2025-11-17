@@ -211,7 +211,7 @@ ENV PATH="/root/.ghcup/bin/:${PATH}"
 
 # https://github.com/dotnet/core/tree/main/release-notes
 RUN mkdir dotnet && curl \
-    https://builds.dotnet.microsoft.com/dotnet/Sdk/9.0.304/dotnet-sdk-9.0.304-linux-x64.tar.gz \
+    https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.100/dotnet-sdk-10.0.100-linux-x64.tar.gz \
     | tar -xz -C dotnet
 ENV PATH="/root/bin/dotnet:${PATH}"
 ENV DOTNET_ROOT="/root/bin/dotnet"

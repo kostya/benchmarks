@@ -59,9 +59,9 @@ executables := \
 	target/json_v_clang \
 	target/json_vala_gcc \
 	target/json_vala_clang \
-	json-fsharp/target/Release/net9.0/json-fsharp \
-	target/Release/net9.0/json \
-	json-core/target/Release/net9.0/json-core \
+	json-fsharp/target/Release/net10.0/json-fsharp \
+	target/Release/net10.0/json \
+	json-core/target/Release/net10.0/json-core \
 	target/json_zig \
 	target/json_yajl_gcc \
 	target/json_yajl_clang \
@@ -268,12 +268,12 @@ target/json_dawjsonlink_cpp_unchecked_clang: test_dawjsonlink.cpp | $(daw_json_l
 target/json_nlohmann_json_cpp_clang: test_nlohmann_json.cpp | $(nlohmann_json) libnotify
 	$(CLANG_CPP_BUILD) -I$(nlohmann_json)/single_include
 
-.PHONY: target/Release/net9.0/json
-target/Release/net9.0/json: json.csproj | target
+.PHONY: target/Release/net10.0/json
+target/Release/net10.0/json: json.csproj | target
 	$(DOTNET_BUILD)
 
-.PHONY: json-core/target/Release/net9.0/json-core
-json-core/target/Release/net9.0/json-core: json-core/json-core.csproj
+.PHONY: json-core/target/Release/net10.0/json-core
+json-core/target/Release/net10.0/json-core: json-core/json-core.csproj
 	$(DOTNET_BUILD)
 
 .PHONY: target/json_hs
@@ -300,7 +300,7 @@ target/json_vala_gcc: test.vala | target
 target/json_vala_clang: test.vala | target
 	$(VALAC_CLANG_BUILD) --pkg json-glib-1.0
 
-json-fsharp/target/Release/net9.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
+json-fsharp/target/Release/net10.0/json-fsharp: json-fsharp/json-fsharp.fsproj json-fsharp/Program.fs
 	$(DOTNET_BUILD)
 
 target/json_zig: test.zig | $(zig_fmt)

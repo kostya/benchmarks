@@ -26,8 +26,9 @@ executables := \
 	target/bin_v_clang \
 	target/bin_c_gcc \
 	target/bin_c_clang \
-	fsharp/target/Release/net9.0/brainfuck \
-	target/Release/net9.0/brainfuck \
+	fsharp/target/Release/net10.0/brainfuck \
+	target/Release/net10.0/brainfuck \
+	target/Release/net10.0/brainfuck-staged \
 	target/bin_zig \
 	target/bin_idris
 
@@ -82,12 +83,16 @@ bf.rs/target/release/bf: $(bf-rs-toml)
 target/bin_swift: bf.swift | target
 	$(SWIFTC_BUILD)
 
-.PHONY: target/Release/net9.0/brainfuck
-target/Release/net9.0/brainfuck: brainfuck.csproj | target
+.PHONY: target/Release/net10.0/brainfuck
+target/Release/net10.0/brainfuck: brainfuck.csproj | target
 	$(DOTNET_BUILD)
 
-.PHONY: fsharp/target/Release/net9.0/brainfuck
-fsharp/target/Release/net9.0/brainfuck: fsharp/brainfuck.fsproj | target
+.PHONY: target/Release/net10.0/brainfuck-staged
+target/Release/net10.0/brainfuck-staged: brainfuck-staged.csproj | target
+	$(DOTNET_BUILD)
+
+.PHONY: fsharp/target/Release/net10.0/brainfuck
+fsharp/target/Release/net10.0/brainfuck: fsharp/brainfuck.fsproj | target
 	$(DOTNET_BUILD)
 
 target/bf2-kt.jar: bf2.kt | target

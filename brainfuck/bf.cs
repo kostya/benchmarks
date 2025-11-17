@@ -11,7 +11,7 @@ namespace Test
     {
         public OpT op;
         public int v;
-        public Op[] loop;
+        public Op[]? loop;
 
         public Op(OpT _op, int _v)
         {
@@ -28,14 +28,20 @@ namespace Test
         }
     }
 
-    public class Tape
+    ref struct Tape
     {
-        int pos = 0;
-        int[] tape = new int[1];
-        public int CurrentCell
+        int pos;
+        int[] tape;
+
+        public Tape()
         {
-            get => tape[pos];
-            set => tape[pos] = value;
+            pos = 0;
+            tape = new int[1];
+        }
+
+        public ref int CurrentCell
+        {
+            get => ref tape[pos];
         }
 
         public void Inc(int x) => CurrentCell += x;
@@ -102,9 +108,13 @@ namespace Test
             return res.ToArray();
         }
 
-        public void run() => _run(ops, new Tape());
+        public void run()
+        {
+            Tape tape = new Tape();
+            _run(ops, ref tape);
+        }
 
-        private void _run(Op[] program, Tape tape)
+        private void _run(Op[] program, ref Tape tape)
         {
             foreach (Op op in program)
             {
@@ -112,7 +122,7 @@ namespace Test
                 {
                     case OpT.INC: tape.Inc(op.v); break;
                     case OpT.MOVE: tape.Move(op.v); break;
-                    case OpT.LOOP: while (tape.CurrentCell > 0) _run(op.loop, tape); break;
+                    case OpT.LOOP: while (tape.CurrentCell > 0) _run(op.loop!, ref tape); break;
                     case OpT.PRINT: p.Print(tape.CurrentCell); break;
                 }
             }
@@ -124,8 +134,8 @@ namespace Test
             {
                 using (var s = new System.Net.Sockets.TcpClient("localhost", 9001))
                 {
-                    var data = System.Text.Encoding.UTF8.GetBytes(msg);
-                    s.Client.Send(data);
+                   var data = System.Text.Encoding.UTF8.GetBytes(msg);
+                   s.Client.Send(data);
                 }
             }
             catch
