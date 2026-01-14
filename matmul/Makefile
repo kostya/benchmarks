@@ -36,6 +36,8 @@ executables := \
 	target/Release/net10.0/matmul \
 	target/matmul_cpp_gcc \
 	target/matmul_cpp_clang \
+	target/matmul_xtensor_cpp_gcc \
+	target/matmul_xtensor_cpp_clang \
 	target/matmul_zig
 
 artifacts := $(executables) \
@@ -162,11 +164,25 @@ eigen := target/eigen
 $(eigen): | target
 	$(GIT_CLONE) "https://gitlab.com/libeigen/eigen.git" $@
 
+xtensor := target/xtensor
+$(xtensor): | target
+	$(GIT_CLONE) "https://github.com/xtensor-stack/xtensor" $@
+
+xtensor_blas := target/xtensor-blas
+$(xtensor_blas): | target
+	$(GIT_CLONE) "https://github.com/xtensor-stack/xtensor-blas" $@
+
 target/matmul_cpp_gcc: matmul.cpp | $(eigen) libnotify
 	$(GCC_CPP_BUILD) -I$(eigen) -fopenmp
 
 target/matmul_cpp_clang: matmul.cpp | $(eigen) libnotify
 	$(CLANG_CPP_BUILD) -I$(eigen) -fopenmp
+
+target/matmul_xtensor_cpp_gcc: matmul_xtensor.cpp | $(xtensor) $(xtensor_blas) libnotify
+	$(GCC_CPP_BUILD) -DNDEBUG -I$(xtensor)/include -I$(xtensor_blas)/include
+
+target/matmul_xtensor_cpp_clang: matmul_xtensor.cpp | $(xtensor) $(xtensor_blas) libnotify
+	$(CLANG_CPP_BUILD) -DNDEBUG -I$(xtensor)/include -I$(xtensor_blas)/include
 
 target/matmul_zig: matmul.zig | $(zig_fmt)
 	$(ZIG_BUILD)
