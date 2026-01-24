@@ -310,6 +310,13 @@ RUN cabal update \
     && cabal install hlint
 ENV GHC_PACKAGE_PATH="~/.cabal/store/ghc-${GHC_VER}/package.db:"
 
+# https://github.com/janet-lang/janet/releases
+ARG JANET=v1.40.1
+RUN curl -LO \
+    https://github.com/janet-lang/janet/releases/download/$JANET/janet-$JANET-linux-x64.tar.gz \
+    && tar xf janet-$JANET-linux-x64.tar.gz
+ENV PATH="/root/bin/janet-$JANET-linux/bin/:${PATH}"
+
 ARG SCRIPTS_VER=unknown
 COPY *.rb ./
 

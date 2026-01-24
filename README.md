@@ -441,6 +441,7 @@ Base Docker image: Debian GNU/Linux trixie/sid
 | Go/gccgo         | 14.2.0                          |
 | Haskell          | 9.10.2                          |
 | Idris 2          | 0.7.0                           |
+| Janet            | 1.40.1-1449ad8                  |
 | Java             | 24.0.2                          |
 | Julia            | v"1.11.6"                       |
 | Kotlin           | 2.2.0                           |
