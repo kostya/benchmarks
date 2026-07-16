@@ -136,10 +136,10 @@ int decode(size_t size, const char *str, size_t *out_size, char *output) {
   return true;
 }
 
-inline uint32_t to_uint32_t(const char *str) {
-  uint64_t n;
-  memcpy(&n, str, sizeof(n));
-  return n;
+static inline uint32_t to_uint32_t(const char *str) {
+  return ((uint32_t)(unsigned char)str[0] << 24) |
+         ((uint32_t)(unsigned char)str[1] << 16) |
+         ((uint32_t)(unsigned char)str[2] << 8);
 }
 
 void encode(size_t size, const char *str, size_t *out_size, char *output) {
@@ -147,7 +147,7 @@ void encode(size_t size, const char *str, size_t *out_size, char *output) {
   const char *ends = str + (size - size % 3);
   uint64_t n;
   while (str != ends) {
-    uint32_t n = __builtin_bswap32(to_uint32_t(str));
+    uint32_t n = to_uint32_t(str);
     *out++ = chars[(n >> 26) & 63];
     *out++ = chars[(n >> 20) & 63];
     *out++ = chars[(n >> 14) & 63];
@@ -156,14 +156,14 @@ void encode(size_t size, const char *str, size_t *out_size, char *output) {
   }
   int pd = size % 3;
   if (pd == 1) {
-    n = (uint64_t)*str << 16;
+    n = (uint64_t)(unsigned char)*str << 16;
     *out++ = chars[(n >> 18) & 63];
     *out++ = chars[(n >> 12) & 63];
     *out++ = '=';
     *out++ = '=';
   } else if (pd == 2) {
-    n = (uint64_t)*str++ << 16;
-    n |= (uint64_t)*str << 8;
+    n = (uint64_t)(unsigned char)*str++ << 16;
+    n |= (uint64_t)(unsigned char)*str << 8;
     *out++ = chars[(n >> 18) & 63];
     *out++ = chars[(n >> 12) & 63];
     *out++ = chars[(n >> 6) & 63];

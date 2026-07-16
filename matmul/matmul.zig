@@ -1,5 +1,4 @@
 const std = @import("std");
-const unistd = @cImport(@cInclude("unistd.h"));
 
 fn matInit(alloc: std.mem.Allocator, x: usize, y: usize) [][]f64 {
     const mat: [][]f64 = alloc.alloc([]f64, x) catch unreachable;
@@ -57,12 +56,14 @@ fn matMul(alloc: std.mem.Allocator, a: [][]f64, b: [][]f64) [][]f64 {
     return c;
 }
 
-fn notify(msg: []const u8) void {
-    const addr = std.net.Address.parseIp("127.0.0.1", 9001) catch unreachable;
-    if (std.net.tcpConnectToAddress(addr)) |stream| {
-        defer stream.close();
-        _ = stream.write(msg) catch unreachable;
-    } else |_| {}
+fn notify(io: std.Io, msg: []const u8) void {
+    const addr = std.Io.net.IpAddress.parse("127.0.0.1", 9001) catch unreachable;
+    var stream = addr.connect(io, .{ .mode = .stream }) catch return;
+    defer stream.close(io);
+
+    var writer = stream.writer(io, &.{});
+    writer.interface.writeAll(msg) catch return;
+    writer.interface.flush() catch return;
 }
 
 fn calc(alloc: std.mem.Allocator, n: usize) f64 {
@@ -74,12 +75,13 @@ fn calc(alloc: std.mem.Allocator, n: usize) f64 {
     return x[i][i];
 }
 
-pub fn main() !void {
+pub fn main(init: std.process.Init.Minimal) !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.c_allocator);
     defer arena.deinit();
     const alloc = arena.allocator();
+    const io = std.Io.Threaded.global_single_threaded.io();
 
-    var arg_iter = std.process.args();
+    var arg_iter = std.process.Args.Iterator.init(init.args);
     _ = arg_iter.skip(); // Skip binary name
 
     const arg = arg_iter.next() orelse "";
@@ -91,12 +93,12 @@ pub fn main() !void {
         std.debug.panic("{d} != {d}\n", .{ left, right });
     }
 
-    const pid = unistd.getpid();
+    const pid = std.posix.system.getpid();
     const pid_str = try std.fmt.allocPrint(alloc, "Zig\t{d}", .{pid});
 
-    notify(pid_str);
+    notify(io, pid_str);
     const result = calc(alloc, n);
-    notify("stop");
+    notify(io, "stop");
 
     std.debug.print("{d}\n", .{result});
 }

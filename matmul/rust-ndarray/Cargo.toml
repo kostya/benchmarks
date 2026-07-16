@@ -10,7 +10,7 @@ panic = "abort"
 strip = true
 
 [dependencies.ndarray]
-version = "0.16.1"
+version = "0.17.2"
 features = ["matrixmultiply-threading"]
 
 [dependencies.utils]

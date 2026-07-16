@@ -1,6 +1,6 @@
-#include "lua5.4/lua.h"
 #include "libnotify.h"
-#include "lua5.4/lauxlib.h"
+#include "lua5.5/lauxlib.h"
+#include "lua5.5/lua.h"
 
 static int lua_notify(lua_State *L) {
   notify(luaL_checklstring(L, 1, NULL));

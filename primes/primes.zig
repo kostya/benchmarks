@@ -1,16 +1,16 @@
 const std = @import("std");
-const unistd = @cImport(@cInclude("unistd.h"));
 
 const UPPER_BOUND: i32 = 5_000_000;
 const PREFIX: i32 = 32_338;
 
 const Node = struct {
-    children: std.AutoArrayHashMap(u8, *Node),
+    children: std.array_hash_map.Auto(u8, *Node),
     terminal: bool = false,
 
     fn init(alloc: std.mem.Allocator) Node {
+        _ = alloc;
         return Node{
-            .children = std.AutoArrayHashMap(u8, *Node).init(alloc),
+            .children = .empty,
         };
     }
 };
@@ -28,13 +28,13 @@ const Sieve = struct {
     }
 
     fn toList(self: *Sieve, alloc: std.mem.Allocator) std.ArrayList(i32) {
-        var result = std.ArrayList(i32).init(alloc);
-        result.appendSlice(&.{ 2, 3 }) catch unreachable;
+        var result: std.ArrayList(i32) = .empty;
+        result.appendSlice(alloc, &.{ 2, 3 }) catch unreachable;
 
         var p: i32 = 5;
         while (p <= self.limit) : (p += 1) {
             if (self.prime.isSet(@as(usize, @intCast(p)))) {
-                result.append(p) catch unreachable;
+                result.append(alloc, p) catch unreachable;
             }
         }
         return result;
@@ -106,7 +106,7 @@ fn generateTrie(alloc: std.mem.Allocator, l: std.ArrayList(i32)) *Node {
             if (!head.children.contains(ch)) {
                 const node = alloc.create(Node) catch unreachable;
                 node.* = Node.init(alloc);
-                head.children.put(ch, node) catch unreachable;
+                head.children.put(alloc, ch, node) catch unreachable;
             }
             head = head.children.get(ch) orelse unreachable;
         }
@@ -130,40 +130,45 @@ fn find(alloc: std.mem.Allocator, upper_bound: i32, prefix: i32) std.ArrayList(i
         str: []u8,
     };
 
-    const Q = std.DoublyLinkedList(Pair);
-    var queue = Q{};
-    var first = Q.Node{ .data = Pair{ .node = head, .str = str_prefix } };
-    queue.append(&first);
+    const QueueNode = struct {
+        node: std.DoublyLinkedList.Node = .{},
+        pair: Pair,
+    };
+    var queue: std.DoublyLinkedList = .{};
+    var first = QueueNode{ .pair = .{ .node = head, .str = str_prefix } };
+    queue.append(&first.node);
 
-    var result = std.ArrayList(i32).init(alloc);
-    while (queue.len > 0) {
-        const pair = queue.pop() orelse unreachable;
-        const top = pair.data.node;
-        const current_prefix = pair.data.str;
+    var result: std.ArrayList(i32) = .empty;
+    while (queue.pop()) |queue_node| {
+        const pair = @as(*QueueNode, @fieldParentPtr("node", queue_node)).pair;
+        const top = pair.node;
+        const current_prefix = pair.str;
 
         if (top.terminal) {
             const v = std.fmt.parseInt(i32, current_prefix, 10) catch unreachable;
-            result.append(v) catch unreachable;
+            result.append(alloc, v) catch unreachable;
         }
 
         var it = top.children.iterator();
         while (it.next()) |kv| {
             const str = std.fmt.allocPrint(alloc, "{s}{c}", .{ current_prefix, kv.key_ptr.* }) catch unreachable;
-            const elem = alloc.create(Q.Node) catch unreachable;
-            elem.* = Q.Node{ .data = Pair{ .node = kv.value_ptr.*, .str = str } };
-            queue.prepend(elem);
+            const elem = alloc.create(QueueNode) catch unreachable;
+            elem.* = .{ .pair = .{ .node = kv.value_ptr.*, .str = str } };
+            queue.prepend(&elem.node);
         }
     }
     std.sort.heap(i32, result.items, {}, comptime std.sort.asc(i32));
     return result;
 }
 
-fn notify(msg: []const u8) void {
-    const addr = std.net.Address.parseIp("127.0.0.1", 9001) catch unreachable;
-    if (std.net.tcpConnectToAddress(addr)) |stream| {
-        defer stream.close();
-        _ = stream.write(msg) catch unreachable;
-    } else |_| {}
+fn notify(io: std.Io, msg: []const u8) void {
+    const addr = std.Io.net.IpAddress.parse("127.0.0.1", 9001) catch unreachable;
+    var stream = addr.connect(io, .{ .mode = .stream }) catch return;
+    defer stream.close(io);
+
+    var writer = stream.writer(io, &.{});
+    writer.interface.writeAll(msg) catch return;
+    writer.interface.flush() catch return;
 }
 
 fn verify(alloc: std.mem.Allocator) !void {
@@ -182,15 +187,16 @@ pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.c_allocator);
     defer arena.deinit();
     const alloc = arena.allocator();
+    const io = std.Io.Threaded.global_single_threaded.io();
 
     try verify(alloc);
 
-    const pid = unistd.getpid();
+    const pid = std.posix.system.getpid();
     const pid_str = try std.fmt.allocPrint(alloc, "Zig\t{d}", .{pid});
 
-    notify(pid_str);
+    notify(io, pid_str);
     const results = find(alloc, UPPER_BOUND, PREFIX);
-    notify("stop");
+    notify(io, "stop");
 
-    std.debug.print("{d}\n", .{results.items});
+    std.debug.print("{any}\n", .{results.items});
 }

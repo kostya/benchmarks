@@ -4,7 +4,6 @@ import "core:encoding/json"
 import "core:fmt"
 import "core:net"
 import "core:os"
-import "core:os/os2"
 
 Coordinate :: struct {
 	x, y, z: f64,
@@ -51,12 +50,12 @@ main :: proc() {
 		assert(left == right)
 	}
 
-	s, ok := os.read_entire_file_from_filename("/tmp/1.json")
-	if !ok {
+	s, err := os.read_entire_file("/tmp/1.json", context.allocator)
+	if err != nil {
 		panic("Failed to read 1.json")
 	}
 
-	notify(fmt.tprintf("Odin\t%d", os2.get_pid()))
+	notify(fmt.tprintf("Odin\t%d", os.get_pid()))
 	results := calc(string(s))
 	notify("stop")
 

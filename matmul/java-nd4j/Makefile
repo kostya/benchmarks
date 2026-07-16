@@ -33,9 +33,10 @@ target/application.jar: target/library.jar target/dependencies.list
 	../../common/jvm/combinejars.sh $@ $(shell cat target/dependencies.list) $<
 
 # inject a startup script to the fat jar, producing an executable
-target/application: target/application.jar
+target/application: target/application.jar Makefile
 	echo "#!/bin/sh" > target/application
-	echo 'exec java -cp $$0 $(main) "$$@"' >> target/application
+	echo 'ext=$$(grep -qw avx512f /proc/cpuinfo && printf %s -avx512)' >> target/application
+	echo 'exec java -Dorg.bytedeco.javacpp.platform.extension="$$ext" -cp $$0 $(main) "$$@"' >> target/application
 	cat target/application.jar >> target/application
 	chmod +x target/application
 

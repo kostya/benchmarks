@@ -29,7 +29,7 @@ defmodule Printer do
   @enforce_keys [:quiet]
   defstruct [:quiet, sum1: 0, sum2: 0]
 
-  def print(n, p) do
+  def print(n, %Printer{} = p) do
     if p.quiet do
       new_sum1 = rem(p.sum1 + n, 255)
       new_sum2 = rem(p.sum2 + new_sum1, 255)

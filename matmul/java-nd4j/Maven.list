@@ -4,10 +4,10 @@
 #
 org.nd4j:nd4j-native:1.0.0-M2.1
 
-# Usage reference: https://deeplearning4j.konduit.ai/multi-project/explanation/configuration/backends/cpu
+# Usage reference: https://deeplearning4j.konduit.ai/nd4j/overview-1/cpu
 org.nd4j:nd4j-native:1.0.0-M2.1,classifier=linux-x86_64-avx512
 
 # Proper logging makes the results more stable (and faster,
 # probably because less classpath checks are happening)
-org.slf4j:slf4j-api:2.0.16
-org.slf4j:slf4j-simple:2.0.16
+org.slf4j:slf4j-api:2.0.18
+org.slf4j:slf4j-simple:2.0.18

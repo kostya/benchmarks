@@ -247,6 +247,8 @@ run[bf.php]:: run[%]: %
 
 .PHONY: clean
 clean: clean-go
+	$(DOTNET_CLEAN) brainfuck.csproj
+	$(DOTNET_CLEAN) brainfuck-staged.csproj
 	$(DOTNET_CLEAN) fsharp/brainfuck.fsproj
 	-rm -rf target
 	-rm -rf zig-cache

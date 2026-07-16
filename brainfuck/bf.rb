@@ -2,6 +2,7 @@
 
 require 'socket'
 
+# rubocop:disable Style/OneClassPerFile
 class Op
   attr_accessor :op, :val
 
@@ -94,6 +95,7 @@ class Program
     res
   end
 end
+# rubocop:enable Style/OneClassPerFile
 
 def notify(msg)
   Socket.tcp('0.0.0.0', 9001) { |s| s.puts msg }
@@ -129,7 +131,7 @@ if __FILE__ == $PROGRAM_NAME
     elsif desc.include?('JVM')
       engine = 'Ruby/truffleruby (JVM)'
     end
-  elsif engine == 'ruby' && RubyVM::RJIT.enabled?
+  elsif engine == 'ruby' && defined?(RubyVM::YJIT) && RubyVM::YJIT.enabled?
     engine = 'Ruby (--jit)'
   end
 

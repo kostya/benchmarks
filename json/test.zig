@@ -1,5 +1,4 @@
 const std = @import("std");
-const unistd = @cImport(@cInclude("unistd.h"));
 
 const Coordinate = struct {
     x: f64,
@@ -15,21 +14,23 @@ const TestStruct = struct {
     coordinates: []Coordinate,
 };
 
-fn notify(msg: []const u8) void {
-    const addr = std.net.Address.parseIp("127.0.0.1", 9001) catch unreachable;
-    if (std.net.tcpConnectToAddress(addr)) |stream| {
-        defer stream.close();
-        _ = stream.write(msg) catch unreachable;
-    } else |_| {}
+fn notify(io: std.Io, msg: []const u8) void {
+    const addr = std.Io.net.IpAddress.parse("127.0.0.1", 9001) catch unreachable;
+    var stream = addr.connect(io, .{ .mode = .stream }) catch return;
+    defer stream.close(io);
+
+    var writer = stream.writer(io, &.{});
+    writer.interface.writeAll(msg) catch return;
+    writer.interface.flush() catch return;
 }
 
-fn readFile(alloc: std.mem.Allocator, filename: []const u8) ![]const u8 {
-    const file = try std.fs.cwd().openFile(filename, std.fs.File.OpenFlags{});
-    defer file.close();
+fn readFile(alloc: std.mem.Allocator, io: std.Io, filename: []const u8) ![]const u8 {
+    const file = try std.Io.Dir.cwd().openFile(io, filename, .{});
+    defer file.close(io);
 
-    const size = try file.getEndPos();
+    const size = (try file.stat(io)).size;
     const text = try alloc.alloc(u8, size);
-    _ = try file.readAll(text);
+    _ = try file.readPositionalAll(io, text, 0);
     return text;
 }
 
@@ -56,6 +57,7 @@ pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.c_allocator);
     defer arena.deinit();
     const alloc = arena.allocator();
+    const io = std.Io.Threaded.global_single_threaded.io();
 
     const right = Coordinate{ .x = 2.0, .y = 0.5, .z = 0.25 };
     const vals = [_][]const u8{
@@ -69,13 +71,13 @@ pub fn main() !void {
         }
     }
 
-    const text = try readFile(alloc, "/tmp/1.json");
-    const pid = unistd.getpid();
+    const text = try readFile(alloc, io, "/tmp/1.json");
+    const pid = std.posix.system.getpid();
     const pid_str = try std.fmt.allocPrint(alloc, "Zig\t{d}", .{pid});
 
-    notify(pid_str);
+    notify(io, pid_str);
     const results = try calc(alloc, text);
-    notify("stop");
+    notify(io, "stop");
 
     std.debug.print("{}\n", .{results});
 }

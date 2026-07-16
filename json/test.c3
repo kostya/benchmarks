@@ -22,7 +22,7 @@ fn bool Coordinate.equals(&self, Coordinate other)
 	return self.x == other.x && self.y == other.y && self.z == other.z;
 }
 
-fn usz? Coordinate.to_format(&self, Formatter *formatter) @dynamic
+fn sz? Coordinate.to_format(&self, Formatter *formatter) @dynamic
 {
 	return formatter.printf(`Coordinate{x: %.17e, y: %.17e, z: %.17e}`, self.x, self.y, self.z);
 }
@@ -40,7 +40,7 @@ fn void notify(String msg)
 
 fn Coordinate? calc(String s)
 {
-	Object *o = json::parse_string(mem, s)!!;
+	Object *o = json::parse(mem, s)!!;
 	defer o.free();
 
 	List{Object *} coords = o.get("coordinates")!!.array;

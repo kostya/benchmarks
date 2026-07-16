@@ -21,8 +21,8 @@ GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++23 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_GO_BUILD =	go  build  -C $< -compiler gccgo -buildvcs=false -gccgoflags="$(GCC_FLAGS)" -o $(abspath $@) .
 GDC_BUILD =		gdc -o $@ -O3 -frelease -finline -fbounds-check=off $^
 GHC_BUILD =		ghc -v0 -O2 -fforce-recomp -Wall $^ -o $@ -outputdir $(@D)
-JAVAC_BUILD =		javac --release 24 -Xlint:unchecked -d $(@D) $^
-KOTLINC_BUILD =	kotlinc -include-runtime -jvm-target 24 -d $@ $^
+JAVAC_BUILD =		javac --release 26 -Xlint:unchecked -d $(@D) $^
+KOTLINC_BUILD =	kotlinc -include-runtime -jvm-target 26 -d $@ $^
 LDC2_BUILD =		ldc2 -of$@ -O5 -release -boundscheck=off $^
 MLTON_BUILD =		mlton -output $@ $^
 NIM_CLANG_BUILD =	nim c -o:$@ --cc:clang $(NIM_FLAGS) $^

@@ -5,6 +5,7 @@ require 'socket'
 UPPER_BOUND = 5_000_000
 PREFIX = 32_338
 
+# rubocop:disable Style/OneClassPerFile
 class Node
   attr_accessor :children, :terminal
 
@@ -82,6 +83,7 @@ class Sieve
     omit_squares
   end
 end
+# rubocop:enable Style/OneClassPerFile
 
 def generate_trie(l)
   root = Node.new
@@ -143,7 +145,7 @@ if __FILE__ == $PROGRAM_NAME
     elsif desc.include?('JVM')
       engine = 'Ruby/truffleruby (JVM)'
     end
-  elsif engine == 'ruby' && RubyVM::RJIT.enabled?
+  elsif engine == 'ruby' && defined?(RubyVM::YJIT) && RubyVM::YJIT.enabled?
     engine = 'Ruby (--jit)'
   end
 

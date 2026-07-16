@@ -70,7 +70,6 @@ executables := \
 	target/json_odin \
 	target/json_c3 \
 
-# TODO: Enable Julia test after https://github.com/quinnj/JSON3.jl/issues/276 fixed
 artifacts := $(executables) \
 	json-scala/target/application.jar
 
@@ -400,7 +399,7 @@ run[jruby][test.rb]:: run[jruby][%]: % | $(rubocop)
 run[test.php]:: run[%]: %
 	$(PHP_RUN)
 
-run[test.clj]:: CLOJURE_FLAGS := -Sdeps '{:deps {cheshire/cheshire {:mvn/version "5.13.0"}}}'
+run[test.clj]:: CLOJURE_FLAGS := -Sdeps '{:deps {cheshire/cheshire {:mvn/version "6.2.0"}}}'
 run[test.clj]:: run[%]: %
 	$(CLOJURE_RUN)
 

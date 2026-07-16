@@ -1,21 +1,21 @@
 const std = @import("std");
-const unistd = @cImport(@cInclude("unistd.h"));
 
 const OpType = enum {
     INC,
-    MOVE,
+    PREV,
+    NEXT,
     LOOP,
     PRINT,
 };
 
 const Printer = struct {
-    stdout: std.fs.File.Writer,
+    stdout: std.Io.File.Writer,
     sum1: i32 = 0,
     sum2: i32 = 0,
     quiet: bool,
 
-    fn init(args: anytype) Printer {
-        return Printer{ .stdout = if (!args.quiet) std.io.getStdOut().writer() else undefined, .quiet = args.quiet };
+    fn init(io: std.Io, args: anytype) Printer {
+        return Printer{ .stdout = if (!args.quiet) std.Io.File.stdout().writer(io, &.{}) else undefined, .quiet = args.quiet };
     }
 
     fn print(self: *Printer, n: i32) void {
@@ -23,7 +23,7 @@ const Printer = struct {
             self.sum1 = @mod(self.sum1 + n, 255);
             self.sum2 = @mod(self.sum2 + self.sum1, 255);
         } else {
-            self.stdout.writeByte(@intCast(n)) catch unreachable;
+            self.stdout.interface.writeByte(@intCast(n)) catch unreachable;
         }
     }
 
@@ -35,10 +35,11 @@ const Printer = struct {
 const Tape = struct {
     pos: usize = 0,
     tape: std.ArrayList(i32),
+    a: std.mem.Allocator,
 
     fn init(alloc: std.mem.Allocator) Tape {
-        var self = Tape{ .tape = std.ArrayList(i32).init(alloc) };
-        self.tape.append(0) catch unreachable;
+        var self = Tape{ .tape = .empty, .a = alloc };
+        self.tape.append(alloc, 0) catch unreachable;
         return self;
     }
 
@@ -50,10 +51,14 @@ const Tape = struct {
         self.tape.items[self.pos] += x;
     }
 
-    fn move(self: *Tape, x: i32) void {
-        self.pos += @intCast(x);
+    fn prev(self: *Tape) void {
+        self.pos -= 1;
+    }
+
+    fn next(self: *Tape) void {
+        self.pos += 1;
         if (self.pos >= self.tape.items.len) {
-            self.tape.appendNTimes(0, self.tape.items.len * 2) catch unreachable;
+            self.tape.appendNTimes(self.a, 0, self.tape.items.len * 2) catch unreachable;
         }
     }
 };
@@ -100,29 +105,27 @@ const Program = struct {
     }
 
     fn parse(alloc: std.mem.Allocator, iter: *StrIterator) Ops {
-        var res: Ops = Ops.init(alloc);
+        var res: Ops = .empty;
         while (iter.next()) |value| {
             switch (value) {
-                '+' => res.append(Op{
+                '+' => res.append(alloc, Op{
                     .op = OpType.INC,
                     .val = 1,
                 }) catch unreachable,
-                '-' => res.append(Op{
+                '-' => res.append(alloc, Op{
                     .op = OpType.INC,
                     .val = -1,
                 }) catch unreachable,
-                '>' => res.append(Op{
-                    .op = OpType.MOVE,
-                    .val = 1,
+                '>' => res.append(alloc, Op{
+                    .op = OpType.NEXT,
                 }) catch unreachable,
-                '<' => res.append(Op{
-                    .op = OpType.MOVE,
-                    .val = -1,
+                '<' => res.append(alloc, Op{
+                    .op = OpType.PREV,
                 }) catch unreachable,
-                '.' => res.append(Op{
+                '.' => res.append(alloc, Op{
                     .op = OpType.PRINT,
                 }) catch unreachable,
-                '[' => res.append(Op{ .op = OpType.LOOP, .loop = parse(alloc, iter) }) catch unreachable,
+                '[' => res.append(alloc, Op{ .op = OpType.LOOP, .loop = parse(alloc, iter) }) catch unreachable,
                 ']' => return res,
                 else => continue,
             }
@@ -134,7 +137,8 @@ const Program = struct {
         for (program.items) |*op| {
             switch (op.op) {
                 OpType.INC => tape.inc(op.val),
-                OpType.MOVE => tape.move(op.val),
+                OpType.PREV => tape.prev(),
+                OpType.NEXT => tape.next(),
                 OpType.LOOP => while (tape.get() > 0) self._run(&op.loop, tape),
                 OpType.PRINT => self.p.print(tape.get()),
             }
@@ -142,35 +146,37 @@ const Program = struct {
     }
 };
 
-fn notify(msg: []const u8) void {
-    const addr = std.net.Address.parseIp("127.0.0.1", 9001) catch unreachable;
-    if (std.net.tcpConnectToAddress(addr)) |stream| {
-        defer stream.close();
-        _ = stream.write(msg) catch unreachable;
-    } else |_| {}
+fn notify(io: std.Io, msg: []const u8) void {
+    const addr = std.Io.net.IpAddress.parse("127.0.0.1", 9001) catch unreachable;
+    var stream = addr.connect(io, .{ .mode = .stream }) catch return;
+    defer stream.close(io);
+
+    var writer = stream.writer(io, &.{});
+    writer.interface.writeAll(msg) catch return;
+    writer.interface.flush() catch return;
 }
 
-fn readFile(alloc: std.mem.Allocator, filename: []const u8) ![]const u8 {
-    const file = try std.fs.cwd().openFile(filename, std.fs.File.OpenFlags{});
-    defer file.close();
+fn readFile(alloc: std.mem.Allocator, io: std.Io, filename: []const u8) ![]const u8 {
+    const file = try std.Io.Dir.cwd().openFile(io, filename, .{});
+    defer file.close(io);
 
-    const size = try file.getEndPos();
+    const size = (try file.stat(io)).size;
     const text = try alloc.alloc(u8, size);
-    _ = try file.readAll(text);
+    _ = try file.readPositionalAll(io, text, 0);
     return text;
 }
 
-fn verify(alloc: std.mem.Allocator) void {
+fn verify(alloc: std.mem.Allocator, io: std.Io) void {
     const text =
         \\++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
         \\---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
     ;
 
-    var p_left = Printer.init(.{ .quiet = true });
+    var p_left = Printer.init(io, .{ .quiet = true });
     Program.init(alloc, text, &p_left).run();
     const left = p_left.getChecksum();
 
-    var p_right = Printer.init(.{ .quiet = true });
+    var p_right = Printer.init(io, .{ .quiet = true });
     for ("Hello World!\n") |c| {
         p_right.print(c);
     }
@@ -181,28 +187,29 @@ fn verify(alloc: std.mem.Allocator) void {
     }
 }
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.c_allocator);
     defer arena.deinit();
     const alloc = arena.allocator();
+    const io = init.io;
 
-    verify(alloc);
-    var p = Printer.init(.{ .quiet = std.posix.getenv("QUIET") != null });
+    verify(alloc, io);
+    var p = Printer.init(io, .{ .quiet = init.environ_map.contains("QUIET") });
 
-    var arg_iter = std.process.args();
+    var arg_iter = std.process.Args.Iterator.init(init.minimal.args);
     _ = arg_iter.skip(); // Skip binary name
 
     const name = arg_iter.next() orelse {
         std.debug.panic("Expected argument\n", .{});
     };
 
-    const text = try readFile(alloc, name);
-    const pid = unistd.getpid();
+    const text = try readFile(alloc, io, name);
+    const pid = std.posix.system.getpid();
     const pid_str = try std.fmt.allocPrint(alloc, "Zig\t{d}", .{pid});
 
-    notify(pid_str);
+    notify(io, pid_str);
     Program.init(alloc, text, &p).run();
-    notify("stop");
+    notify(io, "stop");
 
     if (p.quiet) {
         std.debug.print("Output checksum: {}\n", .{p.getChecksum()});

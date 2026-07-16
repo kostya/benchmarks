@@ -11,13 +11,13 @@ namespace Test
     {
         public OpT op;
         public int v;
-        public Op[]? loop;
+        public Op[] loop;
 
         public Op(OpT _op, int _v)
         {
             op = _op;
             v = _v;
-            loop = null;
+            loop = Array.Empty<Op>();
         }
 
         public Op(OpT _op, Op[] _l)
@@ -122,7 +122,7 @@ namespace Test
                 {
                     case OpT.INC: tape.Inc(op.v); break;
                     case OpT.MOVE: tape.Move(op.v); break;
-                    case OpT.LOOP: while (tape.CurrentCell > 0) _run(op.loop!, ref tape); break;
+                    case OpT.LOOP: while (tape.CurrentCell > 0) _run(op.loop, ref tape); break;
                     case OpT.PRINT: p.Print(tape.CurrentCell); break;
                 }
             }

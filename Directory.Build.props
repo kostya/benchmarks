@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <BaseIntermediateOutputPath>target</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>target/obj/$(MSBuildProjectName)</BaseIntermediateOutputPath>
     <BaseOutputPath>target</BaseOutputPath>
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
