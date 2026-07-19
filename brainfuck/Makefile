@@ -59,7 +59,8 @@ all_runners := $(fast_runners) \
 	run[bf.lua] \
 	run[bf.tcl] \
 	run[bf_oo.tcl] \
-	run[bf.php]
+	run[bf.php] \
+	run[bf.janet]
 
 # Build
 
@@ -242,6 +243,9 @@ run[bf.jl]:: run[%]: % | $(julia_fmt)
 
 run[bf.php]:: run[%]: %
 	$(PHP_RUN) $(BF_SRC)
+
+run[bf.janet]:: run[%]: %
+	$(JANET_RUN) $(BF_SRC)
 
 # Utilities
 
