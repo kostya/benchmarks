@@ -1,0 +1,7 @@
+name = "bf"
+version = "0.1.0"
+defaultTargets = ["bf"]
+
+[[lean_exe]]
+name = "bf"
+root = "Main"
