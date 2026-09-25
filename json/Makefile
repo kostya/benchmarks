@@ -20,6 +20,7 @@ executables := \
 	target/json_d_ldc \
 	target/json_d_mir_asdf \
 	target/json_d_mir_ion \
+	target/json_d_djson \
 	target/json_nim_gcc \
 	target/json_nim_clang \
 	target/packedjson_nim_gcc \
@@ -124,6 +125,9 @@ target/json_d_mir_asdf: test_mir_asdf.d | $(dfmt)
 
 target/json_d_mir_ion: test_mir_ion.d | $(dfmt)
 	$(DUB_BUILD)
+
+target/json_d_djson: test_djson.d | $(dfmt)
+	$(DUB_BUILD) --combined
 
 target/json_nim_gcc: test.nim | target
 	$(NIM_GCC_BUILD)
