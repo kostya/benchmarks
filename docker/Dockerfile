@@ -297,6 +297,14 @@ RUN curl -L https://github.com/c3lang/c3c/releases/download/v$C3/c3-linux.tar.gz
     | tar -xz
 ENV PATH="/root/bin/c3/:${PATH}"
 
+# https://github.com/aardappel/goose
+ARG GOOSE=054ad2120ce2c638655a5be013197634132e6850
+RUN git clone -q https://github.com/aardappel/goose \
+    && git -C goose checkout -q $GOOSE \
+    && CXX=clang++ cmake -S goose -B goose/build -DCMAKE_BUILD_TYPE=Release -DGOOSE_LIBTCC=OFF \
+    && cmake --build goose/build --target goose -j
+ENV PATH="/root/bin/goose/build/:${PATH}"
+
 # https://github.com/vlang/vsl and dependencies
 RUN v install vsl
 

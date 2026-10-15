@@ -11,6 +11,7 @@ executables := \
 	target/base64_c_nolib_gcc \
 	target/base64_c_ak_clang \
 	target/base64_c_nolib_clang \
+	target/base64_goose \
 	target/base64_d \
 	target/base64_d_gdc \
 	target/base64_d_ldc \
@@ -133,6 +134,9 @@ target/base64_vala_clang: test.vala | target
 
 target/base64_zig: test.zig | $(zig_fmt)
 	$(ZIG_BUILD)
+
+target/base64_goose: test.goose | target libnotify
+	$(GOOSE_BUILD)
 
 # Run
 
