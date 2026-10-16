@@ -21,6 +21,7 @@ GCC_CPP_BUILD =	g++ $(GCC_FLAGS) -std=c++23 -o $@ $^ $(LIBNOTIFY_FLAGS)
 GCC_GO_BUILD =	go  build  -C $< -compiler gccgo -buildvcs=false -gccgoflags="$(GCC_FLAGS)" -o $(abspath $@) .
 GDC_BUILD =		gdc -o $@ -O3 -frelease -finline -fbounds-check=off $^
 GHC_BUILD =		ghc -v0 -O2 -fforce-recomp -Wall $^ -o $@ -outputdir $(@D)
+GOOSE_BUILD =		goose -O2 --standalone --include notify.h -o $@.c $^ && clang $(CLANG_FLAGS) -w -std=c23 -I../common/goose -o $@ $@.c $(LIBNOTIFY_FLAGS) -lm -pthread
 JAVAC_BUILD =		javac --release 26 -Xlint:unchecked -d $(@D) $^
 KOTLINC_BUILD =	kotlinc -include-runtime -jvm-target 26 -d $@ $^
 LDC2_BUILD =		ldc2 -of$@ -O5 -release -boundscheck=off $^

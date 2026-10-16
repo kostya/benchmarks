@@ -4,6 +4,7 @@ include ../common/commands.mk
 executables := \
 	target/primes_cpp_gcc \
 	target/primes_cpp_clang \
+	target/primes_goose \
 	primes.rs/target/release/primes \
 	target/primes_cr \
 	target/primes_v_gcc \
@@ -68,6 +69,9 @@ target/primes_nim_clang: primes.nim | target
 
 target/primes_nim_gcc: primes.nim | target
 	$(NIM_GCC_BUILD)
+target/primes_goose: primes.goose | target libnotify
+	$(GOOSE_BUILD)
+
 # Run
 
 .PHONY: run

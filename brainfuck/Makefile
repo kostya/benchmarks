@@ -26,6 +26,7 @@ executables := \
 	target/bin_v_clang \
 	target/bin_c_gcc \
 	target/bin_c_clang \
+	target/bin_goose \
 	fsharp/target/Release/net10.0/brainfuck \
 	target/Release/net10.0/brainfuck \
 	target/Release/net10.0/brainfuck-staged \
@@ -154,6 +155,9 @@ target/bin_zig: bf.zig | $(zig_fmt)
 
 target/bin_idris: bf.idr | target
 	$(IDRIS_BUILD)
+
+target/bin_goose: bf.goose | target libnotify
+	$(GOOSE_BUILD)
 
 # Run
 

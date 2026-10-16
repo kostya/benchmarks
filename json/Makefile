@@ -67,6 +67,8 @@ executables := \
 	target/json_yajl_clang \
 	target/json_yyjson_gcc \
 	target/json_yyjson_clang \
+	target/json_goose \
+	target/json_dom_goose \
 	target/json_odin \
 	target/json_c3 \
 
@@ -322,6 +324,12 @@ target/json_odin: test.odin
 
 target/json_c3: test.c3
 	$(C3_BUILD)
+
+target/json_goose: test.goose | target libnotify
+	$(GOOSE_BUILD)
+
+target/json_dom_goose: test_dom.goose | target libnotify
+	$(GOOSE_BUILD)
 
 # Run
 

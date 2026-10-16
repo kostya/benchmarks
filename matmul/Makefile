@@ -17,6 +17,7 @@ executables := \
 	target/matmul_go_gccgo \
 	target/matmul_c_gcc \
 	target/matmul_c_clang \
+	target/matmul_goose \
 	matmul.rs/target/release/matmul \
 	$(rust-ndarray-targets) \
 	target/matmul_swift \
@@ -170,6 +171,9 @@ target/matmul_cpp_clang: matmul.cpp | $(eigen) libnotify
 
 target/matmul_zig: matmul.zig | $(zig_fmt)
 	$(ZIG_BUILD)
+
+target/matmul_goose: matmul.goose | target libnotify
+	$(GOOSE_BUILD)
 
 # Run
 
