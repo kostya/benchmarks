@@ -1,0 +1,58 @@
+~[runtime] pub tor send { msg: string, port: i64 } -> i64
+
+~[runtime] proc send|zig {
+    const stdzig = @import("std");
+    const posix = stdzig.posix;
+    const addr = stdzig.net.Address.parseIp4("127.0.0.1", @intCast(port)) catch return -1;
+    const fd = posix.socket(posix.AF.INET, posix.SOCK.STREAM, 0) catch return -2;
+    defer posix.close(fd);
+    posix.connect(fd, &addr.any, addr.getOsSockLen()) catch return -3;
+    var buf: [128]u8 = undefined;
+    const n = @min(msg.len, buf.len - 1);
+    @memcpy(buf[0..n], msg[0..n]);
+    buf[n] = '\n';
+    _ = posix.write(fd, buf[0 .. n + 1]) catch return -4;
+    return 0;
+}
+
+~[runtime] pub tor send-pid { name: string, port: i64 } -> i64
+
+~[runtime] proc send-pid|zig {
+    const stdzig = @import("std");
+    const posix = stdzig.posix;
+    const addr = stdzig.net.Address.parseIp4("127.0.0.1", @intCast(port)) catch return -1;
+    const fd = posix.socket(posix.AF.INET, posix.SOCK.STREAM, 0) catch return -2;
+    defer posix.close(fd);
+    posix.connect(fd, &addr.any, addr.getOsSockLen()) catch return -3;
+    var buf: [128]u8 = undefined;
+    var p: usize = 0;
+    const n = @min(name.len, buf.len - 12);
+    @memcpy(buf[0..n], name[0..n]);
+    p = n;
+    buf[p] = '\t';
+    p += 1;
+    var pid: i64 = @intCast(stdzig.c.getpid());
+    var digits: [20]u8 = undefined;
+    var d: usize = 0;
+    while (pid > 0) {
+        digits[d] = @intCast(@mod(pid, 10) + '0');
+        pid = @divTrunc(pid, 10);
+        d += 1;
+    }
+    while (d > 0) {
+        d -= 1;
+        buf[p] = digits[d];
+        p += 1;
+    }
+    buf[p] = '\n';
+    p += 1;
+    _ = posix.write(fd, buf[0..p]) catch return -4;
+    return 0;
+}
+
+~[runtime] pub tor now {} -> i64
+
+~[runtime] proc now|zig {
+    const stdzig = @import("std");
+    return stdzig.time.milliTimestamp();
+}

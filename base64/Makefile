@@ -23,7 +23,8 @@ executables := \
 	target/base64_vala_clang \
 	target/Release/net10.0/base64 \
 	base64.fsharp/target/Release/net10.0/base64 \
-	target/base64_zig
+	target/base64_zig \
+	target/base64_koru
 
 artifacts := $(executables) \
 	target/Base64Java.class \
@@ -133,6 +134,9 @@ target/base64_vala_clang: test.vala | target
 
 target/base64_zig: test.zig | $(zig_fmt)
 	$(ZIG_BUILD)
+
+target/base64_koru: test.k notify.kz | target
+	$(KORU_BUILD)
 
 # Run
 

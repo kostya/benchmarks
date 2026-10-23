@@ -263,6 +263,25 @@ RUN curl \
     | tar -xJ
 ENV PATH="/root/bin/$ZIG/:${PATH}"
 
+# https://github.com/korulang/koru
+# Koru pins zig 0.15.2 (its stdlib overlay is byte-verified against that
+# release); the suite's zig 0.16.0 above stays on PATH for test.zig while
+# KORU_ZIG names the compiler-facing toolchain. koruc resolves its stdlib
+# at /usr/local/lib/koru_std.
+ARG ZIG_KORU=zig-x86_64-linux-0.15.2
+RUN curl \
+    https://ziglang.org/download/0.15.2/$ZIG_KORU.tar.xz \
+    | tar -xJ
+ENV KORU_ZIG="/root/bin/$ZIG_KORU/zig"
+ARG KORU=f5f677fa2bc8a28ee3325ea4cb7af027e5410d0b
+RUN curl -L \
+    https://github.com/korulang/koru/archive/$KORU.tar.gz \
+    | tar -xz \
+    && cd koru-$KORU && $KORU_ZIG build \
+    && cp zig-out/bin/koruc /root/bin/ \
+    && cp -r koru_std /usr/local/lib/koru_std \
+    && rm -rf /root/bin/koru-$KORU
+
 # Using more stable LuaJIT, used in Alpine and other distros
 # https://github.com/openresty/luajit2/tags
 RUN export VERSION=2.1-20260701 \

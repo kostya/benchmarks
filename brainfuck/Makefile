@@ -30,7 +30,8 @@ executables := \
 	target/Release/net10.0/brainfuck \
 	target/Release/net10.0/brainfuck-staged \
 	target/bin_zig \
-	target/bin_idris
+	target/bin_idris \
+	target/bin_koru
 
 artifacts := $(executables) \
 	target/bf2-kt.jar \
@@ -151,6 +152,9 @@ target/bf.class: bf.java | target
 
 target/bin_zig: bf.zig | $(zig_fmt)
 	$(ZIG_BUILD)
+
+target/bin_koru: bf.k notify.kz | target
+	$(KORU_BUILD)
 
 target/bin_idris: bf.idr | target
 	$(IDRIS_BUILD)

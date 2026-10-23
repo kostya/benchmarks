@@ -9,6 +9,7 @@ executables := \
 	target/primes_v_gcc \
 	target/primes_v_clang \
 	target/primes_zig \
+	target/primes_koru \
 	target/primes_nim_clang \
 	target/primes_nim_gcc \
 	$(GO_TARGETS)
@@ -62,6 +63,9 @@ target/primes_v_clang: primes.v | $(v_fmt)
 
 target/primes_zig: primes.zig | $(zig_fmt)
 	$(ZIG_BUILD)
+
+target/primes_koru: primes.k notify.kz | target
+	$(KORU_BUILD)
 
 target/primes_nim_clang: primes.nim | target
 	$(NIM_CLANG_BUILD)

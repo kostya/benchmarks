@@ -63,6 +63,7 @@ executables := \
 	target/Release/net10.0/json \
 	json-core/target/Release/net10.0/json-core \
 	target/json_zig \
+	target/json_koru \
 	target/json_yajl_gcc \
 	target/json_yajl_clang \
 	target/json_yyjson_gcc \
@@ -304,6 +305,9 @@ json-fsharp/target/Release/net10.0/json-fsharp: json-fsharp/json-fsharp.fsproj j
 
 target/json_zig: test.zig | $(zig_fmt)
 	$(ZIG_BUILD)
+
+target/json_koru: test.k notify.kz | target
+	$(KORU_BUILD)
 
 target/json_yajl_gcc: test_yajl.c | target libnotify
 	$(GCC_BUILD) -lyajl

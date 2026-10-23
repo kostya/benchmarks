@@ -36,7 +36,8 @@ executables := \
 	target/Release/net10.0/matmul \
 	target/matmul_cpp_gcc \
 	target/matmul_cpp_clang \
-	target/matmul_zig
+	target/matmul_zig \
+	target/matmul_koru
 
 artifacts := $(executables) \
 	target/matmul.class \
@@ -170,6 +171,9 @@ target/matmul_cpp_clang: matmul.cpp | $(eigen) libnotify
 
 target/matmul_zig: matmul.zig | $(zig_fmt)
 	$(ZIG_BUILD)
+
+target/matmul_koru: matmul.k notify.kz | target
+	$(KORU_BUILD)
 
 # Run
 
