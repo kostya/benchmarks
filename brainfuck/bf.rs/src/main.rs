@@ -1,6 +1,5 @@
 use std::io::{self, Stdout, StdoutLock, Write};
 use std::{env, fs, process};
-use std::time::Instant;
 use utils::notify;
 
 #[derive(PartialEq)]
