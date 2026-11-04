@@ -115,7 +115,10 @@ impl Cell {
 macro_rules! dispatch_op {
     ( $program:expr, $idx:expr, $len:expr, $op:expr ;
       body = $body:block ) => {
-        // Greedy loop: consume all consecutive identical ops without returning to main dispatch
+        // do...while pattern: first op is already matched by the main dispatch,
+        // so we execute it once unconditionally, then loop for the rest.
+        $body;
+        $idx += 1;
         while $idx < $len && $program[$idx] == $op {
             $body;
             $idx += 1;
