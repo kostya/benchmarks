@@ -111,7 +111,7 @@ impl Cell {
 ///     compile down to a cached register written back to the tape after the unrolled batch (major)
 ///
 /// The source code itself does each opcode check and operation independently and in sequence
-/// For example, one of the unroll lines expands to
+/// For example, one of the unrolled lines expands to
 /// ```rs
 /// if program[(*idx)] == Op::Inc {
 ///     {
@@ -152,9 +152,13 @@ macro_rules! dispatch_op {
 /// Shared dispatch loop implementation
 #[inline(always)]
 fn dispatch_loop(
-    program: &[Op], len: usize, idx: &mut usize,
-    cell: &mut Cell, pos: &mut usize,
-    tape: &mut Tape, printer: &mut Printer,
+    program: &[Op],
+    len: usize,
+    idx: &mut usize,
+    cell: &mut Cell,
+    pos: &mut usize,
+    tape: &mut Tape,
+    printer: &mut Printer,
 ) {
     while *idx < len {
         match program[*idx] {
