@@ -2,9 +2,10 @@ use std::io::{self, Stdout, StdoutLock, Write};
 use std::{env, fs, process};
 use utils::notify;
 
+#[derive(PartialEq)]
 enum Op {
-    Dec,
     Inc,
+    Dec,
     Prev,
     Next,
     Print,
@@ -21,27 +22,6 @@ impl Tape {
         Self {
             pos: 0,
             tape: vec![0],
-        }
-    }
-
-    fn current_cell(&self) -> i32 {
-        // SAFETY: `self.pos` is already checked in `self.next()`.
-        unsafe { *self.tape.get_unchecked(self.pos) }
-    }
-
-    fn inc(&mut self, x: i32) {
-        // SAFETY: `self.pos` is already checked in `self.next()`.
-        unsafe { *self.tape.get_unchecked_mut(self.pos) += x };
-    }
-
-    fn prev(&mut self) {
-        self.pos -= 1;
-    }
-
-    fn next(&mut self) {
-        self.pos += 1;
-        if self.pos >= self.tape.len() {
-            self.tape.resize(self.pos * 2, 0);
         }
     }
 }
@@ -78,21 +58,159 @@ impl Printer<'_> {
     }
 }
 
-fn run(program: &[Op], tape: &mut Tape, printer: &mut Printer) {
-    for op in program {
-        match op {
-            Op::Dec => tape.inc(-1),
-            Op::Inc => tape.inc(1),
-            Op::Prev => tape.prev(),
-            Op::Next => tape.next(),
-            Op::Print => printer.print(tape.current_cell()),
-            Op::Loop(program) => {
-                while tape.current_cell() > 0 {
-                    run(program, tape, printer);
+/// Wrapper around a tape cell pointer for less deref confusion
+struct Cell(*mut i32);
+
+impl Cell {
+    /// Create a cell pointing to `tape[pos]`
+    #[inline(always)]
+    fn new(tape: &Vec<i32>, pos: usize) -> Self {
+        // SAFETY: pos is always a valid index when called
+        Self(unsafe { tape.as_ptr().add(pos) as *mut i32 })
+    }
+
+    /// Mutate the cell value by wrapping add/sub
+    #[inline(always)]
+    fn mutate(&self, delta: i32) {
+        unsafe { *self.0 = (*self.0).wrapping_add(delta) };
+    }
+
+    /// Read the current cell value
+    #[inline(always)]
+    fn get(&self) -> i32 {
+        unsafe { *self.0 }
+    }
+
+    /// Move the cell pointer to the previous position
+    #[inline(always)]
+    fn move_prev(&mut self) {
+        // SAFETY: pos is decremented before calling, guaranteed valid by program logic
+        unsafe { self.0 = self.0.sub(1) };
+    }
+
+    /// Move the cell pointer to the next position
+    #[inline(always)]
+    fn move_next(&mut self) {
+        // SAFETY: pos is incremented before calling, guaranteed valid by program logic
+        unsafe { self.0 = self.0.add(1) };
+    }
+
+    /// Update the cell pointer to a new position in the tape
+    #[inline(always)]
+    fn set(&mut self, tape: &Vec<i32>, pos: usize) {
+        // SAFETY: pos is always a valid index when called
+        self.0 = unsafe { tape.as_ptr().add(pos) as *mut i32 };
+    }
+}
+
+/// Macro to greedily consume sequential identical opcodes in a tight loop
+///
+/// This exists for 2 reasons:
+/// - Reduces branching by allowing for sequential pre-validated operations (minor)
+/// - Greatly improves LLVM's ability to reason about the code, allowing it to
+///     compile down to a cached register written back to the tape after the unrolled batch (major)
+///
+/// The greedy loop consumes as many consecutive identical ops as possible without dropping back to the main dispatch match.
+/// It uses a tight while loop that checks the current op and executes the body, repeating until a different op is found.
+macro_rules! dispatch_op {
+    ( $program:expr, $idx:expr, $len:expr, $op:expr ;
+      body = $body:block ) => {
+        // do...while pattern: first op is already matched by the main dispatch,
+        // so we execute it once unconditionally, then loop for the rest.
+        $body;
+        $idx += 1;
+        while $idx < $len && $program[$idx] == $op {
+            $body;
+            $idx += 1;
+        }
+    };
+}
+
+/// Shared dispatch loop implementation
+#[inline(always)]
+fn dispatch_loop(
+    program: &[Op],
+    len: usize,
+    idx: &mut usize,
+    cell: &mut Cell,
+    pos: &mut usize,
+    tape: &mut Tape,
+    printer: &mut Printer,
+) {
+    while *idx < len {
+        match program[*idx] {
+            Op::Inc => {
+                dispatch_op!(program, *idx, len, Op::Inc; body = {
+                    cell.mutate(1);
+                });
+            }
+            Op::Dec => {
+                dispatch_op!(program, *idx, len, Op::Dec; body = {
+                    cell.mutate(-1);
+                });
+            }
+            Op::Prev => {
+                dispatch_op!(program, *idx, len, Op::Prev; body = {
+                    *pos -= 1;
+                    cell.move_prev();
+                });
+            }
+            Op::Next => {
+                dispatch_op!(program, *idx, len, Op::Next; body = {
+                    *pos += 1;
+                    if *pos >= tape.tape.len() {
+                        tape.tape.resize(*pos * 2, 0);
+                        cell.set(&tape.tape, *pos);
+                    } else {
+                        cell.move_next();
+                    }
+                });
+            }
+            Op::Print => {
+                printer.print(cell.get());
+                *idx += 1;
+            }
+            Op::Loop(ref body) => {
+                tape.pos = *pos;
+                if cell.get() > 0 {
+                    run_loop(body, tape, printer);
                 }
+                *pos = tape.pos;
+                cell.set(&tape.tape, *pos);
+                *idx += 1;
             }
         }
     }
+}
+
+/// Top-level entry point: execute all instructions in a program slice
+fn run(program: &[Op], tape: &mut Tape, printer: &mut Printer) {
+    let len = program.len();
+    let mut pos: usize = tape.pos;
+    let mut cell = Cell::new(&tape.tape, pos);
+    let mut idx = 0;
+
+    dispatch_loop(program, len, &mut idx, &mut cell, &mut pos, tape, printer);
+    tape.pos = pos;
+}
+
+/// Loop body runner: execute the loop body repeatedly while current cell is non-zero
+fn run_loop(program: &[Op], tape: &mut Tape, printer: &mut Printer) {
+    let len = program.len();
+    if len == 0 {
+        return;
+    }
+    let mut pos: usize = tape.pos;
+    let mut cell = Cell::new(&tape.tape, pos);
+
+    loop {
+        let mut idx = 0;
+        dispatch_loop(program, len, &mut idx, &mut cell, &mut pos, tape, printer);
+        if cell.get() <= 0 {
+            break;
+        }
+    }
+    tape.pos = pos;
 }
 
 fn parse(iter: &mut impl Iterator<Item = u8>) -> Box<[Op]> {
