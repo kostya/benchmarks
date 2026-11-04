@@ -103,46 +103,20 @@ impl Cell {
     }
 }
 
-/// Macro to manually unroll loop for sequential identical opcodes
+/// Macro to greedily consume sequential identical opcodes in a tight loop
 ///
 /// This exists for 2 reasons:
 /// - Reduces branching by allowing for sequential pre-validated operations (minor)
 /// - Greatly improves LLVM's ability to reason about the code, allowing it to
 ///     compile down to a cached register written back to the tape after the unrolled batch (major)
 ///
-/// The source code itself does each opcode check and operation independently and in sequence
-/// For example, one of the unrolled lines expands to
-/// ```rs
-/// if program[(*idx)] == Op::Inc {
-///     {
-///         cell.mutate(1);
-///     };
-///     (*idx) += 1;
-/// } else { break; }
-/// ```
-///
-/// This is simply a way to improve the compiler's ability to reason about the sequence of operations
+/// The greedy loop consumes as many consecutive identical ops as possible without dropping back to the main dispatch match.
+/// It uses a tight while loop that checks the current op and executes the body, repeating until a different op is found.
 macro_rules! dispatch_op {
     ( $program:expr, $idx:expr, $len:expr, $op:expr ;
       body = $body:block ) => {
-        if $idx + 4 <= $len
-            && $program[$idx + 1] == $op
-            && $program[$idx + 2] == $op
-            && $program[$idx + 3] == $op
-        {
-            // add an extra opt-in unroll step
-            // provides a good balance of sequence coverage (4, 5, 8, 10, 12, 15, etc.)
-            // without too much branch overhead
-            if $idx + 5 <= $len && $program[$idx + 4] == $op {
-                if $program[$idx] == $op { $body; $idx += 1; } else { break; }
-            }
-
-            if $program[$idx] == $op { $body; $idx += 1; } else { break; }
-            if $program[$idx] == $op { $body; $idx += 1; } else { break; }
-            if $program[$idx] == $op { $body; $idx += 1; } else { break; }
-            if $program[$idx] == $op { $body; $idx += 1; } else { break; }
-        } else {
-            // Single-step fallback
+        // Greedy loop: consume all consecutive identical ops without returning to main dispatch
+        while $idx < $len && $program[$idx] == $op {
             $body;
             $idx += 1;
         }
