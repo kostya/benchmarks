@@ -297,8 +297,9 @@ RUN curl -L https://github.com/c3lang/c3c/releases/download/v$C3/c3-linux.tar.gz
     | tar -xz
 ENV PATH="/root/bin/c3/:${PATH}"
 
-# https://github.com/vlang/vsl and dependencies
-RUN v install vsl
+# VSL main requires the simd module, which V 0.5.2 does not ship.
+ARG VSL=v0.2.0-beta.1
+RUN v install "https://github.com/vlang/vsl@$VSL"
 
 # https://www.haskell.org/ghc/
 ARG GHC_VER=9.12.4

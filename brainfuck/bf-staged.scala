@@ -1,4 +1,4 @@
-//> using dep org.scala-lang::scala3-staging::3.8.4
+//> using dep org.scala-lang::scala3-staging::3.10.1
 
 import scala.quoted.*
 import scala.collection.mutable.ArrayBuffer
