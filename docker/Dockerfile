@@ -1,4 +1,4 @@
-FROM debian:forky-20260713-slim
+FROM debian:forky-20261123-slim
 
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 \
     DEBIAN_FRONTEND=noninteractive
@@ -80,7 +80,7 @@ ENV PATH="/root/bin/:/root/.local/bin/:${PATH}" \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8
 
-RUN curl -Lo /root/bin/coursier https://git.io/coursier-cli \
+RUN curl -fLo coursier https://github.com/coursier/launchers/raw/master/coursier \
     && chmod +x /root/bin/coursier
 
 # https://www.idris-lang.org/pages/download.html
@@ -99,7 +99,7 @@ ENV CARGO_HOME="/root/bin/.cargo" PATH="/root/bin/.cargo/bin:${PATH}"
 RUN curl https://sh.rustup.rs | sh -s -- -y
 
 # https://www.ruby-lang.org/en/downloads/
-ARG RUBY=ruby-4.0.6
+ARG RUBY=ruby-4.0.10
 RUN curl https://cache.ruby-lang.org/pub/ruby/4.0/$RUBY.tar.gz | tar -xz
 WORKDIR /root/bin/$RUBY
 RUN CC=clang ./configure --prefix=/root/bin/ruby --enable-yjit && make -j && make install
@@ -115,29 +115,29 @@ RUN curl -L \
 ENV PATH="/root/bin/mlton-$MLTON-1.amd64-linux.ubuntu-24.04_glibc2.39/bin/:${PATH}"
 
 # https://pypy.org/download.html
-ARG PYPY=pypy3.11-v7.3.23-linux64
+ARG PYPY=pypy3.12-v8.0.1-linux64
 RUN curl \
-    https://downloads.python.org/pypy/$PYPY.tar.bz2 \
-    | tar -xj \
+    https://downloads.python.org/pypy/$PYPY.tar.gz \
+    | tar -xz \
     && rm /root/bin/$PYPY/bin/python*
 ENV PATH="/root/bin/$PYPY/bin:${PATH}"
 
 # https://www.scala-lang.org/download/
-ARG SCALA=3.8.4
+ARG SCALA=3.10.1
 RUN curl -L \
     https://github.com/lampepfl/dotty/releases/download/$SCALA/scala3-$SCALA.tar.gz \
     | tar -xz
 ENV PATH="/root/bin/scala3-$SCALA/bin/:${PATH}"
 
 # https://jdk.java.net/
-ARG JDK=26.0.1
+ARG JDK=27.0.1.1
 RUN curl \
-    https://download.java.net/java/GA/jdk26.0.1/458fda22e4c54d5ba572ab8d2b22eb83/8/GPL/openjdk-26.0.1_linux-x64_bin.tar.gz \
+    https://download.java.net/java/GA/jdk27.0.1.1/c3a705caf5044be8aa0b09e62be69b20/4/GPL/openjdk-27.0.1.1_linux-x64_bin.tar.gz \
     | tar -xz
 ENV PATH="/root/bin/jdk-$JDK/bin:${PATH}"
 
 # https://github.com/oracle/truffleruby/releases
-ARG TRUBY=34.0.1
+ARG TRUBY=40.0.0
 # Native Standalone
 RUN curl -L \
     https://github.com/oracle/truffleruby/releases/download/graal-$TRUBY/truffleruby-$TRUBY-linux-amd64.tar.gz \
@@ -154,21 +154,21 @@ RUN mv /root/bin/truffleruby-jvm-$TRUBY-linux-amd64 /root/bin/truffleruby-jvm \
     && ln -s /root/bin/truffleruby-jvm/bin/truffleruby /root/bin/truffleruby-jvm-bin
 
 # https://github.com/crystal-lang/crystal/releases
-ARG CRYSTAL=crystal-1.21.0-1
+ARG CRYSTAL=crystal-1.22.3-1
 RUN curl -L \
-    https://github.com/crystal-lang/crystal/releases/download/1.21.0/$CRYSTAL-linux-x86_64.tar.gz \
+    https://github.com/crystal-lang/crystal/releases/download/1.22.3/$CRYSTAL-linux-x86_64.tar.gz \
     | tar -xz
 ENV PATH="/root/bin/$CRYSTAL/bin:${PATH}"
 
 # https://github.com/ldc-developers/ldc/releases
-ARG LDC=ldc2-1.42.0-linux-x86_64
+ARG LDC=ldc2-1.43.0-linux-x86_64
 RUN curl -L \
-    https://github.com/ldc-developers/ldc/releases/download/v1.42.0/$LDC.tar.xz \
+    https://github.com/ldc-developers/ldc/releases/download/v1.43.0/$LDC.tar.xz \
     | tar -xJ
 ENV PATH="/root/bin/$LDC/bin/:${PATH}"
 
 # https://nim-lang.org/install_unix.html
-ARG NIM=nim-2.2.10
+ARG NIM=nim-2.4.2
 RUN curl \
     https://nim-lang.org/download/$NIM-linux_x64.tar.xz \
     | tar -xJ
@@ -176,34 +176,34 @@ ENV PATH="/root/bin/$NIM/bin/:${PATH}"
 
 # https://dlang.org/download.html
 RUN curl \
-    https://downloads.dlang.org/releases/2.x/2.112.0/dmd.2.112.0.linux.tar.xz \
+    https://downloads.dlang.org/releases/2.x/2.114.0/dmd.2.114.0.linux.tar.xz \
     | tar -xJ
 ENV PATH="/root/bin/dmd2/linux/bin64/:${PATH}"
 
 # https://www.jruby.org/download
-ARG JRUBY=10.1.0.0
+ARG JRUBY=10.1.3.0
 RUN curl \
     https://repo1.maven.org/maven2/org/jruby/jruby-dist/$JRUBY/jruby-dist-$JRUBY-bin.tar.gz \
     | tar -xz \
     && ln -s /root/bin/jruby-$JRUBY/bin/jruby /root/bin/jruby
 
 # https://julialang.org/downloads/manual-downloads/
-ARG JULIA=julia-1.12.6
+ARG JULIA=julia-1.13.4
 RUN curl \
-    https://julialang-s3.julialang.org/bin/linux/x64/1.12/$JULIA-linux-x86_64.tar.gz \
+    https://julialang-s3.julialang.org/bin/linux/x64/1.13/$JULIA-linux-x86_64.tar.gz \
     | tar -xz
 ENV PATH="/root/bin/$JULIA/bin/:${PATH}"
 
 # https://github.com/clojure/brew-install/releases
-ARG CLOJURE=1.12.5.1654
+ARG CLOJURE=1.12.7.1681
 RUN curl -L \
     https://github.com/clojure/brew-install/releases/download/$CLOJURE/linux-install.sh \
     | bash -s -- --prefix /root/
 
-# https://swift.org/download/
-ARG SWIFT=swift-6.3.3-RELEASE-debian12
+# https://www.swift.org/install/linux/debian/13/
+ARG SWIFT=swift-6.4.3-RELEASE-debian13
 RUN curl -L \
-    https://download.swift.org/swift-6.3.3-release/debian12/swift-6.3.3-RELEASE/swift-6.3.3-RELEASE-debian12.tar.gz \
+    https://download.swift.org/swift-6.4.3-release/debian13/swift-6.4.3-RELEASE/swift-6.4.3-RELEASE-debian13.tar.gz \
     | tar -xz \
     && ln -s /root/bin/$SWIFT/usr/bin/swift /root/bin/swift \
     && ln -s /root/bin/$SWIFT/usr/bin/swiftc /root/bin/swiftc \
@@ -217,14 +217,14 @@ ENV PATH="/root/.ghcup/bin/:${PATH}"
 
 # https://github.com/dotnet/core/tree/main/release-notes
 RUN mkdir dotnet && curl \
-    https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.302/dotnet-sdk-10.0.302-linux-x64.tar.gz \
+    https://builds.dotnet.microsoft.com/dotnet/Sdk/11.0.100/dotnet-sdk-11.0.100-linux-x64.tar.gz \
     | tar -xz -C dotnet
 ENV PATH="/root/bin/dotnet:${PATH}"
 ENV DOTNET_ROOT="/root/bin/dotnet"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # https://nodejs.org/en/download/current/
-ARG NODE=v26.5.0
+ARG NODE=v26.13.1
 RUN curl \
     https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz \
     | tar -xJ
@@ -232,17 +232,17 @@ ENV PATH="/root/bin/node-$NODE-linux-x64/bin/:${PATH}"
 
 # https://golang.org/dl/
 RUN curl -L \
-    https://go.dev/dl/go1.26.5.linux-amd64.tar.gz \
+    https://go.dev/dl/go1.27.4.linux-amd64.tar.gz \
     | tar -xz
 ENV PATH="/root/bin/go/bin/:${PATH}"
 
 # https://ocaml.org/releases/
-ARG OCAML=5.5.0
+ARG OCAML=5.5.2
 RUN opam init --disable-sandboxing -n --root=/root/bin/opam --compiler=ocaml-base-compiler.$OCAML
 ENV PATH="/root/bin/opam/ocaml-base-compiler.$OCAML/bin/:${PATH}"
 
 # https://kotlinlang.org/docs/command-line.html
-ARG KOTLIN=2.4.10
+ARG KOTLIN=2.4.21
 RUN curl -LO \
     https://github.com/JetBrains/kotlin/releases/download/v$KOTLIN/kotlin-compiler-$KOTLIN.zip \
     && unzip kotlin-compiler-$KOTLIN.zip \
@@ -250,22 +250,22 @@ RUN curl -LO \
 ENV PATH="/root/bin/kotlinc/bin/:${PATH}"
 
 # https://download.racket-lang.org/
-ARG RACKET=9.2
+ARG RACKET=9.3
 RUN curl -LO \
     https://download.racket-lang.org/installers/$RACKET/racket-$RACKET-x86_64-linux-cs.sh \
     && sh racket-$RACKET-x86_64-linux-cs.sh --unix-style --dest /root/ \
     && rm racket-$RACKET-x86_64-linux-cs.sh
 
 # https://ziglang.org/download
-ARG ZIG=zig-x86_64-linux-0.16.0
+ARG ZIG=zig-x86_64-linux-0.17.1
 RUN curl \
-    https://ziglang.org/download/0.16.0/$ZIG.tar.xz \
+    https://ziglang.org/download/0.17.1/$ZIG.tar.xz \
     | tar -xJ
 ENV PATH="/root/bin/$ZIG/:${PATH}"
 
 # Using more stable LuaJIT, used in Alpine and other distros
 # https://github.com/openresty/luajit2/tags
-RUN export VERSION=2.1-20260701 \
+RUN export VERSION=2.1-20261117 \
     && curl -L \
     https://github.com/openresty/luajit2/archive/refs/tags/v$VERSION.tar.gz \
     | tar -xz \
@@ -283,16 +283,16 @@ RUN curl -LO \
 ENV PATH="/root/bin/v/:${PATH}"
 
 # https://github.com/odin-lang/Odin/releases
-ARG ODIN=2026-07a
+ARG ODIN=2026-11a
 RUN curl -L \
     https://github.com/odin-lang/Odin/releases/download/dev-$ODIN/odin-linux-amd64-dev-$ODIN.tar.gz \
     | tar -xz
 # NOTE: the naming is inconsistent as resulting release archive name contains actual date
 # So we may look into better ways to obtain packages, or use nightly directly
-ENV PATH="/root/bin/odin-linux-amd64-nightly+2026-07-10/:${PATH}"
+ENV PATH="/root/bin/odin-linux-amd64-nightly+2026-11-03/:${PATH}"
 
 # https://github.com/c3lang/c3c/releases
-ARG C3=0.8.2
+ARG C3=0.8.6
 RUN curl -L https://github.com/c3lang/c3c/releases/download/v$C3/c3-linux.tar.gz \
     | tar -xz
 ENV PATH="/root/bin/c3/:${PATH}"
