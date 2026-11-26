@@ -36,8 +36,8 @@ impl Sieve {
 
     fn to_list(&self) -> Vec<usize> {
         let mut result = vec![2, 3];
-        for p in 5..=self.limit {
-            if self.prime[p] {
+        for (p, &is_prime) in self.prime.iter().enumerate().skip(5) {
+            if is_prime {
                 result.push(p);
             }
         }

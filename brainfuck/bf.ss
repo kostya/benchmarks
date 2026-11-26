@@ -25,7 +25,7 @@
 
 ;;; Vector and tape ops.
 
-(define (vector-copy! dest dest-start src)
+(define (copy-tape-vector! dest dest-start src)
   (define i dest-start)
   (vector-for-each
     (lambda (x)
@@ -37,7 +37,7 @@
   (if (<= len (vector-length vec))
       vec
       (let ((new-vec (make-vector len)))
-        (vector-copy! new-vec 0 vec)
+        (copy-tape-vector! new-vec 0 vec)
         new-vec)))
 
 (define (tape-get t)

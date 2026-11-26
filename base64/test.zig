@@ -43,10 +43,10 @@ pub fn main() !void {
     const STR_SIZE = 131072;
     const TRIES = 8192;
 
-    const str1 = "a" ** STR_SIZE;
+    const str1: [STR_SIZE]u8 = @splat('a');
     const encodeSize = b64.Encoder.calcSize(STR_SIZE);
     const str2 = try alloc.alloc(u8, encodeSize);
-    const encoded = b64.Encoder.encode(str2, str1);
+    const encoded = b64.Encoder.encode(str2, &str1);
     const decodeSize = try b64.Decoder.calcSizeForSlice(encoded);
     const str3 = try alloc.alloc(u8, decodeSize);
     b64.Decoder.decode(str3, str2) catch unreachable;
@@ -65,7 +65,7 @@ pub fn main() !void {
     const t1 = milliTimestamp(io);
     while (i < TRIES) : (i += 1) {
         const str21 = fb_alloc.alloc(u8, encodeSize) catch unreachable;
-        s_encoded += b64.Encoder.encode(str21, str1).len;
+        s_encoded += b64.Encoder.encode(str21, &str1).len;
         fb_alloc.free(str21);
     }
     const t_encoded = @as(f64, @floatFromInt(milliTimestamp(io) - t1)) / std.time.ms_per_s;
